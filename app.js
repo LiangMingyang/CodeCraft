@@ -5,8 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var routes = require('./routes');
 
 var app = express();
 
@@ -23,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+//app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,39 +55,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var db = require('./db')('form', 'root', 'alimengmengda', {
-  host: 'localhost',
-  dialect: 'mysql',
-  port: 3306,
-  timezone: '+08:00',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
-
-db.sync();
-
-//var User = db.models.user;
+//var db = require('./database')('form', 'root', 'alimengmengda', {
+//  host: 'localhost',
+//  dialect: 'mysql',
+//  port: 3306,
+//  timezone: '+08:00',
+//  pool: {
+//    max: 5,
+//    min: 0,
+//    idle: 10000
+//  }
+//});
 //
-//User.create({
-//  username: 'wrongusersss',
-//  password: 'imfirstuser',
-//  email: 'lmysoar@hotmail',
-//  birthday: new Date()
-//}).then(function(ele){
-//  console.log(ele);
-//}).catch(function(errors) {
-//  console.log(errors);
-//});
-//    then(function (user) {
-//  //user.valid().success(function(msg) {
-//  //  console.log(msg);
-//  //});
-//  console.log(user.get());
-//}).catch(function (err) {
-//  console.log('Error:', err);
-//});
+//db.sync();
 
 module.exports = app;

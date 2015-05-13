@@ -1,4 +1,4 @@
-db = require('./db')('form', 'root', 'alimengmengda', {
+db = require('./database/db')('form', 'root', 'alimengmengda', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306,

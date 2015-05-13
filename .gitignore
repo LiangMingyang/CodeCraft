@@ -33,3 +33,6 @@ node_modules
 .idea
 .DS_Store
 Thumbs.db
+
+# Coffee middle file
+*.map
