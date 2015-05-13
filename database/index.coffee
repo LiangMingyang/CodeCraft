@@ -16,12 +16,29 @@ module.exports = (database, username, password, config)->
   Submission = sequelize.import path.join(__dirname, 'models/submission')
   SubmissionCode = sequelize.import path.join(__dirname, 'models/submission_code')
   User = sequelize.import path.join(__dirname, 'models/user')
+  Message = sequelize.import path.join(__dirname, 'models/message')
+  Issue = sequelize.import path.join(__dirname, 'models/issue')
+  IssueReply = sequelize.import path.join(__dirname, 'models/issue-reply')
 
   #associations
 
-  Contest.hasOne User, {as:'creator'}
-  Contest.hasOne Group
-  
+  User.hasMany(Contest)
+  User.hasMany(Group)
+  User.hasMany(Message)
+  User.hasMany(Membership)
+  User.hasMany(Submission)
+  User.hasMany(Problem)
+  Group.hasMany(Membership)
+  Group.hasMany(Contest)
+  Group.hasMany(Problem)
+  Problem.hasMany(Submission)
+  Problem.hasMany(ContestProblemList)
+  Contest.hasMany(ContestProblemList)
+  Contest.hasMany(Issue)
+  Issue.hasMany(IssueReply)
+  Submission.hasOne(SubmissionCode)
+  Judge.hasMany(Submission, {constraints: false})
+
 
   #transactions
 

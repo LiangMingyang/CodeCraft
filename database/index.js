@@ -7,7 +7,7 @@
   path = require('path');
 
   module.exports = function(database, username, password, config) {
-    var Contest, ContestProblemList, Group, Judge, Membership, Problem, Submission, SubmissionCode, User, sequelize;
+    var Contest, ContestProblemList, Group, Issue, IssueReply, Judge, Membership, Message, Problem, Submission, SubmissionCode, User, sequelize;
     sequelize = new Sequelize(database, username, password, config);
     Contest = sequelize["import"](path.join(__dirname, 'models/contest'));
     ContestProblemList = sequelize["import"](path.join(__dirname, 'models/contest-problem-list'));
@@ -18,10 +18,27 @@
     Submission = sequelize["import"](path.join(__dirname, 'models/submission'));
     SubmissionCode = sequelize["import"](path.join(__dirname, 'models/submission_code'));
     User = sequelize["import"](path.join(__dirname, 'models/user'));
-    Contest.hasOne(User, {
-      as: 'creator'
+    Message = sequelize["import"](path.join(__dirname, 'models/message'));
+    Issue = sequelize["import"](path.join(__dirname, 'models/issue'));
+    IssueReply = sequelize["import"](path.join(__dirname, 'models/issue-reply'));
+    User.hasMany(Contest);
+    User.hasMany(Group);
+    User.hasMany(Message);
+    User.hasMany(Membership);
+    User.hasMany(Submission);
+    User.hasMany(Problem);
+    Group.hasMany(Membership);
+    Group.hasMany(Contest);
+    Group.hasMany(Problem);
+    Problem.hasMany(Submission);
+    Problem.hasMany(ContestProblemList);
+    Contest.hasMany(ContestProblemList);
+    Contest.hasMany(Issue);
+    Issue.hasMany(IssueReply);
+    Submission.hasOne(SubmissionCode);
+    Judge.hasMany(Submission, {
+      constraints: false
     });
-    Contest.hasOne(Group);
     return sequelize;
   };
 

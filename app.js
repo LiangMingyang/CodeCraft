@@ -55,18 +55,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//var db = require('./database')('form', 'root', 'alimengmengda', {
-//  host: 'localhost',
-//  dialect: 'mysql',
-//  port: 3306,
-//  timezone: '+08:00',
-//  pool: {
-//    max: 5,
-//    min: 0,
-//    idle: 10000
-//  }
-//});
-//
-//db.sync();
+  var db = require('./database')('oj4th', 'root', 'win32.luhzu.a', {
+    host: 'localhost',
+    dialect: 'mysql',
+    port: 3306,
+    timezone: '+08:00',
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
+    }
+  });
+
+  db.sync();
 
 module.exports = app;
