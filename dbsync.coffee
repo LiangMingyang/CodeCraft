@@ -1,4 +1,4 @@
-require('./db')('form', 'root', 'alimengmengda', {
+require('./database')('form', 'root', 'alimengmengda', {
   host: 'localhost'
   dialect: 'mysql'
   port: 3306
