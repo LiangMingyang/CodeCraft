@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "contest-problem-list.js",
+  "sourceRoot": "",
+  "sources": [
+    "contest-problem-list.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,MAAM,CAAC,OAAP,GAAiB,SAAC,SAAD,EAAY,SAAZ,GAAA;WACf,SAAS,CAAC,MAAV,CAAiB,sBAAjB,EAAyC;AAAA,MACvC,KAAA,EACE;AAAA,QAAA,IAAA,EAAM,SAAS,CAAC,OAAhB;AAAA,QACA,SAAA,EAAW,KADX;AAAA,QAEA,QAAA,EACE;AAAA,UAAA,GAAA,EAAI,CAAJ;SAHF;AAAA,QAIA,YAAA,EAAc,CAJd;OAFqC;KAAzC,EASG;AAAA,MACD,WAAA,EAAa,IADZ;KATH,EADe;EAAA,CAAjB,CAAA;AAAA"
+}

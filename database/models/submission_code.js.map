@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "submission_code.js",
+  "sourceRoot": "",
+  "sources": [
+    "submission_code.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,MAAM,CAAC,OAAP,GAAiB,SAAC,SAAD,EAAY,SAAZ,GAAA;WACf,SAAS,CAAC,MAAV,CAAiB,iBAAjB,EAAoC;AAAA,MAClC,OAAA,EACE;AAAA,QAAA,IAAA,EAAM,SAAS,CAAC,IAAhB;OAFgC;KAApC,EAGG;AAAA,MACD,WAAA,EAAa,IADZ;KAHH,EADe;EAAA,CAAjB,CAAA;AAAA"
+}
