@@ -14,10 +14,12 @@
         type: DataTypes.TEXT
       },
       start_time: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        allowNull: false
       },
       end_time: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        allowNull: false
       },
       access_level: {
         type: DataTypes.ENUM('private', 'protected', 'public'),

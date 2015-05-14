@@ -4,7 +4,7 @@
     database: {
       name: 'oj4th',
       username: 'root',
-      password: 'win32.luhzu.a',
+      password: 'alimengmengda',
       config: {
         host: 'localhost',
         dialect: 'mysql',

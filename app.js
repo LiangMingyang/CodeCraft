@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./config');
 
 var routes = require('./routes');
 
@@ -55,18 +56,13 @@ app.use(function(err, req, res, next) {
   });
 });
 
-  var db = require('./database')('oj4th', 'root', 'win32.luhzu.a', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port: 3306,
-    timezone: '+08:00',
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    }
-  });
+var db = require('./database')(
+    config.database.name,
+    config.database.username,
+    config.database.password,
+    config.database.config
+);
 
-  db.sync();
+db.sync();
 
 module.exports = app;

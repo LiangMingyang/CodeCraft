@@ -4,7 +4,10 @@
     return sequelize.define('message', {
       content: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       }
     }, {
       underscored: true

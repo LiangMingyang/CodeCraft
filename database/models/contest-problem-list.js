@@ -9,6 +9,14 @@
           min: 0
         },
         defaultValue: 1
+      },
+      order: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 0
+        },
+        defaultValue: 0
       }
     }, {
       underscored: true

@@ -5,6 +5,7 @@
       username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           isEmail: true,
           notEmpty: true
@@ -22,7 +23,7 @@
         defaultValue: '-----'
       },
       college: {
-        type: DataTypes.ENUM('软件工程', '计算机科学', '-----'),
+        type: DataTypes.ENUM('软件学院', '计算机学院', '-----'),
         defaultValue: '-----'
       },
       student_id: {

@@ -1,13 +1,12 @@
-require('./database')('form', 'root', 'alimengmengda', {
-  host: 'localhost'
-  dialect: 'mysql'
-  port: 3306
-  timezone: '+08:00'
-  pool:
-    max: 5
-    min: 0
-    idle: 10000
-}).sync {force:true}
+config = require('./config')
+
+db = require('./database')(
+  config.database.name,
+  config.database.username,
+  config.database.password,
+  config.database.config
+)
+  .sync {force:true}
   .catch (err)->
     console.log err.message
   .done ->
