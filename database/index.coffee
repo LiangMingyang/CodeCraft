@@ -1,5 +1,6 @@
 Sequelize = require('sequelize')
 path = require('path')
+models = require('./models')
 
 module.exports = (database, username, password, config)->
 
@@ -22,23 +23,60 @@ module.exports = (database, username, password, config)->
 
   #associations
 
+  #1:n
+
+  User.hasMany(Issue)
+  User.hasMany(IssueReply)
   User.hasMany(Contest)
   User.hasMany(Group)
   User.hasMany(Message)
-  User.hasMany(Membership)
   User.hasMany(Submission)
   User.hasMany(Problem)
-  Group.hasMany(Membership)
+
   Group.hasMany(Contest)
   Group.hasMany(Problem)
+
   Problem.hasMany(Submission)
-  Problem.hasMany(ContestProblemList)
-  Contest.hasMany(ContestProblemList)
+
   Contest.hasMany(Issue)
+  Contest.hasMany(Submission)
+
   Issue.hasMany(IssueReply)
-  Submission.hasOne(SubmissionCode)
+
   Judge.hasMany(Submission, {constraints: false})
 
+  # n:m
+
+  #user and group
+  User.belongsToMany(Group, {
+    through:
+      model: Membership
+    foreignKey: 'user_id'
+  })
+
+  Group.belongsToMany(User, {
+    through:
+      model: Membership
+    foreignKey: 'group_id'
+  })
+
+  #problem and contest
+  Problem.belongsToMany(Contest, {
+    through:
+      model: ContestProblemList
+    foreignKey: 'problem_id'
+  })
+
+  Contest.belongsToMany(Problem, {
+    through:
+      model: ContestProblemList
+    foreignKey: 'contest_id'
+  })
+
+
+  # 1:1
+
+  Submission.hasOne(SubmissionCode)
 
   #transactions
 
