@@ -5,10 +5,22 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('./config');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
 
 var routes = require('./routes');
 
 var app = express();
+
+// session
+
+app.use(session({
+    secret: 'ojth',
+    resave: false,
+    saveUninitialized: true,
+    store : new redisStore(),
+    cookie: { maxAge: 1000*60*60*24} //null to create a browser-session
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
