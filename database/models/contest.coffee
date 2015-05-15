@@ -10,8 +10,10 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.TEXT
     start_time:
       type: DataTypes.DATE
+      allowNull: false
     end_time:
       type: DataTypes.DATE
+      allowNull: false
     access_level:
       type: DataTypes.ENUM('private','protected','public')
       defaultValue: 'private'
@@ -22,6 +24,6 @@ module.exports = (sequelize, DataTypes) ->
     validate: {
       startBeforeEnd: ->
         if @start_time>=@end_time
-          throw new Error('Start time should be before the end of time')
+          throw new Error('Start time should be before the end of time') #TODO: there is an undefined error
     }
   }

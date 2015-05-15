@@ -3,9 +3,17 @@
   module.exports = function(sequelize, DataTypes) {
     return sequelize.define('membership', {
       access_level: {
-        type: DataTypes.ENUM('member', 'admin', 'owner'),
-        defaultValue: 'member',
+        type: DataTypes.ENUM('verifying', 'member', 'admin', 'owner'),
+        defaultValue: 'verifying',
         allowNull: false
+      },
+      user_id: {
+        type: DataTypes.INTEGER,
+        unique: 'user_group'
+      },
+      group_id: {
+        type: DataTypes.INTEGER,
+        unique: 'user_group'
       }
     }, {
       underscored: true
