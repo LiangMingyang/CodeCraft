@@ -68,13 +68,13 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var db = require('./database')(
+global.db = require('./database')(
     config.database.name,
     config.database.username,
     config.database.password,
     config.database.config
 );
 
-db.sync();
+global.db.sync();
 
 module.exports = app;
