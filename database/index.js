@@ -22,17 +22,25 @@
     Issue = sequelize["import"](path.join(__dirname, 'models/issue'));
     IssueReply = sequelize["import"](path.join(__dirname, 'models/issue-reply'));
     User.hasMany(Contest);
-    User.hasMany(Group);
     User.hasMany(Message);
     User.hasMany(Membership);
     User.hasMany(Submission);
     User.hasMany(Problem);
-    Group.hasMany(Membership);
+    User.belongsToMany(Group, {
+      through: Membership
+    });
+    Group.belongsToMany(User, {
+      through: Membership
+    });
     Group.hasMany(Contest);
     Group.hasMany(Problem);
     Problem.hasMany(Submission);
-    Problem.hasMany(ContestProblemList);
-    Contest.hasMany(ContestProblemList);
+    Problem.belongsToMany(Contest, {
+      through: ContestProblemList
+    });
+    Contest.belongsToMany(Problem, {
+      through: ContestProblemList
+    });
     Contest.hasMany(Issue);
     Issue.hasMany(IssueReply);
     Submission.hasOne(SubmissionCode);
