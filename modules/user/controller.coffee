@@ -44,6 +44,8 @@ exports.postLogin = (req, res) ->
     if passwordHash.verify(form.password, user.password) #判断密码是否正确
       req.session.userID = user.id
       req.session.nickname = user.nickname
+      user.last_login = new Date()
+      user.save()
       req.flash 'info', 'login successfully'
       res.redirect('/')
     else

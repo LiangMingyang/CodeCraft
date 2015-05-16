@@ -46,6 +46,8 @@
       if (passwordHash.verify(form.password, user.password)) {
         req.session.userID = user.id;
         req.session.nickname = user.nickname;
+        user.last_login = new Date();
+        user.save();
         req.flash('info', 'login successfully');
         return res.redirect('/');
       } else {
