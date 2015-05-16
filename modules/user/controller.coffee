@@ -1,5 +1,14 @@
 passwordHash = require('password-hash')
 
+#page
+
+HOME_PAGE = '/'
+#CURRENT_PAGE = "./#{ req.url }"
+LOGIN_PAGE = 'login'
+REGISTER_PAGE = 'register'
+LOGOUT_PAGE = 'logout'
+INDEX_PAGE = '.'
+
 #index
 
 exports.getIndex = (req, res) ->
@@ -39,7 +48,7 @@ exports.postLogin = (req, res) ->
   .then (user)->
     if not user #没有找到该用户
       req.flash 'info', 'not find this user'
-      res.redirect('/user/login')
+      res.redirect LOGIN_PAGE
       return
     if passwordHash.verify(form.password, user.password) #判断密码是否正确
       req.session.userID = user.id
@@ -47,13 +56,13 @@ exports.postLogin = (req, res) ->
       user.last_login = new Date()
       user.save()
       req.flash 'info', 'login successfully'
-      res.redirect('/')
+      res.redirect HOME_PAGE
     else
       req.flash 'info', 'wrong password'
-      res.redirect('/user/login')
+      res.redirect LOGIN_PAGE
   .catch (err)->
     req.flash 'info', err.message
-    res.redirect('/user/login')
+    res.redirect LOGIN_PAGE
 
 #register
 
@@ -91,10 +100,10 @@ exports.postRegister = (req, res) ->
       req.session.userID = user.id
       req.session.nickname = user.nickname
       req.flash 'info','You have registered.'
-      res.redirect '/'
+      res.redirect HOME_PAGE
     .catch (err)->
       req.flash 'info',err.message
-      res.redirect '/user/register'
+      res.redirect REGISTER_PAGE
 
 #logout
 
@@ -105,4 +114,4 @@ exports.postRegister = (req, res) ->
 exports.getLogout = (req, res) ->
   delete req.session.userID
   delete req.session.nickname
-  res.redirect('/')
+  res.redirect HOME_PAGE
