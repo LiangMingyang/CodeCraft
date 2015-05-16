@@ -13,11 +13,11 @@ router
 
 router
   .get '/login', controller.getLogin
-  #.post '/login', controller.postLogin
+  .post '/login', controller.postLogin
 
 router
   .get '/register', controller.getRegister
-  #.post '/register', controller.postRegister
+  .post '/register', controller.postRegister
 
 router.param 'userID', (req, res, next, id) ->
   console.log id

@@ -2,6 +2,9 @@
    Created by lmy on 15-5-15.
 extends layout
 block content
+   - if (messages.info)
+      .message.info
+         span= messages.info
    form(method='post')
       h1 REGISTER
       h2 username
