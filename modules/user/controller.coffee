@@ -8,16 +8,46 @@ exports.getIndex = (req, res) ->
   }
 
 #login
-
+  ###
+    @getLogin {Function} 显示login页面
+  ###
 exports.getLogin = (req, res) ->
   res.render 'login', {
     title: 'login'
   }
 
+###
+    @postLogin {Function} 根据提交的login表单，创建session，并更新last_login
+###
+
 exports.postLogin = (req, res) ->
-  res.render 'index', {
-    title: 'You logged in'
+  form = {
+    username : req.body.username
+    password : req.body.password
   }
+
+  #precheckForLogin(form)
+
+  global.db.models.user.find {
+    where:
+      username:form.username
+  }
+  .then (user)->
+    if not user #没有找到该用户
+      req.flash 'info', 'not find this user'
+      res.redirect('/user/login')
+      return
+    if passwordHash.verify(form.password, user.password) #判断密码是否正确
+      req.session.userID = user.id
+      req.session.nickname = user.nickname
+      req.flash 'info', 'login successfully'
+      res.redirect('/')
+    else
+      req.flash 'info', 'wrong password'
+      res.redirect('/user/login')
+  .catch (err)->
+    req.flash 'info', err.message
+    res.redirect('/user/login')
 
 #register
 

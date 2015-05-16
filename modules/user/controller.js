@@ -8,6 +8,10 @@
     return res.render('index', {
       title: 'You have got user index here'
     });
+
+    /*
+      @getLogin {Function} 显示login页面
+     */
   };
 
   exports.getLogin = function(req, res) {
@@ -16,9 +20,39 @@
     });
   };
 
+
+  /*
+      @postLogin {Function} 根据提交的login表单，创建session，并更新last_login
+   */
+
   exports.postLogin = function(req, res) {
-    return res.render('index', {
-      title: 'You logged in'
+    var form;
+    form = {
+      username: req.body.username,
+      password: req.body.password
+    };
+    return global.db.models.user.find({
+      where: {
+        username: form.username
+      }
+    }).then(function(user) {
+      if (!user) {
+        req.flash('info', 'not find this user');
+        res.redirect('/user/login');
+        return;
+      }
+      if (passwordHash.verify(form.password, user.password)) {
+        req.session.userID = user.id;
+        req.session.nickname = user.nickname;
+        req.flash('info', 'login successfully');
+        return res.redirect('/');
+      } else {
+        req.flash('info', 'wrong password');
+        return res.redirect('/user/login');
+      }
+    })["catch"](function(err) {
+      req.flash('info', err.message);
+      return res.redirect('/user/login');
     });
   };
 
