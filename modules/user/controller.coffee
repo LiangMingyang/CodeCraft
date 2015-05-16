@@ -95,3 +95,14 @@ exports.postRegister = (req, res) ->
     .catch (err)->
       req.flash 'info',err.message
       res.redirect '/user/register'
+
+#logout
+
+  ###
+    @getLogout {Function} 取消登录
+  ###
+
+exports.getLogout = (req, res) ->
+  delete req.session.userID
+  delete req.session.nickname
+  res.redirect('/')

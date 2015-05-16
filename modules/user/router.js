@@ -20,6 +20,8 @@
 
   router.get('/register', controller.getRegister).post('/register', controller.postRegister);
 
+  router.get('/logout', controller.getLogout);
+
   router.param('userID', function(req, res, next, id) {
     console.log(id);
     req.param.userID = id;

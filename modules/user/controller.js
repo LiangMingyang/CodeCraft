@@ -95,6 +95,16 @@
       req.flash('info', err.message);
       return res.redirect('/user/register');
     });
+
+    /*
+      @getLogout {Function} 取消登录
+     */
+  };
+
+  exports.getLogout = function(req, res) {
+    delete req.session.userID;
+    delete req.session.nickname;
+    return res.redirect('/');
   };
 
 }).call(this);
