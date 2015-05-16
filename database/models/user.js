@@ -30,7 +30,12 @@
         type: DataTypes.STRING
       },
       nickname: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
       },
       is_super_admin: {
         type: DataTypes.BOOLEAN,
