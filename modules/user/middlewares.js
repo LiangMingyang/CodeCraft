@@ -2,7 +2,8 @@
 (function() {
   module.exports = [
     function(req, res, next) {
-      console.log("I am the first middleware of user index");
+      req.flash("info", "I am the first middleware of user index");
+      req.flash("info", "I am the second middleware of user index");
       return next();
     }
   ];

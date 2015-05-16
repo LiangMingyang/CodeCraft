@@ -7,8 +7,8 @@
   };
 
   exports.getLogin = function(req, res) {
-    return res.render('index', {
-      title: 'You are in login page now'
+    return res.render('login', {
+      title: 'login'
     });
   };
 
