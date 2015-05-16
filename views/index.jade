@@ -1,5 +1,10 @@
 extends layout
 
 block content
+  - if (messages.info)
+    .message.info
+      span= messages.info
+  - if (user)
+    a(href="/user/"+user.userID)= user.nickname
   h1= title
   p Welcome to #{title}

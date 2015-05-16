@@ -16,9 +16,11 @@
 
   router.get('/', controller.getIndex);
 
-  router.get('/login', controller.getLogin);
+  router.get('/login', controller.getLogin).post('/login', controller.postLogin);
 
-  router.get('/register', controller.getRegister);
+  router.get('/register', controller.getRegister).post('/register', controller.postRegister);
+
+  router.get('/logout', controller.getLogout);
 
   router.param('userID', function(req, res, next, id) {
     console.log(id);
