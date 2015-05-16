@@ -8,6 +8,7 @@ exports.getIndex = (req, res) ->
   }
 
 #login
+
   ###
     @getLogin {Function} 显示login页面
   ###
@@ -16,9 +17,12 @@ exports.getLogin = (req, res) ->
     title: 'login'
   }
 
-###
+  ###
     @postLogin {Function} 根据提交的login表单，创建session，并更新last_login
-###
+    @form {Object} 表单数据
+      @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
+      @password {String} 密码 必要 组成随意 长度6-30
+  ###
 
 exports.postLogin = (req, res) ->
   form = {
@@ -51,30 +55,36 @@ exports.postLogin = (req, res) ->
 
 #register
 
+  ###
+    @getRegister {Function} 提供注册页面
+  ###
+
 exports.getRegister = (req, res) ->
   res.render 'register', {
     title: 'register'
   }
-###
-  @postRegister {Function} 根据提交的register表单，在数据库中创建相应的实例
-  @req.body {Object} 提交的表单
-    @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
-    @password {String} 密码 必要 组成随意 长度6-30
-    @nickname {String} 昵称 必要 组成随意 长度1-30　　
-###
+
+  ###
+    @postRegister {Function} 根据提交的register表单，在数据库中创建相应的实例
+    @form {Object} 提交的表单
+      @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
+      @password {String} 密码 必要 组成随意 长度6-30
+      @nickname {String} 昵称 必要 组成随意 长度1-30　　
+  ###
+
 exports.postRegister = (req, res) ->
   #get data from submit data
-  user = {
+  form = {
     username : req.body.username
     password : req.body.password
     nickname : req.body.nickname
   }
   #precheckForRegister(data) 我们暂时不做检查
   #对密码进行加密
-  user.password = passwordHash.generate(user.password)
+  form.password = passwordHash.generate(form.password)
   #存入数据库
   global.db.models.user
-    .create user
+    .create form
     .then (user)->
       req.session.userID = user.id
       req.session.nickname = user.nickname
