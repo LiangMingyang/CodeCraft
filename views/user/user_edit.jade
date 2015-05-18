@@ -1,0 +1,25 @@
+//
+   Created by heavenduke on 15-5-18.
+
+extends ../layout
+block user
+   - if (messages.info)
+      span= messages.info
+   form(method='post')
+      h2 nickname
+         input(type='input' name='nickname' value=user.nickname)
+         br
+      h2 school
+         select(type='input' name='school' value=user.school)
+            option(value="北京航空航天大学") 北京航空航天大学
+            option(value="北京邮电大学") 北京邮电大学
+         br
+      h2 college
+         select(type='input' name='college' value=user.college)
+            option(value="软件学院") 软件学院
+            option(value="计算机学院") 计算机学院
+         br
+      h2 description
+         input(type='input' name='description' value=user.description)
+         br
+      input(type='submit')

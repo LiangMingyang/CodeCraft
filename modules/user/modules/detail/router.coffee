@@ -14,6 +14,9 @@ router
   .post '/edit', controller.postEdit
 
 router
+  .get '/updatepw', controller.getUpdatePw
+
+router
   .get '/edit', controller.getEdit
 
 router

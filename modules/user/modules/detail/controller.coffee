@@ -1,4 +1,4 @@
-
+passwordHash = require('password-hash')
 #page
 
 HOME_PAGE = '/'
@@ -6,16 +6,17 @@ HOME_PAGE = '/'
 UPDATE_PWD_PAGE = 'updatepw'
 EDIT_PAGE = 'edit'
 INDEX_PAGE = '.'
-LOGIN_PAGE = './login'
+LOGIN_PAGE = HOME_PAGE + 'user/login'
 
 exports.getIndex = (req, res) ->
   User = global.db.models.user
   User.find req.param.userID
   .then (user) ->
     if user
-      res.render 'user', {
+      res.render 'user/detail', {
         title: 'Your userID=' + req.param.userID,
         user: {
+          id: user.id
           email: user.username,
           nickname: user.nickname,
           school: user.school,
@@ -37,9 +38,10 @@ exports.getEdit = (req, res)->
   User.find req.param.userID
   .then (user) ->
     if user
-      res.render 'user_edit', {
+      res.render 'user/user_edit', {
         title: 'You are at EDIT page',
         user: {
+          id: user.id
           email: user.username,
           nickname: user.nickname,
           school: user.school,
@@ -55,15 +57,20 @@ exports.getEdit = (req, res)->
     req.flash 'info', err.message
     res.redirect INDEX_PAGE
 
+exports.getUpdatePw = (req, res) ->
+  res.render 'user/user_updatepw', {
+    title: 'You are at Update Password Page'
+  }
+
 exports.postEdit = (req, res)->
   User = global.db.models.user
   User.find req.param.userID
   .then (user) ->
     if user
-      if req.param.nickname then user.nickname = req.param.nickname
-      if req.param.school then user.school = req.param.school
-      if req.param.college then user.college = req.param.college
-      if req.param.description then user.description = req.param.description
+      if req.body.nickname then user.nickname = req.body.nickname
+      if req.body.school then user.school = req.body.school
+      if req.body.college then user.college = req.body.college
+      if req.body.description then user.description = req.body.description
       user.save().then ->
         req.flash 'info', 'You have updated your info'
         res.redirect '.'
@@ -72,14 +79,20 @@ exports.postEdit = (req, res)->
       res.redirect INDEX_PAGE
   .catch (err) ->
     req.flash 'info', err.message
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 exports.postPassword = (req, res)->
+
+  form = {
+    oldPwd: req.body.oldPwd,
+    newPwd: passwordHash.generate(req.body.newPwd)
+  }
+
   User = global.db.models.user
   User.find req.param.userID
   .then (user) ->
-    if req.param.oldPwd && req.param.oldPwd == req.param.newPwd
-      user.password = req.param.newPwd
+    if passwordHash.verify(form.oldPwd, user.password)
+      user.password = form.newPwd
       user.save().then ->
         delete req.session.userID
         delete req.session.nickname
@@ -90,4 +103,4 @@ exports.postPassword = (req, res)->
       res.redirect UPDATE_PWD_PAGE
   .catch (err) ->
     req.flash 'info', err.message
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
