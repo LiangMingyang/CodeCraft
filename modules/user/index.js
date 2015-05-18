@@ -6,6 +6,8 @@
 
   exports.controller = require('./controller');
 
+  exports.utils = require('./utils');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map
