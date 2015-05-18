@@ -2,12 +2,13 @@
 (function() {
   module.exports = [
     function(req, res, next) {
+      console.log(req.session);
       if (req.session && req.session.userID && req.session.userID === req.param.userID) {
         return next();
       } else if (req.url === '/') {
         return next();
       } else {
-        throw new Error('undefined');
+        return next();
       }
     }
   ];
