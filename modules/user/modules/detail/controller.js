@@ -111,17 +111,23 @@
     var User, form;
     form = {
       oldPwd: req.body.oldPwd,
-      newPwd: passwordHash.generate(req.body.newPwd)
+      newPwd: req.body.newPwd,
+      confirmNewPwd: req.body.confirmNewPwd
     };
     User = global.db.models.user;
     return User.find(req.param.userID).then(function(user) {
       if (passwordHash.verify(form.oldPwd, user.password)) {
-        user.password = form.newPwd;
-        return user.save().then(function() {
-          myUtils.logout(req, res);
-          req.flash('info', 'You have updated your password, please login again');
-          return res.redirect(LOGIN_PAGE);
-        });
+        if (form.newPwd === form.oldPwd) {
+          user.password = passwordHash.generate(form.newPwd);
+          return user.save().then(function() {
+            myUtils.logout(req, res);
+            req.flash('info', 'You have updated your password, please login again');
+            return res.redirect(LOGIN_PAGE);
+          });
+        } else {
+          req.flash('info', 'Inconsistent Password');
+          return res.redirect(UPDATE_PWD_PAGE);
+        }
       } else {
         req.flash('info', 'Wrong password');
         return res.redirect(UPDATE_PWD_PAGE);

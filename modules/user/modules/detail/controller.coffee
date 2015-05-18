@@ -85,18 +85,23 @@ exports.postEdit = (req, res)->
 exports.postPassword = (req, res)->
   form = {
     oldPwd: req.body.oldPwd,
-    newPwd: passwordHash.generate(req.body.newPwd)
+    newPwd: req.body.newPwd,
+    confirmNewPwd: req.body.confirmNewPwd
   }
 
   User = global.db.models.user
   User.find req.param.userID
   .then (user) ->
     if passwordHash.verify(form.oldPwd, user.password)
-      user.password = form.newPwd
-      user.save().then ->
-        myUtils.logout(req, res)
-        req.flash 'info', 'You have updated your password, please login again'
-        res.redirect LOGIN_PAGE
+      if form.newPwd == form.oldPwd
+        user.password = passwordHash.generate(form.newPwd)
+        user.save().then ->
+          myUtils.logout(req, res)
+          req.flash 'info', 'You have updated your password, please login again'
+          res.redirect LOGIN_PAGE
+      else
+        req.flash 'info', 'Inconsistent Password'
+        res.redirect UPDATE_PWD_PAGE
     else
       req.flash 'info', 'Wrong password'
       res.redirect UPDATE_PWD_PAGE

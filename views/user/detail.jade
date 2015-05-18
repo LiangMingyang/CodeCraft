@@ -1,11 +1,19 @@
 //
    Created by heavenduke on 15-5-18.
 
+    user
+        -email 用户名
+        -nickname 昵称
+        -shoool 学校
+        -college 学院
+        -description 个人简介
+        -student_id 学号
+
 extends ../layout
 
 block user
     - if (messages.info)
-    span= messages.info
+        span= messages.info
     h1 Email: #{user.email}
     h1 Username #{user.nickname}
     h1 School #{user.school}
