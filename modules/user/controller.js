@@ -25,7 +25,7 @@
   };
 
   exports.getLogin = function(req, res) {
-    return res.render('login', {
+    return res.render('user/login', {
       title: 'login'
     });
 
@@ -75,7 +75,7 @@
   };
 
   exports.getRegister = function(req, res) {
-    return res.render('register', {
+    return res.render('user/register', {
       title: 'register'
     });
 
