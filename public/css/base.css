@@ -1,0 +1,18 @@
+li.currentli{
+    display: block;
+    font-size: 24px;
+}
+
+li.normalli{
+    display: block;
+    font-size: 24px;
+}
+
+li.hiddenli{
+    display: none;
+    font-size: 24px;
+}
+
+.navbar-brand{
+    font-size: 24px;
+}
