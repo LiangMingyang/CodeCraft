@@ -1,5 +1,5 @@
 passwordHash = require('password-hash')
-
+myUtils = require('./utils')
 #page
 
 HOME_PAGE = '/'
@@ -51,12 +51,15 @@ exports.postLogin = (req, res) ->
       res.redirect LOGIN_PAGE
       return
     if passwordHash.verify(form.password, user.password) #判断密码是否正确
-      req.session.userID = user.id
-      req.session.nickname = user.nickname
+      myUtils.login(req,res,user)
       user.last_login = new Date()
-      user.save()
-      req.flash 'info', 'login successfully'
-      res.redirect HOME_PAGE
+      user
+        .save()
+        .then ->
+          req.flash 'info', 'login successfully'
+          res.redirect HOME_PAGE
+        .catch (err) ->
+          console.log err.message
     else
       req.flash 'info', 'wrong password'
       res.redirect LOGIN_PAGE
@@ -97,8 +100,7 @@ exports.postRegister = (req, res) ->
   global.db.models.user
     .create form
     .then (user)->
-      req.session.userID = user.id
-      req.session.nickname = user.nickname
+      myUtils.login(req,res,user)
       req.flash 'info','You have registered.'
       res.redirect HOME_PAGE
     .catch (err)->
@@ -112,6 +114,5 @@ exports.postRegister = (req, res) ->
   ###
 
 exports.getLogout = (req, res) ->
-  delete req.session.userID
-  delete req.session.nickname
+  myUtils.logout(req, res)
   res.redirect HOME_PAGE

@@ -17,10 +17,7 @@
   router.get('/', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',
-      user: req.session.userID ? {
-        userID: req.session.userID,
-        nickname: req.session.nickname
-      } : void 0
+      user: req.session.user
     });
   });
 

@@ -12,10 +12,7 @@ router.use '/user', modules.user.router
 router.get '/',  (req, res) ->
   res.render 'index', {
       title: 'OJ4TH',
-      user: {
-        userID: req.session.userID,
-        nickname: req.session.nickname
-      } if req.session.userID
+      user: req.session.user
     }
 
 module.exports = router
