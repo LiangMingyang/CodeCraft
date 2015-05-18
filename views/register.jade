@@ -1,0 +1,29 @@
+//
+   Created by lmy on 15-5-15.
+extends layout
+block content
+   - if (messages.info)
+      .message.info
+         span= messages.info
+   form(method='post')
+      h1 REGISTER
+      h2 username
+      input(type='input' name='username')
+      h2 password1
+      input(type='password' name='password')
+      h2 password2
+      input(type='password' name='password2')
+      h2 nickname
+      input(type='input' name='nickname')
+      h2 school
+      select(type='input' name='school')
+         option(value="北京航空航天大学") 北京航空航天大学
+         option(value="北京邮电大学") 北京邮电大学
+      br
+      h2 college
+      select(type='input' name='college')
+         option(value="软件学院") 软件学院
+         option(value="计算机学院") 计算机学院
+      br
+      br
+      input(type='submit')
