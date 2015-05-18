@@ -117,7 +117,7 @@
     User = global.db.models.user;
     return User.find(req.param.userID).then(function(user) {
       if (passwordHash.verify(form.oldPwd, user.password)) {
-        if (form.newPwd === form.oldPwd) {
+        if (form.newPwd === form.confirmNewPwd) {
           user.password = passwordHash.generate(form.newPwd);
           return user.save().then(function() {
             myUtils.logout(req, res);

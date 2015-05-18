@@ -93,7 +93,7 @@ exports.postPassword = (req, res)->
   User.find req.param.userID
   .then (user) ->
     if passwordHash.verify(form.oldPwd, user.password)
-      if form.newPwd == form.oldPwd
+      if form.newPwd == form.confirmNewPwd
         user.password = passwordHash.generate(form.newPwd)
         user.save().then ->
           myUtils.logout(req, res)
