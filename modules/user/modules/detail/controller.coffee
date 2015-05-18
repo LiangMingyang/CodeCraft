@@ -1,4 +1,5 @@
 passwordHash = require('password-hash')
+myUtils = require('../../utils')
 #page
 
 HOME_PAGE = '/'
@@ -82,7 +83,6 @@ exports.postEdit = (req, res)->
     res.redirect HOME_PAGE
 
 exports.postPassword = (req, res)->
-
   form = {
     oldPwd: req.body.oldPwd,
     newPwd: passwordHash.generate(req.body.newPwd)
@@ -94,8 +94,7 @@ exports.postPassword = (req, res)->
     if passwordHash.verify(form.oldPwd, user.password)
       user.password = form.newPwd
       user.save().then ->
-        delete req.session.userID
-        delete req.session.nickname
+        myUtils.logout(req, res)
         req.flash 'info', 'You have updated your password, please login again'
         res.redirect LOGIN_PAGE
     else

@@ -1,4 +1,3 @@
-
 HOME_PAGE = '/'
 INDEX_PAGE = '.'
 

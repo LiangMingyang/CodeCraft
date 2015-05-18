@@ -8,18 +8,18 @@ controller = require('./controller')
 router.use(middlewares)
 
 router
-  .post '/updatepw', controller.postPassword
+.post '/updatepw', controller.postPassword
 
 router
-  .post '/edit', controller.postEdit
+.post '/edit', controller.postEdit
 
 router
-  .get '/updatepw', controller.getUpdatePw
+.get '/updatepw', controller.getUpdatePw
 
 router
-  .get '/edit', controller.getEdit
+.get '/edit', controller.getEdit
 
 router
-  .get '/', controller.getIndex
+.get '/', controller.getIndex
 
 module.exports = router
