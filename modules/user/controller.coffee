@@ -22,7 +22,7 @@ exports.getIndex = (req, res) ->
     @getLogin {Function} 显示login页面
   ###
 exports.getLogin = (req, res) ->
-  res.render 'login', {
+  res.render 'user/login', {
     title: 'login'
   }
 
@@ -71,7 +71,7 @@ exports.postLogin = (req, res) ->
   ###
 
 exports.getRegister = (req, res) ->
-  res.render 'register', {
+  res.render 'user/register', {
     title: 'register'
   }
 
