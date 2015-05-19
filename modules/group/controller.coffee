@@ -47,7 +47,6 @@ exports.postCreate = (req, res) ->
     req.flash 'info', 'create group successfully'
     res.redirect HOME_PAGE
 
-
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
