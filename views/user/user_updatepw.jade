@@ -4,18 +4,19 @@
     表单
         -oldPwd 旧密码
         -newPwd 新密码
-
-block user
-    - if (messages.info)
-        span= messages.info
-    form(method='post')
-        h2 旧密码
-            input(type='password' name='oldPwd')
-            br
-        h2 新密码
-            input(type='password' name='newPwd')
-            br
-        h2 新密码
-            input(type='password' name='confirmNewPwd')
-            br
-        input(type='submit')
+extends ../layout
+block content
+    .col-lg-2
+        include ./user.jade
+    .col-lg-10
+        form(method='post')
+            .form-group
+                label 旧密码
+                input.form-control(type="password", name='oldPwd')
+            .form-group
+                label 新密码
+                input.form-control(type="password", name='newPwd')
+            .form-group
+                label 确认新密码
+                input.form-control(type="password", name='confirmNewPwd')
+            button.btn.btn-default(type="submit") 确认修改
