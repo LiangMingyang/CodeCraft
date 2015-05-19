@@ -41,9 +41,7 @@ exports.postCreate = (req, res) ->
     User.find req.session.user.id
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
-    #加入外键
-    form.creator_id = user.id
-
+    form.creator_id = user.id   #加入外键
     Group.create(form)
   .then ->
     req.flash 'info', 'create group successfully'
