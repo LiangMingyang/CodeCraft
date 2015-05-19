@@ -42,25 +42,22 @@
    */
 
   exports.postLogin = function(req, res) {
-    var form;
+    var User, form;
     form = {
       username: req.body.username,
       password: req.body.password
     };
-    return global.db.models.user.find({
+    User = global.db.models.user;
+    return User.find({
       where: {
         username: form.username
       }
     }).then(function(user) {
       if (!user) {
-        req.flash('info', 'not find this user');
-        res.redirect(LOGIN_PAGE);
-        return;
+        throw new myUtils.Error.LoginError();
       }
       if (!passwordHash.verify(form.password, user.password)) {
-        req.flash('info', 'wrong password');
-        res.redirect(LOGIN_PAGE);
-        return;
+        throw new myUtils.Error.LoginError();
       }
       myUtils.login(req, res, user);
       user.last_login = new Date();
@@ -68,6 +65,9 @@
     }).then(function() {
       req.flash('info', 'login successfully');
       return res.redirect(HOME_PAGE);
+    })["catch"](myUtils.Error.LoginError, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
@@ -95,22 +95,26 @@
    */
 
   exports.postRegister = function(req, res) {
-    var form;
+    var User, form;
     form = {
       username: req.body.username,
       password: req.body.password,
       nickname: req.body.nickname
     };
-    if (form.password !== req.body.password2) {
-      req.flash('info', 'password incorrect');
-      res.redirect(REGISTER_PAGE);
-      return;
-    }
-    form.password = passwordHash.generate(form.password);
-    return global.db.models.user.create(form).then(function(user) {
+    User = global.db.models.user;
+    return global.db.Promise.resolve().then(function() {
+      if (form.password !== req.body.password2) {
+        throw new myUtils.Error.RegisterError("Please confirm your password.");
+      }
+      form.password = passwordHash.generate(form.password);
+      return User.create(form);
+    }).then(function(user) {
       myUtils.login(req, res, user);
       req.flash('info', 'You have registered.');
       return res.redirect(HOME_PAGE);
+    })["catch"](myUtils.Error.RegisterError, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(REGISTER_PAGE);
     })["catch"](function(err) {
       req.flash('info', err.message);
       return res.redirect(REGISTER_PAGE);
@@ -123,7 +127,7 @@
    */
 
   exports.getLogout = function(req, res) {
-    myUtils.logout(req, res);
+    myUtils.logout(req);
     return res.redirect(HOME_PAGE);
   };
 

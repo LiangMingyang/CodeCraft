@@ -40,28 +40,27 @@ exports.postLogin = (req, res) ->
   }
 
   #precheckForLogin(form)
+  User = global.db.models.user
 
-  global.db.models.user.find {
+  User.find {
     where:
       username: form.username
   }
   .then (user)->
     #过滤
-    if not user #没有找到该用户
-      req.flash 'info', 'not find this user'
-      res.redirect LOGIN_PAGE
-      return
-    if not passwordHash.verify(form.password, user.password) #判断密码是否正确
-      req.flash 'info', 'wrong password'
-      res.redirect LOGIN_PAGE
-      return
-
+    throw new myUtils.Error.LoginError() if not user #没有找到该用户
+    throw new myUtils.Error.LoginError() if not passwordHash.verify(form.password, user.password) #判断密码是否正确
     myUtils.login(req, res, user)
     user.last_login = new Date()
     user.save()
   .then ->
     req.flash 'info', 'login successfully'
     res.redirect HOME_PAGE
+
+
+  .catch myUtils.Error.LoginError, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
   .catch (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
@@ -93,19 +92,20 @@ exports.postRegister = (req, res) ->
     nickname: req.body.nickname
   }
   #precheckForRegister(form)
-  if form.password != req.body.password2
-    req.flash 'info', 'password incorrect'
-    res.redirect REGISTER_PAGE
-    return
-  #对密码进行加密
-  form.password = passwordHash.generate(form.password)
-  #存入数据库
-  global.db.models.user
-  .create form
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    throw new myUtils.Error.RegisterError("Please confirm your password.") if form.password isnt req.body.password2
+    form.password = passwordHash.generate(form.password) #对密码进行加密
+    User.create form #存入数据库
   .then (user)->
     myUtils.login(req, res, user)
     req.flash 'info', 'You have registered.'
     res.redirect HOME_PAGE
+
+  .catch myUtils.Error.RegisterError, (err)->
+    req.flash 'info', err.message
+    res.redirect REGISTER_PAGE
   .catch (err)->
     req.flash 'info', err.message
     res.redirect REGISTER_PAGE
@@ -117,5 +117,5 @@ exports.postRegister = (req, res) ->
 ###
 
 exports.getLogout = (req, res) ->
-  myUtils.logout(req, res)
+  myUtils.logout(req)
   res.redirect HOME_PAGE
