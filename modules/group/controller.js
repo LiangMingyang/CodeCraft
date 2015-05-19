@@ -40,13 +40,11 @@
       }
       return User.find(req.session.user.id);
     }).then(function(user) {
-      var group;
       if (!user) {
         throw new myUtils.Error.UnknownUser();
       }
       form.creator_id = user.id;
-      group = Group.build(form);
-      return group.save();
+      return Group.create(form);
     }).then(function() {
       req.flash('info', 'create group successfully');
       return res.redirect(HOME_PAGE);

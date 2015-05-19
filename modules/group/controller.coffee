@@ -41,9 +41,10 @@ exports.postCreate = (req, res) ->
     User.find req.session.user.id
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
+    #加入外键
     form.creator_id = user.id
-    group = Group.build(form)
-    group.save()
+
+    Group.create(form)
   .then ->
     req.flash 'info', 'create group successfully'
     res.redirect HOME_PAGE
