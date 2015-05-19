@@ -15,6 +15,7 @@ LOGIN_PAGE = '/user/login'
 exports.getIndex = (req, res) ->
   res.render 'index', {
     title: 'You have got group index here'
+    user : req.session.user
   }
 
 #create
@@ -22,6 +23,7 @@ exports.getIndex = (req, res) ->
 exports.getCreate = (req, res) ->
   res.render 'group/create', {
     title: 'create group'
+    user : req.session.user
   }
 
 exports.postCreate = (req, res) ->

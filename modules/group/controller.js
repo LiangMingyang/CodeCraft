@@ -16,13 +16,15 @@
 
   exports.getIndex = function(req, res) {
     return res.render('index', {
-      title: 'You have got group index here'
+      title: 'You have got group index here',
+      user: req.session.user
     });
   };
 
   exports.getCreate = function(req, res) {
     return res.render('group/create', {
-      title: 'create group'
+      title: 'create group',
+      user: req.session.user
     });
   };
 
