@@ -8,16 +8,16 @@ module.exports = (sequelize, DataTypes) ->
         notEmpty: true
     description:
       type: DataTypes.TEXT
-    test_setting:    #just a path
+    test_setting: #just a path
       type: DataTypes.STRING
       defaultValue: 'path/to/default/test_setting'
-    test_file:       #just a path
+    test_file: #just a path
       type: DataTypes.STRING
     access_level:
-      type: DataTypes.ENUM('private','protected','public')
+      type: DataTypes.ENUM('private', 'protected', 'public')
       defaultValue: 'private'
-    #creator foreign key
-    #group   foreign key
+  #creator foreign key
+  #group   foreign key
   }, {
     underscored: true
   }

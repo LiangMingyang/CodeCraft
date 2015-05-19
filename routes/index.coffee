@@ -9,10 +9,10 @@ router.use middlewares
 router.use '/user', modules.user.router
 
 # Get home page
-router.get '/',  (req, res) ->
+router.get '/', (req, res) ->
   res.render 'index', {
-      title: 'OJ4TH',
-      user: req.session.user
-    }
+    title: 'OJ4TH',
+    user: req.session.user
+  }
 
 module.exports = router

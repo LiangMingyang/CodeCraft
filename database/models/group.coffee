@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) ->
         notEmpty: true
     description:
       type: DataTypes.TEXT
-    #creator get user_id from membership
-    #access_level is public
+  #creator get user_id from membership
+  #access_level is public
   }, {
     underscored: true
   }

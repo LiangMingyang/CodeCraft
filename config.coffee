@@ -1,9 +1,9 @@
 module.exports = {
   database:
-    name   : 'oj4th'
+    name: 'oj4th'
     username: 'root'
     password: 'alimengmengda'
-    config  :
+    config:
       host: 'localhost',
       dialect: 'mysql',
       port: 3306,
@@ -12,4 +12,4 @@ module.exports = {
         max: 5,
         min: 0,
         idle: 10000
-    }
+}

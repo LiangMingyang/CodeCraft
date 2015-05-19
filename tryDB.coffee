@@ -14,15 +14,15 @@ User = db.models.user
 Submission = db.models.submission
 
 User.create {
-  username : 'lmy'
-  password : 'password'
-  email    : 'lmysoar@hotmail.com'
+  username: 'lmy'
+  password: 'password'
+  email: 'lmysoar@hotmail.com'
 }
-  .then (user)->
-    #user = res.get()
-    console.log user
-    user.email = 'heheda'
-    user.save()
-  .catch (errs)->
-    console.log errs
+.then (user)->
+  #user = res.get()
+  console.log user
+  user.email = 'heheda'
+  user.save()
+.catch (errs)->
+  console.log errs
 
