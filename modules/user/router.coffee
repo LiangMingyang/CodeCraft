@@ -8,19 +8,19 @@ modules = require('./modules')
 router.use(middlewares)
 
 router
-.get '/', controller.getIndex
-#.post '/', controller.postIndex
+  .get '/', controller.getIndex
+  #.post '/', controller.postIndex
 
 router
-.get '/login', controller.getLogin
-.post '/login', controller.postLogin
+  .get '/login', controller.getLogin
+  .post '/login', controller.postLogin
 
 router
-.get '/register', controller.getRegister
-.post '/register', controller.postRegister
+  .get '/register', controller.getRegister
+  .post '/register', controller.postRegister
 
 router
-.get '/logout', controller.getLogout
+  .get '/logout', controller.getLogout
 
 router.param 'userID', (req, res, next, id) ->
   console.log id
@@ -28,6 +28,6 @@ router.param 'userID', (req, res, next, id) ->
   next()
 
 router
-.use '/:userID', modules.detail.router
+  .use '/:userID', modules.detail.router
 
 module.exports = router

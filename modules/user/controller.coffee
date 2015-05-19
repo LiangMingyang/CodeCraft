@@ -46,23 +46,22 @@ exports.postLogin = (req, res) ->
       username: form.username
   }
   .then (user)->
+    #过滤
     if not user #没有找到该用户
       req.flash 'info', 'not find this user'
       res.redirect LOGIN_PAGE
       return
-    if passwordHash.verify(form.password, user.password) #判断密码是否正确
-      myUtils.login(req, res, user)
-      user.last_login = new Date()
-      user
-      .save()
-      .then ->
-        req.flash 'info', 'login successfully'
-        res.redirect HOME_PAGE
-      .catch (err) ->
-        console.log err.message
-    else
+    if not passwordHash.verify(form.password, user.password) #判断密码是否正确
       req.flash 'info', 'wrong password'
       res.redirect LOGIN_PAGE
+      return
+
+    myUtils.login(req, res, user)
+    user.last_login = new Date()
+    user.save()
+  .then ->
+    req.flash 'info', 'login successfully'
+    res.redirect HOME_PAGE
   .catch (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
@@ -93,7 +92,11 @@ exports.postRegister = (req, res) ->
     password: req.body.password
     nickname: req.body.nickname
   }
-  #precheckForRegister(data) 我们暂时不做检查
+  #precheckForRegister(form)
+  if form.password != req.body.password2
+    req.flash 'info', 'password incorrect'
+    res.redirect REGISTER_PAGE
+    return
   #对密码进行加密
   form.password = passwordHash.generate(form.password)
   #存入数据库

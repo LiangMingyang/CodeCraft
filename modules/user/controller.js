@@ -57,19 +57,17 @@
         res.redirect(LOGIN_PAGE);
         return;
       }
-      if (passwordHash.verify(form.password, user.password)) {
-        myUtils.login(req, res, user);
-        user.last_login = new Date();
-        return user.save().then(function() {
-          req.flash('info', 'login successfully');
-          return res.redirect(HOME_PAGE);
-        })["catch"](function(err) {
-          return console.log(err.message);
-        });
-      } else {
+      if (!passwordHash.verify(form.password, user.password)) {
         req.flash('info', 'wrong password');
-        return res.redirect(LOGIN_PAGE);
+        res.redirect(LOGIN_PAGE);
+        return;
       }
+      myUtils.login(req, res, user);
+      user.last_login = new Date();
+      return user.save();
+    }).then(function() {
+      req.flash('info', 'login successfully');
+      return res.redirect(HOME_PAGE);
     })["catch"](function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
@@ -103,6 +101,11 @@
       password: req.body.password,
       nickname: req.body.nickname
     };
+    if (form.password !== req.body.password2) {
+      req.flash('info', 'password incorrect');
+      res.redirect(REGISTER_PAGE);
+      return;
+    }
     form.password = passwordHash.generate(form.password);
     return global.db.models.user.create(form).then(function(user) {
       myUtils.login(req, res, user);
