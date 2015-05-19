@@ -1,10 +1,11 @@
 extends layout
 
 block content
-    - if (messages.info)
-        .message.info
-        span= messages.info
     - if (user)
-        a(href="/user/" + user.id)= user.nickname
-    h1= title
-    p Welcome to #{title}
+        a(href="/user/" + user.id)
+            h3 Welcome to BUAA #{title},#{user.nickname}
+    .col-lg-6
+        h1.text-center 正在进行的比赛......
+
+    .col-lg-6
+        h1.text-center(href="/group") 活跃的小组......

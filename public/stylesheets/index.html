@@ -7,8 +7,8 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 
     <!-- Bootstrap -->
-    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../public/css/base.css" rel="stylesheet">
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="layout.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,12 +66,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="currentli"><a href="index.html">主页</a></li>
                         <li class="normalli"><a href="group.html">小组</a></li>
-                        <li class="normalli"><a href="#">个人信息</a></li>
-                        <li class="normalli"><a href="#">设置</a></li>
-                        <li class="normalli"><a href="#">消息</a></li>
-                        <li class="hiddenli"><a href="#">登录</a></li>
-                        <li class="normalli"><a href="#">登出</a></li>
-                        <li class="hiddenli"><a href="#">注册</a></li>
+                        <li class="hiddenli"><a href="#">个人信息</a></li>
+                        <li class="hiddenli"><a href="#">设置</a></li>
+                        <li class="hiddenli"><a href="#">消息</a></li>
+                        <li class="normalli"><a href="#">登录</a></li>
+                        <li class="hiddenli"><a href="#">登出</a></li>
+                        <li class="normalli"><a href="#">注册</a></li>
                         <!--
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -88,14 +88,40 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
+
+        <div>
+            <footer><p class="text-center">
+                College of Software, Beihang University<br/>
+                ---0w0---
+            </p></footer>
+        </div>
     </div>
     <div class="col-lg-2"></div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="../public/js/jquery-2.1.1.min.js"></script>
+<script src="../js/jquery-2.1.1.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../public/js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 
 </body>
 </html>
+
+<!--
+
+            - var whichpage = 0
+            - var islogin = 0
+            - var islogin0 = ['normalli','normalli','hiddenli','hiddenli','hiddenli','normalli','hiddenli','normalli']
+            - var islogin1 = ['normalli','normalli','normalli','normalli','normalli','hiddenli','normalli','hiddenli']
+
+
+                            if(islogin === 0)
+                                islogin = islogin0;
+                            else
+                                islogin = islogin1;
+
+                                <divt class="show_public_tips" style="display: inline; opacity: 0.0886797409895701;">
+                                <p class="show_public_tips_text">System.Exception: Email地址不合法
+   在 SmartOnlineJudge.Entity.User.set_Email(String value) 位置 d:\project\SmartOnlineJudge\SmartOnlineJudge.Entity\User.cs:行号 61
+   在 SmartOnlineJudge.UI.New.Ajax.Register.Page_Load(Object sender, EventArgs e) 位置 d:\project\SmartOnlineJudge\SmartOnlineJudge.UI.New\Ajax\Register.aspx.cs:行号 34</p></divt>
+-->
