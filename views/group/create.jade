@@ -1,0 +1,16 @@
+//
+   Created by lmy on 15-5-19.
+
+extends ../layout
+block content
+   - if (messages.info)
+      .message.info
+         span= messages.info
+   form(method='post')
+      h1 CREATE A GROUP
+      h2 group name
+      input(type='input' name='name')
+      h2 description
+      input(name='description')
+      br
+      input(type='submit')

@@ -26,12 +26,14 @@
     User.hasMany(Issue);
     User.hasMany(IssueReply);
     User.hasMany(Contest);
-    User.hasMany(Group);
     User.hasMany(Message);
     User.hasMany(Submission);
     User.hasMany(Problem);
     Group.hasMany(Contest);
     Group.hasMany(Problem);
+    Group.belongsTo(User, {
+      as: 'creator'
+    });
     Problem.hasMany(Submission);
     Contest.hasMany(Issue);
     Contest.hasMany(Submission);
