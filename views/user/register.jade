@@ -2,28 +2,28 @@
    Created by lmy on 15-5-15.
 extends ../layout
 block content
-    - if (messages.info)
-    .message.info
-        span= messages.info
+    h3 注册
     form(method='post')
-        h1 REGISTER
-        h2 username
-        input(type='input' name='username')
-        h2 password1
-        input(type='password' name='password')
-        h2 password2
-        input(type='password' name='password2')
-        h2 nickname
-        input(type='input' name='nickname')
-        h2 school
-        select(type='input' name='school')
+    .form-group
+        label 邮箱
+        input.form-control(type="email", name='username')
+    .form-group
+        label 密码
+        input.form-control(type="password", name='password')
+    .form-group
+        label 重复密码
+        input.form-control(type="password", name='password2')
+    .form-group
+        label 昵称
+        input.form-control(type="input", name='nickname')
+    .form-group
+        label 学校
+        select.form-control(type="input", name='school')
             option(value="北京航空航天大学") 北京航空航天大学
             option(value="北京邮电大学") 北京邮电大学
-        br
-        h2 college
-        select(type='input' name='college')
+    .form-group
+        label 专业
+        select.form-control(type="input", name='college')
             option(value="软件学院") 软件学院
             option(value="计算机学院") 计算机学院
-        br
-        br
-        input(type='submit')
+    button.btn.btn-default(type="submit") 注册
