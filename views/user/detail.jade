@@ -11,16 +11,23 @@
 
 extends ../layout
 
-block user
-    .dl
-        .dt Email:
-        .dd #{user.email}
-    h1 Username #{user.nickname}
-    h1 School #{user.school}
-    h1 College #{user.college}
-    h1 Description #{user.description}
-    h1 Student_id #{user.student_id}
-    a(href="/user/" + user.id + "/edit") 修改个人信息
-    br
-    a(href="/user/" + user.id + "/updatepw") 修改密码
-    br
+block content
+    .col-lg-2
+        include ./user.jade
+    .col-lg-10
+        table(class = "table table-striped")
+            tr
+                td 昵称
+                td #{user.nickname}
+            tr
+                td 学校
+                td #{user.school}
+            tr
+                td 专业
+                td #{user.college}
+            tr
+                td 简介
+                td #{user.description}
+            tr
+                td 学号
+                td #{user.student_id}
