@@ -2,6 +2,8 @@
 (function() {
   exports.user = require('./user');
 
+  exports.group = require('./group');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map
