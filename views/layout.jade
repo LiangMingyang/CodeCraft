@@ -30,19 +30,15 @@ html
                                     - if(user)
                                         li.normalli
                                             a(href="/user/"+user.id) 个人信息
-                                    - if(user)
                                         li.normalli
                                             a(href="/user/"+user.id+"/edit") 设置
-                                    - if(user)
                                         li.normalli
                                             a(href="/user/messege") 消息
-                                    - if(!user)
-                                        li.normalli
-                                            a(href="/user/login") 登录
-                                    - if(user)
                                         li.normalli
                                             a(href="/user/logout") 登出
-                                    - if(!user)
+                                    - else
+                                        li.normalli
+                                            a(href="/user/login") 登录
                                         li.normalli
                                             a(href="/user/register") 注册
                 .alert-success
