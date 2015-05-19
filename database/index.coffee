@@ -3,7 +3,6 @@ path = require('path')
 models = require('./models')
 
 module.exports = (database, username, password, config)->
-
   sequelize = new Sequelize(database, username, password, config)
 
   #models

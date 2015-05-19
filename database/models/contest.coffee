@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.DATE
       allowNull: false
     access_level:
-      type: DataTypes.ENUM('private','protected','public')
+      type: DataTypes.ENUM('private', 'protected', 'public')
       defaultValue: 'private'
 #creator foreign key
 #group   foreign key
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) ->
     underscored: true
     validate: {
       startBeforeEnd: ->
-        if @start_time>=@end_time
+        if @start_time >= @end_time
           throw new Error('Start time should be before the end of time') #TODO: there is an undefined error
     }
   }

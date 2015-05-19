@@ -20,24 +20,26 @@
     return res.render('index', {
       title: 'You have got user index here'
     });
-
-    /*
-      @getLogin {Function} 显示login页面
-     */
   };
+
+
+  /*
+    @getLogin {Function} 显示login页面
+   */
 
   exports.getLogin = function(req, res) {
     return res.render('user/login', {
       title: 'login'
     });
-
-    /*
-      @postLogin {Function} 根据提交的login表单，创建session，并更新last_login
-      @form {Object} 表单数据
-        @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
-        @password {String} 密码 必要 组成随意 长度6-30
-     */
   };
+
+
+  /*
+    @postLogin {Function} 根据提交的login表单，创建session，并更新last_login
+    @form {Object} 表单数据
+      @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
+      @password {String} 密码 必要 组成随意 长度6-30
+   */
 
   exports.postLogin = function(req, res) {
     var form;
@@ -55,42 +57,42 @@
         res.redirect(LOGIN_PAGE);
         return;
       }
-      if (passwordHash.verify(form.password, user.password)) {
-        myUtils.login(req, res, user);
-        user.last_login = new Date();
-        return user.save().then(function() {
-          req.flash('info', 'login successfully');
-          return res.redirect(HOME_PAGE);
-        })["catch"](function(err) {
-          return console.log(err.message);
-        });
-      } else {
+      if (!passwordHash.verify(form.password, user.password)) {
         req.flash('info', 'wrong password');
-        return res.redirect(LOGIN_PAGE);
+        res.redirect(LOGIN_PAGE);
+        return;
       }
+      myUtils.login(req, res, user);
+      user.last_login = new Date();
+      return user.save();
+    }).then(function() {
+      req.flash('info', 'login successfully');
+      return res.redirect(HOME_PAGE);
     })["catch"](function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     });
-
-    /*
-      @getRegister {Function} 提供注册页面
-     */
   };
+
+
+  /*
+    @getRegister {Function} 提供注册页面
+   */
 
   exports.getRegister = function(req, res) {
     return res.render('user/register', {
       title: 'register'
     });
-
-    /*
-      @postRegister {Function} 根据提交的register表单，在数据库中创建相应的实例
-      @form {Object} 提交的表单
-        @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
-        @password {String} 密码 必要 组成随意 长度6-30
-        @nickname {String} 昵称 必要 组成随意 长度1-30
-     */
   };
+
+
+  /*
+    @postRegister {Function} 根据提交的register表单，在数据库中创建相应的实例
+    @form {Object} 提交的表单
+      @username {String} 用户名 必要 只有字母组成 邮箱 长度1-30
+      @password {String} 密码 必要 组成随意 长度6-30
+      @nickname {String} 昵称 必要 组成随意 长度1-30
+   */
 
   exports.postRegister = function(req, res) {
     var form;
@@ -99,6 +101,11 @@
       password: req.body.password,
       nickname: req.body.nickname
     };
+    if (form.password !== req.body.password2) {
+      req.flash('info', 'password incorrect');
+      res.redirect(REGISTER_PAGE);
+      return;
+    }
     form.password = passwordHash.generate(form.password);
     return global.db.models.user.create(form).then(function(user) {
       myUtils.login(req, res, user);
@@ -108,11 +115,12 @@
       req.flash('info', err.message);
       return res.redirect(REGISTER_PAGE);
     });
-
-    /*
-      @getLogout {Function} 取消登录
-     */
   };
+
+
+  /*
+    @getLogout {Function} 取消登录
+   */
 
   exports.getLogout = function(req, res) {
     myUtils.logout(req, res);
