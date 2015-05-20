@@ -114,7 +114,6 @@
       req.flash('info', 'You have registered.');
       return res.redirect(HOME_PAGE);
     })["catch"](global.db.ValidationError, function(err) {
-      console.log(err);
       req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
       return res.redirect(REGISTER_PAGE);
     })["catch"](myUtils.Error.RegisterError, function(err) {
