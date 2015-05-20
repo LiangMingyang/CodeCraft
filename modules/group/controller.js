@@ -19,6 +19,9 @@
     Group = global.db.models.group;
     User = global.db.models.user;
     return Group.findAll({
+      where: {
+        access_level: ["protect", "public"]
+      },
       include: [
         {
           model: User,
@@ -26,7 +29,6 @@
         }
       ]
     }).then(function(groups) {
-      console.log(groups);
       return res.render('group/index', {
         title: 'You have got group index here',
         user: req.session.user,

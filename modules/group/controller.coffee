@@ -17,6 +17,8 @@ exports.getIndex = (req, res) ->
   User  = global.db.models.user
   Group
   .findAll({
+      where   :
+        access_level: ["protect","public"]
       include : [
         {
           model: User
@@ -25,7 +27,6 @@ exports.getIndex = (req, res) ->
       ]
     })
   .then (groups)->
-    console.log groups
     res.render 'group/index', {
       title: 'You have got group index here'
       user : req.session.user

@@ -12,6 +12,11 @@
       },
       description: {
         type: DataTypes.TEXT
+      },
+      access_level: {
+        type: DataTypes.ENUM('verifying', 'private', 'protect', 'public'),
+        defaultValue: 'verifying',
+        allowNull: false
       }
     }, {
       underscored: true
