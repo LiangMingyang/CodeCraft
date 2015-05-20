@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) ->
       unique: true
       validate:
         isEmail: true  #必须是邮箱
-        notEmpty: true #不能为空
     password:
       type: DataTypes.STRING
       allowNull: false

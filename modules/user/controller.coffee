@@ -62,8 +62,9 @@ exports.postLogin = (req, res) ->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
-    req.flash 'info', err.message
-    res.redirect LOGIN_PAGE
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect INDEX_PAGE
 
 #register
 
@@ -103,12 +104,18 @@ exports.postRegister = (req, res) ->
     req.flash 'info', 'You have registered.'
     res.redirect HOME_PAGE
 
+
+  .catch global.db.ValidationError, (err)->
+    console.log err
+    req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
+    res.redirect REGISTER_PAGE
   .catch myUtils.Error.RegisterError, (err)->
     req.flash 'info', err.message
     res.redirect REGISTER_PAGE
   .catch (err)->
-    req.flash 'info', err.message
-    res.redirect REGISTER_PAGE
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect INDEX_PAGE
 
 #logout
 
