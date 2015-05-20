@@ -16,16 +16,14 @@ exports.getIndex = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
   Group
-  .findAll({
-      where   :
-        access_level: ["protect","public"]
-      include : [
-        {
-          model: User
-          as   : 'creator'
-        }
-      ]
-    })
+  .findAll(
+    where   :
+      access_level: ["protect","public"]
+    include : [
+      model: User
+      as   : 'creator'
+    ]
+  )
   .then (groups)->
     res.render 'group/index', {
       title: 'You have got group index here'
