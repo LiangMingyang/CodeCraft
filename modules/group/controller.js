@@ -53,10 +53,13 @@
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
+    })["catch"](global.db.ValidationError, function(err) {
+      req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
+      return res.redirect(CREATE_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', err.message);
-      return res.redirect(CREATE_PAGE);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(INDEX_PAGE);
     });
   };
 

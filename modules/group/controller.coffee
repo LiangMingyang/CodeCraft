@@ -52,7 +52,10 @@ exports.postCreate = (req, res) ->
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
+  .catch global.db.ValidationError, (err)->
+    req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
+    res.redirect CREATE_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', err.message
-    res.redirect CREATE_PAGE
+    req.flash 'info', "Unknown Error!"
+    res.redirect INDEX_PAGE
