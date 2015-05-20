@@ -14,7 +14,9 @@ extends ../layout
 block content
     .col-lg-2
         include ./user.jade
-    .col-lg-10
+    .col-lg-1
+    .col-lg-6
+        h3 个人信息
         table(class = "table table-striped")
             tr
                 td 昵称
@@ -31,3 +33,4 @@ block content
             tr
                 td 学号
                 td #{user.student_id}
+    .col-lg-3

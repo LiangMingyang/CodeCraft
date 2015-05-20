@@ -9,47 +9,50 @@ html
         .container-fluid
             .col-lg-2
             .col-lg-8
-                block navbar
-                    nav#navbar.navbar.navbar-default
-                        .container-fluid
-                            // Brand and toggle get grouped for better mobile display
-                            .navbar-header
-                                button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
-                                    span.sr-only Toggle navigation
-                                    span.icon-bar
-                                    span.icon-bar
-                                    span.icon-bar
-                                a.navbar-brand(href="/") 其实这里应该是一个Logo哒
-                            // Collect the nav links, forms, and other content for toggling
-                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                                ul.nav.navbar-nav.navbar-right
-                                    li.normalli
-                                        a(href="/") 主页
-                                    li.normalli
-                                        a(href="/group") 小组
-                                    - if(user)
+                .container-fluid
+                    block navbar
+                        nav#navbar.navbar.navbar-default
+                            .container-fluid
+                                // Brand and toggle get grouped for better mobile display
+                                .navbar-header
+                                    button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+                                        span.sr-only Toggle navigation
+                                        span.icon-bar
+                                        span.icon-bar
+                                        span.icon-bar
+                                    a.navbar-brand(href="/") 其实这里应该是一个Logo哒
+                                // Collect the nav links, forms, and other content for toggling
+                                #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                    ul.nav.navbar-nav.navbar-right
                                         li.normalli
-                                            a(href="/user/"+user.id) 个人信息
+                                            a(href="/") 主页
                                         li.normalli
-                                            a(href="/user/"+user.id+"/edit") 设置
-                                        li.normalli
-                                            a(href="/user/messege") 消息
-                                        li.normalli
-                                            a(href="/user/logout") 登出
-                                    - else
-                                        li.normalli
-                                            a(href="/user/login") 登录
-                                        li.normalli
-                                            a(href="/user/register") 注册
-                .alert-success
-                    - if (messages.info)
-                        .message.info
-                            span= messages.info
-                block content
-                block footer
-                    footer
-                        p.text-center
-                            | College of Software, Beihang University
-                            br
-                            a(href="/help") 帮助---0w0---
+                                            a(href="/group") 小组
+                                        - if(user)
+                                            li.normalli
+                                                a(href="/user/"+user.id) 个人信息
+                                            li.normalli
+                                                a(href="/user/"+user.id+"/edit") 修改信息
+                                            li.normalli
+                                                a(href="/user/messege") 消息
+                                            li.normalli
+                                                a(href="/user/logout") 登出
+                                        - else
+                                            li.normalli
+                                                a(href="/user/login") 登录
+                                            li.normalli
+                                                a(href="/user/register") 注册
+                    .alert-success
+                        - if (messages.info)
+                            .message.info
+                                span= messages.info
+                .container-fluid
+                    block content
+                .container-fluid
+                    block footer
+                        footer
+                            p.text-center
+                                | College of Software, Beihang University
+                                br
+                                a(href="/help") 帮助---0w0---
             .col-lg-2

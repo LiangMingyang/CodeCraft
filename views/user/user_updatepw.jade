@@ -8,15 +8,18 @@ extends ../layout
 block content
     .col-lg-2
         include ./user.jade
-    .col-lg-10
+    .col-lg-1
+    .col-lg-6
+        h3 修改密码
         form(method='post')
             .form-group
-                label 旧密码
-                input.form-control(type="password", name='oldPwd')
+                label.sr-only(for="oldPwd") 旧密码
+                input.form-control(type="password", id="oldPwd", name='oldPwd', placeholder="输入旧密码")
             .form-group
-                label 新密码
-                input.form-control(type="password", name='newPwd')
+                label.sr-only(for="newPwd") 新密码
+                input.form-control(type="password", id="newPwd", name='newPwd', placeholder="输入新密码")
             .form-group
-                label 确认新密码
-                input.form-control(type="password", name='confirmNewPwd')
+                label.sr-only(for="confirmNewPwd") 确认新密码
+                input.form-control(type="password", id="confirmNewPwd", name='confirmNewPwd', placeholder="确认新密码")
             button.btn.btn-default(type="submit") 确认修改
+    .col-lg-3
