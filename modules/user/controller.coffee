@@ -106,7 +106,6 @@ exports.postRegister = (req, res) ->
 
 
   .catch global.db.ValidationError, (err)->
-    console.log err
     req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
     res.redirect REGISTER_PAGE
   .catch myUtils.Error.RegisterError, (err)->
