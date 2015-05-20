@@ -100,7 +100,8 @@
     form = {
       username: req.body.username,
       password: req.body.password,
-      nickname: req.body.nickname
+      nickname: req.body.nickname,
+      school: req.body.school
     };
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {

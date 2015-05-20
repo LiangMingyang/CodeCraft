@@ -91,6 +91,7 @@ exports.postRegister = (req, res) ->
     username: req.body.username
     password: req.body.password
     nickname: req.body.nickname
+    school  : req.body.school
   }
   #precheckForRegister(form)
   User = global.db.models.user
