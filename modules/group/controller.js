@@ -15,9 +15,27 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    return res.render('index', {
-      title: 'You have got group index here',
-      user: req.session.user
+    var Group, User;
+    Group = global.db.models.group;
+    User = global.db.models.user;
+    return Group.findAll({
+      include: [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]
+    }).then(function(groups) {
+      console.log(groups);
+      return res.render('group/index', {
+        title: 'You have got group index here',
+        user: req.session.user,
+        groups: groups
+      });
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(INDEX_PAGE);
     });
   };
 
@@ -29,13 +47,14 @@
   };
 
   exports.postCreate = function(req, res) {
-    var Group, User, form;
+    var Group, User, creator, form;
     form = {
       name: req.body.name,
       description: req.body.description
     };
     User = global.db.models.user;
     Group = global.db.models.group;
+    creator = void 0;
     return global.db.Promise.resolve().then(function() {
       if (!req.session.user) {
         throw new myUtils.Error.UnknownUser();
@@ -45,8 +64,14 @@
       if (!user) {
         throw new myUtils.Error.UnknownUser();
       }
-      form.creator_id = user.id;
+      creator = user;
       return Group.create(form);
+    }).then(function(group) {
+      return group.setCreator(creator);
+    }).then(function(group) {
+      return group.addUser(creator, {
+        access_level: 'owner'
+      });
     }).then(function() {
       req.flash('info', 'create group successfully');
       return res.redirect(HOME_PAGE);

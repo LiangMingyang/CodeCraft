@@ -1,0 +1,11 @@
+//
+   Created by lmy on 15-5-20.
+
+extends ../layout
+block content
+   - for(var i = 0 ; i < groups.length ; ++i) {
+      a(href="/group/#{groups[i].id}")= groups[i].name
+      span="    "
+      a(href="/user/#{groups[i].creator.id}")= groups[i].creator.nickname
+      p    #{groups[i].description}
+   - }
