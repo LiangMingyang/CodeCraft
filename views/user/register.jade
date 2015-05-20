@@ -16,4 +16,14 @@ block content
         .form-group
             label 昵称
             input.form-control(type="input", name='nickname')
+        .form-group
+            label 学校
+            select.form-control(type="input", name='school')
+                option(value="北京航空航天大学") 北京航空航天大学
+                option(value="北京邮电大学") 北京邮电大学
+        .form-group
+            label 专业
+            select.form-control(type="input", name='college')
+                option(value="软件学院") 软件学院
+                option(value="计算机学院") 计算机学院
         button.btn.btn-default(type="submit") 注册
