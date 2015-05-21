@@ -34,7 +34,7 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 #create
 
@@ -69,7 +69,7 @@ exports.postCreate = (req, res) ->
     group.addUser(creator, {access_level : 'owner'}) #添加owner关系
   .then ->
     req.flash 'info', 'create group successfully'
-    res.redirect HOME_PAGE
+    res.redirect INDEX_PAGE
 
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
