@@ -23,7 +23,6 @@ router
   .get '/logout', controller.getLogout
 
 router.param 'userID', (req, res, next, id) ->
-  console.log id
   req.param.userID = id;
   next()
 
