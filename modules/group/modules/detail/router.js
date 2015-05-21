@@ -16,6 +16,8 @@
 
   router.get('/', controller.getIndex);
 
+  router.get('/join', controller.getJoin);
+
   module.exports = router;
 
 }).call(this);
