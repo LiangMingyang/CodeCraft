@@ -37,7 +37,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -76,7 +76,7 @@
       });
     }).then(function() {
       req.flash('info', 'create group successfully');
-      return res.redirect(HOME_PAGE);
+      return res.redirect(INDEX_PAGE);
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
