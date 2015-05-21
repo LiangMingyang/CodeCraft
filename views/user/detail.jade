@@ -11,6 +11,10 @@
 
 extends ../layout
 
+block title
+    - var whichpage = "个人信息"
+    title #{whichpage}
+
 block content
     .col-lg-2
         include ./user.jade

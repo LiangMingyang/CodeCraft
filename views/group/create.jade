@@ -3,14 +3,13 @@
    form 表单
       - name 申请的小组的名字
       - description 申请的小组的简介
-
 extends ../layout
 block content
-   form(method='post')
-      h1 CREATE A GROUP
-      h2 group name
-      input(type='input' name='name')
-      h2 description
-      input(name='description')
-      br
-      input(type='submit')
+    form(method='post')
+        h1 CREATE A GROUP
+        h2 group name
+        input(type='input' name='name')
+        h2 description
+        input(name='description')
+        br
+        input(type='submit')

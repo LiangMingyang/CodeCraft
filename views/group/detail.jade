@@ -4,18 +4,17 @@
       - name 小组名字
       - description 小组简介
       - creator 小组创建者,与user的属性相同
-
 extends ../layout
 block content
-   .col-lg-10
-      table(class = "table table-striped")
-         tr
-            td 小组名字
-            td #{group.name}
-         tr
-            td 简介
-            td #{group.description}
-         tr
-            td 小组创建者
-            td
-               a(href="/user/#{group.creator.id}")= group.creator.nickname
+    .col-lg-10
+        table(class = "table table-striped")
+            tr
+                td 小组名字
+                td #{group.name}
+            tr
+                td 简介
+                td #{group.description}
+            tr
+                td 小组创建者
+                td
+                    a(href="/user/#{group.creator.id}")= group.creator.nickname

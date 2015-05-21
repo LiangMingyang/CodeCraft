@@ -1,4 +1,8 @@
-extends layout
+extends ./layout
+
+block title
+    - var whichpage = "OJ4TH"
+    title #{whichpage}
 
 block content
     - if (user)

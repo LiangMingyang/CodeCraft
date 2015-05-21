@@ -6,12 +6,31 @@
             - name 小组的名字
             - id   小组的ID
             - description 小组的简介
-
 extends ../layout
+
+block title
+    title 所有小组
+
 block content
-   - for(var i = 0 ; i < groups.length ; ++i) {
-      a(href="/group/#{groups[i].id}")= groups[i].name
-      span="    "
-      a(href="/user/#{groups[i].creator.id}")= groups[i].creator.nickname
-      p    #{groups[i].description}
-   - }
+    .col-lg-2
+        include ./group.jade
+    .col-lg-8
+        h3 所有小组
+        table.container-fluid(class = "table table-striped")
+            tr
+                td.col-lg-3
+                    label 小组的名称
+                td.col-lg-3
+                    label 创建者昵称
+                td.col-lg-6
+                    label 小组的介绍
+            - for(var i = 0 ; i < groups.length ; ++i) {
+            tr
+                td.col-lg-3
+                    a(href="/group/#{groups[i].id}")= groups[i].name
+                td.col-lg-3
+                    a(href="/user/#{groups[i].creator.id}")= groups[i].creator.nickname
+                td.col-lg-6
+                    a(href="/user/#{groups[i].creator.id}")= groups[i].creator.description
+            - }
+    .col-lg-2
