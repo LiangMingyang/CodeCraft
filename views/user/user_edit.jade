@@ -17,8 +17,7 @@ extends ../layout
 block content
     .col-lg-2
         include ./user.jade
-    .col-lg-1
-    .col-lg-6
+    .col-lg-8
         h3 修改信息
         form(method='post')
             .form-horizontal
@@ -50,4 +49,4 @@ block content
                     .col-lg-10
                         input.form-control(type="input", name='description', id="description", value=user.description)
             button.btn.btn-default(type="submit") 确认
-    .col-lg-3
+    .col-lg-2
