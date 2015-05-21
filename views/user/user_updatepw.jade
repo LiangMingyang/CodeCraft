@@ -5,6 +5,11 @@
         -oldPwd 旧密码
         -newPwd 新密码
 extends ../layout
+
+block title
+    - var whichpage = "修改密码"
+    title #{whichpage}
+
 block content
     .col-lg-2
         include ./user.jade

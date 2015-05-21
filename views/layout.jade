@@ -4,7 +4,8 @@ html
         link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/layout.css')
         block title
-            title OJ4TH
+            - var whichpage = "OJ4TH"
+            title #{whichpage}
     body
         .container-fluid
             .col-lg-2

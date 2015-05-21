@@ -11,12 +11,16 @@
 
 extends ../layout
 
+block title
+    - var whichpage = "个人信息"
+    title #{whichpage}
+
 block content
     .col-lg-2
         include ./user.jade
     .col-lg-8
         h3 个人信息
-        table(class = "table table-striped")
+        table.table.table-striped
             tr
                 td 昵称
                 td #{user.nickname}

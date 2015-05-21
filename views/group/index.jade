@@ -6,12 +6,40 @@
             - name 小组的名字
             - id   小组的ID
             - description 小组的简介
-
 extends ../layout
+
+block title
+    - var whichpage = "所有小组"
+    title #{whichpage}
+
 block content
-   - for(var i = 0 ; i < groups.length ; ++i) {
-      a(href="/group/#{groups[i].id}")= groups[i].name
-      span="    "
-      a(href="/user/#{groups[i].creator.id}")= groups[i].creator.nickname
-      p    #{groups[i].description}
-   - }
+    .col-lg-2
+        a.button.btn.btn-default(href="/group") 查看所有小组
+        br
+        a.button.btn.btn-default(href="/group") 大学教学小组
+        br
+        a.button.btn.btn-default(href="/group") 大学竞赛小组
+        br
+        a.button.btn.btn-default(href="/group") 其他个人小组
+        br
+        a.button.btn.btn-default(href="/group/create") 申请创建小组
+        br
+    .col-lg-8
+        h3 所有小组
+        table.table.table-striped
+            tr
+                td.col-lg-3
+                    label 小组名称
+                td.col-lg-3
+                    label 创建者昵称
+                td.col-lg-6
+                    label 小组简介
+            - for(var i = 0 ; i < groups.length ; ++i)
+                tr
+                    td.col-lg-3
+                        a(href="/group/#{groups[i].id}")= groups[i].name
+                    td.col-lg-3
+                        a(href="/user/#{groups[i].creator.id}")= groups[i].creator.nickname
+                    td.col-lg-6
+                        p #{groups[i].description}
+    .col-lg-2
