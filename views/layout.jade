@@ -20,7 +20,7 @@ html
                                         span.icon-bar
                                         span.icon-bar
                                         span.icon-bar
-                                    a.navbar-brand(href="/") 其实这里应该是一个Logo哒
+                                    a.navbar-brand(href="/") 这里应该是一个Logo哒
                                 // Collect the nav links, forms, and other content for toggling
                                 #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                     ul.nav.navbar-nav.navbar-right
@@ -31,7 +31,7 @@ html
                                         - if(user)
                                             li.normalli
                                                 a(href="/user/"+user.id) 个人信息
-                                            li.normalli
+                                            //li.normalli
                                                 a(href="/user/"+user.id+"/edit") 修改信息
                                             li.normalli
                                                 a(href="/user/messege") 消息
@@ -56,3 +56,5 @@ html
                                 br
                                 a(href="/help") 帮助---0w0---
             .col-lg-2
+    script(src="/js/jquery-2.1.1.min.js")
+    script(src="/js/bootstrap.min.js")
