@@ -4,17 +4,37 @@
       - name 小组名字
       - description 小组简介
       - creator 小组创建者,与user的属性相同
+
 extends ../layout
+
+block title
+    - var whichpage = "小组信息"
+    title #{whichpage}
+
 block content
-    .col-lg-10
-        table(class = "table table-striped")
+    .col-lg-2
+        table.table.table-striped
             tr
-                td 小组名字
-                td #{group.name}
+                td 小组名称
             tr
-                td 简介
-                td #{group.description}
+                td
+                    a(href="#{group.id}")= group.name
             tr
                 td 小组创建者
+            tr
                 td
                     a(href="/user/#{group.creator.id}")= group.creator.nickname
+            tr
+                td 小组简介
+            tr
+                td #{group.description}
+            tr
+                td 小组成员
+            tr
+                td
+                    a(href="#{group.id}/member") 查看详情
+    .col-lg-8
+        h4 题目列表
+
+        h4 比赛列表
+    .col-lg-2
