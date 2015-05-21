@@ -6,11 +6,6 @@ module.exports = (sequelize, DataTypes) ->
       unique: true
       validate:
         notEmpty: true
-    description:
-      type: DataTypes.TEXT
-    test_setting: #just a path
-      type: DataTypes.STRING
-      defaultValue: 'path/to/default/test_setting'
     test_file: #just a path
       type: DataTypes.STRING
     access_level:
