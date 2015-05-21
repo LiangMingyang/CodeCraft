@@ -8,7 +8,7 @@ controller = require('./controller')
 router.use(middlewares)
 
 router
-  .get '/edit', controller.getEdit
+  .get '/member', controller.getMember
 
 router
   .get '/', controller.getIndex

@@ -32,10 +32,9 @@
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }
-      if ((ref = group.access_level) === 'verifying' || ref === 'private') {
+      if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
-      console.log(group);
       return res.render('group/detail', {
         user: req.session.user,
         group: group
@@ -43,12 +42,59 @@
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);
       return res.redirect(INDEX_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(INDEX_PAGE);
     });
   };
 
-  exports.getEdit = function(req, res) {
+  exports.getMember = function(req, res) {
+    var Group, User;
+    Group = global.db.models.group;
+    User = global.db.models.user;
+    return Group.find(req.param.groupID, {
+      include: [
+        {
+          model: User,
+          through: {
+            where: {
+              access_level: ['member', 'admin', 'owner']
+            }
+          }
+        }
+      ]
+    }).then(function(group) {
+      var ref;
+      if (!group) {
+        throw new myUtils.Error.UnknownGroup();
+      }
+      if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
+        throw new myUtils.Error.UnknownGroup();
+      }
+      return res.render('group/member', {
+        user: req.session.user,
+        group: group
+      });
+    })["catch"](myUtils.Error.UnknownGroup, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(INDEX_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(INDEX_PAGE);
+    });
+  };
+
+  exports.getProblem = function(req, res) {
     return res.render('index', {
-      title: 'You are at EDIT page'
+      titile: "Problems of " + req.param.groupID
+    });
+  };
+
+  exports.getContest = function(req, res) {
+    return res.render('index', {
+      titile: "Contests of " + req.param.groupID
     });
   };
 

@@ -23,8 +23,7 @@ exports.getIndex = (req, res) ->
     })
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
-    throw new myUtils.Error.UnknownGroup() if group.access_level in ['verifying','private']
-    console.log group
+    throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
     res.render 'group/detail', {
       user : req.session.user
       group : group
@@ -33,8 +32,45 @@ exports.getIndex = (req, res) ->
   .catch myUtils.Error.UnknownGroup, (err)->
     req.flash 'info', err.message
     res.redirect INDEX_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect INDEX_PAGE
 
-exports.getEdit = (req, res)->
+exports.getMember = (req, res) ->
+  Group = global.db.models.group
+  User  = global.db.models.user
+  Group
+  .find(req.param.groupID, {
+      include : [
+        model: User
+        through:
+          where:
+            access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
+      ]
+    })
+  .then (group)->
+    throw new myUtils.Error.UnknownGroup() if not group
+    throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
+    res.render 'group/member', {
+      user : req.session.user
+      group : group
+    }
+
+  .catch myUtils.Error.UnknownGroup, (err)->
+    req.flash 'info', err.message
+    res.redirect INDEX_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect INDEX_PAGE
+
+exports.getProblem = (req, res) ->
   res.render 'index', {
-    title: 'You are at EDIT page'
+    titile : "Problems of #{req.param.groupID}"
+  }
+
+exports.getContest = (req, res) ->
+  res.render 'index', {
+    titile : "Contests of #{req.param.groupID}"
   }

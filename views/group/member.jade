@@ -1,0 +1,17 @@
+//
+   Created by lmy on 15-5-21.
+
+extends ../layout
+block content
+   .col-lg-2
+   .col-lg-10
+      table(class = "table table-striped")
+         - for (var i = 0 ; i < group.users.length ; ++i)
+            - var member = group.users[i]
+            tr
+               td 昵称
+               td
+                  a(href= "/user/#{member.id}") #{member.nickname}
+            tr
+               td 身份
+               td #{member.membership.access_level}

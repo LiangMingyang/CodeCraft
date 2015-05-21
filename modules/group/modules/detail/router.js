@@ -12,7 +12,7 @@
 
   router.use(middlewares);
 
-  router.get('/edit', controller.getEdit);
+  router.get('/member', controller.getMember);
 
   router.get('/', controller.getIndex);
 
