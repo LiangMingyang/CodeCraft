@@ -72,7 +72,11 @@
 
   exports.getUpdatePw = function(req, res) {
     return res.render('user/user_updatepw', {
-      title: 'You are at Update Password Page'
+      title: 'You are at Update Password Page',
+      user: {
+        id: req.session.user.id,
+        nickname: req.session.user.nickname
+      }
     });
   };
 
@@ -94,6 +98,7 @@
           user.description = req.body.description;
         }
         return user.save().then(function() {
+          req.session.user.nickname = req.body.nickname;
           req.flash('info', 'You have updated your info');
           return res.redirect('.');
         });

@@ -60,7 +60,11 @@ exports.getEdit = (req, res)->
 
 exports.getUpdatePw = (req, res) ->
   res.render 'user/user_updatepw', {
-    title: 'You are at Update Password Page'
+    title: 'You are at Update Password Page',
+    user: {
+      id: req.session.user.id,
+      nickname: req.session.user.nickname
+    }
   }
 
 exports.postEdit = (req, res)->
@@ -73,6 +77,7 @@ exports.postEdit = (req, res)->
       if req.body.college then user.college = req.body.college
       if req.body.description then user.description = req.body.description
       user.save().then ->
+        req.session.user.nickname = req.body.nickname
         req.flash 'info', 'You have updated your info'
         res.redirect '.'
     else

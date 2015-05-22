@@ -10,13 +10,6 @@
           notEmpty: true
         }
       },
-      description: {
-        type: DataTypes.TEXT
-      },
-      test_setting: {
-        type: DataTypes.STRING,
-        defaultValue: 'path/to/default/test_setting'
-      },
       test_file: {
         type: DataTypes.STRING
       },
