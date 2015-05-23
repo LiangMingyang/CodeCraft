@@ -4,6 +4,8 @@
 
   exports.group = require('./group');
 
+  exports.problem = require('./problem');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

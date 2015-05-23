@@ -16,6 +16,8 @@
 
   router.use('/group', modules.group.router);
 
+  router.use('/problem', modules.problem.router);
+
   router.get('/', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',

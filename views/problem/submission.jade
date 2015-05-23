@@ -1,0 +1,22 @@
+//
+   Created by heavenduke on 15-5-23.
+
+extends ../layout
+
+block content
+   table(border='1')
+      tr
+         td 序号
+         td 语言
+         td 结果
+         td 用户
+         td 提交时间
+
+      - for (var i = 0; i < submissions.length; i++)
+         tr
+            td #{i}
+            td #{submissions[i].lang}
+            td #{submissions[i].result}
+            td
+               a(href='../../user/' + submissions[i].user.id) #{submissions[i].user.nickname}
+            td #{submissions[i].created_at}

@@ -38,6 +38,8 @@ module.exports = (database, username, password, config)->
     as : 'creator'
   })
 
+  Submission.belongsTo(User)
+
   Problem.hasMany(Submission)
 
   Contest.hasMany(Issue)
