@@ -3,13 +3,18 @@ router = express.Router();
 middlewares = require('./middlewares')
 controller = require('./controller')
 modules = require('./modules')
+path = require('path')
 
 
 router.use(middlewares)
 
 router
-  .get '/', controller.getIndex
+  .get '/', (req, res)->
+    res.redirect 'user/index'
   #.post '/', controller.postIndex
+
+router
+  .get '/index', controller.getIndex
 
 router
   .get '/login', controller.getLogin

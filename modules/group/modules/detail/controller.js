@@ -22,7 +22,7 @@
     var Group, User;
     Group = global.db.models.group;
     User = global.db.models.user;
-    return Group.find(req.param.groupID, {
+    return Group.find(req.params.groupID, {
       include: [
         {
           model: User,
@@ -55,7 +55,7 @@
     var Group, User;
     Group = global.db.models.group;
     User = global.db.models.user;
-    return Group.find(req.param.groupID, {
+    return Group.find(req.params.groupID, {
       include: [
         {
           model: User,
@@ -103,7 +103,7 @@
         throw new myUtils.Error.UnknownUser();
       }
       joiner = user;
-      return Group.find(req.param.groupID);
+      return Group.find(req.params.groupID);
     }).then(function(group) {
       var ref;
       if (!group) {
@@ -137,14 +137,14 @@
   exports.getProblem = function(req, res) {
     return res.render('index', {
       user: req.session.user,
-      title: "Problems of " + req.param.groupID
+      title: "Problems of " + req.params.groupID
     });
   };
 
   exports.getContest = function(req, res) {
     return res.render('index', {
       user: req.session.user,
-      title: "Contests of " + req.param.groupID
+      title: "Contests of " + req.params.groupID
     });
   };
 

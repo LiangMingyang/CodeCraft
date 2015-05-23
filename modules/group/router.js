@@ -4,7 +4,9 @@
 
   express = require('express');
 
-  router = express.Router();
+  router = express.Router({
+    mergeParams: true
+  });
 
   middlewares = require('./middlewares');
 
@@ -14,16 +16,15 @@
 
   router.use(middlewares);
 
-  router.get('/', controller.getIndex);
+  router.get('/', function(req, res) {
+    return res.redirect('group/index');
+  });
+
+  router.get('/index', controller.getIndex);
 
   router.get('/create', controller.getCreate).post('/create', controller.postCreate);
 
-  router.param('groupID', function(req, res, next, id) {
-    req.param.groupID = id;
-    return next();
-  });
-
-  router.use('/:groupID', modules.detail.router);
+  router.use('/:groupID([0-9]+)', modules.detail.router);
 
   module.exports = router;
 

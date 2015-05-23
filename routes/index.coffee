@@ -1,5 +1,5 @@
 express = require('express')
-router = express.Router()
+router = express.Router(mergeParams: true);
 middlewares = require('../middlewares')
 
 modules = require('../modules')

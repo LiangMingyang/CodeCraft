@@ -1,5 +1,5 @@
 express = require('express');
-router = express.Router();
+router = express.Router(mergeParams: true);
 middlewares = require('./middlewares')
 controller = require('./controller')
 #modules = require('./modules')
@@ -8,10 +8,14 @@ controller = require('./controller')
 router.use(middlewares)
 
 router
-  .get '/member', controller.getMember
+  .get '/', (req, res)->
+    res.redirect "#{req.params.groupID}/index"
 
 router
-  .get '/', controller.getIndex
+  .get '/index', controller.getIndex
+
+router
+  .get '/member', controller.getMember
 
 router
   .get '/join', controller.getJoin
