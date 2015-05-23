@@ -8,10 +8,14 @@ controller = require('./controller')
 router.use(middlewares)
 
 router
-  .get '/member', controller.getMember
+  .get '/', (req, res)->
+    res.redirect "#{req.param.groupID}/index"
 
 router
-  .get '/', controller.getIndex
+  .get '/index', controller.getIndex
+
+router
+  .get '/member', controller.getMember
 
 router
   .get '/join', controller.getJoin

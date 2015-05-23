@@ -8,8 +8,11 @@ modules = require('./modules')
 router.use(middlewares)
 
 router
-  .get '/', controller.getIndex
+  .get '/', (req, res)->
+    res.redirect 'group/index'
   #.post '/', controller.postIndex
+router
+  .get '/index', controller.getIndex
 
 router
   .get '/create', controller.getCreate

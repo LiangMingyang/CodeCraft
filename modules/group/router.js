@@ -14,7 +14,11 @@
 
   router.use(middlewares);
 
-  router.get('/', controller.getIndex);
+  router.get('/', function(req, res) {
+    return res.redirect('group/index');
+  });
+
+  router.get('/index', controller.getIndex);
 
   router.get('/create', controller.getCreate).post('/create', controller.postCreate);
 
