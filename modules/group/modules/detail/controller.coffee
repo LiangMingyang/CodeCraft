@@ -17,7 +17,7 @@ exports.getIndex = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
   Group
-  .find(req.param.groupID, {
+  .find(req.params.groupID, {
       include : [
         model: User
         as   : 'creator'
@@ -43,7 +43,7 @@ exports.getMember = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
   Group
-  .find(req.param.groupID, {
+  .find(req.params.groupID, {
       include : [
         model: User
         through:
@@ -78,7 +78,7 @@ exports.getJoin = (req, res) ->
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     joiner = user
-    Group.find(req.param.groupID)
+    Group.find(req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
@@ -104,11 +104,11 @@ exports.getJoin = (req, res) ->
 exports.getProblem = (req, res) ->
   res.render 'index', {
     user   : req.session.user
-    title : "Problems of #{req.param.groupID}"
+    title : "Problems of #{req.params.groupID}"
   }
 
 exports.getContest = (req, res) ->
   res.render 'index', {
     user : req.session.user
-    title : "Contests of #{req.param.groupID}"
+    title : "Contests of #{req.params.groupID}"
   }

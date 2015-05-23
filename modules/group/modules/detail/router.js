@@ -4,7 +4,9 @@
 
   express = require('express');
 
-  router = express.Router();
+  router = express.Router({
+    mergeParams: true
+  });
 
   middlewares = require('./middlewares');
 
@@ -13,7 +15,7 @@
   router.use(middlewares);
 
   router.get('/', function(req, res) {
-    return res.redirect(req.param.groupID + "/index");
+    return res.redirect(req.params.groupID + "/index");
   });
 
   router.get('/index', controller.getIndex);

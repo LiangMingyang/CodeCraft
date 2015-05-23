@@ -4,7 +4,9 @@
 
   express = require('express');
 
-  router = express.Router();
+  router = express.Router({
+    mergeParams: true
+  });
 
   middlewares = require('./middlewares');
 
@@ -22,12 +24,7 @@
 
   router.get('/create', controller.getCreate).post('/create', controller.postCreate);
 
-  router.param('groupID', function(req, res, next, id) {
-    req.param.groupID = id;
-    return next();
-  });
-
-  router.use('/:groupID', modules.detail.router);
+  router.use('/:groupID([0-9]+)', modules.detail.router);
 
   module.exports = router;
 
