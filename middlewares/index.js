@@ -2,10 +2,11 @@
 (function() {
   module.exports = [
     function(req, res, next) {
-      if (req.session.userID) {
-        req.flash('userID', req.session.userID);
+      if ('/' === req.url[req.url.length - 1]) {
+        return res.redirect(req.url.slice(0, -1));
+      } else {
+        return next();
       }
-      return next();
     }, function(req, res, next) {
       return next();
     }
