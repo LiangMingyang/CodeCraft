@@ -10,7 +10,9 @@ block title
     title #{whichpage}
 
 block content
-    .col-lg-6
+    .col-lg-2
+        a.button.btn.btn-default(href="/group/index") 返回小组列表
+    .col-lg-8
         h3 申请创建小组
         form(method='post')
             .form-group
@@ -20,4 +22,4 @@ block content
                 label.sr-only(for="description") 小组简介
                 textarea.form-control(type="input", rows="10", id="description", name='description', placeholder="输入小组简介")
             button.btn.btn-default(type="submit") 提交
-    .col-lg-6
+    .col-lg-2

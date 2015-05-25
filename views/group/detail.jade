@@ -18,23 +18,27 @@ block content
                 td 小组名称
             tr
                 td
-                    a(href="#{group.id}")= group.name
+                    a(href="index")= group.name
             tr
                 td 小组创建者
             tr
                 td
                     a(href="/user/#{group.creator.id}")= group.creator.nickname
             tr
-                td 小组简介
-            tr
-                td #{group.description}
-            tr
                 td 小组成员
             tr
                 td
-                    a(href="#{group.id}/member") 查看详情
+                    a(href="member") 查看详情
+            tr
+                td 小组简介
+            tr
+                td #{group.description}
     .col-lg-8
-        h4 题目列表
+        h4
+                a.button.btn.btn-default(href="join") 加入小组
 
         h4 比赛列表
+
+        h4 题目列表
+
     .col-lg-2

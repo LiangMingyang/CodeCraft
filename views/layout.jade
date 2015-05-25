@@ -8,9 +8,9 @@ html
             title #{whichpage}
     body
         .container-fluid
-            .col-lg-2
-            .col-lg-8
-                .container-fluid
+            .col-lg-1
+            .col-lg-10
+                .row
                     block navbar
                         nav#navbar.navbar.navbar-default
                             .container-fluid
@@ -47,15 +47,15 @@ html
                         - if (messages.info)
                             .message.info
                                 span= messages.info
-                .container-fluid
+                .row
                     block content
-                .container-fluid
+                .row
                     block footer
                         footer
                             p.text-center
                                 | College of Software, Beihang University
                                 br
                                 a(href="/help") 帮助---0w0---
-            .col-lg-2
+            .col-lg-1
     script(src="/js/jquery-2.1.1.min.js")
     script(src="/js/bootstrap.min.js")
