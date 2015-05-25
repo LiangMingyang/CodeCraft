@@ -1,5 +1,5 @@
 class UnknownProblem extends Error
-  constructor: (@message = "Unknown user, please login first") ->
+  constructor: (@message = "Unknown problem") ->
     @name = 'UnknownProblem'
     Error.captureStackTrace(this, UnknownProblem)
 
@@ -12,10 +12,6 @@ class UnknownUser extends Error
   constructor: (@message = "Unknown user, please login first") ->
     @name = 'UnknownUser'
     Error.captureStackTrace(this, UnknownUser)
-
-exports.Error = {
-
-}
 
 exports.Error = {
   UnkwownUser: UnknownUser,

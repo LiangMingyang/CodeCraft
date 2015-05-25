@@ -8,7 +8,7 @@
     extend(UnknownProblem, superClass);
 
     function UnknownProblem(message) {
-      this.message = message != null ? message : "Unknown user, please login first";
+      this.message = message != null ? message : "Unknown problem";
       this.name = 'UnknownProblem';
       Error.captureStackTrace(this, UnknownProblem);
     }
@@ -42,8 +42,6 @@
     return UnknownUser;
 
   })(Error);
-
-  exports.Error = {};
 
   exports.Error = {
     UnkwownUser: UnknownUser,

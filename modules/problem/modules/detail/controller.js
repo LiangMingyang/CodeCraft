@@ -21,7 +21,7 @@
     Problem = global.db.models.problem;
     return Problem.find(req.param.problemID).then(function(problem) {
       if (!problem) {
-        throw new myUtils.UnknownProblem();
+        throw new myUtils.Error.UnknownProblem();
       }
       return res.render('problem/detail', {
         title: 'Problem List Page',
@@ -37,6 +37,12 @@
           }
         }
       });
+    })["catch"](myUtils.Error.UnknownProblem, function(err) {
+      req.flash('info', 'problem not exist');
+      return res.redirect(HOME_PAGE);
+    })["catch"](function(err) {
+      req.flash('info', err.message);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -59,13 +65,13 @@
       return User.find(req.session.user.id);
     }).then(function(user) {
       if (!user) {
-        throw new myUtils.UnknownUser();
+        throw new myUtils.Error.UnknownUser();
       }
       current_user = user;
       return Problem.find(req.param.problemID);
     }).then(function(problem) {
       if (!problem) {
-        throw new myUtils.UnknownProblem();
+        throw new myUtils.Error.UnknownProblem();
       }
       current_problem = problem;
       return Submission.create(form);
@@ -81,6 +87,15 @@
     }).then(function(submission) {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
+    })["catch"](myUtils.Error.UnknownUser, function(err) {
+      req.flash('info', 'Unknown User');
+      return res.redirect(INDEX_PAGE);
+    })["catch"](myUtils.Error.UnknownProblem, function(err) {
+      req.flash('info', 'problem not exist');
+      return res.redirect(HOME_PAGE);
+    })["catch"](function(err) {
+      req.flash('info', err.message);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -104,6 +119,9 @@
         headline: 'Problem index(SHEN ME DOU MEI YOU!)',
         submissions: submissions
       });
+    })["catch"](function(err) {
+      req.flash('info', err.message);
+      return res.redirect(HOME_PAGE);
     });
   };
 
