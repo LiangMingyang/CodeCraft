@@ -17,7 +17,7 @@ exports.getIndex = (req, res) ->
 
   Problem.find req.param.problemID
   .then (problem) ->
-    throw new myUtils.UnknownProblem() if not problem
+    throw new myUtils.Error.UnknownProblem() if not problem
     res.render('problem/detail', {
       title: 'Problem List Page',
       problem: {
@@ -32,6 +32,12 @@ exports.getIndex = (req, res) ->
         }
       }
     })
+  .catch myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', 'problem not exist'
+    res.redirect HOME_PAGE
+  .catch (err)->
+    req.flash 'info', err.message
+    res.redirect HOME_PAGE
 
 exports.postSubmission = (req, res) ->
 
@@ -55,11 +61,11 @@ exports.postSubmission = (req, res) ->
   .then ->
     User.find req.session.user.id
   .then (user) ->
-    throw new myUtils.UnknownUser() if not user
+    throw new myUtils.Error.UnknownUser() if not user
     current_user = user
     Problem.find req.param.problemID
   .then (problem) ->
-    throw new myUtils.UnknownProblem() if not problem
+    throw new myUtils.Error.UnknownProblem() if not problem
     current_problem = problem
     Submission.create(form)
   .then (submission) ->
@@ -74,6 +80,15 @@ exports.postSubmission = (req, res) ->
   .then (submission) ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
+  .catch myUtils.Error.UnknownUser, (err)->
+    req.flash 'info', 'Unknown User'
+    res.redirect INDEX_PAGE
+  .catch myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', 'problem not exist'
+    res.redirect HOME_PAGE
+  .catch (err)->
+    req.flash 'info', err.message
+    res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
 
@@ -96,5 +111,8 @@ exports.getSubmissions = (req, res) ->
       headline: 'Problem index(SHEN ME DOU MEI YOU!)',
       submissions: submissions
     })
+  .catch (err)->
+    req.flash 'info', err.message
+    res.redirect HOME_PAGE
 
 
