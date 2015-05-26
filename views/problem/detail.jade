@@ -1,38 +1,63 @@
 //
-   Created by heavenduke on 15-5-23.
-
-   title --网页标题
-   problem -- 题目数据
-      title --题目标题
-      description --题目描述
-      test_setting --题目评测设置
-         time_limit -- 时间限制（无单位整数，默认为ms）
-         memory_limit -- 内存限制（无单位整数，默认为MB）
-         special_judge -- 是否为special judge（布尔值，true为有）
-
+    Created by heavenduke on 15-5-23.
+    title --网页标题
+    problem -- 题目数据
+        title --题目标题
+        description --题目描述
+        test_setting --题目评测设置
+            time_limit -- 时间限制（无单位整数，默认为ms）
+            memory_limit -- 内存限制（无单位整数，默认为MB）
+            special_judge -- 是否为special judge（布尔值，true为有）
 extends ../layout
-
 block title
-   title #{title}
-
+    - var whichpage = problem.title
+    title #{whichpage}
+    //title #{title}
 block content
-   h1 #{problem.title}
-   h3 Description
-   p #{problem.description}
-   h3 Input
-   p #{problem.test_setting.input}
-   h3 Output
-   p #{problem.test_setting.output}
-   h3 Test Setting
-   li Time Limit: #{problem.test_setting.time_limit}
-   li Memory Limit: #{problem.test_setting.memory_limit}
 
-   form(method='post', action='./'+ problem.problem_id +'/submit')
-      label Your Code：
-      select(type="input", name='lang' value='C')
-         option(value="c++") c++
-         option(value="c") c
-      br
-      textarea(type="input", name='code')
-      br
-      button(type="submit") 提交
+
+    h1 #{problem.title}
+    h3 Description
+    p #{problem.description}
+    h3 Input
+    p #{problem.test_setting.input}
+    h3 Output
+    p #{problem.test_setting.output}
+    h3 Test Setting
+    li Time Limit: #{problem.test_setting.time_limit}
+    li Memory Limit: #{problem.test_setting.memory_limit}
+
+    .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                form(method='post', action='./' + problem.problem_id + '/submit')
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title 提交代码
+                    .modal-body
+                        .row
+                            .col-lg-3
+                                |语言选择：
+                            .col-lg-9
+                                select(type="input", name='lang', value='C')
+                                    option(value="c++") c++
+                                    option(value="c") c
+                        |源代码：
+                        label.sr-only(for="code") 输入代码
+                        textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
+                    .modal-footer
+                        //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                        button.btn.btn-primary(type='submit') 确认提交
+
+    form(method='post', action='./' + problem.problem_id + '/submit')
+        label Your Code：
+        select(type="input", name='lang' value='C')
+            option(value="c++") c++
+            option(value="c") c
+        br
+        textarea(type="input", name='code')
+        br
+        button(type="submit") 提交
