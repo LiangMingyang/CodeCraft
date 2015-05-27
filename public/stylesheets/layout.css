@@ -4,3 +4,9 @@ li.normalli{
 
 a.navbar-brand{
 }
+
+footer{
+    height: 50px;
+    position: fixed;
+    bottom: 0px;
+}
