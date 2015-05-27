@@ -4,6 +4,7 @@ myUtils = require('./utils')
 
 HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
+PREVIOUS_PAGE = 'back'
 LOGIN_PAGE = 'login'
 REGISTER_PAGE = 'register'
 LOGOUT_PAGE = 'logout'
@@ -24,6 +25,7 @@ exports.getIndex = (req, res) ->
 exports.getLogin = (req, res) ->
   res.render 'user/login', {
     title: 'login'
+    returnUrl: req.get('Referer')
   }
 
 ###
@@ -35,8 +37,8 @@ exports.getLogin = (req, res) ->
 
 exports.postLogin = (req, res) ->
   form = {
-    username: req.body.username
-    password: req.body.password
+    username: req.param('username')
+    password: req.param('password')
   }
 
   #precheckForLogin(form)
@@ -55,7 +57,7 @@ exports.postLogin = (req, res) ->
     user.save()
   .then ->
     req.flash 'info', 'login successfully'
-    res.redirect HOME_PAGE
+    res.redirect req.param('returnUrl')
 
 
   .catch myUtils.Error.LoginError, (err)->
@@ -88,16 +90,16 @@ exports.getRegister = (req, res) ->
 exports.postRegister = (req, res) ->
   #get data from submit data
   form = {
-    username: req.body.username
-    password: req.body.password
-    nickname: req.body.nickname
-    school  : req.body.school
+    username: req.param('username')
+    password: req.param('password')
+    nickname: req.param('nickname')
+    school  : req.param('school')
   }
   #precheckForRegister(form)
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
-    throw new myUtils.Error.RegisterError("Please confirm your password.") if form.password isnt req.body.password2
+    throw new myUtils.Error.RegisterError("Please confirm your password.") if form.password isnt req.param('password2')
     form.password = passwordHash.generate(form.password) #对密码进行加密
     User.create form #存入数据库
   .then (user)->
@@ -125,4 +127,4 @@ exports.postRegister = (req, res) ->
 
 exports.getLogout = (req, res) ->
   myUtils.logout(req)
-  res.redirect HOME_PAGE
+  res.redirect LOGIN_PAGE

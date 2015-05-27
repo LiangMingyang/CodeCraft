@@ -16,6 +16,7 @@ block content
             .form-group
                 label.sr-only(for="password")密码
                 input.form-control(type="password", id="password", name='password', placeholder="输入密码")
+            input(type="hidden" name="returnUrl", value="#{returnUrl}")
             button.btn.btn-default(type="submit") 登录
             a.button.btn.btn-default(href="/user/register") 注册
             a.button.btn.btn-default(href="/user/resetpw") 找回密码
