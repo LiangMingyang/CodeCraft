@@ -1,4 +1,7 @@
 myUtils = require('./utils')
+fs = require('fs')
+path = require('path')
+markdown = require('markdown').markdown
 #page
 
 HOME_PAGE = '/'
@@ -11,6 +14,7 @@ INDEX_PAGE = '.'
 #Foreign url
 LOGIN_PAGE = '/user/login'
 GROUP_PAGE = '/group/problem' #然而这个东西并不能用相对路径
+PROBLEM_DIR = '/home/heavenduke/WebstormProjects/CodeCraft/public/problem'
 
 exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
@@ -18,20 +22,25 @@ exports.getIndex = (req, res) ->
   Problem.find req.param.problemID
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
-    res.render('problem/detail', {
-      title: 'Problem List Page',
-      problem: {
-        problem_id: problem.id
-        title: problem.title,
-        description: '在计算机（软件）技术中，通配符可用于代替字符。\n通常地，星号“*”匹配0个或以上的字符。\n问题来了，输入两个字符串，判断第二个字符串中有没有能够满足第一个字符串的子串。',
-        test_setting: {
-          input: 'hai mei you zuo',
-          output: 'hai mei you zuo',
-          time_limit: '2000 ms',
-          memory_limit: '64M'
+    fs.readFile path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'), (err, manifest_str) ->
+      throw new myUtils.Error.InvalidFile() if err
+      manifest = JSON.parse manifest_str
+      fs.readFile path.join(PROBLEM_DIR, problem.id+'/' + manifest.description), (err, description) ->
+        throw new myUtils.Error.InvalidFile() if err
+        res.render 'problem/detail', {
+          title: 'Problem List Page',
+          problem: {
+            problem_id: problem.id
+            title: problem.title,
+            description: markdown.toHTML(description.toString()),
+            test_setting: {
+              language: manifest.test_setting.language.split(','),
+              time_limit: manifest.test_setting.time_limit,
+              memory_limit: manifest.test_setting.memory_limit,
+              special_judge: manifest.test_setting.special_judge == null
+            }
+          }
         }
-      }
-    })
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', 'problem not exist'
     res.redirect HOME_PAGE
@@ -114,5 +123,6 @@ exports.getSubmissions = (req, res) ->
   .catch (err)->
     req.flash 'info', err.message
     res.redirect HOME_PAGE
+
 
 

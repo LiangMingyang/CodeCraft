@@ -1,0 +1,23 @@
+{
+	"title": "南湖旁的树",
+	"description": "description.md",
+	"data": [
+		{
+			"input": "path-to-input-file",
+			"output": "path-to-output-file",
+			"weight": 1
+		},
+		{
+			"input": "path-to-input-file",
+			"output": "path-to-output-file",
+			"weight": 1
+		}
+	],
+	"test_setting": {
+		"time_limit": 1000,
+		"memory_limit": 524288,
+		"language": "c,c++,java",
+		"special_judge": "path-to-special-judge-code",
+		"partial_score": true
+	}
+}
