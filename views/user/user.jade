@@ -1,9 +1,9 @@
 //
     Created by zp on 15-5-19.
+link(rel='stylesheet', href='/stylesheets/user/user.css')
+
 if(user)
-    a.button.btn.btn-default(href="/user/" + user.id) 个人信息
-    br
-    a.button.btn.btn-default(href="/user/" + user.id + "/edit") 修改信息
-    br
-    a.button.btn.btn-default(href="/user/" + user.id + "/updatepw") 修改密码
-    br
+    .list-group
+        a.list-group-item(href="/user/" + user.id) 个人信息
+        a.list-group-item(href="/user/" + user.id + "/edit") 修改信息
+        a.list-group-item(href="/user/" + user.id + "/updatepw") 修改密码
