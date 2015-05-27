@@ -7,8 +7,8 @@ db = require('./database')(
   config.database.config
 )
 .sync {force: true}
+.then (db)->
+  console.log 'Sync successfully!'
+  require('./init')(db)
 .catch (err)->
   console.log err.message
-.done ->
-  console.log 'Sync successfully!'
-  process.exit(0)
