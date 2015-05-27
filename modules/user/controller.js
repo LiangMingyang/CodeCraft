@@ -14,7 +14,7 @@
 
   LOGOUT_PAGE = 'logout';
 
-  INDEX_PAGE = '.';
+  INDEX_PAGE = 'index';
 
   exports.getIndex = function(req, res) {
     return res.render('index', {
@@ -71,7 +71,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -123,7 +123,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 

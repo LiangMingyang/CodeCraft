@@ -5,7 +5,7 @@ myUtils = require('./utils')
 HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 CREATE_PAGE = 'create'
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
 
 #Foreign url
 LOGIN_PAGE = '/user/login'
@@ -80,4 +80,4 @@ exports.postCreate = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE

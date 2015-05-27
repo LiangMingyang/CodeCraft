@@ -12,11 +12,11 @@
 
   PROBLEM_PAGE = 'problem';
 
-  INDEX_PAGE = '.';
+  INDEX_PAGE = 'index';
+
+  GROUP_PAGE = '..';
 
   LOGIN_PAGE = '/user/login';
-
-  GROUP_PAGE = '/group';
 
   exports.getIndex = function(req, res) {
     var Group, User;
@@ -47,7 +47,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(GROUP_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -84,7 +84,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -130,7 +130,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 

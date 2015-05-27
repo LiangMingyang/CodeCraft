@@ -6,12 +6,11 @@ HOME_PAGE = '/'
 MEMBER_PAGE = 'member'
 CONTEST_PAGE = 'contest'
 PROBLEM_PAGE = 'problem'
-
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
+GROUP_PAGE = '..'
 
 #Foreign url
-LOGIN_PAGE = '/user/login'
-GROUP_PAGE = '/group' #然而这个东西并不能用相对路径
+LOGIN_PAGE = '/user/login'#然而这个东西并不能用相对路径
 
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
@@ -37,7 +36,7 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect GROUP_PAGE
+    res.redirect HOME_PAGE
 
 exports.getMember = (req, res) ->
   Group = global.db.models.group
@@ -65,7 +64,7 @@ exports.getMember = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 exports.getJoin = (req, res) ->
   Group = global.db.models.group
@@ -99,7 +98,7 @@ exports.getJoin = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 exports.getProblem = (req, res) ->
   res.render 'index', {

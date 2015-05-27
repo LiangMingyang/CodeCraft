@@ -7,7 +7,7 @@ HOME_PAGE = '/'
 LOGIN_PAGE = 'login'
 REGISTER_PAGE = 'register'
 LOGOUT_PAGE = 'logout'
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
 
 #index
 
@@ -64,7 +64,7 @@ exports.postLogin = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 #register
 
@@ -115,7 +115,7 @@ exports.postRegister = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 #logout
 
