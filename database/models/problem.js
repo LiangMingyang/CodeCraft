@@ -10,11 +10,8 @@
           notEmpty: true
         }
       },
-      test_file: {
-        type: DataTypes.STRING
-      },
       access_level: {
-        type: DataTypes.ENUM('private', 'protected', 'public'),
+        type: DataTypes.ENUM('private', 'protect', 'public'),
         defaultValue: 'private'
       }
     }, {
