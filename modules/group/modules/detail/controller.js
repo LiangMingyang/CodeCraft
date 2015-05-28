@@ -162,16 +162,7 @@
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
-      return Problem.findAll({
-        include: [
-          {
-            model: Group,
-            where: {
-              id: currentGroup.id
-            }
-          }
-        ]
-      });
+      return group.getProblems();
     }).then(function(problems) {
       console.log(problems);
       return res.render('group/problem', {

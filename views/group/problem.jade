@@ -28,9 +28,10 @@ block content
             td 题目ID
             td 题目标题
          - for (var i = 0 ; i < problems.length ; ++i)
-         - var problem = problems[i]
-         tr
-            td
-               a(href= "/user/#{problem.id}") #{problem.id}
-            td #{problem.title}
+            - var problem = problems[i]
+            tr
+               td #{problem.id}
+               td
+                  a(href= "/problem/#{problem.id}/index") #{problem.title}
+
    .col-lg-2

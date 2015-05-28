@@ -124,13 +124,7 @@ exports.getProblem = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    Problem.findAll(
-      include : [
-        model : Group
-        where :
-          id : currentGroup.id
-      ]
-    )
+    group.getProblems()
   .then (problems)->
     console.log problems
     res.render 'group/problem', {
