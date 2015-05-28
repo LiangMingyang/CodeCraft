@@ -20,4 +20,7 @@ router
 router
   .get '/join', controller.getJoin
 
+router
+  .get '/problem', controller.getProblem
+
 module.exports = router

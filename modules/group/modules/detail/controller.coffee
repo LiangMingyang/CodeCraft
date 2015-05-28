@@ -116,10 +116,36 @@ exports.getJoin = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getProblem = (req, res) ->
-  res.render 'index', {
-    user   : req.session.user
-    title : "Problems of #{req.params.groupID}"
-  }
+  Group = global.db.models.group
+  Problem = global.db.models.problem
+  User = global.db.models.user
+  currentGroup = undefined
+  Group.find req.params.groupID
+  .then (group)->
+    throw new myUtils.Error.UnknownGroup() if not group
+    currentGroup = group
+    Problem.findAll(
+      include : [
+        model : Group
+        where :
+          id : currentGroup.id
+      ]
+    )
+  .then (problems)->
+    console.log problems
+    res.render 'group/problem', {
+      user   : req.session.user
+      group  : currentGroup
+      problems : problems
+    }
+
+  .catch myUtils.Error.UnknownGroup, (err)->
+    req.flash 'info', err.message
+    res.redirect GROUP_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
 
 exports.getContest = (req, res) ->
   res.render 'index', {
