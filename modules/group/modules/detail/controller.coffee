@@ -7,7 +7,7 @@ MEMBER_PAGE = 'member'
 CONTEST_PAGE = 'contest'
 PROBLEM_PAGE = 'problem'
 INDEX_PAGE = 'index'
-GROUP_PAGE = '..'
+GROUP_PAGE = '/group'
 
 #Foreign url
 LOGIN_PAGE = '/user/login'#然而这个东西并不能用相对路径
