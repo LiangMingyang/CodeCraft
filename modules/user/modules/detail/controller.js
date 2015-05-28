@@ -109,7 +109,7 @@
   };
 
   exports.getUpdatePW = function(req, res) {
-    return global.Promise.resolve().then(function() {
+    return global.db.Promise.resolve().then(function() {
       if (!req.session.user) {
         throw new myUtils.Error.UnknownUser();
       }

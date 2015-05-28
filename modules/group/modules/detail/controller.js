@@ -14,7 +14,7 @@
 
   INDEX_PAGE = 'index';
 
-  GROUP_PAGE = '..';
+  GROUP_PAGE = '/group';
 
   LOGIN_PAGE = '/user/login';
 
