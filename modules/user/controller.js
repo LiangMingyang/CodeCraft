@@ -30,6 +30,11 @@
    */
 
   exports.getLogin = function(req, res) {
+    if (req.session.user) {
+      req.flash('info', 'Please logout first.');
+      res.redirect(HOME_PAGE);
+      return;
+    }
     return res.render('user/login', {
       title: 'login',
       returnUrl: req.get('Referer')
@@ -66,8 +71,15 @@
       user.last_login = new Date();
       return user.save();
     }).then(function() {
+      var NEXT_PAGE;
       req.flash('info', 'login successfully');
-      return res.redirect(req.body.returnUrl);
+      NEXT_PAGE = void 0;
+      if (req.body.returnUrl === 'undefined') {
+        NEXT_PAGE = HOME_PAGE;
+      } else {
+        NEXT_PAGE = req.body.returnUrl;
+      }
+      return res.redirect(NEXT_PAGE);
     })["catch"](myUtils.Error.LoginError, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
