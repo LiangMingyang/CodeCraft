@@ -37,8 +37,8 @@ exports.getLogin = (req, res) ->
 
 exports.postLogin = (req, res) ->
   form = {
-    username: req.param('username')
-    password: req.param('password')
+    username: req.body.username
+    password: req.body.password
   }
 
   #precheckForLogin(form)
@@ -57,7 +57,7 @@ exports.postLogin = (req, res) ->
     user.save()
   .then ->
     req.flash 'info', 'login successfully'
-    res.redirect req.param('returnUrl')
+    res.redirect req.body.returnUrl
 
 
   .catch myUtils.Error.LoginError, (err)->
@@ -90,16 +90,16 @@ exports.getRegister = (req, res) ->
 exports.postRegister = (req, res) ->
   #get data from submit data
   form = {
-    username: req.param('username')
-    password: req.param('password')
-    nickname: req.param('nickname')
-    school  : req.param('school')
+    username: req.body.username
+    password: req.body.password
+    nickname: req.body.nickname
+    school  : req.body.school
   }
   #precheckForRegister(form)
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
-    throw new myUtils.Error.RegisterError("Please confirm your password.") if form.password isnt req.param('password2')
+    throw new myUtils.Error.RegisterError("Please confirm your password.") if form.password isnt req.body.password2
     form.password = passwordHash.generate(form.password) #对密码进行加密
     User.create form #存入数据库
   .then (user)->
