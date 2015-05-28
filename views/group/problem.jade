@@ -1,0 +1,37 @@
+//
+   Created by lmy on 15-5-28.
+
+extends ../layout
+block title
+   - var whichpage = "小组题目"
+   title #{whichpage}
+block content
+   .col-lg-2
+      table.table.table-striped
+         tr
+            td 小组名称
+         tr
+            td
+               a(href="./index")= group.name
+         tr
+            td 小组简介
+         tr
+            td #{group.description}
+         tr
+            td 小组成员
+         tr
+            td
+               a(href="./member") 查看详情
+   .col-lg-8
+      table(class = "table table-striped")
+         tr
+            td 题目ID
+            td 题目标题
+         - for (var i = 0 ; i < problems.length ; ++i)
+            - var problem = problems[i]
+            tr
+               td #{problem.id}
+               td
+                  a(href= "/problem/#{problem.id}/index") #{problem.title}
+
+   .col-lg-2
