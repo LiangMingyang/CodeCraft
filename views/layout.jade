@@ -6,6 +6,7 @@ html
         block title
             - var whichpage = "OJ4TH"
             title #{whichpage}
+        script(src="/js/jquery-2.1.1.min.js")
     body
         .container-fluid
             .col-lg-1
@@ -21,7 +22,9 @@ html
                                         span.icon-bar
                                         span.icon-bar
                                         span.icon-bar
-                                    a.navbar-brand(href="/") 这里应该是一个Logo哒
+                                    a.navbar-brand(href="javascript:void(0)", id="logo", data-placement="bottom", data-content="123", data-original-title="12") 这里应该是一个Logo哒
+                                    a(href="javascript:void(0)" id="a_pop" class="btn btn-danger" data-placement="bottom" data-content="1" data-original-title="12") aaa
+
                                 // Collect the nav links, forms, and other content for toggling
                                 #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                     ul.nav.navbar-nav.navbar-right
@@ -45,6 +48,7 @@ html
                                                 a(href="/user/register") 注册
                     .alert-success
                         - if (messages.info)
+                            //script $("#a_pop").popover('show');
                             .message.info
                                 span= messages.info
                 .row
@@ -57,6 +61,6 @@ html
                                 br
                                 a(href="/help") 帮助---0w0---
             .col-lg-1
-    script(src="/js/jquery-2.1.1.min.js")
     script(src="/js/bootstrap.min.js")
+    script $("#logo").popover('show');
     block script
