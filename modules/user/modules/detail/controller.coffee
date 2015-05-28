@@ -83,7 +83,7 @@ exports.postEdit = (req, res)->
     res.redirect HOME_PAGE
 
 exports.getUpdatePW = (req, res) ->
-  global.Promise.resolve()
+  global.db.Promise.resolve()
   .then ->
     throw new myUtils.Error.UnknownUser() if not req.session.user
     res.render 'user/user_updatepw', {
