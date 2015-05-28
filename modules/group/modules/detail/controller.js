@@ -19,9 +19,11 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Group, User;
+    var Group, User, currentGroup, isMember;
     Group = global.db.models.group;
     User = global.db.models.user;
+    currentGroup = void 0;
+    isMember = false;
     return Group.find(req.params.groupID, {
       include: [
         {
@@ -37,9 +39,17 @@
       if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
+      currentGroup = group;
+      if (req.session.user) {
+        return group.hasUser(req.session.user.id).then(function(joined) {
+          return isMember = joined;
+        });
+      }
+    }).then(function() {
       return res.render('group/detail', {
         user: req.session.user,
-        group: group
+        group: currentGroup,
+        isMember: isMember
       });
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);

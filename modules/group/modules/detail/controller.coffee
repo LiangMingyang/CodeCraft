@@ -15,6 +15,8 @@ LOGIN_PAGE = '/user/login'#然而这个东西并不能用相对路径
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
+  currentGroup = undefined
+  isMember = false
   Group
   .find(req.params.groupID, {
       include : [
@@ -25,9 +27,17 @@ exports.getIndex = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
+    currentGroup = group
+    if req.session.user
+      group
+        .hasUser(req.session.user.id)
+        .then (joined)->
+          isMember = joined
+  .then ->
     res.render 'group/detail', {
       user : req.session.user
-      group : group
+      group : currentGroup
+      isMember : isMember
     }
 
   .catch myUtils.Error.UnknownGroup, (err)->
