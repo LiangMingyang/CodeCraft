@@ -30,9 +30,9 @@ exports.getIndex = (req, res) ->
     currentGroup = group
     if req.session.user
       group
-        .hasUser(req.session.user.id)
-        .then (joined)->
-          isMember = joined
+      .hasUser(req.session.user.id)
+      .then (joined)->
+        isMember = joined
   .then ->
     res.render 'group/detail', {
       user : req.session.user
@@ -115,12 +115,31 @@ exports.getJoin = (req, res) ->
     req.flash 'info', "Unknown Error!"
     res.redirect HOME_PAGE
 
-expots.getProblem = (req, res) ->
+exports.getProblem = (req, res) ->
+  Group = global.db.models.group
   Problem = global.db.models.problem
-  res.render 'index', {
-    user   : req.session.user
+  User = global.db.models.user
+  currentGroup = undefined
+  Group.find req.params.groupID
+  .then (group)->
+    throw new myUtils.Error.UnknownGroup() if not group
+    currentGroup = group
+    group.getProblems()
+  .then (problems)->
+    console.log problems
+    res.render 'group/problem', {
+      user   : req.session.user
+      group  : currentGroup
+      problems : problems
+    }
 
-  }
+  .catch myUtils.Error.UnknownGroup, (err)->
+    req.flash 'info', err.message
+    res.redirect GROUP_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
 
 exports.getContest = (req, res) ->
   res.render 'index', {

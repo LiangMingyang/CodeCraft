@@ -151,11 +151,32 @@
     });
   };
 
-  expots.getProblem = function(req, res) {
-    var Problem;
+  exports.getProblem = function(req, res) {
+    var Group, Problem, User, currentGroup;
+    Group = global.db.models.group;
     Problem = global.db.models.problem;
-    return res.render('index', {
-      user: req.session.user
+    User = global.db.models.user;
+    currentGroup = void 0;
+    return Group.find(req.params.groupID).then(function(group) {
+      if (!group) {
+        throw new myUtils.Error.UnknownGroup();
+      }
+      currentGroup = group;
+      return group.getProblems();
+    }).then(function(problems) {
+      console.log(problems);
+      return res.render('group/problem', {
+        user: req.session.user,
+        group: currentGroup,
+        problems: problems
+      });
+    })["catch"](myUtils.Error.UnknownGroup, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(GROUP_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
     });
   };
 
