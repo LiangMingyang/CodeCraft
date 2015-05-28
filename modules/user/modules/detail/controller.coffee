@@ -66,6 +66,7 @@ exports.postEdit = (req, res)->
     user.save()
   .then (user)->
     myUtils.login(req,res,user)
+    req.flash 'info', 'You have updated'
     res.redirect 'index'
 
   .catch myUtils.Error.InvalidAccess, (err)->

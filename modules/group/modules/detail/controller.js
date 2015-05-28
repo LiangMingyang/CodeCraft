@@ -151,10 +151,11 @@
     });
   };
 
-  exports.getProblem = function(req, res) {
+  expots.getProblem = function(req, res) {
+    var Problem;
+    Problem = global.db.models.problem;
     return res.render('index', {
-      user: req.session.user,
-      title: "Problems of " + req.params.groupID
+      user: req.session.user
     });
   };
 

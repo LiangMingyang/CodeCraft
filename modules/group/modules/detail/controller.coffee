@@ -115,10 +115,11 @@ exports.getJoin = (req, res) ->
     req.flash 'info', "Unknown Error!"
     res.redirect HOME_PAGE
 
-exports.getProblem = (req, res) ->
+expots.getProblem = (req, res) ->
+  Problem = global.db.models.problem
   res.render 'index', {
     user   : req.session.user
-    title : "Problems of #{req.params.groupID}"
+
   }
 
 exports.getContest = (req, res) ->
