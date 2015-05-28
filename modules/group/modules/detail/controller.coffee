@@ -70,6 +70,7 @@ exports.getJoin = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
   joiner = undefined
+  currentGroup = undefined
   global.db.Promise.resolve()
   .then ->
     throw new myUtils.Error.UnknownUser() if not req.session.user
@@ -81,7 +82,11 @@ exports.getJoin = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
-    group.addUser(joiner, {access_level : 'verifying'})
+    currentGroup = group
+    group.hasUser(joiner)
+  .then (res) ->
+    throw new myUtils.Error.UnknownGroup() if res
+    currentGroup.addUser(joiner, {access_level : 'verifying'})
   .then ->
     req.flash 'info', 'Please waiting for verifying'
     res.redirect INDEX_PAGE

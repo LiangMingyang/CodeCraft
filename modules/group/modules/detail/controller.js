@@ -89,10 +89,11 @@
   };
 
   exports.getJoin = function(req, res) {
-    var Group, User, joiner;
+    var Group, User, currentGroup, joiner;
     Group = global.db.models.group;
     User = global.db.models.user;
     joiner = void 0;
+    currentGroup = void 0;
     return global.db.Promise.resolve().then(function() {
       if (!req.session.user) {
         throw new myUtils.Error.UnknownUser();
@@ -112,7 +113,13 @@
       if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
-      return group.addUser(joiner, {
+      currentGroup = group;
+      return group.hasUser(joiner);
+    }).then(function(res) {
+      if (res) {
+        throw new myUtils.Error.UnknownGroup();
+      }
+      return currentGroup.addUser(joiner, {
         access_level: 'verifying'
       });
     }).then(function() {
