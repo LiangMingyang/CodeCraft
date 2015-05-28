@@ -11,10 +11,11 @@ block title
 
 block content
     .col-lg-2
-        a.button.btn.btn-default(href="/group/index") 返回小组列表
+        .list-group
+            a.list-group-item(href="/group/index") 返回小组列表
     .col-lg-8
         h3 申请创建小组
-        form(method='post')
+        form(method='post').containing
             .form-group
                 label.sr-only(for="name") 小组名称
                 input.form-control(type="input", id="name", name='name', placeholder="输入小组名称")
