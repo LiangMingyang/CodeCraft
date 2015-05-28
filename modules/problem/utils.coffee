@@ -9,6 +9,6 @@ class UnknownUser extends Error
     Error.captureStackTrace(this, UnknownUser)
 
 exports.Error = {
-  UnkwownUser: UnknownUser,
+  UnknownUser: UnknownUser,
   InvalidAccess : InvalidAccess
 }

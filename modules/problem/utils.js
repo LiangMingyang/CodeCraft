@@ -31,7 +31,7 @@
   })(Error);
 
   exports.Error = {
-    UnkwownUser: UnknownUser,
+    UnknownUser: UnknownUser,
     InvalidAccess: InvalidAccess
   };
 

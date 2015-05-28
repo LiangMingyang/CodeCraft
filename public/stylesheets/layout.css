@@ -5,8 +5,42 @@ li.normalli{
 a.navbar-brand{
 }
 
-footer{
-    height: 50px;
-    position: fixed;
-    bottom: 0px;
+body{
+    height: 100%;
+    padding-bottom: 50px;
+}
+
+.container_fluid{
+    min-height: 100%;
+    /*margin-bottom: -50px;*/
+    /*position: relative;*/
+}
+
+/*自行试*/
+/*footer{*/
+    /*height: 50px;*/
+    /*position: fixed;*/
+    /*/!*bottom: 0px;*!/*/
+    /*border: solid 1px red;*/
+/*}*/
+
+/*怡年教*/
+.footer {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    margin-top: 1rem;
+    bottom: 0;
+    width: 100%;
+    color: #A0A0A0;
+    border-top: 1px solid #e1e1e1;
+    height: 6rem;
+}
+
+.list-group{
+    margin-top: 20px;
+}
+
+.containing{
+    margin-top: 30px;
 }

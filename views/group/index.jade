@@ -11,6 +11,7 @@ extends ../layout
 block title
     - var whichpage = "所有小组"
     title #{whichpage}
+    link(rel='styleSheet', href='/stylesheets/group/index.css')
 
 block content
     //.col-lg-2
@@ -25,10 +26,11 @@ block content
         a.button.btn.btn-default(href="/group/create") 申请创建小组
         br
     .col-lg-2
-        a.button.btn.btn-default(href="/group/create") 申请创建小组
+        .list-group
+            a.list-group-item(href="/group/create") 申请创建小组
     .col-lg-8
         h3 所有小组
-        table.table.table-striped
+        table.table.table-striped.containing
             tr
                 td.col-lg-3
                     label 小组名称

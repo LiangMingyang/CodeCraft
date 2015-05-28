@@ -23,6 +23,10 @@ exports.getIndex = (req, res) ->
   @getLogin {Function} 显示login页面
 ###
 exports.getLogin = (req, res) ->
+  if req.session.user
+    req.flash 'info', 'Please logout first.'
+    res.redirect HOME_PAGE
+    return
   res.render 'user/login', {
     title: 'login'
     returnUrl: req.get('Referer')
@@ -57,7 +61,12 @@ exports.postLogin = (req, res) ->
     user.save()
   .then ->
     req.flash 'info', 'login successfully'
-    res.redirect req.body.returnUrl
+    NEXT_PAGE = undefined
+    if req.body.returnUrl is 'undefined'
+      NEXT_PAGE = HOME_PAGE
+    else
+      NEXT_PAGE = req.body.returnUrl
+    res.redirect NEXT_PAGE
 
 
   .catch myUtils.Error.LoginError, (err)->
