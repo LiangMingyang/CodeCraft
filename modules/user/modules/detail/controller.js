@@ -91,6 +91,7 @@
       return user.save();
     }).then(function(user) {
       myUtils.login(req, res, user);
+      req.flash('info', 'You have updated');
       return res.redirect('index');
     })["catch"](myUtils.Error.InvalidAccess, function(err) {
       req.flash('info', err.message);
