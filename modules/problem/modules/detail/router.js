@@ -12,11 +12,15 @@
 
   router.use(middlewares);
 
-  router.get('/submission', controller.getSubmissions);
+  router.get('/', function(req, res) {
+    return res.redirect(req.params.problemID + "/index");
+  });
 
-  router.get('/', controller.getIndex);
+  router.get('/index/submission', controller.getSubmissions);
 
-  router.post('/submit', controller.postSubmission);
+  router.get('/index', controller.getIndex);
+
+  router.post('/index/submit', controller.postSubmission);
 
   module.exports = router;
 

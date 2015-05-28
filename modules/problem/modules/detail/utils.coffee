@@ -1,3 +1,5 @@
+path = require('path')
+
 class UnknownProblem extends Error
   constructor: (@message = "Unknown problem") ->
     @name = 'UnknownProblem'
@@ -13,8 +15,18 @@ class UnknownUser extends Error
     @name = 'UnknownUser'
     Error.captureStackTrace(this, UnknownUser)
 
+class InvalidFile extends Error
+  constructor: (@message = "File not exist!") ->
+    @name = 'InvalidFile'
+    Error.captureStackTrace(this, InvalidFile)
+
+exports.getStaticProblem = (problemId) ->
+  dirname = path.resolve(__dirname,'../../../../public/problem')
+  path.join dirname, problemId.toString()
+
 exports.Error = {
   UnkwownUser: UnknownUser,
   InvalidAccess: InvalidAccess,
-  UnknownProblem: UnknownProblem
+  UnknownProblem: UnknownProblem,
+  InvalidFile: InvalidFile
 }

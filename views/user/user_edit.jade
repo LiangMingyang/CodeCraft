@@ -30,13 +30,13 @@ block content
                     .col-lg-2
                         label.control-label(for="nickname")  昵称：
                     .col-lg-10
-                        input.form-control(type="input", name='nickname', id="nickname", value=user.nickname)
+                        input.form-control(type="input", name='nickname', id="nickname", value=target.nickname)
             .form-horizontal
                 .form-group
                     .col-lg-2
                         label.control-label(for="school")  学校：
                     .col-lg-10
-                        select.form-control(type="input", name='school', id="school", value=user.school)
+                        select.form-control(type="input", name='school', id="school", value=target.school)
                             option(value="北京航空航天大学") 北京航空航天大学
                             option(value="北京邮电大学") 北京邮电大学
             .form-horizontal
@@ -44,7 +44,7 @@ block content
                     .col-lg-2
                         label.control-label(for="college")  专业：
                     .col-lg-10
-                        select.form-control(type="input", name='college', id="college", value=user.college)
+                        select.form-control(type="input", name='college', id="college", value=target.college)
                             option(value="软件学院") 软件学院
                             option(value="计算机学院") 计算机学院
             .form-horizontal
@@ -52,6 +52,6 @@ block content
                     .col-lg-2
                         label.control-label(for="description")  简介：
                     .col-lg-10
-                        input.form-control(type="input", name='description', id="description", value=user.description)
+                        input.form-control(type="input", name='description', id="description", value=target.description)
             button.btn.btn-default(type="submit") 确认
     .col-lg-2

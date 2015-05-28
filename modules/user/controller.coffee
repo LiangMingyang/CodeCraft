@@ -4,10 +4,11 @@ myUtils = require('./utils')
 
 HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
+PREVIOUS_PAGE = 'back'
 LOGIN_PAGE = 'login'
 REGISTER_PAGE = 'register'
 LOGOUT_PAGE = 'logout'
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
 
 #index
 
@@ -24,6 +25,7 @@ exports.getIndex = (req, res) ->
 exports.getLogin = (req, res) ->
   res.render 'user/login', {
     title: 'login'
+    returnUrl: req.get('Referer')
   }
 
 ###
@@ -55,7 +57,7 @@ exports.postLogin = (req, res) ->
     user.save()
   .then ->
     req.flash 'info', 'login successfully'
-    res.redirect HOME_PAGE
+    res.redirect req.body.returnUrl
 
 
   .catch myUtils.Error.LoginError, (err)->
@@ -64,7 +66,7 @@ exports.postLogin = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 #register
 
@@ -115,7 +117,7 @@ exports.postRegister = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 #logout
 
@@ -125,4 +127,4 @@ exports.postRegister = (req, res) ->
 
 exports.getLogout = (req, res) ->
   myUtils.logout(req)
-  res.redirect HOME_PAGE
+  res.redirect LOGIN_PAGE

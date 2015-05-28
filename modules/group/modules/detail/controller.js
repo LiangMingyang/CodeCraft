@@ -12,16 +12,18 @@
 
   PROBLEM_PAGE = 'problem';
 
-  INDEX_PAGE = '.';
+  INDEX_PAGE = 'index';
+
+  GROUP_PAGE = '..';
 
   LOGIN_PAGE = '/user/login';
 
-  GROUP_PAGE = '/group';
-
   exports.getIndex = function(req, res) {
-    var Group, User;
+    var Group, User, currentGroup, isMember;
     Group = global.db.models.group;
     User = global.db.models.user;
+    currentGroup = void 0;
+    isMember = false;
     return Group.find(req.params.groupID, {
       include: [
         {
@@ -37,9 +39,17 @@
       if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
+      currentGroup = group;
+      if (req.session.user) {
+        return group.hasUser(req.session.user.id).then(function(joined) {
+          return isMember = joined;
+        });
+      }
+    }).then(function() {
       return res.render('group/detail', {
         user: req.session.user,
-        group: group
+        group: currentGroup,
+        isMember: isMember
       });
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);
@@ -47,7 +57,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(GROUP_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
@@ -84,15 +94,16 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
   exports.getJoin = function(req, res) {
-    var Group, User, joiner;
+    var Group, User, currentGroup, joiner;
     Group = global.db.models.group;
     User = global.db.models.user;
     joiner = void 0;
+    currentGroup = void 0;
     return global.db.Promise.resolve().then(function() {
       if (!req.session.user) {
         throw new myUtils.Error.UnknownUser();
@@ -112,7 +123,13 @@
       if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
-      return group.addUser(joiner, {
+      currentGroup = group;
+      return group.hasUser(joiner);
+    }).then(function(res) {
+      if (res) {
+        throw new myUtils.Error.UnknownGroup();
+      }
+      return currentGroup.addUser(joiner, {
         access_level: 'verifying'
       });
     }).then(function() {
@@ -130,7 +147,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 

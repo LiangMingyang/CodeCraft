@@ -8,17 +8,7 @@
 
   module.exports = [
     function(req, res, next) {
-      if (req.session.user === null || req.session.user.id !== parseInt(req.param.userID)) {
-        console.log(req.url);
-        if (req.url !== HOME_PAGE) {
-          req.flash('info', 'Unauthorized Access');
-          return res.redirect(HOME_PAGE);
-        } else {
-          return next();
-        }
-      } else {
-        return next();
-      }
+      return next();
     }
   ];
 

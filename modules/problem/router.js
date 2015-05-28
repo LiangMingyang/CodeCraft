@@ -14,14 +14,16 @@
 
   router.use(middlewares);
 
-  router.get('/', controller.getIndex);
+  router.get('/', function(req, res) {
+    return res.redirect('problem/index');
+  }).get('/index', controller.getIndex);
 
   router.param('problemID', function(req, res, next, id) {
     req.param.problemID = id;
     return next();
   });
 
-  router.use('/:problemID', modules.detail.router);
+  router.use('/:problemID([0-9]+)', modules.detail.router);
 
   module.exports = router;
 

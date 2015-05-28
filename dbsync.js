@@ -6,11 +6,11 @@
 
   db = require('./database')(config.database.name, config.database.username, config.database.password, config.database.config).sync({
     force: true
+  }).then(function(db) {
+    console.log('Sync successfully!');
+    return require('./init')(db);
   })["catch"](function(err) {
     return console.log(err.message);
-  }).done(function() {
-    console.log('Sync successfully!');
-    return process.exit(0);
   });
 
 }).call(this);

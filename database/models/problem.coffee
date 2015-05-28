@@ -6,10 +6,8 @@ module.exports = (sequelize, DataTypes) ->
       unique: true
       validate:
         notEmpty: true
-    test_file: #just a path
-      type: DataTypes.STRING
     access_level:
-      type: DataTypes.ENUM('private', 'protected', 'public')
+      type: DataTypes.ENUM('private', 'protect', 'public')
       defaultValue: 'private'
   #creator foreign key
   #group   foreign key

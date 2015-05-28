@@ -7,13 +7,16 @@ controller = require('./controller')
 
 router.use(middlewares)
 
-router
-.get '/submission', controller.getSubmissions
+router.get '/', (req, res) ->
+  res.redirect "#{req.params.problemID}/index"
 
 router
-.get '/', controller.getIndex
+.get '/index/submission', controller.getSubmissions
 
 router
-.post '/submit', controller.postSubmission
+.get '/index', controller.getIndex
+
+router
+.post '/index/submit', controller.postSubmission
 
 module.exports = router

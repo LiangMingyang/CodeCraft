@@ -6,16 +6,17 @@ HOME_PAGE = '/'
 MEMBER_PAGE = 'member'
 CONTEST_PAGE = 'contest'
 PROBLEM_PAGE = 'problem'
-
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
+GROUP_PAGE = '/group'
 
 #Foreign url
-LOGIN_PAGE = '/user/login'
-GROUP_PAGE = '/group' #然而这个东西并不能用相对路径
+LOGIN_PAGE = '/user/login'#然而这个东西并不能用相对路径
 
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
+  currentGroup = undefined
+  isMember = false
   Group
   .find(req.params.groupID, {
       include : [
@@ -26,9 +27,17 @@ exports.getIndex = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
+    currentGroup = group
+    if req.session.user
+      group
+        .hasUser(req.session.user.id)
+        .then (joined)->
+          isMember = joined
+  .then ->
     res.render 'group/detail', {
       user : req.session.user
-      group : group
+      group : currentGroup
+      isMember : isMember
     }
 
   .catch myUtils.Error.UnknownGroup, (err)->
@@ -37,7 +46,7 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect GROUP_PAGE
+    res.redirect HOME_PAGE
 
 exports.getMember = (req, res) ->
   Group = global.db.models.group
@@ -65,12 +74,13 @@ exports.getMember = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 exports.getJoin = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
   joiner = undefined
+  currentGroup = undefined
   global.db.Promise.resolve()
   .then ->
     throw new myUtils.Error.UnknownUser() if not req.session.user
@@ -82,7 +92,11 @@ exports.getJoin = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
-    group.addUser(joiner, {access_level : 'verifying'})
+    currentGroup = group
+    group.hasUser(joiner)
+  .then (res) ->
+    throw new myUtils.Error.UnknownGroup() if res
+    currentGroup.addUser(joiner, {access_level : 'verifying'})
   .then ->
     req.flash 'info', 'Please waiting for verifying'
     res.redirect INDEX_PAGE
@@ -99,7 +113,7 @@ exports.getJoin = (req, res) ->
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
-    res.redirect INDEX_PAGE
+    res.redirect HOME_PAGE
 
 exports.getProblem = (req, res) ->
   res.render 'index', {

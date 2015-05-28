@@ -10,7 +10,7 @@
 
   CREATE_PAGE = 'create';
 
-  INDEX_PAGE = '.';
+  INDEX_PAGE = 'index';
 
   LOGIN_PAGE = '/user/login';
 
@@ -86,7 +86,7 @@
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(HOME_PAGE);
     });
   };
 
