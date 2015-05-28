@@ -1,5 +1,5 @@
-express = require('express');
-router = express.Router();
+express = require('express')
+router = express.Router(mergeParams: true)
 middlewares = require('./middlewares')
 controller = require('./controller')
 #modules = require('./modules')
@@ -8,18 +8,17 @@ controller = require('./controller')
 router.use(middlewares)
 
 router
-.post '/updatepw', controller.postPassword
+  .get '/updatePW', controller.getUpdatePW
+  .post '/updatePW', controller.postUpdatePW
 
 router
-.post '/edit', controller.postEdit
+  .get '/edit', controller.getEdit
+  .post '/edit', controller.postEdit
 
 router
-.get '/updatepw', controller.getUpdatePw
+  .get '/', (req, res) ->
+    res.redirect "#{req.params.userID}/index"
+  .get '/index', controller.getIndex
 
-router
-.get '/edit', controller.getEdit
-
-router
-.get '/', controller.getIndex
 
 module.exports = router
