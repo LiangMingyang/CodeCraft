@@ -2,6 +2,7 @@
 (function() {
   module.exports = [
     function(req, res, next) {
+      console.log(req.url);
       if (req.url !== '/' && '/' === req.url[req.url.length - 1]) {
         return res.redirect(req.url.slice(0, -1));
       } else {

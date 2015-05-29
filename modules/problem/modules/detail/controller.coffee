@@ -14,18 +14,18 @@ INDEX_PAGE = '.'
 #Foreign url
 LOGIN_PAGE = '/user/login'
 GROUP_PAGE = '/group/problem' #然而这个东西并不能用相对路径
-PROBLEM_DIR = '/home/heavenduke/WebstormProjects/CodeCraft/public/problem'
 
 exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
+  console.log req.params
 
-  Problem.find req.param.problemID
+  Problem.find req.params.problemID
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     fs.readFile path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'), (err, manifest_str) ->
       throw new myUtils.Error.InvalidFile() if err
       manifest = JSON.parse manifest_str
-      fs.readFile path.join(PROBLEM_DIR, problem.id+'/' + manifest.description), (err, description) ->
+      fs.readFile path.join(myUtils.getStaticProblem(problem.id), manifest.description), (err, description) ->
         throw new myUtils.Error.InvalidFile() if err
         res.render 'problem/detail', {
           title: 'Problem List Page',
@@ -72,7 +72,7 @@ exports.postSubmission = (req, res) ->
   .then (user) ->
     throw new myUtils.Error.UnknownUser() if not user
     current_user = user
-    Problem.find req.param.problemID
+    Problem.find req.params.problemID
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     current_problem = problem
@@ -102,7 +102,7 @@ exports.postSubmission = (req, res) ->
 exports.getSubmissions = (req, res) ->
 
   form = {
-    problem_id: req.param.problemID
+    problem_id: req.params.problemID
   }
 
   Submission = global.db.models.submission

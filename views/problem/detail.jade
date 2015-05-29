@@ -3,11 +3,12 @@
     title --网页标题
     problem -- 题目数据
         title --题目标题
-        description --题目描述
+        description --题目描述，是一个HTML
         test_setting --题目评测设置
             time_limit -- 时间限制（无单位整数，默认为ms）
             memory_limit -- 内存限制（无单位整数，默认为MB）
             special_judge -- 是否为special judge（布尔值，true为有）
+            language --支持语言，是一个数组，每一项为一种语言
 extends ../layout
 block title
     - var whichpage = problem.title

@@ -14,11 +14,11 @@
 
   router.use(middlewares);
 
+  router.use('/problem', modules.problem.router);
+
   router.use('/user', modules.user.router);
 
   router.use('/group', modules.group.router);
-
-  router.use('/problem', modules.problem.router);
 
   router.get('/', function(req, res) {
     return res.render('index', {
