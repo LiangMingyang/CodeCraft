@@ -74,6 +74,9 @@
               access_level: ['member', 'admin', 'owner']
             }
           }
+        }, {
+          model: User,
+          as: 'creator'
         }
       ]
     }).then(function(group) {
@@ -157,14 +160,20 @@
     Problem = global.db.models.problem;
     User = global.db.models.user;
     currentGroup = void 0;
-    return Group.find(req.params.groupID).then(function(group) {
+    return Group.find(req.params.groupID, {
+      include: [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]
+    }).then(function(group) {
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
       return group.getProblems();
     }).then(function(problems) {
-      console.log(problems);
       return res.render('group/problem', {
         user: req.session.user,
         group: currentGroup,
