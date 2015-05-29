@@ -20,6 +20,8 @@
 
   router.use('/problem', modules.problem.router);
 
+  router.use('/contest', modules.contest.router);
+
   router.get('/', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',

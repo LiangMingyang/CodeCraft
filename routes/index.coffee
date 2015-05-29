@@ -12,6 +12,8 @@ router.use '/group', modules.group.router
 
 router.use '/problem', modules.problem.router
 
+router.use '/contest', modules.contest.router
+
 # Get home page
 router.get '/', (req, res) ->
   res.render 'index', {

@@ -6,6 +6,8 @@
 
   exports.problem = require('./problem');
 
+  exports.contest = require('./contest');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

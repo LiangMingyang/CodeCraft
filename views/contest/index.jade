@@ -1,0 +1,20 @@
+//
+   Created by lmy on 15-5-29.
+extends ../layout
+block title
+    - var whichpage = "赛事首页"
+    title #{whichpage}
+block content
+    .col-lg-2
+    .col-lg-8
+        table(class = "table table-striped")
+            tr
+                td 赛事ID
+                td 赛事名称
+        - for (var i = 0 ; i < contests.length ; ++i)
+            - var contest = contests[i];
+            tr
+                td
+                    a(href= "/user/#{contest.id}") #{contest.name}
+                td #{contest.access_level}
+    .col-lg-2
