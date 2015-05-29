@@ -58,6 +58,9 @@ exports.getMember = (req, res) ->
         through:
           where:
             access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
+      ,
+        model: User
+        as : 'creator'
       ]
     })
   .then (group)->
@@ -120,13 +123,18 @@ exports.getProblem = (req, res) ->
   Problem = global.db.models.problem
   User = global.db.models.user
   currentGroup = undefined
-  Group.find req.params.groupID
+  Group
+  .find(req.params.groupID, {
+      include : [
+        model: User
+        as   : 'creator'
+      ]
+    })
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
     group.getProblems()
   .then (problems)->
-    console.log problems
     res.render 'group/problem', {
       user   : req.session.user
       group  : currentGroup
