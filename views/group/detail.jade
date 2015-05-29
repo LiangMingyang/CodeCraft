@@ -13,31 +13,12 @@ block title
 
 block content
     .col-lg-2
-        table.table.table-striped
-            tr
-                td 小组名称
-            tr
-                td
-                    a(href="index")= group.name
-            tr
-                td 小组创建者
-            tr
-                td
-                    a(href="/user/#{group.creator.id}")= group.creator.nickname
-            tr
-                td 小组成员
-            tr
-                td
-                    a(href="member") 查看详情
-            tr
-                td 小组简介
-            tr
-                td #{group.description}
+        include ./group.jade
     .col-lg-8
         - if ( !isMember )
             a.button.btn.btn-default(href="join") 加入该小组
         h4 比赛列表
-        a.button.btn.btn-default(href="/contest") 查看更多
+        a.button.btn.btn-default(href="./contest") 查看更多
         h4 题目列表
-        a.button.btn.btn-default(href="/problem/index") 查看更多
+        a.button.btn.btn-default(href="./problem") 查看更多
     .col-lg-2

@@ -1,0 +1,27 @@
+//
+   Created by zp on 15-5-28.
+if(group)
+    table.table.table-striped
+        tr
+            td 小组人数
+        tr
+            td
+                a(href="/user/#{group.creator.id}/index")= group.creator.nickname
+        tr
+            td 小组创建者
+        tr
+            td
+                a(href="/user/#{group.creator.id}/index")= group.creator.nickname
+        tr
+            td
+                a(href="./index") 小组主页
+        tr
+            td
+                a(href="./member") 小组成员
+        tr
+            td
+                a(href="./contest") 小组比赛
+        tr
+            td
+                a(href="./problem") 小组题目
+
