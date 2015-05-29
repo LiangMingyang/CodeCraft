@@ -22,7 +22,7 @@
         allowNull: false
       },
       access_level: {
-        type: DataTypes.ENUM('private', 'protected', 'public'),
+        type: DataTypes.ENUM('private', 'protect', 'public'),
         defaultValue: 'private'
       }
     }, {
