@@ -4,7 +4,9 @@
 
   express = require('express');
 
-  router = express.Router();
+  router = express.Router({
+    mergeParams: true
+  });
 
   middlewares = require('./middlewares');
 
@@ -28,12 +30,7 @@
 
   router.get('/logout', controller.getLogout);
 
-  router.param('userID', function(req, res, next, id) {
-    req.param.userID = id;
-    return next();
-  });
-
-  router.use('/:userID', modules.detail.router);
+  router.use('/:userID([0-9]+)', modules.detail.router);
 
   module.exports = router;
 

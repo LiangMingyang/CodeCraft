@@ -4,7 +4,9 @@
 
   express = require('express');
 
-  router = express.Router();
+  router = express.Router({
+    mergeParams: true
+  });
 
   middlewares = require('./middlewares');
 
@@ -12,15 +14,13 @@
 
   router.use(middlewares);
 
-  router.post('/updatepw', controller.postPassword);
+  router.get('/updatePW', controller.getUpdatePW).post('/updatePW', controller.postUpdatePW);
 
-  router.post('/edit', controller.postEdit);
+  router.get('/edit', controller.getEdit).post('/edit', controller.postEdit);
 
-  router.get('/updatepw', controller.getUpdatePw);
-
-  router.get('/edit', controller.getEdit);
-
-  router.get('/', controller.getIndex);
+  router.get('/', function(req, res) {
+    return res.redirect(req.params.userID + "/index");
+  }).get('/index', controller.getIndex);
 
   module.exports = router;
 

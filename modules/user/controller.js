@@ -30,6 +30,11 @@
    */
 
   exports.getLogin = function(req, res) {
+    if (req.session.user) {
+      req.flash('info', 'Please logout first.');
+      res.redirect(HOME_PAGE);
+      return;
+    }
     return res.render('user/login', {
       title: 'login',
       returnUrl: req.get('Referer')
@@ -47,8 +52,8 @@
   exports.postLogin = function(req, res) {
     var User, form;
     form = {
-      username: req.param('username'),
-      password: req.param('password')
+      username: req.body.username,
+      password: req.body.password
     };
     User = global.db.models.user;
     return User.find({
@@ -66,8 +71,15 @@
       user.last_login = new Date();
       return user.save();
     }).then(function() {
+      var NEXT_PAGE;
       req.flash('info', 'login successfully');
-      return res.redirect(req.param('returnUrl'));
+      NEXT_PAGE = void 0;
+      if (req.body.returnUrl === 'undefined') {
+        NEXT_PAGE = HOME_PAGE;
+      } else {
+        NEXT_PAGE = req.body.returnUrl;
+      }
+      return res.redirect(NEXT_PAGE);
     })["catch"](myUtils.Error.LoginError, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
@@ -101,14 +113,14 @@
   exports.postRegister = function(req, res) {
     var User, form;
     form = {
-      username: req.param('username'),
-      password: req.param('password'),
-      nickname: req.param('nickname'),
-      school: req.param('school')
+      username: req.body.username,
+      password: req.body.password,
+      nickname: req.body.nickname,
+      school: req.body.school
     };
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
-      if (form.password !== req.param('password2')) {
+      if (form.password !== req.body.password2) {
         throw new myUtils.Error.RegisterError("Please confirm your password.");
       }
       form.password = passwordHash.generate(form.password);

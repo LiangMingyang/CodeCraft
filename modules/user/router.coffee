@@ -1,5 +1,5 @@
-express = require('express');
-router = express.Router();
+express = require('express')
+router = express.Router(mergeParams: true)
 middlewares = require('./middlewares')
 controller = require('./controller')
 modules = require('./modules')
@@ -27,11 +27,7 @@ router
 router
   .get '/logout', controller.getLogout
 
-router.param 'userID', (req, res, next, id) ->
-  req.param.userID = id;
-  next()
-
 router
-  .use '/:userID', modules.detail.router
+  .use '/:userID([0-9]+)', modules.detail.router
 
 module.exports = router
