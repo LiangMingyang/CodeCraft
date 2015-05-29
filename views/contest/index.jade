@@ -11,10 +11,10 @@ block content
             tr
                 td 赛事ID
                 td 赛事名称
-        - for (var i = 0 ; i < contests.length ; ++i)
-            - var contest = contests[i];
-            tr
-                td
-                    a(href= "/user/#{contest.id}") #{contest.name}
-                td #{contest.access_level}
+            - for (var i = 0 ; i < contests.length ; ++i)
+                - var contest = contests[i];
+                tr
+                    td #{contest.id}
+                    td
+                        a(href= "#{contest.id}") #{contest.title}
     .col-lg-2
