@@ -12,17 +12,12 @@ block content
             td 比赛名称
          tr
             td
-               a(href="index")= contest.name
+               a(href="index")= contest.title
          tr
             td 比赛创建者
          tr
             td
                a(href="/user/#{contest.creator.id}")= contest.creator.nickname
-         tr
-            td 小组成员
-         tr
-            td
-               a(href="member") 查看详情
          tr
             td 比赛简介
          tr
