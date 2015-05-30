@@ -23,6 +23,11 @@ class UpdateError extends Error
     @name = 'UpdateError'
     Error.captureStackTrace(this, UpdateError)
 
+class UnknownContest extends Error
+  constructor: (@message = "Unknown contest.") ->
+    @name = 'UnknownContest'
+    Error.captureStackTrace(this, UnknownContest)
+
 
 exports.Error = {
   UnknownUser : UnknownUser
@@ -30,4 +35,5 @@ exports.Error = {
   RegisterError : RegisterError
   InvalidAccess : InvalidAccess
   UpdateError : UpdateError
+  UnknownContest : UnknownContest
 }

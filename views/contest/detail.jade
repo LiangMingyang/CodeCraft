@@ -1,0 +1,31 @@
+//
+   Created by lmy on 15-5-30.
+
+extends ../layout
+block title
+   - var whichpage = "小组信息"
+   title #{whichpage}
+block content
+   .col-lg-2
+      table.table.table-striped
+         tr
+            td 比赛名称
+         tr
+            td
+               a(href="index")= contest.name
+         tr
+            td 比赛创建者
+         tr
+            td
+               a(href="/user/#{group.creator.id}")= contest.creator.nickname
+         tr
+            td 小组成员
+         tr
+            td
+               a(href="member") 查看详情
+         tr
+            td 比赛简介
+         tr
+            td #{contest.description}
+   .col-lg-8
+   .col-lg-2

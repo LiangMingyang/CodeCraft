@@ -31,3 +31,10 @@ exports.Error = {
   InvalidAccess : InvalidAccess
   UpdateError : UpdateError
 }
+
+
+exports.authFilter = (req, contests) ->
+  contest for contest in contests when contest.access_level is 'public'
+
+
+

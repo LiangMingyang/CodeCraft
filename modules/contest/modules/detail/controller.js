@@ -15,24 +15,15 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Group, User;
-    Group = global.db.models.group;
-    User = global.db.models.user;
-    return Group.findAll({
-      where: {
-        access_level: ["protect", "public"]
-      },
-      include: [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(groups) {
-      return res.render('group/index', {
-        title: 'You have got group index here',
+    var Contest;
+    Contest = global.db.models.contest;
+    return Contest.find(req.params.contest_id).then(function(contest) {
+      if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      return res.render('contest/detail', {
         user: req.session.user,
-        groups: groups
+        contest: contest
       });
     })["catch"](function(err) {
       console.log(err);
@@ -41,52 +32,33 @@
     });
   };
 
-  exports.getCreate = function(req, res) {
-    return res.render('group/create', {
-      title: 'create group',
-      user: req.session.user
+  exports.getProblem = function(req, res) {
+    return res.render('contest/index', {
+      title: 'Problem'
     });
   };
 
-  exports.postCreate = function(req, res) {
-    var Group, User, creator, form;
-    form = {
-      name: req.body.name,
-      description: req.body.description
-    };
-    User = global.db.models.user;
-    Group = global.db.models.group;
-    creator = void 0;
-    return global.db.Promise.resolve().then(function() {
-      if (!req.session.user) {
-        throw new myUtils.Error.UnknownUser();
-      }
-      return User.find(req.session.user.id);
-    }).then(function(user) {
-      if (!user) {
-        throw new myUtils.Error.UnknownUser();
-      }
-      creator = user;
-      return Group.create(form);
-    }).then(function(group) {
-      return group.setCreator(creator);
-    }).then(function(group) {
-      return group.addUser(creator, {
-        access_level: 'owner'
-      });
-    }).then(function() {
-      req.flash('info', 'create group successfully');
-      return res.redirect(INDEX_PAGE);
-    })["catch"](myUtils.Error.UnknownUser, function(err) {
-      req.flash('info', err.message);
-      return res.redirect(LOGIN_PAGE);
-    })["catch"](global.db.ValidationError, function(err) {
-      req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
-      return res.redirect(CREATE_PAGE);
-    })["catch"](function(err) {
-      console.log(err);
-      req.flash('info', "Unknown Error!");
-      return res.redirect(HOME_PAGE);
+  exports.getSubmission = function(req, res) {
+    return res.render('contest/detail', {
+      title: 'Submission'
+    });
+  };
+
+  exports.getClarification = function(req, res) {
+    return res.render('contest/detail', {
+      title: 'Clarification'
+    });
+  };
+
+  exports.getQuestion = function(req, res) {
+    return res.render('contest/detail', {
+      title: 'Question'
+    });
+  };
+
+  exports.getRank = function(req, res) {
+    return res.render('contest/detail', {
+      title: 'Rank'
     });
   };
 

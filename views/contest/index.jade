@@ -11,10 +11,14 @@ block content
             tr
                 td 赛事ID
                 td 赛事名称
+                td 赛事开始时间
+                td 赛事结束时间
             - for (var i = 0 ; i < contests.length ; ++i)
                 - var contest = contests[i];
                 tr
                     td #{contest.id}
                     td
                         a(href= "#{contest.id}") #{contest.title}
+                    td #{contest.start_time.toLocaleString()}
+                    td #{contest.end_time.toLocaleString()}
     .col-lg-2

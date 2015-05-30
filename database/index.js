@@ -38,6 +38,9 @@
     Problem.hasMany(Submission);
     Contest.hasMany(Issue);
     Contest.hasMany(Submission);
+    Contest.belongsTo(User, {
+      as: 'creator'
+    });
     Issue.hasMany(IssueReply);
     Judge.hasMany(Submission, {
       constraints: false

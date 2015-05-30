@@ -14,6 +14,20 @@
 
   router.use(middlewares);
 
+  router.get('/', function(req, res) {
+    return res.redirect(req.params.contestID + "/index");
+  }).get('/index', controller.getIndex);
+
+  router.get('/problem', controller.getProblem);
+
+  router.get('/submission', controller.getSubmission);
+
+  router.get('/clarification', controller.getClarification);
+
+  router.get('/question', controller.getQuestion);
+
+  router.get('/rank', controller.getRank);
+
   module.exports = router;
 
 }).call(this);

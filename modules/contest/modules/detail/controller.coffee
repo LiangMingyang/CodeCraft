@@ -13,71 +13,41 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res) ->
-  Group = global.db.models.group
-  User  = global.db.models.user
-  Group
-  .findAll(
-    where   :
-      access_level: ["protect","public"]
-    include : [
-      model: User
-      as   : 'creator'
-    ]
-  )
-  .then (groups)->
-    res.render 'group/index', {
-      title: 'You have got group index here'
+  Contest = global.db.models.contest
+  Contest.find req.params.contest_id
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
+    res.render 'contest/detail', {
       user : req.session.user
-      groups : groups
+      contest : contest
     }
-
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
     res.redirect HOME_PAGE
 
-#create
-
-exports.getCreate = (req, res) ->
-  res.render 'group/create', {
-    title: 'create group'
-    user : req.session.user
+exports.getProblem = (req, res)->
+  res.render 'contest/index', {
+    title: 'Problem'
   }
 
-exports.postCreate = (req, res) ->
-
-  form = {
-    name : req.body.name
-    description : req.body.description
+exports.getSubmission = (req, res)->
+  res.render 'contest/detail', {
+    title: 'Submission'
   }
 
-  #preCheckForCreate
-  User = global.db.models.user
-  Group = global.db.models.group
-  creator = undefined
-  global.db.Promise.resolve() #开启一个解决方案链
-  .then ->
-    throw new myUtils.Error.UnknownUser() if not req.session.user
-    User.find req.session.user.id
-  .then (user)->
-    throw new myUtils.Error.UnknownUser() if not user
-    creator = user
-    Group.create(form)
-  .then (group) ->
-    group.setCreator(creator)  #TODO: 把这个分成两行写总是让我十分的不舒服，求一种可以直接在create中就建立关系的方法
-  .then (group) ->
-    group.addUser(creator, {access_level : 'owner'}) #添加owner关系
-  .then ->
-    req.flash 'info', 'create group successfully'
-    res.redirect INDEX_PAGE
+exports.getClarification = (req, res)->
+  res.render 'contest/detail', {
+    title: 'Clarification'
+  }
 
-  .catch myUtils.Error.UnknownUser, (err)->
-    req.flash 'info', err.message
-    res.redirect LOGIN_PAGE
-  .catch global.db.ValidationError, (err)->
-    req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
-    res.redirect CREATE_PAGE
-  .catch (err)->
-    console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+exports.getQuestion = (req, res)->
+  res.render 'contest/detail', {
+    title: 'Question'
+  }
+
+exports.getRank = (req, res)->
+  res.render 'contest/detail', {
+    title: 'Rank'
+  }
+

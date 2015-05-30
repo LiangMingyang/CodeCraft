@@ -77,6 +77,18 @@
     UpdateError: UpdateError
   };
 
+  exports.authFilter = function(req, contests) {
+    var contest, i, len, results;
+    results = [];
+    for (i = 0, len = contests.length; i < len; i++) {
+      contest = contests[i];
+      if (contest.access_level === 'public') {
+        results.push(contest);
+      }
+    }
+    return results;
+  };
+
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

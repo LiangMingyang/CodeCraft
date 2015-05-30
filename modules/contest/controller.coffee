@@ -13,10 +13,14 @@ LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res) ->
   Contest = global.db.models.contest
+  User = global.db.models.user
   Contest.findAll {
-    where:
-      access_level:['public']
+    include:
+      model : User
+      as : 'creator'
   }
+  .then (contests)->
+    myUtils.authFilter(req, contests) #TODO: 现在是全部的public的赛事
   .then (contests)->
     res.render 'contest/index', {
       user : req.session.user
