@@ -1,0 +1,28 @@
+//
+   Created by zp on 15-5-28.
+if(group)
+    table.table.table-striped
+        tr
+            td 小组名称
+        tr
+            td
+                a(href="./index")= group.name
+        //tr
+            td 小组人数
+        //tr
+            td
+                a(href="./member")= group.users.length
+        tr
+            td 小组创建者
+        tr
+            td
+                a(href="/user/#{group.creator.id}/index")= group.creator.nickname
+    .list-group
+        a.list-group-item(href="./index") 小组主页
+        a.list-group-item(href="./member") 小组成员
+        a.list-group-item(href="./contest") 小组比赛
+        a.list-group-item(href="./problem") 小组题目
+    //- if ( !isMember )
+        a.button.btn.btn-default(href="join") 加入该小组
+    //- else
+        a.button.btn.btn-default(href="join") 退出该小组

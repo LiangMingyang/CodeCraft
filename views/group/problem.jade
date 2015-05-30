@@ -7,21 +7,7 @@ block title
    title #{whichpage}
 block content
    .col-lg-2
-      table.table.table-striped
-         tr
-            td 小组名称
-         tr
-            td
-               a(href="./index")= group.name
-         tr
-            td 小组简介
-         tr
-            td #{group.description}
-         tr
-            td 小组成员
-         tr
-            td
-               a(href="./member") 查看详情
+      include ./group.jade
    .col-lg-8
       table(class = "table table-striped")
          tr

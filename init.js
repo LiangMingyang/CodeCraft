@@ -81,6 +81,37 @@
         return testGroup.addProblem(problem);
       });
     }).then(function() {
+      Contest.create({
+        title: 'test_contest_private',
+        access_level: 'private',
+        description: '用来测试的比赛，权限是private',
+        start_time: new Date("2015-05-20 10:00"),
+        end_time: new Date("2015-06-21 10:00")
+      }).then(function(contest) {
+        testUser.addContest(contest);
+        return testGroup.addContest(contest);
+      });
+      Contest.create({
+        title: 'test_contest_public',
+        access_level: 'public',
+        description: '用来测试的比赛，权限是public',
+        start_time: new Date("2015-05-20 10:00"),
+        end_time: new Date("2015-06-21 10:00")
+      }).then(function(contest) {
+        testUser.addContest(contest);
+        return testGroup.addContest(contest);
+      });
+      return Contest.create({
+        title: 'test_contest',
+        access_level: 'protect',
+        description: '用来测试的比赛，权限是protect',
+        start_time: new Date("2015-05-20 10:00"),
+        end_time: new Date("2015-06-21 10:00")
+      }).then(function(contest) {
+        testUser.addContest(contest);
+        return testGroup.addContest(contest);
+      });
+    }).then(function() {
       return console.log('init: ok!');
     });
   };
