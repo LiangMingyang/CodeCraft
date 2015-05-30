@@ -88,6 +88,7 @@
         start_time: new Date("2015-05-20 10:00"),
         end_time: new Date("2015-06-21 10:00")
       }).then(function(contest) {
+        contest.setCreator(testUser);
         testUser.addContest(contest);
         return testGroup.addContest(contest);
       });
@@ -98,6 +99,7 @@
         start_time: new Date("2015-05-20 10:00"),
         end_time: new Date("2015-06-21 10:00")
       }).then(function(contest) {
+        contest.setCreator(testUser);
         testUser.addContest(contest);
         return testGroup.addContest(contest);
       });
@@ -108,6 +110,7 @@
         start_time: new Date("2015-05-20 10:00"),
         end_time: new Date("2015-06-21 10:00")
       }).then(function(contest) {
+        contest.setCreator(testUser);
         testUser.addContest(contest);
         return testGroup.addContest(contest);
       });
