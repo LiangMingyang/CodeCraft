@@ -90,6 +90,7 @@ module.exports = (db) ->
         end_time : new Date("2015-06-21 10:00")
       }
       .then (contest)->
+        contest.setCreator(testUser)
         testUser.addContest(contest)
         testGroup.addContest(contest)
     Contest
@@ -101,6 +102,7 @@ module.exports = (db) ->
         end_time : new Date("2015-06-21 10:00")
       }
       .then (contest)->
+        contest.setCreator(testUser)
         testUser.addContest(contest)
         testGroup.addContest(contest)
     Contest
@@ -112,6 +114,7 @@ module.exports = (db) ->
         end_time : new Date("2015-06-21 10:00")
       }
       .then (contest)->
+        contest.setCreator(testUser)
         testUser.addContest(contest)
         testGroup.addContest(contest)
   .then ->
