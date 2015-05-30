@@ -3,7 +3,7 @@
 
 extends ../layout
 block title
-   - var whichpage = "小组信息"
+   - var whichpage = "比赛信息"
    title #{whichpage}
 block content
    .col-lg-2
@@ -17,7 +17,7 @@ block content
             td 比赛创建者
          tr
             td
-               a(href="/user/#{group.creator.id}")= contest.creator.nickname
+               a(href="/user/#{contest.creator.id}")= contest.creator.nickname
          tr
             td 小组成员
          tr
