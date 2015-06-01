@@ -25,7 +25,6 @@
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
-      console.log(contest);
       return currentContest.getProblems();
     }).then(function(problems) {
       return res.render('contest/detail', {

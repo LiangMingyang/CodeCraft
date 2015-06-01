@@ -21,7 +21,6 @@ exports.getIndex = (req, res)->
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
-    console.log contest
     currentContest.getProblems()
   .then (problems)->
     res.render 'contest/detail', {
