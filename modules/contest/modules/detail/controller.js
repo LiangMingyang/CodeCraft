@@ -20,23 +20,12 @@
     User = global.db.models.user;
     Problem = global.db.models.problem;
     currentContest = void 0;
-    return Contest.find(req.params.contestID, {
-      include: [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(contest) {
+    return myUtils.findContest(req, req.params.contestID).then(function(contest) {
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
-      return myUtils.authContest(req, contest);
-    }).then(function(auth) {
-      if (!auth) {
-        throw new myUtils.Error.UnknownContest();
-      }
+      console.log(contest);
       return currentContest.getProblems();
     }).then(function(problems) {
       return res.render('contest/detail', {
@@ -60,23 +49,11 @@
     Contest = global.db.models.contest;
     User = global.db.models.user;
     currentContest = void 0;
-    return Contest.find(req.params.contestID, {
-      include: [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(contest) {
+    return myUtils.findContest(req, req.params.contestID).then(function(contest) {
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
-      return myUtils.authContest(req, contest);
-    }).then(function(auth) {
-      if (!auth) {
-        throw new myUtils.Error.UnknownContest();
-      }
       return currentContest.getSubmissions();
     }).then(function(submissions) {
       return res.render('contest/submission', {

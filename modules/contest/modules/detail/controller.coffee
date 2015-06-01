@@ -17,21 +17,13 @@ exports.getIndex = (req, res)->
   User = global.db.models.user
   Problem = global.db.models.problem
   currentContest = undefined
-  Contest.find req.params.contestID, {
-    include:[
-      model : User
-      as : 'creator'
-    ]
-  }
+  myUtils.findContest(req, req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
-    myUtils.authContest(req, contest)
-  .then (auth)->
-    throw new myUtils.Error.UnknownContest() if not auth
+    console.log contest
     currentContest.getProblems()
   .then (problems)->
-    #console.log problems
     res.render 'contest/detail', {
       user : req.session.user
       contest : currentContest
@@ -51,18 +43,10 @@ exports.getSubmission = (req, res)->
   Contest = global.db.models.contest
   User = global.db.models.user
   currentContest = undefined
-  Contest.find req.params.contestID, {
-    include : [
-      model : User
-      as : 'creator'
-    ]
-  }
+  myUtils.findContest(req, req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
-    myUtils.authContest(req, contest)
-  .then (auth)->
-    throw new myUtils.Error.UnknownContest() if not auth
     currentContest.getSubmissions()
   .then (submissions)->
     res.render 'contest/submission', {
