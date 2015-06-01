@@ -14,7 +14,8 @@ module.exports = (db) ->
 
   testUser = undefined
   testGroup = undefined
-
+  testContest = undefined
+  testProblem = undefined
   db.Promise.resolve()
   .then -> #create users
     User.create {
@@ -70,6 +71,7 @@ module.exports = (db) ->
         access_level: 'public'
       }
       .then (problem)->
+        testProblem = problem
         testUser.addProblem(problem)
         testGroup.addProblem(problem)
     Problem
@@ -114,5 +116,9 @@ module.exports = (db) ->
       .then (contest)->
         testUser.addContest(contest)
         testGroup.addContest(contest)
+        contest.addProblem(testProblem, {
+          order : 0
+          score : 1
+        })
   .then ->
     console.log 'init: ok!'

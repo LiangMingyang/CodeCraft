@@ -31,8 +31,8 @@ block content
             - for (var i = 0 ; i < problems.length ; ++i)
                 - var problem = problems[i];
                 tr
-                    td #{problem.order}
+                    td #{char(problem.contest_problem_list.order+65)}
                     td
-                        a(href= "#{problem.order}") #{problem.title}
-                    td #{problem.score}
+                        a(href= "#{problem.contest_problem_list.order}") #{problem.title}
+                    td #{problem.contest_problem_list.score}
     .col-lg-2
