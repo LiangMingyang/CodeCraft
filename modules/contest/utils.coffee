@@ -50,14 +50,14 @@ exports.findContests = (req) ->
     Contest.findAll({
       where :
         $or:[
-          creator_id : currentUser.id  if currentUser #Èç¹û¸ÃÓÃ»§ÊÇ´´½¨Õß¿ÉÒÔ¿´µ½µÄ
+          creator_id : currentUser.id  if currentUser #å¦‚æœè¯¥ç”¨æˆ·æ˜¯åˆ›å»ºè€…å¯ä»¥çœ‹åˆ°çš„
         ,
-          access_level : 'public'    #publicµÄÌâÄ¿Ë­¶¼¿ÉÒÔ¿´
+          access_level : 'public'    #publicçš„é¢˜ç›®è°éƒ½å¯ä»¥çœ‹
         ,
-          access_level : 'protect'   #Èç¹ûÕâ¸öÈ¨ÏŞÊÇprotect£¬ÄÇÃ´Èç¹û¸ÃÓÃ»§ÊÇĞ¡×é³ÉÔ±¾Í¿ÉÒÔ¿´µ½
+          access_level : 'protect'   #å¦‚æœè¿™ä¸ªæƒé™æ˜¯protectï¼Œé‚£ä¹ˆå¦‚æœè¯¥ç”¨æˆ·æ˜¯å°ç»„æˆå‘˜å°±å¯ä»¥çœ‹åˆ°
           group_id : normalGroups
         ,
-          access_level : 'private'  #Èç¹ûÕâ¸öÈüÊÂÈ¨ÏŞÊÇprivate£¬ÄÇÃ´Èç¹û¸ÃÓÃ»§ÊÇĞ¡×é¹ÜÀíÔ±»òÓµÓĞÕß¾Í¶¼¿ÉÒÔ¿´µ½
+          access_level : 'private'  #å¦‚æœè¿™ä¸ªèµ›äº‹æƒé™æ˜¯privateï¼Œé‚£ä¹ˆå¦‚æœè¯¥ç”¨æˆ·æ˜¯å°ç»„ç®¡ç†å‘˜æˆ–æ‹¥æœ‰è€…å°±éƒ½å¯ä»¥çœ‹åˆ°
           group_id : adminGroups
         ]
     })
