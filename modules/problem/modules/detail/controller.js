@@ -42,6 +42,7 @@
           }
           return res.render('problem/detail', {
             title: 'Problem List Page',
+            user: req.session.user,
             problem: {
               problem_id: problem.id,
               title: problem.title,
@@ -136,7 +137,8 @@
       return res.render('problem/submission', {
         title: 'Problem Submission List Page',
         headline: 'Problem index(SHEN ME DOU MEI YOU!)',
-        submissions: submissions
+        submissions: submissions,
+        user: req.session.user
       });
     })["catch"](function(err) {
       req.flash('info', err.message);
@@ -149,7 +151,8 @@
     Submission_Code = global.db.models.submission_code;
     return Submission_Code.find(req.params.submissionID).then(function(code) {
       return res.json({
-        code: code.content
+        code: code.content,
+        user: req.session.user
       });
     });
   };

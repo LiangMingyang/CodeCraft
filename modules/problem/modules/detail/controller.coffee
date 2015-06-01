@@ -29,6 +29,7 @@ exports.getIndex = (req, res) ->
         throw new myUtils.Error.InvalidFile() if err
         res.render 'problem/detail', {
           title: 'Problem List Page',
+          user: req.session.user,
           problem: {
             problem_id: problem.id
             title: problem.title,
@@ -118,7 +119,8 @@ exports.getSubmissions = (req, res) ->
     res.render('problem/submission', {
       title: 'Problem Submission List Page',
       headline: 'Problem index(SHEN ME DOU MEI YOU!)',
-      submissions: submissions
+      submissions: submissions,
+      user: req.session.user
     })
   .catch (err)->
     req.flash 'info', err.message
@@ -129,7 +131,8 @@ exports.getCode = (req, res) ->
   Submission_Code.find req.params.submissionID
   .then (code) ->
     res.json({
-      code: code.content
+      code: code.content,
+      user: req.session.user
     })
 
 
