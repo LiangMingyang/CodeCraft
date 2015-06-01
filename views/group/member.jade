@@ -20,6 +20,6 @@ block content
                 - var member = group.users[i]
                 tr
                     td
-                        a(href= "/user/#{member.id}") #{member.nickname}
+                        a(href= "/user/#{member.id}"+ "/index") #{member.nickname}
                     td #{member.membership.access_level}
     .col-lg-2

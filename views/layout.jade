@@ -29,38 +29,44 @@ html
                                 #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                     ul.nav.navbar-nav.navbar-right
                                         li.normalli
-                                            a(href="/", id="index") 主页
+                                            a(href="/", id="indexpage") 主页
                                         li.normalli
-                                            a(href="/group", id="group") 小组
+                                            a(href="/group/index", id="grouppage") 小组
+                                        li.normalli
+                                            a(href="/problem/index", id="problempage") 题目
+                                        li.normalli
+                                            a(href="/contest/index", id="contestpage") 赛事
                                         - if(user)
                                             li.normalli
-                                                a(href="/user/" + user.id, id="information") 个人信息
-                                            //li.normalli
-                                                a(href="/user/"+user.id+"/edit") 修改信息
+                                                a(href="/user/" + user.id + "/index", id="informationpage") 个人信息
                                             li.normalli
-                                                a(href="/user/messege", id="messege") 消息
+                                                a(href="/user/messege", id="messegepage") 消息
                                             li.normalli
-                                                a(href="/user/logout", id="logout") 登出
+                                                a(href="/user/logout", id="logoutpage") 登出
                                         - else
                                             li.normalli
-                                                a(href="/user/login", id="login") 登录
+                                                a(href="/user/login", id="loginpage") 登录
                                             li.normalli
-                                                a(href="/user/register", id="register") 注册
+                                                a(href="/user/register", id="registerpage") 注册
                                         script.
                                             if("#{whichpage}"=="注册")
-                                                $("#register").attr("class","little-big-font");
+                                                $("#registerpage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="登录")
-                                                $("#login").attr("class","little-big-font");
+                                                $("#loginpage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="")
-                                                $("#logout").attr("class","little-big-font");
+                                                $("#logoutpage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="")
-                                                $("#messege").attr("class","little-big-font");
+                                                $("#messegepage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="个人信息"||"#{whichpage}"=="修改信息"||"#{whichpage}"=="修改密码")
-                                                $("#information").attr("class","little-big-font");
+                                                $("#informationpage").attr("class","little-big-font");
+                                            else if("#{whichpage}"=="赛事列表"||"#{whichpage}"=="赛事信息")
+                                                $("#contestpage").attr("class","little-big-font");
+                                            else if("#{whichpage}"=="题目列表"||"#{whichpage}"=="题目主页"||"#{whichpage}"=="提交记录"||"#{whichpage}"=="查看代码"||"#{whichpage}"=="小组题目")
+                                                $("#problempage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="申请创建小组"||"#{whichpage}"=="小组信息"||"#{whichpage}"=="所有小组"||"#{whichpage}"=="小组成员"||"#{whichpage}"=="小组题目")
-                                                $("#group").attr("class","little-big-font");
+                                                $("#grouppage").attr("class","little-big-font");
                                             else
-                                                $("#index").attr("class","little-big-font");
+                                                $("#indexpage").attr("class","little-big-font");
 
 
                     .alert-success

@@ -4,7 +4,7 @@ link(rel='stylesheet', href='/stylesheets/user/user.css')
 
 if(user)
     .list-group
-        a(class="list-group-item normal-color", id="detail", href="/user/" + user.id) 个人信息
+        a(class="list-group-item normal-color", id="detail", href="/user/" + user.id + "/index") 个人信息
         a(class="list-group-item normal-color", id="edit", href="/user/" + user.id + "/edit") 修改信息
         a(class="list-group-item normal-color", id="updatepw", href="/user/" + user.id + "/updatepw") 修改密码
     script.
