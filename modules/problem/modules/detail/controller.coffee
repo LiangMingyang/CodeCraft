@@ -89,6 +89,7 @@ exports.postSubmission = (req, res) ->
   .then (submission) ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
+
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', 'Unknown User'
     res.redirect INDEX_PAGE
@@ -96,15 +97,14 @@ exports.postSubmission = (req, res) ->
     req.flash 'info', 'problem not exist'
     res.redirect HOME_PAGE
   .catch (err)->
-    req.flash 'info', err.message
-    res.redirect HOME_PAGE
+    req.flash 'info', 'Unknown Error!'
+    res.redirect HOME_PAGE.
 
 exports.getSubmissions = (req, res) ->
 
   form = {
     problem_id: req.params.problemID
   }
-
   Submission = global.db.models.submission
   User = global.db.models.user
   Submission

@@ -113,7 +113,7 @@
       req.flash('info', 'problem not exist');
       return res.redirect(HOME_PAGE);
     })["catch"](function(err) {
-      req.flash('info', err.message);
+      req.flash('info', 'Unknown Error!');
       return res.redirect(HOME_PAGE);
     });
   };

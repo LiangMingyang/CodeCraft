@@ -29,7 +29,7 @@ block content
     #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
             .modal-content
-                form(method='post', action='./' + problem.problem_id + '/submit')
+                form(method='post', action='index/submit')
                     .modal-header
                         button.close(type='button', data-dismiss='modal', aria-label='Close')
                             span(aria-hidden='true') ×
