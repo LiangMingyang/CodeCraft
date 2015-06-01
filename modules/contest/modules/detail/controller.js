@@ -55,8 +55,42 @@
   };
 
   exports.getSubmission = function(req, res) {
-    return res.render('contest/detail', {
-      title: 'Submission'
+    var Contest, Group, User, currentContest;
+    Group = global.db.models.group;
+    Contest = global.db.models.contest;
+    User = global.db.models.user;
+    currentContest = void 0;
+    return Contest.find(req.params.contestID, {
+      include: [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]
+    }).then(function(contest) {
+      if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      currentContest = contest;
+      return myUtils.authContest(req, contest);
+    }).then(function(auth) {
+      if (!auth) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      return currentContest.getSubmissions();
+    }).then(function(submissions) {
+      return res.render('contest/submission', {
+        user: req.session.user,
+        contest: currentContest,
+        submissions: submissions
+      });
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
     });
   };
 
