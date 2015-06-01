@@ -1,28 +1,26 @@
 //
    Created by heavenduke on 15-5-23.
-
    title -- 网页标题
    submissions --提交记录的数组
    submissions.each:
-
-
 extends ../layout
-
+block title
+    - var whichpage = "提交记录"
+    title #{whichpage}
 block content
-   table.table.table-striped
-      tr
-         td 序号
-         td 语言
-         td 结果
-         td 用户
-         td 提交时间
-
-      - for (var i = 0; i < submissions.length; i++)
-         tr
+    table.table.table-striped
+        tr
+            td 序号
+            td 语言
+            td 结果
+            td 用户
+            td 提交时间
+        - for (var i = 0; i < submissions.length; i++)
+        tr
             td #{i}
             td
-               a(href='submission/' + submissions[i].id) #{submissions[i].lang}
+                a(href='submission/' + submissions[i].id) #{submissions[i].lang}
             td #{submissions[i].result}
             td
-               a(href='../../user/' + submissions[i].user.id) #{submissions[i].user.nickname}
+                a(href='../../user/' + submissions[i].user.id) #{submissions[i].user.nickname}
             td #{submissions[i].created_at}
