@@ -81,23 +81,14 @@
     var Contest, User, currentUser;
     Contest = global.db.models.contest;
     User = global.db.models.user;
-    if (!req.session.user) {
-      return Contest.findAll({
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ],
-        where: {
-          access_level: ['public']
-        }
-      });
-    }
     currentUser = void 0;
-    return User.find(req.session.user.id).then(function(user) {
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
       if (!user) {
-        throw new UnknownUser();
+        return [];
       }
       currentUser = user;
       return user.getGroups();
@@ -128,9 +119,9 @@
       return Contest.findAll({
         where: {
           $or: [
-            {
+            currentUser ? {
               creator_id: currentUser.id
-            }, {
+            } : void 0, {
               access_level: 'public'
             }, {
               access_level: 'protect',

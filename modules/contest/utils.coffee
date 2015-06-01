@@ -36,18 +36,12 @@ exports.Error = {
 exports.findContests = (req) ->
   Contest = global.db.models.contest
   User = global.db.models.user
-  return Contest.findAll({
-    include : [
-      model : User
-      as : 'creator'
-    ]
-    where :
-      access_level : ['public']
-  }) if not req.session.user
   currentUser = undefined
-  User.find req.session.user.id
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
   .then (user)->
-    throw new UnknownUser() if not user
+    return [] if not user
     currentUser = user
     user.getGroups()
   .then (groups)->
@@ -56,7 +50,7 @@ exports.findContests = (req) ->
     Contest.findAll({
       where :
         $or:[
-          creator_id : currentUser.id #如果该用户是创建者可以看到的
+          creator_id : currentUser.id  if currentUser #如果该用户是创建者可以看到的
         ,
           access_level : 'public'    #public的题目谁都可以看
         ,

@@ -15,9 +15,10 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Contest, User;
+    var Contest, User, currentContest;
     Contest = global.db.models.contest;
     User = global.db.models.user;
+    currentContest = void 0;
     return Contest.find(req.params.contestID, {
       include: [
         {
@@ -29,9 +30,15 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      currentContest = contest;
+      return myUtils.authContest(req, contest);
+    }).then(function(auth) {
+      if (!auth) {
+        throw new myUtils.Error.UnknownContest();
+      }
       return res.render('contest/detail', {
         user: req.session.user,
-        contest: contest
+        contest: currentContest
       });
     })["catch"](myUtils.Error.UnknownContest, function(err) {
       req.flash('info', err.message);

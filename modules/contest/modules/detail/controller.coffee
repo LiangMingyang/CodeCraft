@@ -15,6 +15,7 @@ LOGIN_PAGE = '/user/login'
 exports.getIndex = (req, res) ->
   Contest = global.db.models.contest
   User = global.db.models.user
+  currentContest = undefined
   Contest.find req.params.contestID, {
     include:[
       model : User
@@ -23,10 +24,15 @@ exports.getIndex = (req, res) ->
   }
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    currentContest = contest
+    myUtils.authContest(req, contest)
+  .then (auth)->
+    throw new myUtils.Error.UnknownContest() if not auth
     res.render 'contest/detail', {
       user : req.session.user
-      contest : contest
+      contest : currentContest
     }
+
   .catch myUtils.Error.UnknownContest, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
