@@ -1,22 +1,37 @@
 //
    Created by zp on 15-5-28.
 if(group)
-    table.table.table-striped
-        tr
-            td 小组名称
-        tr
-            td
-                a(href="./index")= group.name
-        //tr
-            td 小组人数
-        //tr
-            td
-                a(href="./member")= group.users.length
-        tr
-            td 小组创建者
-        tr
-            td
-                a(href="/user/#{group.creator.id}/index")= group.creator.nickname
+    //第一种
+    //table.table.table-striped
+    //    tr
+    //        td 小组名称
+    //    tr
+    //        td
+    //            a(href="./index")= group.name
+    //    //tr
+    //        td 小组人数
+    //    //tr
+    //        td
+    //            a(href="./member")= group.users.length
+    //    tr
+    //        td 小组创建者
+    //    tr
+    //        td
+    //            a(href="/user/#{group.creator.id}/index")= group.creator.nickname
+
+
+    //第三种
+    .form-horizontal
+        label.control-label(for="school")  小组名称：
+    .form-horizontal
+        a
+            label.control-label(for="school")  #{group.name}
+    .form-horizontal
+        label.control-label(for="school")  小组创建者：
+    .form-horizontal
+        a
+            label.control-label(for="school")  #{group.creator.nickname}
+
     .list-group
         a.list-group-item(href="./index") 小组主页
         a.list-group-item(href="./member") 小组成员
