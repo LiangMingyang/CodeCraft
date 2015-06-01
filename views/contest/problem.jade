@@ -1,0 +1,38 @@
+//
+   Created by 明阳 on 2015/6/1.
+
+extends ../layout
+block title
+    - var whichpage = "比赛题目"
+    title #{whichpage}
+block content
+    .col-lg-2
+        table.table.table-striped
+            tr
+                td 比赛名称
+            tr
+                td
+                    a(href="index")= contest.title
+            tr
+                td 比赛创建者
+            tr
+                td
+                    a(href="/user/#{contest.creator.id}")= contest.creator.nickname
+            tr
+                td 比赛简介
+            tr
+                td #{contest.description}
+    .col-lg-8
+        table(class = "table table-striped")
+            tr
+                td 题目编号
+                td 题目标题
+                td 题目分数
+            - for (var i = 0 ; i < problems.length ; ++i)
+                - var problem = problems[i];
+                tr
+                    td #{problem.order}
+                    td
+                        a(href= "#{problem.order}") #{problem.title}
+                    td #{problem.score}
+    .col-lg-2

@@ -42,9 +42,38 @@ exports.getIndex = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getProblem = (req, res)->
-  res.render 'contest/index', {
-    title: 'Problem'
+  Contest = global.db.models.contest
+  User = global.db.models.user
+  Problem = global.db.models.problem
+  currentContest = undefined
+  Contest.find req.params.contestID, {
+    include:[
+      model : User
+      as : 'creator'
+    ]
   }
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
+    currentContest = contest
+    myUtils.authContest(req, contest)
+  .then (auth)->
+    throw new myUtils.Error.UnknownContest() if not auth
+    currentContest.getProblems()
+  .then (problems)->
+    #console.log problems
+    res.render 'contest/problem', {
+      user : req.session.user
+      contest : currentContest
+      problems : problems
+    }
+
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
 
 exports.getSubmission = (req, res)->
   res.render 'contest/detail', {
