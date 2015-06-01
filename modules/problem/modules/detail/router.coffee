@@ -19,4 +19,7 @@ router
 router
 .post '/index/submit', controller.postSubmission
 
+router
+.get '/index/submission/:submissionID([0-9]+)', controller.getCode
+
 module.exports = router

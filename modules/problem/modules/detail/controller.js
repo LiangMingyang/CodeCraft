@@ -144,6 +144,16 @@
     });
   };
 
+  exports.getCode = function(req, res) {
+    var Submission_Code;
+    Submission_Code = global.db.models.submission_code;
+    return Submission_Code.find(req.params.submissionID).then(function(code) {
+      return res.json({
+        code: code.content
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=controller.js.map

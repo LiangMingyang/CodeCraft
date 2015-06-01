@@ -98,7 +98,7 @@ exports.postSubmission = (req, res) ->
     res.redirect HOME_PAGE
   .catch (err)->
     req.flash 'info', 'Unknown Error!'
-    res.redirect HOME_PAGE.
+    res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
 
@@ -123,6 +123,14 @@ exports.getSubmissions = (req, res) ->
   .catch (err)->
     req.flash 'info', err.message
     res.redirect HOME_PAGE
+
+exports.getCode = (req, res) ->
+  Submission_Code = global.db.models.submission_code
+  Submission_Code.find req.params.submissionID
+  .then (code) ->
+    res.json({
+      code: code.content
+    })
 
 
 

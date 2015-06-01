@@ -20,7 +20,8 @@ block content
       - for (var i = 0; i < submissions.length; i++)
          tr
             td #{i}
-            td #{submissions[i].lang}
+            td
+               a(href='submission/' + submissions[i].id) #{submissions[i].lang}
             td #{submissions[i].result}
             td
                a(href='../../user/' + submissions[i].user.id) #{submissions[i].user.nickname}
