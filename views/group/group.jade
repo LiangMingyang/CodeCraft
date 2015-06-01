@@ -22,16 +22,18 @@ if(group)
 
 
     //第三种
-    .form-horizontal
-        label.control-label(for="school")  小组名称：
-    .form-horizontal
-        a
-            label.control-label(for="school")  #{group.name}
-    .form-horizontal
-        label.control-label(for="school")  小组创建者：
-    .form-horizontal
-        a
-            label.control-label(for="school")  #{group.creator.nickname}
+    .list-group
+        .form-horizontal
+            label.control-label(for="school")  小组名称：
+        .form-horizontal
+            a(href="./index")
+                label.control-label(for="school")  #{group.name}
+        br
+        .form-horizontal
+            label.control-label(for="school")  小组创建者：
+        .form-horizontal
+            a(href="/user/#{group.creator.id}/index")
+                label.control-label(for="school")  #{group.creator.nickname}
 
     .list-group
         a(class="list-group-item normal-color", id="groupindex", href="./index") 小组主页
