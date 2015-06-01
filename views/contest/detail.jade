@@ -3,7 +3,7 @@
 
 extends ../layout
 block title
-   - var whichpage = "比赛信息"
+   - var whichpage = "比赛详细"
    title #{whichpage}
 block content
    .col-lg-2
@@ -23,4 +23,16 @@ block content
          tr
             td #{contest.description}
    .col-lg-8
+      table(class = "table table-striped")
+         tr
+            td 题目编号
+            td 题目标题
+            td 题目分数
+         - for (var i = 0 ; i < problems.length ; ++i)
+            - var problem = problems[i];
+            tr
+               td #{String.fromCharCode(problem.contest_problem_list.order + 65)}
+               td
+                  a(href= "./problem/#{String.fromCharCode(problem.contest_problem_list.order + 65)}") #{problem.title}
+               td #{problem.contest_problem_list.score}
    .col-lg-2
