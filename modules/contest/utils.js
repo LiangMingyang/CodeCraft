@@ -77,16 +77,63 @@
     UpdateError: UpdateError
   };
 
-  exports.authFilter = function(req, contests) {
-    var contest, i, len, results;
-    results = [];
-    for (i = 0, len = contests.length; i < len; i++) {
-      contest = contests[i];
-      if (contest.access_level === 'public') {
-        results.push(contest);
+  exports.findContests = function(req) {
+    var Contest, User, currentUser;
+    Contest = global.db.models.contest;
+    User = global.db.models.user;
+    currentUser = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
       }
-    }
-    return results;
+    }).then(function(user) {
+      if (!user) {
+        return [];
+      }
+      currentUser = user;
+      return user.getGroups();
+    }).then(function(groups) {
+      var adminGroups, group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      adminGroups = (function() {
+        var i, len, ref, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      return Contest.findAll({
+        where: {
+          $or: [
+            currentUser ? {
+              creator_id: currentUser.id
+            } : void 0, {
+              access_level: 'public'
+            }, {
+              access_level: 'protect',
+              group_id: normalGroups
+            }, {
+              access_level: 'private',
+              group_id: adminGroups
+            }
+          ]
+        }
+      });
+    });
   };
 
 }).call(this);

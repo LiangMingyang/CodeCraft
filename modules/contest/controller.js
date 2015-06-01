@@ -16,14 +16,7 @@
     var Contest, User;
     Contest = global.db.models.contest;
     User = global.db.models.user;
-    return Contest.findAll({
-      include: {
-        model: User,
-        as: 'creator'
-      }
-    }).then(function(contests) {
-      return myUtils.authFilter(req, contests);
-    }).then(function(contests) {
+    return myUtils.findContests(req).then(function(contests) {
       return res.render('contest/index', {
         user: req.session.user,
         contests: contests

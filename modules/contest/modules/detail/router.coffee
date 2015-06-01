@@ -11,8 +11,6 @@ router
     res.redirect "#{req.params.contestID}/index"
   .get '/index', controller.getIndex
 
-router
-  .get '/problem', controller.getProblem
 
 router
   .get '/submission', controller.getSubmission
