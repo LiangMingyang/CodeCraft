@@ -1,0 +1,24 @@
+//
+   Created by lmy on 15-5-29.
+extends ../layout
+block title
+    - var whichpage = "赛事首页"
+    title #{whichpage}
+block content
+    .col-lg-2
+    .col-lg-8
+        table(class = "table table-striped")
+            tr
+                td 赛事ID
+                td 赛事名称
+                td 赛事开始时间
+                td 赛事结束时间
+            - for (var i = 0 ; i < contests.length ; ++i)
+                - var contest = contests[i];
+                tr
+                    td #{contest.id}
+                    td
+                        a(href= "#{contest.id}") #{contest.title}
+                    td #{contest.start_time.toLocaleString()}
+                    td #{contest.end_time.toLocaleString()}
+    .col-lg-2

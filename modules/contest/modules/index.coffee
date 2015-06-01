@@ -1,0 +1,1 @@
+exports.detail = require('./detail')

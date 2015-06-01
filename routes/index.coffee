@@ -6,14 +6,15 @@ modules = require('../modules')
 
 router.use middlewares
 
-router.use '/problem', modules.problem.router
-
 router.use '/user', modules.user.router
 
 router.use '/group', modules.group.router
 
-# Get home page
+router.use '/problem', modules.problem.router
 
+router.use '/contest', modules.contest.router
+
+# Get home page
 router.get '/', (req, res) ->
   res.render 'index', {
     title: 'OJ4TH',

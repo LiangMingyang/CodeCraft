@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.DATE
       allowNull: false
     access_level:
-      type: DataTypes.ENUM('private', 'protected', 'public')
+      type: DataTypes.ENUM('private', 'protect', 'public')
       defaultValue: 'private'
 #creator foreign key
 #group   foreign key
