@@ -38,7 +38,7 @@ exports.Error = {
   UnknownContest : UnknownContest
 }
 
-exports.authContest = (req,contest)->
+exports.findContests = (req) ->
   Contest = global.db.models.contest
   User = global.db.models.user
   currentUser = undefined
@@ -52,11 +52,20 @@ exports.authContest = (req,contest)->
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
-    return true if contest.access_level is 'public'
-    return true if currentUser and contest.creator_id is currentUser.id
-    return true if contest.access_level is 'protect' and contest.group_id in normalGroups
-    return true if contest.access_level is 'private' and contest.group_id in adminGroups
-    return false
+    Contest.findAll({
+      where :
+        $or:[
+          creator_id : currentUser.id  if currentUser #如果该用户是创建者可以看到的
+        ,
+          access_level : 'public'    #public的题目谁都可以看
+        ,
+          access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
+          group_id : normalGroups
+        ,
+          access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有者就都可以看到
+          group_id : adminGroups
+        ]
+    })
 
 exports.findContest = (req, contestID)->
   Contest = global.db.models.contest
@@ -69,7 +78,7 @@ exports.findContest = (req, contestID)->
   .then (user)->
     return [] if not user
     currentUser = user
-    user.getGroups()
+    currentUser.getGroups()
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])

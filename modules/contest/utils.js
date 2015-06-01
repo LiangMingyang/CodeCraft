@@ -91,7 +91,7 @@
         return [];
       }
       currentUser = user;
-      return user.getGroups();
+      return currentUser.getGroups();
     }).then(function(groups) {
       var adminGroups, group, normalGroups;
       normalGroups = (function() {
@@ -150,7 +150,7 @@
         return [];
       }
       currentUser = user;
-      return user.getGroups();
+      return currentUser.getGroups();
     }).then(function(groups) {
       var adminGroups, group, normalGroups;
       normalGroups = (function() {

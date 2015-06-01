@@ -43,7 +43,7 @@ exports.findContests = (req) ->
   .then (user)->
     return [] if not user
     currentUser = user
-    user.getGroups()
+    currentUser.getGroups()
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
@@ -72,7 +72,7 @@ exports.findContest = (req, contestID)->
   .then (user)->
     return [] if not user
     currentUser = user
-    user.getGroups()
+    currentUser.getGroups()
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
