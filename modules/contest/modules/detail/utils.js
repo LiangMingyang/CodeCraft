@@ -2,8 +2,7 @@
 (function() {
   var InvalidAccess, LoginError, RegisterError, UnknownContest, UnknownUser, UpdateError,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    hasProp = {}.hasOwnProperty,
-    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+    hasProp = {}.hasOwnProperty;
 
   UnknownUser = (function(superClass) {
     extend(UnknownUser, superClass);
@@ -92,7 +91,7 @@
     UnknownContest: UnknownContest
   };
 
-  exports.authContest = function(req, contest) {
+  exports.findContests = function(req) {
     var Contest, User, currentUser;
     Contest = global.db.models.contest;
     User = global.db.models.user;
@@ -108,7 +107,7 @@
       currentUser = user;
       return currentUser.getGroups();
     }).then(function(groups) {
-      var adminGroups, group, normalGroups, ref, ref1;
+      var adminGroups, group, normalGroups;
       normalGroups = (function() {
         var i, len, results;
         results = [];
@@ -131,19 +130,91 @@
         }
         return results;
       })();
-      if (contest.access_level === 'public') {
-        return true;
+      return Contest.findAll({
+        where: {
+          $or: [
+            currentUser ? {
+              creator_id: currentUser.id
+            } : void 0, {
+              access_level: 'public'
+            }, {
+              access_level: 'protect',
+              group_id: normalGroups
+            }, {
+              access_level: 'private',
+              group_id: adminGroups
+            }
+          ]
+        }
+      });
+    });
+  };
+
+  exports.findContest = function(req, contestID) {
+    var Contest, User, currentUser;
+    Contest = global.db.models.contest;
+    User = global.db.models.user;
+    currentUser = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
       }
-      if (currentUser && contest.creator_id === currentUser.id) {
-        return true;
+    }).then(function(user) {
+      if (!user) {
+        return [];
       }
-      if (contest.access_level === 'protect' && (ref = contest.group_id, indexOf.call(normalGroups, ref) >= 0)) {
-        return true;
-      }
-      if (contest.access_level === 'private' && (ref1 = contest.group_id, indexOf.call(adminGroups, ref1) >= 0)) {
-        return true;
-      }
-      return false;
+      currentUser = user;
+      return currentUser.getGroups();
+    }).then(function(groups) {
+      var adminGroups, group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      adminGroups = (function() {
+        var i, len, ref, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      return Contest.find({
+        where: {
+          $and: {
+            id: contestID,
+            $or: [
+              currentUser ? {
+                creator_id: currentUser.id
+              } : void 0, {
+                access_level: 'public'
+              }, {
+                access_level: 'protect',
+                group_id: normalGroups
+              }, {
+                access_level: 'private',
+                group_id: adminGroups
+              }
+            ]
+          }
+        },
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
     });
   };
 
