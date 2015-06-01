@@ -1,5 +1,6 @@
 //
    Created by zp on 15-5-28.
+
 if(group)
     table.table.table-striped
         tr
@@ -18,10 +19,20 @@ if(group)
             td
                 a(href="/user/#{group.creator.id}/index")= group.creator.nickname
     .list-group
-        a.list-group-item(href="./index") 小组主页
-        a.list-group-item(href="./member") 小组成员
-        a.list-group-item(href="./contest") 小组比赛
-        a.list-group-item(href="./problem") 小组题目
+        a(class="list-group-item normal-color", id="groupindex", href="./index") 小组主页
+        a(class="list-group-item normal-color", id="member", href="./member") 小组成员
+        a(class="list-group-item normal-color", id="contest", href="./contest") 小组比赛
+        a(class="list-group-item normal-color", id="problem", href="./problem") 小组题目
+    script.
+        if("#{whichpage}"=="小组题目")
+            $("#problem").attr("class","list-group-item change-color");
+        else if("#{whichpage}"=="小组比赛")
+            $("#contest").attr("class","list-group-item change-color");
+        else if("#{whichpage}"=="小组成员")
+            $("#member").attr("class","list-group-item change-color");
+        else
+            $("#groupindex").attr("class","list-group-item change-color");
+
     //- if ( !isMember )
         a.button.btn.btn-default(href="join") 加入该小组
     //- else
