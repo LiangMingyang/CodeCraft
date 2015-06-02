@@ -24,6 +24,9 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      if (contest.start_time > (new Date())) {
+        return [];
+      }
       currentContest = contest;
       return currentContest.getProblems();
     }).then(function(problems) {
@@ -32,7 +35,7 @@
         contest: currentContest,
         problems: problems
       });
-    })["catch"](myUtils.Error.UnknownContest, function(err) {
+    })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
       req.flash('info', err.message);
       return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
@@ -52,6 +55,9 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      if (contest.start_time > (new Date())) {
+        throw new myUtils.Error.InvalidAccess('This contest has not began.');
+      }
       currentContest = contest;
       return currentContest.getSubmissions();
     }).then(function(submissions) {
@@ -60,7 +66,7 @@
         contest: currentContest,
         submissions: submissions
       });
-    })["catch"](myUtils.Error.UnknownContest, function(err) {
+    })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
       req.flash('info', err.message);
       return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {

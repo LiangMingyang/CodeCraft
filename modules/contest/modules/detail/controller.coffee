@@ -20,6 +20,7 @@ exports.getIndex = (req, res)->
   myUtils.findContest(req, req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    return [] if contest.start_time > (new Date())
     currentContest = contest
     currentContest.getProblems()
   .then (problems)->
@@ -29,7 +30,7 @@ exports.getIndex = (req, res)->
       problems : problems
     }
 
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -45,6 +46,7 @@ exports.getSubmission = (req, res)->
   myUtils.findContest(req, req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.InvalidAccess('This contest has not began.') if contest.start_time > (new Date())
     currentContest = contest
     currentContest.getSubmissions()
   .then (submissions)->
@@ -55,7 +57,7 @@ exports.getSubmission = (req, res)->
     }
 
 
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
