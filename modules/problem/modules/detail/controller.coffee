@@ -13,20 +13,19 @@ INDEX_PAGE = '.'
 
 #Foreign url
 LOGIN_PAGE = '/user/login'
-GROUP_PAGE = '/group/problem' #然而这个东西并不能用相对路径
 
 exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
   console.log req.params
 
-  Problem.find req.params.problemID
+  myUtils.findProblem(req, req.params.problemID)
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     fs.readFile path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'), (err, manifest_str) ->
-      throw new myUtils.Error.InvalidFile() if err
+      throw err if err
       manifest = JSON.parse manifest_str
       fs.readFile path.join(myUtils.getStaticProblem(problem.id), manifest.description), (err, description) ->
-        throw new myUtils.Error.InvalidFile() if err
+        throw err if err
         res.render 'problem/detail', {
           title: 'Problem List Page',
           user: req.session.user,
@@ -42,6 +41,10 @@ exports.getIndex = (req, res) ->
             }
           }
         }
+
+  .catch myUtils.Error.UnknownUser, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', 'problem not exist'
     res.redirect HOME_PAGE

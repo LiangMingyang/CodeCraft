@@ -2,9 +2,20 @@
    Created by heavenduke on 15-5-23
 
 extends ../layout
-
 block title
-   - var whichpage = "题目列表"
+   - var whichpage = "赛事列表"
    title #{whichpage}
 block content
-   h1 #{headline}
+   .col-lg-2
+   .col-lg-8
+      table(class = "table table-striped")
+         tr
+            td 题目ID
+            td 题目名称
+         - for (var i = 0 ; i < problems.length ; ++i)
+            - var problem = problems[i];
+            tr
+               td #{problem.id}
+               td
+                  a(href= "#{problem.id}/index") #{problem.title}
+   .col-lg-2

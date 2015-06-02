@@ -76,7 +76,7 @@ exports.findContest = (req, contestID)->
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
-    Contest.findAll({
+    Contest.find({
       where :
         $and:
           id : contestID

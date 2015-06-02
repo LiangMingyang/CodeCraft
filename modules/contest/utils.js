@@ -175,7 +175,7 @@
         }
         return results;
       })();
-      return Contest.findAll({
+      return Contest.find({
         where: {
           $and: {
             id: contestID,

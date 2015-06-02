@@ -35,6 +35,135 @@
     InvalidAccess: InvalidAccess
   };
 
+  exports.findProblems = function(req) {
+    var Contest, Problem, User, currentUser;
+    Contest = global.db.models.contest;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    currentUser = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      if (!user) {
+        return [];
+      }
+      currentUser = user;
+      return currentUser.getGroups();
+    }).then(function(groups) {
+      var adminGroups, group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      adminGroups = (function() {
+        var i, len, ref, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      return Problem.findAll({
+        where: {
+          $or: [
+            currentUser ? {
+              creator_id: currentUser.id
+            } : void 0, {
+              access_level: 'public'
+            }, {
+              access_level: 'protect',
+              group_id: normalGroups
+            }, {
+              access_level: 'private',
+              group_id: adminGroups
+            }
+          ]
+        }
+      });
+    });
+  };
+
+  exports.findProblem = function(req, problemID) {
+    var Contest, Problem, User, currentUser;
+    Contest = global.db.models.contest;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    currentUser = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      if (!user) {
+        return [];
+      }
+      currentUser = user;
+      return currentUser.getGroups();
+    }).then(function(groups) {
+      var adminGroups, group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      adminGroups = (function() {
+        var i, len, ref, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      return Problem.find({
+        where: {
+          $and: {
+            id: problemID,
+            $or: [
+              currentUser ? {
+                creator_id: currentUser.id
+              } : void 0, {
+                access_level: 'public'
+              }, {
+                access_level: 'protect',
+                group_id: normalGroups
+              }, {
+                access_level: 'private',
+                group_id: adminGroups
+              }
+            ]
+          }
+        },
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

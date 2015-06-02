@@ -11,10 +11,13 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    return res.render('problem/index', {
-      title: 'Problem List Page',
-      user: req.session.user,
-      headline: 'Problem index(SHEN ME DOU MEI YOU!)'
+    return myUtils.findProblems(req).then(function(problems) {
+      console.log(problems);
+      return res.render('problem/index', {
+        title: 'Problem List Page',
+        user: req.session.user,
+        problems: problems
+      });
     });
   };
 
