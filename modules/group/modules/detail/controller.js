@@ -24,19 +24,8 @@
     User = global.db.models.user;
     currentGroup = void 0;
     isMember = false;
-    return Group.find(req.params.groupID, {
-      include: [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(group) {
-      var ref;
+    return myUtils.findGroup(req, req.params.groupID).then(function(group) {
       if (!group) {
-        throw new myUtils.Error.UnknownGroup();
-      }
-      if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
@@ -65,26 +54,8 @@
     var Group, User;
     Group = global.db.models.group;
     User = global.db.models.user;
-    return Group.find(req.params.groupID, {
-      include: [
-        {
-          model: User,
-          through: {
-            where: {
-              access_level: ['member', 'admin', 'owner']
-            }
-          }
-        }, {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(group) {
-      var ref;
+    return myUtils.findGroup(req, req.params.groupID).then(function(group) {
       if (!group) {
-        throw new myUtils.Error.UnknownGroup();
-      }
-      if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
       return res.render('group/member', {
@@ -117,13 +88,9 @@
         throw new myUtils.Error.UnknownUser();
       }
       joiner = user;
-      return Group.find(req.params.groupID);
+      return myUtils.findGroup(req, req.params.groupID);
     }).then(function(group) {
-      var ref;
       if (!group) {
-        throw new myUtils.Error.UnknownGroup();
-      }
-      if ((ref = group.access_level) !== 'protect' && ref !== 'public') {
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
@@ -160,14 +127,7 @@
     Problem = global.db.models.problem;
     User = global.db.models.user;
     currentGroup = void 0;
-    return Group.find(req.params.groupID, {
-      include: [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(group) {
+    return myUtils.findGroup(req, req.params.groupID).then(function(group) {
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }

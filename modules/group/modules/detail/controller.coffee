@@ -17,16 +17,9 @@ exports.getIndex = (req, res) ->
   User  = global.db.models.user
   currentGroup = undefined
   isMember = false
-  Group
-  .find(req.params.groupID, {
-      include : [
-        model: User
-        as   : 'creator'
-      ]
-    })
+  myUtils.findGroup(req, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
-    throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
     currentGroup = group
     if req.session.user
       group
@@ -51,21 +44,9 @@ exports.getIndex = (req, res) ->
 exports.getMember = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
-  Group
-  .find(req.params.groupID, {
-      include : [
-        model: User
-        through:
-          where:
-            access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
-      ,
-        model: User
-        as : 'creator'
-      ]
-    })
+  myUtils.findGroup(req, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
-    throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
     res.render 'group/member', {
       user : req.session.user
       group : group
@@ -91,10 +72,9 @@ exports.getJoin = (req, res) ->
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     joiner = user
-    Group.find(req.params.groupID)
+    myUtils.findGroup(req, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
-    throw new myUtils.Error.UnknownGroup() if group.access_level not in ['protect','public']
     currentGroup = group
     group.hasUser(joiner)
   .then (res) ->
@@ -123,13 +103,7 @@ exports.getProblem = (req, res) ->
   Problem = global.db.models.problem
   User = global.db.models.user
   currentGroup = undefined
-  Group
-  .find(req.params.groupID, {
-      include : [
-        model: User
-        as   : 'creator'
-      ]
-    })
+  myUtils.findGroup(req, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
