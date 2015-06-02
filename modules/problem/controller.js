@@ -11,7 +11,13 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    return myUtils.findProblems(req).then(function(problems) {
+    var Group;
+    Group = global.db.models.group;
+    return myUtils.findProblems(req, [
+      {
+        model: Group
+      }
+    ]).then(function(problems) {
       return res.render('problem/index', {
         title: 'Problem List Page',
         user: req.session.user,

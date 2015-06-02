@@ -18,9 +18,15 @@ LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
-  currentManifest = undefined
+  User = global.db.models.user
+  Group = global.db.models.group
   currentProblem = undefined
-  myUtils.findProblem(req, req.params.problemID)
+  myUtils.findProblem(req, req.params.problemID, [
+    model : User
+    as : 'creator'
+  ,
+    model : Group
+  ])
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
@@ -41,7 +47,7 @@ exports.getIndex = (req, res) ->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
-    req.flash 'info', 'problem not exist'
+    req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
   .catch (err)->
     console.log err
@@ -86,17 +92,18 @@ exports.postSubmission = (req, res) ->
     Submission_Code.create(form_code)
   .then (code) ->
     current_submission.setSubmission_code(code)
-  .then (submission) ->
+  .then ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
 
   .catch myUtils.Error.UnknownUser, (err)->
-    req.flash 'info', 'Unknown User'
+    req.flash 'info', err.message
     res.redirect INDEX_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
-    req.flash 'info', 'problem not exist'
+    req.flash 'info', err.message
     res.redirect HOME_PAGE
   .catch (err)->
+    console.log err
     req.flash 'info', 'Unknown Error!'
     res.redirect HOME_PAGE
 

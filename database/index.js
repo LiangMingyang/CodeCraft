@@ -47,6 +47,7 @@
     Problem.belongsTo(User, {
       as: 'creator'
     });
+    Problem.belongsTo(Group);
     Contest.hasMany(Issue);
     Contest.hasMany(Submission);
     Contest.belongsTo(User, {

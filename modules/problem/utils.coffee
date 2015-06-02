@@ -13,8 +13,7 @@ exports.Error = {
   InvalidAccess : InvalidAccess
 }
 
-exports.findProblems = (req) ->
-  Contest = global.db.models.contest
+exports.findProblems = (req,include) ->
   User = global.db.models.user
   Problem = global.db.models.problem
   currentUser = undefined
@@ -41,10 +40,10 @@ exports.findProblems = (req) ->
           access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有者就都可以看到
           group_id : adminGroups
         ]
+      include : include
     })
 
-exports.findProblem = (req, problemID)->
-  Contest = global.db.models.contest
+exports.findProblem = (req, problemID,include)->
   User = global.db.models.user
   Problem = global.db.models.problem
   currentUser = undefined
@@ -73,8 +72,5 @@ exports.findProblem = (req, problemID)->
             access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有者就都可以看到
             group_id : adminGroups
           ]
-      include : [
-        model : User
-        as : 'creator'
-      ]
+      include : include
     })

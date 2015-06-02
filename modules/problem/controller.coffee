@@ -6,7 +6,10 @@ HOME_PAGE = '/'
 INDEX_PAGE = '.'
 
 exports.getIndex = (req, res) ->
-  myUtils.findProblems(req)
+  Group = global.db.models.group
+  myUtils.findProblems(req, [
+    model : Group
+  ])
   .then (problems)->
     res.render('problem/index', {
       title: 'Problem List Page',

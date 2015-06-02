@@ -27,11 +27,19 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Problem, currentManifest, currentProblem;
+    var Group, Problem, User, currentProblem;
     Problem = global.db.models.problem;
-    currentManifest = void 0;
+    User = global.db.models.user;
+    Group = global.db.models.group;
     currentProblem = void 0;
-    return myUtils.findProblem(req, req.params.problemID).then(function(problem) {
+    return myUtils.findProblem(req, req.params.problemID, [
+      {
+        model: User,
+        as: 'creator'
+      }, {
+        model: Group
+      }
+    ]).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
@@ -53,7 +61,7 @@
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
-      req.flash('info', 'problem not exist');
+      req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
     })["catch"](function(err) {
       console.log(err);
@@ -100,16 +108,17 @@
       return Submission_Code.create(form_code);
     }).then(function(code) {
       return current_submission.setSubmission_code(code);
-    }).then(function(submission) {
+    }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
     })["catch"](myUtils.Error.UnknownUser, function(err) {
-      req.flash('info', 'Unknown User');
+      req.flash('info', err.message);
       return res.redirect(INDEX_PAGE);
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
-      req.flash('info', 'problem not exist');
+      req.flash('info', err.message);
       return res.redirect(HOME_PAGE);
     })["catch"](function(err) {
+      console.log(err);
       req.flash('info', 'Unknown Error!');
       return res.redirect(HOME_PAGE);
     });

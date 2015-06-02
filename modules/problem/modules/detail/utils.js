@@ -71,9 +71,8 @@
     InvalidFile: InvalidFile
   };
 
-  exports.findProblems = function(req) {
-    var Contest, Problem, User, currentUser;
-    Contest = global.db.models.contest;
+  exports.findProblems = function(req, include) {
+    var Problem, User, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     currentUser = void 0;
@@ -126,14 +125,14 @@
               group_id: adminGroups
             }
           ]
-        }
+        },
+        include: include
       });
     });
   };
 
-  exports.findProblem = function(req, problemID) {
-    var Contest, Problem, User, currentUser;
-    Contest = global.db.models.contest;
+  exports.findProblem = function(req, problemID, include) {
+    var Problem, User, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     currentUser = void 0;
@@ -190,12 +189,7 @@
             ]
           }
         },
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ]
+        include: include
       });
     });
   };
