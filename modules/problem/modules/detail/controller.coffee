@@ -9,7 +9,7 @@ HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 SUBMISSION_PAGE = 'submission'
 SUBMIT_PAGE = 'submit'
-PROBLEM_PAGE = '..'
+PROBLEM_PAGE = '../index'
 
 INDEX_PAGE = 'index'
 
@@ -21,12 +21,16 @@ exports.getIndex = (req, res) ->
   User = global.db.models.user
   Group = global.db.models.group
   currentProblem = undefined
-  myUtils.findProblem(req, req.params.problemID, [
-    model : User
-    as : 'creator'
-  ,
-    model : Group
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findProblem(user, req.params.problemID, [
+      model : User
+      as : 'creator'
+    ,
+      model : Group
+    ])
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
@@ -74,20 +78,18 @@ exports.postSubmission = (req, res) ->
 
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id
-  .then (user) ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     current_user = user
-    Problem.find req.params.problemID
+    myUtils.findProblem(user, req.params.problemID)
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     current_problem = problem
     Submission.create(form)
   .then (submission) ->
     current_user.addSubmission(submission)
-  .then (submission) ->
     current_problem.addSubmission(submission)
-  .then (submission) ->
     current_submission = submission
     Submission_Code.create(form_code)
   .then (code) ->
@@ -98,38 +100,47 @@ exports.postSubmission = (req, res) ->
 
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
-    res.redirect INDEX_PAGE
+    res.redirect LOGIN_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
-    res.redirect HOME_PAGE
+    res.redirect PROBLEM_PAGE
   .catch (err)->
     console.log err
     req.flash 'info', 'Unknown Error!'
     res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
-
-  form = {
-    problem_id: req.params.problemID
-  }
   Submission = global.db.models.submission
+  Problem = global.db.models.problem
   User = global.db.models.user
-  Submission
-    .findAll({
-      where: form,
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findProblem(user, req.params.problemID)
+  .then (problem)->
+    throw new myUtils.Error.UnknownProblem() if not problem
+    problem.getSubmissions({
       include: [
         model: User
+        as : 'creator'
       ]
     })
   .then (submissions) ->
     res.render('problem/submission', {
-      title: 'Problem Submission List Page',
-      headline: 'Problem index(SHEN ME DOU MEI YOU!)',
-      submissions: submissions,
+      submissions: submissions
       user: req.session.user
     })
-  .catch (err)->
+
+  .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
 
 exports.getCode = (req, res) ->

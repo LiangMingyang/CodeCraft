@@ -61,14 +61,12 @@ exports.findProblems = (req,include) ->
       include : include
     })
 
-exports.findProblem = (req, problemID,include)->
+exports.findProblem = (user, problemID,include)->
   User = global.db.models.user
   Problem = global.db.models.problem
   currentUser = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
     return [] if not user
     currentUser = user
     currentUser.getGroups()

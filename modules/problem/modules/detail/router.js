@@ -18,13 +18,13 @@
     return res.redirect(req.params.problemID + "/index");
   });
 
-  router.get('/index/submission', controller.getSubmissions);
+  router.get('/submission', controller.getSubmissions);
 
   router.get('/index', controller.getIndex);
 
-  router.post('/index/submit', controller.postSubmission);
+  router.post('/submit', controller.postSubmission);
 
-  router.get('/index/submission/:submissionID([0-9]+)', controller.getCode);
+  router.get('/submission/:submissionID([0-9]+)', controller.getCode);
 
   module.exports = router;
 

@@ -20,7 +20,7 @@
 
   SUBMIT_PAGE = 'submit';
 
-  PROBLEM_PAGE = '..';
+  PROBLEM_PAGE = '../index';
 
   INDEX_PAGE = 'index';
 
@@ -32,14 +32,20 @@
     User = global.db.models.user;
     Group = global.db.models.group;
     currentProblem = void 0;
-    return myUtils.findProblem(req, req.params.problemID, [
-      {
-        model: User,
-        as: 'creator'
-      }, {
-        model: Group
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
       }
-    ]).then(function(problem) {
+    }).then(function(user) {
+      return myUtils.findProblem(user, req.params.problemID, [
+        {
+          model: User,
+          as: 'creator'
+        }, {
+          model: Group
+        }
+      ]);
+    }).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
@@ -86,13 +92,15 @@
     current_submission = void 0;
     current_problem = void 0;
     return global.db.Promise.resolve().then(function() {
-      return User.find(req.session.user.id);
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
     }).then(function(user) {
       if (!user) {
         throw new myUtils.Error.UnknownUser();
       }
       current_user = user;
-      return Problem.find(req.params.problemID);
+      return myUtils.findProblem(user, req.params.problemID);
     }).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
@@ -100,10 +108,8 @@
       current_problem = problem;
       return Submission.create(form);
     }).then(function(submission) {
-      return current_user.addSubmission(submission);
-    }).then(function(submission) {
-      return current_problem.addSubmission(submission);
-    }).then(function(submission) {
+      current_user.addSubmission(submission);
+      current_problem.addSubmission(submission);
       current_submission = submission;
       return Submission_Code.create(form_code);
     }).then(function(code) {
@@ -113,10 +119,10 @@
       return res.redirect(SUBMISSION_PAGE);
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
-      return res.redirect(INDEX_PAGE);
+      return res.redirect(LOGIN_PAGE);
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
-      return res.redirect(HOME_PAGE);
+      return res.redirect(PROBLEM_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', 'Unknown Error!');
@@ -125,28 +131,42 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Submission, User, form;
-    form = {
-      problem_id: req.params.problemID
-    };
+    var Problem, Submission, User;
     Submission = global.db.models.submission;
+    Problem = global.db.models.problem;
     User = global.db.models.user;
-    return Submission.findAll({
-      where: form,
-      include: [
-        {
-          model: User
-        }
-      ]
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      return myUtils.findProblem(user, req.params.problemID);
+    }).then(function(problem) {
+      if (!problem) {
+        throw new myUtils.Error.UnknownProblem();
+      }
+      return problem.getSubmissions({
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
     }).then(function(submissions) {
       return res.render('problem/submission', {
-        title: 'Problem Submission List Page',
-        headline: 'Problem index(SHEN ME DOU MEI YOU!)',
         submissions: submissions,
         user: req.session.user
       });
-    })["catch"](function(err) {
+    })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
+      return res.redirect(LOGIN_PAGE);
+    })["catch"](myUtils.Error.UnknownProblem, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(PROBLEM_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', 'Unknown error!');
       return res.redirect(HOME_PAGE);
     });
   };
