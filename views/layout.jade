@@ -15,6 +15,7 @@ html
             .col-lg-10
                 .row
                     block navbar
+                        //.navbar-fixed-top.navbar-navbar-top
                         nav#navbar.navbar.navbar-default
                             .container-fluid
                                 // Brand and toggle get grouped for better mobile display
@@ -61,7 +62,7 @@ html
                                                 $("#informationpage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="赛事列表"||"#{whichpage}"=="赛事信息")
                                                 $("#contestpage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="题目列表"||"#{whichpage}"=="题目主页"||"#{whichpage}"=="提交记录"||"#{whichpage}"=="查看代码"||"#{whichpage}"=="小组题目")
+                                            else if("#{whichpage}"=="题目列表"||"#{whichpage}"=="题目信息"||"#{whichpage}"=="提交记录"||"#{whichpage}"=="查看代码"||"#{whichpage}"=="小组题目")
                                                 $("#problempage").attr("class","little-big-font");
                                             else if("#{whichpage}"=="申请创建小组"||"#{whichpage}"=="小组信息"||"#{whichpage}"=="所有小组"||"#{whichpage}"=="小组成员"||"#{whichpage}"=="小组题目")
                                                 $("#grouppage").attr("class","little-big-font");

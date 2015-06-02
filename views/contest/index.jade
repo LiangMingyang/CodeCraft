@@ -5,8 +5,10 @@ block title
     - var whichpage = "赛事列表"
     title #{whichpage}
 block content
-    .col-lg-2
-    .col-lg-8
+    //.col-lg-2
+    //.col-lg-8
+    .col-lg-12
+        h3 所有赛事
         table(class = "table table-striped")
             tr
                 td 赛事ID
@@ -21,4 +23,4 @@ block content
                         a(href= "#{contest.id}") #{contest.title}
                     td #{contest.start_time.toLocaleString()}
                     td #{contest.end_time.toLocaleString()}
-    .col-lg-2
+    //.col-lg-2
