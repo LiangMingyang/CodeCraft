@@ -16,11 +16,12 @@ block content
             td 用户
             td 提交时间
         - for (var i = 0; i < submissions.length; i++)
-        tr
-            td #{i}
-            td
-                a(href='submission/' + submissions[i].id) #{submissions[i].lang}
-            td #{submissions[i].result}
-            td
-                a(href='../../user/' + submissions[i].user.id) #{submissions[i].user.nickname}
-            td #{submissions[i].created_at}
+            tr
+                td #{submissions[i].id}
+                //td #{submissions[i].id}
+                td
+                    a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                td #{submissions[i].result}
+                td
+                    a(href='../../user/' + submissions[i].creator.id) #{submissions[i].creator.nickname}
+                td #{submissions[i].created_at}

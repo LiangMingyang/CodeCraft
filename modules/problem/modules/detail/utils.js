@@ -131,16 +131,12 @@
     });
   };
 
-  exports.findProblem = function(req, problemID, include) {
+  exports.findProblem = function(user, problemID, include) {
     var Problem, User, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
       if (!user) {
         return [];
       }
