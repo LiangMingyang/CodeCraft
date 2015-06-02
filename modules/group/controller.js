@@ -18,22 +18,15 @@
     var Group, User;
     Group = global.db.models.group;
     User = global.db.models.user;
-    return Group.findAll({
-      where: {
-        access_level: ["protect", "public"]
-      },
-      include: [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ]
-    }).then(function(groups) {
+    return myUtils.findGroups(req).then(function(groups) {
       return res.render('group/index', {
         title: 'You have got group index here',
         user: req.session.user,
         groups: groups
       });
+    })["catch"](myUtils.Error.UnknownUser, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");

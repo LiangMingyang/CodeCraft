@@ -35,6 +35,106 @@
     UnknownUser: UnknownUser
   };
 
+  exports.findGroups = function(req) {
+    var Group, User;
+    User = global.db.models.user;
+    Group = global.db.models.group;
+    return global.db.Promise.resolve().then(function() {
+      if (!req.session.user) {
+        return [];
+      }
+      return User.find(req.session.user.id).then(function(user) {
+        if (!user) {
+          throw new UnknownUser();
+        }
+        return user.getGroups();
+      });
+    }).then(function(groups) {
+      var group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      return Group.findAll({
+        where: {
+          $or: [
+            {
+              access_level: ['public', 'protect']
+            }, {
+              id: normalGroups
+            }
+          ]
+        },
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
+    });
+  };
+
+  exports.findGroup = function(req, groupID) {
+    var Group, User;
+    User = global.db.models.user;
+    Group = global.db.models.group;
+    return global.db.Promise.resolve().then(function() {
+      if (!req.session.user) {
+        return [];
+      }
+      return User.find(req.session.user.id).then(function(user) {
+        if (!user) {
+          throw new UnknownUser();
+        }
+        return user.getGroups();
+      });
+    }).then(function(groups) {
+      var group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results.push(group.id);
+          }
+        }
+        return results;
+      })();
+      return Group.find({
+        where: {
+          $and: [
+            {
+              id: groupID
+            }, {
+              $or: [
+                {
+                  access_level: ['public', 'protect']
+                }, {
+                  id: normalGroups
+                }
+              ]
+            }
+          ]
+        },
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

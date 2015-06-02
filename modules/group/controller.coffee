@@ -15,15 +15,7 @@ LOGIN_PAGE = '/user/login'
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
-  Group
-  .findAll(
-    where   :
-      access_level: ["protect","public"]
-    include : [
-      model: User
-      as   : 'creator'
-    ]
-  )
+  myUtils.findGroups(req)
   .then (groups)->
     res.render 'group/index', {
       title: 'You have got group index here'
@@ -31,6 +23,9 @@ exports.getIndex = (req, res) ->
       groups : groups
     }
 
+  .catch myUtils.Error.UnknownUser, (err)->
+    req.flash 'info',err.message
+    res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
     req.flash 'info', "Unknown Error!"
