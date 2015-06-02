@@ -35,7 +35,7 @@
     UnknownUser: UnknownUser
   };
 
-  exports.findGroups = function(req) {
+  exports.findGroups = function(req, include) {
     var Group, User;
     User = global.db.models.user;
     Group = global.db.models.group;
@@ -72,17 +72,12 @@
             }
           ]
         },
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ]
+        include: include
       });
     });
   };
 
-  exports.findGroup = function(req, groupID) {
+  exports.findGroup = function(req, groupID, include) {
     var Group, User;
     User = global.db.models.user;
     Group = global.db.models.group;
@@ -125,12 +120,7 @@
             }
           ]
         },
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ]
+        include: include
       });
     });
   };

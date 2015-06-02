@@ -24,7 +24,12 @@
     User = global.db.models.user;
     currentGroup = void 0;
     isMember = false;
-    return myUtils.findGroup(req, req.params.groupID).then(function(group) {
+    return myUtils.findGroup(req, req.params.groupID, [
+      {
+        model: User,
+        as: 'creator'
+      }
+    ]).then(function(group) {
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }
@@ -54,7 +59,19 @@
     var Group, User;
     Group = global.db.models.group;
     User = global.db.models.user;
-    return myUtils.findGroup(req, req.params.groupID).then(function(group) {
+    return myUtils.findGroup(req, req.params.groupID, [
+      {
+        model: User,
+        as: 'creator'
+      }, {
+        model: User,
+        through: {
+          where: {
+            access_level: ['member', 'admin', 'owner']
+          }
+        }
+      }
+    ]).then(function(group) {
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }
@@ -88,7 +105,12 @@
         throw new myUtils.Error.UnknownUser();
       }
       joiner = user;
-      return myUtils.findGroup(req, req.params.groupID);
+      return myUtils.findGroup(req, req.params.groupID, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
     }).then(function(group) {
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
@@ -127,7 +149,12 @@
     Problem = global.db.models.problem;
     User = global.db.models.user;
     currentGroup = void 0;
-    return myUtils.findGroup(req, req.params.groupID).then(function(group) {
+    return myUtils.findGroup(req, req.params.groupID, [
+      {
+        model: User,
+        as: 'creator'
+      }
+    ]).then(function(group) {
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }

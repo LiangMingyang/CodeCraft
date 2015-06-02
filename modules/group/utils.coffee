@@ -8,7 +8,7 @@ exports.Error = {
   UnknownUser : UnknownUser
 }
 
-exports.findGroups = (req)->
+exports.findGroups = (req, include)->
   User = global.db.models.user
   Group = global.db.models.group
   global.db.Promise.resolve()
@@ -27,12 +27,9 @@ exports.findGroups = (req)->
         ,
           id : normalGroups
         ]
-      include : [
-        model : User
-        as : 'creator'
-      ]
+      include : include
 
-exports.findGroup = (req, groupID)->
+exports.findGroup = (req, groupID, include)->
   User = global.db.models.user
   Group = global.db.models.group
   global.db.Promise.resolve()
@@ -48,14 +45,12 @@ exports.findGroup = (req, groupID)->
       where:
         $and: [
           id : groupID
+        ,
           $or: [
             access_level : ['public','protect']
           ,
             id : normalGroups
           ]
         ]
-      include : [
-        model : User
-        as : 'creator'
-      ]
+      include : include
 

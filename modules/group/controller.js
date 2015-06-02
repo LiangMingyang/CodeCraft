@@ -18,7 +18,12 @@
     var Group, User;
     Group = global.db.models.group;
     User = global.db.models.user;
-    return myUtils.findGroups(req).then(function(groups) {
+    return myUtils.findGroups(req, [
+      {
+        model: User,
+        as: 'creator'
+      }
+    ]).then(function(groups) {
       return res.render('group/index', {
         title: 'You have got group index here',
         user: req.session.user,

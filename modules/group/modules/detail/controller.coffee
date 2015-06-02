@@ -17,7 +17,10 @@ exports.getIndex = (req, res) ->
   User  = global.db.models.user
   currentGroup = undefined
   isMember = false
-  myUtils.findGroup(req, req.params.groupID)
+  myUtils.findGroup(req, req.params.groupID, [
+    model : User
+    as : 'creator'
+  ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
@@ -44,7 +47,15 @@ exports.getIndex = (req, res) ->
 exports.getMember = (req, res) ->
   Group = global.db.models.group
   User  = global.db.models.user
-  myUtils.findGroup(req, req.params.groupID)
+  myUtils.findGroup(req, req.params.groupID, [
+    model : User
+    as : 'creator'
+  ,
+    model: User
+    through:
+      where:
+        access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
+  ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     res.render 'group/member', {
@@ -72,7 +83,10 @@ exports.getJoin = (req, res) ->
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     joiner = user
-    myUtils.findGroup(req, req.params.groupID)
+    myUtils.findGroup(req, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
@@ -103,7 +117,10 @@ exports.getProblem = (req, res) ->
   Problem = global.db.models.problem
   User = global.db.models.user
   currentGroup = undefined
-  myUtils.findGroup(req, req.params.groupID)
+  myUtils.findGroup(req, req.params.groupID, [
+    model : User
+    as : 'creator'
+  ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
