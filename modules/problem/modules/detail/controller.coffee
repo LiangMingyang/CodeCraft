@@ -1,5 +1,6 @@
 myUtils = require('./utils')
-fs = require('fs')
+sequelize = require('sequelize')
+fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
 path = require('path')
 markdown = require('markdown').markdown
 #page
@@ -8,48 +9,43 @@ HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 SUBMISSION_PAGE = 'submission'
 SUBMIT_PAGE = 'submit'
+PROBLEM_PAGE = '..'
 
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
 
 #Foreign url
 LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
-  console.log req.params
-
+  currentManifest = undefined
+  currentProblem = undefined
   myUtils.findProblem(req, req.params.problemID)
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
-    fs.readFile path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'), (err, manifest_str) ->
-      throw err if err
-      manifest = JSON.parse manifest_str
-      fs.readFile path.join(myUtils.getStaticProblem(problem.id), manifest.description), (err, description) ->
-        throw err if err
-        res.render 'problem/detail', {
-          title: 'Problem List Page',
-          user: req.session.user,
-          problem: {
-            problem_id: problem.id
-            title: problem.title,
-            description: markdown.toHTML(description.toString()),
-            test_setting: {
-              language: manifest.test_setting.language.split(','),
-              time_limit: manifest.test_setting.time_limit,
-              memory_limit: manifest.test_setting.memory_limit,
-              special_judge: manifest.test_setting.special_judge == null
-            }
-          }
-        }
+    currentProblem = problem
+    fs.readFilePromised path.join(myUtils.getStaticProblem(problem.id), 'manifest.json')
+  .then (manifest_str) ->
+    manifest = JSON.parse manifest_str
+    currentProblem.test_setting = manifest.test_setting
+    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description)
+  .then (description)->
+    currentProblem.description = markdown.toHTML(description.toString())
+    res.render 'problem/detail', {
+      title: 'Problem List Page',
+      user: req.session.user,
+      problem: currentProblem
+    }
 
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', 'problem not exist'
-    res.redirect HOME_PAGE
+    res.redirect PROBLEM_PAGE
   .catch (err)->
-    req.flash 'info', err.message
+    console.log err
+    req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
 
 exports.postSubmission = (req, res) ->

@@ -12,7 +12,6 @@
 
   exports.getIndex = function(req, res) {
     return myUtils.findProblems(req).then(function(problems) {
-      console.log(problems);
       return res.render('problem/index', {
         title: 'Problem List Page',
         user: req.session.user,
