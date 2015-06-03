@@ -1,3 +1,10 @@
+path = require('path')
+
+class UnknownProblem extends Error
+  constructor: (@message = "Unknown problem") ->
+    @name = 'UnknownProblem'
+    Error.captureStackTrace(this, UnknownProblem)
+
 class InvalidAccess extends Error
   constructor: (@message = "Invalid Access, please return") ->
     @name = 'InvalidAccess'
@@ -8,9 +15,20 @@ class UnknownUser extends Error
     @name = 'UnknownUser'
     Error.captureStackTrace(this, UnknownUser)
 
+class InvalidFile extends Error
+  constructor: (@message = "File not exist!") ->
+    @name = 'InvalidFile'
+    Error.captureStackTrace(this, InvalidFile)
+
+exports.getStaticProblem = (problemId) ->
+  dirname = path.resolve(__dirname,'../../resource')
+  path.join dirname, problemId.toString()
+
 exports.Error = {
   UnknownUser: UnknownUser,
-  InvalidAccess : InvalidAccess
+  InvalidAccess: InvalidAccess,
+  UnknownProblem: UnknownProblem,
+  InvalidFile: InvalidFile
 }
 
 exports.findProblems = (req,include) ->
@@ -74,3 +92,17 @@ exports.findProblem = (req, problemID,include)->
           ]
       include : include
     })
+
+exports.getResultPeopleCount = (problems, results)->
+  problems = [problems] if not problems instanceof Array
+  Submission = global.db.models.submission
+  options = {
+    where:
+      problem_id : (problem.id for problem in problems)
+    group : 'problem_id'
+    distinct : true
+    attributes : ['problem_id']
+    plain : false
+  }
+  options.where.result = results if results
+  Submission.aggregate('creator_id', 'count', options)
