@@ -13,12 +13,15 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
-  myUtils.findGroups(req, [
-    model : User
-    as : 'creator'
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroups(user, [
+      model : User
+      as : 'creator'
+    ])
   .then (groups)->
     res.render 'group/index', {
       title: 'You have got group index here'
