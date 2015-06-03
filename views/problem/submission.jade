@@ -27,8 +27,8 @@ block content
     - var colorOfTable = "red"
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error"}
     .col-lg-10.col-md-10.col-sm-10
-        h1 {problem.title}的评测记录
-        table.table.table-default
+        h1 #{problem.title} 的评测记录
+        table.table.table-center
             tr
                 td 用户
                 td 序号
@@ -73,3 +73,27 @@ block content
                 $("#problem-submissionpage").attr("class","list-group-item change-color");
             else
                 $("#problem-problemindexpage").attr("class","list-group-item change-color");
+        .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    form(method='post', action='./submit')
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title 提交代码
+                        .modal-body
+                            .row
+                                .col-lg-3
+                                    |语言选择：
+                                .col-lg-9
+                                    select(type="input", name='lang', value='C')
+                                        option(value="c++") c++
+                                        option(value="c") c
+                            |源代码：
+                            label.sr-only(for="code") 输入代码
+                            textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
+                        .modal-footer
+                            //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                            button.btn.btn-primary(type='submit') 确认提交

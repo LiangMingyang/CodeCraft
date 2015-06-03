@@ -34,9 +34,14 @@ td.greentd{
 td.redtd{
     color: #ff0000;
     font-weight: bold;
+
 }
 
 td.bluetd{
     color: #0000ff;
     font-weight: bold;
+}
+
+.table-center{
+    text-align:center;
 }
