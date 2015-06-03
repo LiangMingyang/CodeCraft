@@ -13,14 +13,17 @@ GROUP_PAGE = '/group'
 LOGIN_PAGE = '/user/login'#然而这个东西并不能用相对路径
 
 exports.getIndex = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
   currentGroup = undefined
   isMember = false
-  myUtils.findGroup(req, req.params.groupID, [
-    model : User
-    as : 'creator'
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
@@ -45,17 +48,20 @@ exports.getIndex = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getMember = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
-  myUtils.findGroup(req, req.params.groupID, [
-    model : User
-    as : 'creator'
-  ,
-    model: User
-    through:
-      where:
-        access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ,
+      model: User
+      through:
+        where:
+          access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     res.render 'group/member', {
@@ -72,7 +78,6 @@ exports.getMember = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getJoin = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
   joiner = undefined
   currentGroup = undefined
@@ -83,7 +88,7 @@ exports.getJoin = (req, res) ->
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     joiner = user
-    myUtils.findGroup(req, req.params.groupID, [
+    myUtils.findGroup(user, req.params.groupID, [
       model : User
       as : 'creator'
     ])
@@ -113,14 +118,16 @@ exports.getJoin = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getProblem = (req, res) ->
-  Group = global.db.models.group
-  Problem = global.db.models.problem
   User = global.db.models.user
   currentGroup = undefined
-  myUtils.findGroup(req, req.params.groupID, [
-    model : User
-    as : 'creator'
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group

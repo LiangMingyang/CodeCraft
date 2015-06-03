@@ -21,20 +21,16 @@
     UnknownUser: UnknownUser
   };
 
-  exports.findGroups = function(req, include) {
-    var Group, User;
-    User = global.db.models.user;
+  exports.findGroups = function(user, include) {
+    var Group, currentUser;
     Group = global.db.models.group;
+    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (!req.session.user) {
+      if (!user) {
         return [];
       }
-      return User.find(req.session.user.id).then(function(user) {
-        if (!user) {
-          throw new UnknownUser();
-        }
-        return user.getGroups();
-      });
+      currentUser = user;
+      return user.getGroups();
     }).then(function(groups) {
       var group, normalGroups;
       normalGroups = (function() {
@@ -63,20 +59,16 @@
     });
   };
 
-  exports.findGroup = function(req, groupID, include) {
-    var Group, User;
-    User = global.db.models.user;
+  exports.findGroup = function(user, groupID, include) {
+    var Group, currentUser;
     Group = global.db.models.group;
+    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (!req.session.user) {
+      if (!user) {
         return [];
       }
-      return User.find(req.session.user.id).then(function(user) {
-        if (!user) {
-          throw new UnknownUser();
-        }
-        return user.getGroups();
-      });
+      currentUser = user;
+      return user.getGroups();
     }).then(function(groups) {
       var group, normalGroups;
       normalGroups = (function() {
