@@ -23,18 +23,19 @@ block title
     link(rel='stylesheet', href='/stylesheets/problem/submission.css')
 
 block content
+    - var oddEvenTable = "odd"
+    - var colorOfTable = "red"
+    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error"}
     .col-lg-10.col-md-10.col-sm-10
         h1 {problem.title}的评测记录
         table.table.table-default
-            - var oddEvenTable = "odd"
-            - var colorOfTable = "red"
             tr
                 td 用户
                 td 序号
                 td 结果
                 td 语言
-                td 使用时间
-                td 使用内存
+                td 运行时间
+                td 运行内存
                 td 代码长度
                 td 提交时间
             - for (var i = submissions.length - 1; i >= 0; i--)
@@ -42,13 +43,13 @@ block content
                     td
                         a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                     td #{submissions[i].id}
-                    td(class = "oddtd", id = "td#{i}") #{submissions[i].result}
+                    td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
                     td
                         a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
                     td #{submissions[i].time_cost}
                     td #{submissions[i].memory_cost}
                     td 需要代码长度
-                    td #{submissions[i].created_at}
+                    td #{submissions[i].created_at.toLocaleString()}
                     - if(i % 2 == 1)
                         - oddeventable = "odd"
                     - else
