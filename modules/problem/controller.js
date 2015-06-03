@@ -11,42 +11,21 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    var Group, Submission, currentProblems, problemIDs;
+    var Group, currentProblems;
     Group = global.db.models.group;
-    Submission = global.db.models.submission;
     currentProblems = void 0;
-    problemIDs = void 0;
     return myUtils.findProblems(req, [
       {
         model: Group
       }
     ]).then(function(problems) {
-      var problem;
       currentProblems = problems;
-      problemIDs = (function() {
-        var i, len, results;
-        results = [];
-        for (i = 0, len = problems.length; i < len; i++) {
-          problem = problems[i];
-          results.push(problem.id);
-        }
-        return results;
-      })();
-      return Submission.aggregate('creator_id', 'count', {
-        where: {
-          problem_id: problemIDs,
-          result: 'AC'
-        },
-        group: 'problem_id',
-        distinct: true,
-        attributes: ['problem_id'],
-        plain: false
-      });
-    }).then(function(ACcounts) {
+      return myUtils.getResultPeopleCount(problems, 'AC');
+    }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
-      for (i = 0, len = ACcounts.length; i < len; i++) {
-        p = ACcounts[i];
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
         tmp[p.problem_id] = p.count;
       }
       for (j = 0, len1 = currentProblems.length; j < len1; j++) {
@@ -56,15 +35,7 @@
           p.acceptedPeopleCount = tmp[p.id];
         }
       }
-      return Submission.aggregate('creator_id', 'count', {
-        where: {
-          problem_id: problemIDs
-        },
-        group: 'problem_id',
-        distinct: true,
-        attributes: ['problem_id'],
-        plain: false
-      });
+      return myUtils.getResultPeopleCount(currentProblems);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -79,9 +50,11 @@
           p.triedPeopleCount = tmp[p.id];
         }
       }
+      return currentProblems;
+    }).then(function(problems) {
       return res.render('problem/index', {
         user: req.session.user,
-        problems: currentProblems
+        problems: problems
       });
     })["catch"](function(err) {
       console.log(err);

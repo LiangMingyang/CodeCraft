@@ -130,8 +130,9 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var User;
+    var User, currentProblem;
     User = global.db.models.user;
+    currentProblem = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -153,6 +154,7 @@
     }).then(function(submissions) {
       return res.render('problem/submission', {
         submissions: submissions,
+        problem: currentProblem,
         user: req.session.user
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {

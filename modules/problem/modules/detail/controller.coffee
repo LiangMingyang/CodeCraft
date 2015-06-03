@@ -110,6 +110,7 @@ exports.postSubmission = (req, res) ->
 
 exports.getSubmissions = (req, res) ->
   User = global.db.models.user
+  currentProblem = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -126,6 +127,7 @@ exports.getSubmissions = (req, res) ->
   .then (submissions) ->
     res.render('problem/submission', {
       submissions: submissions
+      problem : currentProblem
       user: req.session.user
     })
 
