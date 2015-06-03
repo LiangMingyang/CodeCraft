@@ -11,18 +11,82 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    var Group;
+    var Group, Submission, currentProblems, problemIDs;
     Group = global.db.models.group;
+    Submission = global.db.models.submission;
+    currentProblems = void 0;
+    problemIDs = void 0;
     return myUtils.findProblems(req, [
       {
         model: Group
       }
     ]).then(function(problems) {
-      return res.render('problem/index', {
-        title: 'Problem List Page',
-        user: req.session.user,
-        problems: problems
+      var problem;
+      currentProblems = problems;
+      problemIDs = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = problems.length; i < len; i++) {
+          problem = problems[i];
+          results.push(problem.id);
+        }
+        return results;
+      })();
+      return Submission.aggregate('creator_id', 'count', {
+        where: {
+          problem_id: problemIDs,
+          result: 'AC'
+        },
+        group: 'problem_id',
+        distinct: true,
+        attributes: ['problem_id'],
+        plain: false
       });
+    }).then(function(ACcounts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = ACcounts.length; i < len; i++) {
+        p = ACcounts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.acceptedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.acceptedPeopleCount = tmp[p.id];
+        }
+      }
+      return Submission.aggregate('creator_id', 'count', {
+        where: {
+          problem_id: problemIDs
+        },
+        group: 'problem_id',
+        distinct: true,
+        attributes: ['problem_id'],
+        plain: false
+      });
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.triedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.triedPeopleCount = tmp[p.id];
+        }
+      }
+      return res.render('problem/index', {
+        user: req.session.user,
+        problems: currentProblems
+      });
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', 'Unknown error!');
+      return res.redirect(HOME_PAGE);
     });
   };
 
