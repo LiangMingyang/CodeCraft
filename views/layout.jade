@@ -4,8 +4,8 @@ html
         link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/layout.css')
         block title
-            - var whichpage = "OJ4TH"
-            title #{whichpage}
+            - var whichPage = "OJ4TH"
+            title #{whichPage}
         script(src="/js/jquery-2.1.1.min.js")
         script(src="/js/bootstrap.min.js")
         block script
@@ -49,25 +49,24 @@ html
                                                 a(href="/user/login", id="loginpage") 登录
                                             li.normalli
                                                 a(href="/user/register", id="registerpage") 注册
-                                        script.
-                                            if("#{whichpage}"=="注册")
-                                                $("#registerpage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="登录")
-                                                $("#loginpage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="")
-                                                $("#logoutpage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="")
-                                                $("#messegepage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="个人信息"||"#{whichpage}"=="修改信息"||"#{whichpage}"=="修改密码")
-                                                $("#informationpage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="赛事列表"||"#{whichpage}"=="赛事信息")
-                                                $("#contestpage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="题目列表"||"#{whichpage}"=="题目信息"||"#{whichpage}"=="提交记录"||"#{whichpage}"=="查看代码"||"#{whichpage}"=="小组题目")
-                                                $("#problempage").attr("class","little-big-font");
-                                            else if("#{whichpage}"=="申请创建小组"||"#{whichpage}"=="小组信息"||"#{whichpage}"=="所有小组"||"#{whichpage}"=="小组成员"||"#{whichpage}"=="小组题目")
-                                                $("#grouppage").attr("class","little-big-font");
-                                            else
-                                                $("#indexpage").attr("class","little-big-font");
+                                        - if(whichPage == "注册")
+                                            script $("#registerpage").attr("class","little-big-font");
+                                        - else if(whichPage == "登录")
+                                            script $("#loginpage").attr("class","little-big-font");
+                                        - else if(whichPage == "")
+                                            script $("#logoutpage").attr("class","little-big-font");
+                                        - else if(whichPage == "")
+                                            script $("#messegepage").attr("class","little-big-font");
+                                        - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
+                                            script $("#informationpage").attr("class","little-big-font");
+                                        - else if(whichPage == "赛事列表"||whichPage == "赛事信息")
+                                            script $("#contestpage").attr("class","little-big-font");
+                                        - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "提交记录"||whichPage == "查看代码"||whichPage == "小组题目")
+                                            script $("#problempage").attr("class","little-big-font");
+                                        - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目")
+                                            script $("#grouppage").attr("class","little-big-font");
+                                        - else
+                                            script $("#indexpage").attr("class","little-big-font");
 
 
                     .alert-success

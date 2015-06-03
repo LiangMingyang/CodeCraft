@@ -14,16 +14,20 @@
     'TLE' = time limit exceed
     'MLE' = memory limit exceed
     'RE' = run time error
-    'CE'
-    'PE'
+    'CE' = compile error
+    'PE' = presentation error
 extends ../layout
 block title
-    - var whichpage = "评测记录"
-    title #{whichpage}
+    - var whichPage = "评测记录"
+    title #{whichPage}
+    link(rel='stylesheet', href='/stylesheets/problem/submission.css')
+
 block content
     .col-lg-10.col-md-10.col-sm-10
         h1 {problem.title}的评测记录
-        table.table.table-striped
+        table.table.table-default
+            - var oddEvenTable = "odd"
+            - var colorOfTable = "red"
             tr
                 td 用户
                 td 序号
@@ -34,23 +38,37 @@ block content
                 td 代码长度
                 td 提交时间
             - for (var i = submissions.length - 1; i >= 0; i--)
-                tr
+                tr(class = "oddredtr", id = "tr#{i}")
                     td
                         a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                     td #{submissions[i].id}
-                    td #{submissions[i].result}
+                    td(class = "oddtd", id = "td#{i}") #{submissions[i].result}
                     td
                         a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
                     td #{submissions[i].time_cost}
                     td #{submissions[i].memory_cost}
                     td 需要代码长度
                     td #{submissions[i].created_at}
+                    - if(i % 2 == 1)
+                        - oddeventable = "odd"
+                    - else
+                        - oddeventable = "even"
+                    - if(submissions[i].result == "AC")
+                        - coloroftable = "blue"
+                    - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                        - coloroftable = "green"
+                    - else
+                        - coloroftable = "red"
+                    script.
+                        $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
+                        $("#td#{i}").attr("class","#{coloroftable}td");
+
     .col-lg-2.col-md-2.col-sm-2
         .list-group
             a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
             a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
         script.
-            if("#{whichpage}"=="评测记录")
+            if("#{whichPage}"=="评测记录")
                 $("#problem-submissionpage").attr("class","list-group-item change-color");
             else
                 $("#problem-problemindexpage").attr("class","list-group-item change-color");

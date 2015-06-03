@@ -11,8 +11,8 @@
             language --支持语言，是一个数组，每一项为一种语言
 extends ../layout
 block title
-    - var whichpage = "题目信息"
-    title #{whichpage}
+    - var whichPage = "题目信息"
+    title #{whichPage}
     //title #{title}
 block content
     //.col-lg-2
@@ -41,7 +41,7 @@ block content
             a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
             a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
         script.
-            if("#{whichpage}"=="评测记录")
+            if("#{whichPage}"=="评测记录")
                 $("#problem-submissionpage").attr("class","list-group-item change-color");
             else
                 $("#problem-problemindexpage").attr("class","list-group-item change-color");

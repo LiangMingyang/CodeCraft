@@ -8,9 +8,9 @@ if(user)
         a(class="list-group-item normal-color", id="edit", href="/user/" + user.id + "/edit") 修改信息
         a(class="list-group-item normal-color", id="updatepw", href="/user/" + user.id + "/updatepw") 修改密码
     script.
-        if("#{whichpage}"=="个人信息")
+        if("#{whichPage}"=="个人信息")
             $("#detail").attr("class","list-group-item change-color");
-        else if("#{whichpage}"=="修改信息")
+        else if("#{whichPage}"=="修改信息")
             $("#edit").attr("class","list-group-item change-color");
-        else if("#{whichpage}"=="修改密码")
+        else if("#{whichPage}"=="修改密码")
             $("#updatepw").attr("class","list-group-item change-color");
