@@ -118,6 +118,7 @@ exports.getSubmissions = (req, res) ->
     myUtils.findProblem(user, req.params.problemID)
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
+    currentProblem = problem
     problem.getSubmissions({
       include: [
         model: User

@@ -143,6 +143,7 @@
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
+      currentProblem = problem;
       return problem.getSubmissions({
         include: [
           {

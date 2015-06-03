@@ -6,12 +6,14 @@ module.exports = (sequelize, DataTypes) ->
       allowNull: false
       defaultValue: 'c++'
     result:
-      type: DataTypes.ENUM('WT', 'JG', 'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE') #TODO:参考李子星大神的论文
+      type: DataTypes.ENUM('WT', 'JG', 'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'PE') #TODO:参考李子星大神的论文
       allowNull: false
       defaultValue: 'WT'
     time_cost:
       type: DataTypes.INTEGER
     memory_cost:
+      type: DataTypes.INTEGER
+    code_length:
       type: DataTypes.INTEGER
     detail:
       type: DataTypes.TEXT
