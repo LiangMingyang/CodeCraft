@@ -3,25 +3,54 @@
    title -- 网页标题
    submissions --提交记录的数组
    submissions.each:
+
+
+//
+    返回结果
+    'WT' = waiting
+    'JG' = judging
+    'AC' = accepted
+    'WA' = wrong answer
+    'TLE' = time limit exceed
+    'MLE' = memory limit exceed
+    'RE' = run time error
+    'CE'
+    'PE'
 extends ../layout
 block title
-    - var whichpage = "提交记录"
+    - var whichpage = "评测记录"
     title #{whichpage}
 block content
-    table.table.table-striped
-        tr
-            td 序号
-            td 语言
-            td 结果
-            td 用户
-            td 提交时间
-        - for (var i = 0; i < submissions.length; i++)
+    .col-lg-10.col-md-10.col-sm-10
+        h1 {problem.title}的评测记录
+        table.table.table-striped
             tr
-                td #{submissions[i].id}
-                //td #{submissions[i].id}
-                td
-                    a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
-                td #{submissions[i].result}
-                td
-                    a(href='../../user/' + submissions[i].creator.id) #{submissions[i].creator.nickname}
-                td #{submissions[i].created_at}
+                td 用户
+                td 序号
+                td 结果
+                td 语言
+                td 使用时间
+                td 使用内存
+                td 代码长度
+                td 提交时间
+            - for (var i = submissions.length - 1; i >= 0; i--)
+                tr
+                    td
+                        a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                    td #{submissions[i].id}
+                    td #{submissions[i].result}
+                    td
+                        a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                    td #{submissions[i].time_cost}
+                    td #{submissions[i].memory_cost}
+                    td 需要代码长度
+                    td #{submissions[i].created_at}
+    .col-lg-2.col-md-2.col-sm-2
+        .list-group
+            a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
+            a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
+        script.
+            if("#{whichpage}"=="评测记录")
+                $("#problem-submissionpage").attr("class","list-group-item change-color");
+            else
+                $("#problem-problemindexpage").attr("class","list-group-item change-color");

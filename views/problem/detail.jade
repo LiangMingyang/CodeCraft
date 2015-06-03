@@ -17,7 +17,7 @@ block title
 block content
     //.col-lg-2
     //.col-lg-8
-    .col-lg-10
+    .col-lg-10.col-md-10.col-sm-10
         h1 #{problem.title}
         //h3 Test Setting
         li 时间限制: #{problem.test_setting.time_limit} ms
@@ -35,7 +35,7 @@ block content
             textarea(type="input", name='code')
             br
             button(type="submit") 提交
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2
 
         .list-group
             a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
