@@ -8,7 +8,7 @@
         defaultValue: 'c++'
       },
       result: {
-        type: DataTypes.ENUM('WT', 'JG', 'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE'),
+        type: DataTypes.ENUM('WT', 'JG', 'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'PE'),
         allowNull: false,
         defaultValue: 'WT'
       },
@@ -16,6 +16,9 @@
         type: DataTypes.INTEGER
       },
       memory_cost: {
+        type: DataTypes.INTEGER
+      },
+      code_length: {
         type: DataTypes.INTEGER
       },
       detail: {
