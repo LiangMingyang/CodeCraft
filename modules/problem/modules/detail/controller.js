@@ -20,7 +20,7 @@
 
   SUBMIT_PAGE = 'submit';
 
-  PROBLEM_PAGE = '../index';
+  PROBLEM_PAGE = '..';
 
   INDEX_PAGE = 'index';
 
@@ -77,14 +77,13 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Problem, Submission, Submission_Code, User, current_problem, current_submission, current_user, form, form_code;
+    var Submission, Submission_Code, User, current_problem, current_submission, current_user, form, form_code;
     form = {
       lang: req.body.lang
     };
     form_code = {
       content: req.body.code
     };
-    Problem = global.db.models.problem;
     Submission = global.db.models.submission;
     Submission_Code = global.db.models.submission_code;
     User = global.db.models.user;
@@ -131,9 +130,7 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Problem, Submission, User;
-    Submission = global.db.models.submission;
-    Problem = global.db.models.problem;
+    var User;
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {

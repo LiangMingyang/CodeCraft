@@ -60,7 +60,7 @@
 
   exports.getStaticProblem = function(problemId) {
     var dirname;
-    dirname = path.resolve(__dirname, '../../../../public/problem');
+    dirname = path.resolve(__dirname, '../../resource');
     return path.join(dirname, problemId.toString());
   };
 
@@ -132,8 +132,7 @@
   };
 
   exports.findProblem = function(user, problemID, include) {
-    var Problem, User, currentUser;
-    User = global.db.models.user;
+    var Problem, currentUser;
     Problem = global.db.models.problem;
     currentUser = void 0;
     return global.db.Promise.resolve().then(function() {

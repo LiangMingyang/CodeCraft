@@ -9,7 +9,7 @@ HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 SUBMISSION_PAGE = 'submission'
 SUBMIT_PAGE = 'submit'
-PROBLEM_PAGE = '../index'
+PROBLEM_PAGE = '..'
 
 INDEX_PAGE = 'index'
 
@@ -68,7 +68,6 @@ exports.postSubmission = (req, res) ->
     content: req.body.code
   }
 
-  Problem = global.db.models.problem;
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
@@ -110,8 +109,6 @@ exports.postSubmission = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
-  Submission = global.db.models.submission
-  Problem = global.db.models.problem
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
