@@ -21,13 +21,34 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      return res.render('contest/detail', {
+        user: req.session.user,
+        contest: contest
+      });
+    })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
+    });
+  };
+
+  exports.getProblem = function(req, res) {
+    var currentContest;
+    currentContest = void 0;
+    return myUtils.findContest(req, req.params.contestID).then(function(contest) {
+      if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
       currentContest = contest;
       if (contest.start_time > (new Date())) {
         return [];
       }
       return currentContest.getProblems();
     }).then(function(problems) {
-      return res.render('contest/detail', {
+      return res.render('contest/problem', {
         user: req.session.user,
         contest: currentContest,
         problems: problems

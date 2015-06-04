@@ -17,11 +17,29 @@ exports.getIndex = (req, res)->
   myUtils.findContest(req, req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    res.render 'contest/detail', {
+      user : req.session.user
+      contest : contest
+    }
+
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
+
+exports.getProblem = (req, res)->
+  currentContest = undefined
+  myUtils.findContest(req, req.params.contestID)
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
     return [] if contest.start_time > (new Date())
     currentContest.getProblems()
   .then (problems)->
-    res.render 'contest/detail', {
+    res.render 'contest/problem', {
       user : req.session.user
       contest : currentContest
       problems : problems
