@@ -10,12 +10,12 @@ exports.Error = {
 
 exports.findGroups = (user, include)->
   Group = global.db.models.group
-  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    currentUser = user
-    user.getGroups()
+    user.getGroups({
+      attributes : ['id']
+    })
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     Group.findAll
@@ -34,7 +34,9 @@ exports.findGroup = (user, groupID, include)->
   .then ->
     return [] if not user
     currentUser = user
-    user.getGroups()
+    user.getGroups({
+      attributes : ['id']
+    })
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     Group.find

@@ -88,10 +88,7 @@ exports.getJoin = (req, res) ->
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     joiner = user
-    myUtils.findGroup(user, req.params.groupID, [
-      model : User
-      as : 'creator'
-    ])
+    myUtils.findGroup(user, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
