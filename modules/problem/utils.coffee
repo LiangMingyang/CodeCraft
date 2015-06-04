@@ -21,7 +21,7 @@ class InvalidFile extends Error
     Error.captureStackTrace(this, InvalidFile)
 
 exports.getStaticProblem = (problemId) ->
-  dirname = path.resolve(__dirname,'../../resource')
+  dirname = global.config.problem_resource_path
   path.join dirname, problemId.toString()
 
 exports.Error = {

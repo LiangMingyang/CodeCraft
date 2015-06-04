@@ -21,7 +21,7 @@ class InvalidFile extends Error
     Error.captureStackTrace(this, InvalidFile)
 
 exports.getStaticProblem = (problemId) ->
-  dirname = path.resolve(__dirname,'../../resource')
+  dirname = global.config.problem_resource_path
   path.join dirname, problemId.toString()
 
 exports.Error = {
@@ -55,7 +55,7 @@ exports.findProblems = (req,include) ->
           access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
           group_id : normalGroups
         ,
-          access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有�?�就都可以看�?
+          access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有�?�就都可以看�?
           group_id : adminGroups
         ]
       include : include
@@ -84,7 +84,7 @@ exports.findProblem = (user, problemID,include)->
             access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
             group_id : normalGroups
           ,
-            access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有�?�就都可以看�?
+            access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有�?�就都可以看�?
             group_id : adminGroups
           ]
       include : include

@@ -124,6 +124,9 @@ exports.getSubmissions = (req, res) ->
         model: User
         as : 'creator'
       ]
+      order : [
+        ['id', 'DESC']
+      ]
     })
   .then (submissions) ->
     res.render('problem/submission', {

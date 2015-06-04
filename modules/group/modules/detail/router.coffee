@@ -23,4 +23,7 @@ router
 router
   .get '/problem', controller.getProblem
 
+router
+  .get '/contest', controller.getContest
+
 module.exports = router

@@ -8,16 +8,14 @@ exports.Error = {
   UnknownUser : UnknownUser
 }
 
-exports.findGroups = (req, include)->
-  User = global.db.models.user
+exports.findGroups = (user, include)->
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
-    return [] if not req.session.user
-    User.find req.session.user.id
-    .then (user)->
-      throw new UnknownUser() if not user
-      user.getGroups()
+    return [] if not user
+    user.getGroups({
+      attributes : ['id']
+    })
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     Group.findAll
@@ -29,16 +27,16 @@ exports.findGroups = (req, include)->
         ]
       include : include
 
-exports.findGroup = (req, groupID, include)->
-  User = global.db.models.user
+exports.findGroup = (user, groupID, include)->
   Group = global.db.models.group
+  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
-    return [] if not req.session.user
-    User.find req.session.user.id
-    .then (user)->
-      throw new UnknownUser() if not user
-      user.getGroups()
+    return [] if not user
+    currentUser = user
+    user.getGroups({
+      attributes : ['id']
+    })
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     Group.find

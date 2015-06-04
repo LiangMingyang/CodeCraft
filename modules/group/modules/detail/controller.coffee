@@ -13,14 +13,17 @@ GROUP_PAGE = '/group'
 LOGIN_PAGE = '/user/login'#然而这个东西并不能用相对路径
 
 exports.getIndex = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
   currentGroup = undefined
   isMember = false
-  myUtils.findGroup(req, req.params.groupID, [
-    model : User
-    as : 'creator'
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
@@ -45,17 +48,20 @@ exports.getIndex = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getMember = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
-  myUtils.findGroup(req, req.params.groupID, [
-    model : User
-    as : 'creator'
-  ,
-    model: User
-    through:
-      where:
-        access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ,
+      model: User
+      through:
+        where:
+          access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     res.render 'group/member', {
@@ -72,7 +78,6 @@ exports.getMember = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getJoin = (req, res) ->
-  Group = global.db.models.group
   User  = global.db.models.user
   joiner = undefined
   currentGroup = undefined
@@ -83,10 +88,7 @@ exports.getJoin = (req, res) ->
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     joiner = user
-    myUtils.findGroup(req, req.params.groupID, [
-      model : User
-      as : 'creator'
-    ])
+    myUtils.findGroup(user, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
@@ -113,18 +115,43 @@ exports.getJoin = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getProblem = (req, res) ->
-  Group = global.db.models.group
-  Problem = global.db.models.problem
   User = global.db.models.user
   currentGroup = undefined
-  myUtils.findGroup(req, req.params.groupID, [
-    model : User
-    as : 'creator'
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    group.getProblems()
+    group.getUsers(
+      where :
+        id : (
+          if req.session.user
+            req.session.user.id
+          else
+            null
+        )
+      attributes : []
+    )
+  .then (users)->
+    access = ['public']
+    if users.length isnt 0
+      user = users[0]
+      access.push 'protect' if user.membership.access_level isnt 'verifying'
+      access.push 'private' if user.membership.access_level in ['owner','admin']
+    currentGroup.getProblems(
+      where:
+        $or:[
+          access_level : access
+        ,
+          creator_id : req.session.user.id if req.session.user
+        ]
+    )
   .then (problems)->
     res.render 'group/problem', {
       user   : req.session.user
@@ -141,7 +168,54 @@ exports.getProblem = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getContest = (req, res) ->
-  res.render 'index', {
-    user : req.session.user
-    title : "Contests of #{req.params.groupID}"
-  }
+  User = global.db.models.user
+  currentGroup = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
+  .then (group)->
+    throw new myUtils.Error.UnknownGroup() if not group
+    currentGroup = group
+    group.getUsers(
+      where :
+        id : (
+          if req.session.user
+            req.session.user.id
+          else
+            null
+        )
+      attributes : []
+    )
+  .then (users)->
+    access = ['public']
+    if users.length isnt 0
+      user = users[0]
+      access.push 'protect' if user.membership.access_level isnt 'verifying'
+      access.push 'private' if user.membership.access_level in ['owner','admin']
+    currentGroup.getContests(
+      where:
+        $or:[
+          access_level : access
+        ,
+          creator_id : req.session.user.id if req.session.user
+        ]
+    )
+  .then (contests)->
+    res.render 'group/contest', {
+      user   : req.session.user
+      group  : currentGroup
+      contests : contests
+    }
+
+  .catch myUtils.Error.UnknownGroup, (err)->
+    req.flash 'info', err.message
+    res.redirect GROUP_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
