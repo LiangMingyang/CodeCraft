@@ -48,6 +48,7 @@ module.exports = (database, username, password, config)->
     as : 'creator'
   })
   Submission.belongsTo(Problem)
+  Submission.belongsTo(Contest)
 
   Problem.hasMany(Submission)
   Problem.belongsTo(User, {

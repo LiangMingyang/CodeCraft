@@ -16,8 +16,7 @@
         validate: {
           min: 0
         },
-        defaultValue: 0,
-        unique: 'contest_problem_order'
+        defaultValue: 0
       },
       contest_id: {
         type: DataTypes.INTEGER,

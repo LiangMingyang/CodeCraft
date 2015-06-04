@@ -77,7 +77,7 @@ global.db = require('./database')(
     config.database.password,
     config.database.config
 );
-
+global.config = config
 global.db.sync();
 
 module.exports = app;

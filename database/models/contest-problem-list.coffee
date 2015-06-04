@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) ->
       validate:
         min: 0
       defaultValue: 0
-      unique: 'contest_problem_order'
     contest_id:
       type: DataTypes.INTEGER
       unique: 'contest_problem_order'

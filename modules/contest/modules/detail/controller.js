@@ -15,19 +15,16 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Contest, Problem, User, currentContest;
-    Contest = global.db.models.contest;
-    User = global.db.models.user;
-    Problem = global.db.models.problem;
+    var currentContest;
     currentContest = void 0;
     return myUtils.findContest(req, req.params.contestID).then(function(contest) {
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      currentContest = contest;
       if (contest.start_time > (new Date())) {
         return [];
       }
-      currentContest = contest;
       return currentContest.getProblems();
     }).then(function(problems) {
       return res.render('contest/detail', {
@@ -46,10 +43,7 @@
   };
 
   exports.getSubmission = function(req, res) {
-    var Contest, Group, User, currentContest;
-    Group = global.db.models.group;
-    Contest = global.db.models.contest;
-    User = global.db.models.user;
+    var currentContest;
     currentContest = void 0;
     return myUtils.findContest(req, req.params.contestID).then(function(contest) {
       if (!contest) {

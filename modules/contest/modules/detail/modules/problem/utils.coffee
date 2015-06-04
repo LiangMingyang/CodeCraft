@@ -5,6 +5,11 @@ class UnknownProblem extends Error
     @name = 'UnknownProblem'
     Error.captureStackTrace(this, UnknownProblem)
 
+class UnknownContest extends Error
+  constructor: (@message = "Unknown contest.") ->
+    @name = 'UnknownContest'
+    Error.captureStackTrace(this, UnknownContest)
+
 class InvalidAccess extends Error
   constructor: (@message = "Invalid Access, please return") ->
     @name = 'InvalidAccess'
@@ -20,6 +25,7 @@ class InvalidFile extends Error
     @name = 'InvalidFile'
     Error.captureStackTrace(this, InvalidFile)
 
+
 exports.getStaticProblem = (problemId) ->
   dirname = global.config.problem_resource_path
   path.join dirname, problemId.toString()
@@ -29,42 +35,22 @@ exports.Error = {
   InvalidAccess: InvalidAccess,
   UnknownProblem: UnknownProblem,
   InvalidFile: InvalidFile
+  UnknownContest : UnknownContest
 }
 
-exports.findProblems = (req,include) ->
-  User = global.db.models.user
+exports.findProblem = (user, problemID,include)->
   Problem = global.db.models.problem
-  currentUser = undefined
-  global.db.Promise.resolve()
-  .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    return [] if not user
-    currentUser = user
-    currentUser.getGroups()
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
-    adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
-    Problem.findAll({
-      where :
-        $or:[
-          creator_id : currentUser.id  if currentUser #如果该用户是创建者可以看到的
-        ,
-          access_level : 'public'    #public的题目谁都可以看
-        ,
-          access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
-          group_id : normalGroups
-        ,
-          access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有者就都可以看到
-          group_id : adminGroups
-        ]
-      include : include
-    })
+  Problem.find(
+    where :
+      id : problemID
+    include : include
+  )
 
-exports.findProblem = (req, problemID,include)->
+exports.findContest = (req, contestID)->
+  Contest = global.db.models.contest
   User = global.db.models.user
-  Problem = global.db.models.problem
   currentUser = undefined
+
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -75,10 +61,10 @@ exports.findProblem = (req, problemID,include)->
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
-    Problem.find({
+    Contest.find({
       where :
         $and:
-          id : problemID
+          id : contestID
           $or:[
             creator_id : currentUser.id  if currentUser #如果该用户是创建者可以看到的
           ,
@@ -90,19 +76,14 @@ exports.findProblem = (req, problemID,include)->
             access_level : 'private'  #如果这个赛事权限是private，那么如果该用户是小组管理员或拥有者就都可以看到
             group_id : adminGroups
           ]
-      include : include
+      include : [
+        model : User
+        as : 'creator'
+      ]
     })
 
-exports.getResultPeopleCount = (problems, results)->
-  problems = [problems] if not problems instanceof Array
-  Submission = global.db.models.submission
-  options = {
-    where:
-      problem_id : (problem.id for problem in problems)
-    group : 'problem_id'
-    distinct : true
-    attributes : ['problem_id']
-    plain : false
-  }
-  options.where.result = results if results
-  Submission.aggregate('creator_id', 'count', options)
+exports.lettersToNumber = (word)->
+  res = 0
+  for i in word
+    res = res * 26 + (i.charCodeAt(0) - 65)
+  return res

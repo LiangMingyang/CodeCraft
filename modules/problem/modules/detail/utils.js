@@ -60,7 +60,7 @@
 
   exports.getStaticProblem = function(problemId) {
     var dirname;
-    dirname = path.resolve(__dirname, '../../resource');
+    dirname = global.config.problem_resource_path;
     return path.join(dirname, problemId.toString());
   };
 
