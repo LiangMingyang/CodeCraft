@@ -168,7 +168,54 @@ exports.getProblem = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.getContest = (req, res) ->
-  res.render 'index', {
-    user : req.session.user
-    title : "Contests of #{req.params.groupID}"
-  }
+  User = global.db.models.user
+  currentGroup = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findGroup(user, req.params.groupID, [
+      model : User
+      as : 'creator'
+    ])
+  .then (group)->
+    throw new myUtils.Error.UnknownGroup() if not group
+    currentGroup = group
+    group.getUsers(
+      where :
+        id : (
+          if req.session.user
+            req.session.user.id
+          else
+            null
+        )
+      attributes : []
+    )
+  .then (users)->
+    access = ['public']
+    if users.length isnt 0
+      user = users[0]
+      access.push 'protect' if user.membership.access_level isnt 'verifying'
+      access.push 'private' if user.membership.access_level in ['owner','admin']
+    currentGroup.getContests(
+      where:
+        $or:[
+          access_level : access
+        ,
+          creator_id : req.session.user.id if req.session.user
+        ]
+    )
+  .then (contests)->
+    res.render 'group/contest', {
+      user   : req.session.user
+      group  : currentGroup
+      contests : contests
+    }
+
+  .catch myUtils.Error.UnknownGroup, (err)->
+    req.flash 'info', err.message
+    res.redirect GROUP_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
