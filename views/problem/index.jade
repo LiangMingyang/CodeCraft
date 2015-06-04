@@ -18,6 +18,8 @@ block content
                 td.col-lg-1 难度
                 td.col-lg-2 通过率(通过/提交)
             tr
+                - if(user)
+                    td 是否AC
                 td 题目ID
                 td 所属小组
                 td 题目名称
@@ -26,6 +28,8 @@ block content
             - for (var i = 0 ; i < problems.length ; ++i)
                 - var problem = problems[i];
                 tr
+                    - if(user)
+                        td 过了or没过
                     td
                         a(href= "#{problem.id}/index") #{problem.id}
                     td
