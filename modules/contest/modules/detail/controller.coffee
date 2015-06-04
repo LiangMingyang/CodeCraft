@@ -13,15 +13,12 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res)->
-  Contest = global.db.models.contest
-  User = global.db.models.user
-  Problem = global.db.models.problem
   currentContest = undefined
   myUtils.findContest(req, req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
-    return [] if contest.start_time > (new Date())
     currentContest = contest
+    return [] if contest.start_time > (new Date())
     currentContest.getProblems()
   .then (problems)->
     res.render 'contest/detail', {
@@ -39,9 +36,6 @@ exports.getIndex = (req, res)->
     res.redirect HOME_PAGE
 
 exports.getSubmission = (req, res)->
-  Group = global.db.models.group
-  Contest = global.db.models.contest
-  User = global.db.models.user
   currentContest = undefined
   myUtils.findContest(req, req.params.contestID)
   .then (contest)->
