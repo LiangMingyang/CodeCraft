@@ -8,7 +8,8 @@ exports.getIndex = (req, res) ->
   Message.findAll({
     where: {
       user_id: req.session.user.id
-    }
+    },
+    order: ['created_at','DESC']
   })
   .then (messages) ->
     req.flash 'info', 'message success'
