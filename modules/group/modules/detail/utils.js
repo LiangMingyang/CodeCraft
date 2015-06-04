@@ -119,6 +119,27 @@
     });
   };
 
+  exports.findUser = function(group, userID) {
+    return global.db.Promise.resolve().then(function() {
+      return group.getUsers({
+        where: {
+          id: userID
+        }
+      });
+    }).then(function(users) {
+      if (users.length === 0) {
+        return void 0;
+      }
+      if (users[0].membership.access_level === 'verifying') {
+        return void 0;
+      }
+      if (users[0].membership.access_level === 'member' && group.access_level === 'private') {
+        return void 0;
+      }
+      return users[0];
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

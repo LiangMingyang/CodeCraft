@@ -128,7 +128,30 @@ exports.getProblem = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    group.getProblems()
+    group.getUsers(
+      where :
+        id : (
+          if req.session.user
+            req.session.user.id
+          else
+            null
+        )
+      attributes : []
+    )
+  .then (users)->
+    access = ['public']
+    if users.length isnt 0
+      user = users[0]
+      access.push 'protect' if user.membership.access_level isnt 'verifying'
+      access.push 'private' if user.membership.access_level in ['owner','admin']
+    currentGroup.getProblems(
+      where:
+        $or:[
+          access_level : access
+        ,
+          creator_id : req.session.user.id if req.session.user
+        ]
+    )
   .then (problems)->
     res.render 'group/problem', {
       user   : req.session.user

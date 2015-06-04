@@ -167,7 +167,35 @@
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
-      return group.getProblems();
+      return group.getUsers({
+        where: {
+          id: (req.session.user ? req.session.user.id : null)
+        },
+        attributes: []
+      });
+    }).then(function(users) {
+      var access, ref, user;
+      access = ['public'];
+      if (users.length !== 0) {
+        user = users[0];
+        if (user.membership.access_level !== 'verifying') {
+          access.push('protect');
+        }
+        if ((ref = user.membership.access_level) === 'owner' || ref === 'admin') {
+          access.push('private');
+        }
+      }
+      return currentGroup.getProblems({
+        where: {
+          $or: [
+            {
+              access_level: access
+            }, req.session.user ? {
+              creator_id: req.session.user.id
+            } : void 0
+          ]
+        }
+      });
     }).then(function(problems) {
       return res.render('group/problem', {
         user: req.session.user,
