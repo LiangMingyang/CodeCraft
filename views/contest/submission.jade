@@ -4,14 +4,15 @@ extends ../layout
 block title
     - var whichPage = "评测记录"
     title #{whichPage}
+    link(rel='stylesheet', href='/stylesheets/submission.css')
+
 block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error"}
     .col-lg-2.col-md-2.col-sm-2
-
+        include contest.jade
     .col-lg-8.col-md-8.col-sm-8
-        h3 #{problem.title} 的评测记录
         table.table.table-center
             tr
                 td 用户
@@ -23,29 +24,27 @@ block content
                 td 代码长度
                 td 提交时间
             - for (var i = 0 ;i < submissions.length ; i++)
-            tr(id = "tr#{i}")
-                td
-                    a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
-                td #{submissions[i].id}
-                td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
-                td
-                    a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
-                td #{submissions[i].time_cost}
-                td #{submissions[i].memory_cost}
-                td 需要代码长度
-                td #{submissions[i].created_at.toLocaleString()}
-                - if(i % 2 == 1)
-                - oddeventable = "odd"
-                - else
-                - oddeventable = "even"
-                - if(submissions[i].result == "AC")
-                - coloroftable = "blue"
-                - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
-                - coloroftable = "green"
-                - else
-                - coloroftable = "red"
-                script.
-                    $("#tr#{i}").attr("class", "#{oddeventable}#{coloroftable}tr");
-                    $("#td#{i}").attr("class", "#{coloroftable}td");
-    .col-lg-2.col-md-2.col-sm-2
-        include problem.jade
+                tr(id = "tr#{i}")
+                    td
+                    //    a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                    td #{submissions[i].id}
+                    td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                    td
+                        a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                    td #{submissions[i].time_cost}
+                    td #{submissions[i].memory_cost}
+                    td 需要代码长度
+                    td #{submissions[i].created_at.toLocaleString()}
+                    - if(i % 2 == 1)
+                        - oddeventable = "odd"
+                    - else
+                        - oddeventable = "even"
+                    - if(submissions[i].result == "AC")
+                        - coloroftable = "blue"
+                    - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                        - coloroftable = "green"
+                    - else
+                        - coloroftable = "red"
+                    script.
+                        $("#tr#{i}").attr("class", "#{oddeventable}#{coloroftable}tr");
+                        $("#td#{i}").attr("class", "#{coloroftable}td");
