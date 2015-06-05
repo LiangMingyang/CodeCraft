@@ -22,6 +22,7 @@ exports.getIndex = (req, res) ->
   User = global.db.models.user
   Group = global.db.models.group
   currentProblem = undefined
+  currentContest = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -29,6 +30,7 @@ exports.getIndex = (req, res) ->
     myUtils.findContest(user,req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    currentContest = contest
     order = myUtils.lettersToNumber(req.params.problemID)
     myUtils.findProblemWithContest(contest, order, [
       model : User
@@ -50,7 +52,7 @@ exports.getIndex = (req, res) ->
       title: 'Problem List Page',
       user: req.session.user,
       problem: currentProblem
-      contest : req.body.contest
+      contest : currentContest
     }
 
   .catch myUtils.Error.UnknownUser, (err)->
@@ -78,18 +80,21 @@ exports.postSubmission = (req, res) ->
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
   Group = global.db.models.group
-  current_user = undefined
-  current_submission = undefined
-  current_problem = undefined
+  currentUser = undefined
+  currentSubmission = undefined
+  currentProblem = undefined
+  currentContest = undefined
 
 
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findContest(user,req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    currentContest = contest
     order = myUtils.lettersToNumber(req.params.problemID)
     myUtils.findProblemWithContest(contest,order, [
       model : User
@@ -99,16 +104,16 @@ exports.postSubmission = (req, res) ->
     ])
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
-    current_problem = problem
+    currentProblem = problem
     Submission.create(form)
   .then (submission) ->
-    current_user.addSubmission(submission)
-    current_problem.addSubmission(submission)
-    current_submission = submission
-    req.body.contest.addSubmission(submission) if req.body.contest
+    currentUser.addSubmission(submission)
+    currentProblem.addSubmission(submission)
+    currentContest.addSubmission(submission)
+    currentSubmission = submission
     Submission_Code.create(form_code)
   .then (code) ->
-    current_submission.setSubmission_code(code)
+    currentSubmission.setSubmission_code(code)
   .then ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
@@ -132,6 +137,7 @@ exports.getSubmissions = (req, res) ->
   Group = global.db.models.group
   Contest = global.db.models.contest
   currentProblem = undefined
+  currentContest = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -139,6 +145,7 @@ exports.getSubmissions = (req, res) ->
     myUtils.findContest(user,req.params.contestID)
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    currentContest = contest
     order = myUtils.lettersToNumber(req.params.problemID)
     myUtils.findProblemWithContest(contest,order, [
       model : User
@@ -149,18 +156,15 @@ exports.getSubmissions = (req, res) ->
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
-    include = [
-      model: User
-      as : 'creator'
-    ]
-    if req.body.contest
-      include.push {
+    problem.getSubmissions({
+      include: [
+        model: User
+        as : 'creator'
+      ,
         model: Contest
         where:
-          id : req.body.contest.id
-      }
-    problem.getSubmissions({
-      include: include
+          id : currentContest.id
+      ]
       order : [
         ['created_at', 'DESC']
       ]

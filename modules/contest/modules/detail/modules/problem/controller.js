@@ -29,11 +29,12 @@
   CONTEST_PAGE = '/contest';
 
   exports.getIndex = function(req, res) {
-    var Group, Problem, User, currentProblem;
+    var Group, Problem, User, currentContest, currentProblem;
     Problem = global.db.models.problem;
     User = global.db.models.user;
     Group = global.db.models.group;
     currentProblem = void 0;
+    currentContest = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -45,6 +46,7 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      currentContest = contest;
       order = myUtils.lettersToNumber(req.params.problemID);
       return myUtils.findProblemWithContest(contest, order, [
         {
@@ -71,7 +73,7 @@
         title: 'Problem List Page',
         user: req.session.user,
         problem: currentProblem,
-        contest: req.body.contest
+        contest: currentContest
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
@@ -87,7 +89,7 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Group, Submission, Submission_Code, User, current_problem, current_submission, current_user, form, form_code;
+    var Group, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser, form, form_code;
     form = {
       lang: req.body.lang
     };
@@ -98,20 +100,23 @@
     Submission_Code = global.db.models.submission_code;
     User = global.db.models.user;
     Group = global.db.models.group;
-    current_user = void 0;
-    current_submission = void 0;
-    current_problem = void 0;
+    currentUser = void 0;
+    currentSubmission = void 0;
+    currentProblem = void 0;
+    currentContest = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID);
     }).then(function(contest) {
       var order;
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      currentContest = contest;
       order = myUtils.lettersToNumber(req.params.problemID);
       return myUtils.findProblemWithContest(contest, order, [
         {
@@ -125,18 +130,16 @@
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
-      current_problem = problem;
+      currentProblem = problem;
       return Submission.create(form);
     }).then(function(submission) {
-      current_user.addSubmission(submission);
-      current_problem.addSubmission(submission);
-      current_submission = submission;
-      if (req.body.contest) {
-        req.body.contest.addSubmission(submission);
-      }
+      currentUser.addSubmission(submission);
+      currentProblem.addSubmission(submission);
+      currentContest.addSubmission(submission);
+      currentSubmission = submission;
       return Submission_Code.create(form_code);
     }).then(function(code) {
-      return current_submission.setSubmission_code(code);
+      return currentSubmission.setSubmission_code(code);
     }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
@@ -157,11 +160,12 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Group, User, currentProblem;
+    var Contest, Group, User, currentContest, currentProblem;
     User = global.db.models.user;
     Group = global.db.models.group;
     Contest = global.db.models.contest;
     currentProblem = void 0;
+    currentContest = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -173,6 +177,7 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      currentContest = contest;
       order = myUtils.lettersToNumber(req.params.problemID);
       return myUtils.findProblemWithContest(contest, order, [
         {
@@ -183,27 +188,22 @@
         }
       ]);
     }).then(function(problem) {
-      var include;
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
-      include = [
-        {
-          model: User,
-          as: 'creator'
-        }
-      ];
-      if (req.body.contest) {
-        include.push({
-          model: Contest,
-          where: {
-            id: req.body.contest.id
-          }
-        });
-      }
       return problem.getSubmissions({
-        include: include,
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }, {
+            model: Contest,
+            where: {
+              id: currentContest.id
+            }
+          }
+        ],
         order: [['created_at', 'DESC']]
       });
     }).then(function(submissions) {
