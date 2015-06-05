@@ -1,0 +1,7 @@
+//
+    zp!
+.col-lg-12.col-md-12.col-sm-12.text-center
+    if(contest)
+        - for (var i = 0 ; i < problems.length ; ++i)
+            - var problem = problems[i];
+            a.btn.btn-default(href= "./problem/#{String.fromCharCode(problem.contest_problem_list.order + 65)}") #{String.fromCharCode(problem.contest_problem_list.order + 65)}

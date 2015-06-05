@@ -5,28 +5,9 @@ block title
     - var whichPage = "赛事信息"
     title #{whichPage}
 block content
+    //include porblem-list.jade
     .col-lg-2
         include contest.jade
-        //table.table.table-striped
-            tr
-                td 比赛名称
-            tr
-                td
-                    a(href="index")= contest.title
-            tr
-                td 比赛创建者
-            tr
-                td
-                    a(href="/user/#{contest.creator.id}")= contest.creator.nickname
-            tr
-                td 比赛简介
-            tr
-                td #{contest.description}
-            tr
-                td 比赛题目
-            tr
-                td
-                    a(href="./problem") 比赛题目
     .col-lg-8
         h3 比赛简介
         p

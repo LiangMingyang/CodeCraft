@@ -20,13 +20,15 @@ extends ../layout
 block title
     - var whichPage = "评测记录"
     title #{whichPage}
-    link(rel='stylesheet', href='/stylesheets/problem/submission.css')
+    link(rel='stylesheet', href='/stylesheets/submission.css')
 
 block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error"}
-    .col-lg-10.col-md-10.col-sm-10
+    .col-lg-2.col-md-2.col-sm-2
+        include ../contest/contest.jade
+    .col-lg-8.col-md-8.col-sm-8
         h3 #{problem.title} 的评测记录
         table.table.table-center
             tr
