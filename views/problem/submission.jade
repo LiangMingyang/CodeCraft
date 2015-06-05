@@ -1,27 +1,99 @@
 //
    Created by heavenduke on 15-5-23.
-
    title -- 网页标题
    submissions --提交记录的数组
    submissions.each:
 
 
+//
+    返回结果
+    'WT' = waiting
+    'JG' = judging
+    'AC' = accepted
+    'WA' = wrong answer
+    'TLE' = time limit exceed
+    'MLE' = memory limit exceed
+    'RE' = run time error
+    'CE' = compile error
+    'PE' = presentation error
 extends ../layout
+block title
+    - var whichPage = "评测记录"
+    title #{whichPage}
+    link(rel='stylesheet', href='/stylesheets/problem/submission.css')
 
 block content
-   table.table.table-striped
-      tr
-         td 序号
-         td 语言
-         td 结果
-         td 用户
-         td 提交时间
+    - var oddEvenTable = "odd"
+    - var colorOfTable = "red"
+    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error"}
+    .col-lg-10.col-md-10.col-sm-10
+        h1 #{problem.title} 的评测记录
+        table.table.table-center
+            tr
+                td 用户
+                td 序号
+                td 结果
+                td 语言
+                td 运行时间
+                td 运行内存
+                td 代码长度
+                td 提交时间
+            - for (var i = submissions.length - 1; i >= 0; i--)
+                tr(class = "oddredtr", id = "tr#{i}")
+                    td
+                        a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                    td #{submissions[i].id}
+                    td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                    td
+                        a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                    td #{submissions[i].time_cost}
+                    td #{submissions[i].memory_cost}
+                    td 需要代码长度
+                    td #{submissions[i].created_at.toLocaleString()}
+                    - if(i % 2 == 1)
+                        - oddeventable = "odd"
+                    - else
+                        - oddeventable = "even"
+                    - if(submissions[i].result == "AC")
+                        - coloroftable = "blue"
+                    - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                        - coloroftable = "green"
+                    - else
+                        - coloroftable = "red"
+                    script.
+                        $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
+                        $("#td#{i}").attr("class","#{coloroftable}td");
 
-      - for (var i = 0; i < submissions.length; i++)
-         tr
-            td #{i}
-            td #{submissions[i].lang}
-            td #{submissions[i].result}
-            td
-               a(href='../../user/' + submissions[i].user.id) #{submissions[i].user.nickname}
-            td #{submissions[i].created_at}
+    .col-lg-2.col-md-2.col-sm-2
+        .list-group
+            a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
+            a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
+        script.
+            if("#{whichPage}"=="评测记录")
+                $("#problem-submissionpage").attr("class","list-group-item change-color");
+            else
+                $("#problem-problemindexpage").attr("class","list-group-item change-color");
+        .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    form(method='post', action='./submit')
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title 提交代码
+                        .modal-body
+                            .row
+                                .col-lg-3
+                                    |语言选择：
+                                .col-lg-9
+                                    select(type="input", name='lang', value='C')
+                                        option(value="c++") c++
+                                        option(value="c") c
+                            |源代码：
+                            label.sr-only(for="code") 输入代码
+                            textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
+                        .modal-footer
+                            //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                            button.btn.btn-primary(type='submit') 确认提交

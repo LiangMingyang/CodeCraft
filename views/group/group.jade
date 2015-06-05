@@ -36,19 +36,20 @@ if(group)
                 label.control-label(for="school")  #{group.creator.nickname}
 
     .list-group
-        a(class="list-group-item normal-color", id="groupindex", href="./index") 小组主页
-        a(class="list-group-item normal-color", id="member", href="./member") 小组成员
-        a(class="list-group-item normal-color", id="contest", href="./contest") 小组比赛
-        a(class="list-group-item normal-color", id="problem", href="./problem") 小组题目
+        a(class="list-group-item normal-color", id="group-groupindexpage", href="./index") 小组主页
+        a(class="list-group-item normal-color", id="group-memberpage", href="./member") 小组成员
+        a(class="list-group-item normal-color", id="group-contestpage", href="./contest") 小组比赛
+        a(class="list-group-item normal-color", id="group-problempage", href="./problem") 小组题目
+        a(class="list-group-item normal-color", id="group-returnpage", href="../index") 返回所有小组
     script.
-        if("#{whichpage}"=="小组题目")
-            $("#problem").attr("class","list-group-item change-color");
-        else if("#{whichpage}"=="小组比赛")
-            $("#contest").attr("class","list-group-item change-color");
-        else if("#{whichpage}"=="小组成员")
-            $("#member").attr("class","list-group-item change-color");
+        if("#{whichPage}"=="小组题目")
+            $("#group-problempage").attr("class","list-group-item change-color");
+        else if("#{whichPage}"=="小组比赛")
+            $("#group-contestpage").attr("class","list-group-item change-color");
+        else if("#{whichPage}"=="小组成员")
+            $("#group-memberpage").attr("class","list-group-item change-color");
         else
-            $("#groupindex").attr("class","list-group-item change-color");
+            $("#group-groupindexpage").attr("class","list-group-item change-color");
 
     //- if ( !isMember )
         a.button.btn.btn-default(href="join") 加入该小组

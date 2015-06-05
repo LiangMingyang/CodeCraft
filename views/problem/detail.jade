@@ -3,57 +3,69 @@
     title --网页标题
     problem -- 题目数据
         title --题目标题
-        description --题目描述
+        description --题目描述，是一个HTML
         test_setting --题目评测设置
             time_limit -- 时间限制（无单位整数，默认为ms）
             memory_limit -- 内存限制（无单位整数，默认为MB）
             special_judge -- 是否为special judge（布尔值，true为有）
+            language --支持语言，是一个数组，每一项为一种语言
 extends ../layout
 block title
-    - var whichpage = problem.title
-    title #{whichpage}
+    - var whichPage = "题目信息"
+    title #{whichPage}
     //title #{title}
 block content
+    //.col-lg-2
+    //.col-lg-8
+    .col-lg-10.col-md-10.col-sm-10
+        h1 #{problem.title}
+        //h3 Test Setting
+        li 时间限制: #{problem.test_setting.time_limit} ms
+        li 内存限制: #{problem.test_setting.memory_limit} kb
+        li Special Judge: #{problem.test_setting.special_judge}
+        p !{problem.description}
 
 
-    h1 #{problem.title}
-    p !{problem.description}
-    h3 Test Setting
-    li Time Limit: #{problem.test_setting.time_limit}
-    li Memory Limit: #{problem.test_setting.memory_limit}
-    li Special Judge: #{problem.test_setting.special_judge}
+    //    form(method='post', action='./' + problem.problem_id + '/submit')
+            label Your Code：
+            select(type="input", name='lang' value='C')
+                option(value="c++") c++
+                option(value="c") c
+            br
+            textarea(type="input", name='code')
+            br
+            button(type="submit") 提交
+    .col-lg-2.col-md-2.col-sm-2
 
-    .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+        .list-group
+            a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
+            a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
+        script.
+            if("#{whichPage}"=="评测记录")
+                $("#problem-submissionpage").attr("class","list-group-item change-color");
+            else
+                $("#problem-problemindexpage").attr("class","list-group-item change-color");
+        .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
 
-    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-        .modal-dialog
-            .modal-content
-                form(method='post', action='./' + problem.problem_id + '/submit')
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title 提交代码
-                    .modal-body
-                        .row
-                            .col-lg-3
-                                |语言选择：
-                            .col-lg-9
-                                select(type="input", name='lang', value='C')
-                                    option(value="c++") c++
-                                    option(value="c") c
-                        |源代码：
-                        label.sr-only(for="code") 输入代码
-                        textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
-                    .modal-footer
-                        //button.btn.btn-default(type='button', data-dismiss='modal') 取消
-                        button.btn.btn-primary(type='submit') 确认提交
-
-//    form(method='post', action='./' + problem.problem_id + '/submit')
-        label Your Code：
-        select(type="input", name='lang' value='C')
-            option(value="c++") c++
-            option(value="c") c
-        br
-        textarea(type="input", name='code')
-        br
-        button(type="submit") 提交
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    form(method='post', action='./submit')
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title 提交代码
+                        .modal-body
+                            .row
+                                .col-lg-3
+                                    |语言选择：
+                                .col-lg-9
+                                    select(type="input", name='lang', value='C')
+                                        option(value="c++") c++
+                                        option(value="c") c
+                            |源代码：
+                            label.sr-only(for="code") 输入代码
+                            textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
+                        .modal-footer
+                            //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                            button.btn.btn-primary(type='submit') 确认提交

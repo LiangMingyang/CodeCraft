@@ -33,34 +33,58 @@ exports.Error = {
 }
 
 
-exports.findContests = (req) ->
+exports.findContests = (user, include) ->
   Contest = global.db.models.contest
-  User = global.db.models.user
-  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
     return [] if not user
-    currentUser = user
-    user.getGroups()
+    user.getGroups(
+      attributes : ['id']
+    )
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
     Contest.findAll({
       where :
         $or:[
-          creator_id : currentUser.id  if currentUser #Èç¹û¸ÃÓÃ»§ÊÇ´´½¨Õß¿ÉÒÔ¿´µ½µÄ
+          creator_id : user.id  if user #å¦‚æœè¯¥ç”¨æˆ·æ˜¯åˆ›å»ºè€…å¯ä»¥çœ‹åˆ°çš„
         ,
-          access_level : 'public'    #publicµÄÌâÄ¿Ë­¶¼¿ÉÒÔ¿´
+          access_level : 'public'    #publicçš„é¢˜ç›®è°éƒ½å¯ä»¥çœ‹
         ,
-          access_level : 'protect'   #Èç¹ûÕâ¸öÈ¨ÏŞÊÇprotect£¬ÄÇÃ´Èç¹û¸ÃÓÃ»§ÊÇĞ¡×é³ÉÔ±¾Í¿ÉÒÔ¿´µ½
+          access_level : 'protect'   #å¦‚æœè¿™ä¸ªæƒé™æ˜¯protectï¼Œé‚£ä¹ˆå¦‚æœè¯¥ç”¨æˆ·æ˜¯å°ç»„æˆå‘˜å°±å¯ä»¥çœ‹åˆ°
           group_id : normalGroups
         ,
-          access_level : 'private'  #Èç¹ûÕâ¸öÈüÊÂÈ¨ÏŞÊÇprivate£¬ÄÇÃ´Èç¹û¸ÃÓÃ»§ÊÇĞ¡×é¹ÜÀíÔ±»òÓµÓĞÕß¾Í¶¼¿ÉÒÔ¿´µ½
+          access_level : 'private'  #å¦‚æœè¿™ä¸ªèµ›äº‹æƒé™æ˜¯privateï¼Œé‚£ä¹ˆå¦‚æœè¯¥ç”¨æˆ·æ˜¯å°ç»„ç®¡ç†å‘˜æˆ–æ‹¥æœ‰è€…å°±éƒ½å¯ä»¥çœ‹åˆ°
           group_id : adminGroups
         ]
+      include : include
     })
 
-
-
+exports.findContest = (user, contestID, include)->
+  Contest = global.db.models.contest
+  global.db.Promise.resolve()
+  .then ->
+    return [] if not user
+    user.getGroups(
+      attributes : ['id']
+    )
+  .then (groups)->
+    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
+    adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
+    Contest.find({
+      where :
+        $and:
+          id : contestID
+          $or:[
+            creator_id : user.id  if user #å¦‚æœè¯¥ç”¨æˆ·æ˜¯åˆ›å»ºè€…å¯ä»¥çœ‹åˆ°çš„
+          ,
+            access_level : 'public'    #publicçš„é¢˜ç›®è°éƒ½å¯ä»¥çœ‹
+          ,
+            access_level : 'protect'   #å¦‚æœè¿™ä¸ªæƒé™æ˜¯protectï¼Œé‚£ä¹ˆå¦‚æœè¯¥ç”¨æˆ·æ˜¯å°ç»„æˆå‘˜å°±å¯ä»¥çœ‹åˆ°
+            group_id : normalGroups
+          ,
+            access_level : 'private'  #å¦‚æœè¿™ä¸ªèµ›äº‹æƒé™æ˜¯privateï¼Œé‚£ä¹ˆå¦‚æœè¯¥ç”¨æˆ·æ˜¯å°ç»„ç®¡ç†å‘˜æˆ–æ‹¥æœ‰è€…å°±éƒ½å¯ä»¥çœ‹åˆ°
+            group_id : adminGroups
+          ]
+      include : include
+    })

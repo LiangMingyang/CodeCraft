@@ -9,8 +9,8 @@
 extends ../layout
 
 block title
-    - var whichpage = "所有小组"
-    title #{whichpage}
+    - var whichPage = "所有小组"
+    title #{whichPage}
     link(rel='styleSheet', href='/stylesheets/group/index.css')
 
 block content
@@ -38,12 +38,13 @@ block content
                     label 创建者昵称
                 td.col-lg-6
                     label 小组简介
+                    //TODO:此页面需要小组的人数，不需要小组简介
             - for(var i = 0 ; i < groups.length ; ++i)
                 tr
                     td.col-lg-3
-                        a(href="/group/#{groups[i].id}")= groups[i].name
+                        a(href="/group/#{groups[i].id}" + "/index")= groups[i].name
                     td.col-lg-3
-                        a(href="/user/#{groups[i].creator.id}")= groups[i].creator.nickname
+                        a(href="/user/#{groups[i].creator.id}"+ "/index")= groups[i].creator.nickname
                     td.col-lg-6
                         p #{groups[i].description}
     .col-lg-2

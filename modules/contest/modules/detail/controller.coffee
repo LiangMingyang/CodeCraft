@@ -13,32 +13,54 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res)->
-  Contest = global.db.models.contest
   User = global.db.models.user
-  Problem = global.db.models.problem
-  currentContest = undefined
-  Contest.find req.params.contestID, {
-    include:[
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
-    ]
-  }
+    ])
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
+    res.render 'contest/detail', {
+      user : req.session.user
+      contest : contest
+    }
+
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
+
+exports.getProblem = (req, res)->
+  currentContest = undefined
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
-    myUtils.authContest(req, contest)
-  .then (auth)->
-    throw new myUtils.Error.UnknownContest() if not auth
+    return [] if contest.start_time > (new Date())
     currentContest.getProblems()
   .then (problems)->
-    #console.log problems
-    res.render 'contest/detail', {
+    res.render 'contest/problem', {
       user : req.session.user
       contest : currentContest
       problems : problems
     }
 
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -47,22 +69,20 @@ exports.getIndex = (req, res)->
     res.redirect HOME_PAGE
 
 exports.getSubmission = (req, res)->
-  Group = global.db.models.group
-  Contest = global.db.models.contest
-  User = global.db.models.user
   currentContest = undefined
-  Contest.find req.params.contestID, {
-    include : [
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
-    ]
-  }
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    return [] if contest.start_time > (new Date())
     currentContest = contest
-    myUtils.authContest(req, contest)
-  .then (auth)->
-    throw new myUtils.Error.UnknownContest() if not auth
     currentContest.getSubmissions()
   .then (submissions)->
     res.render 'contest/submission', {
@@ -72,7 +92,7 @@ exports.getSubmission = (req, res)->
     }
 
 
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->

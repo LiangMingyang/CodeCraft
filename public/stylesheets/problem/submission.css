@@ -1,0 +1,47 @@
+/*
+    这个文件为沛沛所创建，一切锅由沛沛来背！-OwO-
+*/
+tr.oddgreentr{
+    background-color: #ddffdd;
+}
+
+tr.evengreentr{
+    background-color: #eeffee;
+}
+
+tr.oddredtr{
+    background-color: #ffdddd;
+}
+
+tr.evenredtr{
+    background-color: #ffeeee;
+}
+
+tr.oddbluetr{
+    background-color: #ddffff;
+}
+
+tr.evenbluetr{
+    background-color: #eeffff;
+}
+
+
+td.greentd{
+    color: #00ff00;
+    font-weight: bold;
+}
+
+td.redtd{
+    color: #ff0000;
+    font-weight: bold;
+
+}
+
+td.bluetd{
+    color: #0000ff;
+    font-weight: bold;
+}
+
+.table-center{
+    text-align:center;
+}

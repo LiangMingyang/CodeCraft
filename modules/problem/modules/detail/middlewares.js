@@ -6,12 +6,7 @@
 
   module.exports = [
     function(req, res, next) {
-      if (req.session.user === null) {
-        req.flash('info', 'Please Login First');
-        return res.redirect(LOGIN_PAGE);
-      } else {
-        return next();
-      }
+      return next();
     }
   ];
 

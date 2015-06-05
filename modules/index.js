@@ -8,6 +8,8 @@
 
   exports.contest = require('./contest');
 
+  exports.message = require('./message');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

@@ -11,9 +11,55 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    return res.render('problem/index', {
-      title: 'Problem List Page',
-      headline: 'Problem index(SHEN ME DOU MEI YOU!)'
+    var Group, currentProblems;
+    Group = global.db.models.group;
+    currentProblems = void 0;
+    return myUtils.findProblems(req, [
+      {
+        model: Group
+      }
+    ]).then(function(problems) {
+      currentProblems = problems;
+      return myUtils.getResultPeopleCount(problems, 'AC');
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.acceptedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.acceptedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.getResultPeopleCount(currentProblems);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.triedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.triedPeopleCount = tmp[p.id];
+        }
+      }
+      return currentProblems;
+    }).then(function(problems) {
+      return res.render('problem/index', {
+        user: req.session.user,
+        problems: problems
+      });
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', 'Unknown error!');
+      return res.redirect(HOME_PAGE);
     });
   };
 

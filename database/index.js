@@ -29,15 +29,27 @@
       foreignKey: 'creator_id'
     });
     User.hasMany(Message);
-    User.hasMany(Submission);
-    User.hasMany(Problem);
+    User.hasMany(Submission, {
+      foreignKey: 'creator_id'
+    });
+    User.hasMany(Problem, {
+      foreignKey: 'creator_id'
+    });
     Group.hasMany(Contest);
     Group.hasMany(Problem);
     Group.belongsTo(User, {
       as: 'creator'
     });
-    Submission.belongsTo(User);
+    Submission.belongsTo(User, {
+      as: 'creator'
+    });
+    Submission.belongsTo(Problem);
+    Submission.belongsTo(Contest);
     Problem.hasMany(Submission);
+    Problem.belongsTo(User, {
+      as: 'creator'
+    });
+    Problem.belongsTo(Group);
     Contest.hasMany(Issue);
     Contest.hasMany(Submission);
     Contest.belongsTo(User, {

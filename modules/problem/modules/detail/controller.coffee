@@ -1,5 +1,6 @@
 myUtils = require('./utils')
-fs = require('fs')
+sequelize = require('sequelize')
+fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
 path = require('path')
 markdown = require('markdown').markdown
 #page
@@ -8,44 +9,53 @@ HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 SUBMISSION_PAGE = 'submission'
 SUBMIT_PAGE = 'submit'
+PROBLEM_PAGE = '..'
 
-INDEX_PAGE = '.'
+INDEX_PAGE = 'index'
 
 #Foreign url
 LOGIN_PAGE = '/user/login'
-GROUP_PAGE = '/group/problem' #然而这个东西并不能用相对路径
-PROBLEM_DIR = '/home/heavenduke/WebstormProjects/CodeCraft/public/problem'
 
 exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
-
-  Problem.find req.param.problemID
+  User = global.db.models.user
+  Group = global.db.models.group
+  currentProblem = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findProblem(user, req.params.problemID, [
+      model : User
+      as : 'creator'
+    ,
+      model : Group
+    ])
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
-    fs.readFile path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'), (err, manifest_str) ->
-      throw new myUtils.Error.InvalidFile() if err
-      manifest = JSON.parse manifest_str
-      fs.readFile path.join(PROBLEM_DIR, problem.id+'/' + manifest.description), (err, description) ->
-        throw new myUtils.Error.InvalidFile() if err
-        res.render 'problem/detail', {
-          title: 'Problem List Page',
-          problem: {
-            problem_id: problem.id
-            title: problem.title,
-            description: markdown.toHTML(description.toString()),
-            test_setting: {
-              language: manifest.test_setting.language.split(','),
-              time_limit: manifest.test_setting.time_limit,
-              memory_limit: manifest.test_setting.memory_limit,
-              special_judge: manifest.test_setting.special_judge == null
-            }
-          }
-        }
-  .catch myUtils.Error.UnknownProblem, (err)->
-    req.flash 'info', 'problem not exist'
-    res.redirect HOME_PAGE
-  .catch (err)->
+    currentProblem = problem
+    fs.readFilePromised path.join(myUtils.getStaticProblem(problem.id), 'manifest.json')
+  .then (manifest_str) ->
+    manifest = JSON.parse manifest_str
+    currentProblem.test_setting = manifest.test_setting
+    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description)
+  .then (description)->
+    currentProblem.description = markdown.toHTML(description.toString())
+    res.render 'problem/detail', {
+      title: 'Problem List Page',
+      user: req.session.user,
+      problem: currentProblem
+    }
+
+  .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
 
 exports.postSubmission = (req, res) ->
@@ -58,7 +68,6 @@ exports.postSubmission = (req, res) ->
     content: req.body.code
   }
 
-  Problem = global.db.models.problem;
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
@@ -68,61 +77,83 @@ exports.postSubmission = (req, res) ->
 
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id
-  .then (user) ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     current_user = user
-    Problem.find req.param.problemID
+    myUtils.findProblem(user, req.params.problemID)
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     current_problem = problem
     Submission.create(form)
   .then (submission) ->
     current_user.addSubmission(submission)
-  .then (submission) ->
     current_problem.addSubmission(submission)
-  .then (submission) ->
     current_submission = submission
     Submission_Code.create(form_code)
   .then (code) ->
     current_submission.setSubmission_code(code)
-  .then (submission) ->
+  .then ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
+
   .catch myUtils.Error.UnknownUser, (err)->
-    req.flash 'info', 'Unknown User'
-    res.redirect INDEX_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
-    req.flash 'info', 'problem not exist'
-    res.redirect HOME_PAGE
-  .catch (err)->
     req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', 'Unknown Error!'
     res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
-
-  form = {
-    problem_id: req.param.problemID
-  }
-
-  Submission = global.db.models.submission
   User = global.db.models.user
-  Submission
-    .findAll({
-      where: form,
+  currentProblem = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findProblem(user, req.params.problemID)
+  .then (problem)->
+    throw new myUtils.Error.UnknownProblem() if not problem
+    currentProblem = problem
+    problem.getSubmissions({
       include: [
         model: User
+        as : 'creator'
+      ]
+      order : [
+        ['id', 'DESC']
       ]
     })
   .then (submissions) ->
     res.render('problem/submission', {
-      title: 'Problem Submission List Page',
-      headline: 'Problem index(SHEN ME DOU MEI YOU!)',
       submissions: submissions
+      problem : currentProblem
+      user: req.session.user
     })
-  .catch (err)->
+
+  .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
+
+exports.getCode = (req, res) ->
+  Submission_Code = global.db.models.submission_code
+  Submission_Code.find req.params.submissionID
+  .then (code) ->
+    res.json({
+      code: code.content,
+      user: req.session.user
+    })
 
 
 

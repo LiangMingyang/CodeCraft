@@ -4,8 +4,8 @@
 extends ../layout
 
 block title
-    - var whichpage = "小组成员"
-    title #{whichpage}
+    - var whichPage = "小组成员"
+    title #{whichPage}
 
 block content
     .col-lg-2
@@ -20,6 +20,6 @@ block content
                 - var member = group.users[i]
                 tr
                     td
-                        a(href= "/user/#{member.id}") #{member.nickname}
+                        a(href= "/user/#{member.id}"+ "/index") #{member.nickname}
                     td #{member.membership.access_level}
     .col-lg-2

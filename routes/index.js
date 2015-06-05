@@ -22,6 +22,8 @@
 
   router.use('/contest', modules.contest.router);
 
+  router.use('/message', modules.message.router);
+
   router.get('/', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',
