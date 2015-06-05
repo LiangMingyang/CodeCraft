@@ -22,17 +22,10 @@ block content
             td 比赛简介
          tr
             td #{contest.description}
-   .col-lg-8
-      table(class = "table table-striped")
          tr
-            td 题目编号
-            td 题目标题
-            td 题目分数
-         - for (var i = 0 ; i < problems.length ; ++i)
-            - var problem = problems[i];
-            tr
-               td #{String.fromCharCode(problem.contest_problem_list.order + 65)}
-               td
-                  a(href= "./problem/#{String.fromCharCode(problem.contest_problem_list.order + 65)}") #{problem.title}
-               td #{problem.contest_problem_list.score}
+            td 比赛题目
+         tr
+            td
+               a(href="./problem") 比赛题目
+   .col-lg-8
    .col-lg-2

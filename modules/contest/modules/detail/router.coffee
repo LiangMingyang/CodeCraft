@@ -14,6 +14,9 @@ router
 
 
 router
+  .get '/problem', controller.getProblem
+
+router
   .get '/submission', controller.getSubmission
 
 router
