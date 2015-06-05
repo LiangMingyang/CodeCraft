@@ -12,9 +12,12 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res) ->
-  Contest = global.db.models.contest
   User = global.db.models.user
-  myUtils.findContests(req)
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContests(user)
   .then (contests)->
     res.render 'contest/index', {
       user : req.session.user
