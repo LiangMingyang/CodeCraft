@@ -13,8 +13,15 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res)->
-  currentContest = undefined
-  myUtils.findContest(req, req.params.contestID)
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     res.render 'contest/detail', {
@@ -32,7 +39,15 @@ exports.getIndex = (req, res)->
 
 exports.getProblem = (req, res)->
   currentContest = undefined
-  myUtils.findContest(req, req.params.contestID)
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
@@ -55,10 +70,18 @@ exports.getProblem = (req, res)->
 
 exports.getSubmission = (req, res)->
   currentContest = undefined
-  myUtils.findContest(req, req.params.contestID)
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.InvalidAccess('This contest has not began.') if contest.start_time > (new Date())
+    return [] if contest.start_time > (new Date())
     currentContest = contest
     currentContest.getSubmissions()
   .then (submissions)->
