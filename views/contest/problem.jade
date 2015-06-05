@@ -1,43 +1,42 @@
 //
-<<<<<<< HEAD
-   Created by zp on 15-6-4.
-
-=======
    Created by lmy on 15-5-30.
-
 extends ../layout
 block title
-   - var whichPage = "赛事信息"
-   title #{whichPage}
+    - var whichPage = "赛事信息"
+    title #{whichPage}
 block content
-   .col-lg-2
-      table.table.table-striped
-         tr
-            td 比赛名称
-         tr
-            td
-               a(href="index")= contest.title
-         tr
-            td 比赛创建者
-         tr
-            td
-               a(href="/user/#{contest.creator.id}")= contest.creator.nickname
-         tr
-            td 比赛简介
-         tr
-            td #{contest.description}
-   .col-lg-8
-      table(class = "table table-striped")
-         tr
-            td 题目编号
-            td 题目标题
-            td 题目分数
-         - for (var i = 0 ; i < problems.length ; ++i)
+    .col-lg-2
+        //a(href="/user/" + user.id + "/index", id="informationpage")
+            label.control-label #{user.nickname}
+            .form-horizontal
+                label.control-label  当前用户：
+            .form-horizontal
+        table.table.table-striped
+            tr
+                td 比赛名称
+            tr
+                td
+                    a(href="index")= contest.title
+            tr
+                td 比赛创建者
+            tr
+                td
+                    a(href="/user/#{contest.creator.id}")= contest.creator.nickname
+            tr
+                td 比赛简介
+            tr
+                td #{contest.description}
+    .col-lg-8
+        table(class = "table table-striped")
+            tr
+                td 题目编号
+                td 题目标题
+                td 题目分数
+            - for (var i = 0 ; i < problems.length ; ++i)
             - var problem = problems[i];
             tr
-               td #{String.fromCharCode(problem.contest_problem_list.order + 65)}
-               td
-                  a(href= "./problem/#{String.fromCharCode(problem.contest_problem_list.order + 65)}") #{problem.title}
-               td #{problem.contest_problem_list.score}
-   .col-lg-2
->>>>>>> develop
+                td #{String.fromCharCode(problem.contest_problem_list.order + 65)}
+                td
+                    a(href= "./problem/#{String.fromCharCode(problem.contest_problem_list.order + 65)}") #{problem.title}
+                td #{problem.contest_problem_list.score}
+    .col-lg-2
