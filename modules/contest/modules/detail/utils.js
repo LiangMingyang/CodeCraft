@@ -104,10 +104,10 @@
     }).then(function(groups) {
       var adminGroups, group, normalGroups;
       normalGroups = (function() {
-        var i, len, results;
+        var j, len, results;
         results = [];
-        for (i = 0, len = groups.length; i < len; i++) {
-          group = groups[i];
+        for (j = 0, len = groups.length; j < len; j++) {
+          group = groups[j];
           if (group.membership.access_level !== 'verifying') {
             results.push(group.id);
           }
@@ -115,10 +115,10 @@
         return results;
       })();
       adminGroups = (function() {
-        var i, len, ref, results;
+        var j, len, ref, results;
         results = [];
-        for (i = 0, len = groups.length; i < len; i++) {
-          group = groups[i];
+        for (j = 0, len = groups.length; j < len; j++) {
+          group = groups[j];
           if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
             results.push(group.id);
           }
@@ -147,6 +147,29 @@
         include: include
       });
     });
+  };
+
+  exports.lettersToNumber = function(word) {
+    var i, j, len, res;
+    res = 0;
+    for (j = 0, len = word.length; j < len; j++) {
+      i = word[j];
+      res = res * 26 + (i.charCodeAt(0) - 65);
+    }
+    return res;
+  };
+
+  exports.numberToLetters = function(num) {
+    var res;
+    if (num === 0) {
+      return 'A';
+    }
+    res = void 0;
+    while (num > 0) {
+      res = String.fromCharCode(num % 26 + 65) + res;
+      num = parseInt(num / 26);
+    }
+    return res;
   };
 
 }).call(this);

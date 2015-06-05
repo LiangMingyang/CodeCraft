@@ -71,6 +71,11 @@
       }
       return currentContest.getProblems();
     }).then(function(problems) {
+      var i, len, problem;
+      for (i = 0, len = problems.length; i < len; i++) {
+        problem = problems[i];
+        problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
+      }
       return res.render('contest/problem', {
         user: req.session.user,
         contest: currentContest,

@@ -25,48 +25,54 @@ html
                                         span.icon-bar
                                         span.icon-bar
                                         span.icon-bar
-                                    a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") 这里应该是一个Logo哒
+                                    a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") BUAA ONLINE JUDGE
                                 // Collect the nav links, forms, and other content for toggling
                                 #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                                    ul.nav.navbar-nav.navbar-right
+                                    //navbar里面的功能部分显示在导航栏logo旁边
+                                    ul.nav.navbar-nav.navbar-middle
                                         li.normalli
-                                            a(href="/", id="indexpage") 主页
+                                            a(href="/", id="indexpage", class="nav-before") 主页
                                         li.normalli
-                                            a(href="/group/index", id="grouppage") 小组
+                                            a(href="/group/index", id="grouppage", class="nav-before") 小组
                                         li.normalli
-                                            a(href="/problem/index", id="problempage") 题目
+                                            a(href="/problem/index", id="problempage", class="nav-before") 题目
                                         li.normalli
-                                            a(href="/contest/index", id="contestpage") 赛事
+                                            a(href="/contest/index", id="contestpage", class="nav-before") 赛事
                                         - if(user)
                                             li.normalli
-                                                a(href="/user/" + user.id + "/index", id="informationpage") 个人信息
+                                                a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
                                             li.normalli
-                                                a(href="/message/index", id="messegepage") 消息
+                                                a(href="/message/index", id="messegepage", class="nav-before") 消息
+                                    //navbar的登录登出部分显示在导航栏右侧
+                                    ul.nav.navbar-nav.navbar-right
+                                        - if(user)
                                             li.normalli
-                                                a(href="/user/logout", id="logoutpage") 登出
+                                                a(href="/user/" + user.id) 欢迎来到北航OJ，#{user.nickname}
+                                            li.normalli
+                                                a(href="/user/logout", id="logoutpage", class="nav-before") 登出
                                         - else
                                             li.normalli
-                                                a(href="/user/login", id="loginpage") 登录
+                                                a(href="/user/login", id="loginpage", class="nav-before") 登录
                                             li.normalli
-                                                a(href="/user/register", id="registerpage") 注册
-                                        - if(whichPage == "注册")
-                                            script $("#registerpage").attr("class","little-big-font");
-                                        - else if(whichPage == "登录")
-                                            script $("#loginpage").attr("class","little-big-font");
-                                        - else if(whichPage == "")
-                                            script $("#logoutpage").attr("class","little-big-font");
-                                        - else if(whichPage == "")
-                                            script $("#messegepage").attr("class","little-big-font");
-                                        - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
-                                            script $("#informationpage").attr("class","little-big-font");
-                                        - else if(whichPage == "赛事列表"||whichPage == "赛事信息")
-                                            script $("#contestpage").attr("class","little-big-font");
-                                        - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目")
-                                            script $("#problempage").attr("class","little-big-font");
-                                        - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目")
-                                            script $("#grouppage").attr("class","little-big-font");
-                                        - else
-                                            script $("#indexpage").attr("class","little-big-font");
+                                                a(href="/user/register", id="registerpage", class="nav-before") 注册
+                                    - if(whichPage == "注册")
+                                        script $("#registerpage").attr("class", "nav-change");
+                                    - else if(whichPage == "登录")
+                                        script $("#loginpage").attr("class", "nav-change");
+                                    - else if(whichPage == "")
+                                        script $("#logoutpage").attr("class", "nav-change");
+                                    - else if(whichPage == "")
+                                        script $("#messegepage").attr("class", "nav-change");
+                                    - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
+                                        script $("#informationpage").attr("class", "nav-change");
+                                    - else if(whichPage == "赛事列表"||whichPage == "赛事信息")
+                                        script $("#contestpage").attr("class", "nav-change");
+                                    - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目")
+                                        script $("#problempage").attr("class", "nav-change");
+                                    - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目")
+                                        script $("#grouppage").attr("class", "nav-change");
+                                    - else
+                                        script $("#indexpage").attr("class", "nav-change");
 
 
                     .alert-success

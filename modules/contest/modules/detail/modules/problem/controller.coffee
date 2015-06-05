@@ -18,11 +18,10 @@ LOGIN_PAGE = '/user/login'
 CONTEST_PAGE = '/contest'
 
 exports.getIndex = (req, res) ->
-  Problem = global.db.models.problem
   User = global.db.models.user
-  Group = global.db.models.group
   currentProblem = undefined
   currentContest = undefined
+  currentProblems = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -31,13 +30,18 @@ exports.getIndex = (req, res) ->
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
+    contest.getProblems(
+      include : [
+        model : User
+        as : 'creator'
+      ]
+    )
+  .then (problems)->
+    currentProblems = problems
     order = myUtils.lettersToNumber(req.params.problemID)
-    myUtils.findProblemWithContest(contest, order, [
-      model : User
-      as : 'creator'
-    ,
-      model : Group
-    ])
+    for problem in problems
+      if problem.contest_problem_list.order is order
+        return problem
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
@@ -48,11 +52,13 @@ exports.getIndex = (req, res) ->
     fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description)
   .then (description)->
     currentProblem.description = markdown.toHTML(description.toString())
+    for problem in currentProblems
+      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'problem/detail', {
-      title: 'Problem List Page',
       user: req.session.user,
       problem: currentProblem
       contest : currentContest
+      contestProblems : currentProblems
     }
 
   .catch myUtils.Error.UnknownUser, (err)->
