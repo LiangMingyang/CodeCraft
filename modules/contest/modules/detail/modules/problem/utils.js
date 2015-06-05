@@ -164,6 +164,19 @@
     return res;
   };
 
+  exports.numberToLetters = function(num) {
+    var res;
+    if (num === 0) {
+      return 'A';
+    }
+    res = void 0;
+    while (num > 0) {
+      res = String.fromCharCode(num % 26 + 65) + res;
+      num = parseInt(num / 26);
+    }
+    return res;
+  };
+
   exports.findProblemWithContest = function(contest, order, include) {
     return global.db.Promise.resolve().then(function() {
       if (!contest) {

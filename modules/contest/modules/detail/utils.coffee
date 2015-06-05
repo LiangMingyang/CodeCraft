@@ -66,3 +66,17 @@ exports.findContest = (user, contestID, include)->
           ]
       include : include
     })
+
+exports.lettersToNumber = (word)->
+  res = 0
+  for i in word
+    res = res * 26 + (i.charCodeAt(0) - 65)
+  return res
+
+exports.numberToLetters = (num)->
+  return 'A' if num is 0
+  res = undefined
+  while(num>0)
+    res = String.fromCharCode(num%26 + 65) + res
+    num = parseInt(num/26)
+  return res
