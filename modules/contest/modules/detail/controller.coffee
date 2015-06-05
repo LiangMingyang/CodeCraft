@@ -54,6 +54,8 @@ exports.getProblem = (req, res)->
     return [] if contest.start_time > (new Date())
     currentContest.getProblems()
   .then (problems)->
+    for problem in problems
+      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'contest/problem', {
       user : req.session.user
       contest : currentContest
