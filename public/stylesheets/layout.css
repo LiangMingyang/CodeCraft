@@ -47,7 +47,8 @@ body{
 
 .little-big-font{
     /*此处为沛沛所加，目的为啦提示现在访问的地址*/
-    font-size: 20px;
+    /*font-size: 20px;*/
+    background-color: #E2E2E2;
 }
 
 /*此处为沛沛所加，目的为啦提示现在访问的地址*/
