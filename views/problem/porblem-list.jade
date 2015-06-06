@@ -1,7 +1,7 @@
 //
-    zp!
-.col-lg-12.col-md-12.col-sm-12.text-center
-    if(contest)
+    zp
+- if(contest)
+    .col-lg-12.col-md-12.col-sm-12.text-center
         - for (var i = 0 ; i < contest.problems.length ; ++i)
-            - var problem = contest.problems[i];
-            a.btn.btn-default(href= "../../problem/#{problem.contest_problem_list.order}/index") #{problem.contest_problem_list.order}
+            - var problemOwO = contest.problems[i];
+            a.btn.btn-default(href= "../../problem/#{problemOwO.contest_problem_list.order}/index") #{problemOwO.contest_problem_list.order}

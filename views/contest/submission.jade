@@ -17,7 +17,6 @@ block content
     .col-lg-8.col-md-8.col-sm-8
         table.table.table-center
             tr
-                td 用户
                 td 序号
                 td 结果
                 td 语言
@@ -27,8 +26,6 @@ block content
                 td 提交时间
             - for (var i = 0 ;i < submissions.length ; i++)
                 tr(id = "tr#{i}")
-                    td
-                    //    a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                     td #{submissions[i].id}
                     td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
                     td

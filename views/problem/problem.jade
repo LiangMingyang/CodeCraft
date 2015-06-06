@@ -8,7 +8,7 @@
     a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
     a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
 script.
-    if("#{whichPage}"=="评测记录")
+    if("#{whichPage}"=="评测记录"||"#{whichPage}"=="比赛题目提交记录")
         $("#problem-submissionpage").attr("class","list-group-item change-color");
     else
         $("#problem-problemindexpage").attr("class","list-group-item change-color");
