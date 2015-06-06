@@ -89,3 +89,11 @@ label{
     color: #333;
     background-color: #e5e5e5;
 }
+
+td.green-td{
+    color: #008000;
+}
+
+td.yellow-td{
+    color: #ffff00;
+}

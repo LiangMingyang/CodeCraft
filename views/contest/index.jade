@@ -10,14 +10,14 @@ block content
     .col-lg-12
         h3 所有赛事
         table(class = "table table-striped")
-            tr
+            tr.text-center
                 td 赛事ID
                 td 赛事名称
                 td 赛事开始时间
                 td 赛事结束时间
             - for (var i = 0 ; i < contests.length ; ++i)
                 - var contest = contests[i];
-                tr
+                tr.text-center
                     td #{contest.id}
                     td
                         a(href= "#{contest.id}") #{contest.title}

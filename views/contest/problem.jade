@@ -11,15 +11,18 @@ block content
     .col-lg-8
         h3 所有题目
         table(class = "table table-striped")
-            tr
-                td 是否AC
+            tr.text-center
+                - if(user)
+                    td 是否AC
                 td 题目编号
                 td 题目标题
                 td 题目分数
             - for (var i = 0 ; i < problems.length ; ++i)
                 - var problem = problems[i];
-                tr
-                    td 过了or没过
+                tr.text-center
+                    - if(user)
+                        td.green-td
+                            span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
                     td #{problem.contest_problem_list.order}
                     td
                         a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}

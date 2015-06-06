@@ -17,7 +17,7 @@ block content
                 td.col-lg-6 题目名称
                 td.col-lg-1 难度
                 td.col-lg-2 通过率(通过/提交)
-            tr
+            tr.text-center
                 - if(user)
                     td 是否AC
                 td 题目ID
@@ -27,9 +27,10 @@ block content
                 td 通过率(通过/提交)
             - for (var i = 0 ; i < problems.length ; ++i)
                 - var problem = problems[i];
-                tr
+                tr.text-center
                     - if(user)
-                        td 过了or没过
+                        td.green-td
+                            span.glyphicon.glyphicon-ok(aria-hidden="true")
                     td
                         a(href= "#{problem.id}/index") #{problem.id}
                     td
@@ -37,7 +38,7 @@ block content
                     td
                         a(href= "#{problem.id}/index") #{problem.title}
                     td.progress
-                        - var level = (i+1)*30;
+                        - var level = ((i+1)*30)%101;
                         - if (level < 10) level = 10;
                         - if (level < 50)
                             .progress-bar.progress-bar-success.active.progress-bar-striped(style='width: #{level}%')

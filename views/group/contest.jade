@@ -10,14 +10,14 @@ block content
     .col-lg-8
         h3 小组题目
         table(class = "table table-striped").containing
-            tr
+            tr.text-center
                 td 比赛ID
                 td 比赛标题
                 td 开始时间
                 td 结束时间
             - for (var i = 0 ; i < contests.length ; ++i)
                 - var contest = contests[i]
-                tr
+                tr.text-center
                     td #{contest.id}
                     td
                         a(href= "/contest/#{contest.id}/index") #{contest.title}
