@@ -7,14 +7,21 @@ INDEX_PAGE = '.'
 
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
+  User = global.db.models.user
   currentProblems = undefined
-  myUtils.findProblems(req, [
-    model : Group
-  ])
+  currentUser = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    myUtils.findProblems(user, [
+      model : Group
+    ])
   .then (problems)->
     currentProblems = problems
     myUtils.getResultPeopleCount(problems, 'AC')
-  .then (counts)->
+  .then (counts)-> #AC people counts
     tmp = {}
     for p in counts
       tmp[p.problem_id] = p.count
@@ -22,13 +29,21 @@ exports.getIndex = (req, res) ->
       p.acceptedPeopleCount = 0
       p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
     myUtils.getResultPeopleCount(currentProblems)
-  .then (counts)->
+  .then (counts)-> #Tried people counts
     tmp = {}
     for p in counts
       tmp[p.problem_id] = p.count
     for p in currentProblems
       p.triedPeopleCount = 0
       p.triedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultCount(currentUser,currentProblems,'AC')
+  .then (counts)->
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.accepted = 0
+      p.accepted = tmp[p.id] if tmp[p.id]
     return currentProblems
   .then (problems)->
     res.render('problem/index', {
