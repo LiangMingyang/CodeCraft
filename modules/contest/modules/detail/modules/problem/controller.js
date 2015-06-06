@@ -29,33 +29,29 @@
   CONTEST_PAGE = '/contest';
 
   exports.getIndex = function(req, res) {
-    var User, currentContest, currentProblem, currentProblems;
+    var Problem, User, currentContest, currentProblem;
     User = global.db.models.user;
+    Problem = global.db.models.problem;
     currentProblem = void 0;
     currentContest = void 0;
-    currentProblems = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findContest(user, req.params.contestID);
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: Problem
+        }
+      ]);
     }).then(function(contest) {
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
-      return contest.getProblems({
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ]
-      });
+      return contest.problems;
     }).then(function(problems) {
       var i, len, order, problem;
-      currentProblems = problems;
       order = myUtils.lettersToNumber(req.params.problemID);
       for (i = 0, len = problems.length; i < len; i++) {
         problem = problems[i];
@@ -75,17 +71,17 @@
       currentProblem.test_setting = manifest.test_setting;
       return fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description));
     }).then(function(description) {
-      var i, len, problem;
+      var i, len, problem, ref;
       currentProblem.description = markdown.toHTML(description.toString());
-      for (i = 0, len = currentProblems.length; i < len; i++) {
-        problem = currentProblems[i];
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
         problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
       }
       return res.render('problem/detail', {
         user: req.session.user,
         problem: currentProblem,
-        contest: currentContest,
-        contestProblems: currentProblems
+        contest: currentContest
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
@@ -172,9 +168,9 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Group, User, currentContest, currentProblem;
+    var Contest, Problem, User, currentContest, currentProblem;
     User = global.db.models.user;
-    Group = global.db.models.group;
+    Problem = global.db.models.problem;
     Contest = global.db.models.contest;
     currentProblem = void 0;
     currentContest = void 0;
@@ -183,22 +179,26 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findContest(user, req.params.contestID);
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: Problem
+        }
+      ]);
     }).then(function(contest) {
-      var order;
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
+      return contest.problems;
+    }).then(function(problems) {
+      var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);
-      return myUtils.findProblemWithContest(contest, order, [
-        {
-          model: User,
-          as: 'creator'
-        }, {
-          model: Group
+      for (i = 0, len = problems.length; i < len; i++) {
+        problem = problems[i];
+        if (problem.contest_problem_list.order === order) {
+          return problem;
         }
-      ]);
+      }
     }).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
@@ -219,9 +219,16 @@
         order: [['created_at', 'DESC']]
       });
     }).then(function(submissions) {
+      var i, len, problem, ref;
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
+        problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
+      }
       return res.render('problem/submission', {
         submissions: submissions,
         problem: currentProblem,
+        contest: currentContest,
         user: req.session.user
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {

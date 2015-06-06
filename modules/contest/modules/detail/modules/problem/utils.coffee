@@ -83,7 +83,7 @@ exports.lettersToNumber = (word)->
 
 exports.numberToLetters = (num)->
   return 'A' if num is 0
-  res = undefined
+  res = ""
   while(num>0)
     res = String.fromCharCode(num%26 + 65) + res
     num = parseInt(num/26)

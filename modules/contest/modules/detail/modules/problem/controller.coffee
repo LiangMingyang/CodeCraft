@@ -19,25 +19,21 @@ CONTEST_PAGE = '/contest'
 
 exports.getIndex = (req, res) ->
   User = global.db.models.user
+  Problem = global.db.models.problem
   currentProblem = undefined
   currentContest = undefined
-  currentProblems = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findContest(user,req.params.contestID)
+    myUtils.findContest(user,req.params.contestID,[
+      model : Problem
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
-    contest.getProblems(
-      include : [
-        model : User
-        as : 'creator'
-      ]
-    )
+    return contest.problems
   .then (problems)->
-    currentProblems = problems
     order = myUtils.lettersToNumber(req.params.problemID)
     for problem in problems
       if problem.contest_problem_list.order is order
@@ -52,13 +48,12 @@ exports.getIndex = (req, res) ->
     fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description)
   .then (description)->
     currentProblem.description = markdown.toHTML(description.toString())
-    for problem in currentProblems
+    for problem in currentContest.problems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'problem/detail', {
       user: req.session.user,
       problem: currentProblem
       contest : currentContest
-      contestProblems : currentProblems
     }
 
   .catch myUtils.Error.UnknownUser, (err)->
@@ -140,7 +135,7 @@ exports.postSubmission = (req, res) ->
 
 exports.getSubmissions = (req, res) ->
   User = global.db.models.user
-  Group = global.db.models.group
+  Problem = global.db.models.problem
   Contest = global.db.models.contest
   currentProblem = undefined
   currentContest = undefined
@@ -148,17 +143,18 @@ exports.getSubmissions = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findContest(user,req.params.contestID)
+    myUtils.findContest(user,req.params.contestID,[
+      model : Problem
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
+    return contest.problems
+  .then (problems)->
     order = myUtils.lettersToNumber(req.params.problemID)
-    myUtils.findProblemWithContest(contest,order, [
-      model : User
-      as : 'creator'
-    ,
-      model : Group
-    ])
+    for problem in problems
+      if problem.contest_problem_list.order is order
+        return problem
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
@@ -176,9 +172,12 @@ exports.getSubmissions = (req, res) ->
       ]
     })
   .then (submissions) ->
+    for problem in currentContest.problems
+      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render('problem/submission', {
       submissions: submissions
       problem : currentProblem
+      contest : currentContest
       user: req.session.user
     })
 
