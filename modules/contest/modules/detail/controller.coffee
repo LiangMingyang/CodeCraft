@@ -85,7 +85,12 @@ exports.getSubmission = (req, res)->
     throw new myUtils.Error.UnknownContest() if not contest
     return [] if contest.start_time > (new Date())
     currentContest = contest
-    currentContest.getSubmissions()
+    currentContest.getSubmissions(
+      include : [
+        model : User
+        as : 'creator'
+      ]
+    )
   .then (submissions)->
     res.render 'contest/submission', {
       user : req.session.user
