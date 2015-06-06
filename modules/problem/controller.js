@@ -74,6 +74,21 @@
           p.accepted = tmp[p.id];
         }
       }
+      return myUtils.getResultCount(currentUser, currentProblems);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.tried = 0;
+        if (tmp[p.id]) {
+          p.tried = tmp[p.id];
+        }
+      }
       return currentProblems;
     }).then(function(problems) {
       return res.render('problem/index', {
