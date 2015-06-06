@@ -104,26 +104,26 @@
     }).then(function(groups) {
       var adminGroups, group, normalGroups;
       normalGroups = (function() {
-        var j, len, results;
-        results = [];
+        var j, len, results1;
+        results1 = [];
         for (j = 0, len = groups.length; j < len; j++) {
           group = groups[j];
           if (group.membership.access_level !== 'verifying') {
-            results.push(group.id);
+            results1.push(group.id);
           }
         }
-        return results;
+        return results1;
       })();
       adminGroups = (function() {
-        var j, len, ref, results;
-        results = [];
+        var j, len, ref, results1;
+        results1 = [];
         for (j = 0, len = groups.length; j < len; j++) {
           group = groups[j];
           if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
-            results.push(group.id);
+            results1.push(group.id);
           }
         }
-        return results;
+        return results1;
       })();
       return Contest.find({
         where: {
@@ -170,6 +170,41 @@
       num = parseInt(num / 26);
     }
     return res;
+  };
+
+  exports.getResultCount = function(user, problems, results, contest) {
+    var Submission, options, problem;
+    if (!user) {
+      return [];
+    }
+    if (!problems instanceof Array) {
+      problems = [problems];
+    }
+    Submission = global.db.models.submission;
+    options = {
+      where: {
+        problem_id: (function() {
+          var j, len, results1;
+          results1 = [];
+          for (j = 0, len = problems.length; j < len; j++) {
+            problem = problems[j];
+            results1.push(problem.id);
+          }
+          return results1;
+        })()
+      },
+      group: 'problem_id',
+      distinct: true,
+      attributes: ['problem_id'],
+      plain: false
+    };
+    if (results) {
+      options.where.result = results;
+    }
+    if (contest) {
+      options.where.contest_id = contest.id;
+    }
+    return Submission.aggregate('creator_id', 'count', options);
   };
 
 }).call(this);

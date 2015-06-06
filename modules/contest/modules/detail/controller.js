@@ -47,14 +47,17 @@
   };
 
   exports.getProblem = function(req, res) {
-    var User, currentContest;
+    var User, currentContest, currentProblems, currentUser;
     currentContest = void 0;
+    currentUser = void 0;
+    currentProblems = void 0;
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID, [
         {
           model: User,
@@ -70,6 +73,39 @@
         return [];
       }
       return currentContest.getProblems();
+    }).then(function(problems) {
+      currentProblems = problems;
+      return myUtils.getResultCount(currentUser, currentProblems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.accepted = 0;
+        if (tmp[p.id]) {
+          p.accepted = tmp[p.id];
+        }
+      }
+      return myUtils.getResultCount(currentUser, currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.tried = 0;
+        if (tmp[p.id]) {
+          p.tried = tmp[p.id];
+        }
+      }
+      return currentProblems;
     }).then(function(problems) {
       var i, len, problem;
       for (i = 0, len = problems.length; i < len; i++) {

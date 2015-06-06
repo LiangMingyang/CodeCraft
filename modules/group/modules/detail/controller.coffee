@@ -116,11 +116,15 @@ exports.getJoin = (req, res) ->
 
 exports.getProblem = (req, res) ->
   User = global.db.models.user
+  Group = global.db.models.group
   currentGroup = undefined
+  currentUser = undefined
+  currentProblems = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findGroup(user, req.params.groupID, [
       model : User
       as : 'creator'
@@ -128,30 +132,46 @@ exports.getProblem = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    group.getUsers(
+    myUtils.findProblems(currentUser, [
+      model : Group
       where :
-        id : (
-          if req.session.user
-            req.session.user.id
-          else
-            null
-        )
-      attributes : []
-    )
-  .then (users)->
-    access = ['public']
-    if users.length isnt 0
-      user = users[0]
-      access.push 'protect' if user.membership.access_level isnt 'verifying'
-      access.push 'private' if user.membership.access_level in ['owner','admin']
-    currentGroup.getProblems(
-      where:
-        $or:[
-          access_level : access
-        ,
-          creator_id : req.session.user.id if req.session.user
-        ]
-    )
+        id : group.id
+    ])
+  .then (problems)->
+    currentProblems = problems
+    myUtils.getResultPeopleCount(problems, 'AC')
+  .then (counts)-> #AC people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.acceptedPeopleCount = 0
+      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultPeopleCount(currentProblems)
+  .then (counts)-> #Tried people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.triedPeopleCount = 0
+      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultCount(currentUser,currentProblems,'AC')
+  .then (counts)-> #this user accepted problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.accepted = 0
+      p.accepted = tmp[p.id] if tmp[p.id]
+    myUtils.getResultCount(currentUser,currentProblems)
+  .then (counts)-> #this user tried problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.tried = 0
+      p.tried = tmp[p.id] if tmp[p.id]
+    return currentProblems
   .then (problems)->
     res.render 'group/problem', {
       user   : req.session.user

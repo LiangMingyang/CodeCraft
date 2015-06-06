@@ -39,11 +39,14 @@ exports.getIndex = (req, res)->
 
 exports.getProblem = (req, res)->
   currentContest = undefined
+  currentUser = undefined
+  currentProblems = undefined
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
@@ -53,6 +56,25 @@ exports.getProblem = (req, res)->
     currentContest = contest
     return [] if contest.start_time > (new Date())
     currentContest.getProblems()
+  .then (problems)->
+    currentProblems = problems
+    myUtils.getResultCount(currentUser,currentProblems,'AC',currentContest)
+  .then (counts)-> #this user accepted problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.accepted = 0
+      p.accepted = tmp[p.id] if tmp[p.id]
+    myUtils.getResultCount(currentUser,currentProblems,undefined,currentContest)
+  .then (counts)-> #this user tried problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.tried = 0
+      p.tried = tmp[p.id] if tmp[p.id]
+    return currentProblems
   .then (problems)->
     for problem in problems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
