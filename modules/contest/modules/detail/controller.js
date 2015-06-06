@@ -114,7 +114,14 @@
         return [];
       }
       currentContest = contest;
-      return currentContest.getSubmissions();
+      return currentContest.getSubmissions({
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
     }).then(function(submissions) {
       return res.render('contest/submission', {
         user: req.session.user,
