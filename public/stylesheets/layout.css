@@ -77,3 +77,15 @@ li a{
     right: 8.33333333%;
     left: 8.33333333%;
 }
+
+/*将label标签的粗字号改细*/
+label{
+    font-weight: normal;
+}
+
+/*将导航栏当前页面的选中栏背景色固定了*/
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #333;
+    background-color: #e5e5e5;
+}
