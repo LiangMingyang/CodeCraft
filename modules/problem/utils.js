@@ -71,21 +71,14 @@
     InvalidFile: InvalidFile
   };
 
-  exports.findProblems = function(req, include) {
-    var Problem, User, currentUser;
-    User = global.db.models.user;
+  exports.findProblems = function(user, include) {
+    var Problem;
     Problem = global.db.models.problem;
-    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
       if (!user) {
         return [];
       }
-      currentUser = user;
-      return currentUser.getGroups();
+      return user.getGroups();
     }).then(function(groups) {
       var adminGroups, group, normalGroups;
       normalGroups = (function() {
@@ -113,8 +106,8 @@
       return Problem.findAll({
         where: {
           $or: [
-            currentUser ? {
-              creator_id: currentUser.id
+            user ? {
+              creator_id: user.id
             } : void 0, {
               access_level: 'public'
             }, {

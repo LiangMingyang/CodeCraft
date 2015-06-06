@@ -7,10 +7,15 @@ INDEX_PAGE = '.'
 
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
+  User = global.db.models.user
   currentProblems = undefined
-  myUtils.findProblems(req, [
-    model : Group
-  ])
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findProblems(user, [
+      model : Group
+    ])
   .then (problems)->
     currentProblems = problems
     myUtils.getResultPeopleCount(problems, 'AC')
