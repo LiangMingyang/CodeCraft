@@ -2,6 +2,6 @@
     zp!
 .col-lg-12.col-md-12.col-sm-12.text-center
     if(contest)
-        - for (var i = 0 ; i < problems.length ; ++i)
-            - var problem = problems[i];
+        - for (var i = 0 ; i < contestProblems ; ++i)
+            - var problem = contestProblems[i];
             a.btn.btn-default(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.contest_problem_list.order}

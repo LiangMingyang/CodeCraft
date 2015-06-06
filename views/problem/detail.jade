@@ -12,12 +12,15 @@
 extends ../layout
 block title
     - var whichPage = "题目信息"
+    if(contest)
+        - var whichPage = "比赛题目信息"
     title #{whichPage}
     link(rel='stylesheet', href='/stylesheets/problem/detail.css')
     //title #{title}
 block content
     //.col-lg-2
     //.col-lg-8
+        include porblem-list.jade
     .col-lg-2.col-md-2.col-sm-2
         include contest.jade
     .col-lg-8.col-md-8.col-sm-8

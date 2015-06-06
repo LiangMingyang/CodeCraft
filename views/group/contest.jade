@@ -1,27 +1,26 @@
 //
    Created by 明阳 on 2015/6/4.
-
 extends ../layout
 block title
-   - var whichPage = "小组比赛"
-   title #{whichPage}
+    - var whichPage = "小组比赛"
+    title #{whichPage}
 block content
-   .col-lg-2
-      include ./group.jade
-   .col-lg-8
-      h3 小组题目
-      table(class = "table table-striped").containing
-         tr
-            td 比赛ID
-            td 比赛标题
-            td 开始时间
-            td 结束时间
-         - for (var i = 0 ; i < contests.length ; ++i)
-            - var contest = contests[i]
+    .col-lg-2
+        include ./group.jade
+    .col-lg-8
+        h3 小组题目
+        table(class = "table table-striped").containing
             tr
-               td #{contest.id}
-               td
-                  a(href= "/contest/#{contest.id}/index") #{contest.title}
-               td #{contest.start_time}
-               td #{contest.end_time}
-   .col-lg-2
+                td 比赛ID
+                td 比赛标题
+                td 开始时间
+                td 结束时间
+            - for (var i = 0 ; i < contests.length ; ++i)
+                - var contest = contests[i]
+                tr
+                    td #{contest.id}
+                    td
+                        a(href= "/contest/#{contest.id}/index") #{contest.title}
+                    td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()}-#{contest.start_time.getDay()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
+                    td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()}-#{contest.end_time.getDay()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
+    .col-lg-2

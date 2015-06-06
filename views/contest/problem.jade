@@ -2,7 +2,7 @@
   Created by lmy on 15-5-30.
 extends ../layout
 block title
-    - var whichPage = "赛事信息"
+    - var whichPage = "比赛题目信息"
     title #{whichPage}
 block content
     include porblem-list.jade
@@ -12,14 +12,16 @@ block content
         h3 所有题目
         table(class = "table table-striped")
             tr
+                td 是否AC
                 td 题目编号
                 td 题目标题
                 td 题目分数
             - for (var i = 0 ; i < problems.length ; ++i)
                 - var problem = problems[i];
                 tr
-                    td #{String.fromCharCode(problem.contest_problem_list.order + 65)}
+                    td 过了or没过
+                    td #{problem.contest_problem_list.order}
                     td
-                        a(href= "./problem/#{String.fromCharCode(problem.contest_problem_list.order + 65)}") #{problem.title}
+                        a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
                     td #{problem.contest_problem_list.score}
     .col-lg-2

@@ -21,6 +21,6 @@ block content
                     td #{contest.id}
                     td
                         a(href= "#{contest.id}") #{contest.title}
-                    td #{contest.start_time.toLocaleString()}
-                    td #{contest.end_time.toLocaleString()}
+                    td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()}-#{contest.start_time.getDay()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
+                    td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()}-#{contest.end_time.getDay()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
     //.col-lg-2
