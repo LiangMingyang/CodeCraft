@@ -124,21 +124,14 @@
     });
   };
 
-  exports.findProblem = function(req, problemID, include) {
-    var Problem, User, currentUser;
-    User = global.db.models.user;
+  exports.findProblem = function(user, problemID, include) {
+    var Problem;
     Problem = global.db.models.problem;
-    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
       if (!user) {
         return [];
       }
-      currentUser = user;
-      return currentUser.getGroups();
+      return user.getGroups();
     }).then(function(groups) {
       var adminGroups, group, normalGroups;
       normalGroups = (function() {
@@ -168,8 +161,8 @@
           $and: {
             id: problemID,
             $or: [
-              currentUser ? {
-                creator_id: currentUser.id
+              user ? {
+                creator_id: user.id
               } : void 0, {
                 access_level: 'public'
               }, {

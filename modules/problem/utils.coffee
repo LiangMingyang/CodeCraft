@@ -56,17 +56,12 @@ exports.findProblems = (user, include) ->
       include : include
     })
 
-exports.findProblem = (req, problemID,include)->
-  User = global.db.models.user
+exports.findProblem = (user, problemID,include)->
   Problem = global.db.models.problem
-  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
     return [] if not user
-    currentUser = user
-    currentUser.getGroups()
+    user.getGroups()
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
     adminGroups = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
@@ -75,7 +70,7 @@ exports.findProblem = (req, problemID,include)->
         $and:
           id : problemID
           $or:[
-            creator_id : currentUser.id  if currentUser #如果该用户是创建者可以看到的
+            creator_id : user.id  if user #如果该用户是创建者可以看到的
           ,
             access_level : 'public'    #public的题目谁都可以看
           ,
