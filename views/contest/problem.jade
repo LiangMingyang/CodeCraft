@@ -21,8 +21,14 @@ block content
                 - var problem = problems[i];
                 tr.text-center
                     - if(user)
-                        td.green-td
-                            span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
+                        - if(problem.accepted + problem.tried == 2)
+                            td.green-td
+                                span.glyphicon.glyphicon-ok(aria-hidden="true")
+                        - else if(problem.accepted + problem.tried == 1)
+                            td.yellow-td
+                                span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
+                        - else
+                            td
                     td #{problem.contest_problem_list.order}
                     td
                         a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
