@@ -29,8 +29,9 @@
   CONTEST_PAGE = '/contest';
 
   exports.getIndex = function(req, res) {
-    var User, currentContest, currentProblem, currentProblems;
+    var Problem, User, currentContest, currentProblem, currentProblems;
     User = global.db.models.user;
+    Problem = global.db.models.problem;
     currentProblem = void 0;
     currentContest = void 0;
     currentProblems = void 0;
@@ -39,20 +40,17 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findContest(user, req.params.contestID);
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: Problem
+        }
+      ]);
     }).then(function(contest) {
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
-      return contest.getProblems({
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ]
-      });
+      return contest.problems;
     }).then(function(problems) {
       var i, len, order, problem;
       currentProblems = problems;
@@ -84,8 +82,7 @@
       return res.render('problem/detail', {
         user: req.session.user,
         problem: currentProblem,
-        contest: currentContest,
-        contestProblems: currentProblems
+        contest: currentContest
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);

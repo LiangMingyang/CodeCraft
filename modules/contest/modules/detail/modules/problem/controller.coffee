@@ -19,6 +19,7 @@ CONTEST_PAGE = '/contest'
 
 exports.getIndex = (req, res) ->
   User = global.db.models.user
+  Problem = global.db.models.problem
   currentProblem = undefined
   currentContest = undefined
   currentProblems = undefined
@@ -26,16 +27,13 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findContest(user,req.params.contestID)
+    myUtils.findContest(user,req.params.contestID,[
+      model : Problem
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
-    contest.getProblems(
-      include : [
-        model : User
-        as : 'creator'
-      ]
-    )
+    return contest.problems
   .then (problems)->
     currentProblems = problems
     order = myUtils.lettersToNumber(req.params.problemID)
@@ -58,7 +56,6 @@ exports.getIndex = (req, res) ->
       user: req.session.user,
       problem: currentProblem
       contest : currentContest
-      contestProblems : currentProblems
     }
 
   .catch myUtils.Error.UnknownUser, (err)->
