@@ -156,7 +156,8 @@
             model: User,
             as: 'creator'
           }
-        ]
+        ],
+        order: [['created_at', 'DESC']]
       });
     }).then(function(submissions) {
       return res.render('contest/submission', {

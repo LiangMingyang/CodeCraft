@@ -112,6 +112,9 @@ exports.getSubmission = (req, res)->
         model : User
         as : 'creator'
       ]
+      order : [
+        ['created_at','DESC']
+      ]
     )
   .then (submissions)->
     res.render 'contest/submission', {
