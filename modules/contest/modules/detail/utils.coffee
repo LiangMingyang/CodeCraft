@@ -81,7 +81,7 @@ exports.numberToLetters = (num)->
     num = parseInt(num/26)
   return res
 
-exports.getResultCount = (user, problems, results, contest)->
+exports.hasResult = (user, problems, results, contest)->
   return [] if not user
   problems = [problems] if not problems instanceof Array
   Submission = global.db.models.submission

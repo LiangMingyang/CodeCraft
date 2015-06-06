@@ -36,7 +36,7 @@ exports.getIndex = (req, res) ->
     for p in currentProblems
       p.triedPeopleCount = 0
       p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultCount(currentUser,currentProblems,'AC')
+    myUtils.hasResult(currentUser,currentProblems,'AC')
   .then (counts)-> #this user accepted problems
     tmp = {}
     for p in counts
@@ -44,7 +44,7 @@ exports.getIndex = (req, res) ->
     for p in currentProblems
       p.accepted = 0
       p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.getResultCount(currentUser,currentProblems)
+    myUtils.hasResult(currentUser,currentProblems)
   .then (counts)-> #this user tried problems
     tmp = {}
     for p in counts

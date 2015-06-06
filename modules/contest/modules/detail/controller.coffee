@@ -58,7 +58,7 @@ exports.getProblem = (req, res)->
     currentContest.getProblems()
   .then (problems)->
     currentProblems = problems
-    myUtils.getResultCount(currentUser,currentProblems,'AC',currentContest)
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
   .then (counts)-> #this user accepted problems
     tmp = {}
     for p in counts
@@ -66,7 +66,7 @@ exports.getProblem = (req, res)->
     for p in currentProblems
       p.accepted = 0
       p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.getResultCount(currentUser,currentProblems,undefined,currentContest)
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
   .then (counts)-> #this user tried problems
     tmp = {}
     for p in counts

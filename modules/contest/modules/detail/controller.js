@@ -75,7 +75,7 @@
       return currentContest.getProblems();
     }).then(function(problems) {
       currentProblems = problems;
-      return myUtils.getResultCount(currentUser, currentProblems, 'AC', currentContest);
+      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -90,7 +90,7 @@
           p.accepted = tmp[p.id];
         }
       }
-      return myUtils.getResultCount(currentUser, currentProblems, void 0, currentContest);
+      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};

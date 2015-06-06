@@ -278,7 +278,7 @@
     return Submission.aggregate('creator_id', 'count', options);
   };
 
-  exports.getResultCount = function(user, problems, results, contest) {
+  exports.hasResult = function(user, problems, results, contest) {
     var Submission, options, problem;
     if (!user) {
       return [];
