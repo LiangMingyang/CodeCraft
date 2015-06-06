@@ -106,3 +106,19 @@ exports.getResultPeopleCount = (problems, results)->
   }
   options.where.result = results if results
   Submission.aggregate('creator_id', 'count', options)
+
+exports.getResultCount = (user, problems, results, contest)->
+  return [] if not user
+  problems = [problems] if not problems instanceof Array
+  Submission = global.db.models.submission
+  options = {
+    where:
+      problem_id : (problem.id for problem in problems)
+    group : 'problem_id'
+    distinct : true
+    attributes : ['problem_id']
+    plain : false
+  }
+  options.where.result = results if results
+  options.where.contest_id = contest.id if contest
+  Submission.aggregate('creator_id', 'count', options)
