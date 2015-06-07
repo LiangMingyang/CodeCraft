@@ -105,6 +105,7 @@ exports.hasResult = (user, problems, results, contest)->
   options = {
     where:
       problem_id : (problem.id for problem in problems)
+      creator_id : user.id
     group : 'problem_id'
     distinct : true
     attributes : ['problem_id']

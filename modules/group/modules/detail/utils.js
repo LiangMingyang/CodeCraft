@@ -300,7 +300,8 @@
             results1.push(problem.id);
           }
           return results1;
-        })()
+        })(),
+        creator_id: user.id
       },
       group: 'problem_id',
       distinct: true,
