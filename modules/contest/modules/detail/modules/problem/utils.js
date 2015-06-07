@@ -177,25 +177,6 @@
     return res;
   };
 
-  exports.findProblemWithContest = function(contest, order, include) {
-    return global.db.Promise.resolve().then(function() {
-      if (!contest) {
-        throw new UnknownContest();
-      }
-      return contest.getProblems({
-        include: include
-      });
-    }).then(function(problems) {
-      var j, len, problem;
-      for (j = 0, len = problems.length; j < len; j++) {
-        problem = problems[j];
-        if (problem.contest_problem_list.order === order) {
-          return problem;
-        }
-      }
-    });
-  };
-
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

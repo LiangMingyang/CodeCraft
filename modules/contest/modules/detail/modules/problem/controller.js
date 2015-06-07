@@ -100,7 +100,7 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Group, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser, form, form_code;
+    var Problem, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser, form, form_code;
     form = {
       lang: req.body.lang
     };
@@ -110,7 +110,7 @@
     Submission = global.db.models.submission;
     Submission_Code = global.db.models.submission_code;
     User = global.db.models.user;
-    Group = global.db.models.group;
+    Problem = global.db.models.problem;
     currentUser = void 0;
     currentSubmission = void 0;
     currentProblem = void 0;
@@ -121,22 +121,25 @@
       }
     }).then(function(user) {
       currentUser = user;
-      return myUtils.findContest(user, req.params.contestID);
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: Problem
+        }
+      ]);
     }).then(function(contest) {
-      var order;
+      var i, len, order, p, ref;
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
       order = myUtils.lettersToNumber(req.params.problemID);
-      return myUtils.findProblemWithContest(contest, order, [
-        {
-          model: User,
-          as: 'creator'
-        }, {
-          model: Group
+      ref = contest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        p = ref[i];
+        if (p.contest_problem_list.order === order) {
+          return p;
         }
-      ]);
+      }
     }).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();

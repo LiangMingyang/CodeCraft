@@ -83,7 +83,7 @@ exports.postSubmission = (req, res) ->
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
-  Group = global.db.models.group
+  Problem = global.db.models.problem
   currentUser = undefined
   currentSubmission = undefined
   currentProblem = undefined
@@ -95,17 +95,15 @@ exports.postSubmission = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user,req.params.contestID)
+    myUtils.findContest(user,req.params.contestID,[
+      model : Problem
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
     currentContest = contest
     order = myUtils.lettersToNumber(req.params.problemID)
-    myUtils.findProblemWithContest(contest,order, [
-      model : User
-      as : 'creator'
-    ,
-      model : Group
-    ])
+    for p in contest.problems
+      return p if p.contest_problem_list.order is order
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem

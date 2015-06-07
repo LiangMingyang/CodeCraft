@@ -90,14 +90,3 @@ exports.numberToLetters = (num)->
   return res
 
 
-exports.findProblemWithContest = (contest, order, include)->
-  global.db.Promise.resolve()
-  .then ->
-    throw new UnknownContest() if not contest
-    contest.getProblems(
-      include : include
-    )
-  .then (problems)->
-    for problem in problems
-      if problem.contest_problem_list.order is order
-        return problem
