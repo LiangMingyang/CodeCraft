@@ -68,10 +68,10 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
-      currentContest = contest;
       if (contest.start_time > (new Date())) {
-        return [];
+        throw new myUtils.Error.UnknownContest();
       }
+      currentContest = contest;
       return currentContest.getProblems();
     }).then(function(problems) {
       currentProblems = problems;
@@ -179,7 +179,7 @@
         throw new myUtils.Error.UnknownContest();
       }
       if (contest.start_time > (new Date())) {
-        return [];
+        throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
       return currentContest.getSubmissions({
@@ -245,7 +245,7 @@
         throw new myUtils.Error.UnknownContest();
       }
       if (contest.start_time > (new Date())) {
-        return [];
+        throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
       return myUtils.getRank(currentContest);

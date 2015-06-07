@@ -48,6 +48,9 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      if (contest.start_time > (new Date())) {
+        throw new myUtils.Error.UnknownContest();
+      }
       currentContest = contest;
       return contest.problems;
     }).then(function(problems) {
@@ -131,6 +134,9 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      if (contest.start_time > (new Date())) {
+        throw new myUtils.Error.UnknownContest();
+      }
       currentContest = contest;
       order = myUtils.lettersToNumber(req.params.problemID);
       ref = contest.problems;
@@ -194,6 +200,9 @@
       ]);
     }).then(function(contest) {
       if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      if (contest.start_time > (new Date())) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;

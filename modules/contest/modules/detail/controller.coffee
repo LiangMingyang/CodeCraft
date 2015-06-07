@@ -53,8 +53,8 @@ exports.getProblem = (req, res)->
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
-    return [] if contest.start_time > (new Date())
     currentContest.getProblems()
   .then (problems)->
     currentProblems = problems
@@ -123,7 +123,7 @@ exports.getSubmission = (req, res)->
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
-    return [] if contest.start_time > (new Date())
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     currentContest.getSubmissions(
       include : [
@@ -183,7 +183,7 @@ exports.getRank = (req, res)->
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
-    return [] if contest.start_time > (new Date())
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     myUtils.getRank(currentContest)
   .then (rank)->
