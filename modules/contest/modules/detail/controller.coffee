@@ -110,11 +110,13 @@ exports.getProblem = (req, res)->
 
 exports.getSubmission = (req, res)->
   currentContest = undefined
+  currentUser = undefined
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
@@ -127,6 +129,7 @@ exports.getSubmission = (req, res)->
       include : [
         model : User
         as : 'creator'
+        where : currentUser.id if currentUser
       ]
       order : [
         ['created_at','DESC']

@@ -158,14 +158,16 @@
   };
 
   exports.getSubmission = function(req, res) {
-    var User, currentContest;
+    var User, currentContest, currentUser;
     currentContest = void 0;
+    currentUser = void 0;
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID, [
         {
           model: User,
@@ -184,7 +186,8 @@
         include: [
           {
             model: User,
-            as: 'creator'
+            as: 'creator',
+            where: currentUser ? currentUser.id : void 0
           }
         ],
         order: [['created_at', 'DESC']]
