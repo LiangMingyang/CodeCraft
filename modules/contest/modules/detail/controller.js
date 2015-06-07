@@ -47,11 +47,12 @@
   };
 
   exports.getProblem = function(req, res) {
-    var User, currentContest, currentProblems, currentUser;
+    var Problem, User, currentContest, currentProblems, currentUser;
     currentContest = void 0;
     currentUser = void 0;
     currentProblems = void 0;
     User = global.db.models.user;
+    Problem = global.db.models.problem;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -62,6 +63,8 @@
         {
           model: User,
           as: 'creator'
+        }, {
+          model: Problem
         }
       ]);
     }).then(function(contest) {
@@ -71,11 +74,12 @@
       if (contest.start_time > (new Date())) {
         throw new myUtils.Error.UnknownContest();
       }
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
       currentContest = contest;
-      return currentContest.getProblems();
-    }).then(function(problems) {
-      currentProblems = problems;
-      return myUtils.getResultPeopleCount(problems, 'AC', currentContest);
+      currentProblems = contest.problems;
+      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -248,6 +252,9 @@
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
       return myUtils.getRank(currentContest);
     }).then(function(rank) {
       var i, len, problem, ref;

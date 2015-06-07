@@ -52,6 +52,9 @@
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
       return contest.problems;
     }).then(function(problems) {
       var i, len, order, problem;
@@ -206,6 +209,9 @@
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
       return contest.problems;
     }).then(function(problems) {
       var i, len, order, problem;

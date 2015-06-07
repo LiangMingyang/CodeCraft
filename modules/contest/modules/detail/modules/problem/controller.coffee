@@ -33,6 +33,8 @@ exports.getIndex = (req, res) ->
     throw new myUtils.Error.UnknownContest() if not contest
     throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
     return contest.problems
   .then (problems)->
     order = myUtils.lettersToNumber(req.params.problemID)
@@ -155,6 +157,8 @@ exports.getSubmissions = (req, res) ->
     throw new myUtils.Error.UnknownContest() if not contest
     throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
     return contest.problems
   .then (problems)->
     order = myUtils.lettersToNumber(req.params.problemID)
