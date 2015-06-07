@@ -166,12 +166,12 @@ exports.getRank = (contest)->
     res.sort(
       (a,b)->
         if a.score < b.score
-          return -1
+          return 1
         if a.score is b.score and a.penalty < b.penalty
-          return -1
+          return 1
         if a.score is b.score and a.penalty is b.penalty and a.user.id < b.user.id
-          return -1
-        return 1
+          return 1
+        return -1
     )
 
 

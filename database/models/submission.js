@@ -13,7 +13,7 @@
         defaultValue: 'WT'
       },
       score: {
-        type: DataTypes.INTEGER
+        type: DataTypes.FLOAT
       },
       time_cost: {
         type: DataTypes.INTEGER
