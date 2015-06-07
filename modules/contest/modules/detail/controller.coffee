@@ -129,7 +129,8 @@ exports.getSubmission = (req, res)->
       include : [
         model : User
         as : 'creator'
-        where : currentUser.id if currentUser
+        where :
+          id : currentUser.id if currentUser
       ]
       order : [
         ['created_at','DESC']
