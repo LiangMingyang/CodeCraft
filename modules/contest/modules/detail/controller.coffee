@@ -159,7 +159,37 @@ exports.getQuestion = (req, res)->
   }
 
 exports.getRank = (req, res)->
-  res.render 'contest/detail', {
-    title: 'Rank'
-  }
+  User = global.db.models.user
+  Problem = global.db.models.problem
+  currentContest = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ,
+      model : Problem
+    ])
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
+    return [] if contest.start_time > (new Date())
+    currentContest = contest
+    myUtils.getRank(currentContest)
+  .then (rank)->
+    for problem in currentContest.problems
+      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+    res.render 'contest/rank', {
+      user : req.session.user
+      contest : currentContest
+      rank : rank
+    }
 
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE

@@ -38,6 +38,10 @@ exports.Error = {
   UnknownContest : UnknownContest
 }
 
+#Const
+AC_SCORE = 1
+PER_PENALTY = 20 * 60 * 1000
+
 exports.findContest = (user, contestID, include)->
   Contest = global.db.models.contest
   global.db.Promise.resolve()
@@ -112,3 +116,64 @@ exports.getResultPeopleCount = (problems, results, contest)->
   options.where.result = results if results
   options.where.contest_id = contest.id if contest
   Submission.aggregate('creator_id', 'count', options)
+
+exports.getRank = (contest)->
+  myUtils = this
+  User = global.db.models.user
+  contest.getSubmissions(
+    include : [
+      model : User
+      as : 'creator'
+    ]
+    order : [
+      ['created_at','ASC']
+    ]
+  )
+  .then (submissions)->
+    dicProblemIDToOrder = {} #把题目ID变为字母序号
+    dicProblemOrderToScore = {} #最后计算得分的时候需要计算这个比赛中这个题目的分数
+    for p in contest.problems
+      dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order)
+      dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score
+    tmp = {}
+    for sub in submissions
+      tmp[sub.creator.id] ?= {}
+      tmp[sub.creator.id].user ?= sub.creator
+      tmp[sub.creator.id].detail ?= {}
+      problemOrderLetter = dicProblemIDToOrder[sub.problem_id]
+      detail = tmp[sub.creator.id].detail
+      detail[problemOrderLetter] ?= {}
+      detail[problemOrderLetter].score ?= 0
+      detail[problemOrderLetter].accepted_time ?= new Date()
+      detail[problemOrderLetter].wrong_count ?= 0
+      if sub.score >= detail[problemOrderLetter].score #应当选出得分最高，时间最早的
+        detail[problemOrderLetter].score = sub.score
+        detail[problemOrderLetter].result = sub.result
+        detail[problemOrderLetter].accepted_time = sub.created_at if sub.created_at < detail[problemOrderLetter].accepted_time
+      if sub.score < AC_SCORE #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
+        ++detail[problemOrderLetter].wrong_count
+    for user of tmp
+      tmp[user].score ?= 0
+      tmp[user].penalty ?= 0
+      for p of tmp[user].detail
+        problem = tmp[user].detail[p]
+        problem.score *= dicProblemOrderToScore[p]
+        tmp[user].score += problem.score
+        if problem.score > 0
+          tmp[user].penalty += (problem.accepted_time-contest.start_time) + problem.wrong_count * PER_PENALTY
+
+    res = (tmp[user] for user of tmp)
+    res.sort(
+      (a,b)->
+        if a.score < b.score
+          return -1
+        if a.score is b.score and a.penalty < b.penalty
+          return -1
+        if a.score is b.score and a.penalty is b.penalty and a.user.id < b.user.id
+          return -1
+        return 1
+    )
+
+
+
+

@@ -218,8 +218,51 @@
   };
 
   exports.getRank = function(req, res) {
-    return res.render('contest/detail', {
-      title: 'Rank'
+    var Problem, User, currentContest;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    currentContest = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: User,
+          as: 'creator'
+        }, {
+          model: Problem
+        }
+      ]);
+    }).then(function(contest) {
+      if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      if (contest.start_time > (new Date())) {
+        return [];
+      }
+      currentContest = contest;
+      return myUtils.getRank(currentContest);
+    }).then(function(rank) {
+      var i, len, problem, ref;
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
+        problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
+      }
+      return res.render('contest/rank', {
+        user: req.session.user,
+        contest: currentContest,
+        rank: rank
+      });
+    })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
     });
   };
 
