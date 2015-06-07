@@ -187,9 +187,9 @@
           {
             model: User,
             as: 'creator',
-            where: currentUser ? {
-              id: currentUser.id
-            } : void 0
+            where: {
+              id: (currentUser ? currentUser.id : 0)
+            }
           }
         ],
         order: [['created_at', 'DESC']]

@@ -130,7 +130,12 @@ exports.getSubmission = (req, res)->
         model : User
         as : 'creator'
         where :
-          id : currentUser.id if currentUser
+          id : (
+            if currentUser
+              currentUser.id
+            else
+              0
+          )
       ]
       order : [
         ['created_at','DESC']
