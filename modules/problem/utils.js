@@ -180,7 +180,7 @@
     });
   };
 
-  exports.getResultPeopleCount = function(problems, results) {
+  exports.getResultPeopleCount = function(problems, results, contest) {
     var Submission, options, problem;
     if (!problems instanceof Array) {
       problems = [problems];
@@ -205,6 +205,9 @@
     };
     if (results) {
       options.where.result = results;
+    }
+    if (contest) {
+      options.where.contest_id = contest.id;
     }
     return Submission.aggregate('creator_id', 'count', options);
   };

@@ -207,6 +207,38 @@
     return Submission.aggregate('creator_id', 'count', options);
   };
 
+  exports.getResultPeopleCount = function(problems, results, contest) {
+    var Submission, options, problem;
+    if (!problems instanceof Array) {
+      problems = [problems];
+    }
+    Submission = global.db.models.submission;
+    options = {
+      where: {
+        problem_id: (function() {
+          var j, len, results1;
+          results1 = [];
+          for (j = 0, len = problems.length; j < len; j++) {
+            problem = problems[j];
+            results1.push(problem.id);
+          }
+          return results1;
+        })()
+      },
+      group: 'problem_id',
+      distinct: true,
+      attributes: ['problem_id'],
+      plain: false
+    };
+    if (results) {
+      options.where.result = results;
+    }
+    if (contest) {
+      options.where.contest_id = contest.id;
+    }
+    return Submission.aggregate('creator_id', 'count', options);
+  };
+
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

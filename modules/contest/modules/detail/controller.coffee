@@ -58,6 +58,22 @@ exports.getProblem = (req, res)->
     currentContest.getProblems()
   .then (problems)->
     currentProblems = problems
+    myUtils.getResultPeopleCount(problems, 'AC',currentContest)
+  .then (counts)-> #AC people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.acceptedPeopleCount = 0
+      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
+  .then (counts)-> #Tried people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.triedPeopleCount = 0
+      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
     myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
   .then (counts)-> #this user accepted problems
     tmp = {}
