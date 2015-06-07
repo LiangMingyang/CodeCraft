@@ -142,10 +142,12 @@ exports.getSubmissions = (req, res) ->
   Contest = global.db.models.contest
   currentProblem = undefined
   currentContest = undefined
+  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ])
@@ -162,12 +164,19 @@ exports.getSubmissions = (req, res) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
     problem.getSubmissions({
-      include: [
-        model: User
+      include : [
+        model : User
         as : 'creator'
+        where :
+          id : (
+            if currentUser
+              currentUser.id
+            else
+              0
+          )
       ,
-        model: Contest
-        where:
+        model : Contest
+        where :
           id : currentContest.id
       ]
       order : [

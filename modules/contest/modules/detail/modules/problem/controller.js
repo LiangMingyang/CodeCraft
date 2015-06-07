@@ -171,17 +171,19 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Problem, User, currentContest, currentProblem;
+    var Contest, Problem, User, currentContest, currentProblem, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     Contest = global.db.models.contest;
     currentProblem = void 0;
     currentContest = void 0;
+    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID, [
         {
           model: Problem
@@ -211,7 +213,10 @@
         include: [
           {
             model: User,
-            as: 'creator'
+            as: 'creator',
+            where: {
+              id: (currentUser ? currentUser.id : 0)
+            }
           }, {
             model: Contest,
             where: {
