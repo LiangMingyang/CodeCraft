@@ -89,6 +89,9 @@
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', 'Unknown error!');
@@ -151,18 +154,18 @@
     }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
-    })["catch"](myUtils.Error.UnknownContest, function(err) {
-      req.flash('info', err.message);
-      return res.redirect(CONTEST_PAGE);
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', 'Unknown Error!');
+      req.flash('info', 'Unknown error!');
       return res.redirect(HOME_PAGE);
     });
   };
@@ -237,6 +240,9 @@
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', 'Unknown error!');

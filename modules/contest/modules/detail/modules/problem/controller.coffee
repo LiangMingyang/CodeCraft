@@ -62,6 +62,9 @@ exports.getIndex = (req, res) ->
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
     req.flash 'info', 'Unknown error!'
@@ -119,18 +122,18 @@ exports.postSubmission = (req, res) ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
 
-  .catch myUtils.Error.UnknownContest, (err)->
-    req.flash 'info', err.message
-    res.redirect CONTEST_PAGE
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown Error!'
+    req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
@@ -187,6 +190,9 @@ exports.getSubmissions = (req, res) ->
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
     req.flash 'info', 'Unknown error!'
