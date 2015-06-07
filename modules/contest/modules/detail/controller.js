@@ -75,7 +75,37 @@
       return currentContest.getProblems();
     }).then(function(problems) {
       currentProblems = problems;
-      return myUtils.getResultCount(currentUser, currentProblems, 'AC', currentContest);
+      return myUtils.getResultPeopleCount(problems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.acceptedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.acceptedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.triedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.triedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -90,7 +120,7 @@
           p.accepted = tmp[p.id];
         }
       }
-      return myUtils.getResultCount(currentUser, currentProblems, void 0, currentContest);
+      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -156,7 +186,8 @@
             model: User,
             as: 'creator'
           }
-        ]
+        ],
+        order: [['created_at', 'DESC']]
       });
     }).then(function(submissions) {
       return res.render('contest/submission', {

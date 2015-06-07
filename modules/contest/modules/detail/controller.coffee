@@ -58,7 +58,23 @@ exports.getProblem = (req, res)->
     currentContest.getProblems()
   .then (problems)->
     currentProblems = problems
-    myUtils.getResultCount(currentUser,currentProblems,'AC',currentContest)
+    myUtils.getResultPeopleCount(problems, 'AC',currentContest)
+  .then (counts)-> #AC people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.acceptedPeopleCount = 0
+      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
+  .then (counts)-> #Tried people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.triedPeopleCount = 0
+      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
   .then (counts)-> #this user accepted problems
     tmp = {}
     for p in counts
@@ -66,7 +82,7 @@ exports.getProblem = (req, res)->
     for p in currentProblems
       p.accepted = 0
       p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.getResultCount(currentUser,currentProblems,undefined,currentContest)
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
   .then (counts)-> #this user tried problems
     tmp = {}
     for p in counts
@@ -111,6 +127,9 @@ exports.getSubmission = (req, res)->
       include : [
         model : User
         as : 'creator'
+      ]
+      order : [
+        ['created_at','DESC']
       ]
     )
   .then (submissions)->
