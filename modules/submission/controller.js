@@ -13,20 +13,24 @@
   exports.getIndex = function(req, res) {
     var User;
     User = global.db.models.user;
-    return global.db.Promise().resolve().then(function() {
+    return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findSubmissions(user);
+      return myUtils.findSubmissions(user, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
     }).then(function(submissions) {
       return res.render('submission/index', {
         user: req.session.user,
         submissions: submissions
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
-      console.log(err);
-      req.flash('info', "Please Login First!");
+      req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
       console.log(err);
@@ -39,7 +43,7 @@
     var SubmissionCode, User;
     User = global.db.models.user;
     SubmissionCode = global.db.models.submission_code;
-    return global.db.Promise().resolve().then(function() {
+    return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
@@ -53,10 +57,9 @@
       if (!submission) {
         throw new myUtils.Error.UnknownSubmission();
       }
-      console.log(submission);
-      return res.render('submission/index', {
+      return res.render('submission/code', {
         user: req.session.user,
-        submissions: submissions
+        submission: submission
       });
     })["catch"](myUtils.Error.UnknownSubmission, function(err) {
       req.flash('info', err.message);

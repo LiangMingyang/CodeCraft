@@ -7,19 +7,21 @@ HOME_PAGE = '/'
 
 exports.getIndex = (req, res) ->
   User = global.db.models.user
-  global.db.Promise().resolve()
+  global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findSubmissions(user)
+    myUtils.findSubmissions(user,[
+      model : User
+      as : 'creator'
+    ])
   .then (submissions)->
     res.render 'submission/index', {
       user : req.session.user
       submissions : submissions
     }
   .catch myUtils.Error.UnknownUser, (err)->
-    console.log err
-    req.flash 'info', "Please Login First!"
+    req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
@@ -29,7 +31,7 @@ exports.getIndex = (req, res) ->
 exports.getSubmission = (req, res)->
   User = global.db.models.user
   SubmissionCode = global.db.models.submission_code
-  global.db.Promise().resolve()
+  global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
@@ -38,10 +40,9 @@ exports.getSubmission = (req, res)->
     ])
   .then (submission)->
     throw new myUtils.Error.UnknownSubmission() if not submission
-    console.log submission
-    res.render 'submission/index', {
+    res.render 'submission/code', {
       user : req.session.user
-      submissions : submissions
+      submission : submission
     }
   .catch myUtils.Error.UnknownSubmission, (err)->
     req.flash 'info', err.message
