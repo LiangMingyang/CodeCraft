@@ -26,6 +26,9 @@ exports.findGroups = (user, include)->
           id : normalGroups
         ]
       include : include
+        order:[
+          ['start_time','DESC']
+        ]
 
 exports.findGroup = (user, groupID, include)->
   Group = global.db.models.group
