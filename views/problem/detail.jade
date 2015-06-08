@@ -23,7 +23,7 @@ block content
     .col-lg-2.col-md-2.col-sm-2
         include contest.jade
     .col-lg-8.col-md-8.col-sm-8
-        .markdown-body
+        .markdown-body.containing
             h1.problem-title #{problem.title}
             //h3 Test Setting
             .problem-limit 时间限制: #{problem.test_setting.time_limit} ms 内存限制: #{problem.test_setting.memory_limit} kb
@@ -43,4 +43,5 @@ block content
             br
             button(type="submit") 提交
     .col-lg-2.col-md-2.col-sm-2
-        include problem.jade
+        .containing
+            include problem.jade

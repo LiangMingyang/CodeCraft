@@ -16,7 +16,7 @@
 	"test_setting": {
 		"time_limit": 1000,
 		"memory_limit": 524288,
-		"language": "c,c++,java",
+		"language": ["c","c++","java"],
 		"special_judge": "path-to-special-judge-code",
 		"partial_score": true
 	}

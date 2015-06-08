@@ -10,12 +10,15 @@
 
   exports.getIndex = function(req, res) {
     var Message;
+    if (!req.session.user) {
+      throw new myUtils.Error.UnknownUser();
+    }
     Message = global.db.models.message;
     return Message.findAll({
       where: {
         user_id: req.session.user.id
       },
-      order: ['created_at', 'DESC']
+      order: [['created_at', 'DESC']]
     }).then(function(messages) {
       req.flash('info', 'message success');
       return res.render('message/index', {
@@ -28,7 +31,7 @@
       req.flash('info', "Please Login First!");
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.log(err.message);
       req.flash('info', "Unknown Error!");
       return res.redirect(HOME_PAGE);
     });

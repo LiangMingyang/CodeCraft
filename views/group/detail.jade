@@ -17,7 +17,7 @@ block content
     .col-lg-8
         - if ( !isMember )
             a.button.btn.btn-default(href="join") 加入该小组
-        h3 小组简介
+        h3 #{group.name}的小组简介
         p.containing #{group.description}
         //h4 比赛列表
         //a.button.btn.btn-default(href="./contest") 查看更多

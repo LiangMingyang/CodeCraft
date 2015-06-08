@@ -16,6 +16,8 @@ router.use '/contest', modules.contest.router
 
 router.use '/message', modules.message.router
 
+router.use '/submission', modules.submission.router
+
 # Get home page
 router.get '/', (req, res) ->
   res.render 'index', {
