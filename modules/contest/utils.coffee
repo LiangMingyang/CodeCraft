@@ -58,6 +58,9 @@ exports.findContests = (user, include) ->
           group_id : adminGroups
         ]
       include : include
+      order : [
+        ['start_time','DESC']
+      ]
     })
 
 exports.findContest = (user, contestID, include)->

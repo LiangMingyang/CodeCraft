@@ -99,8 +99,8 @@ module.exports = (db) ->
         title: 'test_contest_public'
         access_level: 'public'
         description: '用来测试的比赛，权限是public'
-        start_time : new Date("2015-05-20 10:00")
-        end_time : new Date("2015-09-21 10:00")
+        start_time : new Date("2016-05-20 10:00")
+        end_time : new Date("2016-09-21 10:00")
       }
       .then (contest)->
         testUser.addContest(contest)
@@ -110,8 +110,8 @@ module.exports = (db) ->
         title: 'test_contest'
         access_level: 'protect'
         description: '用来测试的比赛，权限是protect'
-        start_time : new Date("2016-05-20 10:00")
-        end_time : new Date("2016-06-21 10:00")
+        start_time : new Date("2015-05-21 10:00")
+        end_time : new Date("2015-06-21 10:00")
       }
       .then (contest)->
         testUser.addContest(contest)

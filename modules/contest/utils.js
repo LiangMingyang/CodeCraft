@@ -127,7 +127,8 @@
             }
           ]
         },
-        include: include
+        include: include,
+        order: [['start_time', 'DESC']]
       });
     });
   };

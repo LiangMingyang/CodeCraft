@@ -189,42 +189,23 @@ exports.getProblem = (req, res) ->
 
 exports.getContest = (req, res) ->
   User = global.db.models.user
+  Group = global.db.models.group
   currentGroup = undefined
+  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findGroup(user, req.params.groupID, [
-      model : User
-      as : 'creator'
-    ])
+    currentUser = user
+    myUtils.findGroup(user, req.params.groupID)
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    group.getUsers(
+    myUtils.findContests(currentUser,[
+      model : Group
       where :
-        id : (
-          if req.session.user
-            req.session.user.id
-          else
-            null
-        )
-      attributes : []
-    )
-  .then (users)->
-    access = ['public']
-    if users.length isnt 0
-      user = users[0]
-      access.push 'protect' if user.membership.access_level isnt 'verifying'
-      access.push 'private' if user.membership.access_level in ['owner','admin']
-    currentGroup.getContests(
-      where:
-        $or:[
-          access_level : access
-        ,
-          creator_id : req.session.user.id if req.session.user
-        ]
-    )
+        id : group.id
+    ])
   .then (contests)->
     res.render 'group/contest', {
       user   : req.session.user

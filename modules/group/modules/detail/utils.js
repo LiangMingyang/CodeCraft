@@ -68,9 +68,7 @@
             }
           ]
         },
-        include: include({
-          order: [['start_time', 'DESC']]
-        })
+        include: include
       });
     });
   };
@@ -317,6 +315,62 @@
       options.where.contest_id = contest.id;
     }
     return Submission.aggregate('creator_id', 'count', options);
+  };
+
+  exports.findContests = function(user, include) {
+    var Contest;
+    Contest = global.db.models.contest;
+    return global.db.Promise.resolve().then(function() {
+      if (!user) {
+        return [];
+      }
+      return user.getGroups({
+        attributes: ['id']
+      });
+    }).then(function(groups) {
+      var adminGroups, group, normalGroups;
+      normalGroups = (function() {
+        var i, len, results1;
+        results1 = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if (group.membership.access_level !== 'verifying') {
+            results1.push(group.id);
+          }
+        }
+        return results1;
+      })();
+      adminGroups = (function() {
+        var i, len, ref, results1;
+        results1 = [];
+        for (i = 0, len = groups.length; i < len; i++) {
+          group = groups[i];
+          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
+            results1.push(group.id);
+          }
+        }
+        return results1;
+      })();
+      return Contest.findAll({
+        where: {
+          $or: [
+            user ? {
+              creator_id: user.id
+            } : void 0, {
+              access_level: 'public'
+            }, {
+              access_level: 'protect',
+              group_id: normalGroups
+            }, {
+              access_level: 'private',
+              group_id: adminGroups
+            }
+          ]
+        },
+        include: include,
+        order: [['start_time', 'DESC']]
+      });
+    });
   };
 
 }).call(this);
