@@ -36,15 +36,15 @@ block content
                     td 需要代码长度
                     td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
                     - if(i % 2 == 1)
-                        - oddeventable = "odd"
+                        - oddEvenTable = "odd"
                     - else
-                        - oddeventable = "even"
+                        - oddEvenTable = "even"
                     - if(submissions[i].result == "AC")
-                        - coloroftable = "blue"
+                        - colorOfTable = "blue"
                     - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
-                        - coloroftable = "green"
+                        - colorOfTable = "green"
                     - else
-                        - coloroftable = "red"
+                        - colorOfTable = "red"
                     script.
-                        $("#tr#{i}").attr("class", "#{oddeventable}#{coloroftable}tr");
-                        $("#td#{i}").attr("class", "#{coloroftable}td");
+                        $("#tr#{i}").attr("class", "#{oddEvenTable}#{colorOfTable}tr");
+                        $("#td#{i}").attr("class", "#{colorOfTable}td");

@@ -25,6 +25,14 @@ tr.evenbluetr{
     background-color: #eeffff;
 }
 
+tr.oddwhitetr{
+    background-color: #ffffff;
+}
+
+tr.evenwhitetr{
+    background-color: #f5f5f5;
+}
+
 
 td.greentd{
     color: #008000;
@@ -39,6 +47,11 @@ td.redtd{
 
 td.bluetd{
     color: #0000d0;
+    font-weight: bold;
+}
+
+td.whitetd{
+    color: #333333;
     font-weight: bold;
 }
 
