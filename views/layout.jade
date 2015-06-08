@@ -38,11 +38,15 @@ html
                                             a(href="/problem/index", id="problempage", class="nav-before") 题目
                                         li.normalli
                                             a(href="/contest/index", id="contestpage", class="nav-before") 赛事
+                                        li.normalli
+                                            a(href="/submission/index", id="submissionpage", class="nav-before") 提交记录
                                         - if(user)
                                             li.normalli
                                                 a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
                                             li.normalli
                                                 a(href="/message/index", id="messegepage", class="nav-before") 消息
+                                        li.normalli
+                                            a(href="/help/index", id="helppage", class="nav-before") 帮助
                                     //navbar的登录登出部分显示在导航栏右侧
                                     ul.nav.navbar-nav.navbar-right
                                         - if(user)
@@ -89,5 +93,5 @@ html
                             p.text-center
                                 | College of Software, Beihang University
                                 br
-                                a(href="/help") 帮助---0w0---
+                                a(href="/help/index") 帮助---0w0---
             .col-lg-1
