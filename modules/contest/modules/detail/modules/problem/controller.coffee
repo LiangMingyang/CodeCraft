@@ -22,17 +22,56 @@ exports.getIndex = (req, res) ->
   Problem = global.db.models.problem
   currentProblem = undefined
   currentContest = undefined
+  currentProblems = undefined
+  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
-    return contest.problems
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
+    currentProblems = contest.problems
+    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
+  .then (counts)-> #AC people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.acceptedPeopleCount = 0
+      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
+  .then (counts)-> #Tried people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.triedPeopleCount = 0
+      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
+  .then (counts)-> #this user accepted problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.accepted = 0
+      p.accepted = tmp[p.id] if tmp[p.id]
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
+  .then (counts)-> #this user tried problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.tried = 0
+      p.tried = tmp[p.id] if tmp[p.id]
+    return currentProblems
   .then (problems)->
     order = myUtils.lettersToNumber(req.params.problemID)
     for problem in problems
@@ -62,6 +101,9 @@ exports.getIndex = (req, res) ->
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
     req.flash 'info', 'Unknown error!'
@@ -80,7 +122,7 @@ exports.postSubmission = (req, res) ->
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
-  Group = global.db.models.group
+  Problem = global.db.models.problem
   currentUser = undefined
   currentSubmission = undefined
   currentProblem = undefined
@@ -92,17 +134,16 @@ exports.postSubmission = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user,req.params.contestID)
+    myUtils.findContest(user,req.params.contestID,[
+      model : Problem
+    ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     order = myUtils.lettersToNumber(req.params.problemID)
-    myUtils.findProblemWithContest(contest,order, [
-      model : User
-      as : 'creator'
-    ,
-      model : Group
-    ])
+    for p in contest.problems
+      return p if p.contest_problem_list.order is order
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
@@ -119,18 +160,18 @@ exports.postSubmission = (req, res) ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
 
-  .catch myUtils.Error.UnknownContest, (err)->
-    req.flash 'info', err.message
-    res.redirect CONTEST_PAGE
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown Error!'
+    req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
 
 exports.getSubmissions = (req, res) ->
@@ -138,18 +179,57 @@ exports.getSubmissions = (req, res) ->
   Problem = global.db.models.problem
   Contest = global.db.models.contest
   currentProblem = undefined
+  currentProblems = undefined
   currentContest = undefined
+  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
-    return contest.problems
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
+    currentProblems = contest.problems
+    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
+  .then (counts)-> #AC people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.acceptedPeopleCount = 0
+      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
+  .then (counts)-> #Tried people counts
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.triedPeopleCount = 0
+      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
+  .then (counts)-> #this user accepted problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.accepted = 0
+      p.accepted = tmp[p.id] if tmp[p.id]
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
+  .then (counts)-> #this user tried problems
+    tmp = {}
+    for p in counts
+      tmp[p.problem_id] = p.count
+    for p in currentProblems
+      p.tried = 0
+      p.tried = tmp[p.id] if tmp[p.id]
+    return currentProblems
   .then (problems)->
     order = myUtils.lettersToNumber(req.params.problemID)
     for problem in problems
@@ -159,12 +239,19 @@ exports.getSubmissions = (req, res) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
     problem.getSubmissions({
-      include: [
-        model: User
+      include : [
+        model : User
         as : 'creator'
+        where :
+          id : (
+            if currentUser
+              currentUser.id
+            else
+              0
+          )
       ,
-        model: Contest
-        where:
+        model : Contest
+        where :
           id : currentContest.id
       ]
       order : [
@@ -187,6 +274,9 @@ exports.getSubmissions = (req, res) ->
   .catch myUtils.Error.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
+  .catch myUtils.Error.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
     req.flash 'info', 'Unknown error!'

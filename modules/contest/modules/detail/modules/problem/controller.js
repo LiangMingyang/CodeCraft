@@ -29,16 +29,19 @@
   CONTEST_PAGE = '/contest';
 
   exports.getIndex = function(req, res) {
-    var Problem, User, currentContest, currentProblem;
+    var Problem, User, currentContest, currentProblem, currentProblems, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     currentProblem = void 0;
     currentContest = void 0;
+    currentProblems = void 0;
+    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID, [
         {
           model: Problem
@@ -48,8 +51,75 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      if (contest.start_time > (new Date())) {
+        throw new myUtils.Error.UnknownContest();
+      }
       currentContest = contest;
-      return contest.problems;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      currentProblems = contest.problems;
+      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.acceptedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.acceptedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.triedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.triedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.accepted = 0;
+        if (tmp[p.id]) {
+          p.accepted = tmp[p.id];
+        }
+      }
+      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.tried = 0;
+        if (tmp[p.id]) {
+          p.tried = tmp[p.id];
+        }
+      }
+      return currentProblems;
     }).then(function(problems) {
       var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);
@@ -89,6 +159,9 @@
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', 'Unknown error!');
@@ -97,7 +170,7 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Group, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser, form, form_code;
+    var Problem, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser, form, form_code;
     form = {
       lang: req.body.lang
     };
@@ -107,7 +180,7 @@
     Submission = global.db.models.submission;
     Submission_Code = global.db.models.submission_code;
     User = global.db.models.user;
-    Group = global.db.models.group;
+    Problem = global.db.models.problem;
     currentUser = void 0;
     currentSubmission = void 0;
     currentProblem = void 0;
@@ -118,22 +191,28 @@
       }
     }).then(function(user) {
       currentUser = user;
-      return myUtils.findContest(user, req.params.contestID);
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: Problem
+        }
+      ]);
     }).then(function(contest) {
-      var order;
+      var i, len, order, p, ref;
       if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      if (contest.start_time > (new Date())) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
       order = myUtils.lettersToNumber(req.params.problemID);
-      return myUtils.findProblemWithContest(contest, order, [
-        {
-          model: User,
-          as: 'creator'
-        }, {
-          model: Group
+      ref = contest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        p = ref[i];
+        if (p.contest_problem_list.order === order) {
+          return p;
         }
-      ]);
+      }
     }).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
@@ -151,34 +230,37 @@
     }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
-    })["catch"](myUtils.Error.UnknownContest, function(err) {
-      req.flash('info', err.message);
-      return res.redirect(CONTEST_PAGE);
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', 'Unknown Error!');
+      req.flash('info', 'Unknown error!');
       return res.redirect(HOME_PAGE);
     });
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Problem, User, currentContest, currentProblem;
+    var Contest, Problem, User, currentContest, currentProblem, currentProblems, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     Contest = global.db.models.contest;
     currentProblem = void 0;
+    currentProblems = void 0;
     currentContest = void 0;
+    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID, [
         {
           model: Problem
@@ -188,8 +270,75 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
+      if (contest.start_time > (new Date())) {
+        throw new myUtils.Error.UnknownContest();
+      }
       currentContest = contest;
-      return contest.problems;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      currentProblems = contest.problems;
+      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.acceptedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.acceptedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.triedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.triedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.accepted = 0;
+        if (tmp[p.id]) {
+          p.accepted = tmp[p.id];
+        }
+      }
+      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.tried = 0;
+        if (tmp[p.id]) {
+          p.tried = tmp[p.id];
+        }
+      }
+      return currentProblems;
     }).then(function(problems) {
       var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);
@@ -208,7 +357,10 @@
         include: [
           {
             model: User,
-            as: 'creator'
+            as: 'creator',
+            where: {
+              id: (currentUser ? currentUser.id : 0)
+            }
           }, {
             model: Contest,
             where: {
@@ -237,6 +389,9 @@
     })["catch"](myUtils.Error.UnknownProblem, function(err) {
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
+    })["catch"](myUtils.Error.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', 'Unknown error!');

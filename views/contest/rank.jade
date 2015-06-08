@@ -1,0 +1,59 @@
+//
+   Created by lmy on 15-6-7.
+
+extends ../layout
+block title
+   - var whichPage = "比赛题目信息"
+   title #{whichPage}
+block content
+   //include porblem-list.jade
+   .col-lg-2
+      include contest.jade
+   .col-lg-8
+      h3 所有题目
+      table(class = "table table-striped")
+         tr.text-center
+            td 用户
+            td 得分
+            td 罚时
+            - for (var i = 0 ; i < contest.problems.length ; ++i)
+               - var problem = contest.problems[i];
+               td
+                  a(href="problem/"+problem.contest_problem_list.order) #{problem.contest_problem_list.order}
+         - for(var j = 0 ; j < rank.length ; ++j)
+            tr.text-center
+               td #{rank[j].user.nickname}
+               td #{rank[j].score}
+               td #{new Date(rank[j].penalty).getMinutes()}
+               - for(var k = 0 ; k < contest.problems.length ; ++k)
+                  - var p = contest.problems[k];
+                  - var order = p.contest_problem_list.order;
+                  - if(rank[j].detail[order])
+                     td #{rank[j].detail[order].result}(#{rank[j].detail[order].wrong_count})
+                  - else
+                     td
+            //- for (var i = 0 ; i < contest.problems.length ; ++i)
+            //   - var order = contest.problems[j].contest_problem_list.order;
+            //   td #{rank[j]}
+         //   - if(user)
+         //      td 是否AC
+         //   td 题目编号
+         //   td 题目标题
+         //   td 题目分数
+         //- for (var i = 0 ; i < problems.length ; ++i)
+         //   - var problem = problems[i];
+         //   tr.text-center
+         //      - if(user)
+         //      - if(problem.accepted + problem.tried == 2)
+         //         td.green-td
+         //            span.glyphicon.glyphicon-ok(aria-hidden="true")
+         //      - else if(problem.accepted + problem.tried == 1)
+         //         td.yellow-td
+         //            span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
+         //      - else
+         //         td
+         //      td #{problem.contest_problem_list.order}
+         //      td
+         //         a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
+         //      td #{problem.contest_problem_list.score}
+   .col-lg-2

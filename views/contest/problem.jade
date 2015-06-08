@@ -17,6 +17,7 @@ block content
                 td 题目编号
                 td 题目标题
                 td 题目分数
+                td 通过情况
             - for (var i = 0 ; i < problems.length ; ++i)
                 - var problem = problems[i];
                 tr.text-center
@@ -33,4 +34,5 @@ block content
                     td
                         a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
                     td #{problem.contest_problem_list.score}
+                    td #{problem.acceptedPeopleCount}/#{problem.triedPeopleCount}
     .col-lg-2

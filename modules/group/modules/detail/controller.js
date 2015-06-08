@@ -211,7 +211,7 @@
           p.triedPeopleCount = tmp[p.id];
         }
       }
-      return myUtils.getResultCount(currentUser, currentProblems, 'AC');
+      return myUtils.hasResult(currentUser, currentProblems, 'AC');
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -226,7 +226,7 @@
           p.accepted = tmp[p.id];
         }
       }
-      return myUtils.getResultCount(currentUser, currentProblems);
+      return myUtils.hasResult(currentUser, currentProblems);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};

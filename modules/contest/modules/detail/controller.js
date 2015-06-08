@@ -47,11 +47,12 @@
   };
 
   exports.getProblem = function(req, res) {
-    var User, currentContest, currentProblems, currentUser;
+    var Problem, User, currentContest, currentProblems, currentUser;
     currentContest = void 0;
     currentUser = void 0;
     currentProblems = void 0;
     User = global.db.models.user;
+    Problem = global.db.models.problem;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -62,20 +63,53 @@
         {
           model: User,
           as: 'creator'
+        }, {
+          model: Problem
         }
       ]);
     }).then(function(contest) {
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
-      currentContest = contest;
       if (contest.start_time > (new Date())) {
-        return [];
+        throw new myUtils.Error.UnknownContest();
       }
-      return currentContest.getProblems();
-    }).then(function(problems) {
-      currentProblems = problems;
-      return myUtils.getResultCount(currentUser, currentProblems, 'AC', currentContest);
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      currentContest = contest;
+      currentProblems = contest.problems;
+      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.acceptedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.acceptedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
+    }).then(function(counts) {
+      var i, j, len, len1, p, tmp;
+      tmp = {};
+      for (i = 0, len = counts.length; i < len; i++) {
+        p = counts[i];
+        tmp[p.problem_id] = p.count;
+      }
+      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
+        p = currentProblems[j];
+        p.triedPeopleCount = 0;
+        if (tmp[p.id]) {
+          p.triedPeopleCount = tmp[p.id];
+        }
+      }
+      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -90,7 +124,7 @@
           p.accepted = tmp[p.id];
         }
       }
-      return myUtils.getResultCount(currentUser, currentProblems, void 0, currentContest);
+      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
     }).then(function(counts) {
       var i, j, len, len1, p, tmp;
       tmp = {};
@@ -128,14 +162,16 @@
   };
 
   exports.getSubmission = function(req, res) {
-    var User, currentContest;
+    var User, currentContest, currentUser;
     currentContest = void 0;
+    currentUser = void 0;
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findContest(user, req.params.contestID, [
         {
           model: User,
@@ -147,16 +183,20 @@
         throw new myUtils.Error.UnknownContest();
       }
       if (contest.start_time > (new Date())) {
-        return [];
+        throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
       return currentContest.getSubmissions({
         include: [
           {
             model: User,
-            as: 'creator'
+            as: 'creator',
+            where: {
+              id: (currentUser ? currentUser.id : 0)
+            }
           }
-        ]
+        ],
+        order: [['created_at', 'DESC']]
       });
     }).then(function(submissions) {
       return res.render('contest/submission', {
@@ -187,8 +227,54 @@
   };
 
   exports.getRank = function(req, res) {
-    return res.render('contest/detail', {
-      title: 'Rank'
+    var Problem, User, currentContest;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    currentContest = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      return myUtils.findContest(user, req.params.contestID, [
+        {
+          model: User,
+          as: 'creator'
+        }, {
+          model: Problem
+        }
+      ]);
+    }).then(function(contest) {
+      if (!contest) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      if (contest.start_time > (new Date())) {
+        throw new myUtils.Error.UnknownContest();
+      }
+      currentContest = contest;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      return myUtils.getRank(currentContest);
+    }).then(function(rank) {
+      var i, len, problem, ref;
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
+        problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
+      }
+      return res.render('contest/rank', {
+        user: req.session.user,
+        contest: currentContest,
+        rank: rank
+      });
+    })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
     });
   };
 

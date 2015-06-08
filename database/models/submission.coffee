@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.ENUM('WT', 'JG', 'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'PE') #TODO:参考李子星大神的论文
       allowNull: false
       defaultValue: 'WT'
+    score:
+      type: DataTypes.FLOAT
     time_cost:
       type: DataTypes.INTEGER
     memory_cost:
