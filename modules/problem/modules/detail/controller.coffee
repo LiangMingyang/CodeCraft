@@ -125,6 +125,8 @@ exports.getSubmissions = (req, res) ->
       order : [
         ['id', 'DESC']
       ]
+      where :
+        contest_id : null
     })
   .then (submissions) ->
     res.render('problem/submission', {

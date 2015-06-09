@@ -154,7 +154,10 @@
             as: 'creator'
           }
         ],
-        order: [['id', 'DESC']]
+        order: [['id', 'DESC']],
+        where: {
+          contest_id: null
+        }
       });
     }).then(function(submissions) {
       return res.render('problem/submission', {
