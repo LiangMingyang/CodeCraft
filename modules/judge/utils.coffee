@@ -15,11 +15,20 @@ class UnknownJudge extends Error
     @name = 'UnknownJudge'
     Error.captureStackTrace(this, UnknownJudge)
 
+class UnknownSubmission extends Error
+  constructor: (@message = "Unknown submission.") ->
+    @name = 'UnknownSubmission'
+    Error.captureStackTrace(this, UnknownSubmission)
+
 exports.Error = {
   UnknownUser : UnknownUser
   UnknownSubmission : UnknownSubmission
   UnknownJudge : UnknownJudge
 }
+
+exports.getStaticProblem = (problemId) ->
+  dirname = global.config.problem_resource_path
+  path.join dirname, problemId.toString()
 
 exports.checkJudge = (judge)->
   #TODO: should check it

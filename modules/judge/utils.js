@@ -45,10 +45,29 @@
 
   })(Error);
 
+  UnknownSubmission = (function(superClass) {
+    extend(UnknownSubmission, superClass);
+
+    function UnknownSubmission(message) {
+      this.message = message != null ? message : "Unknown submission.";
+      this.name = 'UnknownSubmission';
+      Error.captureStackTrace(this, UnknownSubmission);
+    }
+
+    return UnknownSubmission;
+
+  })(Error);
+
   exports.Error = {
     UnknownUser: UnknownUser,
     UnknownSubmission: UnknownSubmission,
     UnknownJudge: UnknownJudge
+  };
+
+  exports.getStaticProblem = function(problemId) {
+    var dirname;
+    dirname = global.config.problem_resource_path;
+    return path.join(dirname, problemId.toString());
   };
 
   exports.checkJudge = function(judge) {};
