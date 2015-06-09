@@ -18,21 +18,22 @@ block content
                 td 题目标题
                 td 题目分数
                 td 通过情况
-            - for (var i = 0 ; i < problems.length ; ++i)
-                - var problem = problems[i];
-                tr.text-center
-                    - if(user)
-                        - if(problem.accepted + problem.tried == 2)
-                            td.green-td
-                                span.glyphicon.glyphicon-ok(aria-hidden="true")
-                        - else if(problem.accepted + problem.tried == 1)
-                            td.yellow-td
-                                span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
-                        - else
-                            td
-                    td #{problem.contest_problem_list.order}
-                    td
-                        a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
-                    td #{problem.contest_problem_list.score}
-                    td #{problem.acceptedPeopleCount}/#{problem.triedPeopleCount}
+            if(problems)
+                - for (var i = 0 ; i < problems.length ; ++i)
+                    - var problem = problems[i];
+                    tr.text-center
+                        - if(user)
+                            - if(problem.accepted + problem.tried == 2)
+                                td.green-td
+                                    span.glyphicon.glyphicon-ok(aria-hidden="true")
+                            - else if(problem.accepted + problem.tried == 1)
+                                td.yellow-td
+                                    span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
+                            - else
+                                td
+                        td #{problem.contest_problem_list.order}
+                        td
+                            a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
+                        td #{problem.contest_problem_list.score}
+                        td #{problem.acceptedPeopleCount}/#{problem.triedPeopleCount}
     .col-lg-2

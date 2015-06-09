@@ -26,26 +26,28 @@ block content
                 td 运行内存
                 td 代码长度
                 td 提交时间
-            - for (var i = 0 ;i < submissions.length ; i++)
-                tr(id = "tr#{i}")
-                    td #{submissions[i].id}
-                    td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
-                    td
-                        a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
-                    td #{submissions[i].time_cost}
-                    td #{submissions[i].memory_cost}
-                    td 需要代码长度
-                    td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
-                    - if(i % 2 == 1)
-                        - oddEvenTable = "odd"
-                    - else
-                        - oddEvenTable = "even"
-                    - if(submissions[i].result == "AC")
-                        - colorOfTable = "blue"
-                    - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
-                        - colorOfTable = "green"
-                    - else
-                        - colorOfTable = "red"
-                    script.
-                        $("#tr#{i}").attr("class", "#{oddEvenTable}#{colorOfTable}tr");
-                        $("#td#{i}").attr("class", "#{colorOfTable}td");
+            if(submissions)
+                - for (var i = 0 ;i < submissions.length ; i++)
+                    tr(id = "tr#{i}")
+                        td #{submissions[i].id}
+                        td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                        td
+                            a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                        td #{submissions[i].time_cost}
+                        td #{submissions[i].memory_cost}
+                        td 需要代码长度
+                        td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
+                        - if(i % 2 == 1)
+                            - oddEvenTable = "odd"
+                        - else
+                            - oddEvenTable = "even"
+                        - if(submissions[i].result == "AC")
+                            - colorOfTable = "blue"
+                        - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                            - colorOfTable = "green"
+                        - else
+                            - colorOfTable = "red"
+                        script.
+                            $("#tr#{i}").attr("class", "#{oddEvenTable}#{colorOfTable}tr");
+                            $("#td#{i}").attr("class", "#{colorOfTable}td");
+    .col-lg-2.col-md-2.col-sm-2

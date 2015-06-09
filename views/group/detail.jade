@@ -17,8 +17,11 @@ block content
     .col-lg-8
         - if ( !isMember )
             a.button.btn.btn-default(href="join") 加入该小组
-        h3 #{group.name}的小组简介
-        p.containing #{group.description}
+        //- else
+            a.button.btn.btn-default(href="quit") 退出该小组
+        if(group)
+            h3 #{group.name}的小组简介
+            p.containing #{group.description}
         //h4 比赛列表
         //a.button.btn.btn-default(href="./contest") 查看更多
         //h4 题目列表

@@ -4,9 +4,21 @@
 if(group)
     .list-group
         a(class="list-group-item normal-color", id="group-groupindexpage", href="./index") 小组主页
-        a(class="list-group-item normal-color", id="group-memberpage", href="./member") 小组成员
-        a(class="list-group-item normal-color", id="group-contestpage", href="./contest") 小组比赛
-        a(class="list-group-item normal-color", id="group-problempage", href="./problem") 小组题目
+        a(class="list-group-item normal-color", id="group-memberpage", href="./member")
+            - if(group.users)
+                | 小组成员------#{group.users.length}人
+            - else
+                | 小组成员
+        a(class="list-group-item normal-color", id="group-contestpage", href="./contest")
+            - if(contests)
+                | 小组比赛------#{contests.length}场
+            - else
+                | 小组比赛
+        a(class="list-group-item normal-color", id="group-problempage", href="./problem")
+            - if(problems)
+                | 小组题目------#{problems.length}道
+            - else
+                | 小组题目
         a(class="list-group-item normal-color", id="group-returnpage", href="../index") 返回所有小组
     script.
         if("#{whichPage}"=="小组题目")

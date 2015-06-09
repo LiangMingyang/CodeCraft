@@ -10,6 +10,7 @@ block content
         include contest.jade
     .col-lg-8
         h3 比赛简介
-        p
-            #{contest.description}
+        if(contest)
+            p
+                #{contest.description}
     .col-lg-2
