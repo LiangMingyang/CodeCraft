@@ -5,6 +5,8 @@ extends ../layout
 block title
     - var whichPage = "比赛排名"
     title #{whichPage}
+    link(rel='stylesheet', href='/stylesheets/submission.css')
+
 block content
     include contest-title.jade
     .col-lg-2
@@ -23,17 +25,40 @@ block content
                         td
                             a(href="problem/"+problem.contest_problem_list.order) #{problem.contest_problem_list.order}
             if(rank)
+                - var seconds = 0
+                - var minutes = 0
+                - var hours = 0
+                - var oddeventable = "odd"
+                - var coloroftable = "red"
                 - for(var j = 0 ; j < rank.length ; ++j)
                     tr.text-center
                         td #{j+1}
                         td #{rank[j].user.nickname}
                         td #{rank[j].score}
-                        td #{new Date(rank[j].penalty).getMinutes()}
+                        - seconds = rank[j].penalty / 1000 % 60
+                        - minutes = (rank[j].penalty / 1000 - seconds) / 60 % 60
+                        - hours = (rank[j].penalty / 1000 - seconds - minutes * 60) / 3600
+                        - if(j % 2 == 1)
+                            - oddeventable = "odd"
+                        - else
+                            - oddeventable = "even"
+                        td #{hours}:#{minutes}:#{seconds}
+                            //#{new Date(rank[j].penalty).getDay()*24+new Date(rank[j].penalty).getHours()}:#{new Date(rank[j].penalty).getMinutes()}:#{new Date(rank[j].penalty).getSeconds()}
                         - for(var k = 0 ; k < contest.problems.length ; ++k)
                             - var p = contest.problems[k];
                             - var order = p.contest_problem_list.order;
-                            - if(rank[j].detail[order])
-                                td #{rank[j].detail[order].result}(#{rank[j].detail[order].wrong_count})
+                            - if(rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
+                                td(id="td#{j}#{k}") #{rank[j].detail[order].accepted_time}(-#{rank[j].detail[order].wrong_count})
+                            - else if(rank[j].detail[order])
+                                td(id="td#{j}#{k}") #{rank[j].detail[order].accepted_time}
                             - else
                                 td
+                            - if(!rank[j].detail[order])
+                                - coloroftable = "white"
+                            - else if(rank[j].detail[order].result == "AC")
+                                - coloroftable = "green"
+                            - else
+                                - coloroftable = "red"
+                            script $("#td#{j}#{k}").attr("class","#{oddeventable}#{coloroftable}td");
+
     .col-lg-2

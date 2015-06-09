@@ -4,9 +4,9 @@ extends ../layout
 block title
     - var whichPage = "查看代码"
     title #{whichPage}
-    //title #{title}
+
 block content
-    // button(onclick=renderCode("12312312#3123123123"));
-    pre.
-        #{submission.submission_code.content}
     script(src="/js/coderender.js")
+    pre.text-left(id="usercode") #{submission.submission_code.content}
+        //script document.write(renderCode(document.getElementById("usercode").value));
+        //script document.write(renderCode("#{submission.submission_code.content}"));

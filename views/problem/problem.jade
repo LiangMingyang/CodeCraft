@@ -1,10 +1,9 @@
 .containing
-    //.form-horizontal
-        label.control-label  当前用户：
-    //.form-horizontal
-        a(href="/user/" + user.id + "/index", id="informationpage")
-            label.control-label #{user.nickname}
-
+    ////.form-horizontal
+    //    label.control-label  当前用户：
+    ////.form-horizontal
+    //    a(href="/user/" + user.id + "/index", id="informationpage")
+    //        label.control-label #{user.nickname}
     .list-group
         a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
         a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
@@ -14,7 +13,7 @@
         else
             $("#problem-problemindexpage").attr("class","list-group-item change-color");
 
-    if(problem.test_setting)
+    if(problem.test_setting && user)
         .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
 
         #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
