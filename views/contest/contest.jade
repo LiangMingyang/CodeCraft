@@ -1,24 +1,25 @@
 //
    Created by zp on 15-6-5.
 if(contest)
-    .form-horizontal
+    //.form-horizontal
         a(href="./index")
             label.control-label
                 h3 #{contest.title}
-    .form-horizontal
-        a(class="list-group-item normal-color", id="indexPage", href="./index") 赛事信息
-        a(class="list-group-item normal-color", id="problemPage", href="./problem") 比赛题目
-        a(class="list-group-item normal-color", id="rankPage", href="./rank") 比赛排名
-        a(class="list-group-item normal-color", id="submissionPage", href="./submission") 提交记录
-        a(class="list-group-item normal-color", id="issuePage", href="./index") 比赛公告
-        script.
-            if("#{whichPage}"=="赛事信息")
-                $("#indexPage").attr("class","list-group-item change-color");
-            else if("#{whichPage}"=="比赛题目信息")
-                $("#problemPage").attr("class","list-group-item change-color");
-            else if("#{whichPage}"=="比赛排名")
-                $("#rankPage").attr("class","list-group-item change-color");
-            else if("#{whichPage}"=="比赛提交记录")
-                $("#submissionPage").attr("class","list-group-item change-color");
-            else if("#{whichPage}"=="修改密码")
-                $("#issuePage").attr("class","list-group-item change-color");
+    - if(contest.start_time <= (new Date()))
+        .form-horizontal
+            a(class="list-group-item normal-color", id="indexPage", href="./index") 赛事信息
+            a(class="list-group-item normal-color", id="problemPage", href="./problem") 比赛题目
+            a(class="list-group-item normal-color", id="rankPage", href="./rank") 比赛排名
+            a(class="list-group-item normal-color", id="submissionPage", href="./submission") 提交记录
+            a(class="list-group-item normal-color", id="issuePage", href="./index") 比赛公告
+            script.
+                if("#{whichPage}"=="赛事信息")
+                    $("#indexPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="比赛题目信息")
+                    $("#problemPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="比赛排名")
+                    $("#rankPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="比赛提交记录")
+                    $("#submissionPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="修改密码")
+                    $("#issuePage").attr("class","list-group-item change-color");
