@@ -59,15 +59,6 @@ exports.getIndex = (req, res) ->
     res.redirect HOME_PAGE
 
 exports.postSubmission = (req, res) ->
-
-  form = {
-    lang: req.body.lang
-  }
-
-  form_code = {
-    content: req.body.code
-  }
-
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
@@ -85,11 +76,18 @@ exports.postSubmission = (req, res) ->
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     current_problem = problem
+    form = {
+      lang : req.body.lang
+      code_length : req.body.code.length
+    }
     Submission.create(form)
   .then (submission) ->
     current_user.addSubmission(submission)
     current_problem.addSubmission(submission)
     current_submission = submission
+    form_code = {
+      content: req.body.code
+    }
     Submission_Code.create(form_code)
   .then (code) ->
     current_submission.setSubmission_code(code)

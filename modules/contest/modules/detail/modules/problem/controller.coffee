@@ -111,14 +111,6 @@ exports.getIndex = (req, res) ->
 
 exports.postSubmission = (req, res) ->
 
-  form = {
-    lang: req.body.lang
-  }
-
-  form_code = {
-    content: req.body.code
-  }
-
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   User = global.db.models.user
@@ -147,12 +139,19 @@ exports.postSubmission = (req, res) ->
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
+    form = {
+      lang : req.body.lang
+      code_length : req.body.code.length
+    }
     Submission.create(form)
   .then (submission) ->
     currentUser.addSubmission(submission)
     currentProblem.addSubmission(submission)
     currentContest.addSubmission(submission)
     currentSubmission = submission
+    form_code = {
+      content: req.body.code
+    }
     Submission_Code.create(form_code)
   .then (code) ->
     currentSubmission.setSubmission_code(code)
@@ -281,15 +280,5 @@ exports.getSubmissions = (req, res) ->
     console.log err
     req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
-
-exports.getCode = (req, res) ->
-  Submission_Code = global.db.models.submission_code
-  Submission_Code.find req.params.submissionID
-  .then (code) ->
-    res.json({
-      code: code.content,
-      user: req.session.user
-    })
-
 
 

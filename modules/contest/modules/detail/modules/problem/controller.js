@@ -170,13 +170,7 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Problem, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser, form, form_code;
-    form = {
-      lang: req.body.lang
-    };
-    form_code = {
-      content: req.body.code
-    };
+    var Problem, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser;
     Submission = global.db.models.submission;
     Submission_Code = global.db.models.submission_code;
     User = global.db.models.user;
@@ -214,16 +208,25 @@
         }
       }
     }).then(function(problem) {
+      var form;
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
+      form = {
+        lang: req.body.lang,
+        code_length: req.body.code.length
+      };
       return Submission.create(form);
     }).then(function(submission) {
+      var form_code;
       currentUser.addSubmission(submission);
       currentProblem.addSubmission(submission);
       currentContest.addSubmission(submission);
       currentSubmission = submission;
+      form_code = {
+        content: req.body.code
+      };
       return Submission_Code.create(form_code);
     }).then(function(code) {
       return currentSubmission.setSubmission_code(code);
@@ -396,17 +399,6 @@
       console.log(err);
       req.flash('info', 'Unknown error!');
       return res.redirect(HOME_PAGE);
-    });
-  };
-
-  exports.getCode = function(req, res) {
-    var Submission_Code;
-    Submission_Code = global.db.models.submission_code;
-    return Submission_Code.find(req.params.submissionID).then(function(code) {
-      return res.json({
-        code: code.content,
-        user: req.session.user
-      });
     });
   };
 
