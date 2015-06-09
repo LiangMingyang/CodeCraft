@@ -16,6 +16,8 @@
 
   router.post('/task', controller.postTask);
 
+  router.post('/file', controller.postFile);
+
   module.exports = router;
 
 }).call(this);

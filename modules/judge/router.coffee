@@ -11,4 +11,7 @@ router
   .post '/task', controller.postTask
   #.post '/report', controller.postReport
 
+router
+  .post '/file', controller.postFile
+
 module.exports = router
