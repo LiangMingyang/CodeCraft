@@ -24,7 +24,6 @@ exports.getIndex = (req, res) ->
 ###
 exports.getLogin = (req, res) ->
   if req.session.user
-    req.flash 'info', 'Please logout first.'
     res.redirect HOME_PAGE
     return
   res.render 'user/login', {
