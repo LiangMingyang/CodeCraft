@@ -34,6 +34,39 @@ tr.evenwhitetr{
 }
 
 
+td.oddgreentd{
+    background-color: #77ff77;
+}
+
+td.evengreentd{
+    background-color: #77ff77;
+}
+
+td.oddredtd{
+    background-color: #ff7777;
+}
+
+td.evenredtd{
+    background-color: #ff7777;
+}
+
+td.oddbluetd{
+    background-color: #77ffff;
+}
+
+td.evenbluetd{
+    background-color: #77ffff;
+}
+
+td.oddwhitetd{
+    background-color: #ffffff;
+}
+
+td.evenwhitetd{
+    background-color: #ffffff;
+}
+
+
 td.greentd{
     color: #008000;
     font-weight: bold;
