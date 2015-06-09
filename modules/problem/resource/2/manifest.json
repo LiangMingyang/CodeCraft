@@ -3,21 +3,26 @@
   "description": "description.md",
   "data": [
     {
-      "input": "path-to-input-file",
-      "output": "path-to-output-file",
+      "input": "1.in",
+      "output": "1.out",
       "weight": 1
     },
     {
-      "input": "path-to-input-file",
-      "output": "path-to-output-file",
+      "input": "2.in",
+      "output": "2.out",
       "weight": 1
     }
   ],
   "test_setting": {
     "time_limit": 1000,
     "memory_limit": 524288,
-    "language": ["c","c++","java"],
-    "special_judge": "path-to-special-judge-code",
-    "partial_score": true
+    "language": [
+      "c",
+      "c++",
+      "java"
+    ],
+    "special_judge": "",
+    "partial_score": true,
+    "data_file": "1433867819664.tar.gz"
   }
 }
