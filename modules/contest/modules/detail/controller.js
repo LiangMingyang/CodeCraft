@@ -162,9 +162,10 @@
   };
 
   exports.getSubmission = function(req, res) {
-    var User, currentContest, currentUser;
+    var Problem, User, currentContest, currentUser;
     currentContest = void 0;
     currentUser = void 0;
+    Problem = global.db.models.problem;
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -176,6 +177,8 @@
         {
           model: User,
           as: 'creator'
+        }, {
+          model: Problem
         }
       ]);
     }).then(function(contest) {
