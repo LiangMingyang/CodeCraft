@@ -23,7 +23,7 @@
     Submission = global.db.models.submission;
     SubmissionCode = global.db.models.submission_code;
     currentSubmission = void 0;
-    return myUtils.auth(req.body.judge).then(function() {
+    return myUtils.checkJudge(req.body.judge).then(function() {
       return Submission.find({
         where: {
           result: 'WT'
@@ -41,9 +41,7 @@
       currentSubmission = submission;
       return fs.readFilePromised(path.join(myUtils.getStaticProblem(submission.problem_id), 'manifest.json'));
     }).then(function(manifest_str) {
-      var manifest;
-      manifest = JSON.parse(manifest_str);
-      currentSubmission.test_setting = manifest.test_setting;
+      currentSubmission.dataValues.manifest = JSON.parse(manifest_str);
       return res.json(currentSubmission);
     })["catch"](myUtils.Error.UnknownSubmission, function(err) {
       return res.json(void 0);

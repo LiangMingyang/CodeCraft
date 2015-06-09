@@ -9,6 +9,6 @@ router.use(middlewares)
 
 router
   .post '/task', controller.postTask
-  .post '/report', controller.postReport
+  #.post '/report', controller.postReport
 
 module.exports = router

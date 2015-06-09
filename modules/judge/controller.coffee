@@ -11,7 +11,7 @@ exports.postTask = (req, res)->
   Submission = global.db.models.submission
   SubmissionCode = global.db.models.submission_code
   currentSubmission = undefined
-  myUtils.auth(req.body.judge)
+  myUtils.checkJudge(req.body.judge)
   .then ->
     Submission.find(
       where:
@@ -25,8 +25,7 @@ exports.postTask = (req, res)->
     currentSubmission = submission
     fs.readFilePromised path.join(myUtils.getStaticProblem(submission.problem_id), 'manifest.json')
   .then (manifest_str) ->
-    manifest = JSON.parse manifest_str
-    currentSubmission.test_setting = manifest.test_setting
+    currentSubmission.dataValues.manifest = JSON.parse manifest_str #应当读取special_judge的，但是现在是忽略了的
     res.json(currentSubmission)
 
   .catch myUtils.Error.UnknownSubmission, (err)->

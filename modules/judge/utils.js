@@ -70,7 +70,9 @@
     return path.join(dirname, problemId.toString());
   };
 
-  exports.checkJudge = function(judge) {};
+  exports.checkJudge = function(judge) {
+    return global.db.Promise.resolve();
+  };
 
 }).call(this);
 

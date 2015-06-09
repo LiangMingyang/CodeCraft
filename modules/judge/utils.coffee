@@ -32,3 +32,4 @@ exports.getStaticProblem = (problemId) ->
 
 exports.checkJudge = (judge)->
   #TODO: should check it
+  global.db.Promise.resolve()

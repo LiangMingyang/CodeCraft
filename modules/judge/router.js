@@ -14,7 +14,7 @@
 
   router.use(middlewares);
 
-  router.post('/task', controller.postTask).post('/report', controller.postReport);
+  router.post('/task', controller.postTask);
 
   module.exports = router;
 
