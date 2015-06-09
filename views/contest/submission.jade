@@ -22,8 +22,10 @@ block content
                 td 序号
                 if(!problem)
                     td 题目
-                td 结果 - 得分
-                td 语言 - 代码长度(Byte)
+                td 结果
+                td 得分
+                td 语言
+                td 代码长度(Byte)
                 td 运行时间(ms)
                 td 运行内存(Kb)
                 td 提交时间
@@ -33,9 +35,12 @@ block content
                         td #{submissions[i].id}
                         if(!problem)
                             td #{submissions[i].problem_order}
-                        td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]} - #{submissions[i].score}
+                        td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                        td #{submissions[i].score}
                         td
-                            a(href='/submission/' + submissions[i].id) #{submissions[i].lang} - 代码长度
+                            a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                        td
+                            a(href='/submission/' + submissions[i].id) #{submissions[i].code_length}
                         td #{submissions[i].time_cost}
                         td #{submissions[i].memory_cost}
                         td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
