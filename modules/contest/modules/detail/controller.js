@@ -207,7 +207,7 @@
       ref = currentContest.problems;
       for (i = 0, len = ref.length; i < len; i++) {
         problem = ref[i];
-        dicProblemIDtoOrder[problem.id] = problem.contest_problem_list.order;
+        dicProblemIDtoOrder[problem.id] = myUtils.numberToLetters(problem.contest_problem_list.order);
       }
       for (j = 0, len1 = submissions.length; j < len1; j++) {
         submission = submissions[j];
