@@ -299,7 +299,7 @@
             detail[problemOrderLetter].accepted_time = sub.created_at;
           }
         }
-        if (sub.score < AC_SCORE) {
+        if (detail[problemOrderLetter].score < AC_SCORE) {
           ++detail[problemOrderLetter].wrong_count;
         }
       }

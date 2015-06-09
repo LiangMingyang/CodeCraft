@@ -150,7 +150,7 @@ exports.getRank = (contest)->
         detail[problemOrderLetter].score = sub.score
         detail[problemOrderLetter].result = sub.result
         detail[problemOrderLetter].accepted_time = sub.created_at if sub.created_at < detail[problemOrderLetter].accepted_time
-      if sub.score < AC_SCORE #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
+      if detail[problemOrderLetter].score < AC_SCORE #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
         ++detail[problemOrderLetter].wrong_count
     for user of tmp
       tmp[user].score ?= 0
