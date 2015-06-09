@@ -21,10 +21,10 @@ block content
                 - if(user)
                     td 状态
                 td 题目ID
+                td 题目标题
                 td 所属小组
-                td 题目名称
                 td 难度
-                td 通过率(通过/提交)
+                td 通过 / 提交
             - if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - var problem = problems[i];
@@ -41,9 +41,9 @@ block content
                         td
                             a(href= "#{problem.id}/index") #{problem.id}
                         td
-                            a(href= "../group/#{problem.group.id}/index") #{problem.group.name}
-                        td
                             a(href= "#{problem.id}/index") #{problem.title}
+                        td
+                            a(href= "../group/#{problem.group.id}/index") #{problem.group.name}
                         td.progress
                             - var level = ((i+1)*30)%101;
                             - if (level < 10) level = 10;
@@ -63,5 +63,5 @@ block content
                                     span.sr-only 30% Complete (warning)
                                 .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: 20%')
                                     span.sr-only 20% Complete (danger)
-                        td #{problem.acceptedPeopleCount}/#{problem.triedPeopleCount}
+                        td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
     //.col-lg-2

@@ -14,9 +14,9 @@ block content
                 - if(user)
                     td 状态
                 td 题目ID
-                td 题目名称
+                td 题目标题
                 td 难度
-                td 通过率(通过/提交)
+                td 通过/提交
             - if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - var problem = problems[i]
@@ -46,5 +46,5 @@ block content
                             - else
                                 .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: #{level}%')
                             span.sr-only #{level}% Complete (danger)
-                        td #{problem.acceptedPeopleCount}/#{problem.triedPeopleCount}
+                        td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
     .col-lg-2
