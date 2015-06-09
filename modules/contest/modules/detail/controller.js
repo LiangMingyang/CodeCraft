@@ -192,13 +192,24 @@
             model: User,
             as: 'creator',
             where: {
-              id: (currentUser ? currentUser.id : 0)
+              id: (currentUser ? currentUser.id : null)
             }
           }
         ],
         order: [['created_at', 'DESC']]
       });
     }).then(function(submissions) {
+      var dicProblemIDtoOrder, i, j, len, len1, problem, ref, submission;
+      dicProblemIDtoOrder = {};
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
+        dicProblemIDtoOrder[problem.id] = problem.contest_problem_list.order;
+      }
+      for (j = 0, len1 = submissions.length; j < len1; j++) {
+        submission = submissions[j];
+        submission.problem_order = dicProblemIDtoOrder[submission.problem_id];
+      }
       return res.render('contest/submission', {
         user: req.session.user,
         contest: currentContest,

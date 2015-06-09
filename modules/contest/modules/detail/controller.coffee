@@ -137,7 +137,7 @@ exports.getSubmission = (req, res)->
             if currentUser
               currentUser.id
             else
-              0
+              null
           )
       ]
       order : [
@@ -145,6 +145,11 @@ exports.getSubmission = (req, res)->
       ]
     )
   .then (submissions)->
+    dicProblemIDtoOrder = {}
+    for problem in currentContest.problems
+      dicProblemIDtoOrder[problem.id] = problem.contest_problem_list.order
+    for submission in submissions
+      submission.problem_order = dicProblemIDtoOrder[submission.problem_id]
     res.render 'contest/submission', {
       user : req.session.user
       contest : currentContest
