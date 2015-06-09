@@ -195,7 +195,7 @@
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
-      if (contest.start_time > (new Date())) {
+      if ((new Date()) < contest.start_time || contest.end_time < (new Date())) {
         throw new myUtils.Error.UnknownContest();
       }
       currentContest = contest;
