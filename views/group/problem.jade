@@ -14,36 +14,37 @@ block content
                 - if(user)
                     td 状态
                 td 题目ID
-                td 题目名称
+                td 题目标题
                 td 难度
-                td 通过率(通过/提交)
-            - for (var i = 0 ; i < problems.length ; ++i)
-                - var problem = problems[i]
-                tr.text-center
-                    - if(user)
-                        - if(problem.accepted + problem.tried == 2)
-                            td.green-td
-                                span.glyphicon.glyphicon-ok(aria-hidden="true")
-                        - else if(problem.accepted + problem.tried == 1)
-                            td.yellow-td
-                                span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
-                        - else
-                            td
-                    td
-                        a(href= "../../problem/#{problem.id}/index") #{problem.id}
-                    td
-                        a(href= "../../problem/#{problem.id}/index") #{problem.title}
-                    td.progress
-                        - var level = ((i+1)*30)%101;
-                        - if (level < 10) level = 10;
-                        - if (level < 50)
-                            .progress-bar.progress-bar-success.active.progress-bar-striped(style='width: #{level}%')
-                                span.sr-only #{level}% Complete (success)
-                        - else if (level < 80)
-                            .progress-bar.progress-bar-warning.active.progress-bar-striped(style='width: #{level}%')
-                                span.sr-only #{level}% Complete (warning)
-                        - else
-                            .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: #{level}%')
-                        span.sr-only #{level}% Complete (danger)
-                    td #{problem.acceptedPeopleCount}/#{problem.triedPeopleCount}
+                td 通过/提交
+            - if(problems)
+                - for (var i = 0 ; i < problems.length ; ++i)
+                    - var problem = problems[i]
+                    tr.text-center
+                        - if(user)
+                            - if(problem.accepted + problem.tried == 2)
+                                td.green-td
+                                    span.glyphicon.glyphicon-ok(aria-hidden="true")
+                            - else if(problem.accepted + problem.tried == 1)
+                                td.yellow-td
+                                    span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
+                            - else
+                                td
+                        td
+                            a(href= "../../problem/#{problem.id}/index") #{problem.id}
+                        td
+                            a(href= "../../problem/#{problem.id}/index") #{problem.title}
+                        td.progress
+                            - var level = ((i+1)*30)%101;
+                            - if (level < 10) level = 10;
+                            - if (level < 50)
+                                .progress-bar.progress-bar-success.active.progress-bar-striped(style='width: #{level}%')
+                                    span.sr-only #{level}% Complete (success)
+                            - else if (level < 80)
+                                .progress-bar.progress-bar-warning.active.progress-bar-striped(style='width: #{level}%')
+                                    span.sr-only #{level}% Complete (warning)
+                            - else
+                                .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: #{level}%')
+                            span.sr-only #{level}% Complete (danger)
+                        td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
     .col-lg-2

@@ -19,24 +19,25 @@ block content
     .col-lg-2
         include ./user.jade
     .col-lg-8
-        - if (user.id === target.id)
+        - if (user && target && user.id === target.id)
             h3 个人信息
-        - else
+        - else if(target)
             h3 #{target.nickname}的信息
-        table.table.table-striped.containing
-            tr
-                td 昵称
-                td #{target.nickname}
-            tr
-                td 学校
-                td #{target.school}
-            tr
-                td 专业
-                td #{target.college}
-            tr
-                td 简介
-                td #{target.description}
-            tr
-                td 学号
-                td #{target.student_id}
+        if(target)
+            table.table.table-striped.containing
+                tr
+                    td 昵称
+                    td #{target.nickname}
+                tr
+                    td 学校
+                    td #{target.school}
+                tr
+                    td 专业
+                    td #{target.college}
+                tr
+                    td 简介
+                    td #{target.description}
+                tr
+                    td 学号
+                    td #{target.student_id}
     .col-lg-2

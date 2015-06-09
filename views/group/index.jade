@@ -19,20 +19,22 @@ block content
             a.list-group-item(href="/group/create") 申请创建小组
     .col-lg-8
         h3 所有小组
-        table.table.table-striped.containing
-            tr
-                td.col-lg-3
-                    label 小组名称
-                td.col-lg-3
-                    label 创建者昵称
-                td.col-lg-6
-                    label 小组简介
-            - for(var i = 0 ; i < groups.length ; ++i)
+        if(groups)
+            table.table.table-striped.containing
                 tr
                     td.col-lg-3
-                        a(href="/group/#{groups[i].id}" + "/index")= groups[i].name
+                        label 小组名称
                     td.col-lg-3
-                        a(href="/user/#{groups[i].creator.id}"+ "/index")= groups[i].creator.nickname
+                        label 创建者昵称
                     td.col-lg-6
-                        p #{groups[i].description}
+                        label 小组人数
+                - for(var i = 0 ; i < groups.length ; ++i)
+                    tr
+                        td.col-lg-3
+                            a(href="/group/#{groups[i].id}" + "/index")= groups[i].name
+                        td.col-lg-3
+                            a(href="/user/#{groups[i].creator.id}"+ "/index")= groups[i].creator.nickname
+                        td.col-lg-6
+                            if(groups[i].users)
+                                a(href="/group/#{groups[i].id}" + "/member")= groups[i].users.length
     .col-lg-2

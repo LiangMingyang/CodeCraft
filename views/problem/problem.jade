@@ -1,7 +1,7 @@
 .containing
-    .form-horizontal
+    //.form-horizontal
         label.control-label  当前用户：
-    .form-horizontal
+    //.form-horizontal
         a(href="/user/" + user.id + "/index", id="informationpage")
             label.control-label #{user.nickname}
 
@@ -13,28 +13,37 @@
             $("#problem-submissionpage").attr("class","list-group-item change-color");
         else
             $("#problem-problemindexpage").attr("class","list-group-item change-color");
-    .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
 
-    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-        .modal-dialog
-            .modal-content
-                form(method='post', action='./submit')
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title 提交代码
-                    .modal-body.submitcode
-                        .row
-                            .col-lg-3
-                                |语言选择：
-                            .col-lg-9
-                                select(type="input", name='lang', value='C')
-                                    option(value="c++") c++
-                                    option(value="c") c
-                                    option(value="jave") java
-                        |源代码：
-                        label.sr-only(for="code") 输入代码
-                        textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
-                    .modal-footer
-                        //button.btn.btn-default(type='button', data-dismiss='modal') 取消
-                        button.btn.btn-primary(type='submit') 确认提交
+    if(problem.test_setting)
+        .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    form(method='post', action='./submit', id="form")
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title 提交代码
+                        .modal-body.submitcode
+                            .row
+                                .col-lg-3
+                                    |语言选择：
+                                .col-lg-9
+                                    select(type="input", name='lang')
+                                        - for (var i = 0 ; i < problem.test_setting.language.length ; i++)
+                                            - var language = problem.test_setting.language[i];
+                                            option(value="#{language}") #{language}
+                            |源代码：
+                            label.sr-only(for="code") 输入代码
+                            textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
+                        .modal-footer
+                            //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                            button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交
+                            script.
+                                function check(){
+                                    if($("#code").val()!="")
+                                        $("#form").submit();
+                                    else
+                                        alert("代码不要为空！");
+                                }

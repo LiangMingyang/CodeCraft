@@ -20,7 +20,7 @@ extends ../layout
 block title
     - var whichPage = "评测记录"
     if(contest)
-        - var whichPage = "比赛题目提交记录"
+        - var whichPage = "比赛题目评测记录"
     title #{whichPage}
     link(rel='stylesheet', href='/stylesheets/submission.css')
 
@@ -33,43 +33,48 @@ block content
     .col-lg-2.col-md-2.col-sm-2
         include contest.jade
     .col-lg-8.col-md-8.col-sm-8.containing
-        h3 #{problem.title} 的评测记录
+        if(problem)
+            h3 #{problem.title} 的评测记录
         table.table.table-center
             tr
+                td 序号
                 - if(!contest)
                     td 用户
-                td 序号
                 td 结果
+                td 得分
                 td 语言
-                td 运行时间
-                td 运行内存
-                td 代码长度
+                td 代码长度(Byte)
+                td 运行时间(ms)
+                td 运行内存(Kb)
                 td 提交时间
-            - for (var i = 0 ;i < submissions.length ; i++)
-                tr(id = "tr#{i}")
-                    - if(!contest)
+            if(submissions)
+                - for (var i = 0 ;i < submissions.length ; i++)
+                    tr(id = "tr#{i}")
+                        td #{submissions[i].id}
+                        - if(!contest)
+                            td
+                                a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                        td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                        td #{submissions[i].score}
                         td
-                            a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
-                    td #{submissions[i].id}
-                    td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
-                    td
-                        a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
-                    td #{submissions[i].time_cost}
-                    td #{submissions[i].memory_cost}
-                    td 需要代码长度
-                    td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
-                    - if(i % 2 == 1)
-                        - oddeventable = "odd"
-                    - else
-                        - oddeventable = "even"
-                    - if(submissions[i].result == "AC")
-                        - coloroftable = "blue"
-                    - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
-                        - coloroftable = "green"
-                    - else
-                        - coloroftable = "red"
-                    script.
-                        $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
-                        $("#td#{i}").attr("class","#{coloroftable}td");
+                            a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                        td
+                            a(href='/submission/' + submissions[i].id) #{submissions[i].code_length}
+                        td #{submissions[i].time_cost}
+                        td #{submissions[i].memory_cost}
+                        td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
+                        - if(i % 2 == 1)
+                            - oddeventable = "odd"
+                        - else
+                            - oddeventable = "even"
+                        - if(submissions[i].result == "AC")
+                            - coloroftable = "blue"
+                        - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                            - coloroftable = "green"
+                        - else
+                            - coloroftable = "red"
+                        script.
+                            $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
+                            $("#td#{i}").attr("class","#{coloroftable}td");
     .col-lg-2.col-md-2.col-sm-2
         include problem.jade

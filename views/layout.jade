@@ -39,7 +39,7 @@ html
                                         li.normalli
                                             a(href="/contest/index", id="contestpage", class="nav-before") 赛事
                                         li.normalli
-                                            a(href="/submission/index", id="submissionpage", class="nav-before") 提交记录
+                                            a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
                                         - if(user)
                                             li.normalli
                                                 a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
@@ -65,11 +65,15 @@ html
                                         script $("#loginpage").attr("class", "nav-change");
                                     - else if(whichPage == "")
                                         script $("#logoutpage").attr("class", "nav-change");
+                                    - else if(whichPage == "帮助")
+                                        script $("#helppage").attr("class", "nav-change");
+                                    - else if(whichPage == "所有评测记录")
+                                        script $("#submissionpage").attr("class", "nav-change");
                                     - else if(whichPage == "")
                                         script $("#messegepage").attr("class", "nav-change");
                                     - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
                                         script $("#informationpage").attr("class", "nav-change");
-                                    - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛提交记录"||whichPage == "比赛题目提交记录"||whichPage=="比赛排名")
+                                    - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛评测记录"||whichPage == "比赛题目评测记录"||whichPage=="比赛排名")
                                         script $("#contestpage").attr("class", "nav-change");
                                     - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目"||whichPage=="小组比赛")
                                         script $("#problempage").attr("class", "nav-change");
