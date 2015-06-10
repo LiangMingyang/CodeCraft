@@ -105,3 +105,9 @@ td.yellow-td{
 .submitcode{
     font-size: 18px;
 }
+
+/*首页轮播图片大小设定*/
+.crspic{
+    width: 1175px;
+    height: 537px;
+}
