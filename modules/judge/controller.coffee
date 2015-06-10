@@ -46,3 +46,25 @@ exports.postFile = (req, res)->
   .catch (err)->
     console.log err
     res.status(err.status).end();
+
+exports.postReport = (req, res)->
+  Submission = global.db.models.submission
+  myUtils.checkJudge(req.body.judge)
+  .then ->
+    Submission.update(
+      result : req.body.result
+      score : req.body.score
+      detail : req.body.detail
+      judge_id : req.body.judge_id
+      time_cost : req.body.time_cost
+      memory_cost : req.body.memory_cost
+    ,
+      where :
+        id : req.body.submission_id
+    )
+  .then ()->
+    res.end()
+
+  .catch (err)->
+    console.log err
+    res.status(err.status).end();
