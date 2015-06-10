@@ -66,6 +66,30 @@
     });
   };
 
+  exports.postReport = function(req, res) {
+    var Submission;
+    Submission = global.db.models.submission;
+    return myUtils.checkJudge(req.body.judge).then(function() {
+      return Submission.update({
+        result: req.body.result,
+        score: req.body.score,
+        detail: req.body.detail,
+        judge_id: req.body.judge_id,
+        time_cost: req.body.time_cost,
+        memory_cost: req.body.memory_cost
+      }, {
+        where: {
+          id: req.body.submission_id
+        }
+      });
+    }).then(function() {
+      return res.end();
+    })["catch"](function(err) {
+      console.log(err);
+      return res.status(err.status).end();
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=controller.js.map
