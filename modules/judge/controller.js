@@ -40,7 +40,10 @@
       if (!submission) {
         throw new myUtils.Error.UnknownSubmission();
       }
+      submission.result = "JG";
       currentSubmission = submission;
+      return submission.save();
+    }).then(function(submission) {
       return fs.readFilePromised(path.join(myUtils.getStaticProblem(submission.problem_id), 'manifest.json'));
     }).then(function(manifest_str) {
       currentSubmission.dataValues.manifest = JSON.parse(manifest_str);
@@ -71,7 +74,7 @@
     Submission = global.db.models.submission;
     return myUtils.checkJudge(req.body.judge).then(function() {
       return Submission.update({
-        result: req.body.result,
+        result: (req.body.result ? req.body.result : "ERR"),
         score: req.body.score,
         detail: req.body.detail,
         judge_id: req.body.judge_id,

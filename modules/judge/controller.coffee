@@ -23,7 +23,10 @@ exports.postTask = (req, res)->
     )
   .then (submission)->
     throw new myUtils.Error.UnknownSubmission() if not submission
+    submission.result = "JG"
     currentSubmission = submission
+    submission.save()
+  .then (submission)->
     fs.readFilePromised path.join(myUtils.getStaticProblem(submission.problem_id), 'manifest.json')
   .then (manifest_str) ->
     currentSubmission.dataValues.manifest = JSON.parse manifest_str #应当读取special_judge的，但是现在是忽略了的
@@ -52,7 +55,12 @@ exports.postReport = (req, res)->
   myUtils.checkJudge(req.body.judge)
   .then ->
     Submission.update(
-      result : req.body.result
+      result : (
+        if req.body.result
+          req.body.result
+        else
+          "ERR"
+      )
       score : req.body.score
       detail : req.body.detail
       judge_id : req.body.judge_id
