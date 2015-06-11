@@ -35,9 +35,9 @@ block content
                         td #{j+1}
                         td #{rank[j].user.nickname}
                         td #{rank[j].score}
-                        - seconds = rank[j].penalty / 1000 % 60
-                        - minutes = (rank[j].penalty / 1000 - seconds) / 60 % 60
-                        - hours = (rank[j].penalty / 1000 - seconds - minutes * 60) / 3600
+                        - seconds = (rank[j].penalty - rank[j].penalty % 1000) / 1000 % 60
+                        - minutes = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds) / 60 % 60
+                        - hours = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds - minutes * 60) / 3600
                         - if(j % 2 == 1)
                             - oddeventable = "odd"
                         - else
@@ -47,10 +47,14 @@ block content
                         - for(var k = 0 ; k < contest.problems.length ; ++k)
                             - var p = contest.problems[k];
                             - var order = p.contest_problem_list.order;
+                            - var times = rank[j].detail[order].accepted_time - contest.start_time;
+                            - seconds = (times - times % 1000) / 1000 % 60
+                            - minutes = ((times - times % 1000) / 1000 - seconds) / 60 % 60
+                            - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600
                             - if(rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
-                                td(id="td#{j}#{k}") #{rank[j].detail[order].accepted_time}(-#{rank[j].detail[order].wrong_count})
+                                td(id="td#{j}#{k}") #{hours}:#{minutes}:#{seconds} (-#{rank[j].detail[order].wrong_count})
                             - else if(rank[j].detail[order])
-                                td(id="td#{j}#{k}") #{rank[j].detail[order].accepted_time}
+                                td(id="td#{j}#{k}") #{hours}:#{minutes}:#{seconds}
                             - else
                                 td
                             - if(!rank[j].detail[order])
