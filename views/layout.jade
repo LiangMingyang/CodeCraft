@@ -11,7 +11,7 @@ html
         script(src="/js/bootstrap.min.js")
         block script
     body
-        .container-fluid
+        .container-fluid(id="container")
             .col-lg-1
             .col-lg-10
                 .row
@@ -90,13 +90,11 @@ html
                                 script $("#logo").attr("data-content","#{messages.info}");
                                 script $("#logo").popover('show');
                                 script setTimeout(function () {$("#logo").popover('hide');}, 3000);
-                .row
+                .row(id="page")
                     block content
-                .row
-                    block footer
-                        footer.footer
-                            p.text-center
-                                | College of Software, Beihang University
-                                br
-                                a(href="/help/index") 帮助---0w0---
+                .row(id="footer")
+                    footer.footer
+                        br
+                        p.text-center
+                            | College of Software, Beihang University
             .col-lg-1
