@@ -57,9 +57,9 @@ block content
                         td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
                         td #{submissions[i].score}
                         td
-                            a(href='/submission/' + submissions[i].id) #{submissions[i].lang}
+                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
                         td
-                            a(href='/submission/' + submissions[i].id) #{submissions[i].code_length}
+                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
                         td #{submissions[i].time_cost}
                         td #{submissions[i].memory_cost}
                         td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
