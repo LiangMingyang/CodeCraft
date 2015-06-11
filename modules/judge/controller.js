@@ -40,16 +40,19 @@
       if (!submission) {
         throw new myUtils.Error.UnknownSubmission();
       }
+      submission.result = "JG";
       currentSubmission = submission;
+      return submission.save();
+    }).then(function(submission) {
       return fs.readFilePromised(path.join(myUtils.getStaticProblem(submission.problem_id), 'manifest.json'));
     }).then(function(manifest_str) {
       currentSubmission.dataValues.manifest = JSON.parse(manifest_str);
       return res.json(currentSubmission);
-    })["catch"](myUtils.Error.UnknownSubmission, function(err) {
-      return res.status(err.status).end();
+    })["catch"](myUtils.Error.UnknownSubmission, function() {
+      return res.end();
     })["catch"](function(err) {
       console.log(err);
-      return res.status(err.status).end();
+      return res.end();
     });
   };
 
@@ -62,7 +65,7 @@
       return download(path.join(myUtils.getStaticProblem(problemID), filename), filename);
     })["catch"](function(err) {
       console.log(err);
-      return res.status(err.status).end();
+      return res.end();
     });
   };
 
@@ -71,7 +74,7 @@
     Submission = global.db.models.submission;
     return myUtils.checkJudge(req.body.judge).then(function() {
       return Submission.update({
-        result: req.body.result,
+        result: (req.body.result ? req.body.result : "ERR"),
         score: req.body.score,
         detail: req.body.detail,
         judge_id: req.body.judge_id,
@@ -86,7 +89,7 @@
       return res.end();
     })["catch"](function(err) {
       console.log(err);
-      return res.status(err.status).end();
+      return res.end();
     });
   };
 

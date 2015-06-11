@@ -23,17 +23,20 @@ exports.postTask = (req, res)->
     )
   .then (submission)->
     throw new myUtils.Error.UnknownSubmission() if not submission
+    submission.result = "JG"
     currentSubmission = submission
+    submission.save()
+  .then (submission)->
     fs.readFilePromised path.join(myUtils.getStaticProblem(submission.problem_id), 'manifest.json')
   .then (manifest_str) ->
     currentSubmission.dataValues.manifest = JSON.parse manifest_str #应当读取special_judge的，但是现在是忽略了的
     res.json(currentSubmission)
 
-  .catch myUtils.Error.UnknownSubmission, (err)->
-    res.status(err.status).end();
+  .catch myUtils.Error.UnknownSubmission, ->
+    res.end();
   .catch (err)->
     console.log err
-    res.status(err.status).end();
+    res.end();
 
 
 exports.postFile = (req, res)->
@@ -45,14 +48,19 @@ exports.postFile = (req, res)->
     download path.join(myUtils.getStaticProblem(problemID), filename), filename
   .catch (err)->
     console.log err
-    res.status(err.status).end();
+    res.end();
 
 exports.postReport = (req, res)->
   Submission = global.db.models.submission
   myUtils.checkJudge(req.body.judge)
   .then ->
     Submission.update(
-      result : req.body.result
+      result : (
+        if req.body.result
+          req.body.result
+        else
+          "ERR"
+      )
       score : req.body.score
       detail : req.body.detail
       judge_id : req.body.judge_id
@@ -67,4 +75,4 @@ exports.postReport = (req, res)->
 
   .catch (err)->
     console.log err
-    res.status(err.status).end();
+    res.end();
