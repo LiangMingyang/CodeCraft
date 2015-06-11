@@ -147,7 +147,12 @@
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
-      return problem.getSubmissions({
+      return fs.readFilePromised(path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'));
+    }).then(function(manifest_str) {
+      var manifest;
+      manifest = JSON.parse(manifest_str);
+      currentProblem.test_setting = manifest.test_setting;
+      return currentProblem.getSubmissions({
         include: [
           {
             model: User,
