@@ -117,7 +117,11 @@ exports.getSubmissions = (req, res) ->
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
-    problem.getSubmissions({
+    fs.readFilePromised path.join(myUtils.getStaticProblem(problem.id), 'manifest.json')
+  .then (manifest_str) ->
+    manifest = JSON.parse manifest_str
+    currentProblem.test_setting = manifest.test_setting
+    currentProblem.getSubmissions({
       include: [
         model: User
         as : 'creator'
