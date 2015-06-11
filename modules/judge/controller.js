@@ -45,11 +45,11 @@
     }).then(function(manifest_str) {
       currentSubmission.dataValues.manifest = JSON.parse(manifest_str);
       return res.json(currentSubmission);
-    })["catch"](myUtils.Error.UnknownSubmission, function(err) {
-      return res.status(err.status).end();
+    })["catch"](myUtils.Error.UnknownSubmission, function() {
+      return res.end();
     })["catch"](function(err) {
       console.log(err);
-      return res.status(err.status).end();
+      return res.end();
     });
   };
 
@@ -62,7 +62,7 @@
       return download(path.join(myUtils.getStaticProblem(problemID), filename), filename);
     })["catch"](function(err) {
       console.log(err);
-      return res.status(err.status).end();
+      return res.end();
     });
   };
 
@@ -86,7 +86,7 @@
       return res.end();
     })["catch"](function(err) {
       console.log(err);
-      return res.status(err.status).end();
+      return res.end();
     });
   };
 

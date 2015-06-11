@@ -29,11 +29,11 @@ exports.postTask = (req, res)->
     currentSubmission.dataValues.manifest = JSON.parse manifest_str #应当读取special_judge的，但是现在是忽略了的
     res.json(currentSubmission)
 
-  .catch myUtils.Error.UnknownSubmission, (err)->
-    res.status(err.status).end();
+  .catch myUtils.Error.UnknownSubmission, ->
+    res.end();
   .catch (err)->
     console.log err
-    res.status(err.status).end();
+    res.end();
 
 
 exports.postFile = (req, res)->
@@ -45,7 +45,7 @@ exports.postFile = (req, res)->
     download path.join(myUtils.getStaticProblem(problemID), filename), filename
   .catch (err)->
     console.log err
-    res.status(err.status).end();
+    res.end();
 
 exports.postReport = (req, res)->
   Submission = global.db.models.submission
@@ -67,4 +67,4 @@ exports.postReport = (req, res)->
 
   .catch (err)->
     console.log err
-    res.status(err.status).end();
+    res.end();
