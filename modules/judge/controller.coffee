@@ -1,6 +1,7 @@
 myUtils = require('./utils')
 sequelize = require('sequelize')
 fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
+FS = require('fs')
 path = require('path')
 INDEX_PAGE = 'index'
 
@@ -29,7 +30,41 @@ exports.postTask = (req, res)->
     res.json(currentSubmission)
 
   .catch myUtils.Error.UnknownSubmission, (err)->
-    res.json(undefined)
+    res.status(err.status).end();
   .catch (err)->
     console.log err
-    res.json(undefined)
+    res.status(err.status).end();
+
+
+exports.postFile = (req, res)->
+  myUtils.checkJudge(req.body.judge)
+  .then ->
+    problemID = req.body.problem_id
+    filename = req.body.filename
+    download = sequelize.Promise.promisify(res.download, res)
+    download path.join(myUtils.getStaticProblem(problemID), filename), filename
+  .catch (err)->
+    console.log err
+    res.status(err.status).end();
+
+exports.postReport = (req, res)->
+  Submission = global.db.models.submission
+  myUtils.checkJudge(req.body.judge)
+  .then ->
+    Submission.update(
+      result : req.body.result
+      score : req.body.score
+      detail : req.body.detail
+      judge_id : req.body.judge_id
+      time_cost : req.body.time_cost
+      memory_cost : req.body.memory_cost
+    ,
+      where :
+        id : req.body.submission_id
+    )
+  .then ()->
+    res.end()
+
+  .catch (err)->
+    console.log err
+    res.status(err.status).end();

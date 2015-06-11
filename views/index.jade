@@ -4,11 +4,31 @@ block title
     - var whichPage = "OJ4TH"
     title #{whichPage}
     link(rel='stylesheet', href='/stylesheets/index.css')
+    script(src="/scripts/jquery.min.js")
+    script(src="/bootstrap/js/bootstrap.min.js")
 
 block content
     .containing
-        .col-lg-6
-            h4.text-center 正在进行的比赛......
-
-        .col-lg-6
-            h4.text-center(href="/group") 活跃的小组......
+        //.col-lg-6
+        //    h4.text-center 正在进行的比赛......
+        //
+        //.col-lg-6
+        //    h4.text-center(href="/group") 活跃的小组......
+        .carousel.slide(data-ride="carousel")
+            ol.carousel-indicators
+                li.active(data-target="#mycarousel" data-slide-to="0")
+                li(data-target="#mycarousel" data-slide-to="1")
+                li(data-target="#mycarousel" data-slide-to="2")
+            .carousel-inner(role="listbox").crspic
+                .item.active
+                    img(src="/images/firstslide.jpg", alt="First Slide", width="1175px", height="537")
+                .item
+                    img(src="/images/secondslide.jpg", alt="Second Slide", width="1175px", height="537px")
+                .item
+                    img(src="/images/thirdslide.jpg", alt="Third Slide", width="1175px", height="537px")
+            a.left.carousel-control(href="#mycarousel" role="button" data-slide="prev")
+                span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                span.sr-only Previous
+            a.right.carousel-control(href="#mycarousel" role="button" data-slide="next")
+                span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                span.sr-only Next
