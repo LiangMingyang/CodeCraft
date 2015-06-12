@@ -174,3 +174,23 @@ exports.findContests = (user, include) ->
         ['start_time','DESC']
       ]
     })
+
+exports.addCountKey = (counts, currentProblems, key)->
+  tmp = {}
+  for p in counts
+    tmp[p.problem_id] = p.count
+  for p in currentProblems
+    p[key] = 0
+    p[key] = tmp[p.id] if tmp[p.id]
+
+exports.getProblemsStatus = (currentProblems,currentUser,currentContest)->
+  myUtils = this
+  global.db.Promise.all [
+    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'acceptedPeopleCount')
+  ,
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'triedPeopleCount')
+  ,
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'accepted')
+  ,
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'tried')
+  ]

@@ -52,3 +52,23 @@ exports.findGroup = (user, groupID, include)->
         ]
       include : include
 
+exports.getGroupPeopleCount = (groups)->
+  groups = [groups] if not groups instanceof Array
+  Membership = global.db.models.membership
+  options = {
+    where:
+      group_id : (group.id for group in groups)
+    group : 'group_id'
+    distinct : true
+    attributes : ['group_id']
+    plain : false
+  }
+  Membership.aggregate('user_id', 'count', options)
+
+exports.addGroupCountKey = (counts, currentGroups, key)->
+  tmp = {}
+  for p in counts
+    tmp[p.group_id] = p.count
+  for p in currentGroups
+    p[key] = 0
+    p[key] = tmp[p.id] if tmp[p.id]

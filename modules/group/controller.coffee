@@ -14,19 +14,27 @@ LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res) ->
   User  = global.db.models.user
+  currentUser = undefined
+  currentGroups = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findGroups(user, [
       model : User
       as : 'creator'
     ])
   .then (groups)->
+    currentGroups = groups
+    myUtils.getGroupPeopleCount(groups)
+  .then (counts)->
+    myUtils.addGroupCountKey(counts,currentGroups,'member_count')
+  .then ->
     res.render 'group/index', {
       title: 'You have got group index here'
       user : req.session.user
-      groups : groups
+      groups : currentGroups
     }
 
   .catch myUtils.Error.UnknownUser, (err)->

@@ -34,6 +34,6 @@ block content
                         td.col-lg-3
                             a(href="/user/#{groups[i].creator.id}"+ "/index")= groups[i].creator.nickname
                         td.col-lg-6
-                            if(groups[i].users)
-                                a(href="/group/#{groups[i].id}" + "/member")= groups[i].users.length
+                            if(groups[i].member_count)
+                                a(href="/group/#{groups[i].id}" + "/member")= groups[i].member_count
     .col-lg-2
