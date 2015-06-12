@@ -82,7 +82,8 @@
         memory_cost: req.body.memory_cost
       }, {
         where: {
-          id: req.body.submission_id
+          id: req.body.submission_id,
+          result: 'JG'
         }
       });
     }).then(function() {
