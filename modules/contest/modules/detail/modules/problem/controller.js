@@ -59,72 +59,12 @@
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
       currentProblems = contest.problems;
-      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.acceptedPeopleCount = 0;
-        if (tmp[p.id]) {
-          p.acceptedPeopleCount = tmp[p.id];
-        }
-      }
-      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.triedPeopleCount = 0;
-        if (tmp[p.id]) {
-          p.triedPeopleCount = tmp[p.id];
-        }
-      }
-      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.accepted = 0;
-        if (tmp[p.id]) {
-          p.accepted = tmp[p.id];
-        }
-      }
-      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.tried = 0;
-        if (tmp[p.id]) {
-          p.tried = tmp[p.id];
-        }
-      }
-      return currentProblems;
-    }).then(function(problems) {
+      return myUtils.getProblemStatus(currentProblems, currentUser, currentContest);
+    }).then(function() {
       var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);
-      for (i = 0, len = problems.length; i < len; i++) {
-        problem = problems[i];
+      for (i = 0, len = currentProblems.length; i < len; i++) {
+        problem = currentProblems[i];
         if (problem.contest_problem_list.order === order) {
           return problem;
         }
@@ -282,83 +222,22 @@
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
       currentProblems = contest.problems;
-      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.acceptedPeopleCount = 0;
-        if (tmp[p.id]) {
-          p.acceptedPeopleCount = tmp[p.id];
-        }
-      }
-      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.triedPeopleCount = 0;
-        if (tmp[p.id]) {
-          p.triedPeopleCount = tmp[p.id];
-        }
-      }
-      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.accepted = 0;
-        if (tmp[p.id]) {
-          p.accepted = tmp[p.id];
-        }
-      }
-      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.tried = 0;
-        if (tmp[p.id]) {
-          p.tried = tmp[p.id];
-        }
-      }
-      return currentProblems;
-    }).then(function(problems) {
+      return myUtils.getProblemStatus(currentProblems, currentUser, currentContest);
+    }).then(function() {
       var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);
-      for (i = 0, len = problems.length; i < len; i++) {
-        problem = problems[i];
+      for (i = 0, len = currentProblems.length; i < len; i++) {
+        problem = currentProblems[i];
         if (problem.contest_problem_list.order === order) {
           return problem;
         }
       }
     }).then(function(problem) {
-      var i, len, ref;
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
-      global.db.Promise.all([
+      return global.db.Promise.all([
         fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')).then(function(manifest_str) {
           var manifest;
           manifest = JSON.parse(manifest_str);
@@ -383,6 +262,8 @@
           return currentSubmissions = submissions;
         })
       ]);
+    }).then(function() {
+      var i, len, problem, ref;
       ref = currentContest.problems;
       for (i = 0, len = ref.length; i < len; i++) {
         problem = ref[i];

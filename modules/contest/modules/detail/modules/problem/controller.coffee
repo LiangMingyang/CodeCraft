@@ -39,42 +39,10 @@ exports.getIndex = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
-  .then (counts)-> #AC people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.acceptedPeopleCount = 0
-      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
-  .then (counts)-> #Tried people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.triedPeopleCount = 0
-      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
-  .then (counts)-> #this user accepted problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.accepted = 0
-      p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
-  .then (counts)-> #this user tried problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.tried = 0
-      p.tried = tmp[p.id] if tmp[p.id]
-    return currentProblems
-  .then (problems)->
+    myUtils.getProblemStatus(currentProblems,currentUser,currentContest)
+  .then ->
     order = myUtils.lettersToNumber(req.params.problemID)
-    for problem in problems
+    for problem in currentProblems
       if problem.contest_problem_list.order is order
         return problem
   .then (problem) ->
@@ -197,42 +165,10 @@ exports.getSubmissions = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
-  .then (counts)-> #AC people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.acceptedPeopleCount = 0
-      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
-  .then (counts)-> #Tried people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.triedPeopleCount = 0
-      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
-  .then (counts)-> #this user accepted problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.accepted = 0
-      p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
-  .then (counts)-> #this user tried problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.tried = 0
-      p.tried = tmp[p.id] if tmp[p.id]
-    return currentProblems
-  .then (problems)->
+    myUtils.getProblemStatus(currentProblems,currentUser,currentContest)
+  .then ->
     order = myUtils.lettersToNumber(req.params.problemID)
-    for problem in problems
+    for problem in currentProblems
       if problem.contest_problem_list.order is order
         return problem
   .then (problem)->
@@ -267,6 +203,7 @@ exports.getSubmissions = (req, res) ->
         .then (submissions) ->
           currentSubmissions = submissions
     ]
+  .then ->
     for problem in currentContest.problems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render('problem/submission', {
