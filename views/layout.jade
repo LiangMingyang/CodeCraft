@@ -93,8 +93,10 @@ html
                 .row.minheight(id="page")
                     block content
                 script.
-                    $(".minheight").attr("min-height", ($(window).height() - 110) + "px");
-                    alert($(window).height()-110);
+                    $(window).resize(function () {
+                        //alert("窗口大小发生变化！");
+                        $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                    });
 
                 .row.footeres(id="footer")
                     footer.footer
