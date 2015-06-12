@@ -4,12 +4,11 @@ extends ../layout
 block title
     - var whichPage = "所有评测记录"
     title #{whichPage}
-    link(rel='stylesheet', href='/stylesheets/submission.css')
 
 block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
-    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error"}
+    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error", ERR : "Judge Error"}
     .col-lg-12
         h3 所有评测记录
         table.table.table-center

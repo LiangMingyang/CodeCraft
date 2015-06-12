@@ -140,3 +140,117 @@ body{
     clear: both;
     border-top: 1px solid #e1e1e1;
 }
+
+.minheight{
+    /*882-50-60*/
+    min-height: 805px;
+}
+
+.footere{
+    background-color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 83.33333333333%;
+}
+
+/*
+    下面这个文件为沛沛所创建，一切锅由沛沛来背！-OwO-
+    原submission.css
+*/
+tr.oddgreentr{
+    background-color: #ddffdd;
+}
+
+tr.evengreentr{
+    background-color: #eeffee;
+}
+
+tr.oddredtr{
+    background-color: #ffdddd;
+}
+
+tr.evenredtr{
+    background-color: #ffeeee;
+}
+
+tr.oddbluetr{
+    background-color: #ddffff;
+}
+
+tr.evenbluetr{
+    background-color: #eeffff;
+}
+
+tr.oddwhitetr{
+    background-color: #ffffff;
+}
+
+tr.evenwhitetr{
+    background-color: #f5f5f5;
+}
+
+
+td.oddgreentd{
+    background-color: #77ff77;
+}
+
+td.evengreentd{
+    background-color: #77ff77;
+}
+
+td.oddredtd{
+    background-color: #ff7777;
+}
+
+td.evenredtd{
+    background-color: #ff7777;
+}
+
+td.oddbluetd{
+    background-color: #77ffff;
+}
+
+td.evenbluetd{
+    background-color: #77ffff;
+}
+
+td.oddwhitetd{
+    background-color: #ffffff;
+}
+
+td.evenwhitetd{
+    background-color: #ffffff;
+}
+
+
+td.greentd{
+    color: #008000;
+    font-weight: bold;
+}
+
+td.redtd{
+    color: #ff0000;
+    font-weight: bold;
+
+}
+
+td.bluetd{
+    color: #0000d0;
+    font-weight: bold;
+}
+
+td.whitetd{
+    color: #333333;
+    font-weight: bold;
+}
+
+.table-center{
+    text-align:center;
+}
+
+/*原submission.css结束*/
+
+.welcome{
+    margin-top: 20px;
+}

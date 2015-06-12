@@ -90,9 +90,13 @@ html
                                 script $("#logo").attr("data-content","#{messages.info}");
                                 script $("#logo").popover('show');
                                 script setTimeout(function () {$("#logo").popover('hide');}, 3000);
-                .row(id="page")
+                .row.minheight(id="page")
                     block content
-                .row(id="footer")
+                script.
+                    $(".minheight").attr("min-height", ($(window).height() - 110) + "px");
+                    alert($(window).height()-110);
+
+                .row.footeres(id="footer")
                     footer.footer
                         br
                         p.text-center
