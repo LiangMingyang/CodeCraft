@@ -25,7 +25,7 @@
                                 span(aria-hidden='true') ×
                             h4#myModalLabel.modal-title 提交代码
                         .modal-body.submitcode
-                            .row
+                            .row(style="margin-bottom:10px")
                                 .col-lg-3
                                     |语言选择：
                                 .col-lg-9
@@ -35,7 +35,7 @@
                                             option(value="#{language}") #{language}
                             |源代码：
                             label.sr-only(for="code") 输入代码
-                            textarea.form-control(type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
+                            textarea.form-control(style="margin-top:10px" type="input", rows="10", id="code", name='code', placeholder="输入您的代码")
                         .modal-footer
                             //button.btn.btn-default(type='button', data-dismiss='modal') 取消
                             button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交

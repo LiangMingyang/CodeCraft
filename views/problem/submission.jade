@@ -29,12 +29,12 @@ block content
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error", ERR : "Judge Error"}
     include ../contest/contest-title.jade
     include porblem-list.jade
-    .col-lg-2.col-md-2.col-sm-2
+    .col-lg-2.col-md-2.col-sm-2.containing
         include contest.jade
-    .col-lg-8.col-md-8.col-sm-8.containing
+    .col-lg-8.col-md-8.col-sm-8(style="padding-top:15px")
         if(problem)
             h3 #{problem.title} 的评测记录
-        table.table.table-center
+        table.table.table-center.containing
             tr
                 td 序号
                 - if(!contest)
