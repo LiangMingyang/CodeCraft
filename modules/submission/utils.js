@@ -116,7 +116,8 @@
           problem_id: normalProblems,
           contest_id: null
         },
-        include: include
+        include: include,
+        order: [['created_at', 'DESC']]
       });
     });
   };

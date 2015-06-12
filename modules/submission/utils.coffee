@@ -55,6 +55,9 @@ exports.findSubmissions = (user,include)->
           problem_id : normalProblems
           contest_id : null
       include : include
+      order : [
+        ['created_at', 'DESC']
+      ]
     )
 
 exports.findSubmission = (user,submissionID,include)->

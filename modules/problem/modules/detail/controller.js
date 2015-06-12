@@ -159,7 +159,7 @@
             as: 'creator'
           }
         ],
-        order: [['id', 'DESC']],
+        order: [['created_at', 'DESC']],
         where: {
           contest_id: null
         }
