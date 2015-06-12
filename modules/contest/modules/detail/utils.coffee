@@ -86,21 +86,23 @@ exports.numberToLetters = (num)->
   return res
 
 exports.hasResult = (user, problems, results, contest)->
-  return [] if not user
-  problems = [problems] if not problems instanceof Array
-  Submission = global.db.models.submission
-  options = {
-    where:
-      problem_id : (problem.id for problem in problems)
-      creator_id : user.id
-    group : 'problem_id'
-    distinct : true
-    attributes : ['problem_id']
-    plain : false
-  }
-  options.where.result = results if results
-  options.where.contest_id = contest.id if contest
-  Submission.aggregate('creator_id', 'count', options)
+  global.db.Promise.resolve()
+  .then ->
+    return [] if not user
+    problems = [problems] if not problems instanceof Array
+    Submission = global.db.models.submission
+    options = {
+      where:
+        problem_id : (problem.id for problem in problems)
+        creator_id : user.id
+      group : 'problem_id'
+      distinct : true
+      attributes : ['problem_id']
+      plain : false
+    }
+    options.where.result = results if results
+    options.where.contest_id = contest.id if contest
+    Submission.aggregate('creator_id', 'count', options)
 
 exports.getResultPeopleCount = (problems, results, contest)->
   problems = [problems] if not problems instanceof Array

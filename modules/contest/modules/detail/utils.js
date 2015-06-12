@@ -177,39 +177,41 @@
   };
 
   exports.hasResult = function(user, problems, results, contest) {
-    var Submission, options, problem;
-    if (!user) {
-      return [];
-    }
-    if (!problems instanceof Array) {
-      problems = [problems];
-    }
-    Submission = global.db.models.submission;
-    options = {
-      where: {
-        problem_id: (function() {
-          var j, len, results1;
-          results1 = [];
-          for (j = 0, len = problems.length; j < len; j++) {
-            problem = problems[j];
-            results1.push(problem.id);
-          }
-          return results1;
-        })(),
-        creator_id: user.id
-      },
-      group: 'problem_id',
-      distinct: true,
-      attributes: ['problem_id'],
-      plain: false
-    };
-    if (results) {
-      options.where.result = results;
-    }
-    if (contest) {
-      options.where.contest_id = contest.id;
-    }
-    return Submission.aggregate('creator_id', 'count', options);
+    return global.db.Promise.resolve().then(function() {
+      var Submission, options, problem;
+      if (!user) {
+        return [];
+      }
+      if (!problems instanceof Array) {
+        problems = [problems];
+      }
+      Submission = global.db.models.submission;
+      options = {
+        where: {
+          problem_id: (function() {
+            var j, len, results1;
+            results1 = [];
+            for (j = 0, len = problems.length; j < len; j++) {
+              problem = problems[j];
+              results1.push(problem.id);
+            }
+            return results1;
+          })(),
+          creator_id: user.id
+        },
+        group: 'problem_id',
+        distinct: true,
+        attributes: ['problem_id'],
+        plain: false
+      };
+      if (results) {
+        options.where.result = results;
+      }
+      if (contest) {
+        options.where.contest_id = contest.id;
+      }
+      return Submission.aggregate('creator_id', 'count', options);
+    });
   };
 
   exports.getResultPeopleCount = function(problems, results, contest) {
