@@ -250,7 +250,7 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Problem, User, currentContest, currentProblem, currentProblems, currentUser;
+    var Contest, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     Contest = global.db.models.contest;
@@ -258,6 +258,7 @@
     currentProblems = void 0;
     currentContest = void 0;
     currentUser = void 0;
+    currentSubmissions = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -352,36 +353,43 @@
         }
       }
     }).then(function(problem) {
+      var i, len, ref;
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
-      return problem.getSubmissions({
-        include: [
-          {
-            model: User,
-            as: 'creator',
-            where: {
-              id: (currentUser ? currentUser.id : 0)
+      global.db.Promise.all([
+        fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')).then(function(manifest_str) {
+          var manifest;
+          manifest = JSON.parse(manifest_str);
+          return currentProblem.test_setting = manifest.test_setting;
+        }), currentProblem.getSubmissions({
+          include: [
+            {
+              model: User,
+              as: 'creator',
+              where: {
+                id: (currentUser ? currentUser.id : 0)
+              }
+            }, {
+              model: Contest,
+              where: {
+                id: currentContest.id
+              }
             }
-          }, {
-            model: Contest,
-            where: {
-              id: currentContest.id
-            }
-          }
-        ],
-        order: [['created_at', 'DESC']]
-      });
-    }).then(function(submissions) {
-      var i, len, problem, ref;
+          ],
+          order: [['created_at', 'DESC']]
+        }).then(function(submissions) {
+          return currentSubmissions = submissions;
+        })
+      ]);
       ref = currentContest.problems;
       for (i = 0, len = ref.length; i < len; i++) {
         problem = ref[i];
         problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
       }
       return res.render('problem/submission', {
-        submissions: submissions,
+        submissions: currentSubmissions,
         problem: currentProblem,
         contest: currentContest,
         user: req.session.user

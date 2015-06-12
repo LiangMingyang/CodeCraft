@@ -181,6 +181,7 @@ exports.getSubmissions = (req, res) ->
   currentProblems = undefined
   currentContest = undefined
   currentUser = undefined
+  currentSubmissions = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -237,31 +238,39 @@ exports.getSubmissions = (req, res) ->
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
-    problem.getSubmissions({
-      include : [
-        model : User
-        as : 'creator'
-        where :
-          id : (
-            if currentUser
-              currentUser.id
-            else
-              0
-          )
-      ,
-        model : Contest
-        where :
-          id : currentContest.id
-      ]
-      order : [
-        ['created_at', 'DESC']
-      ]
-    })
-  .then (submissions) ->
+    global.db.Promise.all [
+      fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
+        .then (manifest_str) ->
+          manifest = JSON.parse manifest_str
+          currentProblem.test_setting = manifest.test_setting
+    ,
+      currentProblem.getSubmissions(
+        include : [
+          model : User
+          as : 'creator'
+          where :
+            id : (
+              if currentUser
+                currentUser.id
+              else
+                0
+            )
+        ,
+          model : Contest
+          where :
+            id : currentContest.id
+        ]
+        order : [
+          ['created_at', 'DESC']
+        ]
+      )
+        .then (submissions) ->
+          currentSubmissions = submissions
+    ]
     for problem in currentContest.problems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render('problem/submission', {
-      submissions: submissions
+      submissions: currentSubmissions
       problem : currentProblem
       contest : currentContest
       user: req.session.user
