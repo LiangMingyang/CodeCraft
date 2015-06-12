@@ -61,46 +61,14 @@ exports.getProblem = (req, res)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentContest = contest
     currentProblems = contest.problems
-    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
-  .then (counts)-> #AC people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.acceptedPeopleCount = 0
-      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
-  .then (counts)-> #Tried people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.triedPeopleCount = 0
-      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
-  .then (counts)-> #this user accepted problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.accepted = 0
-      p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
-  .then (counts)-> #this user tried problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.tried = 0
-      p.tried = tmp[p.id] if tmp[p.id]
-    return currentProblems
-  .then (problems)->
-    for problem in problems
+    myUtils.getProblemStatus(currentProblems,currentUser,currentContest)
+  .then ->
+    for problem in currentProblems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'contest/problem', {
       user : req.session.user
       contest : currentContest
-      problems : problems
+      problems : currentProblems
     }
 
   .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
