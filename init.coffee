@@ -83,42 +83,58 @@ module.exports = (db) ->
         testUser.addProblem(problem)
         testGroup.addProblem(problem)
   .then ->
-    Contest
-      .create {
-        title: 'test_contest_private'
-        access_level: 'private'
-        description: '用来测试的比赛，权限是private'
-        start_time : new Date("2015-05-20 10:00")
-        end_time : new Date("2015-05-21 10:00")
+    db.Promise.all [
+      Contest
+        .create {
+          title: 'test_contest_private'
+          access_level: 'private'
+          description: '用来测试的比赛，权限是private'
+          start_time : new Date("2015-05-20 10:00")
+          end_time : new Date("2015-05-21 10:00")
+        }
+        .then (contest)->
+          testUser.addContest(contest)
+          testGroup.addContest(contest)
+    ,
+      Contest
+        .create {
+          title: 'test_contest_public'
+          access_level: 'public'
+          description: '用来测试的比赛，权限是public'
+          start_time : new Date("2016-05-20 10:00")
+          end_time : new Date("2016-09-21 10:00")
+        }
+        .then (contest)->
+          testUser.addContest(contest)
+          testGroup.addContest(contest)
+    ,
+      Contest
+        .create {
+          title: 'test_contest'
+          access_level: 'protect'
+          description: '用来测试的比赛，权限是protect'
+          start_time : new Date("2015-05-21 10:00")
+          end_time : new Date("2015-06-21 10:00")
+        }
+        .then (contest)->
+          testUser.addContest(contest)
+          testGroup.addContest(contest)
+          contest.addProblem(testProblem, {
+            order : 0
+            score : 1
+          })
+    ]
+  .then ->
+    db.Promise.all [
+      Judge.create {
+        name : "Judge1"
+        secret_key : "沛神太帅了"
       }
-      .then (contest)->
-        testUser.addContest(contest)
-        testGroup.addContest(contest)
-    Contest
-      .create {
-        title: 'test_contest_public'
-        access_level: 'public'
-        description: '用来测试的比赛，权限是public'
-        start_time : new Date("2016-05-20 10:00")
-        end_time : new Date("2016-09-21 10:00")
+    ,
+      Judge.create {
+        name : "Judge2"
+        secret_key : "梁明阳专用judge"
       }
-      .then (contest)->
-        testUser.addContest(contest)
-        testGroup.addContest(contest)
-    Contest
-      .create {
-        title: 'test_contest'
-        access_level: 'protect'
-        description: '用来测试的比赛，权限是protect'
-        start_time : new Date("2015-05-21 10:00")
-        end_time : new Date("2015-06-21 10:00")
-      }
-      .then (contest)->
-        testUser.addContest(contest)
-        testGroup.addContest(contest)
-        contest.addProblem(testProblem, {
-          order : 0
-          score : 1
-        })
+    ]
   .then ->
     console.log 'init: ok!'
