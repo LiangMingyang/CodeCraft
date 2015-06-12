@@ -29,7 +29,7 @@ exports.getIndex = (req, res) ->
     currentGroups = groups
     myUtils.getGroupPeopleCount(groups)
   .then (counts)->
-    myUtils.addGroupCountKey(counts,currentGroups,'member_count')
+    myUtils.addGroupsCountKey(counts,currentGroups,'member_count')
   .then ->
     res.render 'group/index', {
       title: 'You have got group index here'

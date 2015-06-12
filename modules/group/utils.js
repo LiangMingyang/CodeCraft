@@ -131,7 +131,7 @@
     return Membership.aggregate('user_id', 'count', options);
   };
 
-  exports.addGroupCountKey = function(counts, currentGroups, key) {
+  exports.addGroupsCountKey = function(counts, currentGroups, key) {
     var i, j, len, len1, p, results, tmp;
     tmp = {};
     for (i = 0, len = counts.length; i < len; i++) {

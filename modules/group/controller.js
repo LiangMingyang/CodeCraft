@@ -35,7 +35,7 @@
       currentGroups = groups;
       return myUtils.getGroupPeopleCount(groups);
     }).then(function(counts) {
-      return myUtils.addGroupCountKey(counts, currentGroups, 'member_count');
+      return myUtils.addGroupsCountKey(counts, currentGroups, 'member_count');
     }).then(function() {
       return res.render('group/index', {
         title: 'You have got group index here',

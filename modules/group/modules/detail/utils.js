@@ -354,7 +354,7 @@
     });
   };
 
-  exports.addCountKey = function(counts, currentProblems, key) {
+  exports.addProblemsCountKey = function(counts, currentProblems, key) {
     var i, j, len, len1, p, results1, tmp;
     tmp = {};
     for (i = 0, len = counts.length; i < len; i++) {
@@ -379,13 +379,13 @@
     myUtils = this;
     return global.db.Promise.all([
       myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest).then(function(counts) {
-        return myUtils.addCountKey(counts, currentProblems, 'acceptedPeopleCount');
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'acceptedPeopleCount');
       }), myUtils.getResultPeopleCount(currentProblems, void 0, currentContest).then(function(counts) {
-        return myUtils.addCountKey(counts, currentProblems, 'triedPeopleCount');
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'triedPeopleCount');
       }), myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest).then(function(counts) {
-        return myUtils.addCountKey(counts, currentProblems, 'accepted');
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'accepted');
       }), myUtils.hasResult(currentUser, currentProblems, void 0, currentContest).then(function(counts) {
-        return myUtils.addCountKey(counts, currentProblems, 'tried');
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'tried');
       })
     ]);
   };

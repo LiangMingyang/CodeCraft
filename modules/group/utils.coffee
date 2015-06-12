@@ -65,7 +65,7 @@ exports.getGroupPeopleCount = (groups)->
   }
   Membership.aggregate('user_id', 'count', options)
 
-exports.addGroupCountKey = (counts, currentGroups, key)->
+exports.addGroupsCountKey = (counts, currentGroups, key)->
   tmp = {}
   for p in counts
     tmp[p.group_id] = p.count
