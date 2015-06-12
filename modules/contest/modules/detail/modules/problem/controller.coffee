@@ -39,7 +39,7 @@ exports.getIndex = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getProblemStatus(currentProblems,currentUser,currentContest)
+    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
   .then ->
     order = myUtils.lettersToNumber(req.params.problemID)
     for problem in currentProblems
@@ -165,7 +165,7 @@ exports.getSubmissions = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getProblemStatus(currentProblems,currentUser,currentContest)
+    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
   .then ->
     order = myUtils.lettersToNumber(req.params.problemID)
     for problem in currentProblems

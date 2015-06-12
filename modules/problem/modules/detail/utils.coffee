@@ -126,7 +126,7 @@ exports.addCountKey = (counts, currentProblems, key)->
     p[key] = 0
     p[key] = tmp[p.id] if tmp[p.id]
 
-exports.getProblemStatus = (currentProblems,currentUser,currentContest)->
+exports.getProblemsStatus = (currentProblems,currentUser,currentContest)->
   myUtils = this
   global.db.Promise.all [
     myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'acceptedPeopleCount')

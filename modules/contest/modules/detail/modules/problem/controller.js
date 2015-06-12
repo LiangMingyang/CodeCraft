@@ -59,7 +59,7 @@
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
       currentProblems = contest.problems;
-      return myUtils.getProblemStatus(currentProblems, currentUser, currentContest);
+      return myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
     }).then(function() {
       var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);
@@ -222,7 +222,7 @@
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
       currentProblems = contest.problems;
-      return myUtils.getProblemStatus(currentProblems, currentUser, currentContest);
+      return myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
     }).then(function() {
       var i, len, order, problem;
       order = myUtils.lettersToNumber(req.params.problemID);

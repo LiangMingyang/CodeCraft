@@ -79,7 +79,7 @@
       });
       currentContest = contest;
       currentProblems = contest.problems;
-      return myUtils.getProblemStatus(currentProblems, currentUser, currentContest);
+      return myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
     }).then(function() {
       var i, len, problem;
       for (i = 0, len = currentProblems.length; i < len; i++) {

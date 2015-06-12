@@ -29,7 +29,7 @@
       ]);
     }).then(function(problems) {
       currentProblems = problems;
-      return myUtils.getProblemStatus(currentProblems, currentUser);
+      return myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
       return res.render('problem/index', {
         user: req.session.user,

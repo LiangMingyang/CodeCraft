@@ -53,7 +53,7 @@
       }
       currentProblem = problem;
       currentProblems = [currentProblem];
-      return myUtils.getProblemStatus(currentProblems, currentUser);
+      return myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
       return fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json'));
     }).then(function(manifest_str) {
@@ -155,7 +155,7 @@
       }
       currentProblem = problem;
       currentProblems = [problem];
-      return myUtils.getProblemStatus(currentProblems, currentUser);
+      return myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
       return fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json'));
     }).then(function(manifest_str) {

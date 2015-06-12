@@ -61,7 +61,7 @@ exports.getProblem = (req, res)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentContest = contest
     currentProblems = contest.problems
-    myUtils.getProblemStatus(currentProblems,currentUser,currentContest)
+    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
   .then ->
     for problem in currentProblems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)

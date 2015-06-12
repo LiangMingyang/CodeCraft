@@ -20,7 +20,7 @@ exports.getIndex = (req, res) ->
     ])
   .then (problems)->
     currentProblems = problems
-    myUtils.getProblemStatus(currentProblems,currentUser)
+    myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
     res.render('problem/index', {
       user: req.session.user

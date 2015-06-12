@@ -364,7 +364,7 @@
     return results1;
   };
 
-  exports.getProblemStatus = function(currentProblems, currentUser, currentContest) {
+  exports.getProblemsStatus = function(currentProblems, currentUser, currentContest) {
     var myUtils;
     myUtils = this;
     return global.db.Promise.all([

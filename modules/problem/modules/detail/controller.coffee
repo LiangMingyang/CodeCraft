@@ -37,7 +37,7 @@ exports.getIndex = (req, res) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
     currentProblems = [currentProblem]
-    myUtils.getProblemStatus(currentProblems,currentUser)
+    myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
     fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
   .then (manifest_str) ->
@@ -125,7 +125,7 @@ exports.getSubmissions = (req, res) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
     currentProblems = [problem]
-    myUtils.getProblemStatus(currentProblems,currentUser)
+    myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
     fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
   .then (manifest_str) ->
