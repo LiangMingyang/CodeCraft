@@ -17,14 +17,16 @@ INDEX_PAGE = 'index'
 LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res) ->
-  Problem = global.db.models.problem
   User = global.db.models.user
   Group = global.db.models.group
   currentProblem = undefined
+  currentUser = undefined
+  currentProblems = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findProblem(user, req.params.problemID, [
       model : User
       as : 'creator'
@@ -34,7 +36,10 @@ exports.getIndex = (req, res) ->
   .then (problem) ->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
-    fs.readFilePromised path.join(myUtils.getStaticProblem(problem.id), 'manifest.json')
+    currentProblems = [currentProblem]
+    myUtils.getProblemStatus(currentProblems,currentUser)
+  .then ->
+    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
   .then (manifest_str) ->
     manifest = JSON.parse manifest_str
     currentProblem.test_setting = manifest.test_setting
@@ -42,8 +47,7 @@ exports.getIndex = (req, res) ->
   .then (description)->
     currentProblem.description = markdown.toHTML(description.toString())
     res.render 'problem/detail', {
-      title: 'Problem List Page',
-      user: req.session.user,
+      user: req.session.user
       problem: currentProblem
     }
 
@@ -109,15 +113,21 @@ exports.postSubmission = (req, res) ->
 exports.getSubmissions = (req, res) ->
   User = global.db.models.user
   currentProblem = undefined
+  currentUser = undefined
+  currentProblems = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
+    currentUser = user
     myUtils.findProblem(user, req.params.problemID)
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
-    fs.readFilePromised path.join(myUtils.getStaticProblem(problem.id), 'manifest.json')
+    currentProblems = [problem]
+    myUtils.getProblemStatus(currentProblems,currentUser)
+  .then ->
+    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
   .then (manifest_str) ->
     manifest = JSON.parse manifest_str
     currentProblem.test_setting = manifest.test_setting
@@ -149,15 +159,5 @@ exports.getSubmissions = (req, res) ->
     console.log err
     req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
-
-exports.getCode = (req, res) ->
-  Submission_Code = global.db.models.submission_code
-  Submission_Code.find req.params.submissionID
-  .then (code) ->
-    res.json({
-      code: code.content,
-      user: req.session.user
-    })
-
 
 

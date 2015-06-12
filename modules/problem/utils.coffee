@@ -114,3 +114,23 @@ exports.hasResult = (user, problems, results, contest)->
   options.where.result = results if results
   options.where.contest_id = contest.id if contest
   Submission.aggregate('creator_id', 'count', options)
+
+exports.addCountKey = (counts, currentProblems, key)->
+  tmp = {}
+  for p in counts
+    tmp[p.problem_id] = p.count
+  for p in currentProblems
+    p[key] = 0
+    p[key] = tmp[p.id] if tmp[p.id]
+
+exports.getProblemStatus = (currentProblems,currentUser,currentContest)->
+  myUtils = this
+  global.db.Promise.all [
+    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'acceptedPeopleCount')
+  ,
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'triedPeopleCount')
+  ,
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'accepted')
+  ,
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest).then (counts)->myUtils.addCountKey(counts, currentProblems, 'tried')
+  ]

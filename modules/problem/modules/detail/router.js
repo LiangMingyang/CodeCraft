@@ -24,8 +24,6 @@
 
   router.post('/submit', controller.postSubmission);
 
-  router.get('/submission/:submissionID([0-9]+)', controller.getCode);
-
   module.exports = router;
 
 }).call(this);
