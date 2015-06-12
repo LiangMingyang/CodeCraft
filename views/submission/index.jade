@@ -34,8 +34,9 @@ block content
                                 a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         - if(submissions[i].problem_id)
                             td
-                                a(href='../../problem/#{submissions[i].problem_id}/index') #{submissions[i].problem_id}
-                        td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                                a(href='../../problem/' + submissions[i].problem_id + '/index') #{submissions[i].problem_id}
+                        td(class = "oddtd", id = "td#{i}", onmousemove="showDetail()") #{changeSubmissionResult[submissions[i].result]}
+                        //td #{submissions[i].detail}
                         td #{submissions[i].score}
                         td
                             a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
@@ -57,3 +58,9 @@ block content
                         script.
                             $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
                             $("#td#{i}").attr("class","#{coloroftable}td");
+                            function showDetail(){
+                                if($("#code").val()!="")
+                                    $("#form").submit();
+                                else
+                                    alert("代码不要为空！");
+                            }

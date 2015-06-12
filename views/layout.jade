@@ -93,12 +93,14 @@ html
                 .row.minheight(id="page")
                     block content
                 script.
+                    $(document).ready(function () {
+                        $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                    });
                     $(window).resize(function () {
-                        //alert("窗口大小发生变化！");
                         $(".minheight").css("min-height", ($(window).height() - 135) + "px");
                     });
 
-                .row.footeres(id="footer")
+                .row(id="footer")
                     footer.footer
                         br
                         p.text-center

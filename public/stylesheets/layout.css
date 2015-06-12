@@ -142,8 +142,7 @@ body{
 }
 
 .minheight{
-    /*882-50-60*/
-    min-height: 805px;
+    min-height: 0px;
 }
 
 .footere{
