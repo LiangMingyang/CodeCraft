@@ -31,20 +31,20 @@ block content
                             - else
                                 td
                         td
-                            a(href= "../../problem/#{problem.id}/index") #{problem.id}
+                            a(href= "../../problem/" + problem.id + "/index") #{problem.id}
                         td
-                            a(href= "../../problem/#{problem.id}/index") #{problem.title}
+                            a(href= "../../problem/" + problem.id + "/index") #{problem.title}
                         td.progress
                             - var level = ((i+1)*30)%101;
                             - if (level < 10) level = 10;
                             - if (level < 50)
-                                .progress-bar.progress-bar-success.active.progress-bar-striped(style='width: #{level}%')
+                                .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
                                     span.sr-only #{level}% Complete (success)
                             - else if (level < 80)
-                                .progress-bar.progress-bar-warning.active.progress-bar-striped(style='width: #{level}%')
+                                .progress-bar.progress-bar-warning.active.progress-bar-striped(style="width: " + level + "%")
                                     span.sr-only #{level}% Complete (warning)
                             - else
-                                .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: #{level}%')
+                                .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
                             span.sr-only #{level}% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
     .col-lg-2

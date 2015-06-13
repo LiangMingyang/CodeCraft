@@ -27,23 +27,12 @@ block content
         if(problem)
             .markdown-body.containing
                 h1.problem-title #{problem.title}
-                //h3 Test Setting
                 .problem-limit 时间限制: #{problem.test_setting.time_limit} ms 内存限制: #{problem.test_setting.memory_limit} kb
                 .problem-limit 总通过人数: #{problem.acceptedPeopleCount} 总提交人数: #{problem.triedPeopleCount}
                 //li Special Judge: #{problem.test_setting.special_judge}
                 - if (problem.test_setting.special_judge)
                     .special-judge Special Judge
                 !{problem.description}
-
-    //    form(method='post', action='./' + problem.problem_id + '/submit')
-            label Your Code：
-            select(type="input", name='lang' value='C')
-                option(value="c++") c++
-                option(value="c") c
-            br
-            textarea(type="input", name='code')
-            br
-            button(type="submit") 提交
     .col-lg-2.col-md-2.col-sm-2
         .containing
             include problem.jade

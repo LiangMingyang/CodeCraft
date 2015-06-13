@@ -3,32 +3,32 @@
 
 if(group)
     .list-group
-        a(class="list-group-item normal-color", id="group-groupindexpage", href="./index") 小组主页
-        a(class="list-group-item normal-color", id="group-memberpage", href="./member")
+        a(class="list-group-item normal-color", id="group-groupIndexPage", href="./index") 小组主页
+        a(class="list-group-item normal-color", id="group-memberPage", href="./member")
             - if(group.users)
                 | 小组成员------#{group.users.length}人
             - else
                 | 小组成员
-        a(class="list-group-item normal-color", id="group-contestpage", href="./contest")
+        a(class="list-group-item normal-color", id="group-contestPage", href="./contest")
             - if(contests)
                 | 小组比赛------#{contests.length}场
             - else
                 | 小组比赛
-        a(class="list-group-item normal-color", id="group-problempage", href="./problem")
+        a(class="list-group-item normal-color", id="group-problemPage", href="./problem")
             - if(problems)
                 | 小组题目------#{problems.length}道
             - else
                 | 小组题目
-        a(class="list-group-item normal-color", id="group-returnpage", href="../index") 返回所有小组
+        a(class="list-group-item normal-color", id="group-returnPage", href="../index") 返回所有小组
     script.
         if("#{whichPage}"=="小组题目")
-            $("#group-problempage").attr("class","list-group-item change-color");
+            $("#group-problemPage").attr("class","list-group-item change-color");
         else if("#{whichPage}"=="小组比赛")
-            $("#group-contestpage").attr("class","list-group-item change-color");
+            $("#group-contestPage").attr("class","list-group-item change-color");
         else if("#{whichPage}"=="小组成员")
-            $("#group-memberpage").attr("class","list-group-item change-color");
+            $("#group-memberPage").attr("class","list-group-item change-color");
         else
-            $("#group-groupindexpage").attr("class","list-group-item change-color");
+            $("#group-groupIndexPage").attr("class","list-group-item change-color");
 
     //- if ( !isMember )
         a.button.btn.btn-default(href="join") 加入该小组

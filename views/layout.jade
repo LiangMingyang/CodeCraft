@@ -52,7 +52,7 @@ html
                                     ul.nav.navbar-nav.navbar-right
                                         - if(user)
                                             li.normalli
-                                                a(href="/user/" + user.id) 欢迎来到北航OJ，#{user.nickname}
+                                                a(href="/user/" + user.id + "/index") 欢迎来到北航OJ，#{user.nickname}
                                             li.normalli
                                                 a(href="/user/logout", id="logoutpage", class="nav-before") 登出
                                         - else

@@ -1,10 +1,6 @@
 //
    Created by zp on 15-6-5.
 if(contest)
-    //.form-horizontal
-        a(href="./index")
-            label.control-label
-                h3 #{contest.title}
     - if(contest.start_time <= (new Date()))
         .form-horizontal.list-group
             a(class="list-group-item normal-color", id="indexPage", href="./index") 赛事信息

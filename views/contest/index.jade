@@ -19,7 +19,7 @@ block content
             if(contests)
                 - for (var i = 0 ; i < contests.length ; ++i)
                     - var contest = contests[i]
-                    tr.text-center(id = "tr#{i}")
+                    tr.text-center(id = "tr" + i)
                         - if(i % 2 == 1)
                             - oddEvenTable = "odd"
                         - else
@@ -34,10 +34,10 @@ block content
                             - colorOfTable = "white"
                             - contestStatus = "已结束"
                         td #{contest.id}
-                        td(id = "td#{i}")
+                        td(id = "td" + i)
                             p #{contestStatus}
                         td
-                            a(href= "/contest/#{contest.id}/index") #{contest.title}
+                            a(href= "/contest/" + contest.id + "/index") #{contest.title}
                         td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
                         td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
                         script.

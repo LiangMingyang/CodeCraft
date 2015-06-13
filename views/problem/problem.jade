@@ -32,7 +32,7 @@
                                     select(type="input", name='lang')
                                         - for (var i = 0 ; i < problem.test_setting.language.length ; i++)
                                             - var language = problem.test_setting.language[i];
-                                            option(value="#{language}") #{language}
+                                            option(value=language) #{language}
                             |源代码：
                             label.sr-only(for="code") 输入代码
                             textarea.form-control(style="margin-top:10px" type="input", rows="10", id="code", name='code', placeholder="输入您的代码")

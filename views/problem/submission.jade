@@ -48,13 +48,13 @@ block content
                 td 提交时间
             if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
-                    tr(id = "tr#{i}")
+                    tr(id = "tr" + i)
                         td #{submissions[i].id}
                         - if(!contest)
                             td
                                 a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         td
-                            label(id = "td#{i}", onmouseover="showDetail(#{i})", onmouseout="hideDetail(#{i})", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="#{submissions[i].detail}") #{changeSubmissionResult[submissions[i].result]}
+                            label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
                         td #{submissions[i].score}
                         td
                             a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}

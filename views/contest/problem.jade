@@ -12,7 +12,7 @@ block content
         h3 所有题目
         table(class = "table table-striped").containing
             tr.text-center
-                - if(user)
+                if(user)
                     td 状态
                 td 题目编号
                 td 题目标题
@@ -22,7 +22,7 @@ block content
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - var problem = problems[i];
                     tr.text-center
-                        - if(user)
+                        if(user)
                             - if(problem.accepted + problem.tried == 2)
                                 td.green-td
                                     span.glyphicon.glyphicon-ok(aria-hidden="true")
@@ -33,7 +33,7 @@ block content
                                 td
                         td #{problem.contest_problem_list.order}
                         td
-                            a(href= "./problem/#{problem.contest_problem_list.order}/index") #{problem.title}
+                            a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
                         td #{problem.contest_problem_list.score}
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
     .col-lg-2
