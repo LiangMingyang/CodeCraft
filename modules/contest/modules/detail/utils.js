@@ -254,15 +254,8 @@
     User = global.db.models.user;
     rank = void 0;
     return global.redis.get("rank_" + contest.id).then(function(cache) {
-      var j, len, p, u;
       if (cache !== null) {
         rank = JSON.parse(cache);
-        for (j = 0, len = rank.length; j < len; j++) {
-          u = rank[j];
-          for (p in u.detail) {
-            u.detail[p].accepted_time = new Date(u.detail[p].accepted_time);
-          }
-        }
       }
       if (rank) {
         return [];
@@ -319,7 +312,7 @@
           detail[problemOrderLetter].score = sub.score;
           detail[problemOrderLetter].result = sub.result;
           if (sub.created_at < detail[problemOrderLetter].accepted_time) {
-            detail[problemOrderLetter].accepted_time = sub.created_at;
+            detail[problemOrderLetter].accepted_time = sub.created_at - contest.start_time;
           }
         }
         if (detail[problemOrderLetter].score < AC_SCORE) {
@@ -338,7 +331,7 @@
           problem.score *= dicProblemOrderToScore[p];
           tmp[user].score += problem.score;
           if (problem.score > 0) {
-            tmp[user].penalty += (problem.accepted_time - contest.start_time) + problem.wrong_count * PER_PENALTY;
+            tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY;
           }
         }
       }
@@ -363,7 +356,7 @@
         return -1;
       });
       rank = res;
-      return global.redis.set("rank_" + contest.id, JSON.stringify(res), "NX", "PX", CACHE_TIME);
+      return global.redis.set("rank_" + contest.id, JSON.stringify(res), "PX", CACHE_TIME);
     }).then(function() {
       return rank;
     });

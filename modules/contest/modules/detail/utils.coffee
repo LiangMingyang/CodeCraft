@@ -126,11 +126,7 @@ exports.getRank = (contest)->
   rank = undefined
   global.redis.get "rank_#{contest.id}"
   .then (cache)->
-    if cache isnt null
-      rank = JSON.parse(cache)
-      for u in rank
-        for p of u.detail
-          u.detail[p].accepted_time = new Date(u.detail[p].accepted_time)
+    rank = JSON.parse(cache) if cache isnt null
     return [] if rank
     contest.getSubmissions(
       include : [
@@ -162,7 +158,7 @@ exports.getRank = (contest)->
       if sub.score >= detail[problemOrderLetter].score #应当选出得分最高，时间最早的
         detail[problemOrderLetter].score = sub.score
         detail[problemOrderLetter].result = sub.result
-        detail[problemOrderLetter].accepted_time = sub.created_at if sub.created_at < detail[problemOrderLetter].accepted_time
+        detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time if sub.created_at < detail[problemOrderLetter].accepted_time
       if detail[problemOrderLetter].score < AC_SCORE #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
         ++detail[problemOrderLetter].wrong_count
     for user of tmp
@@ -173,7 +169,7 @@ exports.getRank = (contest)->
         problem.score *= dicProblemOrderToScore[p]
         tmp[user].score += problem.score
         if problem.score > 0
-          tmp[user].penalty += (problem.accepted_time-contest.start_time) + problem.wrong_count * PER_PENALTY
+          tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY
 
     res = (tmp[user] for user of tmp)
     res.sort(
@@ -187,7 +183,7 @@ exports.getRank = (contest)->
         return -1
     )
     rank = res
-    global.redis.set("rank_#{contest.id}", JSON.stringify(res), "NX", "PX", CACHE_TIME)
+    global.redis.set("rank_#{contest.id}", JSON.stringify(res), "PX", CACHE_TIME)
   .then ->
     return rank
 
