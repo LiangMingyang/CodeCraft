@@ -41,6 +41,7 @@ exports.Error = {
 #Const
 AC_SCORE = 1
 PER_PENALTY = 20 * 60 * 1000
+CACHE_TIME = 1000
 
 exports.findContest = (user, contestID, include)->
   Contest = global.db.models.contest
@@ -122,16 +123,26 @@ exports.getResultPeopleCount = (problems, results, contest)->
 exports.getRank = (contest)->
   myUtils = this
   User = global.db.models.user
-  contest.getSubmissions(
-    include : [
-      model : User
-      as : 'creator'
-    ]
-    order : [
-      ['created_at','ASC']
-    ]
-  )
+  rank = undefined
+  global.redis.get "rank_#{contest.id}"
+  .then (cache)->
+    if cache isnt null
+      rank = JSON.parse(cache)
+      for u in rank
+        for p of u.detail
+          u.detail[p].accepted_time = new Date(u.detail[p].accepted_time)
+    return [] if rank
+    contest.getSubmissions(
+      include : [
+        model : User
+        as : 'creator'
+      ]
+      order : [
+        ['created_at','ASC']
+      ]
+    )
   .then (submissions)->
+    return rank if rank
     dicProblemIDToOrder = {} #把题目ID变为字母序号
     dicProblemOrderToScore = {} #最后计算得分的时候需要计算这个比赛中这个题目的分数
     for p in contest.problems
@@ -175,6 +186,11 @@ exports.getRank = (contest)->
           return 1
         return -1
     )
+    rank = res
+    global.redis.set("rank_#{contest.id}", JSON.stringify(res), "NX", "PX", CACHE_TIME)
+  .then ->
+    return rank
+
 
 exports.addProblemsCountKey = (counts, currentProblems, key)->
   tmp = {}

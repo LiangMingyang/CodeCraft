@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
+var redis = require('ioredis')
 
 var routes = require('./routes');
 
@@ -77,7 +78,8 @@ global.db = require('./database')(
     config.database.password,
     config.database.config
 );
-global.config = config
+global.config = config;
 global.db.sync();
+global.redis = new redis();
 
 module.exports = app;
