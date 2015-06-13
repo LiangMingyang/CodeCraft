@@ -35,7 +35,8 @@ block content
                         if(!problem)
                             td
                                 a(href= "./problem/#{submissions[i].problem_order}/index") #{submissions[i].problem_order}
-                        td(class = "oddtd", id = "td#{i}") #{changeSubmissionResult[submissions[i].result]}
+                        td
+                            label(id = "td#{i}", onmouseover="showDetail(#{i})", onmouseout="hideDetail(#{i})", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="#{submissions[i].detail}") #{changeSubmissionResult[submissions[i].result]}
                         td #{submissions[i].score}
                         td
                             a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
@@ -57,4 +58,10 @@ block content
                         script.
                             $("#tr#{i}").attr("class", "#{oddEvenTable}#{colorOfTable}tr");
                             $("#td#{i}").attr("class", "#{colorOfTable}td");
+                            function showDetail(numi){
+                                $("#td"+numi).popover('show');
+                            }
+                            function hideDetail(numi){
+                                $("#td"+numi).popover('hide');
+                            }
     .col-lg-2.col-md-2.col-sm-2

@@ -244,6 +244,27 @@ td.whitetd{
     font-weight: bold;
 }
 
+label.greentd{
+    color: #008000;
+    font-weight: bold;
+}
+
+label.redtd{
+    color: #ff0000;
+    font-weight: bold;
+
+}
+
+label.bluetd{
+    color: #0000d0;
+    font-weight: bold;
+}
+
+label.whitetd{
+    color: #333333;
+    font-weight: bold;
+}
+
 .table-center{
     text-align:center;
 }
