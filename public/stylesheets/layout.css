@@ -140,3 +140,10 @@ body{
     clear: both;
     border-top: 1px solid #e1e1e1;
 }
+
+body{
+    /*background-color: #DFD8CC;*/
+    /*background-image: url("../images/background.jpg");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+}

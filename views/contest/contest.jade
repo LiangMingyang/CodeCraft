@@ -23,16 +23,16 @@ if(contest)
                     $("#submissionPage").attr("class","list-group-item change-color");
                 else if("#{whichPage}"=="修改密码")
                     $("#issuePage").attr("class","list-group-item change-color");
-            - var dateOfTime = new Date();
-            - var endTime = contest.end_time - dateOfTime;
-            - var endSeconds = (endTime - endTime % 1000) / 1000 % 60
-            - var endMinutes = ((endTime - endTime % 1000) / 1000 - endSeconds) / 60 % 60
-            - var endHours = ((endTime - endTime % 1000) / 1000 - endSeconds - endMinutes * 60) / 3600
-            label 服务器当前时间
-            br
-            label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth()+1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
-            br
-            label 距比赛结束还有
-            br
-            label #{endHours}:#{endMinutes}:#{endSeconds}
-            br
+            //- var dateOfTime = new Date();
+            //- var endTime = contest.end_time - dateOfTime;
+            //- var endSeconds = (endTime - endTime % 1000) / 1000 % 60
+            //- var endMinutes = ((endTime - endTime % 1000) / 1000 - endSeconds) / 60 % 60
+            //- var endHours = ((endTime - endTime % 1000) / 1000 - endSeconds - endMinutes * 60) / 3600
+            //label 服务器当前时间
+            //br
+            //label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth()+1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
+            //br
+            //label 距比赛结束还有
+            //br
+            //label #{endHours}:#{endMinutes}:#{endSeconds}
+            //br
