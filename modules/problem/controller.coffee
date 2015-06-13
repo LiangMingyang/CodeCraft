@@ -20,43 +20,11 @@ exports.getIndex = (req, res) ->
     ])
   .then (problems)->
     currentProblems = problems
-    myUtils.getResultPeopleCount(problems, 'AC')
-  .then (counts)-> #AC people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.acceptedPeopleCount = 0
-      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultPeopleCount(currentProblems)
-  .then (counts)-> #Tried people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.triedPeopleCount = 0
-      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,'AC')
-  .then (counts)-> #this user accepted problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.accepted = 0
-      p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems)
-  .then (counts)-> #this user tried problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.tried = 0
-      p.tried = tmp[p.id] if tmp[p.id]
-    return currentProblems
-  .then (problems)->
+    myUtils.getProblemsStatus(currentProblems,currentUser)
+  .then ->
     res.render('problem/index', {
       user: req.session.user
-      problems : problems
+      problems : currentProblems
     })
 
   .catch (err)->

@@ -105,6 +105,52 @@
     });
   };
 
+  exports.getGroupPeopleCount = function(groups) {
+    var Membership, group, options;
+    if (!groups instanceof Array) {
+      groups = [groups];
+    }
+    Membership = global.db.models.membership;
+    options = {
+      where: {
+        group_id: (function() {
+          var i, len, results;
+          results = [];
+          for (i = 0, len = groups.length; i < len; i++) {
+            group = groups[i];
+            results.push(group.id);
+          }
+          return results;
+        })()
+      },
+      group: 'group_id',
+      distinct: true,
+      attributes: ['group_id'],
+      plain: false
+    };
+    return Membership.aggregate('user_id', 'count', options);
+  };
+
+  exports.addGroupsCountKey = function(counts, currentGroups, key) {
+    var i, j, len, len1, p, results, tmp;
+    tmp = {};
+    for (i = 0, len = counts.length; i < len; i++) {
+      p = counts[i];
+      tmp[p.group_id] = p.count;
+    }
+    results = [];
+    for (j = 0, len1 = currentGroups.length; j < len1; j++) {
+      p = currentGroups[j];
+      p[key] = 0;
+      if (tmp[p.id]) {
+        results.push(p[key] = tmp[p.id]);
+      } else {
+        results.push(void 0);
+      }
+    }
+    return results;
+  };
+
 }).call(this);
 
 //# sourceMappingURL=utils.js.map

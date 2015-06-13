@@ -69,6 +69,7 @@ exports.postReport = (req, res)->
     ,
       where :
         id : req.body.submission_id
+        result : 'JG'
     )
   .then ()->
     res.end()

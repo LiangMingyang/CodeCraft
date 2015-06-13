@@ -58,18 +58,6 @@ exports.findGroup = (user, groupID, include)->
         ]
       include : include
 
-exports.findUser = (group, userID) ->
-  global.db.Promise.resolve()
-  .then ->
-    group.getUsers({
-      where :
-        id : userID
-    })
-  .then (users)->
-    return undefined if users.length is 0
-    return undefined if users[0].membership.access_level is 'verifying'
-    return undefined if users[0].membership.access_level is 'member' and group.access_level is 'private' #一般认为小组如果是private的那么小组成员不再对其有任何权限
-    return users[0]
 
 exports.findProblems = (user, include) ->
   Problem = global.db.models.problem
@@ -139,21 +127,23 @@ exports.getResultPeopleCount = (problems, results, contest)->
   Submission.aggregate('creator_id', 'count', options)
 
 exports.hasResult = (user, problems, results, contest)->
-  return [] if not user
-  problems = [problems] if not problems instanceof Array
-  Submission = global.db.models.submission
-  options = {
-    where:
-      problem_id : (problem.id for problem in problems)
-      creator_id : user.id
-    group : 'problem_id'
-    distinct : true
-    attributes : ['problem_id']
-    plain : false
-  }
-  options.where.result = results if results
-  options.where.contest_id = contest.id if contest
-  Submission.aggregate('creator_id', 'count', options)
+  global.db.Promise.resolve()
+  .then ->
+    return [] if not user
+    problems = [problems] if not problems instanceof Array
+    Submission = global.db.models.submission
+    options = {
+      where:
+        problem_id : (problem.id for problem in problems)
+        creator_id : user.id
+      group : 'problem_id'
+      distinct : true
+      attributes : ['problem_id']
+      plain : false
+    }
+    options.where.result = results if results
+    options.where.contest_id = contest.id if contest
+    Submission.aggregate('creator_id', 'count', options)
 
 exports.findContests = (user, include) ->
   Contest = global.db.models.contest
@@ -184,3 +174,23 @@ exports.findContests = (user, include) ->
         ['start_time','DESC']
       ]
     })
+
+exports.addProblemsCountKey = (counts, currentProblems, key)->
+  tmp = {}
+  for p in counts
+    tmp[p.problem_id] = p.count
+  for p in currentProblems
+    p[key] = 0
+    p[key] = tmp[p.id] if tmp[p.id]
+
+exports.getProblemsStatus = (currentProblems,currentUser,currentContest)->
+  myUtils = this
+  global.db.Promise.all [
+    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'acceptedPeopleCount')
+  ,
+    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'triedPeopleCount')
+  ,
+    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'accepted')
+  ,
+    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'tried')
+  ]

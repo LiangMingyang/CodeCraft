@@ -27,16 +27,18 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Group, Problem, User, currentProblem;
-    Problem = global.db.models.problem;
+    var Group, User, currentProblem, currentProblems, currentUser;
     User = global.db.models.user;
     Group = global.db.models.group;
     currentProblem = void 0;
+    currentUser = void 0;
+    currentProblems = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findProblem(user, req.params.problemID, [
         {
           model: User,
@@ -50,7 +52,10 @@
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
-      return fs.readFilePromised(path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'));
+      currentProblems = [currentProblem];
+      return myUtils.getProblemsStatus(currentProblems, currentUser);
+    }).then(function() {
+      return fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json'));
     }).then(function(manifest_str) {
       var manifest;
       manifest = JSON.parse(manifest_str);
@@ -59,7 +64,6 @@
     }).then(function(description) {
       currentProblem.description = markdown.toHTML(description.toString());
       return res.render('problem/detail', {
-        title: 'Problem List Page',
         user: req.session.user,
         problem: currentProblem
       });
@@ -133,21 +137,27 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var User, currentProblem;
+    var User, currentProblem, currentProblems, currentUser;
     User = global.db.models.user;
     currentProblem = void 0;
+    currentUser = void 0;
+    currentProblems = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      currentUser = user;
       return myUtils.findProblem(user, req.params.problemID);
     }).then(function(problem) {
       if (!problem) {
         throw new myUtils.Error.UnknownProblem();
       }
       currentProblem = problem;
-      return fs.readFilePromised(path.join(myUtils.getStaticProblem(problem.id), 'manifest.json'));
+      currentProblems = [problem];
+      return myUtils.getProblemsStatus(currentProblems, currentUser);
+    }).then(function() {
+      return fs.readFilePromised(path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json'));
     }).then(function(manifest_str) {
       var manifest;
       manifest = JSON.parse(manifest_str);
@@ -159,7 +169,7 @@
             as: 'creator'
           }
         ],
-        order: [['id', 'DESC']],
+        order: [['created_at', 'DESC']],
         where: {
           contest_id: null
         }
@@ -180,17 +190,6 @@
       console.log(err);
       req.flash('info', 'Unknown error!');
       return res.redirect(HOME_PAGE);
-    });
-  };
-
-  exports.getCode = function(req, res) {
-    var Submission_Code;
-    Submission_Code = global.db.models.submission_code;
-    return Submission_Code.find(req.params.submissionID).then(function(code) {
-      return res.json({
-        code: code.content,
-        user: req.session.user
-      });
     });
   };
 

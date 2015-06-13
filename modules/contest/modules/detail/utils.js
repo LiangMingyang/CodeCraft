@@ -177,39 +177,41 @@
   };
 
   exports.hasResult = function(user, problems, results, contest) {
-    var Submission, options, problem;
-    if (!user) {
-      return [];
-    }
-    if (!problems instanceof Array) {
-      problems = [problems];
-    }
-    Submission = global.db.models.submission;
-    options = {
-      where: {
-        problem_id: (function() {
-          var j, len, results1;
-          results1 = [];
-          for (j = 0, len = problems.length; j < len; j++) {
-            problem = problems[j];
-            results1.push(problem.id);
-          }
-          return results1;
-        })(),
-        creator_id: user.id
-      },
-      group: 'problem_id',
-      distinct: true,
-      attributes: ['problem_id'],
-      plain: false
-    };
-    if (results) {
-      options.where.result = results;
-    }
-    if (contest) {
-      options.where.contest_id = contest.id;
-    }
-    return Submission.aggregate('creator_id', 'count', options);
+    return global.db.Promise.resolve().then(function() {
+      var Submission, options, problem;
+      if (!user) {
+        return [];
+      }
+      if (!problems instanceof Array) {
+        problems = [problems];
+      }
+      Submission = global.db.models.submission;
+      options = {
+        where: {
+          problem_id: (function() {
+            var j, len, results1;
+            results1 = [];
+            for (j = 0, len = problems.length; j < len; j++) {
+              problem = problems[j];
+              results1.push(problem.id);
+            }
+            return results1;
+          })(),
+          creator_id: user.id
+        },
+        group: 'problem_id',
+        distinct: true,
+        attributes: ['problem_id'],
+        plain: false
+      };
+      if (results) {
+        options.where.result = results;
+      }
+      if (contest) {
+        options.where.contest_id = contest.id;
+      }
+      return Submission.aggregate('creator_id', 'count', options);
+    });
   };
 
   exports.getResultPeopleCount = function(problems, results, contest) {
@@ -340,6 +342,42 @@
         return -1;
       });
     });
+  };
+
+  exports.addProblemsCountKey = function(counts, currentProblems, key) {
+    var j, k, len, len1, p, results1, tmp;
+    tmp = {};
+    for (j = 0, len = counts.length; j < len; j++) {
+      p = counts[j];
+      tmp[p.problem_id] = p.count;
+    }
+    results1 = [];
+    for (k = 0, len1 = currentProblems.length; k < len1; k++) {
+      p = currentProblems[k];
+      p[key] = 0;
+      if (tmp[p.id]) {
+        results1.push(p[key] = tmp[p.id]);
+      } else {
+        results1.push(void 0);
+      }
+    }
+    return results1;
+  };
+
+  exports.getProblemsStatus = function(currentProblems, currentUser, currentContest) {
+    var myUtils;
+    myUtils = this;
+    return global.db.Promise.all([
+      myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest).then(function(counts) {
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'acceptedPeopleCount');
+      }), myUtils.getResultPeopleCount(currentProblems, void 0, currentContest).then(function(counts) {
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'triedPeopleCount');
+      }), myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest).then(function(counts) {
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'accepted');
+      }), myUtils.hasResult(currentUser, currentProblems, void 0, currentContest).then(function(counts) {
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'tried');
+      })
+    ]);
   };
 
 }).call(this);

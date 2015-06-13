@@ -79,77 +79,17 @@
       });
       currentContest = contest;
       currentProblems = contest.problems;
-      return myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.acceptedPeopleCount = 0;
-        if (tmp[p.id]) {
-          p.acceptedPeopleCount = tmp[p.id];
-        }
-      }
-      return myUtils.getResultPeopleCount(currentProblems, void 0, currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.triedPeopleCount = 0;
-        if (tmp[p.id]) {
-          p.triedPeopleCount = tmp[p.id];
-        }
-      }
-      return myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.accepted = 0;
-        if (tmp[p.id]) {
-          p.accepted = tmp[p.id];
-        }
-      }
-      return myUtils.hasResult(currentUser, currentProblems, void 0, currentContest);
-    }).then(function(counts) {
-      var i, j, len, len1, p, tmp;
-      tmp = {};
-      for (i = 0, len = counts.length; i < len; i++) {
-        p = counts[i];
-        tmp[p.problem_id] = p.count;
-      }
-      for (j = 0, len1 = currentProblems.length; j < len1; j++) {
-        p = currentProblems[j];
-        p.tried = 0;
-        if (tmp[p.id]) {
-          p.tried = tmp[p.id];
-        }
-      }
-      return currentProblems;
-    }).then(function(problems) {
+      return myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
+    }).then(function() {
       var i, len, problem;
-      for (i = 0, len = problems.length; i < len; i++) {
-        problem = problems[i];
+      for (i = 0, len = currentProblems.length; i < len; i++) {
+        problem = currentProblems[i];
         problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
       }
       return res.render('contest/problem', {
         user: req.session.user,
         contest: currentContest,
-        problems: problems
+        problems: currentProblems
       });
     })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
       req.flash('info', err.message);

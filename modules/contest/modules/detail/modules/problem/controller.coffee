@@ -39,42 +39,10 @@ exports.getIndex = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
-  .then (counts)-> #AC people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.acceptedPeopleCount = 0
-      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
-  .then (counts)-> #Tried people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.triedPeopleCount = 0
-      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
-  .then (counts)-> #this user accepted problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.accepted = 0
-      p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
-  .then (counts)-> #this user tried problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.tried = 0
-      p.tried = tmp[p.id] if tmp[p.id]
-    return currentProblems
-  .then (problems)->
+    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+  .then ->
     order = myUtils.lettersToNumber(req.params.problemID)
-    for problem in problems
+    for problem in currentProblems
       if problem.contest_problem_list.order is order
         return problem
   .then (problem) ->
@@ -181,6 +149,7 @@ exports.getSubmissions = (req, res) ->
   currentProblems = undefined
   currentContest = undefined
   currentUser = undefined
+  currentSubmissions = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -196,72 +165,49 @@ exports.getSubmissions = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest)
-  .then (counts)-> #AC people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.acceptedPeopleCount = 0
-      p.acceptedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest)
-  .then (counts)-> #Tried people counts
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.triedPeopleCount = 0
-      p.triedPeopleCount = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest)
-  .then (counts)-> #this user accepted problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.accepted = 0
-      p.accepted = tmp[p.id] if tmp[p.id]
-    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest)
-  .then (counts)-> #this user tried problems
-    tmp = {}
-    for p in counts
-      tmp[p.problem_id] = p.count
-    for p in currentProblems
-      p.tried = 0
-      p.tried = tmp[p.id] if tmp[p.id]
-    return currentProblems
-  .then (problems)->
+    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+  .then ->
     order = myUtils.lettersToNumber(req.params.problemID)
-    for problem in problems
+    for problem in currentProblems
       if problem.contest_problem_list.order is order
         return problem
   .then (problem)->
     throw new myUtils.Error.UnknownProblem() if not problem
     currentProblem = problem
-    problem.getSubmissions({
-      include : [
-        model : User
-        as : 'creator'
-        where :
-          id : (
-            if currentUser
-              currentUser.id
-            else
-              0
-          )
-      ,
-        model : Contest
-        where :
-          id : currentContest.id
-      ]
-      order : [
-        ['created_at', 'DESC']
-      ]
-    })
-  .then (submissions) ->
+    global.db.Promise.all [
+      fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
+        .then (manifest_str) ->
+          manifest = JSON.parse manifest_str
+          currentProblem.test_setting = manifest.test_setting
+    ,
+      currentProblem.getSubmissions(
+        include : [
+          model : User
+          as : 'creator'
+          where :
+            id : (
+              if currentUser
+                currentUser.id
+              else
+                0
+            )
+        ,
+          model : Contest
+          where :
+            id : currentContest.id
+        ]
+        order : [
+          ['created_at', 'DESC']
+        ]
+      )
+        .then (submissions) ->
+          currentSubmissions = submissions
+    ]
+  .then ->
     for problem in currentContest.problems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render('problem/submission', {
-      submissions: submissions
+      submissions: currentSubmissions
       problem : currentProblem
       contest : currentContest
       user: req.session.user

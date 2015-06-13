@@ -11,15 +11,13 @@ router.get '/', (req, res) ->
   res.redirect "#{req.params.problemID}/index"
 
 router
-.get '/submission', controller.getSubmissions
+ .get '/submission', controller.getSubmissions
 
 router
-.get '/index', controller.getIndex
+ .get '/index', controller.getIndex
 
 router
-.post '/submit', controller.postSubmission
+ .post '/submit', controller.postSubmission
 
-router
-.get '/submission/:submissionID([0-9]+)', controller.getCode
 
 module.exports = router
