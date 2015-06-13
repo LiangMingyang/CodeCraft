@@ -249,15 +249,34 @@
   };
 
   exports.getRank = function(contest) {
-    var User, myUtils, rank;
+    var dicProblemIDToOrder, dicProblemOrderToScore, j, len, myUtils, p, ref;
     myUtils = this;
-    User = global.db.models.user;
-    rank = void 0;
+    dicProblemIDToOrder = {};
+    dicProblemOrderToScore = {};
+    ref = contest.problems;
+    for (j = 0, len = ref.length; j < len; j++) {
+      p = ref[j];
+      dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order);
+      dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score;
+    }
+    myUtils.buildRank(contest, dicProblemIDToOrder, dicProblemOrderToScore);
     return global.redis.get("rank_" + contest.id).then(function(cache) {
+      var rank;
+      rank = [];
       if (cache !== null) {
         rank = JSON.parse(cache);
       }
-      if (rank) {
+      return rank;
+    });
+  };
+
+  exports.buildRank = function(contest, dicProblemIDToOrder, dicProblemOrderToScore) {
+    var User, getLock;
+    User = global.db.models.user;
+    getLock = void 0;
+    return global.redis.set("rank_lock_" + contest.id, new Date(), "NX", "PX", CACHE_TIME).then(function(lock) {
+      getLock = lock !== null;
+      if (!getLock) {
         return [];
       }
       return contest.getSubmissions({
@@ -270,21 +289,13 @@
         order: [['created_at', 'ASC']]
       });
     }).then(function(submissions) {
-      var base, base1, base2, base3, base4, base5, base6, detail, dicProblemIDToOrder, dicProblemOrderToScore, j, k, len, len1, name, p, problem, problemOrderLetter, ref, res, sub, tmp, user;
-      if (rank) {
-        return rank;
-      }
-      dicProblemIDToOrder = {};
-      dicProblemOrderToScore = {};
-      ref = contest.problems;
-      for (j = 0, len = ref.length; j < len; j++) {
-        p = ref[j];
-        dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order);
-        dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score;
+      var base, base1, base2, base3, base4, base5, base6, detail, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
+      if (!getLock) {
+        return;
       }
       tmp = {};
-      for (k = 0, len1 = submissions.length; k < len1; k++) {
-        sub = submissions[k];
+      for (j = 0, len = submissions.length; j < len; j++) {
+        sub = submissions[j];
         if (tmp[name = sub.creator.id] == null) {
           tmp[name] = {};
         }
@@ -355,10 +366,7 @@
         }
         return -1;
       });
-      rank = res;
-      return global.redis.set("rank_" + contest.id, JSON.stringify(res), "PX", CACHE_TIME);
-    }).then(function() {
-      return rank;
+      return global.redis.set("rank_" + contest.id, JSON.stringify(res));
     });
   };
 

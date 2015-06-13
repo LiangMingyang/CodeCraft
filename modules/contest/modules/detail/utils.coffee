@@ -122,12 +122,26 @@ exports.getResultPeopleCount = (problems, results, contest)->
 
 exports.getRank = (contest)->
   myUtils = this
-  User = global.db.models.user
-  rank = undefined
+  dicProblemIDToOrder = {} #把题目ID变为字母序号
+  dicProblemOrderToScore = {} #最后计算得分的时候需要计算这个比赛中这个题目的分数
+  for p in contest.problems
+    dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order)
+    dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score
+  myUtils.buildRank(contest,dicProblemIDToOrder,dicProblemOrderToScore)
   global.redis.get "rank_#{contest.id}"
   .then (cache)->
+    rank = []
     rank = JSON.parse(cache) if cache isnt null
-    return [] if rank
+    return rank
+
+
+exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
+  User = global.db.models.user
+  getLock = undefined
+  global.redis.set("rank_lock_#{contest.id}", new Date(), "NX", "PX", CACHE_TIME)
+  .then (lock)->
+    getLock = lock isnt null
+    return [] if not getLock
     contest.getSubmissions(
       include : [
         model : User
@@ -138,12 +152,7 @@ exports.getRank = (contest)->
       ]
     )
   .then (submissions)->
-    return rank if rank
-    dicProblemIDToOrder = {} #把题目ID变为字母序号
-    dicProblemOrderToScore = {} #最后计算得分的时候需要计算这个比赛中这个题目的分数
-    for p in contest.problems
-      dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order)
-      dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score
+    return if not getLock
     tmp = {}
     for sub in submissions
       tmp[sub.creator.id] ?= {}
@@ -182,10 +191,7 @@ exports.getRank = (contest)->
           return 1
         return -1
     )
-    rank = res
-    global.redis.set("rank_#{contest.id}", JSON.stringify(res), "PX", CACHE_TIME)
-  .then ->
-    return rank
+    global.redis.set("rank_#{contest.id}", JSON.stringify(res))
 
 
 exports.addProblemsCountKey = (counts, currentProblems, key)->
