@@ -1,7 +1,7 @@
 //
    Created by mamaosheng on 15/6/13.
 if(contest)
-   .col-lg-12
+   if(contest.start_time <= (new Date()) && contest.end_time > (new Date()))
       - var dateOfTime = new Date();
       - var endTime = contest.end_time - dateOfTime;
       - var endSeconds = (endTime - endTime % 1000) / 1000 % 60
