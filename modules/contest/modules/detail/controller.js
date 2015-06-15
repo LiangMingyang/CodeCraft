@@ -139,7 +139,7 @@
             }
           }
         ],
-        order: [['created_at', 'DESC']]
+        order: [['created_at', 'DESC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
       var dicProblemIDtoOrder, i, j, len, len1, problem, ref, submission;

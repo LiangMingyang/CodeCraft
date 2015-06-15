@@ -134,6 +134,8 @@ exports.getRank = (contest)->
     ]
     order : [
       ['created_at','ASC']
+    ,
+      ['id','DESC']
     ]
   )
   .then (submissions)->

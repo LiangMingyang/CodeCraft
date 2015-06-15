@@ -257,7 +257,7 @@
               }
             }
           ],
-          order: [['created_at', 'DESC']]
+          order: [['created_at', 'DESC'], ['id', 'DESC']]
         }).then(function(submissions) {
           return currentSubmissions = submissions;
         })

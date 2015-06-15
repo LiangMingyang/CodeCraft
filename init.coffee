@@ -18,23 +18,30 @@ module.exports = (db) ->
   testProblem = undefined
   db.Promise.resolve()
   .then -> #create users
+    for i in [0..100]
+      User.create {
+        username: "test#{i}@test.com"
+        password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96'
+        nickname: "test#{i}"
+      }
     User.create {
-      username: 'test@test.com'
+      username: "test@test.com"
       password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96'
       nickname: 'test'
     }
   .then (user)-> #create groups
     testUser = user
-    Group
-      .create {
-          name: 'test_group_private'
-          description: 'This group is created for testing private.'
-          access_level: 'private'
-        }
-      .then (group)->
-        group.setCreator(testUser)
-      .then (group) ->
-        group.addUser(testUser, {access_level : 'owner'}) #添加owner关系
+    for i in [0..100]
+      Group
+        .create {
+            name: "test_group_private#{i}"
+            description: 'This group is created for testing private.'
+            access_level: 'private'
+          }
+        .then (group)->
+          group.setCreator(testUser)
+        .then (group) ->
+          group.addUser(testUser, {access_level : 'owner'}) #添加owner关系
     Group
       .create {
         name: 'test_group_verifying'
@@ -59,14 +66,6 @@ module.exports = (db) ->
   .then ->
     Problem
       .create {
-        title: 'test_problem_protect'
-        access_level: 'protect'
-      }
-      .then (problem)->
-        testUser.addProblem(problem)
-        testGroup.addProblem(problem)
-    Problem
-      .create {
         title: 'test_problem_public'
         access_level: 'public'
       }
@@ -74,6 +73,7 @@ module.exports = (db) ->
         testProblem = problem
         testUser.addProblem(problem)
         testGroup.addProblem(problem)
+  .then ->
     Problem
       .create {
         title: 'test_problem'
@@ -83,6 +83,28 @@ module.exports = (db) ->
         testUser.addProblem(problem)
         testGroup.addProblem(problem)
   .then ->
+    for i in [0..100]
+      Problem
+      .create {
+        title: "test_problem_protect#{i}"
+        access_level: 'protect'
+      }
+      .then (problem)->
+        testUser.addProblem(problem)
+        testGroup.addProblem(problem)
+  .then ->
+    for i in [0..100]
+      Contest
+        .create {
+          title: "test_contest_private#{i}"
+          access_level: 'private'
+          description: '用来测试的比赛，权限是private'
+          start_time : new Date("2015-05-20 10:00")
+          end_time : new Date("2015-05-21 10:00")
+        }
+        .then (contest)->
+          testUser.addContest(contest)
+          testGroup.addContest(contest)
     db.Promise.all [
       Contest
         .create {
@@ -137,4 +159,13 @@ module.exports = (db) ->
       }
     ]
   .then ->
-    console.log 'init: ok!'
+    for i in [0..100]
+      Submission.create(
+        result : 'AC'
+      ).then (submission)->
+        submission.setCreator(testUser)
+        testUser.addSubmission(submission)
+        testProblem.addSubmission(submission)
+    return undefined
+  .then ->
+    console.log "init ok!"

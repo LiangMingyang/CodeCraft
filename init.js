@@ -19,24 +19,35 @@
     testContest = void 0;
     testProblem = void 0;
     return db.Promise.resolve().then(function() {
+      var i, j;
+      for (i = j = 0; j <= 100; i = ++j) {
+        User.create({
+          username: "test" + i + "@test.com",
+          password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
+          nickname: "test" + i
+        });
+      }
       return User.create({
-        username: 'test@test.com',
+        username: "test@test.com",
         password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
         nickname: 'test'
       });
     }).then(function(user) {
+      var i, j;
       testUser = user;
-      Group.create({
-        name: 'test_group_private',
-        description: 'This group is created for testing private.',
-        access_level: 'private'
-      }).then(function(group) {
-        return group.setCreator(testUser);
-      }).then(function(group) {
-        return group.addUser(testUser, {
-          access_level: 'owner'
+      for (i = j = 0; j <= 100; i = ++j) {
+        Group.create({
+          name: "test_group_private" + i,
+          description: 'This group is created for testing private.',
+          access_level: 'private'
+        }).then(function(group) {
+          return group.setCreator(testUser);
+        }).then(function(group) {
+          return group.addUser(testUser, {
+            access_level: 'owner'
+          });
         });
-      });
+      }
       Group.create({
         name: 'test_group_verifying',
         description: 'This group is created for testing verifying.',
@@ -61,14 +72,7 @@
         });
       });
     }).then(function() {
-      Problem.create({
-        title: 'test_problem_protect',
-        access_level: 'protect'
-      }).then(function(problem) {
-        testUser.addProblem(problem);
-        return testGroup.addProblem(problem);
-      });
-      Problem.create({
+      return Problem.create({
         title: 'test_problem_public',
         access_level: 'public'
       }).then(function(problem) {
@@ -76,6 +80,7 @@
         testUser.addProblem(problem);
         return testGroup.addProblem(problem);
       });
+    }).then(function() {
       return Problem.create({
         title: 'test_problem',
         access_level: 'private'
@@ -84,6 +89,32 @@
         return testGroup.addProblem(problem);
       });
     }).then(function() {
+      var i, j, results;
+      results = [];
+      for (i = j = 0; j <= 100; i = ++j) {
+        results.push(Problem.create({
+          title: "test_problem_protect" + i,
+          access_level: 'protect'
+        }).then(function(problem) {
+          testUser.addProblem(problem);
+          return testGroup.addProblem(problem);
+        }));
+      }
+      return results;
+    }).then(function() {
+      var i, j;
+      for (i = j = 0; j <= 100; i = ++j) {
+        Contest.create({
+          title: "test_contest_private" + i,
+          access_level: 'private',
+          description: '用来测试的比赛，权限是private',
+          start_time: new Date("2015-05-20 10:00"),
+          end_time: new Date("2015-05-21 10:00")
+        }).then(function(contest) {
+          testUser.addContest(contest);
+          return testGroup.addContest(contest);
+        });
+      }
       return db.Promise.all([
         Contest.create({
           title: 'test_contest_private',
@@ -129,7 +160,19 @@
         })
       ]);
     }).then(function() {
-      return console.log('init: ok!');
+      var i, j;
+      for (i = j = 0; j <= 100; i = ++j) {
+        Submission.create({
+          result: 'AC'
+        }).then(function(submission) {
+          submission.setCreator(testUser);
+          testUser.addSubmission(submission);
+          return testProblem.addSubmission(submission);
+        });
+      }
+      return void 0;
+    }).then(function() {
+      return console.log("init ok!");
     });
   };
 

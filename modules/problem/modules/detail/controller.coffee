@@ -138,6 +138,8 @@ exports.getSubmissions = (req, res) ->
       ]
       order : [
         ['created_at', 'DESC']
+      ,
+        ['id','DESC']
       ]
       where :
         contest_id : null

@@ -57,6 +57,8 @@ exports.findSubmissions = (user,include)->
       include : include
       order : [
         ['created_at', 'DESC']
+      ,
+        ['id','DESC']
       ]
     )
 

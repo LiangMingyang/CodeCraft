@@ -149,6 +149,8 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       ]
       order : [
         ['created_at','ASC']
+      ,
+        ['id','DESC']
       ]
     )
   .then (submissions)->

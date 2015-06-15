@@ -117,7 +117,7 @@
           contest_id: null
         },
         include: include,
-        order: [['created_at', 'DESC']]
+        order: [['created_at', 'DESC'], ['id', 'DESC']]
       });
     });
   };

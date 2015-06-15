@@ -18,7 +18,7 @@
       where: {
         user_id: req.session.user.id
       },
-      order: [['created_at', 'DESC']]
+      order: [['created_at', 'DESC'], ['id', 'DESC']]
     }).then(function(messages) {
       req.flash('info', 'message success');
       return res.render('message/index', {

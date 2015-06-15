@@ -198,6 +198,8 @@ exports.getSubmissions = (req, res) ->
         ]
         order : [
           ['created_at', 'DESC']
+        ,
+          ['id','DESC']
         ]
       )
         .then (submissions) ->

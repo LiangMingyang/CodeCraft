@@ -258,7 +258,7 @@
           as: 'creator'
         }
       ],
-      order: [['created_at', 'ASC']]
+      order: [['created_at', 'ASC'], ['id', 'DESC']]
     }).then(function(submissions) {
       var base, base1, base2, base3, base4, base5, base6, detail, dicProblemIDToOrder, dicProblemOrderToScore, j, k, len, len1, name, p, problem, problemOrderLetter, ref, res, sub, tmp, user;
       dicProblemIDToOrder = {};

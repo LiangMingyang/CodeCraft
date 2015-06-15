@@ -172,6 +172,8 @@ exports.findContests = (user, include) ->
       include : include
       order : [
         ['start_time','DESC']
+      ,
+        ['id','DESC']
       ]
     })
 
