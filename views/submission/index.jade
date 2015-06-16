@@ -9,71 +9,84 @@ block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error", ERR : "Judge Error"}
-        .col-lg-12.col-md-12.col-sm-12
-            h3 所有评测记录
-            table.table.table-condensed.table-center
-                //tr
-                //    td.col-lg-1.col-md-1.col-sm-2 序号
-                //    - if(!contest)
-                //        td.col-lg-1.col-md-1.col-sm-2 用户
-                //    - if(submissions)
-                //        td.col-lg-1.col-md-1.col-sm-2 题目ID
-                //    td.col-lg-2.col-md-2.col-sm-4 结果
-                //    td.col-lg-1.col-md-1.col-sm-2 得分
-                //    td.col-lg-1.col-md-1.col-sm-2 语言
-                //    td.col-lg-1.col-md-1.col-sm-2 代码长度(Byte)
-                //    td.col-lg-1.col-md-1.col-sm-2 运行时间(ms)
-                //    td.col-lg-1.col-md-1.col-sm-2 运行内存(Kb)
-                //    td.col-lg-2.col-md-2.col-sm-4 提交时间
-                tr
-                    td 序号
-                    - if(!contest)
-                        td 用户
-                    - if(submissions)
-                        td 题目ID
-                    td 结果
-                    td 得分
-                    td 语言
-                    td 代码长度(Byte)
-                    td 运行时间(ms)
-                    td 运行内存(Kb)
-                    td 提交时间
-                if(submissions)
-                    - for (var i = 0 ;i < submissions.length ; i++)
-                        tr(id = "tr" + i)
-                            td #{submissions[i].id}
-                            - if(!contest)
-                                td
-                                    a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
-                            - if(submissions[i].problem_id)
-                                td
-                                    a(href='../../problem/' + submissions[i].problem_id + '/index') #{submissions[i].problem_id}
+    .col-lg-12.col-md-12.col-sm-12
+        h3 所有评测记录
+        table.table.table-condensed.table-center
+            //tr
+            //    td.col-lg-1.col-md-1.col-sm-2 序号
+            //    - if(!contest)
+            //        td.col-lg-1.col-md-1.col-sm-2 用户
+            //    - if(submissions)
+            //        td.col-lg-1.col-md-1.col-sm-2 题目ID
+            //    td.col-lg-2.col-md-2.col-sm-4 结果
+            //    td.col-lg-1.col-md-1.col-sm-2 得分
+            //    td.col-lg-1.col-md-1.col-sm-2 语言
+            //    td.col-lg-1.col-md-1.col-sm-2 代码长度(Byte)
+            //    td.col-lg-1.col-md-1.col-sm-2 运行时间(ms)
+            //    td.col-lg-1.col-md-1.col-sm-2 运行内存(Kb)
+            //    td.col-lg-2.col-md-2.col-sm-4 提交时间
+            tr
+                td 序号
+                - if(!contest)
+                    td 用户
+                - if(submissions)
+                    td 题目ID
+                td 结果
+                td 得分
+                td 语言
+                td 代码长度(Byte)
+                td 运行时间(ms)
+                td 运行内存(Kb)
+                td 提交时间
+            if(submissions)
+                - for (var i = 0 ;i < submissions.length ; i++)
+                    tr(id = "tr" + i)
+                        td #{submissions[i].id}
+                        - if(!contest)
                             td
-                                label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
-                            td #{submissions[i].score}
+                                a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                        - if(submissions[i].problem_id)
                             td
-                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
-                            td
-                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
-                            td #{submissions[i].time_cost}
-                            td #{submissions[i].memory_cost}
-                            td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
-                            - if(i % 2 == 1)
-                                - oddeventable = "odd"
-                            - else
-                                - oddeventable = "even"
-                            - if(submissions[i].result == "AC")
-                                - coloroftable = "blue"
-                            - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
-                                - coloroftable = "green"
-                            - else
-                                - coloroftable = "red"
-                            script.
-                                $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
-                                $("#td#{i}").attr("class","#{coloroftable}td");
-                                function showDetail(numi){
-                                    $("#td"+numi).popover('show');
-                                }
-                                function hideDetail(numi){
-                                    $("#td"+numi).popover('hide');
-                                }
+                                a(href='../../problem/' + submissions[i].problem_id + '/index') #{submissions[i].problem_id}
+                        td
+                            label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
+                        td #{submissions[i].score}
+                        td
+                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
+                        td
+                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
+                        td #{submissions[i].time_cost}
+                        td #{submissions[i].memory_cost}
+                        td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
+                        - if(i % 2 == 1)
+                            - oddeventable = "odd"
+                        - else
+                            - oddeventable = "even"
+                        - if(submissions[i].result == "AC")
+                            - coloroftable = "blue"
+                        - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                            - coloroftable = "green"
+                        - else
+                            - coloroftable = "red"
+                        script.
+                            $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
+                            $("#td#{i}").attr("class","#{coloroftable}td");
+                            function showDetail(numi){
+                                $("#td"+numi).popover('show');
+                            }
+                            function hideDetail(numi){
+                                $("#td"+numi).popover('hide');
+                            }
+    .col-lg-12.col-md-12.col-sm-12
+        if(!pagelimit)
+            - var pagelimit = 15;
+        if(!offset)
+            - var offset = 0;
+        - var prevOffset = offset - pagelimit;
+        - if(prevOffset < 0)
+            - prevOffset = 0;
+        - var nextOffset = offset + pagelimit;
+        - if(prevOffset != 0)
+            a.button.btn.btn-default(href="../submission/index?offset=#{prevOffset}") 上一页
+        a.button.btn.btn-default(href="../submission/index") 首页
+        a.button.btn.btn-default(href="../submission/index?offset=#{nextOffset}") 下一页
