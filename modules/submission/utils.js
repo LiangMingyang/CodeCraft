@@ -90,7 +90,7 @@
     });
   };
 
-  exports.findSubmissions = function(user, include) {
+  exports.findSubmissions = function(user, offset, include) {
     var Submission, myUtils, normalProblems;
     Submission = global.db.models.submission;
     normalProblems = void 0;
@@ -117,7 +117,9 @@
           contest_id: null
         },
         include: include,
-        order: [['created_at', 'DESC'], ['id', 'DESC']]
+        order: [['created_at', 'DESC'], ['id', 'DESC']],
+        offset: offset,
+        limit: global.config.page_limit.submission
       });
     });
   };

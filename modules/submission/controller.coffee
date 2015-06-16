@@ -11,7 +11,7 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findSubmissions(user,[
+    myUtils.findSubmissions(user,req.query.offset,[
       model : User
       as : 'creator'
     ])

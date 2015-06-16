@@ -18,7 +18,7 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findSubmissions(user, [
+      return myUtils.findSubmissions(user, req.query.offset, [
         {
           model: User,
           as: 'creator'

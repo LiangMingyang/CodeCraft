@@ -40,7 +40,7 @@ exports.findProblems = (user, include) ->
       include : include
     })
 
-exports.findSubmissions = (user,include)->
+exports.findSubmissions = (user,offset,include)->
   Submission = global.db.models.submission
   normalProblems = undefined
   myUtils = this
@@ -60,6 +60,8 @@ exports.findSubmissions = (user,include)->
       ,
         ['id','DESC']
       ]
+      offset : offset
+      limit : global.config.page_limit.submission
     )
 
 exports.findSubmission = (user,submissionID,include)->
