@@ -132,7 +132,7 @@ exports.getProblem = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    myUtils.findProblems(currentUser, [
+    myUtils.findProblems(currentUser, req.query.offset, [
       model : Group
       where :
         id : group.id
@@ -145,6 +145,8 @@ exports.getProblem = (req, res) ->
       user   : req.session.user
       group  : currentGroup
       problems : currentProblems
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.problem
     }
 
   .catch myUtils.Error.UnknownGroup, (err)->
@@ -169,7 +171,7 @@ exports.getContest = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    myUtils.findContests(currentUser,[
+    myUtils.findContests(currentUser, req.query.offset, [
       model : Group
       where :
         id : group.id
@@ -179,6 +181,8 @@ exports.getContest = (req, res) ->
       user   : req.session.user
       group  : currentGroup
       contests : contests
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.contest
     }
 
   .catch myUtils.Error.UnknownGroup, (err)->
