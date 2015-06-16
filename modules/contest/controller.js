@@ -20,13 +20,17 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findContests(user, req.query.offset);
-    }).then(function(contests) {
+      return myUtils.findAndCountContests(user, req.query.offset);
+    }).then(function(result) {
+      var contests, count;
+      contests = result.rows;
+      count = result.count;
       return res.render('contest/index', {
         user: req.session.user,
         contests: contests,
         offset: req.query.offset,
-        pageLimit: global.config.pageLimit.contest
+        pageLimit: global.config.pageLimit.contest,
+        count: count
       });
     })["catch"](function(err) {
       console.log(err);
