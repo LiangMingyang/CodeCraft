@@ -78,15 +78,16 @@ block content
                                 $("#td"+numi).popover('hide');
                             }
     .col-lg-12.col-md-12.col-sm-12
-        if(!pageLimit)
-            - var pageLimit = 15;
-        if(!offset)
-            - var offset = 0;
-        - var prevOffset = offset - 15;
+        - if(!pageLimit)
+            - pageLimit = 15;
+        - if(!offset)
+            - offset = 0;
+        - var prevOffset = offset - pageLimit;
         - if(prevOffset < 0)
             - prevOffset = 0;
-        - var nextOffset = offset + 15;
-        - if(prevOffset != 0)
+        - var nextOffset = offset - 0 + pageLimit;
+        - if(offset>0)
             a.button.btn.btn-default(href="../submission/index?offset=#{prevOffset}") 上一页
         a.button.btn.btn-default(href="../submission/index") 首页
-        a.button.btn.btn-default(href="../submission/index?offset=#{nextOffset}") 下一页
+        - if(submissions.length == pageLimit)
+            a.button.btn.btn-default(href="../submission/index?offset=#{nextOffset}") 下一页
