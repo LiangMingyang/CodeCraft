@@ -19,6 +19,7 @@ exports.getIndex = (req, res) ->
     res.render 'submission/index', {
       user : req.session.user
       submissions : submissions
+      offset : req.query.offset
     }
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message

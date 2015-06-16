@@ -27,7 +27,8 @@
     }).then(function(submissions) {
       return res.render('submission/index', {
         user: req.session.user,
-        submissions: submissions
+        submissions: submissions,
+        offset: req.query.offset
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
