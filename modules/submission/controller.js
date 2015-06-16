@@ -18,7 +18,7 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findSubmissions(user, [
+      return myUtils.findSubmissions(user, req.query.offset, [
         {
           model: User,
           as: 'creator'
@@ -27,7 +27,9 @@
     }).then(function(submissions) {
       return res.render('submission/index', {
         user: req.session.user,
-        submissions: submissions
+        submissions: submissions,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
