@@ -116,6 +116,8 @@ exports.getSubmission = (req, res)->
       ,
         ['id','DESC']
       ]
+      offset : req.query.offset
+      limit : global.config.pageLimit.submission
     )
   .then (submissions)->
     dicProblemIDtoOrder = {}
@@ -127,6 +129,8 @@ exports.getSubmission = (req, res)->
       user : req.session.user
       contest : currentContest
       submissions : submissions
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
     }
 
 
