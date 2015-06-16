@@ -19,14 +19,6 @@
     testContest = void 0;
     testProblem = void 0;
     return db.Promise.resolve().then(function() {
-      var i, j;
-      for (i = j = 0; j <= 100; i = ++j) {
-        User.create({
-          username: "test" + i + "@test.com",
-          password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
-          nickname: "test" + i
-        });
-      }
       return User.create({
         username: "test@test.com",
         password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
@@ -72,6 +64,18 @@
         });
       });
     }).then(function() {
+      var i, j;
+      for (i = j = 0; j <= 100; i = ++j) {
+        User.create({
+          username: "test" + i + "@test.com",
+          password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
+          nickname: "test" + i
+        }).then(function(user) {
+          return testGroup.addUser(user, {
+            access_level: 'member'
+          });
+        });
+      }
       return Problem.create({
         title: 'test_problem_public',
         access_level: 'public'

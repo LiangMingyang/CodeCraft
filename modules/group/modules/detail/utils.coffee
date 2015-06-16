@@ -59,7 +59,7 @@ exports.findGroup = (user, groupID, include)->
       include : include
 
 
-exports.findProblems = (user, include) ->
+exports.findProblems = (user, offset , include) ->
   Problem = global.db.models.problem
   global.db.Promise.resolve()
   .then ->
@@ -82,6 +82,8 @@ exports.findProblems = (user, include) ->
           group_id : adminGroups
         ]
       include : include
+      offset : offset
+      limit : global.config.pageLimit.problem
     })
 
 exports.findProblem = (user, problemID,include)->
@@ -145,7 +147,7 @@ exports.hasResult = (user, problems, results, contest)->
     options.where.contest_id = contest.id if contest
     Submission.aggregate('creator_id', 'count', options)
 
-exports.findContests = (user, include) ->
+exports.findContests = (user, offset, include) ->
   Contest = global.db.models.contest
   global.db.Promise.resolve()
   .then ->
@@ -175,6 +177,8 @@ exports.findContests = (user, include) ->
       ,
         ['id','DESC']
       ]
+      offset : offset
+      limit : global.config.pageLimit.contest
     })
 
 exports.addProblemsCountKey = (counts, currentProblems, key)->

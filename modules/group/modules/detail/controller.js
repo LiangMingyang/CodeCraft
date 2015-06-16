@@ -171,7 +171,7 @@
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
-      return myUtils.findProblems(currentUser, [
+      return myUtils.findProblems(currentUser, req.query.offset, [
         {
           model: Group,
           where: {
@@ -186,7 +186,9 @@
       return res.render('group/problem', {
         user: req.session.user,
         group: currentGroup,
-        problems: currentProblems
+        problems: currentProblems,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.problem
       });
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);
@@ -216,7 +218,7 @@
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
-      return myUtils.findContests(currentUser, [
+      return myUtils.findContests(currentUser, req.query.offset, [
         {
           model: Group,
           where: {
@@ -228,7 +230,9 @@
       return res.render('group/contest', {
         user: req.session.user,
         group: currentGroup,
-        contests: contests
+        contests: contests,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.contest
       });
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);

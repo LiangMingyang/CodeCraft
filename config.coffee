@@ -16,5 +16,7 @@ module.exports = {
   pageLimit :
     submission : 15
     contest : 15
+    member : 100
+    problem : 20
   problem_resource_path : path.resolve(__dirname,'./modules/problem/resource')
 }

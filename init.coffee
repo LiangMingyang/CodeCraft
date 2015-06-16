@@ -18,12 +18,6 @@ module.exports = (db) ->
   testProblem = undefined
   db.Promise.resolve()
   .then -> #create users
-    for i in [0..100]
-      User.create {
-        username: "test#{i}@test.com"
-        password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96'
-        nickname: "test#{i}"
-      }
     User.create {
       username: "test@test.com"
       password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96'
@@ -64,6 +58,15 @@ module.exports = (db) ->
       .then (group) ->
         group.addUser(testUser, {access_level : 'owner'}) #添加owner关系
   .then ->
+    for i in [0..100]
+      User
+        .create {
+          username: "test#{i}@test.com"
+          password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96'
+          nickname: "test#{i}"
+        }
+        .then (user)->
+          testGroup.addUser(user,{access_level : 'member'})
     Problem
       .create {
         title: 'test_problem_public'
