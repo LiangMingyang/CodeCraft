@@ -61,7 +61,7 @@ exports.findSubmissions = (user,offset,include)->
         ['id','DESC']
       ]
       offset : offset
-      limit : global.config.page_limit.submission
+      limit : global.config.pageLimit.submission
     )
 
 exports.findSubmission = (user,submissionID,include)->

@@ -119,7 +119,7 @@
         include: include,
         order: [['created_at', 'DESC'], ['id', 'DESC']],
         offset: offset,
-        limit: global.config.page_limit.submission
+        limit: global.config.pageLimit.submission
       });
     });
   };

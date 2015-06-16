@@ -13,7 +13,7 @@ module.exports = {
         max: 5
         min: 0
         idle: 10000
-  page_limit :
+  pageLimit :
     submission : 15
   problem_resource_path : path.resolve(__dirname,'./modules/problem/resource')
 }

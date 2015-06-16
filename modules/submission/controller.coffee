@@ -20,6 +20,7 @@ exports.getIndex = (req, res) ->
       user : req.session.user
       submissions : submissions
       offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
     }
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message

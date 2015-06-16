@@ -28,7 +28,8 @@
       return res.render('submission/index', {
         user: req.session.user,
         submissions: submissions,
-        offset: req.query.offset
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
