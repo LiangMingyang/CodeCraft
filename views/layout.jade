@@ -12,101 +12,104 @@ html
         block script
     body
         .container-fluid(id="container")
-            .col-lg-1
-            .col-lg-10
-                .row
-                    block navbar
-                        //.navbar-fixed-top.navbar-navbar-top
-                        nav#navbar.navbar.navbar-default
-                            .container-fluid
-                                // Brand and toggle get grouped for better mobile display
-                                .navbar-header
-                                    button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
-                                        span.sr-only Toggle navigation
-                                        span.icon-bar
-                                        span.icon-bar
-                                        span.icon-bar
-                                    a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") BUAA ONLINE JUDGE
-                                // Collect the nav links, forms, and other content for toggling
-                                #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                                    //navbar里面的功能部分显示在导航栏logo旁边
-                                    ul.nav.navbar-nav.navbar-middle
-                                        li.normalli
-                                            a(href="/", id="indexpage", class="nav-before") 主页
-                                        li.normalli
-                                            a(href="/group/index", id="grouppage", class="nav-before") 小组
-                                        li.normalli
-                                            a(href="/problem/index", id="problempage", class="nav-before") 题目
-                                        li.normalli
-                                            a(href="/contest/index", id="contestpage", class="nav-before") 赛事
-                                        li.normalli
-                                            a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
-                                        - if(user)
+            .row
+                .col-lg-1
+                .col-lg-10
+                    .row
+                        block navbar
+                            //.navbar-fixed-top.navbar-navbar-top
+                            nav#navbar.navbar.navbar-default
+                                .container-fluid
+                                    // Brand and toggle get grouped for better mobile display
+                                    .navbar-header
+                                        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+                                            span.sr-only Toggle navigation
+                                            span.icon-bar
+                                            span.icon-bar
+                                            span.icon-bar
+                                        a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") BUAA ONLINE JUDGE
+                                    // Collect the nav links, forms, and other content for toggling
+                                    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                        //navbar里面的功能部分显示在导航栏logo旁边
+                                        ul.nav.navbar-nav.navbar-middle
                                             li.normalli
-                                                a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
+                                                a(href="/", id="indexpage", class="nav-before") 主页
                                             li.normalli
-                                                a(href="/message/index", id="messegepage", class="nav-before") 消息
-                                        li.normalli
-                                            a(href="/help/index", id="helppage", class="nav-before") 帮助
-                                    //navbar的登录登出部分显示在导航栏右侧
-                                    ul.nav.navbar-nav.navbar-right
-                                        - if(user)
+                                                a(href="/group/index", id="grouppage", class="nav-before") 小组
                                             li.normalli
-                                                a(href="/user/" + user.id + "/index") 欢迎来到北航OJ，#{user.nickname}
+                                                a(href="/problem/index", id="problempage", class="nav-before") 题目
                                             li.normalli
-                                                a(href="/user/logout", id="logoutpage", class="nav-before") 登出
+                                                a(href="/contest/index", id="contestpage", class="nav-before") 赛事
+                                            li.normalli
+                                                a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
+                                            - if(user)
+                                                li.normalli
+                                                    a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
+                                                li.normalli
+                                                    a(href="/message/index", id="messegepage", class="nav-before") 消息
+                                            li.normalli
+                                                a(href="/help/index", id="helppage", class="nav-before") 帮助
+                                        //navbar的登录登出部分显示在导航栏右侧
+                                        ul.nav.navbar-nav.navbar-right
+                                            - if(user)
+                                                li.normalli
+                                                    a(href="/user/" + user.id + "/index") 欢迎，#{user.nickname}
+                                                    //a(href="/user/" + user.id + "/index") 欢迎来到北航OJ，#{user.nickname}
+                                                li.normalli
+                                                    a(href="/user/logout", id="logoutpage", class="nav-before") 登出
+                                            - else
+                                                li.normalli
+                                                    a(href="/user/login", id="loginpage", class="nav-before") 登录
+                                                li.normalli
+                                                    a(href="/user/register", id="registerpage", class="nav-before") 注册
+                                        - if(whichPage == "注册")
+                                            script $("#registerpage").attr("class", "nav-change");
+                                        - else if(whichPage == "登录")
+                                            script $("#loginpage").attr("class", "nav-change");
+                                        - else if(whichPage == "")
+                                            script $("#logoutpage").attr("class", "nav-change");
+                                        - else if(whichPage == "帮助")
+                                            script $("#helppage").attr("class", "nav-change");
+                                        - else if(whichPage == "所有评测记录"||whichPage == "查看代码")
+                                            script $("#submissionpage").attr("class", "nav-change");
+                                        - else if(whichPage == "系统消息")
+                                            script $("#messegepage").attr("class", "nav-change");
+                                        - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
+                                            script $("#informationpage").attr("class", "nav-change");
+                                        - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛题目评测记录"||whichPage == "比赛提交记录"||whichPage=="比赛排名")
+                                            script $("#contestpage").attr("class", "nav-change");
+                                        - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目"||whichPage=="小组比赛")
+                                            script $("#problempage").attr("class", "nav-change");
+                                        - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目")
+                                            script $("#grouppage").attr("class", "nav-change");
                                         - else
-                                            li.normalli
-                                                a(href="/user/login", id="loginpage", class="nav-before") 登录
-                                            li.normalli
-                                                a(href="/user/register", id="registerpage", class="nav-before") 注册
-                                    - if(whichPage == "注册")
-                                        script $("#registerpage").attr("class", "nav-change");
-                                    - else if(whichPage == "登录")
-                                        script $("#loginpage").attr("class", "nav-change");
-                                    - else if(whichPage == "")
-                                        script $("#logoutpage").attr("class", "nav-change");
-                                    - else if(whichPage == "帮助")
-                                        script $("#helppage").attr("class", "nav-change");
-                                    - else if(whichPage == "所有评测记录"||whichPage == "查看代码")
-                                        script $("#submissionpage").attr("class", "nav-change");
-                                    - else if(whichPage == "系统消息")
-                                        script $("#messegepage").attr("class", "nav-change");
-                                    - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
-                                        script $("#informationpage").attr("class", "nav-change");
-                                    - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛题目评测记录"||whichPage == "比赛提交记录"||whichPage=="比赛排名")
-                                        script $("#contestpage").attr("class", "nav-change");
-                                    - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目"||whichPage=="小组比赛")
-                                        script $("#problempage").attr("class", "nav-change");
-                                    - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目")
-                                        script $("#grouppage").attr("class", "nav-change");
-                                    - else
-                                        script $("#indexpage").attr("class", "nav-change");
+                                            script $("#indexpage").attr("class", "nav-change");
 
 
-                    .alert-success
-                        - if (messages.info)
-                            .message.info
-                                script $("#logo").attr("data-content","#{messages.info}");
-                                script $("#logo").popover('show');
-                                script setTimeout(function () {$("#logo").popover('hide');}, 3000);
-                .row.minheight(id="page")
-                    block content
-                script.
-                    $(document).ready(function () {
-                        $(".minheight").css("min-height", ($(window).height() - 135) + "px");
-                    });
-                    $(window).resize(function () {
-                        $(".minheight").css("min-height", ($(window).height() - 135) + "px");
-                    });
-                    function logoAlert(information) {
-                        $("#logo").attr("data-content",information);
-                        $("#logo").popover('show');
-                        setTimeout(function () {$("#logo").popover('hide');}, 3000);
-                    }
-                .row(id="footer")
-                    footer.footer
-                        br
-                        p.text-center
-                            | College of Software, Beihang University
-            .col-lg-1
+                        .alert-success
+                            - if (messages.info)
+                                .message.info
+                                    script $("#logo").attr("data-content","#{messages.info}");
+                                    script $("#logo").popover('show');
+                                    script setTimeout(function () {$("#logo").popover('hide');}, 3000);
+                    .row.minheight(id="page")
+                        .row
+                            block content
+                    script.
+                        $(document).ready(function () {
+                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                        });
+                        $(window).resize(function () {
+                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                        });
+                        function logoAlert(information) {
+                            $("#logo").attr("data-content",information);
+                            $("#logo").popover('show');
+                            setTimeout(function () {$("#logo").popover('hide');}, 3000);
+                        }
+                    .row(id="footer")
+                        footer.footer
+                            br
+                            p.text-center
+                                | College of Software, Beihang University
+                .col-lg-1
