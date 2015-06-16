@@ -172,13 +172,17 @@
         order: [['created_at', 'DESC'], ['id', 'DESC']],
         where: {
           contest_id: null
-        }
+        },
+        offset: req.query.offset,
+        limit: global.config.pageLimit.submission
       });
     }).then(function(submissions) {
       return res.render('problem/submission', {
         submissions: submissions,
         problem: currentProblem,
-        user: req.session.user
+        user: req.session.user,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);
