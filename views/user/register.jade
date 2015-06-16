@@ -9,7 +9,7 @@ block title
 block content
     .col-lg-6
         h3 注册
-        form(method='post').containing
+        form(method='post', id="form").containing
             .form-group
                 label.sr-only(for="email")邮箱
                 input.form-control(type="email", id="email", name='username', placeholder="输入邮箱")
@@ -21,7 +21,7 @@ block content
                 input.form-control(type="password", id="password2", name='password2', placeholder="重复密码")
             .form-group
                 label.sr-only(for="nickname")昵称
-                input.form-control(type="input", id="nickname", name='nickname', placeholder="输入昵称")
+                input.form-control(type="input", id="nickname", name='nickname', placeholder="输入昵称，不超过30个字符")
             .form-group
                 label.sr-only 学校
                 select.form-control(type="input", name='school')
@@ -32,5 +32,12 @@ block content
                 select.form-control(type="input", name='college')
                     option(value="软件学院") 软件学院
                     option(value="计算机学院") 计算机学院
-            button.btn.btn-default(type="submit") 注册
+            button.btn.btn-default(type="button", onclick="checkInformation()") 注册
+            script.
+                function checkInformation(){
+                    if($("#nickname").val().length >= 30)
+                        logoAlert("用户昵称过长！");
+                    else
+                        $("#form").submit();
+                }
     .col-lg-6

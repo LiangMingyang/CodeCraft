@@ -24,7 +24,7 @@ block content
         include ./user.jade
     .col-lg-8
         h3 修改信息
-        form(method='post').containing
+        form(method='post', id="form").containing
             .form-horizontal
                 .form-group
                     .col-lg-2
@@ -53,5 +53,12 @@ block content
                         label.control-label(for="description")  简介：
                     .col-lg-10
                         input.form-control(type="input", name='description', id="description", value=target.description)
-            button.btn.btn-default(type="submit") 确认
+            button.btn.btn-default(type="button", onclick="checkInformation()") 确认
+            script.
+                function checkInformation(){
+                    if($("#nickname").val().length >= 30)
+                        logoAlert("用户昵称过长！");
+                    else
+                    $("#form").submit();
+                }
     .col-lg-2

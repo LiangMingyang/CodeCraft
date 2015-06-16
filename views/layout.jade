@@ -99,7 +99,11 @@ html
                     $(window).resize(function () {
                         $(".minheight").css("min-height", ($(window).height() - 135) + "px");
                     });
-
+                    function logoAlert(information) {
+                        $("#logo").attr("data-content",information);
+                        $("#logo").popover('show');
+                        setTimeout(function () {$("#logo").popover('hide');}, 3000);
+                    }
                 .row(id="footer")
                     footer.footer
                         br
