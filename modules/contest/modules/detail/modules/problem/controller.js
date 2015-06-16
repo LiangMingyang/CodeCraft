@@ -248,7 +248,7 @@
               model: User,
               as: 'creator',
               where: {
-                id: (currentUser ? currentUser.id : 0)
+                id: (currentUser ? currentUser.id : null)
               }
             }, {
               model: Contest,
@@ -257,7 +257,9 @@
               }
             }
           ],
-          order: [['created_at', 'DESC'], ['id', 'DESC']]
+          order: [['created_at', 'DESC'], ['id', 'DESC']],
+          offset: req.query.offset,
+          limit: global.config.pageLimit.submission
         }).then(function(submissions) {
           return currentSubmissions = submissions;
         })
@@ -273,7 +275,9 @@
         submissions: currentSubmissions,
         problem: currentProblem,
         contest: currentContest,
-        user: req.session.user
+        user: req.session.user,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission
       });
     })["catch"](myUtils.Error.UnknownUser, function(err) {
       req.flash('info', err.message);

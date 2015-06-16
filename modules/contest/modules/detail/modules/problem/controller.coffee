@@ -189,7 +189,7 @@ exports.getSubmissions = (req, res) ->
               if currentUser
                 currentUser.id
               else
-                0
+                null
             )
         ,
           model : Contest
@@ -201,6 +201,8 @@ exports.getSubmissions = (req, res) ->
         ,
           ['id','DESC']
         ]
+        offset : req.query.offset
+        limit : global.config.pageLimit.submission
       )
         .then (submissions) ->
           currentSubmissions = submissions
@@ -213,6 +215,8 @@ exports.getSubmissions = (req, res) ->
       problem : currentProblem
       contest : currentContest
       user: req.session.user
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
     })
 
   .catch myUtils.Error.UnknownUser, (err)->

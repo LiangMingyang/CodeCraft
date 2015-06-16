@@ -139,7 +139,9 @@
             }
           }
         ],
-        order: [['created_at', 'DESC'], ['id', 'DESC']]
+        order: [['created_at', 'DESC'], ['id', 'DESC']],
+        offset: req.query.offset,
+        limit: global.config.pageLimit.submission
       });
     }).then(function(submissions) {
       var dicProblemIDtoOrder, i, j, len, len1, problem, ref, submission;
@@ -156,7 +158,9 @@
       return res.render('contest/submission', {
         user: req.session.user,
         contest: currentContest,
-        submissions: submissions
+        submissions: submissions,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission
       });
     })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
       req.flash('info', err.message);
