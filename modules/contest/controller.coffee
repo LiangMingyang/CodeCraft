@@ -17,11 +17,13 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findContests(user)
+    myUtils.findContests(user, req.query.offset)
   .then (contests)->
     res.render 'contest/index', {
       user : req.session.user
       contests : contests
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.contest
     }
   .catch (err)->
     console.log err

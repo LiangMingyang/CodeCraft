@@ -77,7 +77,7 @@
     UpdateError: UpdateError
   };
 
-  exports.findContests = function(user, include) {
+  exports.findContests = function(user, offset, include) {
     var Contest;
     Contest = global.db.models.contest;
     return global.db.Promise.resolve().then(function() {
@@ -128,7 +128,9 @@
           ]
         },
         include: include,
-        order: [['start_time', 'DESC'], ['id', 'DESC']]
+        order: [['start_time', 'DESC'], ['id', 'DESC']],
+        offset: offset,
+        limit: global.config.pageLimit.contest
       });
     });
   };

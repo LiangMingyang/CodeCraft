@@ -22,7 +22,8 @@
       }
     },
     pageLimit: {
-      submission: 15
+      submission: 15,
+      contest: 15
     },
     problem_resource_path: path.resolve(__dirname, './modules/problem/resource')
   };

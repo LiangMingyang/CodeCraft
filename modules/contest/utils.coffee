@@ -33,7 +33,7 @@ exports.Error = {
 }
 
 
-exports.findContests = (user, include) ->
+exports.findContests = (user, offset, include) ->
   Contest = global.db.models.contest
   global.db.Promise.resolve()
   .then ->
@@ -63,6 +63,8 @@ exports.findContests = (user, include) ->
       ,
         ['id','DESC']
       ]
+      offset : offset
+      limit : global.config.pageLimit.contest
     })
 
 exports.findContest = (user, contestID, include)->
