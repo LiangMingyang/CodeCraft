@@ -11,7 +11,7 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findSubmissions(user,[
+    myUtils.findSubmissions(user,req.query.offset,[
       model : User
       as : 'creator'
     ])
@@ -19,6 +19,7 @@ exports.getIndex = (req, res) ->
     res.render 'submission/index', {
       user : req.session.user
       submissions : submissions
+      offset : req.query.offset
     }
   .catch myUtils.Error.UnknownUser, (err)->
     req.flash 'info', err.message
