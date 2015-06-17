@@ -10,13 +10,13 @@ if(group)
             - else
                 | 小组成员
         a(class="list-group-item normal-color", id="group-contestPage", href="./contest")
-            - if(contests)
-                | 小组比赛------#{contests.length}场
+            - if(contestCount)
+                | 小组比赛------#{contestCount}场
             - else
                 | 小组比赛
         a(class="list-group-item normal-color", id="group-problemPage", href="./problem")
-            - if(problems)
-                | 小组题目------#{problems.length}道
+            - if(problemCount)
+                | 小组题目------#{problemCount}道
             - else
                 | 小组题目
         a(class="list-group-item normal-color", id="group-returnPage", href="../index") 返回所有小组

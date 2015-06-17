@@ -14,6 +14,7 @@ block content
                 td 比赛ID
                 td 比赛状态
                 td 比赛标题
+                td 所属小组
                 td 开始时间
                 td 结束时间
             if(contests)
@@ -38,6 +39,8 @@ block content
                             label(id = "td" + i) #{contestStatus}
                         td
                             a(href= "/contest/" + contest.id + "/index") #{contest.title}
+                        td
+                            a(href= "../group/" + contest.group.id + "/index") #{contest.group.name}
                         td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
                         td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
                         script.
