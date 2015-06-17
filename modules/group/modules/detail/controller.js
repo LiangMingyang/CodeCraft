@@ -148,11 +148,12 @@
   };
 
   exports.getProblem = function(req, res) {
-    var Group, User, currentGroup, currentProblems, currentUser;
+    var Group, User, currentGroup, currentProblems, currentUser, problemCount;
     User = global.db.models.user;
     Group = global.db.models.group;
     currentGroup = void 0;
     currentUser = void 0;
+    problemCount = void 0;
     currentProblems = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -167,11 +168,16 @@
         }
       ]);
     }).then(function(group) {
+      var base, offset;
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
-      return myUtils.findProblems(currentUser, req.query.offset, [
+      if ((base = req.query).page == null) {
+        base.page = 1;
+      }
+      offset = (req.query.page - 1) * global.config.pageLimit.problem;
+      return myUtils.findAndCountProblems(currentUser, offset, [
         {
           model: Group,
           where: {
@@ -179,16 +185,18 @@
           }
         }
       ]);
-    }).then(function(problems) {
-      currentProblems = problems;
+    }).then(function(result) {
+      problemCount = result.count;
+      currentProblems = result.rows;
       return myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
       return res.render('group/problem', {
         user: req.session.user,
         group: currentGroup,
         problems: currentProblems,
-        offset: req.query.offset,
-        pageLimit: global.config.pageLimit.problem
+        page: req.query.page,
+        pageLimit: global.config.pageLimit.problem,
+        problemCount: problemCount
       });
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);
@@ -201,11 +209,12 @@
   };
 
   exports.getContest = function(req, res) {
-    var Group, User, currentGroup, currentUser;
+    var Group, User, contestCount, currentGroup, currentUser;
     User = global.db.models.user;
     Group = global.db.models.group;
     currentGroup = void 0;
     currentUser = void 0;
+    contestCount = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -214,11 +223,16 @@
       currentUser = user;
       return myUtils.findGroup(user, req.params.groupID);
     }).then(function(group) {
+      var base, offset;
       if (!group) {
         throw new myUtils.Error.UnknownGroup();
       }
       currentGroup = group;
-      return myUtils.findContests(currentUser, req.query.offset, [
+      if ((base = req.query).page == null) {
+        base.page = 1;
+      }
+      offset = (req.query.page - 1) * global.config.pageLimit.contest;
+      return myUtils.findAndCountContests(currentUser, offset, [
         {
           model: Group,
           where: {
@@ -226,13 +240,17 @@
           }
         }
       ]);
-    }).then(function(contests) {
+    }).then(function(result) {
+      var contests;
+      contests = result.rows;
+      contestCount = result.count;
       return res.render('group/contest', {
         user: req.session.user,
         group: currentGroup,
         contests: contests,
-        offset: req.query.offset,
-        pageLimit: global.config.pageLimit.contest
+        page: req.query.page,
+        pageLimit: global.config.pageLimit.contest,
+        contestCount: contestCount
       });
     })["catch"](myUtils.Error.UnknownGroup, function(err) {
       req.flash('info', err.message);
