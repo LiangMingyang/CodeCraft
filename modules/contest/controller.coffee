@@ -26,7 +26,7 @@ exports.getIndex = (req, res) ->
       contests : contests
       offset : req.query.offset
       pageLimit : global.config.pageLimit.contest
-      count : count
+      contestCount : count
     }
   .catch (err)->
     console.log err
