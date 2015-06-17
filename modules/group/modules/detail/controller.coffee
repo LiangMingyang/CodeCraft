@@ -119,6 +119,7 @@ exports.getProblem = (req, res) ->
   Group = global.db.models.group
   currentGroup = undefined
   currentUser = undefined
+  problemCount = undefined
   currentProblems = undefined
   global.db.Promise.resolve()
   .then ->
@@ -132,21 +133,25 @@ exports.getProblem = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    myUtils.findProblems(currentUser, req.query.offset, [
+    req.query.page ?= 1
+    offset = (req.query.page-1)*global.config.pageLimit.problem
+    myUtils.findAndCountProblems(currentUser, offset, [
       model : Group
       where :
         id : group.id
     ])
-  .then (problems)->
-    currentProblems = problems
+  .then (result)->
+    problemCount = result.count
+    currentProblems = result.rows
     myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
     res.render 'group/problem', {
       user   : req.session.user
       group  : currentGroup
       problems : currentProblems
-      offset : req.query.offset
+      page : req.query.page
       pageLimit : global.config.pageLimit.problem
+      problemCount : problemCount
     }
 
   .catch myUtils.Error.UnknownGroup, (err)->
@@ -162,6 +167,7 @@ exports.getContest = (req, res) ->
   Group = global.db.models.group
   currentGroup = undefined
   currentUser = undefined
+  contestCount = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -171,18 +177,23 @@ exports.getContest = (req, res) ->
   .then (group)->
     throw new myUtils.Error.UnknownGroup() if not group
     currentGroup = group
-    myUtils.findContests(currentUser, req.query.offset, [
+    req.query.page ?= 1
+    offset = (req.query.page-1)*global.config.pageLimit.contest
+    myUtils.findAndCountContests(currentUser, offset, [
       model : Group
       where :
         id : group.id
     ])
-  .then (contests)->
+  .then (result)->
+    contests = result.rows
+    contestCount = result.count
     res.render 'group/contest', {
       user   : req.session.user
       group  : currentGroup
       contests : contests
-      offset : req.query.offset
+      page : req.query.page
       pageLimit : global.config.pageLimit.contest
+      contestCount : contestCount
     }
 
   .catch myUtils.Error.UnknownGroup, (err)->
