@@ -30,6 +30,7 @@ exports.getIndex = (req, res) ->
       user: req.session.user
       problems : currentProblems
       problemCount : problemCount
+      page : req.query.page
       pageLimit : global.config.pageLimit.problem
     })
 

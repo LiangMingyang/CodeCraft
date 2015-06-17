@@ -42,6 +42,7 @@
         user: req.session.user,
         problems: currentProblems,
         problemCount: problemCount,
+        page: req.query.page,
         pageLimit: global.config.pageLimit.problem
       });
     })["catch"](function(err) {
