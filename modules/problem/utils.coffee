@@ -31,7 +31,7 @@ exports.Error = {
   InvalidFile: InvalidFile
 }
 
-exports.findProblems = (user, include) ->
+exports.findProblems = (user, offset, include) ->
   Problem = global.db.models.problem
   global.db.Promise.resolve()
   .then ->
@@ -54,6 +54,8 @@ exports.findProblems = (user, include) ->
           group_id : adminGroups
         ]
       include : include
+      offset : offset
+      limit : global.config.pageLimit.problem
     })
 
 exports.findProblem = (user, problemID,include)->

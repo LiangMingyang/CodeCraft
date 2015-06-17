@@ -71,7 +71,7 @@
     InvalidFile: InvalidFile
   };
 
-  exports.findProblems = function(user, include) {
+  exports.findProblems = function(user, offset, include) {
     var Problem;
     Problem = global.db.models.problem;
     return global.db.Promise.resolve().then(function() {
@@ -119,7 +119,9 @@
             }
           ]
         },
-        include: include
+        include: include,
+        offset: offset,
+        limit: global.config.pageLimit.problem
       });
     });
   };

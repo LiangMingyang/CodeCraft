@@ -15,7 +15,9 @@ exports.getIndex = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findProblems(user, [
+    req.query.page ?= 1
+    offset = (req.query.page-1) * global.config.pageLimit.problem
+    myUtils.findProblems(user, offset, [
       model : Group
     ])
   .then (problems)->

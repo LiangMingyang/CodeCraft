@@ -21,8 +21,13 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
+      var base, offset;
       currentUser = user;
-      return myUtils.findProblems(user, [
+      if ((base = req.query).page == null) {
+        base.page = 1;
+      }
+      offset = (req.query.page - 1) * global.config.pageLimit.problem;
+      return myUtils.findProblems(user, offset, [
         {
           model: Group
         }
