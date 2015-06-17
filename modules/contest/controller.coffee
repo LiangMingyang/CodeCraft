@@ -13,13 +13,16 @@ LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res) ->
   User = global.db.models.user
+  Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     req.query.page ?= 1
     offset = (req.query.page-1)*global.config.pageLimit.contest
-    myUtils.findAndCountContests(user, offset)
+    myUtils.findAndCountContests(user, offset, {
+      model :  Group
+    })
   .then (result)->
     contests = result.rows
     count = result.count

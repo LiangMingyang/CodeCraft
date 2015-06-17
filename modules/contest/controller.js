@@ -13,8 +13,9 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var User;
+    var Group, User;
     User = global.db.models.user;
+    Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -25,7 +26,9 @@
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.contest;
-      return myUtils.findAndCountContests(user, offset);
+      return myUtils.findAndCountContests(user, offset, {
+        model: Group
+      });
     }).then(function(result) {
       var contests, count;
       contests = result.rows;
