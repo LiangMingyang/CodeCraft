@@ -30,7 +30,7 @@
         contests: contests,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.contest,
-        count: count
+        contestCount: count
       });
     })["catch"](function(err) {
       console.log(err);
