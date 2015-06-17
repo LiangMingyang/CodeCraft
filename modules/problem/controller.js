@@ -11,11 +11,12 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    var Group, User, currentProblems, currentUser;
+    var Group, User, currentProblems, currentUser, problemCount;
     Group = global.db.models.group;
     User = global.db.models.user;
     currentProblems = void 0;
     currentUser = void 0;
+    problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -27,18 +28,21 @@
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.problem;
-      return myUtils.findProblems(user, offset, [
+      return myUtils.findAndCountProblems(user, offset, [
         {
           model: Group
         }
       ]);
-    }).then(function(problems) {
-      currentProblems = problems;
+    }).then(function(result) {
+      problemCount = result.count;
+      currentProblems = result.rows;
       return myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
       return res.render('problem/index', {
         user: req.session.user,
-        problems: currentProblems
+        problems: currentProblems,
+        problemCount: problemCount,
+        pageLimit: global.config.pageLimit.problem
       });
     })["catch"](function(err) {
       console.log(err);
