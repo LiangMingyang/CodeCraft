@@ -63,8 +63,8 @@ block content
             - prevOffset = 0;
         - var nextOffset = offset - 0 + pageLimit;
         - if(offset>0)
-            a.button.btn.btn-default(href="./problem?offset=#{prevOffset}") 上一页
+            a.button.btn.btn-default(href="./problem?offset=" + prevOffset) 上一页
         a.button.btn.btn-default(href="./problem") 首页
         - if(problems.length == pageLimit)
-            a.button.btn.btn-default(href="./problem?offset=#{nextOffset}") 下一页
+            a.button.btn.btn-default(href="./problem?offset=" + nextOffset) 下一页
     .col-lg-2.col-md-2.col-sm-2
