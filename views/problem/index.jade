@@ -49,7 +49,7 @@ block content
                         td
                             a(href= "../group/" + problem.group.id + "/index") #{problem.group.name}
                         td.progress
-                            - level = ((i+1)*30)%101;
+                            - level = i*(i*(i*(i+1)+1)+problem.id)%101;
                             - if (level < 10) level = 10;
                             - if (level < 50)
                                 .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
