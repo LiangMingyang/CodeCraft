@@ -5,11 +5,13 @@ block title
     - var whichPage = "小组题目"
     title #{whichPage}
 block content
-    .col-lg-2
+    - var oddEvenTable = "odd"
+    - var level = 0
+    .col-lg-2.col-md-2.col-sm-2
         include ./group.jade
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8
         h3 #{group.name}的小组题目
-        table(class = "table table-striped").containing
+        table.table.table-condensed.table-center
             tr.text-center
                 - if(user)
                     td 状态
@@ -19,8 +21,12 @@ block content
                 td 通过/提交
             - if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
+                    - if(i % 2 == 1)
+                        - oddEvenTable = "odd"
+                    - else
+                        - oddEvenTable = "even"
                     - var problem = problems[i]
-                    tr.text-center
+                    tr.text-center(id = "tr" + i)
                         - if(user)
                             - if(problem.accepted + problem.tried == 2)
                                 td.green-td
@@ -35,7 +41,7 @@ block content
                         td
                             a(href= "../../problem/" + problem.id + "/index") #{problem.title}
                         td.progress
-                            - var level = ((i+1)*30)%101;
+                            - level = ((i+1)*30)%101;
                             - if (level < 10) level = 10;
                             - if (level < 50)
                                 .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
@@ -47,4 +53,18 @@ block content
                                 .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
                             span.sr-only #{level}% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
-    .col-lg-2
+                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+        - if(!pageLimit)
+            - pageLimit = 15;
+        - if(!offset)
+            - offset = 0;
+        - var prevOffset = offset - pageLimit;
+        - if(prevOffset < 0)
+            - prevOffset = 0;
+        - var nextOffset = offset - 0 + pageLimit;
+        - if(offset>0)
+            a.button.btn.btn-default(href="./problem?offset=#{prevOffset}") 上一页
+        a.button.btn.btn-default(href="./problem") 首页
+        - if(problems.length == pageLimit)
+            a.button.btn.btn-default(href="./problem?offset=#{nextOffset}") 下一页
+    .col-lg-2.col-md-2.col-sm-2

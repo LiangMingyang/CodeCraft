@@ -1,17 +1,30 @@
 //
    Created by mamaosheng on 15/6/13.
 if(contest)
-   if(contest.start_time <= (new Date()) && contest.end_time > (new Date()))
-      - var dateOfTime = new Date();
-      - var endTime = contest.end_time - dateOfTime;
-      - var endSeconds = (endTime - endTime % 1000) / 1000 % 60
-      - var endMinutes = ((endTime - endTime % 1000) / 1000 - endSeconds) / 60 % 60
-      - var endHours = ((endTime - endTime % 1000) / 1000 - endSeconds - endMinutes * 60) / 3600
-      label(style="margin-top:20px") 服务器当前时间
-      br
-      label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
-      br
-      label 距比赛结束还有
-      br
-      label #{endHours}:#{endMinutes}:#{endSeconds}
-      br
+    - var dateOfTime = new Date();
+    - var endTime = contest.end_time - dateOfTime;
+    - var endSeconds = (endTime - endTime % 1000) / 1000 % 60
+    - var endMinutes = ((endTime - endTime % 1000) / 1000 - endSeconds) / 60 % 60
+    - var endHours = ((endTime - endTime % 1000) / 1000 - endSeconds - endMinutes * 60) / 3600
+    - var startTime = contest.start_time - dateOfTime;
+    - var startSeconds = (startTime - startTime % 1000) / 1000 % 60
+    - var startMinutes = ((startTime - startTime % 1000) / 1000 - startSeconds) / 60 % 60
+    - var startHours = ((startTime - startTime % 1000) / 1000 - startSeconds - startMinutes * 60) / 3600
+    if(contest.start_time <= (new Date()) && contest.end_time > (new Date()))
+        label(style="margin-top:20px") 服务器当前时间
+        br
+        label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
+        br
+        label 距比赛结束还有
+        br
+        label #{endHours}:#{endMinutes}:#{endSeconds}
+        br
+    if(contest.start_time > (new Date()))
+        label(style="margin-top:20px") 服务器当前时间
+        br
+        label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
+        br
+        label 距比赛开始还有
+        br
+        label #{startHours}:#{startMinutes}:#{startSeconds}
+        br

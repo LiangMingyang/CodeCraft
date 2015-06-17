@@ -6,11 +6,11 @@ block title
     - var whichPage = "题目列表"
     title #{whichPage}
 block content
-    //.col-lg-2
-    //.col-lg-8
+    - var oddEvenTable = "odd"
+    - var level = 0
     .col-lg-12
         h3 所有题目
-        table(class = "table table-striped").containing
+        table.table.table-condensed.table-center
             //tr
                 td.col-lg-1 题目ID
                 td.col-lg-2 所属小组
@@ -27,8 +27,12 @@ block content
                 td 通过 / 提交
             if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
+                    - if(i % 2 == 1)
+                        - oddEvenTable = "odd"
+                    - else
+                        - oddEvenTable = "even"
                     - var problem = problems[i];
-                    tr.text-center
+                    tr.text-center(id = "tr" + i)
                         if(user)
                             - if(problem.accepted + problem.tried == 2)
                                 td.green-td
@@ -45,7 +49,7 @@ block content
                         td
                             a(href= "../group/" + problem.group.id + "/index") #{problem.group.name}
                         td.progress
-                            - var level = ((i+1)*30)%101;
+                            - level = ((i+1)*30)%101;
                             - if (level < 10) level = 10;
                             - if (level < 50)
                                 .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
@@ -64,4 +68,5 @@ block content
                                 .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: 20%')
                                     span.sr-only 20% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
+                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
     //.col-lg-2

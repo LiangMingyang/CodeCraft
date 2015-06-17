@@ -5,11 +5,11 @@ block title
     - var whichPage = "赛事列表"
     title #{whichPage}
 block content
-    //.col-lg-2
-    //.col-lg-8
+    - var oddEvenTable = "odd"
+    - var colorOfTable = "red"
     .col-lg-12
         h3 所有赛事
-        table.table.table-striped.containing
+        table.table.table-condensed.table-center
             tr.text-center
                 td 比赛ID
                 td 比赛状态
@@ -34,13 +34,27 @@ block content
                             - colorOfTable = "white"
                             - contestStatus = "已结束"
                         td #{contest.id}
-                        td(id = "td" + i)
-                            p #{contestStatus}
+                        td
+                            label(id = "td" + i) #{contestStatus}
                         td
                             a(href= "/contest/" + contest.id + "/index") #{contest.title}
                         td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
                         td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
                         script.
-                            //$("#tr#{i}").attr("class", "#{oddEvenTable}#{colorOfTable}tr");
+                            $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
                             $("#td#{i}").attr("class", "#{colorOfTable}td");
+    .col-lg-12.col-md-12.col-sm-12
+        - if(!pageLimit)
+            - pageLimit = 15;
+        - if(!offset)
+            - offset = 0;
+        - var prevOffset = offset - pageLimit;
+        - if(prevOffset < 0)
+            - prevOffset = 0;
+        - var nextOffset = offset - 0 + pageLimit;
+        - if(offset>0)
+            a.button.btn.btn-default(href="./index?offset=#{prevOffset}") 上一页
+        a.button.btn.btn-default(href="./index") 首页
+        - if(contests.length == pageLimit)
+            a.button.btn.btn-default(href="./index?offset=#{nextOffset}") 下一页
     //.col-lg-2
