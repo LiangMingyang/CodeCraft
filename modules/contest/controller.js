@@ -20,7 +20,12 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return myUtils.findAndCountContests(user, req.query.offset);
+      var base, offset;
+      if ((base = req.query).page == null) {
+        base.page = 1;
+      }
+      offset = (req.query.page - 1) * global.config.pageLimit.contest;
+      return myUtils.findAndCountContests(user, offset);
     }).then(function(result) {
       var contests, count;
       contests = result.rows;
@@ -28,7 +33,7 @@
       return res.render('contest/index', {
         user: req.session.user,
         contests: contests,
-        offset: req.query.offset,
+        page: req.query.page,
         pageLimit: global.config.pageLimit.contest,
         contestCount: count
       });

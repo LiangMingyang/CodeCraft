@@ -17,14 +17,16 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findAndCountContests(user, req.query.offset)
+    req.query.page ?= 1
+    offset = (req.query.page-1)*global.config.pageLimit.contest
+    myUtils.findAndCountContests(user, offset)
   .then (result)->
     contests = result.rows
     count = result.count
     res.render 'contest/index', {
       user : req.session.user
       contests : contests
-      offset : req.query.offset
+      page : req.query.page
       pageLimit : global.config.pageLimit.contest
       contestCount : count
     }
