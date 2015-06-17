@@ -43,6 +43,7 @@ block content
                         script.
                             $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
                             $("#td#{i}").attr("class", "#{colorOfTable}td");
+    //.col-lg-2
     .col-lg-12.col-md-12.col-sm-12
         - if(!pageLimit)
             - pageLimit = 15;
@@ -62,4 +63,3 @@ block content
         - else
             a.button.btn.btn-default(href="./index?page=" + nextPage, disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
-    //.col-lg-2
