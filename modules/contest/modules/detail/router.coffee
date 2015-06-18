@@ -24,6 +24,7 @@ router
 
 router
   .get '/question', controller.getQuestion
+  .post '/question', controller.postQuestion
 
 router
   .get '/rank', controller.getRank

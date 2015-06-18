@@ -24,8 +24,6 @@ module.exports = (database, username, password, config)->
 
   #1:n
 
-  User.hasMany(Issue)
-  User.hasMany(IssueReply)
   User.hasMany(Contest, {
     foreignKey: 'creator_id'
   })
@@ -64,6 +62,14 @@ module.exports = (database, username, password, config)->
   Contest.belongsTo(Group)
 
   Issue.hasMany(IssueReply)
+  Issue.belongsTo(User, {
+    as : 'creator'
+  })
+  Issue.belongsTo(Contest)
+  Issue.belongsTo(Problem)
+
+  IssueReply.belongsTo(Issue)
+  IssueReply.belongsTo(User)
 
   Judge.hasMany(Submission, {constraints: false})
 
