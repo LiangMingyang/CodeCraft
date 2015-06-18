@@ -25,6 +25,7 @@ block content
             tr
                 td 题目编号
                 td 提问
+                td 提问者
             tr
 
             - for (var i = 0 ; i < issues.length ; ++i)
@@ -32,5 +33,7 @@ block content
                 tr
                     td #{issue.problem_id}
                     td #{issue.content}
+                    td
+                        a(href='/user/'+issue.creator.id) #{issue.creator.nickname}
     .col-lg-2
         include time.jade

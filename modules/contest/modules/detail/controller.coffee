@@ -167,6 +167,10 @@ exports.getQuestion = (req, res)->
       model : Problem
     ,
       model : Issue
+      include : [
+        model : User
+        as : 'creator'
+      ]
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
@@ -203,7 +207,7 @@ exports.postQuestion = (req, res)->
   Issue = global.db.models.issue
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if reession.user
+    User.find req.session.user.id if req.session.user
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     currentUser = user

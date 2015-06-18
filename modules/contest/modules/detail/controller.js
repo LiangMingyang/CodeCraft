@@ -201,7 +201,13 @@
         }, {
           model: Problem
         }, {
-          model: Issue
+          model: Issue,
+          include: [
+            {
+              model: User,
+              as: 'creator'
+            }
+          ]
         }
       ]);
     }).then(function(contest) {
@@ -252,7 +258,7 @@
     User = global.db.models.user;
     Issue = global.db.models.issue;
     return global.db.Promise.resolve().then(function() {
-      if (reession.user) {
+      if (req.session.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
