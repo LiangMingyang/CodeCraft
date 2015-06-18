@@ -153,6 +153,8 @@ exports.getQuestion = (req, res)->
   currentUser = undefined
   Problem = global.db.models.problem
   User = global.db.models.user
+  Issue = global.db.models.issue
+  dic = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -163,6 +165,8 @@ exports.getQuestion = (req, res)->
       as : 'creator'
     ,
       model : Problem
+    ,
+      model : Issue
     ])
   .then (contest)->
     throw new myUtils.Error.UnknownContest() if not contest
@@ -170,11 +174,16 @@ exports.getQuestion = (req, res)->
     currentContest = contest
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
+    dic = {}
     for problem in currentContest.problems
       problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      dic[problem.id] = problem.contest_problem_list.order
+    for issue in currentContest.issues
+      issue.problem_id = dic[issue.problem_id]
     res.render 'contest/question', {
       user : req.session.user
       contest : currentContest
+      issues : currentContest.issues
     }
 
   .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
@@ -194,7 +203,7 @@ exports.postQuestion = (req, res)->
   Issue = global.db.models.issue
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
+    User.find req.session.user.id if reession.user
   .then (user)->
     throw new myUtils.Error.UnknownUser() if not user
     currentUser = user

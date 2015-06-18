@@ -10,11 +10,27 @@ block content
     .col-lg-2
         include contest.jade
     .col-lg-8
-        form(method='post')
-            select(type='input' name='order')
-                - for (var i = 0 ; i < contest.problems.length ; ++i)
-                    option(value=contest.problems[i].contest_problem_list.order) #{contest.problems[i].contest_problem_list.order}
-            textarea(type='input' name='content')
-            button 提交
+        table.table.table-condensed.table-center
+            tr
+                form(method='post')
+                    td
+                        select(type='input' name='order')
+                            - for (var i = 0 ; i < contest.problems.length ; ++i)
+                                option(value=contest.problems[i].contest_problem_list.order) #{contest.problems[i].contest_problem_list.order}
+
+                    td
+                        textarea(type='input' name='content')
+                    td
+                        button 提交
+            tr
+                td 题目编号
+                td 提问
+            tr
+
+            - for (var i = 0 ; i < issues.length ; ++i)
+                - var issue = issues[i]
+                tr
+                    td #{issue.problem_id}
+                    td #{issue.content}
     .col-lg-2
         include time.jade

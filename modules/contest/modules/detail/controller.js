@@ -181,11 +181,13 @@
   };
 
   exports.getQuestion = function(req, res) {
-    var Problem, User, currentContest, currentUser;
+    var Issue, Problem, User, currentContest, currentUser, dic;
     currentContest = void 0;
     currentUser = void 0;
     Problem = global.db.models.problem;
     User = global.db.models.user;
+    Issue = global.db.models.issue;
+    dic = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -198,10 +200,12 @@
           as: 'creator'
         }, {
           model: Problem
+        }, {
+          model: Issue
         }
       ]);
     }).then(function(contest) {
-      var i, len, problem, ref;
+      var i, issue, j, len, len1, problem, ref, ref1;
       if (!contest) {
         throw new myUtils.Error.UnknownContest();
       }
@@ -212,14 +216,22 @@
       contest.problems.sort(function(a, b) {
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
+      dic = {};
       ref = currentContest.problems;
       for (i = 0, len = ref.length; i < len; i++) {
         problem = ref[i];
         problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order);
+        dic[problem.id] = problem.contest_problem_list.order;
+      }
+      ref1 = currentContest.issues;
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        issue = ref1[j];
+        issue.problem_id = dic[issue.problem_id];
       }
       return res.render('contest/question', {
         user: req.session.user,
-        contest: currentContest
+        contest: currentContest,
+        issues: currentContest.issues
       });
     })["catch"](myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, function(err) {
       req.flash('info', err.message);
@@ -240,7 +252,7 @@
     User = global.db.models.user;
     Issue = global.db.models.issue;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
+      if (reession.user) {
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
