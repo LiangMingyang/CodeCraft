@@ -6,6 +6,7 @@ HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 CONTEST_PAGE = '..'
 INDEX_PAGE = 'index'
+QUESTION_PAGE = 'question'
 
 #Foreign url
 LOGIN_PAGE = '/user/login'
@@ -148,9 +149,111 @@ exports.getClarification = (req, res)->
   }
 
 exports.getQuestion = (req, res)->
-  res.render 'contest/detail', {
-    title: 'Question'
-  }
+  currentContest = undefined
+  currentUser = undefined
+  Problem = global.db.models.problem
+  User = global.db.models.user
+  Issue = global.db.models.issue
+  dic = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ,
+      model : Problem
+    ,
+      model : Issue
+      include : [
+        model : User
+        as : 'creator'
+      ]
+    ])
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    currentContest = contest
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
+    dic = {}
+    for problem in currentContest.problems
+      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      dic[problem.id] = problem.contest_problem_list.order
+    for issue in currentContest.issues
+      issue.problem_id = dic[issue.problem_id]
+    res.render 'contest/question', {
+      user : req.session.user
+      contest : currentContest
+      issues : currentContest.issues
+    }
+
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
+
+exports.postQuestion = (req, res)->
+  currentContest = undefined
+  currentUser = undefined
+  currentProblem = undefined
+  Problem = global.db.models.problem
+  User = global.db.models.user
+  Issue = global.db.models.issue
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    throw new myUtils.Error.UnknownUser() if not user
+    currentUser = user
+    myUtils.findContest(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ,
+      model : Problem
+    ])
+  .then (contest)->
+    throw new myUtils.Error.UnknownContest() if not contest
+    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    currentContest = contest
+    order = myUtils.lettersToNumber(req.body.order)
+    for problem in currentContest.problems
+      return problem if problem.contest_problem_list.order is order
+  .then (problem)->
+    throw new myUtils.Error.UnknownProblem() if not problem
+    currentProblem = problem
+    Issue.create (
+      content : req.body.content
+      access_level : 'private'
+    )
+  .then (issue)->
+    global.db.Promise.all [
+      issue.setProblem(currentProblem)
+    ,
+      issue.setContest(currentContest)
+    ,
+      issue.setCreator(currentUser)
+    ]
+  .then ->
+    console.log "what"
+    req.flash 'info', 'Questioned'
+    res.redirect QUESTION_PAGE
+
+  .catch myUtils.Error.UnknownUser, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, myUtils.Error.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
 
 exports.getRank = (req, res)->
   User = global.db.models.user

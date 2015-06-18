@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) ->
       allowNull: false
       validate:
         notEmpty: true
+    access_level:
+      type: DataTypes.ENUM('private', 'protect', 'public')
+      defaultValue: 'private'
   }, {
     underscored: true
   }

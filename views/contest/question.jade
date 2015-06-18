@@ -1,0 +1,39 @@
+//
+   Created by 明阳 on 2015/6/18.
+
+extends ../layout
+block title
+    - var whichPage = "提问"
+    title #{whichPage}
+block content
+    include contest-title.jade
+    .col-lg-2
+        include contest.jade
+    .col-lg-8
+        table.table.table-condensed.table-center
+            tr
+                form(method='post')
+                    td
+                        select(type='input' name='order')
+                            - for (var i = 0 ; i < contest.problems.length ; ++i)
+                                option(value=contest.problems[i].contest_problem_list.order) #{contest.problems[i].contest_problem_list.order}
+
+                    td
+                        textarea(type='input' name='content')
+                    td
+                        button 提交
+            tr
+                td 题目编号
+                td 提问
+                td 提问者
+            tr
+
+            - for (var i = 0 ; i < issues.length ; ++i)
+                - var issue = issues[i]
+                tr
+                    td #{issue.problem_id}
+                    td #{issue.content}
+                    td
+                        a(href='/user/'+issue.creator.id) #{issue.creator.nickname}
+    .col-lg-2
+        include time.jade
