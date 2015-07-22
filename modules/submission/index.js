@@ -6,8 +6,6 @@
 
   exports.router = require('./router');
 
-  exports.utils = require('./utils');
-
 }).call(this);
 
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,5 @@
 #user
-
+path = require('path')
 exports.login = (req, res, user) ->
   req.session.user = {
     id: user.id

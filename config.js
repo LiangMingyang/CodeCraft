@@ -28,7 +28,7 @@
       member: 100,
       problem: 20
     },
-    problem_resource_path: path.resolve(__dirname, './modules/problem/resource')
+    problem_resource_path: path.resolve(__dirname, 'modules/problem/resource')
   };
 
 }).call(this);
