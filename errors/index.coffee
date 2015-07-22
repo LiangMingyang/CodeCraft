@@ -48,15 +48,21 @@ class UnknownJudge extends Error
     @name = 'UnknownJudge'
     Error.captureStackTrace(this, UnknownJudge)
 
+class UnknownContest extends Error
+  constructor: (@message = "Unknown contest.") ->
+    @name = 'UnknownContest'
+    Error.captureStackTrace(this, UnknownContest)
+
 module.exports = {
   UnknownUser : UnknownUser
   UnknownGroup : UnknownGroup
+  UnknownContest : UnknownContest
+  UnknownSubmission : UnknownSubmission
+  UnknownProblem : UnknownProblem
+  UnknownJudge : UnknownJudge
   LoginError  : LoginError
   RegisterError : RegisterError
   InvalidAccess : InvalidAccess
   UpdateError : UpdateError
-  UnknownSubmission : UnknownSubmission
-  UnknownProblem : UnknownProblem
   InvalidFile : InvalidFile
-  UnknownJudge : UnknownJudge
 }

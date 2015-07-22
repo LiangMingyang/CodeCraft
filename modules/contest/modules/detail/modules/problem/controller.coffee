@@ -1,4 +1,4 @@
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 sequelize = require('sequelize')
 fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
 path = require('path')
@@ -29,47 +29,47 @@ exports.getIndex = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user,req.params.contestID,[
+    global.myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
   .then ->
-    order = myUtils.lettersToNumber(req.params.problemID)
+    order = global.myUtils.lettersToNumber(req.params.problemID)
     for problem in currentProblems
       if problem.contest_problem_list.order is order
         return problem
   .then (problem) ->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
-    fs.readFilePromised path.join(myUtils.getStaticProblem(problem.id), 'manifest.json')
+    fs.readFilePromised path.join(global.myUtils.getStaticProblem(problem.id), 'manifest.json')
   .then (manifest_str) ->
     manifest = JSON.parse manifest_str
     currentProblem.test_setting = manifest.test_setting
-    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description)
+    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), manifest.description)
   .then (description)->
     currentProblem.description = markdown.toHTML(description.toString())
     for problem in currentContest.problems
-      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'problem/detail', {
       user: req.session.user,
       problem: currentProblem
       contest : currentContest
     }
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch global.myErrors.UnknownContest, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -94,18 +94,18 @@ exports.postSubmission = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user,req.params.contestID,[
+    global.myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if (new Date()) < contest.start_time or contest.end_time < (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if (new Date()) < contest.start_time or contest.end_time < (new Date())
     currentContest = contest
-    order = myUtils.lettersToNumber(req.params.problemID)
+    order = global.myUtils.lettersToNumber(req.params.problemID)
     for p in contest.problems
       return p if p.contest_problem_list.order is order
   .then (problem) ->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     form = {
       lang : req.body.lang
@@ -127,13 +127,13 @@ exports.postSubmission = (req, res) ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch global.myErrors.UnknownContest, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -155,27 +155,27 @@ exports.getSubmissions = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user,req.params.contestID,[
+    global.myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
   .then ->
-    order = myUtils.lettersToNumber(req.params.problemID)
+    order = global.myUtils.lettersToNumber(req.params.problemID)
     for problem in currentProblems
       if problem.contest_problem_list.order is order
         return problem
   .then (problem)->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     global.db.Promise.all [
-      fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
+      fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
         .then (manifest_str) ->
           manifest = JSON.parse manifest_str
           currentProblem.test_setting = manifest.test_setting
@@ -209,7 +209,7 @@ exports.getSubmissions = (req, res) ->
     ]
   .then ->
     for problem in currentContest.problems
-      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render('problem/submission', {
       submissions: currentSubmissions
       problem : currentProblem
@@ -219,13 +219,13 @@ exports.getSubmissions = (req, res) ->
       pageLimit : global.config.pageLimit.submission
     })
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
-  .catch myUtils.Error.UnknownContest, (err)->
+  .catch global.myErrors.UnknownContest, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
