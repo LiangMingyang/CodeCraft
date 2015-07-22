@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) ->
   sequelize.define 'issue', {
     content:
-      type: DataTypes.STRING
+      type: DataTypes.TEXT('long')
       allowNull: false
       validate:
         notEmpty: true

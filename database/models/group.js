@@ -11,7 +11,7 @@
         }
       },
       description: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT('long')
       },
       access_level: {
         type: DataTypes.ENUM('verifying', 'private', 'protect', 'public'),

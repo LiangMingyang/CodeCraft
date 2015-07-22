@@ -3,7 +3,7 @@
   module.exports = function(sequelize, DataTypes) {
     return sequelize.define('issue_reply', {
       content: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT('long'),
         allowNull: false,
         validate: {
           notEmpty: true

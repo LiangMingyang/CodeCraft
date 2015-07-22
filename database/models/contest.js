@@ -11,7 +11,7 @@
         }
       },
       description: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT('long')
       },
       start_time: {
         type: DataTypes.DATE,
