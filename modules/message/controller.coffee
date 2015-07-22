@@ -1,10 +1,10 @@
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 
 LOGIN_PAGE = 'user/login'
 HOME_PAGE = '/'
 
 exports.getIndex = (req, res) ->
-  throw new myUtils.Error.UnknownUser() if not req.session.user
+  throw new global.myErrors.UnknownUser() if not req.session.user
   Message = global.db.models.message
   Message.findAll({
     where: {
@@ -23,9 +23,8 @@ exports.getIndex = (req, res) ->
       user: req.session.user
       messages: messages
     }
-  .catch myUtils.Error.UnknownUser, (err)->
-    console.log err
-    req.flash 'info', "Please Login First!"
+  .catch global.myErrors.UnknownUser, (err)->
+    req.flash 'info', err.messages
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err.message
