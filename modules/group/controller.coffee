@@ -1,5 +1,5 @@
 passwordHash = require('password-hash')
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 #page
 
 HOME_PAGE = '/'
@@ -21,15 +21,15 @@ exports.getIndex = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findGroups(user, [
+    global.myUtils.findGroups(user, [
       model : User
       as : 'creator'
     ])
   .then (groups)->
     currentGroups = groups
-    myUtils.getGroupPeopleCount(groups)
+    global.myUtils.getGroupPeopleCount(groups)
   .then (counts)->
-    myUtils.addGroupsCountKey(counts,currentGroups,'member_count')
+    global.myUtils.addGroupsCountKey(counts,currentGroups,'member_count')
   .then ->
     res.render 'group/index', {
       title: 'You have got group index here'
@@ -37,7 +37,7 @@ exports.getIndex = (req, res) ->
       groups : currentGroups
     }
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info',err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
@@ -66,10 +66,10 @@ exports.postCreate = (req, res) ->
   creator = undefined
   global.db.Promise.resolve() #开启一个解决方案链
   .then ->
-    throw new myUtils.Error.UnknownUser() if not req.session.user
+    throw new global.myErrors.UnknownUser() if not req.session.user
     User.find req.session.user.id
   .then (user)->
-    throw new myUtils.Error.UnknownUser() if not user
+    throw new global.myErrors.UnknownUser() if not user
     creator = user
     Group.create(form)
   .then (group) ->
@@ -80,7 +80,7 @@ exports.postCreate = (req, res) ->
     req.flash 'info', 'create group successfully'
     res.redirect INDEX_PAGE
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch global.db.ValidationError, (err)->

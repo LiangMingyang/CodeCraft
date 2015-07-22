@@ -3,6 +3,11 @@ class UnknownUser extends Error
     @name = 'UnknownUser'
     Error.captureStackTrace(this, UnknownUser)
 
+class UnknownGroup extends Error
+  constructor: (@message = "Unknown Group") ->
+    @name = 'UnknownGroup'
+    Error.captureStackTrace(this, UnknownGroup)
+
 class LoginError extends Error
   constructor: (@message = "Wrong password or username.") ->
     @name = 'LoginError'
@@ -45,6 +50,7 @@ class UnknownJudge extends Error
 
 module.exports = {
   UnknownUser : UnknownUser
+  UnknownGroup : UnknownGroup
   LoginError  : LoginError
   RegisterError : RegisterError
   InvalidAccess : InvalidAccess
