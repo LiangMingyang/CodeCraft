@@ -686,86 +686,14 @@
   };
 
   exports.findSubmission = function(user, submissionID, include) {
-    var Contest, Problem, Submission, adminContestIDs, adminGroupIDs, adminProblemIDs;
+    var Submission;
     Submission = global.db.models.submission;
-    Contest = global.db.models.contest;
-    Problem = global.db.models.problem;
-    adminContestIDs = void 0;
-    adminProblemIDs = void 0;
-    adminGroupIDs = void 0;
-    return global.db.Promise.resolve().then(function() {
-      if (user) {
-        return user.getGroups();
-      }
-    }).then(function(groups) {
-      var group;
-      if (!groups) {
-        return [];
-      }
-      adminGroupIDs = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Contest.findAll({
-        where: {
-          group_id: adminGroupIDs
-        }
-      });
-    }).then(function(contests) {
-      var contest;
-      if (!contests) {
-        return [];
-      }
-      adminContestIDs = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = contests.length; j < len; j++) {
-          contest = contests[j];
-          results1.push(contest.id);
-        }
-        return results1;
-      })();
-      return Problem.findAll({
-        where: {
-          group_id: adminGroupIDs
-        }
-      });
-    }).then(function(problems) {
-      var problem;
-      if (!problems) {
-        return void 0;
-      }
-      adminProblemIDs = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
-          results1.push(problem.id);
-        }
-        return results1;
-      })();
-      return Submission.find({
-        where: {
-          id: submissionID,
-          $or: [
-            {
-              creator_id: (user ? user.id : null)
-            }, {
-              problem_id: adminProblemIDs
-            }, {
-              contest_id: adminGroupIDs
-            }
-          ]
-        },
-        include: include
-      });
+    return Submission.find({
+      where: {
+        id: submissionID,
+        creator_id: (user ? user.id : null)
+      },
+      include: include
     });
   };
 

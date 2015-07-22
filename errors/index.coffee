@@ -23,6 +23,10 @@ class UpdateError extends Error
     @name = 'UpdateError'
     Error.captureStackTrace(this, UpdateError)
 
+class UnknownSubmission extends Error
+  constructor: (@message = "Unknown submission.") ->
+    @name = 'UnknownSubmission'
+    Error.captureStackTrace(this, UnknownSubmission)
 
 module.exports = {
   UnknownUser : UnknownUser
@@ -30,4 +34,5 @@ module.exports = {
   RegisterError : RegisterError
   InvalidAccess : InvalidAccess
   UpdateError : UpdateError
+  UnknownSubmission : UnknownSubmission
 }

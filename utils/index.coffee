@@ -79,7 +79,7 @@ exports.addGroupsCountKey = (counts, currentGroups, key)->
 
 
 #problem
-#得到对应user的problems,include可以接受group信息，已经没有什么用了
+#得到对应user的problems,include可以接受group信息
 exports.findProblems = (user, offset, include) ->
   Problem = global.db.models.problem
   global.db.Promise.resolve()
@@ -100,7 +100,7 @@ exports.findProblems = (user, offset, include) ->
       offset : offset
       limit : global.config.pageLimit.problem
     })
-#找到对应user的problems并且进行计数,include可以接受group等参数
+#找到对应user的problems的信息并且进行计数,include可以接受group等参数
 exports.findAndCountProblems = (user, offset, include) ->
   Problem = global.db.models.problem
   global.db.Promise.resolve()
@@ -401,47 +401,41 @@ exports.findSubmissions = (user,offset,include)->
       limit : global.config.pageLimit.submission
     )
 #查找对应ID的submission
-exports.findSubmission = (user,submissionID,include)->
+exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代码自己才能看
   Submission = global.db.models.submission
-  Contest = global.db.models.contest
-  Problem = global.db.models.problem
-  adminContestIDs = undefined
-  adminProblemIDs = undefined
-  adminGroupIDs = undefined
-  global.db.Promise.resolve()
-  .then ->
-    user.getGroups() if user
-  .then (groups)->
-    return [] if not groups
-    adminGroupIDs = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
-    Contest.findAll(
-      where:
-        group_id : adminGroupIDs
-    )
-  .then (contests)->
-    return [] if not contests
-    adminContestIDs = (contest.id for contest in contests)
-    Problem.findAll(
-      where :
-        group_id : adminGroupIDs
-    )
-  .then (problems)->
-    return undefined if not problems
-    adminProblemIDs = (problem.id for problem in problems)
-    Submission.find(
-      where :
-        id : submissionID
-        $or : [
-          creator_id : (
-            if user
-              user.id
-            else
-              null
-          )
-        ,
-          problem_id : adminProblemIDs
-        ,
-          contest_id : adminGroupIDs
-        ]
-      include : include
-    )
+#  Contest = global.db.models.contest
+#  Problem = global.db.models.problem
+#  adminContestIDs = undefined
+#  adminProblemIDs = undefined
+#  adminGroupIDs = undefined
+#  global.db.Promise.resolve()
+#  .then ->
+#    user.getGroups() if user
+#  .then (groups)->
+#    return [] if not groups
+#    adminGroupIDs = (group.id for group in groups when group.membership.access_level in ['owner','admin'])
+#    Contest.findAll(
+#      where:
+#        group_id : adminGroupIDs
+#    )
+#  .then (contests)->
+#    return [] if not contests
+#    adminContestIDs = (contest.id for contest in contests)
+#    Problem.findAll(
+#      where :
+#        group_id : adminGroupIDs
+#    )
+#  .then (problems)->
+#    return undefined if not problems
+#    adminProblemIDs = (problem.id for problem in problems)
+  Submission.find(
+    where :
+      id : submissionID
+      creator_id : (
+        if user
+          user.id
+        else
+          null
+      )
+    include : include
+  )
