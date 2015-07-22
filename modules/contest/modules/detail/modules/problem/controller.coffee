@@ -99,7 +99,7 @@ exports.postSubmission = (req, res) ->
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
-    throw new global.myErrors.UnknownContest() if (new Date()) < contest.start_time or contest.end_time < (new Date())
+    throw new global.myErrors.InvalidAccess() if (new Date()) < contest.start_time or contest.end_time < (new Date())
     currentContest = contest
     order = global.myUtils.lettersToNumber(req.params.problemID)
     for p in contest.problems

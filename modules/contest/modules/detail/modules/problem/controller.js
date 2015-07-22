@@ -134,7 +134,7 @@
         throw new global.myErrors.UnknownContest();
       }
       if ((new Date()) < contest.start_time || contest.end_time < (new Date())) {
-        throw new global.myErrors.UnknownContest();
+        throw new global.myErrors.InvalidAccess();
       }
       currentContest = contest;
       order = global.myUtils.lettersToNumber(req.params.problemID);
