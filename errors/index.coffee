@@ -24,27 +24,10 @@ class UpdateError extends Error
     Error.captureStackTrace(this, UpdateError)
 
 
-exports.Error = {
+module.exports = {
   UnknownUser : UnknownUser
   LoginError  : LoginError
   RegisterError : RegisterError
   InvalidAccess : InvalidAccess
   UpdateError : UpdateError
 }
-
-exports.login = (req, res, user) ->
-  req.session.user = {
-    id: user.id
-    nickname: user.nickname
-    username: user.username
-  }
-
-exports.logout = (req) ->
-  delete req.session.user
-
-exports.update = (ori, data)->
-  for i of data
-    ori[i] = data[i]
-  return
-
-
