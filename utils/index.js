@@ -699,6 +699,21 @@
     });
   };
 
+  exports.checkJudge = function(opt) {
+    var Judge;
+    Judge = global.db.models.judge;
+    return global.db.Promise.resolve().then(function() {
+      return Judge.find(opt.id);
+    }).then(function(judge) {
+      if (!judge) {
+        throw new global.myErrors.UnknownJudge();
+      }
+      if (opt.token !== crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')) {
+        throw new global.myErrors.UnknownJudge();
+      }
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

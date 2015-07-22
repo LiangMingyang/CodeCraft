@@ -439,3 +439,14 @@ exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代
       )
     include : include
   )
+
+#judge
+#验证评测机是否合法
+exports.checkJudge = (opt)->
+  Judge = global.db.models.judge
+  global.db.Promise.resolve()
+  .then ->
+    Judge.find opt.id
+  .then (judge)->
+    throw new global.myErrors.UnknownJudge() if not judge
+    throw new global.myErrors.UnknownJudge() if opt.token isnt crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')

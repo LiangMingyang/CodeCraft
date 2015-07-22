@@ -38,6 +38,11 @@ class InvalidFile extends Error
     @name = 'InvalidFile'
     Error.captureStackTrace(this, InvalidFile)
 
+class UnknownJudge extends Error
+  constructor: (@message = "Unknown judge.") ->
+    @name = 'UnknownJudge'
+    Error.captureStackTrace(this, UnknownJudge)
+
 module.exports = {
   UnknownUser : UnknownUser
   LoginError  : LoginError
@@ -47,4 +52,5 @@ module.exports = {
   UnknownSubmission : UnknownSubmission
   UnknownProblem : UnknownProblem
   InvalidFile : InvalidFile
+  UnknownJudge : UnknownJudge
 }
