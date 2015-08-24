@@ -25,10 +25,13 @@ block content
             //    td.col-lg-1.col-md-1.col-sm-2 运行时间(ms)
             //    td.col-lg-1.col-md-1.col-sm-2 运行内存(Kb)
             //    td.col-lg-2.col-md-2.col-sm-4 提交时间
-            tr
+            tr.submission-title-tr
                 td 序号
                 - if(!contest)
-                    td 用户
+                    td
+                        | 用户
+                        br
+                        input
                 - if(submissions)
                     td 题目ID
                 td 结果
