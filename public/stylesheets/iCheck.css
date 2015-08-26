@@ -1,0 +1,77 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.checkbox, .radio {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 20px;
+}
+
+.checkbox ins, .radio ins {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    width: 23px;
+    height: 22px;
+    vertical-align: middle;
+    background: url(../images/iCheck.png) no-repeat;
+    margin-right: 8px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    vertical-align: middle;
+}
+
+.checkbox ins {
+    background-position: 0px 0px;
+}
+
+.radio ins {
+    background-position: -120px 0px;
+}
+
+.checkbox .hover {
+    background-position: -24px 0px;
+}
+
+.checkbox .checked {
+    background-position: -48px 0px;
+}
+
+.checkbox .enable {
+    background-position: -96px 0px;
+}
+
+.checkbox .disabled {
+    background-position: -72px 0px;
+}
+
+.radio .hover {
+    background-position: -144px 0px;
+}
+
+.radio .checked {
+    background-position: -168px 0px;
+}
+
+.radio .enable {
+    background-position: -214px 0px;
+}
+
+.radio .disabled {
+    background-position: -191px 0px;
+}
+
+.checkbox span, .radio span {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+}

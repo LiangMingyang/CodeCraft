@@ -1,0 +1,252 @@
+//
+    Created by heavenduke on 15-5-23.
+    title --网页标题
+    problem -- 题目数据
+        title --题目标题
+        description --题目描述，是一个HTML
+        test_setting --题目评测设置
+            time_limit -- 时间限制（无单位整数，默认为ms）
+            memory_limit -- 内存限制（无单位整数，默认为MB）
+            special_judge -- 是否为special judge（布尔值，true为有）
+            language --支持语言，是一个数组，每一项为一种语言
+extends ../layout
+block title
+    - var whichPage = "出题"
+    title #{whichPage}
+    link(rel='stylesheet', href='/stylesheets/problem/detail.css')
+    link(rel='stylesheet', href='/stylesheets/iCheck.css')
+block content
+    form(method='post', id="form")
+        .containing.col-lg-6.col-md-6.col-sm-6.problem-edit-left
+            input.form-control(type="text", id="problem_title", name="problem_title", value="#{problem.title}", placeholder="请输入题目标题", oninput="change_problem_title(this)")
+            textarea.markdown-body.containing(contenteditable=false, id="text-input",oninput="Editor('text-input', 'preview')").
+                ## 题目描述
+                南湖旁有很多树。大家整天和树打交道，相信已经非常熟悉了。
+                下面给出一棵二叉树。请找出二叉树每一层的结点个数，并输出该层节点的编号。
+                按照从根节点向叶子结点的顺序输出。
+                ## 输入
+                输入多组数据。
+                对于每组数据，第一行为一个正整数n(1<=n<=500)，表示这棵二叉树有多少个节点。
+                树的结点的编号从1~n。
+                下面有若干行，每行有两个正整数x和y(1<=x,y<=n)。表示x和y之间有一条边。（可能出现重复边）。
+                如果x和y均为0,表示本组数据输入结束。
+                ## 输出
+                输出二叉树每一层的结点个数，并按照标号从小到大的顺序输出该层的结点编号。（输出格式详见样例）
+                树的层数最小从1开始,遍历时将结点1作为根节点，该树为一棵无向树）
+                相邻两组数据间用一个空行隔开。
+                ## 输入样例
+                    5
+                    1 2
+                    3 1
+                    2 4
+                    3 5
+                    2 1
+                    5 3
+                    0 0
+                    10
+                    1 2
+                    3 2
+                    2 4
+                    5 4
+                    5 6
+                    5 7
+                    6 8
+                    8 9
+                    8 10
+                    0 0
+                ## 输出样例
+                    1:1
+                    2:2 3
+                    3:4 5
+                    1:1
+                    2:2
+                    3:3 4
+                    4:5
+                    5:6 7
+                    6:8
+                    7:9 10
+            script.
+                function Editor(input1, preview1) {
+                    var input = document.getElementById(input1);
+                    var preview = document.getElementById(preview1);
+                    this.update = function () {
+                        preview.innerHTML = markdown.toHTML(input.value);
+                        console.log(1);
+                    };
+                    input.editor = this;
+                    this.update();
+                };
+            .row
+                .col-lg-3.col-md-3.col-sm-3.text-center
+                    .btn-info.btn-lg(data-toggle="modal", data-target="#basic_setting") 基本设置
+                    #basic_setting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='basicSetting', aria-hidden='true')
+                        .modal-dialog.text-left
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#basicSetting.modal-title 基本设置
+                                .modal-body
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                                                label.control-label(for="time_limit")  时间限制(ms)：
+                                            .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                                                input.form-control(type="text", id="time_limit", name='time_limit', value=1000, placeholder="时间限制")
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                                                label.control-label(for="memory_limit")  内存限制(Kb)：
+                                            .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                                                input.form-control(type="text", id="memory_limit", name='memory_limit', value=65536, placeholder="内存限制")
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                                                label.control-label(for="supported_languages")  支持的语言：
+                                            .col-lg-4.col-md-4.col-sm-4.col-xs-4.text-right
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    label.control-label c++
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    .checkbox(value="c++", name="c++")
+                                                        ins.checked#ins1
+                                                br
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    label.control-label c
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    .checkbox(value="c", name="c")
+                                                        ins.checked#ins2
+                                                br
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    label.control-label java
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    .checkbox(value="java", name="java")
+                                                        ins.checked#ins3
+                                                br
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    label.control-label python
+                                                .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                    .checkbox(value="python", name="python")
+                                                        ins#ins4
+                                .modal-footer
+                                    //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                                    button.btn.btn-primary(type='button', id="button", onclick="check()") 保存设置
+                                    script.
+                                        function check() {
+                                            if ($("#code").val() != "")
+                                                $("#form").submit();
+                                            else
+                                                alert("代码不要为空！");
+                                        }
+                .col-lg-3.col-md-3.col-sm-3.text-center
+                    .btn-warning.btn-lg 高级设置
+                .col-lg-3.col-md-3.col-sm-3
+                .col-lg-3.col-md-3.col-sm-3.text-center
+                    .btn-success.btn-lg 保存
+        .col-lg-6.col-md-6.col-sm-6.problem-edit-right
+            if(problem)
+                .markdown-body.containing
+                    h1.problem-title#problem_really_title #{problem.title}
+                    //.problem-limit 时间限制: #{problem.test_setting.time_limit} ms 内存限制: #{problem.test_setting.memory_limit} kb
+                    //.problem-limit 总通过人数: #{problem.acceptedPeopleCount} 总提交人数: #{problem.triedPeopleCount}
+                    ////li Special Judge: #{problem.test_setting.special_judge}
+                    //- if (problem.test_setting.special_judge)
+                    //    .special-judge Special Judge
+                    #preview
+        block script
+            script(src="/js/markdown.js")
+        script.
+            $(document).ready(function () {
+                var __text_input = $("#text-input");
+                __text_input.css("width", $(".problem-edit-left").width() + "px");
+                Editor('text-input', 'preview');
+                if ($(window).height() >= 850) {
+                    $("#preview").css("height", $(window).height() - 350 + "px");
+                    $("#text-input").css("height", $(window).height() - 350 + "px");
+                }
+                else {
+                    $("#preview").css("height", "500px");
+                    $("#text-input").css("height", "500px");
+                }
+            });
+            $(window).resize(function () {
+                var __text_input = $("#text-input");
+                __text_input.css("width", $(".problem-edit-left").width() + "px");
+                if ($(window).height() >= 850) {
+                    $("#preview").css("height", $(window).height() - 350 + "px");
+                    $("#text-input").css("height", $(window).height() - 350 + "px");
+                }
+                else {
+                    $("#preview").css("height", "500px");
+                    $("#text-input").css("height", "500px");
+                }
+            });
+            function change_problem_title(data) {
+                $("#problem_really_title").html(data.value);
+                if (data.value == "") {
+                    $("#problem_really_title").html("请输入题目标题！");
+                }
+            }
+            (function ($) {//iCheck内部js
+                $.icheck = {
+                    init: function () {
+                        var _this = this;
+                        _this._checkbox = "checkbox";
+                        _this._radio = "radio";
+                        _this._disabled = "disabled";
+                        _this._enable = "enable";
+                        _this._checked = "checked";
+                        _this._hover = "hover";
+                        _this._arrtype = [_this._checkbox, _this._radio];
+                        _this._mobile = /ipad|iphone|ipod|android|blackberry|windows phone|opera mini|silk/i.test(navigator.userAgent);
+                        $.each(_this._arrtype, function (k, v) {
+                            _this.click(v);
+                            if (!_this._mobile) {
+                                _this.mouseover(v);
+                                _this.mouseout(v);
+                            }
+                        });
+                    },
+                    click: function (elem) {
+                        var _this = this;
+                        elem = "." + elem;
+                        $(document).on("click", elem, function () {
+                            var $this = $(this),
+                                    _ins = $this.find("ins");
+                            if (!(_ins.hasClass(_this._disabled) || _ins.hasClass(_this._enable))) {
+                                if (!!_ins.hasClass(_this._checked)) {
+                                    _ins.removeClass(_this._checked).addClass(_this._hover);
+                                } else {
+                                    if (/radio/ig.test(elem)) {
+                                        var _name = $this.attr("name");
+                                        $(elem + "[name=" + _name + "]").find("ins").removeClass(_this._checked);
+                                    }
+                                    $(elem).find("ins").removeClass(_this._hover);
+                                    _ins.addClass(_this._checked);
+                                }
+                            }
+                        });
+                    },
+                    mouseover: function (elem) {
+                        var _this = this;
+                        elem = "." + elem;
+                        $(document).on("mouseover", elem, function () {
+                            var $this = $(this);
+                            var _ins = $this.find("ins");
+                            if (!(_ins.hasClass(_this._disabled) || _ins.hasClass(_this._enable) || _ins.hasClass(_this._checked))) {
+                                _ins.addClass(_this._hover);
+                                $this.css("cursor", "pointer");
+                            } else {
+                                $this.css("cursor", "default");
+                            }
+                        });
+                    },
+                    mouseout: function (elem) {
+                        var _this = this;
+                        elem = "." + elem;
+                        $(document).on("mouseout", elem, function () {
+                            $(elem).find("ins").removeClass(_this._hover);
+                        });
+                    }
+                };
+                $.icheck.init();
+            })(jQuery);
