@@ -8,6 +8,9 @@
     c
     java
     python
+    viewed_public
+    viewed_protected
+    viewed_private
     file_in[],file_out[] 文件
 extends ../layout
 block title
@@ -105,6 +108,7 @@ block content
                                                 input.form-control(type="text", id="memory_limit", name='memory_limit', value=65536, placeholder="内存限制")
                                     .form-horizontal
                                         .form-group
+                                            input(type="hidden", id="supported_languages", name="supported_languages", value="")
                                             .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
                                                 label.control-label(for="supported_languages")  支持的语言：
                                             .col-lg-4.col-md-4.col-sm-4.col-xs-4.text-right
@@ -182,40 +186,80 @@ block content
                                                 a
                                                     label#special_compared_label.control-label(href="#", for="special_compared", onmousedown="my_popover_change(this)", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="") 是否启用自定义比较程序，必须为 0(不启用)或者 1(启用)，默认为 0 ：
                                             .col-lg-2.col-md-2.col-sm-2.col-xs-2
-                                                input.form-control(type="text", id="special_compared", name='special_compared', value=0, placeholder="SpecialJudge")
-                                    .form-horizontal
+                                                input.form-control(type="text", id="special_compared", onblur="check_special_mode()", name='special_compared', value=0, placeholder="SpecialJudge")
+                                    .form-horizontal#makefile_div(style="display:none")
                                         .form-group
-                                            .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
-                                                a
-                                                    label#compared_level_label.control-label(href="#", for="compared_level",onmousedown="my_popover_change(this)", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="") 使用默认程序的比较级别，若使用自定义比较程序则不用进行以下设置：
-                                    .form-horizontal
-                                        .form-group
-                                            .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
-                                                label#ac_compared_level_label.control-label(href="#", for="ac_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明") 判定程序输出为正确(Accepted)的比较级别[0,3]，默认为 2 ：
-                                            .col-lg-2.col-md-2.col-sm-2.col-xs-2
-                                                input.form-control(type="text", id="ac_compared_level", name='ac_compared_level', value=2, placeholder="AC比较级别")
-                                    .form-horizontal
-                                        .form-group
-                                            .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
-                                                label#pe_compared_level_label.control-label(href="#", for="pe_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明") 判定程序输出为格式错误(Presentation Error)的比较级别[0,3]，默认为 0 ：
-                                            .col-lg-2.col-md-2.col-sm-2.col-xs-2
-                                                input.form-control(type="text", id="pe_compared_level", name='pe_compared_level', value=0, placeholder="PE比较级别")
-                                    .form-horizontal
-                                        .form-group
-                                            .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
-                                                label#tab_compared_level_label.control-label(href="#", for="tab_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明") 比较级别 2 所考察的制表符(9 号字符)的打印宽度[0, 100]，默认为 4 ：
-                                            .col-lg-2.col-md-2.col-sm-2.col-xs-2
-                                                input.form-control(type="text", id="tab_compared_level", name='tab_compared_level', value=4, placeholder="Tab比较级别")
-                                    .form-horizontal
-                                        .form-group
-                                            .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
-                                                label#case_compared_level_label.control-label(href="#", for="case_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明")  PE判定时是否忽略大小写，必须为 0(不忽略)或者 1(忽略)，默认为 1 ：
-                                            .col-lg-2.col-md-2.col-sm-2.col-xs-2
-                                                input.form-control(type="text", id="case_compared_level", name='case_compared_level', value=1, placeholder="Case比较级别")
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                                                label 选取 makefile 文件
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                                input#makefile(type="file", name="makefile")
+                                    #if_special_judge_then
+                                        .form-horizontal
+                                            .form-group
+                                                .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
+                                                    a
+                                                        label#compared_level_label.control-label(href="#", for="compared_level",onmousedown="my_popover_change(this)", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="") 使用默认程序的比较级别，若使用自定义比较程序则不用进行以下设置：
+                                        .form-horizontal
+                                            .form-group
+                                                .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
+                                                    label#ac_compared_level_label.control-label(href="#", for="ac_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明") 判定程序输出为正确(Accepted)的比较级别[0,3]，默认为 2 ：
+                                                .col-lg-2.col-md-2.col-sm-2.col-xs-2
+                                                    input.form-control(type="text", id="ac_compared_level", name='ac_compared_level', value=2, placeholder="AC比较级别")
+                                        .form-horizontal
+                                            .form-group
+                                                .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
+                                                    label#pe_compared_level_label.control-label(href="#", for="pe_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明") 判定程序输出为格式错误(Presentation Error)的比较级别[0,3]，默认为 0 ：
+                                                .col-lg-2.col-md-2.col-sm-2.col-xs-2
+                                                    input.form-control(type="text", id="pe_compared_level", name='pe_compared_level', value=0, placeholder="PE比较级别")
+                                        .form-horizontal
+                                            .form-group
+                                                .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
+                                                    label#tab_compared_level_label.control-label(href="#", for="tab_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明") 比较级别 2 所考察的制表符(9 号字符)的打印宽度[0, 100]，默认为 4 ：
+                                                .col-lg-2.col-md-2.col-sm-2.col-xs-2
+                                                    input.form-control(type="text", id="tab_compared_level", name='tab_compared_level', value=4, placeholder="Tab比较级别")
+                                        .form-horizontal
+                                            .form-group
+                                                .col-lg-10.col-md-10.col-sm-10.col-xs-10.text-right
+                                                    label#case_compared_level_label.control-label(href="#", for="case_compared_level", onmouseout="$('#'+this.id).popover('hide')", onmouseover="$('#'+this.id).popover('show')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="点击上方链接查看详细说明")  PE判定时是否忽略大小写，必须为 0(不忽略)或者 1(忽略)，默认为 1 ：
+                                                .col-lg-2.col-md-2.col-sm-2.col-xs-2
+                                                    input.form-control(type="text", id="case_compared_level", name='case_compared_level', value=1, placeholder="Case比较级别")
                                 .modal-footer
                                     //button.btn.btn-default(type='button', data-dismiss='modal') 取消
                                     button.btn.btn-primary(type='button', id="button", data-dismiss='modal', aria-label='Close') 确认
-                .col-lg-3.col-md-3.col-sm-3
+                .col-lg-3.col-md-3.col-sm-3.text-center
+                    .btn-primary.btn-lg(data-toggle="modal", data-target="#public_setting") 公开设置
+                    #public_setting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='publicSetting', aria-hidden='true')
+                        .modal-dialog.text-left
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#publicSetting.modal-title 公开设置
+                                .modal-body
+                                    .form-horizontal
+                                        .form-group
+                                            input(type="hidden", id="viewed_privilege", name="viewed_privilege", value="2")
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                                                label.control-label(for="supported_languages")  选择该题目可以被查看的权限：
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                                            .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
+                                                label.control-label 仅小组管理员和题目所有者可见
+                                            .col-lg-4.col-md-4.col-sm-4.col-xs-4
+                                                .radio(value="viewed_public", name="viewed_privilege")
+                                                    ins.checked#ins_1
+                                            .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
+                                                label.control-label 仅小组成员和题目所有者
+                                            .col-lg-4.col-md-4.col-sm-4.col-xs-4
+                                                .radio(value="viewed_protected", name="viewed_privilege")
+                                                    ins#ins_2
+                                            .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
+                                                label.control-label 所有人可见
+                                            .col-lg-4.col-md-4.col-sm-4.col-xs-4
+                                                .radio(value="viewed_private", name="viewed_privilege")
+                                                    ins#ins_3
+                                .modal-footer
+                                    //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                                    button.btn.btn-primary(type='button', id="button", data-dismiss='modal', aria-label='Close') 确认
                 .col-lg-3.col-md-3.col-sm-3.text-center
                     .btn-success.btn-lg(onclick="submit_information()") 保存
         .col-lg-6.col-md-6.col-sm-6.problem-edit-right
@@ -412,6 +456,7 @@ block content
                 $("#file_content_out").html(__files_information);
             }
             function submit_information() {
+                $("#supported_languages").val(1);
                 console.log($("#input_file"));
                 console.log("submit");
                 console.log($("#form"));
@@ -489,3 +534,15 @@ block content
                     jQuery(this).attr('_value', jQuery(this).val());
                 });
             });
+            function check_special_mode(){
+                var __special_compared = $("#special_compared");
+                if(__special_compared.val()==0){
+                    $("#makefile_div").css("display", "none");
+                    $("#if_special_judge_then").css("display", "block");
+                } else if(__special_compared.val()==1){
+                    $("#makefile_div").css("display", "block");
+                    $("#if_special_judge_then").css("display", "none");
+                } else{
+                    alert("自定义比较程序的值只能为0或者1！");
+                }
+            }
