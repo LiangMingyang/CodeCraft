@@ -8,7 +8,7 @@
         defaultValue: 'c++'
       },
       result: {
-        type: DataTypes.ENUM('WT', 'JG', 'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'PE', 'ERR'),
+        type: DataTypes.ENUM('WT', 'JG', "AC", "WA", "CE", "REG", "MLE", "REP", "PE", "MLE", "TLE", "IFNR", "OFNR", "EFNR", "OE"),
         allowNull: false,
         defaultValue: 'WT'
       },

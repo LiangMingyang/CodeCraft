@@ -1,5 +1,6 @@
 #user
 path = require('path')
+crypto = require('crypto')
 exports.login = (req, res, user) ->
   req.session.user = {
     id: user.id
@@ -376,6 +377,21 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
     global.redis.set("rank_#{contest.id}", JSON.stringify(res))
 
 #Submission
+#创建Submission
+exports.createSubmissionWithCode = (form, form_code)->
+  Submission = global.db.models.submission
+  Submission_Code = global.db.models.submission_code
+  current_submission = undefined
+  global.db.transaction (t)->
+    Submission.create(form, transaction: t)
+    .then (submission)->
+      current_submission = submission
+      Submission_Code.create(form_code, transaction : t)
+    .then (code)->
+      current_submission.setSubmission_code(code, transaction : t)
+  .then ->
+    return current_submission
+
 #得到用户可见的所有的Submissions
 exports.findSubmissions = (user,offset,include)->
   Submission = global.db.models.submission
@@ -449,4 +465,4 @@ exports.checkJudge = (opt)->
     Judge.find opt.id
   .then (judge)->
     throw new global.myErrors.UnknownJudge() if not judge
-    throw new global.myErrors.UnknownJudge() if opt.token isnt crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')
+    throw new global.myErrors.UnknownJudge("Wrong secret_key!") if opt.token isnt crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')

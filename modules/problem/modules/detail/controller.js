@@ -79,9 +79,7 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Submission, Submission_Code, User, current_problem, current_submission, current_user;
-    Submission = global.db.models.submission;
-    Submission_Code = global.db.models.submission_code;
+    var User, current_problem, current_submission, current_user;
     User = global.db.models.user;
     current_user = void 0;
     current_submission = void 0;
@@ -97,7 +95,7 @@
       current_user = user;
       return global.myUtils.findProblem(user, req.params.problemID);
     }).then(function(problem) {
-      var form;
+      var form, form_code;
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
       }
@@ -106,18 +104,13 @@
         lang: req.body.lang,
         code_length: req.body.code.length
       };
-      return Submission.create(form);
-    }).then(function(submission) {
-      var form_code;
-      current_user.addSubmission(submission);
-      current_problem.addSubmission(submission);
-      current_submission = submission;
       form_code = {
         content: req.body.code
       };
-      return Submission_Code.create(form_code);
-    }).then(function(code) {
-      return current_submission.setSubmission_code(code);
+      return global.myUtils.createSubmissionWithCode(form, form_code);
+    }).then(function(submission) {
+      current_submission = submission;
+      return global.db.Promise.all([current_user.addSubmission(submission), current_problem.addSubmission(submission)]);
     }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
