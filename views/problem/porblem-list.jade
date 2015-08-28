@@ -3,5 +3,4 @@
 - if(contest)
     .col-lg-12.col-md-12.col-sm-12.text-center
         - for (var i = 0 ; i < contest.problems.length ; ++i)
-            - var problemOwO = contest.problems[i];
-            a.btn.btn-default(href= "../../problem/" +problemOwO.contest_problem_list.order + "/index") #{problemOwO.contest_problem_list.order}
+            a.btn.btn-default(href= "../../problem/" +contest.problems[i].contest_problem_list.order + "/index") #{contest.problems[i].contest_problem_list.order}

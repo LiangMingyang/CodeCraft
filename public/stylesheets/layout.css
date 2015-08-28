@@ -275,3 +275,33 @@ label.whitetd{
 .welcome{
     margin-top: 20px;
 }
+
+
+/*
+    2015/8/14 之后沛沛修改的css
+*/
+
+.submission-title-tr {
+    background-color: #ECEDFB;
+}
+
+body {
+    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.1,#B7DAEE),color-stop(0.95,#fff));
+}
+
+.problem-edit-right {
+    background-color: #F9FAFB;
+}
+
+#text_input {
+    color: #EBD1B7;
+    overflow-y: scroll;
+    background-color: #36312C;
+    height: 500px;
+}
+
+#preview {
+    background-color: #FFFFFF;
+    overflow-y: scroll;
+    height: 500px;
+}

@@ -26,7 +26,7 @@ block title
 block content
     - var oddeventable = "odd"
     - var coloroftable = "red"
-    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error", ERR : "Judge Error"}
+    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
     include ../contest/contest-title.jade
     include porblem-list.jade
     .col-lg-2.col-md-2.col-sm-2.containing
@@ -34,6 +34,68 @@ block content
     .col-lg-8.col-md-8.col-sm-8(style="padding-top:15px")
         if(problem)
             h3 #{problem.title} 的评测记录
+        .row
+            .col-lg-12.col-md-12.col-sm-12.text-left
+                - if(!pageLimit)
+                    - pageLimit = 15;
+                - if(!offset)
+                    - offset = 0;
+                - var prevOffset = offset - pageLimit;
+                - if(prevOffset < 0)
+                    - prevOffset = 0;
+                - var nextOffset = offset - 0 + pageLimit;
+                - var page_of_this_page = (offset-0+15-offset%15)/15;
+                - if(offset%15!=0)
+                    - page_of_this_page++;
+                - if(offset>0)
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
+                -else
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset, disabled="disabled") 上一页
+                a.button.btn.btn-default(href="./submission") 首页
+                - if(page_of_this_page>6)
+                    |......
+                - if(page_of_this_page>5)
+                    - var prevOffset5 = offset - pageLimit * 5;
+                    - if(prevOffset5 < 0)
+                        - prevOffset5 = 0;
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
+                - if(page_of_this_page>4)
+                    - var prevOffset4 = offset - pageLimit * 4;
+                    - if(prevOffset4 < 0)
+                        - prevOffset4 = 0;
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
+                - if(page_of_this_page>3)
+                    - var prevOffset3 = offset - pageLimit * 3;
+                    - if(prevOffset3 < 0)
+                        - prevOffset3 = 0;
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset3) #{page_of_this_page-3}
+                - if(page_of_this_page>2)
+                    - var prevOffset2 = offset - pageLimit * 2;
+                    - if(prevOffset2 < 0)
+                        - prevOffset2 = 0;
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset2) #{page_of_this_page-2}
+                - if(page_of_this_page>1)
+                    - var prevOffset1 = offset - pageLimit * 1;
+                    - if(prevOffset1 < 0)
+                        - prevOffset1 = 0;
+                    a.button.btn.btn-default(href="./submission?offset=" + prevOffset1) #{page_of_this_page-1}
+                a.button.btn.btn-success(href="./submission?offset=" + offset) #{page_of_this_page}
+                - if(submissions.length == pageLimit)
+                    - var nextOffset1 = offset - 0 + pageLimit * 1;
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset1) #{page_of_this_page+1}
+                    - var nextOffset2 = offset - 0 + pageLimit * 2;
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset2) #{page_of_this_page+2}
+                    - var nextOffset3 = offset - 0 + pageLimit * 3;
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset3) #{page_of_this_page+3}
+                    - var nextOffset4 = offset - 0 + pageLimit * 4;
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
+                    - var nextOffset5 = offset - 0 + pageLimit * 5;
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
+                    |......
+                - if(submissions.length == pageLimit)
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
+                -else
+                    a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
         table.table.table-condensed.table-center
             tr
                 td 序号
@@ -82,19 +144,19 @@ block content
                             function hideDetail(numi){
                                 $("#td"+numi).popover('hide');
                             }
-        .col-lg-12.col-md-12.col-sm-12
-            - if(!pageLimit)
-                - pageLimit = 15;
-            - if(!offset)
-                - offset = 0;
-            - var prevOffset = offset - pageLimit;
-            - if(prevOffset < 0)
-                - prevOffset = 0;
-            - var nextOffset = offset - 0 + pageLimit;
-            - if(offset>0)
-                a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-            a.button.btn.btn-default(href="./submission") 首页
-            - if(submissions.length == pageLimit)
-                a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
+        //.col-lg-12.col-md-12.col-sm-12.text-center
+        //    - if(!pageLimit)
+        //        - pageLimit = 15;
+        //    - if(!offset)
+        //        - offset = 0;
+        //    - var prevOffset = offset - pageLimit;
+        //    - if(prevOffset < 0)
+        //        - prevOffset = 0;
+        //    - var nextOffset = offset - 0 + pageLimit;
+        //    - if(offset>0)
+        //        a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
+        //    a.button.btn.btn-default(href="./submission") 首页
+        //    - if(submissions.length == pageLimit)
+        //        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
     .col-lg-2.col-md-2.col-sm-2
         include problem.jade
