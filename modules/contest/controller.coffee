@@ -1,5 +1,5 @@
 passwordHash = require('password-hash')
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 #page
 
 HOME_PAGE = '/'
@@ -20,7 +20,7 @@ exports.getIndex = (req, res) ->
   .then (user)->
     req.query.page ?= 1
     offset = (req.query.page-1)*global.config.pageLimit.contest
-    myUtils.findAndCountContests(user, offset, {
+    global.myUtils.findAndCountContests(user, offset, {
       model :  Group
     })
   .then (result)->

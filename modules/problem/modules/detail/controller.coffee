@@ -1,4 +1,4 @@
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 sequelize = require('sequelize')
 fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
 path = require('path')
@@ -27,23 +27,23 @@ exports.getIndex = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findProblem(user, req.params.problemID, [
+    global.myUtils.findProblem(user, req.params.problemID, [
       model : User
       as : 'creator'
     ,
       model : Group
     ])
   .then (problem) ->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     currentProblems = [currentProblem]
-    myUtils.getProblemsStatus(currentProblems,currentUser)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
-    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
+    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
   .then (manifest_str) ->
     manifest = JSON.parse manifest_str
     currentProblem.test_setting = manifest.test_setting
-    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), manifest.description)
+    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), manifest.description)
   .then (description)->
     currentProblem.description = markdown.toHTML(description.toString())
     res.render 'problem/detail', {
@@ -51,10 +51,10 @@ exports.getIndex = (req, res) ->
       problem: currentProblem
     }
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
   .catch (err)->
@@ -74,11 +74,11 @@ exports.postSubmission = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    throw new myUtils.Error.UnknownUser() if not user
+    throw new global.myErrors.UnknownUser() if not user
     current_user = user
-    myUtils.findProblem(user, req.params.problemID)
+    global.myUtils.findProblem(user, req.params.problemID)
   .then (problem) ->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     current_problem = problem
     form = {
       lang : req.body.lang
@@ -99,10 +99,10 @@ exports.postSubmission = (req, res) ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
   .catch (err)->
@@ -120,14 +120,14 @@ exports.getSubmissions = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findProblem(user, req.params.problemID)
+    global.myUtils.findProblem(user, req.params.problemID)
   .then (problem)->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     currentProblems = [problem]
-    myUtils.getProblemsStatus(currentProblems,currentUser)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
-    fs.readFilePromised path.join(myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
+    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
   .then (manifest_str) ->
     manifest = JSON.parse manifest_str
     currentProblem.test_setting = manifest.test_setting
@@ -155,10 +155,10 @@ exports.getSubmissions = (req, res) ->
       pageLimit : global.config.pageLimit.submission
     })
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
   .catch (err)->

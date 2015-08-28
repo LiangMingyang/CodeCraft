@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) ->
       validate:
         notEmpty: true
     description:
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT('long')
     start_time:
       type: DataTypes.DATE
       allowNull: false

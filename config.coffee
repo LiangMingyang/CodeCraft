@@ -13,10 +13,11 @@ module.exports = {
         max: 5
         min: 0
         idle: 10000
+      logging: null
   pageLimit :
     submission : 15
     contest : 15
     member : 100
     problem : 20
-  problem_resource_path : path.resolve(__dirname,'./modules/problem/resource')
+  problem_resource_path : path.resolve(__dirname,'modules/problem/resource')
 }

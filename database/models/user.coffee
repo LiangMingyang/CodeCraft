@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.STRING
       allowNull: false
     description:
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT('long')
     school:
       type: DataTypes.ENUM('北京航空航天大学', '北京邮电大学', '-----')
       defaultValue: '-----'

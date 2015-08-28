@@ -46,22 +46,23 @@ block content
                         script.
                             $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
                             $("#td#{i}").attr("class", "#{colorOfTable}td");
-        - if(!pageLimit)
-            - pageLimit = 15;
-        - if(!page)
-            - page = 0;
-        - var numberOfPage = (contestCount - contestCount % pageLimit) / pageLimit + 1;
-        - var nextPage = page - 0 + 1;
-        - var prevPage = page - 1;
-        - if(page > 1)
-            a.button.btn.btn-default(href="./contest?page=" + prevPage) 上一页
-        - else
-            a.button.btn.btn-default(href="./contest?page=" + prevPage, disabled="disabled  ") 上一页
-        - for(var i = 1 ; i <= numberOfPage ; ++i)
-            a.button.btn.btn-default(href="./contest?page=" + i, id="button" + i) #{i}
-        - if(page < numberOfPage)
-            a.button.btn.btn-default(href="./contest?page=" + nextPage) 下一页
-        - else
-            a.button.btn.btn-default(href="./contest?page=" + nextPage, disabled="disabled") 下一页
-        script $("#button#{page}").attr("class", "button btn btn-success");
+        .col-lg-12.text-center
+            - if(!pageLimit)
+                - pageLimit = 15;
+            - if(!page)
+                - page = 0;
+            - var numberOfPage = (contestCount - contestCount % pageLimit) / pageLimit + 1;
+            - var nextPage = page - 0 + 1;
+            - var prevPage = page - 1;
+            - if(page > 1)
+                a.button.btn.btn-default(href="./contest?page=" + prevPage) 上一页
+            - else
+                a.button.btn.btn-default(href="./contest?page=" + prevPage, disabled="disabled  ") 上一页
+            - for(var i = 1 ; i <= numberOfPage ; ++i)
+                a.button.btn.btn-default(href="./contest?page=" + i, id="button" + i) #{i}
+            - if(page < numberOfPage)
+                a.button.btn.btn-default(href="./contest?page=" + nextPage) 下一页
+            - else
+                a.button.btn.btn-default(href="./contest?page=" + nextPage, disabled="disabled") 下一页
+            script $("#button#{page}").attr("class", "button btn btn-success");
     .col-lg-2

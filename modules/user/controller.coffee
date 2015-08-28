@@ -1,5 +1,5 @@
 passwordHash = require('password-hash')
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 #page
 
 HOME_PAGE = '/'
@@ -53,9 +53,9 @@ exports.postLogin = (req, res) ->
   }
   .then (user)->
     #过滤
-    throw new myUtils.Error.LoginError() if not user #没有找到该用户
-    throw new myUtils.Error.LoginError() if not passwordHash.verify(form.password, user.password) #判断密码是否正确
-    myUtils.login(req, res, user)
+    throw new global.myErrors.LoginError() if not user #没有找到该用户
+    throw new global.myErrors.LoginError() if not passwordHash.verify(form.password, user.password) #判断密码是否正确
+    global.myUtils.login(req, res, user)
     user.last_login = new Date()
     user.save()
   .then ->
@@ -68,7 +68,7 @@ exports.postLogin = (req, res) ->
     res.redirect NEXT_PAGE
 
 
-  .catch myUtils.Error.LoginError, (err)->
+  .catch global.myErrors.LoginError, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
@@ -107,11 +107,11 @@ exports.postRegister = (req, res) ->
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
-    throw new myUtils.Error.RegisterError("Please confirm your password.") if form.password isnt req.body.password2
+    throw new global.myErrors.RegisterError("Please confirm your password.") if form.password isnt req.body.password2
     form.password = passwordHash.generate(form.password) #对密码进行加密
     User.create form #存入数据库
   .then (user)->
-    myUtils.login(req, res, user)
+    global.myUtils.login(req, res, user)
     req.flash 'info', 'You have registered.'
     res.redirect HOME_PAGE
 
@@ -119,7 +119,7 @@ exports.postRegister = (req, res) ->
   .catch global.db.ValidationError, (err)->
     req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
     res.redirect REGISTER_PAGE
-  .catch myUtils.Error.RegisterError, (err)->
+  .catch global.myErrors.RegisterError, (err)->
     req.flash 'info', err.message
     res.redirect REGISTER_PAGE
   .catch (err)->
@@ -134,5 +134,5 @@ exports.postRegister = (req, res) ->
 ###
 
 exports.getLogout = (req, res) ->
-  myUtils.logout(req)
+  global.myUtils.logout(req)
   res.redirect LOGIN_PAGE
