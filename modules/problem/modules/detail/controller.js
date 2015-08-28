@@ -79,10 +79,9 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var User, current_problem, current_submission, current_user;
+    var User, current_problem, current_user;
     User = global.db.models.user;
     current_user = void 0;
-    current_submission = void 0;
     current_problem = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -107,10 +106,7 @@
       form_code = {
         content: req.body.code
       };
-      return global.myUtils.createSubmissionWithCode(form, form_code);
-    }).then(function(submission) {
-      current_submission = submission;
-      return global.db.Promise.all([current_user.addSubmission(submission), current_problem.addSubmission(submission)]);
+      return global.myUtils.createSubmissionTransaction(form, form_code, current_problem, current_user);
     }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);

@@ -378,7 +378,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
 
 #Submission
 #创建Submission
-exports.createSubmissionWithCode = (form, form_code)->
+exports.createSubmissionTransaction = (form, form_code, problem, user)->
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   current_submission = undefined
@@ -388,7 +388,13 @@ exports.createSubmissionWithCode = (form, form_code)->
       current_submission = submission
       Submission_Code.create(form_code, transaction : t)
     .then (code)->
-      current_submission.setSubmission_code(code, transaction : t)
+      global.db.Promise.all [
+        current_submission.setSubmission_code(code, transaction : t)
+      ,
+        user.addSubmission(current_submission, transaction : t)
+      ,
+        problem.addSubmission(current_submission, transaction : t)
+      ]
   .then ->
     return current_submission
 

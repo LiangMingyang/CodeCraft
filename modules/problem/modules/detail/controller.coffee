@@ -65,7 +65,6 @@ exports.getIndex = (req, res) ->
 exports.postSubmission = (req, res) ->
   User = global.db.models.user
   current_user = undefined
-  current_submission = undefined
   current_problem = undefined
 
   global.db.Promise.resolve()
@@ -85,14 +84,7 @@ exports.postSubmission = (req, res) ->
     form_code = {
       content: req.body.code
     }
-    global.myUtils.createSubmissionWithCode(form, form_code)
-  .then (submission) ->
-    current_submission = submission
-    global.db.Promise.all [
-      current_user.addSubmission(submission)
-    ,
-      current_problem.addSubmission(submission)
-    ]
+    global.myUtils.createSubmissionTransaction(form, form_code, current_problem, current_user)
   .then ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE

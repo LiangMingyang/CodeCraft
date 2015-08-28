@@ -655,7 +655,7 @@
     });
   };
 
-  exports.createSubmissionWithCode = function(form, form_code) {
+  exports.createSubmissionTransaction = function(form, form_code, problem, user) {
     var Submission, Submission_Code, current_submission;
     Submission = global.db.models.submission;
     Submission_Code = global.db.models.submission_code;
@@ -669,9 +669,15 @@
           transaction: t
         });
       }).then(function(code) {
-        return current_submission.setSubmission_code(code, {
-          transaction: t
-        });
+        return global.db.Promise.all([
+          current_submission.setSubmission_code(code, {
+            transaction: t
+          }), user.addSubmission(current_submission, {
+            transaction: t
+          }), problem.addSubmission(current_submission, {
+            transaction: t
+          })
+        ]);
       });
     }).then(function() {
       return current_submission;

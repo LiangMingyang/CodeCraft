@@ -82,7 +82,6 @@ exports.postSubmission = (req, res) ->
   User = global.db.models.user
   Problem = global.db.models.problem
   currentUser = undefined
-  currentSubmission = undefined
   currentProblem = undefined
   currentContest = undefined
 
@@ -112,16 +111,9 @@ exports.postSubmission = (req, res) ->
     form_code = {
       content: req.body.code
     }
-    global.myUtils.createSubmissionWithCode(form, form_code)
+    global.myUtils.createSubmissionTransaction(form, form_code, currentProblem, currentUser)
   .then (submission) ->
-    currentSubmission = submission
-    global.db.Promise.all [
-      currentUser.addSubmission(submission)
-    ,
-      currentProblem.addSubmission(submission)
-    ,
-      currentContest.addSubmission(submission)
-    ]
+    currentContest.addSubmission(submission)
   .then ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
