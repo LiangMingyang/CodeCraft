@@ -79,8 +79,6 @@ exports.getIndex = (req, res) ->
 
 exports.postSubmission = (req, res) ->
 
-  Submission = global.db.models.submission
-  Submission_Code = global.db.models.submission_code
   User = global.db.models.user
   Problem = global.db.models.problem
   currentUser = undefined
@@ -111,18 +109,19 @@ exports.postSubmission = (req, res) ->
       lang : req.body.lang
       code_length : req.body.code.length
     }
-    Submission.create(form)
-  .then (submission) ->
-    currentUser.addSubmission(submission)
-    currentProblem.addSubmission(submission)
-    currentContest.addSubmission(submission)
-    currentSubmission = submission
     form_code = {
       content: req.body.code
     }
-    Submission_Code.create(form_code)
-  .then (code) ->
-    currentSubmission.setSubmission_code(code)
+    global.myUtils.createSubmissionWithCode(form, form_code)
+  .then (submission) ->
+    currentSubmission = submission
+    global.db.Promise.all [
+      currentUser.addSubmission(submission)
+    ,
+      currentProblem.addSubmission(submission)
+    ,
+      currentContest.addSubmission(submission)
+    ]
   .then ->
     req.flash 'info', 'submit code successfully'
     res.redirect SUBMISSION_PAGE
@@ -134,6 +133,9 @@ exports.postSubmission = (req, res) ->
     req.flash 'info', err.message
     res.redirect PROBLEM_PAGE
   .catch global.myErrors.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch global.myErrors.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->

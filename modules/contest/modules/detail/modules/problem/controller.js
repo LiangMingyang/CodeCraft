@@ -108,9 +108,7 @@
   };
 
   exports.postSubmission = function(req, res) {
-    var Problem, Submission, Submission_Code, User, currentContest, currentProblem, currentSubmission, currentUser;
-    Submission = global.db.models.submission;
-    Submission_Code = global.db.models.submission_code;
+    var Problem, User, currentContest, currentProblem, currentSubmission, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     currentUser = void 0;
@@ -146,7 +144,7 @@
         }
       }
     }).then(function(problem) {
-      var form;
+      var form, form_code;
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
       }
@@ -155,19 +153,13 @@
         lang: req.body.lang,
         code_length: req.body.code.length
       };
-      return Submission.create(form);
-    }).then(function(submission) {
-      var form_code;
-      currentUser.addSubmission(submission);
-      currentProblem.addSubmission(submission);
-      currentContest.addSubmission(submission);
-      currentSubmission = submission;
       form_code = {
         content: req.body.code
       };
-      return Submission_Code.create(form_code);
-    }).then(function(code) {
-      return currentSubmission.setSubmission_code(code);
+      return global.myUtils.createSubmissionWithCode(form, form_code);
+    }).then(function(submission) {
+      currentSubmission = submission;
+      return global.db.Promise.all([currentUser.addSubmission(submission), currentProblem.addSubmission(submission), currentContest.addSubmission(submission)]);
     }).then(function() {
       req.flash('info', 'submit code successfully');
       return res.redirect(SUBMISSION_PAGE);
@@ -178,6 +170,9 @@
       req.flash('info', err.message);
       return res.redirect(PROBLEM_PAGE);
     })["catch"](global.myErrors.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
+    })["catch"](global.myErrors.InvalidAccess, function(err) {
       req.flash('info', err.message);
       return res.redirect(CONTEST_PAGE);
     })["catch"](function(err) {
