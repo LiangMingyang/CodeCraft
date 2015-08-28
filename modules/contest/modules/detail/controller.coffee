@@ -1,5 +1,5 @@
 passwordHash = require('password-hash')
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 #page
 
 HOME_PAGE = '/'
@@ -19,18 +19,18 @@ exports.getIndex = (req, res)->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if not contest
     res.render 'contest/detail', {
       user : req.session.user
       contest : contest
     }
 
-  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+  .catch global.myErrors.UnknownContest, global.myErrors.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -49,30 +49,30 @@ exports.getProblem = (req, res)->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentContest = contest
     currentProblems = contest.problems
-    myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
   .then ->
     for problem in currentProblems
-      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'contest/problem', {
       user : req.session.user
       contest : currentContest
       problems : currentProblems
     }
 
-  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+  .catch global.myErrors.UnknownContest, global.myErrors.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -90,15 +90,15 @@ exports.getSubmission = (req, res)->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     currentContest.getSubmissions(
       include : [
@@ -123,7 +123,7 @@ exports.getSubmission = (req, res)->
   .then (submissions)->
     dicProblemIDtoOrder = {}
     for problem in currentContest.problems
-      dicProblemIDtoOrder[problem.id] = myUtils.numberToLetters(problem.contest_problem_list.order)
+      dicProblemIDtoOrder[problem.id] = global.myUtils.numberToLetters(problem.contest_problem_list.order)
     for submission in submissions
       submission.problem_order = dicProblemIDtoOrder[submission.problem_id]
     res.render 'contest/submission', {
@@ -135,7 +135,7 @@ exports.getSubmission = (req, res)->
     }
 
 
-  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+  .catch global.myErrors.UnknownContest, global.myErrors.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -160,7 +160,7 @@ exports.getQuestion = (req, res)->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
@@ -173,14 +173,14 @@ exports.getQuestion = (req, res)->
       ]
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     dic = {}
     for problem in currentContest.problems
-      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
       dic[problem.id] = problem.contest_problem_list.order
     for issue in currentContest.issues
       issue.problem_id = dic[issue.problem_id]
@@ -190,7 +190,7 @@ exports.getQuestion = (req, res)->
       issues : currentContest.issues
     }
 
-  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+  .catch global.myErrors.UnknownContest, global.myErrors.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -209,23 +209,23 @@ exports.postQuestion = (req, res)->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    throw new myUtils.Error.UnknownUser() if not user
+    throw new global.myErrors.UnknownUser() if not user
     currentUser = user
-    myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
-    order = myUtils.lettersToNumber(req.body.order)
+    order = global.myUtils.lettersToNumber(req.body.order)
     for problem in currentContest.problems
       return problem if problem.contest_problem_list.order is order
   .then (problem)->
-    throw new myUtils.Error.UnknownProblem() if not problem
+    throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     Issue.create (
       content : req.body.content
@@ -244,10 +244,10 @@ exports.postQuestion = (req, res)->
     req.flash 'info', 'Questioned'
     res.redirect QUESTION_PAGE
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, myUtils.Error.UnknownProblem, (err)->
+  .catch global.myErrors.UnknownContest, global.myErrors.InvalidAccess, global.myErrors.UnknownProblem, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
@@ -263,29 +263,29 @@ exports.getRank = (req, res)->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
       model : Problem
     ])
   .then (contest)->
-    throw new myUtils.Error.UnknownContest() if not contest
-    throw new myUtils.Error.UnknownContest() if contest.start_time > (new Date())
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
-    myUtils.getRank(currentContest)
+    global.myUtils.getRank(currentContest)
   .then (rank)->
     for problem in currentContest.problems
-      problem.contest_problem_list.order = myUtils.numberToLetters(problem.contest_problem_list.order)
+      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render 'contest/rank', {
       user : req.session.user
       contest : currentContest
       rank : rank
     }
 
-  .catch myUtils.Error.UnknownContest, myUtils.Error.InvalidAccess, (err)->
+  .catch global.myErrors.UnknownContest, global.myErrors.InvalidAccess, (err)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->

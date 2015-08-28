@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) ->
       validate:
         notEmpty: true
     description:
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT('long')
     #creator_id
     access_level:
       type: DataTypes.ENUM('verifying', 'private', 'protect', 'public')

@@ -1,4 +1,4 @@
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 #page
 
 HOME_PAGE = '/'
@@ -20,12 +20,12 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findGroup(user, req.params.groupID, [
+    global.myUtils.findGroup(user, req.params.groupID, [
       model : User
       as : 'creator'
     ])
   .then (group)->
-    throw new myUtils.Error.UnknownGroup() if not group
+    throw new global.myErrors.UnknownGroup() if not group
     currentGroup = group
     if req.session.user
       group
@@ -39,7 +39,7 @@ exports.getIndex = (req, res) ->
       isMember : isMember
     }
 
-  .catch myUtils.Error.UnknownGroup, (err)->
+  .catch global.myErrors.UnknownGroup, (err)->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
@@ -53,7 +53,7 @@ exports.getMember = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findGroup(user, req.params.groupID, [
+    global.myUtils.findGroup(user, req.params.groupID, [
       model : User
       as : 'creator'
     ,
@@ -63,13 +63,13 @@ exports.getMember = (req, res) ->
           access_level : ['member', 'admin', 'owner'] #仅显示以上权限的成员
     ])
   .then (group)->
-    throw new myUtils.Error.UnknownGroup() if not group
+    throw new global.myErrors.UnknownGroup() if not group
     res.render 'group/member', {
       user : req.session.user
       group : group
     }
 
-  .catch myUtils.Error.UnknownGroup, (err)->
+  .catch global.myErrors.UnknownGroup, (err)->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
@@ -83,27 +83,27 @@ exports.getJoin = (req, res) ->
   currentGroup = undefined
   global.db.Promise.resolve()
   .then ->
-    throw new myUtils.Error.UnknownUser() if not req.session.user
+    throw new global.myErrors.UnknownUser() if not req.session.user
     User.find(req.session.user.id)
   .then (user)->
-    throw new myUtils.Error.UnknownUser() if not user
+    throw new global.myErrors.UnknownUser() if not user
     joiner = user
-    myUtils.findGroup(user, req.params.groupID)
+    global.myUtils.findGroup(user, req.params.groupID)
   .then (group)->
-    throw new myUtils.Error.UnknownGroup() if not group
+    throw new global.myErrors.UnknownGroup() if not group
     currentGroup = group
     group.hasUser(joiner)
   .then (res) ->
-    throw new myUtils.Error.UnknownGroup() if res
+    throw new global.myErrors.UnknownGroup() if res
     currentGroup.addUser(joiner, {access_level : 'verifying'})
   .then ->
     req.flash 'info', 'Please waiting for verifying'
     res.redirect INDEX_PAGE
 
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
-  .catch myUtils.Error.UnknownGroup, (err)->
+  .catch global.myErrors.UnknownGroup, (err)->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch global.db.ValidationError, (err)->
@@ -126,16 +126,16 @@ exports.getProblem = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findGroup(user, req.params.groupID, [
+    global.myUtils.findGroup(user, req.params.groupID, [
       model : User
       as : 'creator'
     ])
   .then (group)->
-    throw new myUtils.Error.UnknownGroup() if not group
+    throw new global.myErrors.UnknownGroup() if not group
     currentGroup = group
     req.query.page ?= 1
     offset = (req.query.page-1)*global.config.pageLimit.problem
-    myUtils.findAndCountProblems(currentUser, offset, [
+    global.myUtils.findAndCountProblems(currentUser, offset, [
       model : Group
       where :
         id : group.id
@@ -143,7 +143,7 @@ exports.getProblem = (req, res) ->
   .then (result)->
     problemCount = result.count
     currentProblems = result.rows
-    myUtils.getProblemsStatus(currentProblems,currentUser)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
     res.render 'group/problem', {
       user   : req.session.user
@@ -154,7 +154,7 @@ exports.getProblem = (req, res) ->
       problemCount : problemCount
     }
 
-  .catch myUtils.Error.UnknownGroup, (err)->
+  .catch global.myErrors.UnknownGroup, (err)->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
@@ -173,13 +173,13 @@ exports.getContest = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    myUtils.findGroup(user, req.params.groupID)
+    global.myUtils.findGroup(user, req.params.groupID)
   .then (group)->
-    throw new myUtils.Error.UnknownGroup() if not group
+    throw new global.myErrors.UnknownGroup() if not group
     currentGroup = group
     req.query.page ?= 1
     offset = (req.query.page-1)*global.config.pageLimit.contest
-    myUtils.findAndCountContests(currentUser, offset, [
+    global.myUtils.findAndCountContests(currentUser, offset, [
       model : Group
       where :
         id : group.id
@@ -196,7 +196,7 @@ exports.getContest = (req, res) ->
       contestCount : contestCount
     }
 
-  .catch myUtils.Error.UnknownGroup, (err)->
+  .catch global.myErrors.UnknownGroup, (err)->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->

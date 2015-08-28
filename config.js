@@ -18,7 +18,8 @@
           max: 5,
           min: 0,
           idle: 10000
-        }
+        },
+        logging: null
       }
     },
     pageLimit: {
@@ -27,7 +28,7 @@
       member: 100,
       problem: 20
     },
-    problem_resource_path: path.resolve(__dirname, './modules/problem/resource')
+    problem_resource_path: path.resolve(__dirname, 'modules/problem/resource')
   };
 
 }).call(this);

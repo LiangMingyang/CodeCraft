@@ -1,4 +1,4 @@
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 
 INDEX_PAGE = 'index'
 
@@ -11,7 +11,7 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findSubmissions(user,req.query.offset,[
+    global.myUtils.findSubmissions(user,req.query.offset,[
       model : User
       as : 'creator'
     ])
@@ -22,7 +22,7 @@ exports.getIndex = (req, res) ->
       offset : req.query.offset
       pageLimit : global.config.pageLimit.submission
     }
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
@@ -37,19 +37,19 @@ exports.getSubmission = (req, res)->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    myUtils.findSubmission(user, req.params.submissionID, [
+    global.myUtils.findSubmission(user, req.params.submissionID, [
       model : SubmissionCode
     ])
   .then (submission)->
-    throw new myUtils.Error.UnknownSubmission() if not submission
+    throw new global.myErrors.UnknownSubmission() if not submission
     res.render 'submission/code', {
       user : req.session.user
       submission : submission
     }
-  .catch myUtils.Error.UnknownSubmission, (err)->
+  .catch global.myErrors.UnknownSubmission, (err)->
     req.flash 'info', err.message
     res.redirect INDEX_PAGE
-  .catch myUtils.Error.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser, (err)->
     console.log err
     req.flash 'info', "Please Login First!"
     res.redirect LOGIN_PAGE

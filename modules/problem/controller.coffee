@@ -1,5 +1,5 @@
 passwordHash = require('password-hash')
-myUtils = require('./utils')
+#global.myUtils = require('./utils')
 
 HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
@@ -18,13 +18,13 @@ exports.getIndex = (req, res) ->
     currentUser = user
     req.query.page ?= 1
     offset = (req.query.page-1) * global.config.pageLimit.problem
-    myUtils.findAndCountProblems(user, offset, [
+    global.myUtils.findAndCountProblems(user, offset, [
       model : Group
     ])
   .then (result)->
     problemCount = result.count
     currentProblems = result.rows
-    myUtils.getProblemsStatus(currentProblems,currentUser)
+    global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
     res.render('problem/index', {
       user: req.session.user
