@@ -12,8 +12,6 @@
 
   exports.submission = require('./submission');
 
-  exports.judge = require('./judge');
-
 }).call(this);
 
 //# sourceMappingURL=index.js.map

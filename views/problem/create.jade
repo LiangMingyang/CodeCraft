@@ -26,11 +26,11 @@ block content
                 .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
                     label.control-label(for="problem_title")  题目标题：
                 .col-lg-9.col-md-9.col-sm-9.col-xs-9
-                    - if(!problem_title)
+                    - if(!problem)
                         input.form-control(type="text", id="problem_title", name="problem_title", value="", placeholder="请输入题目标题", oninput="change_problem_title(this)", onblur="change_problem_title(this)")
                     - else
-                        input.form-control(type="text", id="problem_title", name="problem_title", value="#{problem_title}", placeholder="请输入题目标题", oninput="change_problem_title(this)", onblur="change_problem_title(this)")
-            - if(!description)
+                        input.form-control(type="text", id="problem_title", name="problem_title", value="#{problem.problem_title}", placeholder="请输入题目标题", oninput="change_problem_title(this)", onblur="change_problem_title(this)")
+            - if(!problem)
                 textarea.markdown-body.containing(type="input", name="description", contenteditable=false, id="description",oninput="Editor('description', 'preview')").
                     ## 题目描述
                     计算A+B
@@ -47,7 +47,7 @@ block content
                         3
             - else
                 textarea.markdown-body.containing(type="input", name="description", contenteditable=false, id="description",oninput="Editor('description', 'preview')").
-                    #{description}
+                    #{problem.description}
             script.
                 function Editor(input1, preview1) {
                     var input = document.getElementById(input1);
@@ -74,25 +74,25 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
                                                 label.control-label 时间限制(ms)[1,30000]：
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6
-                                                - if(!test_setting || !test_setting.time_limit)
+                                                - if(!problem)
                                                     input.form-control(type="number", min="1", max="30000", id="time_limit", onblur='check_time_limit()', name='time_limit', value="1000", placeholder="时间限制")
                                                 - else
-                                                    input.form-control(type="number", min="1", max="30000", id="time_limit", onblur='check_time_limit()', name='time_limit', value="#{test_setting.time_limit}", placeholder="时间限制")
+                                                    input.form-control(type="number", min="1", max="30000", id="time_limit", onblur='check_time_limit()', name='time_limit', value="#{problem.test_setting.time_limit}", placeholder="时间限制")
                                     .form-horizontal
                                         .form-group
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
                                                 label.control-label 内存限制(KB)[1,204800]：
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6
-                                                - if(!test_setting || !test_setting.memory_limit)
+                                                - if(!problem)
                                                     input.form-control(type="number", min="1", max="204800", id="memory_limit", onblur='check_memory_limit()', name='memory_limit', value="65536", placeholder="内存限制")
                                                 - else
-                                                    input.form-control(type="number", min="1", max="204800", id="memory_limit", onblur='check_memory_limit()', name='memory_limit', value="#{test_setting.memory_limit}", placeholder="内存限制")
+                                                    input.form-control(type="number", min="1", max="204800", id="memory_limit", onblur='check_memory_limit()', name='memory_limit', value="#{problem.test_setting.memory_limit}", placeholder="内存限制")
                                     .form-horizontal
                                         .form-group
-                                            - if(!test_setting || !test_setting.supported_languages)
+                                            - if(!problem)
                                                 input(type="hidden", id="supported_languages", name="supported_languages", value="")
                                             - else
-                                                input(type="hidden", id="supported_languages", name="supported_languages", value="#{test_setting.supported_languages}")
+                                                input(type="hidden", id="supported_languages", name="supported_languages", value="#{problem.test_setting.supported_languages}")
                                             .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
                                                 label.control-label(for="supported_languages")  支持的语言：
                                             .col-lg-4.col-md-4.col-sm-4.col-xs-4.text-right
@@ -172,7 +172,7 @@ block content
                                                 a
                                                     label#special_compared_label.control-label(href="#", for="special_compared", onmousedown="my_popover_change(this)", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="left", data-content="") 是否启用自定义比较程序，必须为 0(不启用)或者 1(启用)，默认为 0 ：
                                             .col-lg-2.col-md-2.col-sm-2.col-xs-2
-                                                - if(!special_judge)
+                                                - if(!problem || problem.special_compared != 1)
                                                     input.form-control(type="number", min="0", max="1", id="special_compared", oninput="check_special_mode()", onblur="check_special_mode()", name='special_compared', value=0, placeholder="SpecialJudge")
                                                 - else
                                                     input.form-control(type="number", min="0", max="1", id="special_compared", oninput="check_special_mode()", onblur="check_special_mode()", name='special_compared', value=1, placeholder="SpecialJudge")
@@ -191,7 +191,10 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 label 输入Special Judge代码:
                                             .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-center
-                                                textarea#makefile(type="input", cols="60", rows="10", name="special_judge", placeholder="输入您的代码")
+                                                - if(!problem)
+                                                    textarea#makefile(type="input", cols="60", rows="10", name="special_judge", placeholder="输入您的代码")
+                                                - else
+                                                    textarea#makefile(type="input", cols="60", rows="10", name="special_judge", placeholder="输入您的代码", value="#{problem.special_judge}")
                                     #if_special_judge_then
                                         .form-horizontal
                                             .form-group
@@ -292,7 +295,7 @@ block content
                 }
                 var __supported_languages = document.getElementById("supported_languages");
                 if(__supported_languages.value!=""){
-                    var __my_array = __supported_languages.split(",");
+                    var __my_array = __supported_languages.value.split(",");
                     $("#ins1").attr("class", "");
                     $("#ins2").attr("class", "");
                     $("#ins3").attr("class", "");
@@ -313,7 +316,6 @@ block content
                     }
                 }
                 check_special_mode();
-                add_test_data();
             });
             $(window).resize(function () {
                 var __description = $("#description");

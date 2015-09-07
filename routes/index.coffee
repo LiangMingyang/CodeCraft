@@ -18,8 +18,6 @@ router.use '/message', modules.message.router
 
 router.use '/submission', modules.submission.router
 
-router.use '/judge', modules.judge.router
-
 # Get home page
 router.get '/', (req, res) ->
   res.render 'index', {
