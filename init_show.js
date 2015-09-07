@@ -38,6 +38,26 @@
       return group.addUser(testUser, {
         access_level: 'owner'
       });
+    }).then(function() {
+      return Contest.create({
+        title: "实验室摸你赛 第一场",
+        access_level: 'public',
+        description: '这是一个public的比赛，谁都可以参加',
+        start_time: new Date("2015-09-10 10:00"),
+        end_time: new Date("2015-09-14 10:00")
+      });
+    }).then(function(contest) {
+      return db.Promise.all([
+        testUser.addContest(contest), testGroup.addContest(contest), Judge.create({
+          name: "Judge1",
+          secret_key: "沛神太帅了"
+        }), Judge.create({
+          name: "Judge2",
+          secret_key: "梁明阳专用judge"
+        })
+      ]);
+    }).then(function() {
+      return console.log("Init completed!");
     });
   };
 
