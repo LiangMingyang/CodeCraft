@@ -7,7 +7,8 @@
   db = require('./database')(config.database.name, config.database.username, config.database.password, config.database.config).sync({
     force: true
   }).then(function(db) {
-    return console.log('Sync successfully!');
+    console.log('Sync successfully!');
+    return require('./init_show')(db);
   })["catch"](function(err) {
     return console.log(err.message);
   });
