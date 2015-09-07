@@ -6,6 +6,7 @@ if(user)
         a(class="list-group-item normal-color", id="detail", href="/user/" + user.id + "/index") 个人信息
         a(class="list-group-item normal-color", id="edit", href="/user/" + user.id + "/edit") 修改信息
         a(class="list-group-item normal-color", id="updatepw", href="/user/" + user.id + "/updatepw") 修改密码
+        a(class="list-group-item normal-color", id="detail", href="/user/" + user.id + "/index") 绑定学号
     script.
         if("#{whichPage}"=="个人信息")
             $("#detail").attr("class","list-group-item change-color");

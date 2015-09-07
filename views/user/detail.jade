@@ -16,15 +16,17 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-2
         include ./user.jade
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-8
         - if (user && target && user.id === target.id)
             h3 个人信息
         - else if(target)
             h3 #{target.nickname}的信息
         if(target)
-            table.table.table-striped.containing
+            //span 昵称
+            //span #{target.nickname}
+            table.table.table-hover
                 tr
                     td 昵称
                     td #{target.nickname}
@@ -35,9 +37,12 @@ block content
                     td 专业
                     td #{target.college}
                 tr
+                    td 学号
+                    td #{target.student_id}
+                tr
                     td 简介
                     td #{target.description}
                 tr
-                    td 学号
-                    td #{target.student_id}
-    .col-lg-2
+                    td 等级
+                    td -----
+    .col-lg-2.col-md-2.col-sm-2.col-xs-2
