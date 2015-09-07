@@ -13,7 +13,7 @@ extends ../layout
 block title
     - var whichPage = "题目信息"
     - if(contest)
-    - whichPage = "比赛题目信息"
+        - whichPage = "比赛题目信息"
     title #{whichPage}
     link(rel='stylesheet', href='/stylesheets/problem/detail.css')
 block content
@@ -31,7 +31,7 @@ block content
                 .problem-limit 总通过人数: #{problem.acceptedPeopleCount} 总提交人数: #{problem.triedPeopleCount}
                 //li Special Judge: #{problem.test_setting.special_judge}
                 - if (problem.test_setting.special_judge)
-                .special-judge Special Judge
+                    .special-judge Special Judge
                 !{problem.description}
     .col-lg-2.col-md-2.col-sm-2
         .containing

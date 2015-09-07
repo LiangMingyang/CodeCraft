@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) ->
       allowNull: false
       defaultValue: 'c++'
     result:
-      type: DataTypes.ENUM('WT', 'JG', "AC", "WA", "CE", "REG", "MLE", "REP", "PE", "MLE", "TLE", "IFNR", "OFNR", "EFNR", "OE")
+      type: DataTypes.ENUM('WT', 'JG', "AC", "WA", "CE", "REG", "MLE", "REP", "PE", "TLE", "IFNR", "OFNR", "EFNR", "OE")
       allowNull: false
       defaultValue: 'WT'
     score:

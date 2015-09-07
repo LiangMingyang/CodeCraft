@@ -30,8 +30,9 @@
                                     |语言选择：
                                 .col-lg-9
                                     select(type="input", name='lang')
-                                        - for (var i = 0 ; i < problem.test_setting.language.length ; i++)
-                                            - var language = problem.test_setting.language[i];
+                                        - problem.test_setting.supported_languages = problem.test_setting.supported_languages.split(',')
+                                        - for (var i = 0 ; i < problem.test_setting.supported_languages.length ; i++)
+                                            - var language = problem.test_setting.supported_languages[i];
                                             option(value=language) #{language}
                             |源代码：
                             label.sr-only(for="code") 输入代码

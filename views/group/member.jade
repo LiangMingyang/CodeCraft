@@ -24,7 +24,7 @@ block content
                             a(href= "/user/" + member.id + "/index") #{member.nickname}
                         td #{member.membership.access_level}
             .row
-                .col-lg-12.col-md-12.col-sm-12.text-center
+                .col-lg-12.col-md-12.col-sm-12
                     - if(!pageLimit)
                         - pageLimit = 100;
                     - if(!offset)

@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) ->
     access_level:
       type: DataTypes.ENUM('private', 'protect', 'public')
       defaultValue: 'private'
+    description:
+      type: DataTypes.TEXT('long')
+      allowNull: false
+    test_setting:
+      type: DataTypes.TEXT('long')
+      allowNull: false
   #creator foreign key
   #group   foreign key
   }, {

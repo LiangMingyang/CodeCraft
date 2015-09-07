@@ -48,15 +48,12 @@ exports.getIndex = (req, res) ->
   .then (problem) ->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
-    fs.readFilePromised path.join(global.myUtils.getStaticProblem(problem.id), 'manifest.json')
-  .then (manifest_str) ->
-    manifest = JSON.parse manifest_str
-    currentProblem.test_setting = manifest.test_setting
-    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), manifest.description)
-  .then (description)->
-    currentProblem.description = markdown.toHTML(description.toString())
-    for problem in currentContest.problems
-      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
+    #TODO: 在这里进行了转码
+    problem.test_setting = JSON.parse problem.test_setting
+    problem.description = markdown.toHTML(problem.description)
+    currentProblems = [currentProblem]
+    for p in currentContest.problems
+      p.contest_problem_list.order = global.myUtils.numberToLetters(p.contest_problem_list.order)
     res.render 'problem/detail', {
       user: req.session.user,
       problem: currentProblem

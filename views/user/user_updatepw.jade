@@ -11,32 +11,28 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2
+    .col-lg-2
         include ./user.jade
-    .col-lg-8.col-md-8.col-sm-8.col-xs-8
+    .col-lg-8
         h3 修改密码
         form(method='post').containing
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
-                        label.control-label(for="oldPwd")  输入旧密码：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                    .col-lg-2
+                        label.control-label(for="oldPwd")  请输入旧密码：
+                    .col-lg-10
                         input.form-control(type="password", name='oldPwd', id="oldPwd")
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
-                        label.control-label(for="newPwd")  输入新密码：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                    .col-lg-2
+                        label.control-label(for="newPwd")  请输入新密码：
+                    .col-lg-10
                         input.form-control(type="password", name='newPwd', id="newPwd")
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
-                        label.control-label(for="confirmNewPwd")  确认新密码：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                    .col-lg-2
+                        label.control-label(for="confirmNewPwd")  请确认新密码：
+                    .col-lg-10
                         input.form-control(type="password", name='confirmNewPwd', id="confirmNewPwd")
-            .form-horizontal
-                .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
-                        button.btn.btn-default(type="submit") 确认修改
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2
+            button.btn.btn-default(type="submit") 确认修改
+    .col-lg-2

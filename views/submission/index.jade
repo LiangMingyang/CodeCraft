@@ -8,7 +8,7 @@ block title
 block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
-    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
+    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", RE : "Runtime Error", CE : "Compile Error", PE : "Presentation Error", ERR : "Judge Error"}
     .col-lg-12.col-md-12.col-sm-12
         h3 所有评测记录
         table.table.table-condensed.table-center
@@ -25,144 +25,10 @@ block content
             //    td.col-lg-1.col-md-1.col-sm-2 运行时间(ms)
             //    td.col-lg-1.col-md-1.col-sm-2 运行内存(Kb)
             //    td.col-lg-2.col-md-2.col-sm-4 提交时间
-            //tr.submission-title-tr
-            //    td 序号
-            //    - if(!contest)
-            //        td
-            //            | 用户
-            //            br
-            //            input
-            //    - if(submissions)
-            //        td 题目ID
-            //    td 结果
-            //    td 得分
-            //    td 语言
-            //    td 代码长度
-            //    td 运行时间
-            //    td 运行内存
-            //    td 提交时间
-            //if(submissions)
-            //    - for (var i = 0 ;i < submissions.length ; i++)
-            //        tr(id = "tr" + i)
-            //            td #{submissions[i].id}
-            //            - if(!contest)
-            //                td
-            //                    a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
-            //            - if(submissions[i].problem_id)
-            //                td
-            //                    a(href='../../problem/' + submissions[i].problem_id + '/index') #{submissions[i].problem_id}
-            //            td
-            //                label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
-            //            td #{submissions[i].score}
-            //            td
-            //                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
-            //            td
-            //                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
-            //            td #{submissions[i].time_cost}
-            //            td #{submissions[i].memory_cost}
-            //            td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()}-#{submissions[i].created_at.getDay()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
-            //            - if(i % 2 == 1)
-            //                - oddeventable = "odd"
-            //            - else
-            //                - oddeventable = "even"
-            //            - if(submissions[i].result == "AC")
-            //                - coloroftable = "blue"
-            //            - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
-            //                - coloroftable = "green"
-            //            - else
-            //                - coloroftable = "red"
-            //            script.
-            //                $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
-            //                $("#td#{i}").attr("class","#{coloroftable}td");
-            //                function showDetail(numi){
-            //                    $("#td"+numi).popover('show');
-            //                }
-            //                function hideDetail(numi){
-            //                    $("#td"+numi).popover('hide');
-            //                }
-    .col-lg-12.col-md-12.col-sm-12.text-left
-        - if(!pageLimit)
-            - pageLimit = 15;
-        - if(!offset)
-            - offset = 0;
-        - var prevOffset = offset - pageLimit;
-        - if(prevOffset < 0)
-            - prevOffset = 0;
-        - var nextOffset = offset - 0 + pageLimit;
-        - var page_of_this_page = (offset-0+15-offset%15)/15;
-        - if(offset%15!=0)
-            - page_of_this_page++;
-        - if(offset>0)
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset) 上一页
-        -else
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset, disabled="disabled") 上一页
-        a.button.btn.btn-default(href="../submission/index") 首页
-        - if(page_of_this_page>6)
-            |......
-        - if(page_of_this_page>5)
-            - var prevOffset5 = offset - pageLimit * 5;
-            - if(prevOffset5 < 0)
-                - prevOffset5 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset5) #{page_of_this_page-5}
-        - if(page_of_this_page>4)
-            - var prevOffset4 = offset - pageLimit * 4;
-            - if(prevOffset4 < 0)
-                - prevOffset4 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset4) #{page_of_this_page-4}
-        - if(page_of_this_page>3)
-            - var prevOffset3 = offset - pageLimit * 3;
-            - if(prevOffset3 < 0)
-                - prevOffset3 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset3) #{page_of_this_page-3}
-        - if(page_of_this_page>2)
-            - var prevOffset2 = offset - pageLimit * 2;
-            - if(prevOffset2 < 0)
-                - prevOffset2 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset2) #{page_of_this_page-2}
-        - if(page_of_this_page>1)
-            - var prevOffset1 = offset - pageLimit * 1;
-            - if(prevOffset1 < 0)
-                - prevOffset1 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset1) #{page_of_this_page-1}
-        a.button.btn.btn-success(href="../submission/index?offset=" + offset) #{page_of_this_page}
-        - if(submissions.length == pageLimit)
-            - var nextOffset1 = offset - 0 + pageLimit * 1;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset1) #{page_of_this_page+1}
-            - var nextOffset2 = offset - 0 + pageLimit * 2;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset2) #{page_of_this_page+2}
-            - var nextOffset3 = offset - 0 + pageLimit * 3;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset3) #{page_of_this_page+3}
-            - var nextOffset4 = offset - 0 + pageLimit * 4;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset4) #{page_of_this_page+4}
-            - var nextOffset5 = offset - 0 + pageLimit * 5;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset5) #{page_of_this_page+5}
-            |......
-        - if(submissions.length == pageLimit)
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset) 下一页
-        -else
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset, disabled="disabled") 下一页
-    .col-lg-12.col-md-12.col-sm-12
-        table.table.table-condensed.table-center
-            //tr
-            //    td.col-lg-1.col-md-1.col-sm-2 序号
-            //    - if(!contest)
-            //        td.col-lg-1.col-md-1.col-sm-2 用户
-            //    - if(submissions)
-            //        td.col-lg-1.col-md-1.col-sm-2 题目ID
-            //    td.col-lg-2.col-md-2.col-sm-4 结果
-            //    td.col-lg-1.col-md-1.col-sm-2 得分
-            //    td.col-lg-1.col-md-1.col-sm-2 语言
-            //    td.col-lg-1.col-md-1.col-sm-2 代码长度(Byte)
-            //    td.col-lg-1.col-md-1.col-sm-2 运行时间(ms)
-            //    td.col-lg-1.col-md-1.col-sm-2 运行内存(Kb)
-            //    td.col-lg-2.col-md-2.col-sm-4 提交时间
-            tr.submission-title-tr
+            tr
                 td 序号
                 - if(!contest)
-                    td
-                        | 用户
-                        br
-                        input
+                    td 用户
                 - if(submissions)
                     td 题目ID
                 td 结果
@@ -211,3 +77,17 @@ block content
                             function hideDetail(numi){
                                 $("#td"+numi).popover('hide');
                             }
+    .col-lg-12.col-md-12.col-sm-12
+        - if(!pageLimit)
+            - pageLimit = 15;
+        - if(!offset)
+            - offset = 0;
+        - var prevOffset = offset - pageLimit;
+        - if(prevOffset < 0)
+            - prevOffset = 0;
+        - var nextOffset = offset - 0 + pageLimit;
+        - if(offset>0)
+            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset) 上一页
+        a.button.btn.btn-default(href="../submission/index") 首页
+        - if(submissions.length == pageLimit)
+            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset) 下一页

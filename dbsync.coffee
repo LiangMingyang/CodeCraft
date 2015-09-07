@@ -9,6 +9,6 @@ db = require('./database')(
 .sync {force: true}
 .then (db)->
   console.log 'Sync successfully!'
-  require('./init')(db)
+  #require('./init')(db)
 .catch (err)->
   console.log err.message

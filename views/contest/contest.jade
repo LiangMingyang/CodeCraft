@@ -8,16 +8,17 @@ if(contest)
             a(class="list-group-item normal-color", id="rankPage", href="./rank") 比赛排名
             a(class="list-group-item normal-color", id="submissionPage", href="./submission") 提交记录
             a(class="list-group-item normal-color", id="issuePage", href="./index") 比赛公告
-            - if("#{whichPage}"=="赛事信息")
-                script $("#indexPage").attr("class","list-group-item change-color");
-            - else if("#{whichPage}"=="比赛题目信息")
-                script $("#problemPage").attr("class","list-group-item change-color");
-            - else if("#{whichPage}"=="比赛排名")
-                script $("#rankPage").attr("class","list-group-item change-color");
-            - else if("#{whichPage}"=="比赛提交记录")
-                script $("#submissionPage").attr("class","list-group-item change-color");
-            - else if("#{whichPage}"=="修改密码")
-                script $("#issuePage").attr("class","list-group-item change-color");
+            script.
+                if("#{whichPage}"=="赛事信息")
+                    $("#indexPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="比赛题目信息")
+                    $("#problemPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="比赛排名")
+                    $("#rankPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="比赛提交记录")
+                    $("#submissionPage").attr("class","list-group-item change-color");
+                else if("#{whichPage}"=="修改密码")
+                    $("#issuePage").attr("class","list-group-item change-color");
             //- var dateOfTime = new Date();
             //- var endTime = contest.end_time - dateOfTime;
             //- var endSeconds = (endTime - endTime % 1000) / 1000 % 60

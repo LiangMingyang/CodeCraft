@@ -36,16 +36,12 @@ exports.getIndex = (req, res) ->
   .then (problem) ->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
+    #TODO: 在这里进行了转码
+    problem.test_setting = JSON.parse problem.test_setting
+    problem.description = markdown.toHTML(problem.description)
     currentProblems = [currentProblem]
     global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
-    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
-  .then (manifest_str) ->
-    manifest = JSON.parse manifest_str
-    currentProblem.test_setting = manifest.test_setting
-    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), manifest.description)
-  .then (description)->
-    currentProblem.description = markdown.toHTML(description.toString())
     res.render 'problem/detail', {
       user: req.session.user
       problem: currentProblem

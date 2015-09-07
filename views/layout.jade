@@ -27,13 +27,11 @@ html
                                             span.icon-bar
                                             span.icon-bar
                                             span.icon-bar
-                                        a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") BUAA ONLINE JUDGE
+                                        a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") BHU OJ
                                     // Collect the nav links, forms, and other content for toggling
                                     #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                         //navbar里面的功能部分显示在导航栏logo旁边
                                         ul.nav.navbar-nav.navbar-middle
-                                            li.normalli
-                                                a(href="/", id="indexpage", class="nav-before") 主页
                                             li.normalli
                                                 a(href="/group/index", id="grouppage", class="nav-before") 小组
                                             li.normalli
@@ -84,8 +82,6 @@ html
                                             script $("#grouppage").attr("class", "nav-change");
                                         - else
                                             script $("#indexpage").attr("class", "nav-change");
-
-
                         .alert-success
                             - if (messages.info)
                                 .message.info
@@ -93,11 +89,11 @@ html
                                     script $("#logo").popover('show');
                                     script setTimeout(function () {$("#logo").popover('hide');}, 3000);
                     .row.minheight(id="page")
-                        .row
-                            block content
+                        block content
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            $("body").css({"background-image":'-webkit-gradient(linear,left bottom,left top,color-stop(0.1,#B7DAEE),color-stop(0.95,#fff))'});
                         });
                         $(window).resize(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");

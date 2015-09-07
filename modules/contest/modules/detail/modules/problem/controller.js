@@ -68,23 +68,18 @@
         }
       }
     }).then(function(problem) {
+      var i, len, p, ref;
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
       }
       currentProblem = problem;
-      return fs.readFilePromised(path.join(global.myUtils.getStaticProblem(problem.id), 'manifest.json'));
-    }).then(function(manifest_str) {
-      var manifest;
-      manifest = JSON.parse(manifest_str);
-      currentProblem.test_setting = manifest.test_setting;
-      return fs.readFilePromised(path.join(global.myUtils.getStaticProblem(currentProblem.id), manifest.description));
-    }).then(function(description) {
-      var i, len, problem, ref;
-      currentProblem.description = markdown.toHTML(description.toString());
+      problem.test_setting = JSON.parse(problem.test_setting);
+      problem.description = markdown.toHTML(problem.description);
+      currentProblems = [currentProblem];
       ref = currentContest.problems;
       for (i = 0, len = ref.length; i < len; i++) {
-        problem = ref[i];
-        problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order);
+        p = ref[i];
+        p.contest_problem_list.order = global.myUtils.numberToLetters(p.contest_problem_list.order);
       }
       return res.render('problem/detail', {
         user: req.session.user,

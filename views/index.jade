@@ -1,7 +1,9 @@
 extends ./layout
+
 block title
     - var whichPage = "OJ4TH"
     title #{whichPage}
+
 block content
     .containing
         //.col-lg-6
@@ -27,4 +29,3 @@ block content
             a.right.carousel-control(href="#mycarousel" role="button" data-slide="next")
                 span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                 span.sr-only Next
-                         

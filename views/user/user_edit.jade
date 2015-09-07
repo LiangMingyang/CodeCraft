@@ -20,51 +20,45 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2
+    .col-lg-2
         include ./user.jade
-    .col-lg-8.col-md-8.col-sm-8.col-xs-8
+    .col-lg-8
         h3 修改信息
         form(method='post', id="form").containing
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                    .col-lg-2
                         label.control-label(for="nickname")  昵称：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
-                        input.form-control(type="text", name='nickname', id="nickname", value=target.nickname)
+                    .col-lg-10
+                        input.form-control(type="input", name='nickname', id="nickname", value=target.nickname)
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                    .col-lg-2
                         label.control-label(for="school")  学校：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                    .col-lg-10
                         select.form-control(type="input", name='school', id="school", value=target.school)
                             option(value="北京航空航天大学") 北京航空航天大学
                             option(value="北京邮电大学") 北京邮电大学
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                    .col-lg-2
                         label.control-label(for="college")  专业：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                    .col-lg-10
                         select.form-control(type="input", name='college', id="college", value=target.college)
                             option(value="软件学院") 软件学院
                             option(value="计算机学院") 计算机学院
             .form-horizontal
                 .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
+                    .col-lg-2
                         label.control-label(for="description")  简介：
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
-                        textarea.form-control(type="input", name='description', id="description", value=target.description, rows=7)
-            .form-horizontal
-                .form-group
-                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-right
-                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
-                        button.btn.btn-default(type="button", onclick="checkInformation()") 保 存
+                    .col-lg-10
+                        input.form-control(type="input", name='description', id="description", value=target.description)
+            button.btn.btn-default(type="button", onclick="checkInformation()") 确认
             script.
                 function checkInformation(){
-                    if($("#nickname").val().length == 0)
-                        logoAlert("用户昵称不能为空！")
-                    else if($("#nickname").val().length >= 30)
+                    if($("#nickname").val().length >= 30)
                         logoAlert("用户昵称过长！");
                     else
                     $("#form").submit();
                 }
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2
+    .col-lg-2
