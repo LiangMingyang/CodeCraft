@@ -36,3 +36,29 @@ module.exports = (db) ->
     group.setCreator(testUser)
   .then (group) ->
     group.addUser(testUser, {access_level : 'owner'}) #添加owner关系
+  .then ->
+    Contest.create {
+      title: "实验室摸你赛 第一场"
+      access_level: 'public'
+      description: '这是一个public的比赛，谁都可以参加'
+      start_time : new Date("2015-09-10 10:00")
+      end_time : new Date("2015-09-14 10:00")
+    }
+  .then (contest)->
+    db.Promise.all [
+      testUser.addContest(contest)
+    ,
+      testGroup.addContest(contest)
+    ,
+      Judge.create {
+        name : "Judge1"
+        secret_key : "沛神太帅了"
+      }
+    ,
+      Judge.create {
+        name : "Judge2"
+        secret_key : "梁明阳专用judge"
+      }
+    ]
+  .then ->
+    console.log "Init completed!"
