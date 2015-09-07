@@ -123,7 +123,7 @@ block content
             - var prevOffset1 = offset - pageLimit * 1;
             - if(prevOffset1 < 0)
                 - prevOffset1 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset1) #{page_of_this_page-1}
+            a.btn.btn-default(href="../submission/index?offset=" + prevOffset1) #{page_of_this_page-1}
         a.button.btn.btn-success(href="../submission/index?offset=" + offset) #{page_of_this_page}
         - if(submissions.length == pageLimit)
             - var nextOffset1 = offset - 0 + pageLimit * 1;
