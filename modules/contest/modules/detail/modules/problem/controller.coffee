@@ -165,40 +165,33 @@ exports.getSubmissions = (req, res) ->
   .then (problem)->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
-    global.db.Promise.all [
-      fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
-        .then (manifest_str) ->
-          manifest = JSON.parse manifest_str
-          currentProblem.test_setting = manifest.test_setting
-    ,
-      currentProblem.getSubmissions(
-        include : [
-          model : User
-          as : 'creator'
-          where :
-            id : (
-              if currentUser
-                currentUser.id
-              else
-                null
-            )
-        ,
-          model : Contest
-          where :
-            id : currentContest.id
-        ]
-        order : [
-          ['created_at', 'DESC']
-        ,
-          ['id','DESC']
-        ]
-        offset : req.query.offset
-        limit : global.config.pageLimit.submission
-      )
-        .then (submissions) ->
-          currentSubmissions = submissions
-    ]
-  .then ->
+    currentProblem.test_setting = JSON.parse currentProblem.test_setting
+    currentProblem.getSubmissions(
+      include : [
+        model : User
+        as : 'creator'
+        where :
+          id : (
+            if currentUser
+              currentUser.id
+            else
+              null
+          )
+      ,
+        model : Contest
+        where :
+          id : currentContest.id
+      ]
+      order : [
+        ['created_at', 'DESC']
+      ,
+        ['id','DESC']
+      ]
+      offset : req.query.offset
+      limit : global.config.pageLimit.submission
+    )
+  .then (submissions) ->
+    currentSubmissions = submissions
     for problem in currentContest.problems
       problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
     res.render('problem/submission', {

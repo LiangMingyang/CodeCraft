@@ -223,35 +223,29 @@
         throw new global.myErrors.UnknownProblem();
       }
       currentProblem = problem;
-      return global.db.Promise.all([
-        fs.readFilePromised(path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')).then(function(manifest_str) {
-          var manifest;
-          manifest = JSON.parse(manifest_str);
-          return currentProblem.test_setting = manifest.test_setting;
-        }), currentProblem.getSubmissions({
-          include: [
-            {
-              model: User,
-              as: 'creator',
-              where: {
-                id: (currentUser ? currentUser.id : null)
-              }
-            }, {
-              model: Contest,
-              where: {
-                id: currentContest.id
-              }
+      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
+      return currentProblem.getSubmissions({
+        include: [
+          {
+            model: User,
+            as: 'creator',
+            where: {
+              id: (currentUser ? currentUser.id : null)
             }
-          ],
-          order: [['created_at', 'DESC'], ['id', 'DESC']],
-          offset: req.query.offset,
-          limit: global.config.pageLimit.submission
-        }).then(function(submissions) {
-          return currentSubmissions = submissions;
-        })
-      ]);
-    }).then(function() {
+          }, {
+            model: Contest,
+            where: {
+              id: currentContest.id
+            }
+          }
+        ],
+        order: [['created_at', 'DESC'], ['id', 'DESC']],
+        offset: req.query.offset,
+        limit: global.config.pageLimit.submission
+      });
+    }).then(function(submissions) {
       var i, len, problem, ref;
+      currentSubmissions = submissions;
       ref = currentContest.problems;
       for (i = 0, len = ref.length; i < len; i++) {
         problem = ref[i];

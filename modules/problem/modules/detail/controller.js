@@ -138,11 +138,7 @@
       currentProblems = [problem];
       return global.myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
-      return fs.readFilePromised(path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json'));
-    }).then(function(manifest_str) {
-      var manifest;
-      manifest = JSON.parse(manifest_str);
-      currentProblem.test_setting = manifest.test_setting;
+      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
       return currentProblem.getSubmissions({
         include: [
           {
