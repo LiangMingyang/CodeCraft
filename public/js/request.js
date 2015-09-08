@@ -3,7 +3,7 @@
  */
 
 var request = {};
-request.DEBUG = true;
+request.DEBUG = false;
 request.exec_request = function (request_block) {
     var ajxa_block = {
         url: request_block.url,
