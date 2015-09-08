@@ -46,7 +46,7 @@ block content
                 td 运行时间
                 td 运行内存
                 td 提交时间
-            if(submissions)
+            - if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
                     tr(id = "tr" + i)
                         td #{submissions[i].id}
