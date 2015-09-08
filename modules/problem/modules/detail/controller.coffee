@@ -113,10 +113,7 @@ exports.getSubmissions = (req, res) ->
     currentProblems = [problem]
     global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
-    fs.readFilePromised path.join(global.myUtils.getStaticProblem(currentProblem.id), 'manifest.json')
-  .then (manifest_str) ->
-    manifest = JSON.parse manifest_str
-    currentProblem.test_setting = manifest.test_setting
+    currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
     currentProblem.getSubmissions({
       include: [
         model: User
