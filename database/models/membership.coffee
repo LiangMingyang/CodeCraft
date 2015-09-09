@@ -11,5 +11,6 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.INTEGER
       unique: 'user_group'
   }, {
+    timestamps: false
     underscored: true
   }

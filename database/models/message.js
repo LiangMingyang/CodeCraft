@@ -10,6 +10,7 @@
         }
       }
     }, {
+      timestamps: false,
       underscored: true
     });
   };

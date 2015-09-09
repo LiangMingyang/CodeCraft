@@ -20,6 +20,7 @@
         }
       }
     }, {
+      timestamps: false,
       underscored: true
     });
   };

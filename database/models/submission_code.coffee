@@ -4,5 +4,6 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.TEXT('long')
       allowNull: false
   }, {
+    timestamps: false
     underscored: true
   }

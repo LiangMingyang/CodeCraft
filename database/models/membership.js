@@ -16,6 +16,7 @@
         unique: 'user_group'
       }
     }, {
+      timestamps: false,
       underscored: true
     });
   };

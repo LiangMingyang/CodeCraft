@@ -20,5 +20,6 @@ module.exports = (sequelize, DataTypes) ->
       unique: 'contest_problem_order'
   #problem
   }, {
+    timestamps: false
     underscored: true
   }
