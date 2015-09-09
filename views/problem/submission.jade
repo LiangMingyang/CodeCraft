@@ -41,16 +41,63 @@ block content
         if(problem)
             h3 #{problem.title} 的评测记录
         table.table.table-condensed.table-center
-            tr
+            tr.submission-title-tr
+                //td 序号
+                //- if(!contest)
+                //    td 用户
+                //td 结果
+                //td 得分
+                //td 语言
+                //td 代码长度
+                //td 运行时间
+                //td 运行内存
+                //td 提交时间
                 td 序号
                 - if(!contest)
-                    td 用户
-                td 结果
+                    td
+                        |用户
+                        br
+                        input.form-control.text-center(onblur="console.log(this.value)")
+                td
+                    |结果
+                    br
+                    select.form-control(onchange="console.log(this.value)")
+                        option all
+                        option Accepted
+                        option Wrong Answer
+                        option Compile Error
+                        option Time Limit Exceed
+                        option Presentation Error
+                        option Memory Limit Exceed
+                        option Runtime Error (SIGFPE)
+                        option Runtime Error (SIGSEGV)
+                        option Waiting
+                        option Running
+                        option Input File Not Ready
+                        option Output File Not Ready
+                        option Other Error
                 td 得分
-                td 语言
-                td 代码长度
-                td 运行时间
-                td 运行内存
+                td
+                    |语言
+                    br
+                    select.form-control(onchange="console.log(this.value)")
+                        option all
+                        option c++
+                        option c
+                        option java
+                        option python
+                td(onmousedown="console.log('length')")
+                    |代码长度
+                    br
+                    label.form-control-static (Bytes)
+                td
+                    |运行时间
+                    br
+                    label.form-control-static (ms)
+                td
+                    |运行内存
+                    br
+                    label.form-control-static (KB)
                 td 提交时间
             - if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
@@ -121,7 +168,7 @@ block content
         //    a.button.btn.btn-default(href="./submission") 首页
         //    - if(submissions.length == pageLimit)
         //        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
-        .col-lg-12.col-md-12.col-sm-12.text-left
+        .col-lg-12.col-md-12.col-sm-12.text-left.row
             //分页
             - if(!pageLimit)
                 - pageLimit = 15;
@@ -139,18 +186,18 @@ block content
             -else
                 a.button.btn.btn-default(href="./submission?offset=" + prevOffset, disabled="disabled") 上一页
             a.button.btn.btn-default(href="./submission") 首页
-            - if(page_of_this_page>6)
-                |......
-            - if(page_of_this_page>5)
-                - var prevOffset5 = offset - pageLimit * 5;
-                - if(prevOffset5 < 0)
-                    - prevOffset5 = 0;
-                a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
             - if(page_of_this_page>4)
-                - var prevOffset4 = offset - pageLimit * 4;
-                - if(prevOffset4 < 0)
-                    - prevOffset4 = 0;
-                a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
+                |......
+            //- if(page_of_this_page>5)
+            //    - var prevOffset5 = offset - pageLimit * 5;
+            //    - if(prevOffset5 < 0)
+            //        - prevOffset5 = 0;
+            //    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
+            //- if(page_of_this_page>4)
+            //    - var prevOffset4 = offset - pageLimit * 4;
+            //    - if(prevOffset4 < 0)
+            //        - prevOffset4 = 0;
+            //    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
             - if(page_of_this_page>3)
                 - var prevOffset3 = offset - pageLimit * 3;
                 - if(prevOffset3 < 0)
@@ -174,10 +221,10 @@ block content
                 a.button.btn.btn-default(href="./submission?offset=" + nextOffset2) #{page_of_this_page+2}
                 - var nextOffset3 = offset - 0 + pageLimit * 3;
                 a.button.btn.btn-default(href="./submission?offset=" + nextOffset3) #{page_of_this_page+3}
-                - var nextOffset4 = offset - 0 + pageLimit * 4;
-                a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
-                - var nextOffset5 = offset - 0 + pageLimit * 5;
-                a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
+                //- var nextOffset4 = offset - 0 + pageLimit * 4;
+                //a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
+                //- var nextOffset5 = offset - 0 + pageLimit * 5;
+                //a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
                 |......
             - if(submissions.length == pageLimit)
                 a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页

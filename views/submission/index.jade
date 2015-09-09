@@ -107,16 +107,16 @@ block content
                     td
                         |用户
                         br
-                        input.form-control
+                        input.form-control.text-center(onblur="console.log(this.value)")
                 - if(submissions)
                     td
                         |题目ID
                         br
-                        input.form-control
+                        input.form-control(onblur="console.log(this.value)")
                 td
                     |结果
                     br
-                    select.form-control
+                    select.form-control(onchange="console.log(this.value)")
                         option all
                         option Accepted
                         option Wrong Answer
@@ -135,13 +135,13 @@ block content
                 td
                     |语言
                     br
-                    select.form-control
+                    select.form-control(onchange="console.log(this.value)")
                         option all
                         option c++
                         option c
                         option java
                         option python
-                td
+                td(onmousedown="console.log('length')")
                     |代码长度
                     br
                     label.form-control-static (Bytes)
@@ -156,7 +156,7 @@ block content
                 td 提交时间
             if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
-                    tr(id = "tr" + i)
+                    tr(id = "tr" + i, onmousedown="console.log(#{i})")
                         //在渲染前处理时间
                         - yy = submissions[i].created_at.getFullYear();
                         - mm = submissions[i].created_at.getMonth() - 0 + 1;
@@ -186,7 +186,10 @@ block content
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
                         td #{submissions[i].score}
                         td
-                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
+                            - if(user.id==submissions[i].creator.id)
+                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
+                            - else
+                                label #{submissions[i].lang}
                         td
                             a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
                         td #{submissions[i].time_cost}
@@ -230,18 +233,18 @@ block content
         -else
             a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset, disabled="disabled") 上一页
         a.button.btn.btn-default(href="../submission/index") 首页
-        - if(page_of_this_page>6)
-            |......
-        - if(page_of_this_page>5)
-            - var prevOffset5 = offset - pageLimit * 5;
-            - if(prevOffset5 < 0)
-                - prevOffset5 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset5) #{page_of_this_page-5}
         - if(page_of_this_page>4)
-            - var prevOffset4 = offset - pageLimit * 4;
-            - if(prevOffset4 < 0)
-                - prevOffset4 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset4) #{page_of_this_page-4}
+            |......
+        //- if(page_of_this_page>5)
+        //    - var prevOffset5 = offset - pageLimit * 5;
+        //    - if(prevOffset5 < 0)
+        //        - prevOffset5 = 0;
+        //    a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset5) #{page_of_this_page-5}
+        //- if(page_of_this_page>4)
+        //    - var prevOffset4 = offset - pageLimit * 4;
+        //    - if(prevOffset4 < 0)
+        //        - prevOffset4 = 0;
+        //    a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset4) #{page_of_this_page-4}
         - if(page_of_this_page>3)
             - var prevOffset3 = offset - pageLimit * 3;
             - if(prevOffset3 < 0)
@@ -265,10 +268,10 @@ block content
             a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset2) #{page_of_this_page+2}
             - var nextOffset3 = offset - 0 + pageLimit * 3;
             a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset3) #{page_of_this_page+3}
-            - var nextOffset4 = offset - 0 + pageLimit * 4;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset4) #{page_of_this_page+4}
-            - var nextOffset5 = offset - 0 + pageLimit * 5;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset5) #{page_of_this_page+5}
+            //- var nextOffset4 = offset - 0 + pageLimit * 4;
+            //a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset4) #{page_of_this_page+4}
+            //- var nextOffset5 = offset - 0 + pageLimit * 5;
+            //a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset5) #{page_of_this_page+5}
             |......
         - if(submissions.length == pageLimit)
             a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset) 下一页
