@@ -305,3 +305,8 @@ body {
     overflow-y: scroll;
     height: 500px;
 }
+
+td
+{
+    white-space: nowrap;
+}
