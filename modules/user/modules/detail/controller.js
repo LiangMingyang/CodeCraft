@@ -112,6 +112,9 @@
       if (!req.session.user) {
         throw new global.myErrors.UnknownUser();
       }
+      if (req.session.user.id !== req.params.userID) {
+        throw new global.myErrors.InvalidAccess();
+      }
       return res.render('user/user_updatepw', {
         user: req.session.user
       });

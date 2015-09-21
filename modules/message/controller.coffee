@@ -1,7 +1,10 @@
 #global.myUtils = require('./utils')
+Promise = require('sequelize').Promise
 
 LOGIN_PAGE = 'user/login'
 HOME_PAGE = '/'
+
+
 
 exports.getIndex = (req, res) ->
   throw new global.myErrors.UnknownUser() if not req.session.user

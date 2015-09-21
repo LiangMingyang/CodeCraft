@@ -32,6 +32,8 @@
 
   router.use('/:userID([0-9]+)', modules.detail.router);
 
+  router.get('/binding', controller.getBinding);
+
   module.exports = router;
 
 }).call(this);

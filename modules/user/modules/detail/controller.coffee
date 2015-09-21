@@ -87,6 +87,7 @@ exports.getUpdatePW = (req, res) ->
   global.db.Promise.resolve()
   .then ->
     throw new global.myErrors.UnknownUser() if not req.session.user
+    throw new global.myErrors.InvalidAccess() if req.session.user.id isnt req.params.userID
     res.render 'user/user_updatepw', {
       user: req.session.user
     }
