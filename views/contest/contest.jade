@@ -2,12 +2,13 @@
    Created by zp on 15-6-5.
 if(contest)
     - if(contest.start_time <= (new Date()))
-        .form-horizontal.list-group
+        .list-group
             a(class="list-group-item normal-color", id="indexPage", href="./index") 赛事信息
             a(class="list-group-item normal-color", id="problemPage", href="./problem") 比赛题目
             a(class="list-group-item normal-color", id="rankPage", href="./rank") 比赛排名
             a(class="list-group-item normal-color", id="submissionPage", href="./submission") 提交记录
             a(class="list-group-item normal-color", id="issuePage", href="./index") 比赛公告
+            a(class="list-group-item normal-color", id="createPage", href="./edit") 编辑比赛
             script.
                 if("#{whichPage}"=="赛事信息")
                     $("#indexPage").attr("class","list-group-item change-color");

@@ -7,10 +7,16 @@ block title
 block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
-    .col-lg-12
+    - var yy;
+    - var mm;
+    - var dd;
+    - var hh;
+    - var mi;
+    - var ss;
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
         h3 所有赛事
-        table.table.table-condensed.table-center
-            tr.text-center
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+            tr.contest-title-tr.text-center
                 td 比赛ID
                 td 比赛状态
                 td 比赛标题
@@ -21,6 +27,22 @@ block content
                 - for (var i = 0 ; i < contests.length ; ++i)
                     - var contest = contests[i]
                     tr.text-center(id = "tr" + i)
+                        - yy = contest.start_time.getFullYear();
+                        - mm = contest.start_time.getMonth() - 0 + 1;
+                        - if(mm<10)
+                            - mm="0"+mm;
+                        - dd = contest.start_time.getDate();
+                        - if(dd<10)
+                            - dd="0"+dd;
+                        - hh = contest.start_time.getHours();
+                        - if(hh<10)
+                            - hh="0"+hh;
+                        - mi = contest.start_time.getMinutes();
+                        - if(mi<10)
+                            - mi="0"+mi;
+                        - ss = contest.start_time.getSeconds();
+                        - if(ss<10)
+                            - ss="0"+ss;
                         - if(i % 2 == 1)
                             - oddEvenTable = "odd"
                         - else
@@ -41,13 +63,31 @@ block content
                             a(href= "/contest/" + contest.id + "/index") #{contest.title}
                         td
                             a(href= "../group/" + contest.group.id + "/index") #{contest.group.name}
-                        td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
-                        td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
+                        td #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+                        - yy = contest.end_time.getFullYear();
+                        - mm = contest.end_time.getMonth() - 0 + 1;
+                        - if(mm<10)
+                            - mm="0"+mm;
+                        - dd = contest.end_time.getDate();
+                        - if(dd<10)
+                            - dd="0"+dd;
+                        - hh = contest.end_time.getHours();
+                        - if(hh<10)
+                            - hh="0"+hh;
+                        - mi = contest.end_time.getMinutes();
+                        - if(mi<10)
+                            - mi="0"+mi;
+                        - ss = contest.end_time.getSeconds();
+                        - if(ss<10)
+                            - ss="0"+ss;
+                        td #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+                        //td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
+                        //td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
                         script.
                             $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
                             $("#td#{i}").attr("class", "#{colorOfTable}td");
     //.col-lg-2
-    .col-lg-12.col-md-12.col-sm-12submission.jade
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
         - if(!pageLimit)
             - pageLimit = 15;
         - if(!page)

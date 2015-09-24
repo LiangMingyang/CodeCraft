@@ -19,9 +19,10 @@ if(group)
                 | 小组题目------#{problemCount}道
             - else
                 | 小组题目
-        a(class="list-group-item normal-color", id="group-problemPage", href="./index") 参考书籍
-        a(class="list-group-item normal-color", id="group-problemPage", href="./index") 小组论坛
-        a(class="list-group-item normal-color", id="group-returnPage", href="../index") 返回所有小组
+        a(class="list-group-item normal-color", id="group-create-problemPage", href="./createProblem") 创建题目
+        a(class="list-group-item normal-color", id="group-create-contestPage", href="./createContest") 创建比赛
+        a(class="list-group-item normal-color", id="group-manage", href="./manage/index") 管理小组
+        a(class="list-group-item normal-color", id="group-returnPage", href="../index", style="margin-top:20px;") 返回所有小组
     script.
         if("#{whichPage}"=="小组题目")
             $("#group-problemPage").attr("class","list-group-item change-color");

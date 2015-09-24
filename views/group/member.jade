@@ -8,23 +8,29 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./group.jade
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         if(group)
             h3 #{group.name}的小组成员
-            table(class = "table table-striped").containing
-                tr
+            - var oddEvenTable = "odd"
+            table.table.table-condensed.table-center.containing(style="border:1px solid #DDDDDD;")
+                tr.group-title-tr
                     td 昵称
                     td 身份
                 - for (var i = 0 ; i < group.users.length ; ++i)
+                    - if(i % 2 == 1)
+                        - oddEvenTable = "odd"
+                    - else
+                        - oddEvenTable = "even"
                     - var member = group.users[i]
-                    tr
+                    tr(id="tr" + i)
                         td
                             a(href= "/user/" + member.id + "/index") #{member.nickname}
                         td #{member.membership.access_level}
+                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
             .row
-                .col-lg-12.col-md-12.col-sm-12
+                .col-lg-12.col-md-12.col-sm-12.col-xs-12
                     - if(!pageLimit)
                         - pageLimit = 100;
                     - if(!offset)
@@ -38,4 +44,4 @@ block content
                     a.button.btn.btn-default(href="./member") 首页
                     - if(group.users.length == pageLimit)
                         a.button.btn.btn-default(href="./member?offset=" + nextOffset) 下一页
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

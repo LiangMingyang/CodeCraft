@@ -1,0 +1,69 @@
+//
+   Created by zp on 15-9-23.
+
+extends ../layout
+block title
+    - var whichPage = "管理小组题目"
+    title #{whichPage}
+
+block content
+    - var oddEvenTable = "odd";
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        include manage-list
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+        if(group)
+            form(method='post')
+                h3 #{group.name}的小组题目
+                table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+                    tr.text-center.problem-title-tr
+                        td 题目ID
+                        td 题目标题
+                        td 题目创建者
+                        td(id="mytd", onmouseover="$('#mytd').popover('show')", onmouseout="$('#mytd').popover('hide')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="top", data-content="私有：仅小组管理员和题目创建者可见<br>组内可见：在私有的基础上只要是小组的成员即可见<br>所有人可见：所有用户都可见") 题目权限设置
+                    - if(problems && problems.length)
+                        - for(var i = 0;i < problems.length; i++)
+                            - if(i % 2 == 1)
+                                - oddEvenTable = "odd";
+                            - else
+                                - oddEvenTable = "even";
+                            tr.text-center(id = "tr" + i)
+                                td
+                                    input(type="hidden", value=problems[i].id, name="problem_id", id="problem_id_"+i)
+                                    a(href= "../../../problem/" + problems[i].id + "/index") #{problems[i].id}
+                                td
+                                    a(href= "../../../problem/" + problems[i].id + "/index") #{problems[i].title}
+                                td
+                                    a(href= "../../../user/" + problems[i].creator.id + "/index") #{problems[i].creator.nickname}
+                                td
+                                    input(type="hidden", value=problems[i].access_level, name="access_level", id="access_level_"+i)
+                                    button.btn.btn-default.btn-xs(type="button", id="button_1_"+i, onclick="change_type("+ i + ",'private')") 私有
+                                    button.btn.btn-default.btn-xs(type="button", id="button_2_"+i, onclick="change_type("+ i + ",'protect')") 组内可见
+                                    button.btn.btn-default.btn-xs(type="button", id="button_3_"+i, onclick="change_type("+ i + ",'public')") 所有人可见
+                                script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+                button.btn.btn-success(type="submit") 保存
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+    script.
+        $(document).ready(function() {
+            for(var i=0;i<"#{problems.length}";i++){
+                change_type(i,$("#access_level_"+i).val());
+            }
+        });
+        function change_type(i,str){
+            var btn1 = $("#button_1_" + i);
+            var btn2 = $("#button_2_" + i);
+            var btn3 = $("#button_3_" + i);
+            if (str == 'public') {
+                btn1.attr("class", "btn btn-default btn-xs");
+                btn2.attr("class", "btn btn-default btn-xs");
+                btn3.attr("class", "btn btn-success btn-xs");
+            }else if(str == 'protect'){
+                btn1.attr("class", "btn btn-default btn-xs");
+                btn2.attr("class", "btn btn-info btn-xs");
+                btn3.attr("class", "btn btn-default btn-xs");
+            }else {
+                btn1.attr("class", "btn btn-warning btn-xs");
+                btn2.attr("class", "btn btn-default btn-xs");
+                btn3.attr("class", "btn btn-default btn-xs");
+            }
+            $("#access_level_" + i).val(str);
+        }

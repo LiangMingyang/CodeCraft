@@ -12,9 +12,9 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./group.jade
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         - if ( !isMember )
             a.button.btn.btn-default(href="join" style="margin-top:20px") 加入该小组
         //- else
@@ -22,4 +22,4 @@ block content
         if(group)
             h3 #{group.name}的小组简介
             p.containing #{group.description}
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

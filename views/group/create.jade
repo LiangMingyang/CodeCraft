@@ -10,10 +10,10 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2
-        .list-group
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        //.list-group
             a.list-group-item(href="/group/index") 返回小组列表
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 申请创建小组
         form(method='post').containing
             .form-group
@@ -21,6 +21,6 @@ block content
                 input.form-control(type="input", id="name", name='name', placeholder="输入小组名称")
             .form-group
                 label.sr-only(for="description") 小组简介
-                textarea.form-control(type="input", rows="10", id="description", name='description', placeholder="输入小组简介")
+                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", id="description", name='description', placeholder="输入小组简介")
             button.btn.btn-success(type="submit") 提交
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

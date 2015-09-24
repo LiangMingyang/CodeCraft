@@ -1,0 +1,154 @@
+//
+   Created by zp on 15-9-23.
+
+extends ../layout
+block title
+    - var whichPage = "管理小组成员"
+    title #{whichPage}
+
+block content
+    - var oddEvenTable = "odd";
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        include manage-list
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+        if(group)
+            form(method='post')
+                h3 #{group.name}的小组成员
+                .list-group
+                    button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.change-color.text-center(type="button", id="button-top-1", onclick="change_nav(1)") 小组所有成员
+                    button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.normal-color.text-center(type="button", id="button-top-2", onclick="change_nav(2)") 申请中的用户
+                    //button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.normal-color.text-center(type="button", id="button-top-3", onclick="change_nav(3)") 邀请用户
+                table.table.table-condensed.table-center(id="table-1", style="margin-top:70px;border:1px solid #DDDDDD;display:table;")
+                    tr.text-center.problem-title-tr
+                        td 用户ID
+                        td 用户昵称
+                        td 用户学号
+                        td 用户权限
+                    - if(members)
+                        - members.sort(function(a,b){var ia,ib;if(a.membership.access_level == 'owner')ia=0;else if(a.membership.access_level == 'admin')ia=1;else if(a.membership.access_level == 'member')ia=2;else ia=3;
+                        - if(b.membership.access_level == 'owner')ib=0;else if(b.membership.access_level == 'admin')ib=1;else if(b.membership.access_level == 'member')ib=2;else ib=3;if(ia==ib)return a.id - b.id;else return ia-ib;});
+                        - for(var i = 0;i < members.length; i++)
+                            - if(members[i].membership.access_level == 'verifying')
+                                - continue;
+                            - if(i % 2 == 1)
+                                - oddEvenTable = "odd";
+                            - else
+                                - oddEvenTable = "even";
+                            tr.text-center(id = "tr" + i)
+                                td
+                                    a(href= "../../../user/" + members[i].id + "/index") #{members[i].id}
+                                td
+                                    input(type="hidden", value=members[i].id, name="user_id", id="member_id_"+i)
+                                    a(href= "../../../user/" + members[i].id + "/index") #{members[i].nickname}
+                                td
+                                    - if(!members[i].student_id || members[i].student_id == "")
+                                        a(href= "../../../user/" + members[i].id + "/index") ------
+                                    - else
+                                        a(href= "../../../user/" + members[i].id + "/index") #{members[i].student_id}
+                                td
+                                    input(type="hidden", value=members[i].membership.access_level, name="access_level", id="access_level_"+i)
+                                    - if(members[i].membership.access_level == 'owner')
+                                        button.btn.btn-primary.btn-xs(type="button") 小组所有者
+                                    - else
+                                        button.btn.btn-default.btn-xs(type="button", id="button_1_"+i, onclick="change_type("+ i + ",'admin')") 管理员
+                                        button.btn.btn-default.btn-xs(type="button", id="button_2_"+i, onclick="change_type("+ i + ",'member')") 普通用户
+                                        button.btn.btn-default.btn-xs(type="button", id="button_3_"+i, onclick="change_type("+ i + ",'delete')") 踢除用户
+                                script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+                table.table.table-condensed.table-center(id="table-2", style="margin-top:70px;border:1px solid #DDDDDD;display:none;")
+                    tr.text-center.problem-title-tr
+                        td 用户ID
+                        td 用户昵称
+                        td 用户学号
+                        td 申请结果
+                    - if(members)
+                        - for(var i = 0;i < members.length; i++)
+                            - if(members[i].membership.access_level != 'verifying')
+                                - continue;
+                            - if(i % 2 == 1)
+                                - oddEvenTable = "odd";
+                            - else
+                                - oddEvenTable = "even";
+                            tr.text-center(id = "tr" + i)
+                                td
+                                    a(href= "../../../user/" + members[i].id + "/index") #{members[i].id}
+                                td
+                                    input(type="hidden", value=members[i].id, name="user_id", id="member_id_"+i)
+                                    a(href= "../../../user/" + members[i].id + "/index") #{members[i].nickname}
+                                td
+                                    - if(!members[i].student_id || members[i].student_id == "")
+                                        a(href= "../../../user/" + members[i].id + "/index") ------
+                                    - else
+                                        a(href= "../../../user/" + members[i].id + "/index") #{members[i].student_id}
+                                td
+                                    input(type="hidden", value=members[i].membership.access_level, name="access_level", id="access_level_"+i)
+                                    - if(members[i].membership.access_level == 'owner')
+                                        button.btn.btn-primary.btn-xs(type="button") 小组所有者
+                                    - else
+                                        button.btn.btn-default.btn-xs(type="button", id="button_4_"+i, onclick="change_type("+ i + ",'member')") 通过
+                                        button.btn.btn-default.btn-xs(type="button", id="button_5_"+i, onclick="change_type("+ i + ",'delete')") 不通过
+                                        button.btn.btn-default.btn-xs(type="button", id="button_6_"+i, onclick="change_type("+ i + ",'verifying')") 不处理
+                                script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+                button.btn.btn-success(type="submit") 保存
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+    script.
+        $(document).ready(function() {
+            for(var i=0;i<"#{members.length}";i++){
+                change_type(i,$("#access_level_"+i).val());
+            }
+        });
+        function change_nav(i){
+            var btn1 = $("#button-top-1");
+            var btn2 = $("#button-top-2");
+            var btn3 = $("#button-top-3");
+            var tab1 = $("#table-1");
+            var tab2 = $("#table-2");
+            if(i==1) {
+                btn1.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item change-color text-center");
+                btn2.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item normal-color text-center");
+                btn3.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item normal-color text-center");
+                tab1.css("display", "table");
+                tab2.css("display", "none");
+            }else if(i==2){
+                btn1.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item normal-color text-center");
+                btn2.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item change-color text-center");
+                btn3.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item normal-color text-center");
+                tab1.css("display", "none");
+                tab2.css("display", "table");
+            }else if(i==3){
+                btn1.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item normal-color text-center");
+                btn2.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item normal-color text-center");
+                btn3.attr("class", "col-lg-4 col-md-4 col-sm-4 col-xs-4 list-group-item change-color text-center");
+            }
+        }
+        function change_type(i,str){
+            var btn1 = $("#button_1_" + i);
+            var btn2 = $("#button_2_" + i);
+            var btn3 = $("#button_3_" + i);
+            var btn4 = $("#button_4_" + i);
+            var btn5 = $("#button_5_" + i);
+            var btn6 = $("#button_6_" + i);
+            if (str == 'delete') {
+                btn1.attr("class", "btn btn-default btn-xs");
+                btn2.attr("class", "btn btn-default btn-xs");
+                btn3.attr("class", "btn btn-danger btn-xs");
+                btn4.attr("class", "btn btn-default btn-xs");
+                btn5.attr("class", "btn btn-danger btn-xs");
+                btn6.attr("class", "btn btn-default btn-xs");
+            }else if(str == 'member'){
+                btn1.attr("class", "btn btn-default btn-xs");
+                btn2.attr("class", "btn btn-info btn-xs");
+                btn3.attr("class", "btn btn-default btn-xs");
+                btn4.attr("class", "btn btn-success btn-xs");
+                btn5.attr("class", "btn btn-default btn-xs");
+                btn6.attr("class", "btn btn-default btn-xs");
+            }else if(str == 'admin'){
+                btn1.attr("class", "btn btn-warning btn-xs");
+                btn2.attr("class", "btn btn-default btn-xs");
+                btn3.attr("class", "btn btn-default btn-xs");
+            }else if(str == 'verifying'){
+                btn4.attr("class", "btn btn-default btn-xs");
+                btn5.attr("class", "btn btn-default btn-xs");
+                btn6.attr("class", "btn btn-info btn-xs");
+            }
+            $("#access_level_" + i).val(str);
+        }

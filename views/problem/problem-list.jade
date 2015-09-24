@@ -1,0 +1,6 @@
+//
+    zp
+if(contest)
+    .text-center
+        - for (var i = 0 ; i < contest.problems.length ; ++i)
+            a.btn.btn-default(href= "../../problem/" +contest.problems[i].contest_problem_list.order + "/index") #{contest.problems[i].contest_problem_list.order}

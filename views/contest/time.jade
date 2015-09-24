@@ -1,30 +1,194 @@
 //
    Created by mamaosheng on 15/6/13.
-if(contest)
-    - var dateOfTime = new Date();
-    - var endTime = contest.end_time - dateOfTime;
-    - var endSeconds = (endTime - endTime % 1000) / 1000 % 60
-    - var endMinutes = ((endTime - endTime % 1000) / 1000 - endSeconds) / 60 % 60
-    - var endHours = ((endTime - endTime % 1000) / 1000 - endSeconds - endMinutes * 60) / 3600
-    - var startTime = contest.start_time - dateOfTime;
-    - var startSeconds = (startTime - startTime % 1000) / 1000 % 60
-    - var startMinutes = ((startTime - startTime % 1000) / 1000 - startSeconds) / 60 % 60
-    - var startHours = ((startTime - startTime % 1000) / 1000 - startSeconds - startMinutes * 60) / 3600
-    if(contest.start_time <= (new Date()) && contest.end_time > (new Date()))
-        label(style="margin-top:20px") 服务器当前时间
-        br
-        label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
-        br
-        label 距比赛结束还有
-        br
-        label #{endHours}:#{endMinutes}:#{endSeconds}
-        br
-    if(contest.start_time > (new Date()))
-        label(style="margin-top:20px") 服务器当前时间
-        br
-        label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
-        br
-        label 距比赛开始还有
-        br
-        label #{startHours}:#{startMinutes}:#{startSeconds}
-        br
+.text-center
+    if(contest)
+        - var yy;
+        - var mm;
+        - var dd;
+        - var hh;
+        - var mi;
+        - var ss;
+        //以上为标准时间的格式计算变量
+        - var et;
+        - var nt;
+        - var tc;
+        - var st;
+        - nt = new Date();//服务器时间
+        - var sss;
+        - var mmm;
+        - var hhh;
+        - var ddd;
+        //以上为时间差计算变量
+        - yy = nt.getFullYear();
+        - mm = nt.getMonth() - 0 + 1;
+        - if(mm<10)
+            - mm="0"+mm;
+        - dd = nt.getDate();
+        - if(dd<10)
+            - dd="0"+dd;
+        - hh = nt.getHours();
+        - if(hh<10)
+            - hh="0"+hh;
+        - mi = nt.getMinutes();
+        - if(mi<10)
+            - mi="0"+mi;
+        - ss = nt.getSeconds();
+        - if(ss<10)
+            - ss="0"+ss;
+        //计算完成服务器时间变量
+        label.col-lg-12.col-md-12.col-sm-12.col-xs-12(style="border:1px solid #DDDDDD;background-color:#F5F5F5;margin-bottom:0;margin-top:15px;padding-top:5px;padding-bottom:5px;") 服务器当前时间
+            br
+            label(id="server_now_time") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+            br
+        - et = contest.end_time;
+        - st = contest.start_time;
+        - yy = et.getFullYear();
+            - mm = et.getMonth() - 0 + 1;
+        - if(mm<10)
+            - mm="0"+mm;
+        - dd = et.getDate();
+        - if(dd<10)
+            - dd="0"+dd;
+        - hh = et.getHours();
+        - if(hh<10)
+            - hh="0"+hh;
+        - mi = et.getMinutes();
+        - if(mi<10)
+            - mi="0"+mi;
+        - ss = et.getSeconds();
+        - if(ss<10)
+            - ss="0"+ss;
+        label.col-lg-12.col-md-12.col-sm-12.col-xs-12(style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;") 服务器结束时间
+            br
+            label(id="server_end_time") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+            br
+        label.col-lg-12.col-md-12.col-sm-12.col-xs-12(id="difference_time", style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;")
+            - if(nt > st && nt < et)
+                label(style="color:red;") 距离比赛结束
+                br
+                - tc = et - nt;
+            - else if(nt < st)
+                label(style="color:blue;") 距离比赛开始
+                br
+                - tc = st - nt;
+            - else
+                label 比赛已经结束
+                br
+            - if(nt < et)
+                - sss = (tc - tc % 1000) / 1000 + 1;
+                - mmm = (sss - sss % 60) / 60;
+                - hhh = (mmm - mmm % 60) / 60;
+                - ddd = (hhh - hhh % 24) / 24;
+                - sss = sss % 60;
+                - mmm = mmm % 60;
+                - hhh = hhh % 24;
+                - tc = "";
+                - if(ddd!=0)
+                    - tc += ddd + " 天 ";
+                    - tc += hhh + " 小时";
+                - else if(hhh!=0)
+                    - tc += hhh + " 小时 ";
+                    - tc += mmm + " 分钟";
+                - else if(mmm!=0)
+                    - tc += mmm + " 分钟 ";
+                    - tc += sss + " 秒";
+                - else
+                    - tc += sss + " 秒";
+                label #{tc}
+            //计算完成时间差变量
+        script.
+            var server_now_time = new Date("#{nt}");
+            var server_start_time = new Date("#{st}");
+            var server_end_time = new Date("#{et}");
+            $(document).ready(function () {
+                setInterval("change_time_every_second()", 1000);
+            });
+            function change_time_every_second(){
+                server_now_time = new Date(server_now_time.getTime() + 1000);
+                var str = "";
+                var temp = server_now_time.getFullYear();
+                str += temp + '-';
+                temp = server_now_time.getMonth() - 0 + 1;
+                if (temp < 10) temp = '0' + temp;
+                str += temp + '-';
+                temp = server_now_time.getDate();
+                if (temp < 10) temp = '0' + temp;
+                str += temp + ' ';
+                temp = server_now_time.getHours();
+                if (temp < 10) temp = '0' + temp;
+                str += temp + ':';
+                temp = server_now_time.getMinutes();
+                if (temp < 10) temp = '0' + temp;
+                str += temp + ':';
+                temp = server_now_time.getSeconds();
+                if (temp < 10) temp = '0' + temp;
+                str += temp;
+                $("#server_now_time").html(str);
+                var difference_time_of_contest;
+                if(server_now_time < server_start_time){
+                    str = "<label style='color:blue;'>距离比赛开始</label><br /><label>"
+                    difference_time_of_contest = new Date(server_start_time - server_now_time);
+                }
+                else if(server_now_time < server_end_time){
+                    str = "<label style='color:red;'>距离比赛结束</label><br /><label>"
+                    difference_time_of_contest = new Date(server_end_time - server_now_time);
+                }
+                else{
+                    str = "<label>比赛已经结束</label><br />"
+                }
+                if(server_now_time < server_end_time){
+                    var sss = (difference_time_of_contest - difference_time_of_contest % 1000) / 1000;
+                    var mmm = (sss - sss % 60) / 60;
+                    var hhh = (mmm - mmm % 60) / 60;
+                    var ddd = (hhh - hhh % 24) / 24;
+                    sss = sss % 60;
+                    mmm = mmm % 60;
+                    hhh = hhh % 24;
+                    if(ddd!=0){
+                        str += ddd + " 天 ";
+                        str += hhh + " 小时";
+                    }
+                    else if(hhh!=0){
+                        str += hhh + " 小时 ";
+                        str += mmm + " 分钟";
+                    }
+                    else if(mmm!=0){
+                        str += mmm + " 分钟 ";
+                        str += sss + " 秒";
+                    }
+                    else{
+                        str += sss + " 秒";
+                    }
+                    str += '</label>';
+                }
+                $("#difference_time").html(str);
+            }
+
+        //- var dateOfTime = new Date();
+        //- var endTime = contest.end_time - dateOfTime;
+        //- var endSeconds = (endTime - endTime % 1000) / 1000 % 60
+        //- var endMinutes = ((endTime - endTime % 1000) / 1000 - endSeconds) / 60 % 60
+        //- var endHours = ((endTime - endTime % 1000) / 1000 - endSeconds - endMinutes * 60) / 3600
+        //- var startTime = contest.start_time - dateOfTime;
+        //- var startSeconds = (startTime - startTime % 1000) / 1000 % 60
+        //- var startMinutes = ((startTime - startTime % 1000) / 1000 - startSeconds) / 60 % 60
+        //- var startHours = ((startTime - startTime % 1000) / 1000 - startSeconds - startMinutes * 60) / 3600
+        //if(contest.start_time <= (new Date()) && contest.end_time > (new Date()))
+        //    label(style="margin-top:20px") 服务器当前时间
+        //    br
+        //    label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
+        //    br
+        //    label 距比赛结束还有
+        //    br
+        //    label #{endHours}:#{endMinutes}:#{endSeconds}
+        //    br
+        //if(contest.start_time > (new Date()))
+        //    label(style="margin-top:20px") 服务器当前时间
+        //    br
+        //    label #{dateOfTime.getFullYear()}-#{dateOfTime.getMonth() + 1}-#{dateOfTime.getDate()} #{dateOfTime.getHours()}:#{dateOfTime.getMinutes()}:#{dateOfTime.getSeconds()}
+        //    br
+        //    label 距比赛开始还有
+        //    br
+        //    label #{startHours}:#{startMinutes}:#{startSeconds}
+        //    br
+       // if(contest.start_time <= nt && contest.end_time > nt)

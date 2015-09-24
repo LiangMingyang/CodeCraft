@@ -1,0 +1,23 @@
+//
+   Created by zp on 15-9-23.
+
+extends ../layout
+block title
+    - var whichPage = "管理小组"
+    title #{whichPage}
+
+block content
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        include manage-list
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+        - if(group)
+            h3 #{group.name}的小组简介
+        - else
+            h3 小组简介
+        form(method='post')
+            - if(!group.description)
+                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='description', id="description", value="", placeholder="请输入小组简介")
+            - else
+                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='description', id="description", value="", placeholder="请输入小组简介") #{group.description}
+            button.btn.btn-success(type="submit") 保存
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

@@ -8,11 +8,12 @@ block title
 
 block content
     include contest-title.jade
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
-    .col-lg-8
+        include time.jade
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 比赛排名
-        table(class = "table table-striped").containing
+        table(class = "table table-striped", style="border:1px solid #DDDDDD;").containing
             tr.text-center
                 td 排名
                 td 用户
@@ -24,19 +25,23 @@ block content
                         td
                             a(href="problem/"+problem.contest_problem_list.order) #{problem.contest_problem_list.order}
             if(rank)
-                - var seconds = 0
-                - var minutes = 0
-                - var hours = 0
-                - var oddeventable = "odd"
-                - var coloroftable = "red"
+                - var seconds = 0;
+                - var minutes = 0;
+                - var hours = 0;
+                - var oddeventable = "odd";
+                - var coloroftable = "red";
                 - for(var j = 0 ; j < rank.length ; ++j)
                     tr.text-center
                         td #{j+1}
                         td #{rank[j].user.nickname}
                         td #{rank[j].score}
-                        - seconds = (rank[j].penalty - rank[j].penalty % 1000) / 1000 % 60
-                        - minutes = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds) / 60 % 60
-                        - hours = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds - minutes * 60) / 3600
+                        - seconds = (rank[j].penalty - rank[j].penalty % 1000) / 1000 % 60;
+                        - if(seconds < 10)
+                            - seconds = "0" + seconds;
+                        - minutes = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds) / 60 % 60;
+                        - if(minutes < 10)
+                            - minutes = "0" + minutes;
+                        - hours = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds - minutes * 60) / 3600;
                         - if(j % 2 == 1)
                             - oddeventable = "odd"
                         - else
@@ -46,23 +51,37 @@ block content
                         - for(var k = 0 ; k < contest.problems.length ; ++k)
                             - var p = contest.problems[k];
                             - var order = p.contest_problem_list.order;
-                            - var times = rank[j].detail[order].accepted_time;
-                            - seconds = (times - times % 1000) / 1000 % 60
-                            - minutes = ((times - times % 1000) / 1000 - seconds) / 60 % 60
-                            - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600
                             - if(rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
-                                td(id="td" + j + k) #{hours}:#{minutes}:#{seconds} (-#{rank[j].detail[order].wrong_count})
+                                - var times = rank[j].detail[order].accepted_time;
+                                - seconds = (times - times % 1000) / 1000 % 60;
+                                - if(seconds < 10)
+                                    - seconds = "0" + seconds;
+                                - minutes = ((times - times % 1000) / 1000 - seconds) / 60 % 60;
+                                - if(minutes < 10)
+                                    - minutes = "0" + minutes;
+                                - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600;
+                                td(id="td" + "-" + j + "-" + k) #{hours}:#{minutes}:#{seconds} (-#{rank[j].detail[order].wrong_count})
                             - else if(rank[j].detail[order])
-                                td(id="td" + j + k) #{hours}:#{minutes}:#{seconds}
+                                - var times = rank[j].detail[order].accepted_time;
+                                - seconds = (times - times % 1000) / 1000 % 60;
+                                - if(seconds < 10)
+                                    - seconds = "0" + seconds;
+                                - minutes = ((times - times % 1000) / 1000 - seconds) / 60 % 60;
+                                - if(minutes < 10)
+                                    - minutes = "0" + minutes;
+                                - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600;
+                                td(id="td" + "-" + j + "-" + k) #{hours}:#{minutes}:#{seconds}
                             - else
-                                td
+                                td(id="td" + "-" + j + "-" + k)
                             - if(!rank[j].detail[order])
-                                - coloroftable = "white"
+                                - coloroftable = "white";
                             - else if(rank[j].detail[order].result == "AC")
-                                - coloroftable = "green"
+                                - coloroftable = "green";
+                            - else if(rank[j].detail[order].score > 0)
+                                - coloroftable = "blue";
                             - else
-                                - coloroftable = "red"
-                            script $("#td#{j}#{k}").attr("class","#{oddeventable}#{coloroftable}td");
-
-    .col-lg-2
-        include time.jade
+                                - coloroftable = "red";
+                            script $("#td-#{j}-#{k}").attr("class","#{oddeventable}#{coloroftable}td");
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+    script.
+        //$("#td-0-0").attr("class","yixiegreentd");

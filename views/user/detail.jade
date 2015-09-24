@@ -14,35 +14,89 @@ extends ../layout
 block title
     - var whichPage = "个人信息"
     title #{whichPage}
+    link(rel='stylesheet', href='/stylesheets/problem/detail.css')
+
+block script
+    script(src="/js/markdown.js")
 
 block content
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2
-        include ./user.jade
-    .col-lg-8.col-md-8.col-sm-8.col-xs-8
-        - if (user && target && user.id === target.id)
-            h3 个人信息
-        - else if(target)
-            h3 #{target.nickname}的信息
-        if(target)
-            //span 昵称
-            //span #{target.nickname}
-            table.table.table-hover
-                tr
-                    td 昵称
-                    td #{target.nickname}
-                tr
-                    td 学校
-                    td #{target.school}
-                tr
-                    td 专业
-                    td #{target.college}
-                tr
-                    td 学号
-                    td #{target.student_id}
-                tr
-                    td 简介
-                    td #{target.description}
-                tr
-                    td 等级
-                    td -----
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        - if (user.id === target.id)
+            include ./user.jade
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+        //- if (user && target && user.id === target.id)
+        //    h3 个人信息
+        //- else if(target)
+        //    h3 #{target.nickname}的信息
+        - if(target)
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                h3(style="color: blue; font-weight: bold;")
+                    |Expert
+                    |#{target.nickname}
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-triangle-top(aria-hidden="true" style="margin-right: 10px;color: springgreen;" )
+                label.form-control-static
+                    |排&nbsp&nbsp&nbsp&nbsp名:
+                    |-----
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-stats(aria-hidden="true" style="margin-right: 10px;color: red;")
+                label.form-control-static
+                    |Rating:
+                    |-----
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-ok(aria-hidden="true" style="margin-right: 10px;color: green;")
+                label.form-control-static
+                    |过题数:
+                    |-----
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-send(aria-hidden="true" style="margin-right: 10px;color: deepskyblue")
+                label.form-control-static
+                    |提交数:
+                    |-----
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-menu-right(aria-hidden="true" style="margin-right: 10px;color: lightgreen;")
+                label.form-control-static
+                    |学&nbsp&nbsp&nbsp&nbsp校:
+                    |#{target.school}
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-menu-right(aria-hidden="true" style="margin-right: 10px;color: lightgreen;")
+                label.form-control-static
+                    |专&nbsp&nbsp&nbsp&nbsp业:
+                    |#{target.college}
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-envelope(aria-hidden="true" style="margin-right: 10px;color: white;")
+                label.form-control-static
+                    |邮&nbsp&nbsp&nbsp&nbsp箱:
+                    |-----
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-tint(aria-hidden="true" style="margin-right: 10px;color: royalblue;")
+                label.form-control-static
+                    |学&nbsp&nbsp&nbsp&nbsp号:
+                    - if(target.student_id)
+                        |#{target.student_id}
+                    - else
+                        |-----
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                span.glyphicon.glyphicon-user(aria-hidden="true" style="margin-right: 10px;")
+                label.form-control-static
+                    |简&nbsp&nbsp&nbsp&nbsp介:
+            .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
+                textarea.form-control#fuck_br(readonly="true", rows = "10", style="resize: none;max-height: 300px;width: 100%;") #{target.description}
+                //p#fuck_br !{target.description.replace("\n","<br>")}
+            //script document.getElementById("fuck_br").innerHTML = (markdown.toHTML($("#fuck_br").html()));
+
+            //script var fuck_br_str =
+            //script $("#fuck_br").html();
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+
+//TODO:
+//return a=parseInt(a,10),a?
+//a>=2600?"International Grandmaster": "red"
+//a>=2200?"Grandmaster": "red"
+//a>=2050?"International Master": "orange"
+//a>=1900?"Master": "orange"
+//a>=1700?"Candidate Master": "violet"
+//a>=1500?"Expert": "blue"
+//a>=1350?"Specialist": "green"
+//a>=1200?"Pupil": "green"
+//"Newbie": "black"

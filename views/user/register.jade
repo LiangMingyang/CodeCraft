@@ -7,20 +7,20 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-6
+    .col-lg-6.col-md-6.col-sm-6.col-xs-12
         h3 注册
         form(method='post', id="form").containing
             .form-group
-                label.sr-only(for="email")邮箱
+                label.sr-only(for="email") 邮箱
                 input.form-control(type="email", id="email", name='username', placeholder="输入邮箱")
             .form-group
-                label.sr-only(for="password")密码
+                label.sr-only(for="password") 密码
                 input.form-control(type="password", id="password", name='password', placeholder="输入密码")
             .form-group
-                label.sr-only(for="password2")重复密码
+                label.sr-only(for="password2") 重复密码
                 input.form-control(type="password", id="password2", name='password2', placeholder="重复密码")
             .form-group
-                label.sr-only(for="nickname")昵称
+                label.sr-only(for="nickname") 昵称
                 input.form-control(type="input", id="nickname", name='nickname', placeholder="输入昵称，不超过30个字符")
             .form-group
                 label.sr-only 学校
@@ -35,9 +35,10 @@ block content
             button.btn.btn-default(type="button", onclick="checkInformation()") 注册
             script.
                 function checkInformation(){
-                    if($("#nickname").val().length >= 30)
+                    if($("#nickname").val().length >= 30){
                         logoAlert("用户昵称过长！");
-                    else
+                    }else{
                         $("#form").submit();
+                    }
                 }
-    .col-lg-6
+    .col-lg-6.col-md-6.col-sm-6.col-xs-12

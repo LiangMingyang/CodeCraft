@@ -5,20 +5,20 @@ block title
     - var whichPage = "小组题目"
     title #{whichPage}
 block content
-    - var oddEvenTable = "odd"
-    - var level = 0
-    .col-lg-2.col-md-2.col-sm-2
+    - var oddEvenTable = "odd";
+    - var level = 0;
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./group.jade
-    .col-lg-8.col-md-8.col-sm-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 #{group.name}的小组题目
-        table.table.table-condensed.table-center
-            tr.text-center
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+            tr.text-center.problem-title-tr
                 - if(user)
                     td 状态
                 td 题目ID
                 td 题目标题
-                td 难度
-                td 通过/提交
+                //td 难度
+                td 通过人数/提交人数
             - if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - if(i % 2 == 1)
@@ -40,18 +40,18 @@ block content
                             a(href= "../../problem/" + problem.id + "/index") #{problem.id}
                         td
                             a(href= "../../problem/" + problem.id + "/index") #{problem.title}
-                        td.progress
-                            - level = i*(i*(i*(i+1)+1)+problem.id)%101;
-                            - if (level < 10) level = 10;
-                            - if (level < 50)
-                                .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
-                                    span.sr-only #{level}% Complete (success)
-                            - else if (level < 80)
-                                .progress-bar.progress-bar-warning.active.progress-bar-striped(style="width: " + level + "%")
-                                    span.sr-only #{level}% Complete (warning)
-                            - else
-                                .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
-                            span.sr-only #{level}% Complete (danger)
+                        //td.progress
+                        //    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
+                        //    - if (level < 10) level = 10;
+                        //    - if (level < 50)
+                        //        .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
+                        //            span.sr-only #{level}% Complete (success)
+                        //    - else if (level < 80)
+                        //        .progress-bar.progress-bar-warning.active.progress-bar-striped(style="width: " + level + "%")
+                        //            span.sr-only #{level}% Complete (warning)
+                        //    - else
+                        //        .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
+                        //    span.sr-only #{level}% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
         - if(!pageLimit)
@@ -72,4 +72,4 @@ block content
         - else
             a.button.btn.btn-default(href="./problem?page=" + nextPage, disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
-    .col-lg-2.col-md-2.col-sm-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

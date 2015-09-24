@@ -6,13 +6,12 @@ block title
     title #{whichPage}
 block content
     include contest-title.jade
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
-    .col-lg-8
+        include time.jade
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 比赛简介
         .containing
             if(contest)
-                p
-                    #{contest.description}
-    .col-lg-2
-        include time.jade
+                p #{contest.description}
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

@@ -20,10 +20,10 @@ block content
     //.col-lg-2
     //.col-lg-8
     include ../contest/contest-title.jade
-    include porblem-list.jade
-    .col-lg-2.col-md-2.col-sm-2.containing
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12.containing
         include contest.jade
-    .col-lg-8.col-md-8.col-sm-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+        include problem-list.jade
         if(problem)
             .markdown-body.containing
                 h1.problem-title #{problem.title}
@@ -33,6 +33,7 @@ block content
                 - if (problem.test_setting.special_judge)
                     .special-judge Special Judge
                 !{problem.description}
-    .col-lg-2.col-md-2.col-sm-2
+
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         .containing
             include problem.jade

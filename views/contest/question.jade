@@ -7,10 +7,11 @@ block title
     title #{whichPage}
 block content
     include contest-title.jade
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
-    .col-lg-8
-        table.table.table-condensed.table-center
+        include time.jade
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
             tr
                 form(method='post')
                     td
@@ -19,7 +20,7 @@ block content
                                 option(value=contest.problems[i].contest_problem_list.order) #{contest.problems[i].contest_problem_list.order}
 
                     td
-                        textarea(type='input' name='content')
+                        textarea(type='input', style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='content')
                     td
                         button 提交
             tr
@@ -35,5 +36,4 @@ block content
                     td #{issue.content}
                     td
                         a(href='/user/'+issue.creator.id) #{issue.creator.nickname}
-    .col-lg-2
-        include time.jade
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

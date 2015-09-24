@@ -1,16 +1,17 @@
 //
     Created by zp on 15-5-19.
 
-if(user)
+- if(user)
     .list-group
         a(class="list-group-item normal-color", id="detail", href="/user/" + user.id + "/index") 个人信息
         a(class="list-group-item normal-color", id="edit", href="/user/" + user.id + "/edit") 修改信息
         a(class="list-group-item normal-color", id="updatepw", href="/user/" + user.id + "/updatepw") 修改密码
-        a(class="list-group-item normal-color", id="detail", href="/user/" + user.id + "/index") 绑定学号
+        a(class="list-group-item normal-color", id="binding", href="#") 绑定学号
     script.
-        if("#{whichPage}"=="个人信息")
+        $("#binding").attr("href", "http://ecampus.buaa.edu.cn/cas/login?service=http://" + window.location.host + "/user/binding");
+        if("#{whichPage}" == "个人信息")
             $("#detail").attr("class","list-group-item change-color");
-        else if("#{whichPage}"=="修改信息")
+        else if("#{whichPage}" == "修改信息")
             $("#edit").attr("class","list-group-item change-color");
-        else if("#{whichPage}"=="修改密码")
+        else if("#{whichPage}" == "修改密码")
             $("#updatepw").attr("class","list-group-item change-color");

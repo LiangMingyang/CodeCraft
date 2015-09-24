@@ -8,12 +8,12 @@ block content
     - var oddEvenTable = "odd"
     - var colorOfTable = "red"
     - var contestStatus = "已结束"
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./group.jade
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 #{group.name}的小组比赛
-        table.table.table-condensed.table-center
-            tr.text-center
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+            tr.text-center.contest-title-tr
                 td 比赛ID
                 td 比赛状态
                 td 比赛标题
@@ -64,4 +64,4 @@ block content
         - else
             a.button.btn.btn-default(href="./contest?page=" + nextPage, disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12

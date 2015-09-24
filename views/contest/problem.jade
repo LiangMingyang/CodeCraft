@@ -6,12 +6,14 @@ block title
     title #{whichPage}
 block content
     include contest-title.jade
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
-    .col-lg-8
+        include time.jade
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 所有题目
-        table(class = "table table-striped").containing
-            tr.text-center
+        - var oddEvenTable = "odd"
+        table.table.table-condensed.table-center.containing(style="border:1px solid #DDDDDD;")
+            tr.text-center.problem-title-tr
                 if(user)
                     td 状态
                 td 题目编号
@@ -21,7 +23,11 @@ block content
             if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - var problem = problems[i];
-                    tr.text-center
+                    tr.text-center(id = "tr" + i)
+                        - if(i % 2 == 1)
+                            - oddEvenTable = "odd"
+                        - else
+                            - oddEvenTable = "even"
                         if(user)
                             - if(problem.accepted + problem.tried == 2)
                                 td.green-td
@@ -36,5 +42,7 @@ block content
                             a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
                         td #{problem.contest_problem_list.score}
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
-    .col-lg-2
-        include time.jade
+                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+//TODO:
+//没有显示通过率

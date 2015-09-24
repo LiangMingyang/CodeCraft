@@ -13,27 +13,31 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2
-        .list-group
-            a.list-group-item(href="/group/create") 申请创建小组
-    .col-lg-8
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
         h3 所有小组
         if(groups)
-            table.table.table-striped.containing
-                tr
-                    td.col-lg-3
+            table.table.table-condensed.containing.table-center(style="border:1px solid #DDDDDD;margin-top:0;background:#")
+                tr.group-title-tr
+                    td
                         label 小组名称
-                    td.col-lg-3
+                    td
                         label 创建者昵称
-                    td.col-lg-6
+                    td
                         label 小组人数
                 - for(var i = 0 ; i < groups.length ; ++i)
-                    tr
-                        td.col-lg-3
+                    - if(i % 2 == 1)
+                        - oddEvenTable = "odd"
+                    - else
+                        - oddEvenTable = "even"
+                    tr(id = "tr" + i)
+                        td
                             a(href="/group/" + groups[i].id + "/index")= groups[i].name
-                        td.col-lg-3
+                        td
                             a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
-                        td.col-lg-6
+                        td
                             if(groups[i].member_count)
                                 a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
-    .col-lg-2
+                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
+            a.btn-default.btn-lg(href="/group/create")
+                label 申请创建小组

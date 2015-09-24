@@ -9,12 +9,13 @@ html
             title #{whichPage}
         script(src="/js/jquery-2.1.1.min.js")
         script(src="/js/bootstrap.min.js")
+        script(src="/js/autosize.min.js")
         block script
     body
         .container-fluid(id="container")
             .row
-                .col-lg-1
-                .col-lg-10
+                .col-lg-1.col-md-12.col-sm-12.col-xs-12
+                .col-lg-10.col-md-12.col-sm-12.col-xs-12
                     .row
                         block navbar
                             //.navbar-fixed-top.navbar-navbar-top
@@ -33,8 +34,6 @@ html
                                         //navbar里面的功能部分显示在导航栏logo旁边
                                         ul.nav.navbar-nav.navbar-middle
                                             li.normalli
-                                                a(href="/", id="indexpage", class="nav-before") 主页
-                                            li.normalli
                                                 a(href="/group/index", id="grouppage", class="nav-before") 小组
                                             li.normalli
                                                 a(href="/problem/index", id="problempage", class="nav-before") 题目
@@ -45,10 +44,10 @@ html
                                             - if(user)
                                                 li.normalli
                                                     a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
-                                                li.normalli
-                                                    a(href="/message/index", id="messegepage", class="nav-before") 消息
-                                            li.normalli
-                                                a(href="/help/index", id="helppage", class="nav-before") 帮助
+                                                //li.normalli
+                                                //    a(href="/message/index", id="messegepage", class="nav-before") 消息
+                                            //li.normalli
+                                            //    a(href="/help/index", id="helppage", class="nav-before") 帮助
                                         //navbar的登录登出部分显示在导航栏右侧
                                         ul.nav.navbar-nav.navbar-right
                                             - if(user)
@@ -76,11 +75,11 @@ html
                                             script $("#messegepage").attr("class", "nav-change");
                                         - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
                                             script $("#informationpage").attr("class", "nav-change");
-                                        - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛题目评测记录"||whichPage == "比赛提交记录"||whichPage=="比赛排名")
+                                        - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛题目评测记录"||whichPage == "比赛提交记录"||whichPage == "小组比赛"||whichPage == "比赛排名"||whichPage == "出比赛")
                                             script $("#contestpage").attr("class", "nav-change");
-                                        - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目"||whichPage=="小组比赛")
+                                        - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "小组题目"||whichPage == "出题")
                                             script $("#problempage").attr("class", "nav-change");
-                                        - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目")
+                                        - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目"||whichPage == "管理小组"||whichPage == "管理小组成员"||whichPage == "管理小组题目"||whichPage == "管理小组比赛")
                                             script $("#grouppage").attr("class", "nav-change");
                                         - else
                                             script $("#indexpage").attr("class", "nav-change");
@@ -91,11 +90,11 @@ html
                                     script $("#logo").popover('show');
                                     script setTimeout(function () {$("#logo").popover('hide');}, 3000);
                     .row.minheight(id="page")
-                        .row
-                            block content
+                        block content
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            //$("body").css({"background-image":'-webkit-gradient(linear,left bottom,left top,color-stop(0.1,#B7DAEE),color-stop(0.95,#fff))'});
                             $("body").css({"background-image": "url(/images/ba.png)"});
                         });
                         $(window).resize(function () {
@@ -106,9 +105,10 @@ html
                             $("#logo").popover('show');
                             setTimeout(function () {$("#logo").popover('hide');}, 3000);
                         }
+                        autosize(document.querySelectorAll('textarea'));
                     .row(id="footer")
                         footer.footer
                             br
                             p.text-center
                                 | College of Software, Beihang University
-                .col-lg-1
+                .col-lg-1.col-md-12.col-sm-12.col-xs-12

@@ -17,12 +17,22 @@ block content
     - var hh;
     - var mi;
     - var ss;
+    //以上为标准时间的格式计算变量
+    - var tc;
+    - var nt;
+    - nt = new Date();
+    - var sss;
+    - var mmm;
+    - var hhh;
+    - var ddd;
+    //以上为时间差计算变量
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
-    .col-lg-2.col-md-2.col-sm-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
-    .col-lg-8.col-md-8.col-sm-8
+        include time.jade
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 比赛所有提交记录
-        table.table.table-condensed.table-center
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
             tr.submission-title-tr
                 td 序号
                 if(!problem)
@@ -34,7 +44,7 @@ block content
                 td 运行时间
                 td 运行内存
                 td 提交时间
-            if(submissions)
+            - if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
                     tr(id = "tr" + i)
                         //在渲染前处理时间
@@ -54,6 +64,29 @@ block content
                         - ss = submissions[i].created_at.getSeconds();
                         - if(ss<10)
                             - ss="0"+ss;
+                        //计算完成标准时间变量
+                        - tc = nt - submissions[i].created_at;
+                        - sss = (tc - tc % 1000) / 1000;
+                        - mmm = (sss - sss % 60) / 60;
+                        - hhh = (mmm - mmm % 60) / 60;
+                        - ddd = (hhh - hhh % 24) / 24;
+                        - sss = sss % 60;
+                        - mmm = mmm % 60;
+                        - hhh = hhh % 24;
+                        - tc = "";
+                        - if(ddd!=0)
+                            - tc += ddd + " 天 ";
+                            - tc += hhh + " 小时";
+                        - else if(hhh!=0)
+                            - tc += hhh + " 小时 ";
+                            - tc += mmm + " 分钟";
+                        - else if(mmm!=0)
+                            - tc += mmm + " 分钟 ";
+                            - tc += sss + " 秒";
+                        - else
+                            - tc += sss + " 秒";
+                        - tc += "前";
+                        //计算完成时间差变量
                         //生成表格
                         td #{submissions[i].id}
                         if(!problem)
@@ -63,12 +96,20 @@ block content
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
                         td #{submissions[i].score}
                         td
-                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
+                            - if(user.id==submissions[i].creator.id)
+                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
+                            - else
+                                label #{submissions[i].lang}
                         td
-                            a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
+                            - if(user.id==submissions[i].creator.id)
+                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
+                            - else
+                                label #{submissions[i].code_length}
                         td #{submissions[i].time_cost}
                         td #{submissions[i].memory_cost}
-                        td #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+                        td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
+                            label(class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+                            label(class="time-difference") #{tc}
                         //td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
                         - if(i % 2 == 1)
                             - oddEvenTable = "odd"
@@ -166,5 +207,13 @@ block content
                        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
                    -else
                        a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
-    .col-lg-2.col-md-2.col-sm-2
-        include time.jade
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+    script.
+        function change_time_into_standard_format(){
+            $(".standard-format").css("display", "block");
+            $(".time-difference").css("display", "none");
+        }
+        function change_time_into_time_difference(){
+            $(".standard-format").css("display", "none");
+            $(".time-difference").css("display", "block");
+        }

@@ -198,6 +198,10 @@ td.evengreentd{
     background-color: #77ff77;
 }
 
+td.yixiegreentd{
+    background-color: #00ff00;
+}
+
 td.oddredtd{
     background-color: #ff7777;
 }
@@ -285,7 +289,21 @@ label.whitetd{
     background-color: #ECEDFB;
 }
 
+.problem-title-tr {
+    background-color: #ECEDFB;
+}
+
+.contest-title-tr {
+    background-color: #ECEDFB;
+}
+
+.group-title-tr {
+    background-color: #ECEDFB;
+}
+
 body {
+    background-attachment:fixed;
+    background-repeat:no-repeat;
     background-size: 100% 100%;
 }
 
@@ -293,7 +311,7 @@ body {
     background-color: #F9FAFB;
 }
 
-#text_input {
+#problem-description {
     color: #EBD1B7;
     overflow-y: scroll;
     background-color: #36312C;
@@ -306,7 +324,18 @@ body {
     height: 500px;
 }
 
-td
-{
+.contest-create {
+    margin-bottom: 10px;
+}
+
+td {
     white-space: nowrap;
+}
+
+.submission-table {
+    /*-webkit-transition:all .25s ease-out;*/
+    /*-moz-transition:all .25s ease-out;*/
+    /*-ms-transition:all .25s ease-out;*/
+    /*-o-transition:all .25s ease-out;*/
+    /*transition:all .25s ease-out;*/
 }

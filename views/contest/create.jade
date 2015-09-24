@@ -1,0 +1,232 @@
+//
+    Created by zp on 15-9-9.
+
+extends ../layout
+block title
+    - var whichPage = "出比赛"
+    title #{whichPage}
+
+block script
+    link(rel='stylesheet', href="/stylesheets/jquery.datetimepicker.css")
+    script(src="/js/jquery.datetimepicker.js")
+
+block content
+    form(method='post', id="form")
+        .row
+            - var now_time = new Date();
+            .containing.col-lg-6.col-md-6.col-sm-6.col-xs-12
+                .form-horizontal.row.contest-create
+                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
+                        label.control-label(for="contest_title")  比赛标题：
+                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                        - if(!contest||!contest.title)
+                            input.form-control(type="text", id="contest_title", name="contest_title", value="", placeholder="请输入比赛标题")
+                        - else
+                            input.form-control(type="text", id="contest_title", name="contest_title", value="#{contest.title}", placeholder="请输入比赛标题")
+                .form-horizontal.row.contest-create
+                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
+                        label.control-label(for="description")  比赛简介：
+                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                        - if(!contest||!contest.description)
+                            textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name="description", placeholder="输入比赛描述信息", value="")
+                        - else
+                            textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", rows="6", name="description", placeholder="输入比赛描述信息", value="#{contest.description}") #{contest.description}
+                .form-horizontal.row.contest-create
+                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
+                        label.control-label(for="contest_title")  开始时间：
+                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                        script var contest_start_time_s = new Date("#{now_time}");
+                        - if(!contest||!contest.start_time)
+                            input.form-control(type="text", id="start_time", name="start_time", value="", placeholder="", readonly="true")
+                        - else
+                            script contest_start_time_s = "#{contest.start_time}";
+                            input.form-control(type="text", id="start_time", name="start_time", value="", placeholder="", readonly="true")
+                    //.col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
+                    //.col-lg-3.col-md-3.col-sm-3.col-xs-3(style="padding-right:0;")
+                    //    - if(!contest||!contest.start_time)
+                    //        input.form-control(type="number", min=0, max=23, id="start_time_hour", name="start_time_hour", value="", placeholder="")
+                    //    - else
+                    //        - var contest_start_time_hour = new Date(contest.start_time).getHours();
+                    //        input.form-control(type="number", min=0, max=23, id="start_time_hour", name="start_time_hour", value="#{contest_start_time_hour}", placeholder="")
+                    //label.form-control-static.col-lg-1.col-md-1.col-sm-1.col-xs-1.text-left(style="padding-left:0;") 时
+                    //.col-lg-3.col-md-3.col-sm-3.col-xs-3(style="padding-right:0;")
+                    //    - if(!contest||!contest.start_time)
+                    //        input.form-control(type="number", min=0, max=60, id="start_time_minute", name="start_time_minute", value="", placeholder="")
+                    //    - else
+                    //        - var contest_start_time_minute = new Date(contest.start_time).getMinutes();
+                    //        input.form-control(type="number", min=0, max=60, id="start_time_minute", name="start_time_minute", value="#{contest_start_time_minute}", placeholder="")
+                    //label.form-control-static.col-lg-1.col-md-1.col-sm-1.col-xs-1.text-left(style="padding-left:0;") 分
+                .form-horizontal.row.contest-create
+                    .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
+                        label.control-label(for="contest_title")  结束时间：
+                    .col-lg-9.col-md-9.col-sm-9.col-xs-9
+                        script var contest_end_time_s = new Date(new Date("#{now_time}").getTime() + 2 * 60 * 60 * 1000);
+                        - if(!contest||!contest.end_time)
+                            input.form-control(type="text", id="end_time", name="end_time", value="", placeholder="", readonly="true")
+                        - else
+                            script contest_end_time_s = "#{contest.end_time}";
+                            input.form-control(type="text", id="end_time", name="end_time", value="", placeholder="", readonly="true")
+            .containing.col-lg-6.col-md-6.col-sm-6.col-xs-12
+                .form-horizontal.row.contest-create
+                    //label.control-label 比赛题目设置：
+                    .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                        .btn.btn-info.control-label(onclick="add_problem()") 增加题目：
+                table.table.table-condensed.col-lg-12.col-md-12.col-sm-12.col-xs-12(style="border:1px solid #DDDDDD;")#problem-area
+                    tr.text-center.contest-title-tr
+                        td
+                        td
+                            label.form-control-static.text-center 题目ID
+                        td
+                            label.form-control-static.text-center 在比赛中的题目分值
+                        td
+                        td.text-left
+                            label.form-control-static.text-center 题目名称
+
+                script var __contest_problems= [];
+                - if(contest && contest.problems)
+                    //script var sss = "#{JSON.stringify(contest.problems)}";
+                    //- var iii = 0;
+                    //script.
+                    //    var sss;;
+                    //    for(var i = 0;i < "#{contest.problems.length}"; i++){
+                    //        __contest_problems[i] = {};
+                    //        sss = "#{contest.problems[iii].contest_problem_list.problem_id}";
+                    //        console.log(sss);
+                    //    }
+                    - for(var i = 0;i < contest.problems.length;i++)
+                        script.
+                            __contest_problems["#{i}"] = {};
+                            __contest_problems["#{i}"].problem_id = "#{contest.problems[i].contest_problem_list.problem_id}";
+                            __contest_problems["#{i}"].score = "#{contest.problems[i].contest_problem_list.score}";
+                            __contest_problems["#{i}"].order = "#{contest.problems[i].contest_problem_list.order}";
+                            __contest_problems["#{i}"].title = "#{contest.problems[i].title}";
+                .col-lg-3.col-md-3.col-sm-3.col-lg-offset-9.col-md-offset-9.col-sm-offset-9.text-center.col-xs-12
+                    .btn-success.btn-lg(onclick="submit_information()") 保存
+        script.
+            var start_time;
+            var end_time;
+            $(document).ready(function() {
+                var __start_time = $('#start_time');
+                var __end_time = $('#end_time');
+                var now_time = new Date("#{now_time}");
+                var now_time_2 = new Date(now_time.getTime() + 2 * 60 * 60 * 1000);
+                //设置开始时间
+                contest_start_time_s = new Date(contest_start_time_s);
+                var __contest_start_time_s = contest_start_time_s.getFullYear() + '/';
+                var __contest_start_month = contest_start_time_s.getMonth() + 1;
+                if(__contest_start_month < 10){
+                    __contest_start_month = '0' + __contest_start_month;
+                }
+                __contest_start_time_s += __contest_start_month + '/';
+                var __contest_start_day = contest_start_time_s.getDate();
+                if(__contest_start_day < 10){
+                    __contest_start_day = '0' + __contest_start_day;
+                }
+                __contest_start_time_s += __contest_start_day + ' ';
+                var __contest_start_hour = contest_start_time_s.getHours();
+                if(__contest_start_hour < 10){
+                    __contest_start_hour = '0' + __contest_start_hour ;
+                }
+                __contest_start_time_s += __contest_start_hour + ':';
+                var __contest_start_minute = contest_start_time_s.getMinutes();
+                __contest_start_minute = __contest_start_minute - __contest_start_minute % 10;
+                if(__contest_start_minute < 10){
+                    __contest_start_minute = '0' + __contest_start_minute ;
+                }
+                __contest_start_time_s += __contest_start_minute;
+                __start_time.datetimepicker({value: __contest_start_time_s,step: 10});
+                //设置结束时间
+                contest_end_time_s = new Date(contest_end_time_s);
+                var __contest_end_time_s = contest_end_time_s.getFullYear() + '/';
+                var __contest_end_month = contest_end_time_s.getMonth() + 1;
+                if(__contest_end_month < 10){
+                    __contest_end_month = '0' + __contest_end_month;
+                }
+                __contest_end_time_s += __contest_end_month + '/';
+                var __contest_end_day = contest_end_time_s.getDate();
+                if(__contest_end_day < 10){
+                    __contest_end_day = '0' + __contest_end_day;
+                }
+                __contest_end_time_s += __contest_end_day + ' ';
+                var __contest_end_hour = contest_end_time_s.getHours();
+                if(__contest_end_hour < 10){
+                    __contest_end_hour = '0' + __contest_end_hour ;
+                }
+                __contest_end_time_s += __contest_end_hour + ':';
+                var __contest_end_minute = contest_end_time_s.getMinutes();
+                __contest_end_minute = __contest_end_minute - __contest_end_minute % 10;
+                if(__contest_end_minute < 10){
+                    __contest_end_minute = '0' + __contest_end_minute ;
+                }
+                __contest_end_time_s += __contest_end_minute;
+                __end_time.datetimepicker({value: __contest_end_time_s,step: 10});
+                if(!__contest_problems || !__contest_problems.length || __contest_problems.length == 0){
+                    add_problem();
+                }
+                else{
+                    //console.log(__contest_problems);
+                    __contest_problems.sort(function(a,b){
+                        return a.order - b.order;
+                    })
+                    for(var i = 0;i < __contest_problems.length;i++){
+                        add_problem_2(__contest_problems[i].problem_id,__contest_problems[i].score,__contest_problems[i].title);
+                    }
+                }
+            });
+            var number_of_problem = 0;
+            var number_of_real_problem = 0;
+            function add_problem(){
+                $("#problem-area").append("<tr id='tr"
+                        + number_of_problem + "'><td><div class='btn-danger form-control' onclick='delete_problem(this)' value='"
+                        + number_of_problem + "' id='td" + number_of_problem + "'>删除</div></td><td><input class='form-control'"
+                        + "type='number' min='1' name='problems' placeholder='题目ID'></input></td><td><input class='form-control'"
+                        + "type='number' min='1' name='scores' placeholder='题目分数' value='1'></input></td><td><label class='form-control-static text-left' id='label_"
+                        + number_of_problem + "'>" + change_number_into_order(number_of_real_problem) + ":" + "</label></td><td><label class='form-control-static text-left' id='label"
+                        + number_of_problem + "'>题目名称</label></td></tr>");
+                number_of_problem++;
+                number_of_real_problem++;
+            }
+            function add_problem_2(value1,value2,value3){
+                $("#problem-area").append("<tr id='tr"
+                        + number_of_problem + "'><td><div class='btn-danger form-control' onclick='delete_problem(this)' value='"
+                        + number_of_problem + "' id='td" + number_of_problem + "'>删除</div></td><td><input class='form-control'"
+                        + "type='number' min='1' name='problems' placeholder='题目ID' value='" + value1 + "'></input></td><td><input class='form-control'"
+                        + "type='number' min='1' name='scores' placeholder='题目分数' value='" + value2 + "'></input></td><td><label class='form-control-static text-left' id='label_"
+                        + number_of_problem + "'>" + change_number_into_order(number_of_real_problem) + ":" + "</label></td><td><label class='form-control-static text-left' id='label"
+                        + number_of_problem + "'>" + value3 + "</label></td></tr>");
+                number_of_problem++;
+                number_of_real_problem++;
+            }
+            function fill_right_order(){
+                var j = 0;
+                for(var i = 0;i < number_of_problem; i++){
+                    var my = document.getElementById("label_" + i);
+                    if(my != null){
+                        //console.log(change_number_into_order(j));
+                        my.innerHTML = change_number_into_order(j) + ":";
+                        j++;
+                    }
+                }
+            }
+            function change_number_into_order(num) {
+                    var res;
+                    if (num === 0) {
+                        return 'A';
+                }
+                res = "";
+                    while (num > 0) {
+                        res = String.fromCharCode(num % 26 + 65) + res;
+                        num = parseInt(num / 26);
+                }
+                    return res;
+            };
+            function delete_problem(elem){
+                var my = document.getElementById("tr" + $("#"+elem.id).attr("value"));
+                if (my != null)
+                    my.parentNode.removeChild(my);
+                number_of_real_problem--;
+                fill_right_order();
+            }
+            function submit_information(){
+                $("#form").submit();
+            }

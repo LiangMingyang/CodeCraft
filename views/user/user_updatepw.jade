@@ -11,28 +11,36 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./user.jade
-    .col-lg-8
+    .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 修改密码
-        form(method='post').containing
+        form(method='post', id='form').containing
             .form-horizontal
                 .form-group
-                    .col-lg-2
+                    .col-lg-4.col-md-4.col-sm-4.col-xs-12
                         label.control-label(for="oldPwd")  请输入旧密码：
-                    .col-lg-10
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-12
                         input.form-control(type="password", name='oldPwd', id="oldPwd")
             .form-horizontal
                 .form-group
-                    .col-lg-2
+                    .col-lg-4.col-md-4.col-sm-4.col-xs-12
                         label.control-label(for="newPwd")  请输入新密码：
-                    .col-lg-10
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-12
                         input.form-control(type="password", name='newPwd', id="newPwd")
             .form-horizontal
                 .form-group
-                    .col-lg-2
+                    .col-lg-4.col-md-4.col-sm-4.col-xs-12
                         label.control-label(for="confirmNewPwd")  请确认新密码：
-                    .col-lg-10
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-12
                         input.form-control(type="password", name='confirmNewPwd', id="confirmNewPwd")
-            button.btn.btn-default(type="submit") 确认修改
-    .col-lg-2
+            button.btn.btn-default(type="button", onclick="checkInformation()") 确认修改
+            script.
+                function checkInformation(){
+                    if($("#newPwd").val() != $("#confirmNewPwd").val()){
+                        logoAlert("两次输入的密码不一致！");
+                    }else{
+                        $("#form").submit();
+                    }
+                }
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
