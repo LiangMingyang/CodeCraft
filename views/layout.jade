@@ -18,10 +18,10 @@ html
                 .col-lg-10.col-md-12.col-sm-12.col-xs-12
                     .row
                         block navbar
-                            //.navbar-fixed-top.navbar-navbar-top
+                            //-.navbar-fixed-top.navbar-navbar-top
                             nav#navbar.navbar.navbar-default
                                 .container-fluid
-                                    // Brand and toggle get grouped for better mobile display
+                                    //- Brand and toggle get grouped for better mobile display
                                     .navbar-header
                                         button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
                                             span.sr-only Toggle navigation
@@ -29,10 +29,12 @@ html
                                             span.icon-bar
                                             span.icon-bar
                                         a.navbar-brand(href="/", id="logo", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content="") BUAA ONLINE JUDGE
-                                    // Collect the nav links, forms, and other content for toggling
+                                    //- Collect the nav links, forms, and other content for toggling
                                     #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                                        //navbar里面的功能部分显示在导航栏logo旁边
+                                        //-navbar里面的功能部分显示在导航栏logo旁边
                                         ul.nav.navbar-nav.navbar-middle
+                                            li.normalli
+                                                a(href="/", id="indexpage", class="nav-before") 主页
                                             li.normalli
                                                 a(href="/group/index", id="grouppage", class="nav-before") 小组
                                             li.normalli
@@ -44,16 +46,16 @@ html
                                             - if(user)
                                                 li.normalli
                                                     a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
-                                                //li.normalli
-                                                //    a(href="/message/index", id="messegepage", class="nav-before") 消息
-                                            //li.normalli
-                                            //    a(href="/help/index", id="helppage", class="nav-before") 帮助
-                                        //navbar的登录登出部分显示在导航栏右侧
+                                                //-li.normalli
+                                                //-    a(href="/message/index", id="messegepage", class="nav-before") 消息
+                                            //-li.normalli
+                                            //-    a(href="/help/index", id="helppage", class="nav-before") 帮助
+                                        //-navbar的登录登出部分显示在导航栏右侧
                                         ul.nav.navbar-nav.navbar-right
                                             - if(user)
                                                 li.normalli
                                                     a(href="/user/" + user.id + "/index") 欢迎，#{user.nickname}
-                                                    //a(href="/user/" + user.id + "/index") 欢迎来到北航OJ，#{user.nickname}
+                                                    //-a(href="/user/" + user.id + "/index") 欢迎来到北航OJ，#{user.nickname}
                                                 li.normalli
                                                     a(href="/user/logout", id="logoutpage", class="nav-before") 登出
                                             - else
@@ -94,7 +96,7 @@ html
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");
-                            //$("body").css({"background-image":'-webkit-gradient(linear,left bottom,left top,color-stop(0.1,#B7DAEE),color-stop(0.95,#fff))'});
+                            //-$("body").css({"background-image":'-webkit-gradient(linear,left bottom,left top,color-stop(0.1,#B7DAEE),color-stop(0.95,#fff))'});
                             $("body").css({"background-image": "url(/images/ba.png)"});
                         });
                         $(window).resize(function () {

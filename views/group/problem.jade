@@ -1,4 +1,4 @@
-//
+//-
    Created by lmy on 15-5-28.
 extends ../layout
 block title
@@ -17,7 +17,7 @@ block content
                     td 状态
                 td 题目ID
                 td 题目标题
-                //td 难度
+                //-td 难度
                 td 通过人数/提交人数
             - if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
@@ -40,18 +40,18 @@ block content
                             a(href= "../../problem/" + problem.id + "/index") #{problem.id}
                         td
                             a(href= "../../problem/" + problem.id + "/index") #{problem.title}
-                        //td.progress
-                        //    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
-                        //    - if (level < 10) level = 10;
-                        //    - if (level < 50)
-                        //        .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
-                        //            span.sr-only #{level}% Complete (success)
-                        //    - else if (level < 80)
-                        //        .progress-bar.progress-bar-warning.active.progress-bar-striped(style="width: " + level + "%")
-                        //            span.sr-only #{level}% Complete (warning)
-                        //    - else
-                        //        .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
-                        //    span.sr-only #{level}% Complete (danger)
+                        //-td.progress
+                        //-    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
+                        //-    - if (level < 10) level = 10;
+                        //-    - if (level < 50)
+                        //-        .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
+                        //-            span.sr-only #{level}% Complete (success)
+                        //-    - else if (level < 80)
+                        //-        .progress-bar.progress-bar-warning.active.progress-bar-striped(style="width: " + level + "%")
+                        //-            span.sr-only #{level}% Complete (warning)
+                        //-    - else
+                        //-        .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
+                        //-    span.sr-only #{level}% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
         - if(!pageLimit)

@@ -1,4 +1,4 @@
-//
+//-
    Created by lmy on 15-5-29.
 extends ../layout
 block title
@@ -81,12 +81,12 @@ block content
                         - if(ss<10)
                             - ss="0"+ss;
                         td #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
-                        //td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
-                        //td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
+                        //-td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
+                        //-td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
                         script.
                             $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
                             $("#td#{i}").attr("class", "#{colorOfTable}td");
-    //.col-lg-2
+    //-.col-lg-2
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
         - if(!pageLimit)
             - pageLimit = 15;

@@ -1,4 +1,4 @@
-//
+//-
    Created by lmy on 15-5-20.
    groups 小组的列表
       - groups[i] 每一个单独的小组即group
@@ -38,6 +38,6 @@ block content
                             if(groups[i].member_count)
                                 a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
-        .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
+        //-.col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
             a.btn-default.btn-lg(href="/group/create")
                 label 申请创建小组

@@ -1,4 +1,4 @@
-//
+//-
    Created by heavenduke on 15-5-18.
 
     user
@@ -24,10 +24,10 @@ block content
         - if (user.id === target.id)
             include ./user.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
-        //- if (user && target && user.id === target.id)
-        //    h3 个人信息
-        //- else if(target)
-        //    h3 #{target.nickname}的信息
+        //-- if (user && target && user.id === target.id)
+        //-    h3 个人信息
+        //-- else if(target)
+        //-    h3 #{target.nickname}的信息
         - if(target)
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
                 h3(style="color: blue; font-weight: bold;")
@@ -82,21 +82,21 @@ block content
                     |简&nbsp&nbsp&nbsp&nbsp介:
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
                 textarea.form-control#fuck_br(readonly="true", rows = "10", style="resize: none;max-height: 300px;width: 100%;") #{target.description}
-                //p#fuck_br !{target.description.replace("\n","<br>")}
-            //script document.getElementById("fuck_br").innerHTML = (markdown.toHTML($("#fuck_br").html()));
+                //-p#fuck_br !{target.description.replace("\n","<br>")}
+            //-script document.getElementById("fuck_br").innerHTML = (markdown.toHTML($("#fuck_br").html()));
 
-            //script var fuck_br_str =
-            //script $("#fuck_br").html();
+            //-script var fuck_br_str =
+            //-script $("#fuck_br").html();
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
 
-//TODO:
-//return a=parseInt(a,10),a?
-//a>=2600?"International Grandmaster": "red"
-//a>=2200?"Grandmaster": "red"
-//a>=2050?"International Master": "orange"
-//a>=1900?"Master": "orange"
-//a>=1700?"Candidate Master": "violet"
-//a>=1500?"Expert": "blue"
-//a>=1350?"Specialist": "green"
-//a>=1200?"Pupil": "green"
-//"Newbie": "black"
+//-TODO:
+//-return a=parseInt(a,10),a?
+//-a>=2600?"International Grandmaster": "red"
+//-a>=2200?"Grandmaster": "red"
+//-a>=2050?"International Master": "orange"
+//-a>=1900?"Master": "orange"
+//-a>=1700?"Candidate Master": "violet"
+//-a>=1500?"Expert": "blue"
+//-a>=1350?"Specialist": "green"
+//-a>=1200?"Pupil": "green"
+//-"Newbie": "black"

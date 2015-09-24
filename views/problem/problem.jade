@@ -1,12 +1,12 @@
 .containing
-    ////.form-horizontal
-    //    label.control-label  当前用户：
-    ////.form-horizontal
-    //    a(href="/user/" + user.id + "/index", id="informationpage")
-    //        label.control-label #{user.nickname}
+    //-//-.form-horizontal
+    //-    label.control-label  当前用户：
+    //-//-.form-horizontal
+    //-    a(href="/user/" + user.id + "/index", id="informationpage")
+    //-        label.control-label #{user.nickname}
     .list-group
         a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
-        - if(!contest)
+        //- if(!contest)
             a(class="list-group-item normal-color", id="problem-problemeditpage", href="./edit") 编辑题目
         a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
     script.
@@ -40,7 +40,7 @@
                             label.sr-only(for="code") 输入代码
                             textarea.form-control(style="margin-top:10px;resize: none;max-height: 300px;width: 100%;min-height: 100px;", type="input", id="code", name='code', placeholder="输入您的代码")
                         .modal-footer
-                            //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                            //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
                             button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交
     script.
         var cc = 0;

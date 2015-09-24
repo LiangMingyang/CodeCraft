@@ -1,4 +1,4 @@
-//
+//-
     Created by heavenduke on 15-5-23.
     title --网页标题
     problem -- 题目数据
@@ -17,8 +17,8 @@ block title
     title #{whichPage}
     link(rel='stylesheet', href='/stylesheets/problem/detail.css')
 block content
-    //.col-lg-2
-    //.col-lg-8
+    //-.col-lg-2
+    //-.col-lg-8
     include ../contest/contest-title.jade
     .col-lg-2.col-md-2.col-sm-2.col-xs-12.containing
         include contest.jade
@@ -29,7 +29,7 @@ block content
                 h1.problem-title #{problem.title}
                 .problem-limit 时间限制: #{problem.test_setting.time_limit} ms 内存限制: #{problem.test_setting.memory_limit} kb
                 .problem-limit 总通过人数: #{problem.acceptedPeopleCount} 总提交人数: #{problem.triedPeopleCount}
-                //li Special Judge: #{problem.test_setting.special_judge}
+                //-li Special Judge: #{problem.test_setting.special_judge}
                 - if (problem.test_setting.special_judge)
                     .special-judge Special Judge
                 !{problem.description}

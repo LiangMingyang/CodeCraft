@@ -1,4 +1,4 @@
-//
+//-
     Created by zp on 15-5-23.
     problem_title 题目标题
     description 题目内容
@@ -164,7 +164,7 @@ block content
                                         - else
                                             script var __number_of_test_data = 0;
                                 .modal-footer
-                                    //button.btn.btn-default(type='button', data-dismiss='modal') 取消---♢○♢---<br>--0w0--<br>--0..0--<br>-0..0-
+                                    //-button.btn.btn-default(type='button', data-dismiss='modal') 取消---♢○♢---<br>--0w0--<br>--0..0--<br>-0..0-
                                     button.btn.btn-primary(type='button', id="button", data-dismiss='modal', aria-label='Close') 确认
                 .col-lg-3.col-md-3.col-sm-3.text-center
                     .btn-warning.btn-lg(data-toggle="modal", data-target="#advanced_setting") 高级设置
@@ -203,7 +203,7 @@ block content
                                                         option(value="c") c
                                                         option(value="java") java
                                                         option(value="python") python
-                                                    //-console.log(problem);
+                                                    //--console.log(problem);
                                                     script.
                                                         var sjl=document.getElementById("special_judge_lang");
                                                         for(var i=0;i<4;i++)
@@ -261,56 +261,56 @@ block content
                                                     - else
                                                         input.form-control(type="number", min="0", max="1", id="case_compared_level", onblur="check_case_compared_level()", name='case_compared_level', value=problem.test_setting.case_compared_level, placeholder="Case比较级别")
                                 .modal-footer
-                                    //button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                                    //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
                                     button.btn.btn-primary(type='button', id="button", data-dismiss='modal', aria-label='Close') 确认
                 .col-lg-3.col-md-3.col-sm-3.col-xs-12.text-center
-                    //.btn-primary.btn-lg(data-toggle="modal", data-target="#public_setting") 公开设置
-                    //#public_setting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='publicSetting', aria-hidden='true')
-                    //    .modal-dialog.text-left
-                    //        .modal-content
-                    //            .modal-header
-                    //                button.close(type='button', data-dismiss='modal', aria-label='Close')
-                    //                    span(aria-hidden='true') ×
-                    //                h4#publicSetting.modal-title 公开设置
-                    //            .modal-body
-                    //                .form-horizontal
-                    //                    .form-group
-                    //                        input(type="hidden", id="viewed_privilege", name="viewed_privilege", value="2")
-                    //                        .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
-                    //                            label.control-label(for="supported_languages")  选择该题目可以被查看的权限：
-                    //                        .col-lg-6.col-md-6.col-sm-6.col-xs-6
-                    //                        .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
-                    //                            label.control-label 仅小组管理员和题目所有者可见
-                    //                        .col-lg-4.col-md-4.col-sm-4.col-xs-4
-                    //                            .radio(value="viewed_public", name="viewed_privilege")
-                    //                                ins.checked#ins_1
-                    //                        .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
-                    //                            label.control-label 仅小组成员和题目所有者
-                    //                        .col-lg-4.col-md-4.col-sm-4.col-xs-4
-                    //                            .radio(value="viewed_protected", name="viewed_privilege")
-                    //                                ins#ins_2
-                    //                        .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
-                    //                            label.control-label 所有人可见
-                    //                        .col-lg-4.col-md-4.col-sm-4.col-xs-4
-                    //                            .radio(value="viewed_private", name="viewed_privilege")
-                    //                                ins#ins_3
-                    //            .modal-footer
-                    //                //button.btn.btn-default(type='button', data-dismiss='modal') 取消
-                    //                button.btn.btn-primary(type='button', id="button", data-dismiss='modal', aria-label='Close') 确认
+                    //-.btn-primary.btn-lg(data-toggle="modal", data-target="#public_setting") 公开设置
+                    //-#public_setting.modal.fade(tabindex='-1', role='dialog', aria-labelledby='publicSetting', aria-hidden='true')
+                    //-    .modal-dialog.text-left
+                    //-        .modal-content
+                    //-            .modal-header
+                    //-                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    //-                    span(aria-hidden='true') ×
+                    //-                h4#publicSetting.modal-title 公开设置
+                    //-            .modal-body
+                    //-                .form-horizontal
+                    //-                    .form-group
+                    //-                        input(type="hidden", id="viewed_privilege", name="viewed_privilege", value="2")
+                    //-                        .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                    //-                            label.control-label(for="supported_languages")  选择该题目可以被查看的权限：
+                    //-                        .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                    //-                        .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
+                    //-                            label.control-label 仅小组管理员和题目所有者可见
+                    //-                        .col-lg-4.col-md-4.col-sm-4.col-xs-4
+                    //-                            .radio(value="viewed_public", name="viewed_privilege")
+                    //-                                ins.checked#ins_1
+                    //-                        .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
+                    //-                            label.control-label 仅小组成员和题目所有者
+                    //-                        .col-lg-4.col-md-4.col-sm-4.col-xs-4
+                    //-                            .radio(value="viewed_protected", name="viewed_privilege")
+                    //-                                ins#ins_2
+                    //-                        .col-lg-8.col-md-8.col-sm-8.col-xs-8.text-right
+                    //-                            label.control-label 所有人可见
+                    //-                        .col-lg-4.col-md-4.col-sm-4.col-xs-4
+                    //-                            .radio(value="viewed_private", name="viewed_privilege")
+                    //-                                ins#ins_3
+                    //-            .modal-footer
+                    //-                //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                    //-                button.btn.btn-primary(type='button', id="button", data-dismiss='modal', aria-label='Close') 确认
                 .col-lg-3.col-md-3.col-sm-3.col-xs-12.text-center
                     .btn-success.btn-lg(onclick="submit_information()") 保存
         .col-lg-6.col-md-6.col-sm-6.col-xs-12.problem-edit-right
             .markdown-body.containing
                 h1.problem-title#problem_really_title 请输入题目标题！
                 #preview
-            //.col-lg-9.col-md-9.col-sm-9.text-center
-            //.col-lg-3.col-md-3.col-sm-3.text-center
-            //    .btn-success.btn-lg(onclick="submit_information()") 保存
-            //.col-lg-6.col-md-6.col-sm-6
-            //    table.table.table-hover
-            //        #file_content
-            //.col-lg-6.col-md-6.col-sm-6
-            //    #dropbox2(name="file_out" style="min-width:100px;min-height:100px;border:3px dashed silver;")
+            //-.col-lg-9.col-md-9.col-sm-9.text-center
+            //-.col-lg-3.col-md-3.col-sm-3.text-center
+            //-    .btn-success.btn-lg(onclick="submit_information()") 保存
+            //-.col-lg-6.col-md-6.col-sm-6
+            //-    table.table.table-hover
+            //-        #file_content
+            //-.col-lg-6.col-md-6.col-sm-6
+            //-    #dropbox2(name="file_out" style="min-width:100px;min-height:100px;border:3px dashed silver;")
         block script
             script(src="/js/markdown.js")
         script.
@@ -375,90 +375,90 @@ block content
                     __problem_really_title.html("请输入题目标题！");
                 }
             }
-            //document.addEventListener("dragenter", function (e) {
-            //    dropbox_in.style.borderColor = 'gray';
-            //}, false);
-            //document.addEventListener("dragleave", function (e) {
-            //    dropbox_in.style.borderColor = 'silver';
-            //}, false);
-            //dropbox_in.addEventListener("dragenter", function (e) {
-            //    dropbox_in.style.borderColor = 'gray';
-            //    dropbox_in.style.backgroundColor = 'white';
-            //}, false);
-            //dropbox_in.addEventListener("dragleave", function (e) {
-            //    dropbox_in.style.backgroundColor = 'transparent';
-            //}, false);
-            //dropbox_in.addEventListener("dragenter", function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //}, false);
-            //dropbox_in.addEventListener("dragover", function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //}, false);
-            //dropbox_in.addEventListener("drop", function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //    handleFilesIn(e.dataTransfer.files);
-            //    //submit.disabled = false;
-            //}, false);
-            //handleFilesIn = function (files) {
-            //    var __files_information = "<tr><td>文件名称：</td><td>文件大小：</td></tr>";
-            //    for (var i = 0; i < files.length; i++) {
-            //        var fileSize = 0;
-            //        if (files[i].size > 1024 * 1024)
-            //            fileSize = (Math.round(files[i].size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-            //        else
-            //            fileSize = (Math.round(files[i].size * 100 / 1024) / 100).toString() + 'KB';
-            //        __files_information += "<tr><td>" + files[i].name + "</td><td>" + fileSize + "</td></tr>";
-            //        //__files_information+="文件名称：" + files[i].name + "文件大小：" + fileSize + "<br>";
-            //        console.log(files[i]);
-            //        var file = files[i];
-            //    }
-            //    $("#file_content_in").html(__files_information);
-            //}
-            //document.addEventListener("dragenter", function (e) {
-            //    dropbox_out.style.borderColor = 'gray';
-            //}, false);
-            //document.addEventListener("dragleave", function (e) {
-            //    dropbox_out.style.borderColor = 'silver';
-            //}, false);
-            //dropbox_out.addEventListener("dragenter", function (e) {
-            //    dropbox_out.style.borderColor = 'gray';
-            //    dropbox_out.style.backgroundColor = 'white';
-            //}, false);
-            //dropbox_out.addEventListener("dragleave", function (e) {
-            //    dropbox_out.style.backgroundColor = 'transparent';
-            //}, false);
-            //dropbox_out.addEventListener("dragenter", function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //}, false);
-            //dropbox_out.addEventListener("dragover", function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //}, false);
-            //dropbox_out.addEventListener("drop", function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //    handleFilesOut(e.dataTransfer.files);
-            //    //submit.disabled = false;
-            //}, false);
-            //handleFilesOut = function (files) {
-            //    var __files_information = "<tr><td>文件名称：</td><td>文件大小：</td></tr>";
-            //    for (var i = 0; i < files.length; i++) {
-            //        var fileSize = 0;
-            //        if (files[i].size > 1024 * 1024)
-            //            fileSize = (Math.round(files[i].size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-            //        else
-            //            fileSize = (Math.round(files[i].size * 100 / 1024) / 100).toString() + 'KB';
-            //        __files_information += "<tr><td>" + files[i].name + "</td><td>" + fileSize + "</td></tr>";
-            //        //__files_information+="文件名称：" + files[i].name + "文件大小：" + fileSize + "<br>";
-            //        console.log(files[i]);
-            //        var file = files[i];
-            //    }
-            //    $("#file_content_out").html(__files_information);
-            //}
+            //-document.addEventListener("dragenter", function (e) {
+            //-    dropbox_in.style.borderColor = 'gray';
+            //-}, false);
+            //-document.addEventListener("dragleave", function (e) {
+            //-    dropbox_in.style.borderColor = 'silver';
+            //-}, false);
+            //-dropbox_in.addEventListener("dragenter", function (e) {
+            //-    dropbox_in.style.borderColor = 'gray';
+            //-    dropbox_in.style.backgroundColor = 'white';
+            //-}, false);
+            //-dropbox_in.addEventListener("dragleave", function (e) {
+            //-    dropbox_in.style.backgroundColor = 'transparent';
+            //-}, false);
+            //-dropbox_in.addEventListener("dragenter", function (e) {
+            //-    e.stopPropagation();
+            //-    e.preventDefault();
+            //-}, false);
+            //-dropbox_in.addEventListener("dragover", function (e) {
+            //-    e.stopPropagation();
+            //-    e.preventDefault();
+            //-}, false);
+            //-dropbox_in.addEventListener("drop", function (e) {
+            //-    e.stopPropagation();
+            //-    e.preventDefault();
+            //-    handleFilesIn(e.dataTransfer.files);
+            //-    //-submit.disabled = false;
+            //-}, false);
+            //-handleFilesIn = function (files) {
+            //-    var __files_information = "<tr><td>文件名称：</td><td>文件大小：</td></tr>";
+            //-    for (var i = 0; i < files.length; i++) {
+            //-        var fileSize = 0;
+            //-        if (files[i].size > 1024 * 1024)
+            //-            fileSize = (Math.round(files[i].size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+            //-        else
+            //-            fileSize = (Math.round(files[i].size * 100 / 1024) / 100).toString() + 'KB';
+            //-        __files_information += "<tr><td>" + files[i].name + "</td><td>" + fileSize + "</td></tr>";
+            //-        //-__files_information+="文件名称：" + files[i].name + "文件大小：" + fileSize + "<br>";
+            //-        console.log(files[i]);
+            //-        var file = files[i];
+            //-    }
+            //-    $("#file_content_in").html(__files_information);
+            //-}
+            //-document.addEventListener("dragenter", function (e) {
+            //-    dropbox_out.style.borderColor = 'gray';
+            //-}, false);
+            //-document.addEventListener("dragleave", function (e) {
+            //-    dropbox_out.style.borderColor = 'silver';
+            //-}, false);
+            //-dropbox_out.addEventListener("dragenter", function (e) {
+            //-    dropbox_out.style.borderColor = 'gray';
+            //-    dropbox_out.style.backgroundColor = 'white';
+            //-}, false);
+            //-dropbox_out.addEventListener("dragleave", function (e) {
+            //-    dropbox_out.style.backgroundColor = 'transparent';
+            //-}, false);
+            //-dropbox_out.addEventListener("dragenter", function (e) {
+            //-    e.stopPropagation();
+            //-    e.preventDefault();
+            //-}, false);
+            //-dropbox_out.addEventListener("dragover", function (e) {
+            //-    e.stopPropagation();
+            //-    e.preventDefault();
+            //-}, false);
+            //-dropbox_out.addEventListener("drop", function (e) {
+            //-    e.stopPropagation();
+            //-    e.preventDefault();
+            //-    handleFilesOut(e.dataTransfer.files);
+            //-    //-submit.disabled = false;
+            //-}, false);
+            //-handleFilesOut = function (files) {
+            //-    var __files_information = "<tr><td>文件名称：</td><td>文件大小：</td></tr>";
+            //-    for (var i = 0; i < files.length; i++) {
+            //-        var fileSize = 0;
+            //-        if (files[i].size > 1024 * 1024)
+            //-            fileSize = (Math.round(files[i].size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+            //-        else
+            //-            fileSize = (Math.round(files[i].size * 100 / 1024) / 100).toString() + 'KB';
+            //-        __files_information += "<tr><td>" + files[i].name + "</td><td>" + fileSize + "</td></tr>";
+            //-        //-__files_information+="文件名称：" + files[i].name + "文件大小：" + fileSize + "<br>";
+            //-        console.log(files[i]);
+            //-        var file = files[i];
+            //-    }
+            //-    $("#file_content_out").html(__files_information);
+            //-}
             var save_message = 0;
             function submit_information() {
                 save_message = 1;
@@ -472,9 +472,9 @@ block content
                     }
                 }
                 $("#supported_languages").val(___sss);
-                //console.log($("#input_file"));
-                //console.log("submit");
-                //console.log($("#form"));
+                //-console.log($("#input_file"));
+                //-console.log("submit");
+                //-console.log($("#form"));
                 if($("#special_compared").val()==0){
                     $("#makefile").val("");
                 }
@@ -514,39 +514,39 @@ block content
                 __number_of_test_data++;
                 $("#total_files").attr("value", __number_of_test_data);
             }
-            //function add_exist_data() {
-            //    if( __sub_change_test_data_mod == 0)
-            //    {
-            //        $("#test_data").append("<div class='form-horizontal'><div class='form-group'><div id='test_data" + __number_of_test_data
-            //                + "'><div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_in"
-            //                + __number_of_test_data + "' type='file' name='input'/></div>"
-            //                + "<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_out"
-            //                + __number_of_test_data + "' type='file' name='output'/></div>"
-            //                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 weight-of-file' style='display: block;'><input class='form-control' value='1' id='weight"
-            //                + __number_of_test_data + "' type='number' name='weight' min='1', max='100000',/></div>"
-            //                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 delete-of-file' style='display: none;'><div value='" + __number_of_test_data + "' class='btn-danger text-center "
-            //                + "' onclick='sub_test_data(this)' id='delete"
-            //                + __number_of_test_data + "'>删除</div></div><input id='delete-or-not" + __number_of_test_data
-            //                + "' value=0 style='display: none;' name='delete'/></div></div></div>");
-            //    }
-            //    else
-            //    {
-            //        $("#test_data").append("<div class='form-horizontal'><div class='form-group'><div id='test_data" + __number_of_test_data
-            //                + "'><div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_in"
-            //                + __number_of_test_data + "' type='file' name='input'/></div>"
-            //                + "<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_out"
-            //                + __number_of_test_data + "' type='file' name='output'/></div>"
-            //                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 weight-of-file' style='display: none;'><input class='form-control' value='1' id='weight"
-            //                + __number_of_test_data + "' type='number' name='weight' min='1', max='100000',/></div>"
-            //                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 delete-of-file' style='display: block;'><div value='" + __number_of_test_data + "' class='btn-danger text-center "
-            //                + "' onclick='sub_test_data(this)' id='delete"
-            //                + __number_of_test_data + "'>删除</div></div><input id='delete-or-not" + __number_of_test_data
-            //                + "' value=0 style='display: none;' name='delete'/></div></div></div>");
-            //    }
-            //    __number_of_test_data++;
-            //    $("#total_files").attr("value", __number_of_test_data);
-            //}
-            //add_exist_data();
+            //-function add_exist_data() {
+            //-    if( __sub_change_test_data_mod == 0)
+            //-    {
+            //-        $("#test_data").append("<div class='form-horizontal'><div class='form-group'><div id='test_data" + __number_of_test_data
+            //-                + "'><div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_in"
+            //-                + __number_of_test_data + "' type='file' name='input'/></div>"
+            //-                + "<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_out"
+            //-                + __number_of_test_data + "' type='file' name='output'/></div>"
+            //-                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 weight-of-file' style='display: block;'><input class='form-control' value='1' id='weight"
+            //-                + __number_of_test_data + "' type='number' name='weight' min='1', max='100000',/></div>"
+            //-                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 delete-of-file' style='display: none;'><div value='" + __number_of_test_data + "' class='btn-danger text-center "
+            //-                + "' onclick='sub_test_data(this)' id='delete"
+            //-                + __number_of_test_data + "'>删除</div></div><input id='delete-or-not" + __number_of_test_data
+            //-                + "' value=0 style='display: none;' name='delete'/></div></div></div>");
+            //-    }
+            //-    else
+            //-    {
+            //-        $("#test_data").append("<div class='form-horizontal'><div class='form-group'><div id='test_data" + __number_of_test_data
+            //-                + "'><div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_in"
+            //-                + __number_of_test_data + "' type='file' name='input'/></div>"
+            //-                + "<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><input id='input_file_out"
+            //-                + __number_of_test_data + "' type='file' name='output'/></div>"
+            //-                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 weight-of-file' style='display: none;'><input class='form-control' value='1' id='weight"
+            //-                + __number_of_test_data + "' type='number' name='weight' min='1', max='100000',/></div>"
+            //-                + "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 delete-of-file' style='display: block;'><div value='" + __number_of_test_data + "' class='btn-danger text-center "
+            //-                + "' onclick='sub_test_data(this)' id='delete"
+            //-                + __number_of_test_data + "'>删除</div></div><input id='delete-or-not" + __number_of_test_data
+            //-                + "' value=0 style='display: none;' name='delete'/></div></div></div>");
+            //-    }
+            //-    __number_of_test_data++;
+            //-    $("#total_files").attr("value", __number_of_test_data);
+            //-}
+            //-add_exist_data();
             function sub_change_test_data(){
                 __title_of_data_button = $("#title-of-data-button");
                 if(__sub_change_test_data_mod == 0)
@@ -597,7 +597,7 @@ block content
                     __delete.html("删除");
                     __delete.attr("class", "btn-danger text-center delete-of-file");
                 }
-                //deleteDiv('#test_data' + __number_of_test_data);
+                //-deleteDiv('#test_data' + __number_of_test_data);
             }
             function deleteDiv(data) {
                 $(data).remove();
@@ -728,7 +728,7 @@ block content
                 check_tab_compared_level();
                 check_case_compared_level();
             }
-            (function ($) {//iCheck内部js
+            (function ($) {//-iCheck内部js
                 $.icheck = {
                     init: function () {
                         var _this = this;

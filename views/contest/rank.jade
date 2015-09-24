@@ -1,4 +1,4 @@
-//
+//-
     Created by lmy on 15-6-7.
 
 extends ../layout
@@ -47,7 +47,7 @@ block content
                         - else
                             - oddeventable = "even"
                         td #{hours}:#{minutes}:#{seconds}
-                            //#{new Date(rank[j].penalty).getDay()*24+new Date(rank[j].penalty).getHours()}:#{new Date(rank[j].penalty).getMinutes()}:#{new Date(rank[j].penalty).getSeconds()}
+                            //-#{new Date(rank[j].penalty).getDay()*24+new Date(rank[j].penalty).getHours()}:#{new Date(rank[j].penalty).getMinutes()}:#{new Date(rank[j].penalty).getSeconds()}
                         - for(var k = 0 ; k < contest.problems.length ; ++k)
                             - var p = contest.problems[k];
                             - var order = p.contest_problem_list.order;
@@ -84,4 +84,4 @@ block content
                             script $("#td-#{j}-#{k}").attr("class","#{oddeventable}#{coloroftable}td");
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
     script.
-        //$("#td-0-0").attr("class","yixiegreentd");
+        //-$("#td-0-0").attr("class","yixiegreentd");

@@ -1,4 +1,4 @@
-//
+//-
     Created by zp on 15-9-9.
 
 extends ../layout
@@ -41,21 +41,21 @@ block content
                         - else
                             script contest_start_time_s = "#{contest.start_time}";
                             input.form-control(type="text", id="start_time", name="start_time", value="", placeholder="", readonly="true")
-                    //.col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
-                    //.col-lg-3.col-md-3.col-sm-3.col-xs-3(style="padding-right:0;")
-                    //    - if(!contest||!contest.start_time)
-                    //        input.form-control(type="number", min=0, max=23, id="start_time_hour", name="start_time_hour", value="", placeholder="")
-                    //    - else
-                    //        - var contest_start_time_hour = new Date(contest.start_time).getHours();
-                    //        input.form-control(type="number", min=0, max=23, id="start_time_hour", name="start_time_hour", value="#{contest_start_time_hour}", placeholder="")
-                    //label.form-control-static.col-lg-1.col-md-1.col-sm-1.col-xs-1.text-left(style="padding-left:0;") 时
-                    //.col-lg-3.col-md-3.col-sm-3.col-xs-3(style="padding-right:0;")
-                    //    - if(!contest||!contest.start_time)
-                    //        input.form-control(type="number", min=0, max=60, id="start_time_minute", name="start_time_minute", value="", placeholder="")
-                    //    - else
-                    //        - var contest_start_time_minute = new Date(contest.start_time).getMinutes();
-                    //        input.form-control(type="number", min=0, max=60, id="start_time_minute", name="start_time_minute", value="#{contest_start_time_minute}", placeholder="")
-                    //label.form-control-static.col-lg-1.col-md-1.col-sm-1.col-xs-1.text-left(style="padding-left:0;") 分
+                    //-.col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
+                    //-.col-lg-3.col-md-3.col-sm-3.col-xs-3(style="padding-right:0;")
+                    //-    - if(!contest||!contest.start_time)
+                    //-        input.form-control(type="number", min=0, max=23, id="start_time_hour", name="start_time_hour", value="", placeholder="")
+                    //-    - else
+                    //-        - var contest_start_time_hour = new Date(contest.start_time).getHours();
+                    //-        input.form-control(type="number", min=0, max=23, id="start_time_hour", name="start_time_hour", value="#{contest_start_time_hour}", placeholder="")
+                    //-label.form-control-static.col-lg-1.col-md-1.col-sm-1.col-xs-1.text-left(style="padding-left:0;") 时
+                    //-.col-lg-3.col-md-3.col-sm-3.col-xs-3(style="padding-right:0;")
+                    //-    - if(!contest||!contest.start_time)
+                    //-        input.form-control(type="number", min=0, max=60, id="start_time_minute", name="start_time_minute", value="", placeholder="")
+                    //-    - else
+                    //-        - var contest_start_time_minute = new Date(contest.start_time).getMinutes();
+                    //-        input.form-control(type="number", min=0, max=60, id="start_time_minute", name="start_time_minute", value="#{contest_start_time_minute}", placeholder="")
+                    //-label.form-control-static.col-lg-1.col-md-1.col-sm-1.col-xs-1.text-left(style="padding-left:0;") 分
                 .form-horizontal.row.contest-create
                     .col-lg-3.col-md-3.col-sm-3.col-xs-3.text-left
                         label.control-label(for="contest_title")  结束时间：
@@ -68,7 +68,7 @@ block content
                             input.form-control(type="text", id="end_time", name="end_time", value="", placeholder="", readonly="true")
             .containing.col-lg-6.col-md-6.col-sm-6.col-xs-12
                 .form-horizontal.row.contest-create
-                    //label.control-label 比赛题目设置：
+                    //-label.control-label 比赛题目设置：
                     .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                         .btn.btn-info.control-label(onclick="add_problem()") 增加题目：
                 table.table.table-condensed.col-lg-12.col-md-12.col-sm-12.col-xs-12(style="border:1px solid #DDDDDD;")#problem-area
@@ -84,15 +84,15 @@ block content
 
                 script var __contest_problems= [];
                 - if(contest && contest.problems)
-                    //script var sss = "#{JSON.stringify(contest.problems)}";
-                    //- var iii = 0;
-                    //script.
-                    //    var sss;;
-                    //    for(var i = 0;i < "#{contest.problems.length}"; i++){
-                    //        __contest_problems[i] = {};
-                    //        sss = "#{contest.problems[iii].contest_problem_list.problem_id}";
-                    //        console.log(sss);
-                    //    }
+                    //-script var sss = "#{JSON.stringify(contest.problems)}";
+                    //-- var iii = 0;
+                    //-script.
+                    //-    var sss;;
+                    //-    for(var i = 0;i < "#{contest.problems.length}"; i++){
+                    //-        __contest_problems[i] = {};
+                    //-        sss = "#{contest.problems[iii].contest_problem_list.problem_id}";
+                    //-        console.log(sss);
+                    //-    }
                     - for(var i = 0;i < contest.problems.length;i++)
                         script.
                             __contest_problems["#{i}"] = {};
@@ -110,7 +110,7 @@ block content
                 var __end_time = $('#end_time');
                 var now_time = new Date("#{now_time}");
                 var now_time_2 = new Date(now_time.getTime() + 2 * 60 * 60 * 1000);
-                //设置开始时间
+                //-设置开始时间
                 contest_start_time_s = new Date(contest_start_time_s);
                 var __contest_start_time_s = contest_start_time_s.getFullYear() + '/';
                 var __contest_start_month = contest_start_time_s.getMonth() + 1;
@@ -135,7 +135,7 @@ block content
                 }
                 __contest_start_time_s += __contest_start_minute;
                 __start_time.datetimepicker({value: __contest_start_time_s,step: 10});
-                //设置结束时间
+                //-设置结束时间
                 contest_end_time_s = new Date(contest_end_time_s);
                 var __contest_end_time_s = contest_end_time_s.getFullYear() + '/';
                 var __contest_end_month = contest_end_time_s.getMonth() + 1;
@@ -164,7 +164,7 @@ block content
                     add_problem();
                 }
                 else{
-                    //console.log(__contest_problems);
+                    //-console.log(__contest_problems);
                     __contest_problems.sort(function(a,b){
                         return a.order - b.order;
                     })
@@ -202,7 +202,7 @@ block content
                 for(var i = 0;i < number_of_problem; i++){
                     var my = document.getElementById("label_" + i);
                     if(my != null){
-                        //console.log(change_number_into_order(j));
+                        //-console.log(change_number_into_order(j));
                         my.innerHTML = change_number_into_order(j) + ":";
                         j++;
                     }
