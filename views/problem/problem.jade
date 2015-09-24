@@ -42,10 +42,13 @@
                         .modal-footer
                             //button.btn.btn-default(type='button', data-dismiss='modal') 取消
                             button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交
-                            script.
-                                function check(){
-                                    if($("#code").val()!="")
-                                        $("#form").submit();
-                                    else
-                                        alert("代码不要为空！");
-                                }
+    script.
+        var cc = 0;
+        function check(){
+            if($("#code").val()!="" && cc == 0){
+                $("#form").submit();
+                cc = 1;
+            }
+            else if(cc == 0)
+                alert("代码不要为空！");
+        }
