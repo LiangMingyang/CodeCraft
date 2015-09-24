@@ -87,12 +87,12 @@ exports.getUpdatePW = (req, res) ->
   global.db.Promise.resolve()
   .then ->
     throw new global.myErrors.UnknownUser() if not req.session.user
-    throw new global.myErrors.InvalidAccess() if req.session.user.id isnt req.params.userID
+    throw new global.myErrors.InvalidAccess() if req.session.user.id.toString() isnt req.params.userID.toString()
     res.render 'user/user_updatepw', {
       user: req.session.user
     }
 
-  .catch global.myErrors.UnknownUser, (err)->
+  .catch global.myErrors.UnknownUser,global.myErrors.InvalidAccess (err)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err) ->
@@ -115,7 +115,7 @@ exports.postUpdatePW = (req, res)->
   .then (user) ->
     throw new global.myErrors.UnknownUser() if not req.session.user
     throw new global.myErrors.InvalidAccess() if not user
-    throw new global.myErrors.InvalidAccess() if user.id isnt req.session.user.id #这里设定为只有自己才能修改
+    throw new global.myErrors.InvalidAccess() if user.id.toString() isnt req.session.user.id.toString() #这里设定为只有自己才能修改
     throw new global.myErrors.UpdateError("Wrong password") if not passwordHash.verify(form.oldPwd, user.password)
     throw new global.myErrors.UpdateError("Please confirm your password")  if form.newPwd isnt form.confirmNewPwd
     user.password = passwordHash.generate(form.newPwd)
