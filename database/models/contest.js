@@ -26,6 +26,7 @@
         defaultValue: 'private'
       }
     }, {
+      timestamps: false,
       underscored: true,
       validate: {
         startBeforeEnd: function() {

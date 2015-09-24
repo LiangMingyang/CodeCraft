@@ -13,5 +13,6 @@ module.exports = (sequelize, DataTypes) ->
       validate:
         isIP: true
   }, {
+    timestamps: false
     underscored: true
   }

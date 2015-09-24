@@ -31,5 +31,6 @@ module.exports = (sequelize, DataTypes) ->
     last_login:
       type: DataTypes.DATE
   }, {
+    timestamps: false
     underscored: true
   }

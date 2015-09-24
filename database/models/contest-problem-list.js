@@ -27,6 +27,7 @@
         unique: 'contest_problem_order'
       }
     }, {
+      timestamps: false,
       underscored: true
     });
   };

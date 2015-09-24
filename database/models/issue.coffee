@@ -9,5 +9,6 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.ENUM('private', 'protect', 'public')
       defaultValue: 'private'
   }, {
+    timestamps: false
     underscored: true
   }
