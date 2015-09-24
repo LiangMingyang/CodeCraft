@@ -112,13 +112,16 @@
       if (!req.session.user) {
         throw new global.myErrors.UnknownUser();
       }
+      if (req.session.user.id.toString() !== req.params.userID.toString()) {
+        throw new global.myErrors.InvalidAccess();
+      }
       return res.render('user/user_updatepw', {
         user: req.session.user
       });
-    })["catch"](global.myErrors.UnknownUser, function(err) {
+    })["catch"](global.myErrors.UnknownUser, global.myErrors.InvalidAccess(function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
-    })["catch"](function(err) {
+    }))["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error!");
       return res.redirect(HOME_PAGE);
@@ -140,7 +143,7 @@
       if (!user) {
         throw new global.myErrors.InvalidAccess();
       }
-      if (user.id !== req.session.user.id) {
+      if (user.id.toString() !== req.session.user.id.toString()) {
         throw new global.myErrors.InvalidAccess();
       }
       if (!passwordHash.verify(form.oldPwd, user.password)) {

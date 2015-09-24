@@ -1,4 +1,7 @@
 passwordHash = require('password-hash')
+Promise = require('sequelize').Promise
+rp = require('request-promise')
+xml2js = Promise.promisifyAll(require('xml2js'), suffix:'Promised')
 #global.myUtils = require('./utils')
 #page
 
@@ -136,3 +139,30 @@ exports.postRegister = (req, res) ->
 exports.getLogout = (req, res) ->
   global.myUtils.logout(req)
   res.redirect LOGIN_PAGE
+
+
+exports.getBinding = (req, res)->
+  User = global.db.models.user
+  currentUser = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    throw new global.myErrors.UnknownUser() if not user
+    currentUser = user
+    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.params.ticket}&service=http://127.0.0.1:4000/user/binding")
+  .then (xml)->
+    xml2js.parseStringPromised xml
+  .then (xjson)->
+    currentUser.student_id = xjson['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0]
+    currentUser.save()
+  .then ->
+    req.flash('info','Binding successfully.')
+    res.redirect "./#{currentUser.id}"
+  .catch global.myErrors.UnknownUser, (err)->
+    req.flash('info', err.message)
+    res.redirect LOGIN_PAGE
+  .catch (err)->
+    console.log err
+    req.flash('info', "Unknown Error.")
+    res.redirect HOME_PAGE

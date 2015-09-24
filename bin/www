@@ -9,6 +9,7 @@ var debug = require('debug')('OJ4TH:server');
 var http = require('http');
 var cluster = require('cluster');
 var cpus = require('os').cpus();
+var config = require('../config');
 
 /**
  * Get port from environment and store in Express.
@@ -78,7 +79,7 @@ function onListening() {
 }
 
 if(cluster.isMaster) {
-    for(var i = 0 ; i < cpus.length ; ++i) {
+    for(var i = 0 ; i < Math.min(cpus.length, config.cluster) ; ++i) {
         cluster.fork();
         //var worker = cluster.fork();
         //console.log('worker [%d] has been created',
