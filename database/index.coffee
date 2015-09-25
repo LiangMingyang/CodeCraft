@@ -19,10 +19,15 @@ module.exports = (database, username, password, config)->
   Message = sequelize.import path.join(__dirname, 'models/message')
   Issue = sequelize.import path.join(__dirname, 'models/issue')
   IssueReply = sequelize.import path.join(__dirname, 'models/issue-reply')
+  Feedback = sequelize.import path.join(__dirname, 'models/feedback')
 
   #associations
 
   #1:n
+
+  Feedback.belongsTo(User, {
+    as : 'creator'
+  })
 
   User.hasMany(Contest, {
     foreignKey: 'creator_id'

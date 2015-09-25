@@ -22,3 +22,5 @@ exports.Issue = require('./issue')
 
 exports.IssueReply = require('./issue-reply')
 
+exports.Feedback = require('./feedback')
+

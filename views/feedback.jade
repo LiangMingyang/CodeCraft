@@ -1,0 +1,22 @@
+//
+   Created by lmy on 15-9-25.
+
+extends ./layout
+block title
+   - var whichPage = "反馈"
+   title #{whichPage}
+block content
+   .col-lg-2.col-md-2.col-sm-2.col-xs-12
+      //.list-group
+          a.list-group-item(href="/group/index") 返回小组列表
+   .col-lg-8.col-md-8.col-sm-8.col-xs-12
+      h3 反馈
+      form(method='post').containing
+         .form-group
+            label.sr-only(for="name") 主题
+            input.form-control(type="input", id="name", name='title', placeholder="主要问题")
+         .form-group
+            label.sr-only(for="description") 详细内容
+            textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", id="description", name='content', placeholder="详细内容")
+         button.btn.btn-success(type="submit") 提交
+   .col-lg-2.col-md-2.col-sm-2.col-xs-12

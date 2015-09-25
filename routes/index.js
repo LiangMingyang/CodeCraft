@@ -26,6 +26,8 @@
 
   router.use('/submission', modules.submission.router);
 
+  router.use('/feedback', modules.feedback.router);
+
   router.get('/', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',

@@ -12,6 +12,8 @@
 
   exports.submission = require('./submission');
 
+  exports.feedback = require('./feedback');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map
