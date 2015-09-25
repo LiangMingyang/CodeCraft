@@ -15,8 +15,8 @@ block content
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./group.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
-        - if ( !isMember )
-            a.button.btn.btn-default(href="join" style="margin-top:20px") 加入该小组
+        - if ( user && !isMember )
+            a.button.btn.btn-default(href="join" style="margin-top:20px") 申请加入该小组
         //-- else
             a.button.btn.btn-default(href="quit") 退出该小组
         if(group)
