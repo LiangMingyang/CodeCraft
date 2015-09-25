@@ -54,6 +54,8 @@ html(lang="zh-CN")
                                             - if(user)
                                                 li.normalli
                                                     a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
+                                                li.normalli
+                                                    a(href="/feedback", id="feedbackpage", class="nav-before") 反馈信息
                                                 //-li.normalli
                                                 //-    a(href="/message/index", id="messegepage", class="nav-before") 消息
                                             //-li.normalli
@@ -91,6 +93,8 @@ html(lang="zh-CN")
                                             script $("#problempage").attr("class", "nav-change");
                                         - else if(whichPage == "申请创建小组"||whichPage == "小组信息"||whichPage == "所有小组"||whichPage == "小组成员"||whichPage == "小组题目"||whichPage == "管理小组"||whichPage == "管理小组成员"||whichPage == "管理小组题目"||whichPage == "管理小组比赛")
                                             script $("#grouppage").attr("class", "nav-change");
+                                        - else if(whichPage == "反馈")
+                                            script $("#feedbackpage").attr("class", "nav-change");
                                         - else
                                             script $("#indexpage").attr("class", "nav-change");
                         .alert-success
