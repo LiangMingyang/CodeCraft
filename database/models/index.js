@@ -24,6 +24,8 @@
 
   exports.IssueReply = require('./issue-reply');
 
+  exports.Feedback = require('./feedback');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

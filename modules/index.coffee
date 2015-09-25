@@ -9,3 +9,5 @@ exports.contest = require('./contest')
 exports.message = require('./message')
 
 exports.submission = require('./submission')
+
+exports.feedback = require('./feedback')
