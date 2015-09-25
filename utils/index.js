@@ -1106,7 +1106,7 @@
         }
         return results1;
       })();
-      return myUtils.findProblemAdmin(user);
+      return myUtils.findProblemsAdmin(user);
     }).then(function(problems) {
       var problem;
       adminProblemIDs = (function() {

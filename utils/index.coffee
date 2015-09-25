@@ -578,7 +578,7 @@ exports.createSubmissionTransaction = (form, form_code, problem, user)->
     return current_submission
 
 #得到用户可见的所有的Submissions
-exports.findSubmissions = (user,offset,include)->
+exports.findSubmissions = (user,offset,include)-> #TODO: 这个不包括比赛中的提交
   Submission = global.db.models.submission
   normalProblems = undefined
   myUtils = this
@@ -602,7 +602,7 @@ exports.findSubmissions = (user,offset,include)->
       limit : global.config.pageLimit.submission
     )
 
-exports.findSubmissionsAdmin = (user,offset,include)-> #所有有管理能力的提交记录
+exports.findSubmissionsAdmin = (user,offset,include)-> #所有有管理能力的提交记录 TODO: 这个是有问题的，这个不能包括比赛
   Submission = global.db.models.submission #即做到的是，任何有管理能力的题目的提交记录
   adminProblems = undefined
   myUtils = this
@@ -649,7 +649,7 @@ exports.findSubmissionAdmin = (user,submissionID,include)-> #只有自己提交�
     myUtils.findContestsAdmin(user)
   .then (contests)->
     adminContestIDs = (contest.id for contest in contests)
-    myUtils.findProblemAdmin(user)
+    myUtils.findProblemsAdmin(user)
   .then (problems)->
     adminProblemIDs = (problem.id for problem in problems)
     return undefined if not user
