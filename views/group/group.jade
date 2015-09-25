@@ -23,6 +23,8 @@ if(group)
         //-a(class="list-group-item normal-color", id="group-create-contestPage", href="./createContest") 创建比赛
         //-a(class="list-group-item normal-color", id="group-manage", href="./manage/index") 管理小组
         a(class="list-group-item normal-color", id="group-returnPage", href="../index", style="margin-top:20px;") 返回所有小组
+        //-- if ( user && !isMember )
+            //-a(class="list-group-item normal-color", href="join" ) 申请加入该小组
     script.
         if("#{whichPage}"=="小组题目")
             $("#group-problemPage").attr("class","list-group-item change-color");
