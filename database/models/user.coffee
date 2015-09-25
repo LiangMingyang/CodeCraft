@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) ->
       unique: true
       validate:
         notEmpty: true
+    rating:
+      type: DataTypes.INTEGER
+      allowNull: false
+      default : 1000
     is_super_admin:
       type: DataTypes.BOOLEAN
       defaultValue: false

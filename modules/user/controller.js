@@ -121,7 +121,8 @@
       username: req.body.username,
       password: req.body.password,
       nickname: req.body.nickname,
-      school: req.body.school
+      school: req.body.school,
+      college: req.body.college
     };
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
@@ -170,10 +171,13 @@
         throw new global.myErrors.UnknownUser();
       }
       currentUser = user;
-      return rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=" + req.params.ticket + "&service=http://127.0.0.1:4000/user/binding");
+      return rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=" + req.query.ticket + "&service=http://127.0.0.1:4000/user/binding");
     }).then(function(xml) {
       return xml2js.parseStringPromised(xml);
     }).then(function(xjson) {
+      if (!xjson['cas:serviceResponse']['cas:authenticationSuccess']) {
+        throw new global.myErrors.InvalidAccess();
+      }
       currentUser.student_id = xjson['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
       return currentUser.save();
     }).then(function() {
@@ -182,6 +186,9 @@
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
+    })["catch"](global.myErrors.InvalidAccess, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(HOME_PAGE);
     })["catch"](function(err) {
       console.log(err);
       req.flash('info', "Unknown Error.");

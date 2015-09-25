@@ -55,7 +55,7 @@ exports.postLogin = (req, res) ->
       username: form.username
   }
   .then (user)->
-    #过滤
+#过滤
     throw new global.myErrors.LoginError() if not user #没有找到该用户
     throw new global.myErrors.LoginError() if not passwordHash.verify(form.password, user.password) #判断密码是否正确
     global.myUtils.login(req, res, user)
@@ -99,12 +99,13 @@ exports.getRegister = (req, res) ->
 ###
 
 exports.postRegister = (req, res) ->
-  #get data from submit data
+#get data from submit data
   form = {
     username: req.body.username
     password: req.body.password
     nickname: req.body.nickname
     school  : req.body.school
+    college : req.body.college
   }
   #precheckForRegister(form)
   User = global.db.models.user
@@ -150,10 +151,11 @@ exports.getBinding = (req, res)->
   .then (user)->
     throw new global.myErrors.UnknownUser() if not user
     currentUser = user
-    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.params.ticket}&service=http://127.0.0.1:4000/user/binding")
+    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.query.ticket}&service=http://127.0.0.1:4000/user/binding") #TODO: 这里是写死的网址
   .then (xml)->
     xml2js.parseStringPromised xml
   .then (xjson)->
+    throw new global.myErrors.InvalidAccess() if not xjson['cas:serviceResponse']['cas:authenticationSuccess']
     currentUser.student_id = xjson['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0]
     currentUser.save()
   .then ->
@@ -162,6 +164,9 @@ exports.getBinding = (req, res)->
   .catch global.myErrors.UnknownUser, (err)->
     req.flash('info', err.message)
     res.redirect LOGIN_PAGE
+  .catch global.myErrors.InvalidAccess, (err)->
+    req.flash('info', err.message)
+    res.redirect HOME_PAGE
   .catch (err)->
     console.log err
     req.flash('info', "Unknown Error.")

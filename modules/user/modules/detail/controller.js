@@ -73,19 +73,19 @@
     var User;
     User = global.db.models.user;
     return User.find(req.params.userID).then(function(user) {
-      var i;
       if (!req.session.user) {
         throw new global.myErrors.UnknownUser();
       }
       if (!user) {
         throw new global.myErrors.InvalidAccess();
       }
-      if (user.id !== req.session.user.id) {
+      if (user.id.toString() !== req.session.user.id.toString()) {
         throw new global.myErrors.InvalidAccess();
       }
-      for (i in req.body) {
-        user[i] = req.body[i];
-      }
+      user.nickname = req.body.nickname;
+      user.school = req.body.school;
+      user.college = req.body.college;
+      user.description = req.body.description;
       return user.save();
     }).then(function(user) {
       global.myUtils.login(req, res, user);
