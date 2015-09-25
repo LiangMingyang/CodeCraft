@@ -39,7 +39,7 @@
       rating: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        "default": 1000
+        defaultValue: 1000
       },
       is_super_admin: {
         type: DataTypes.BOOLEAN,
