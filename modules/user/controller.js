@@ -171,7 +171,7 @@
         throw new global.myErrors.UnknownUser();
       }
       currentUser = user;
-      return rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=" + req.query.ticket + "&service=http://127.0.0.1:4000/user/binding");
+      return rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=" + req.query.ticket + "&service=http://123.57.190.154/user/binding");
     }).then(function(xml) {
       return xml2js.parseStringPromised(xml);
     }).then(function(xjson) {

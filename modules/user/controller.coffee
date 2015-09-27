@@ -151,7 +151,7 @@ exports.getBinding = (req, res)->
   .then (user)->
     throw new global.myErrors.UnknownUser() if not user
     currentUser = user
-    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.query.ticket}&service=http://127.0.0.1:4000/user/binding") #TODO: 这里是写死的网址
+    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.query.ticket}&service=http://123.57.190.154/user/binding") #TODO: 这里是写死的网址
   .then (xml)->
     xml2js.parseStringPromised xml
   .then (xjson)->
