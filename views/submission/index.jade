@@ -115,17 +115,17 @@ block content
                 - if(!contest)
                     td
                         |用户
-                        br
-                        input.form-control.text-center(onblur="console.log(this.value)")
+                        //-br
+                        //-input.form-control.text-center(onblur="console.log(this.value)")
                 - if(submissions)
                     td
                         |题目ID
-                        br
-                        input.form-control(onblur="console.log(this.value)")
+                        //-br
+                        //-input.form-control(onblur="console.log(this.value)")
                 td
                     |结果
-                    br
-                    select.form-control(onchange="console.log(this.value)")
+                    //-br
+                    //-select.form-control(onchange="console.log(this.value)")
                         option all
                         option Accepted
                         option Wrong Answer
@@ -143,8 +143,8 @@ block content
                 td 得分
                 td
                     |语言
-                    br
-                    select.form-control(onchange="console.log(this.value)")
+                    //-br
+                    //-select.form-control(onchange="console.log(this.value)")
                         option all
                         option c++
                         option c
@@ -152,16 +152,16 @@ block content
                         option python
                 td(onmousedown="console.log('length')")
                     |代码长度
-                    br
-                    label.form-control-static (Bytes)
+                    //-br
+                    //-label.form-control-static (Bytes)
                 td
                     |运行时间
-                    br
-                    label.form-control-static (ms)
+                    //-br
+                    //-label.form-control-static (ms)
                 td
                     |运行内存
-                    br
-                    label.form-control-static (KB)
+                    //-br
+                    //-label.form-control-static (KB)
                 td 提交时间
             if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
