@@ -11,8 +11,7 @@
       },
       content: {
         type: DataTypes.TEXT('long'),
-        allowNull: false,
-        defaultValue: ""
+        allowNull: false
       }
     }, {
       timestamps: false,
