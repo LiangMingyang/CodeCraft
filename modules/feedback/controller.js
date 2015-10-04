@@ -33,9 +33,10 @@
   };
 
   exports.postIndex = function(req, res) {
-    var Feedback, User;
+    var Feedback, User, currentUser;
     User = global.db.models.user;
     Feedback = global.db.models.feedback;
+    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -45,11 +46,14 @@
       if (!user) {
         throw new global.myErrors.UnknownUser();
       }
+      currentUser = user;
       form = {
         title: req.body.title,
         content: req.body.content
       };
       return Feedback.create(form);
+    }).then(function(fb) {
+      return fb.setCreator(currentUser);
     }).then(function() {
       req.flash('info', 'Received.');
       return res.redirect(HOME_PAGE);
