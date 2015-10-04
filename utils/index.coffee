@@ -431,8 +431,6 @@ exports.findContest = (user, contestID, include)->
           ,
             access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
             group_id : normalGroups
-          ,
-            creator_id: user.id
           ]
         ]
       include : include

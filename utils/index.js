@@ -765,8 +765,6 @@
                 }, {
                   access_level: 'protect',
                   group_id: normalGroups
-                }, {
-                  creator_id: user.id
                 }
               ]
             }
