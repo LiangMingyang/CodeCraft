@@ -753,9 +753,6 @@
         }
         return results1;
       })();
-      if (!user) {
-        return void 0;
-      }
       return Contest.find({
         where: {
           $and: [

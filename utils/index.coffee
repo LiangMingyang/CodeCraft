@@ -421,7 +421,6 @@ exports.findContest = (user, contestID, include)->
     )
   .then (groups)->
     normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
-    return undefined  if not user
     Contest.find({
       where :
         $and:[
