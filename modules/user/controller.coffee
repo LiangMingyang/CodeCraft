@@ -142,32 +142,32 @@ exports.getLogout = (req, res) ->
   res.redirect LOGIN_PAGE
 
 
-exports.getBinding = (req, res)->
-  User = global.db.models.user
-  currentUser = undefined
-  global.db.Promise.resolve()
-  .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    throw new global.myErrors.UnknownUser() if not user
-    currentUser = user
-    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.query.ticket}&service=http://127.0.0.1:4000/user/binding") #TODO: 这里是写死的网址
-  .then (xml)->
-    xml2js.parseStringPromised xml
-  .then (xjson)->
-    throw new global.myErrors.InvalidAccess() if not xjson['cas:serviceResponse']['cas:authenticationSuccess']
-    currentUser.student_id = xjson['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0]
-    currentUser.save()
-  .then ->
-    req.flash('info','Binding successfully.')
-    res.redirect "./#{currentUser.id}"
-  .catch global.myErrors.UnknownUser, (err)->
-    req.flash('info', err.message)
-    res.redirect LOGIN_PAGE
-  .catch global.myErrors.InvalidAccess, (err)->
-    req.flash('info', err.message)
-    res.redirect HOME_PAGE
-  .catch (err)->
-    console.log err
-    req.flash('info', "Unknown Error.")
-    res.redirect HOME_PAGE
+#exports.getBinding = (req, res)->
+#  User = global.db.models.user
+#  currentUser = undefined
+#  global.db.Promise.resolve()
+#  .then ->
+#    User.find req.session.user.id if req.session.user
+#  .then (user)->
+#    throw new global.myErrors.UnknownUser() if not user
+#    currentUser = user
+#    rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=#{req.query.ticket}&service=http://127.0.0.1:4000/user/binding") #TODO: 这里是写死的网址
+#  .then (xml)->
+#    xml2js.parseStringPromised xml
+#  .then (xjson)->
+#    throw new global.myErrors.InvalidAccess() if not xjson['cas:serviceResponse']['cas:authenticationSuccess']
+#    currentUser.student_id = xjson['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0]
+#    currentUser.save()
+#  .then ->
+#    req.flash('info','Binding successfully.')
+#    res.redirect "./#{currentUser.id}"
+#  .catch global.myErrors.UnknownUser, (err)->
+#    req.flash('info', err.message)
+#    res.redirect LOGIN_PAGE
+#  .catch global.myErrors.InvalidAccess, (err)->
+#    req.flash('info', err.message)
+#    res.redirect HOME_PAGE
+#  .catch (err)->
+#    console.log err
+#    req.flash('info', "Unknown Error.")
+#    res.redirect HOME_PAGE

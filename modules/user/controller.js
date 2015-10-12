@@ -158,44 +158,6 @@
     return res.redirect(LOGIN_PAGE);
   };
 
-  exports.getBinding = function(req, res) {
-    var User, currentUser;
-    User = global.db.models.user;
-    currentUser = void 0;
-    return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      if (!user) {
-        throw new global.myErrors.UnknownUser();
-      }
-      currentUser = user;
-      return rp("http://ecampus.buaa.edu.cn/cas/serviceValidate?ticket=" + req.query.ticket + "&service=http://127.0.0.1:4000/user/binding");
-    }).then(function(xml) {
-      return xml2js.parseStringPromised(xml);
-    }).then(function(xjson) {
-      if (!xjson['cas:serviceResponse']['cas:authenticationSuccess']) {
-        throw new global.myErrors.InvalidAccess();
-      }
-      currentUser.student_id = xjson['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
-      return currentUser.save();
-    }).then(function() {
-      req.flash('info', 'Binding successfully.');
-      return res.redirect("./" + currentUser.id);
-    })["catch"](global.myErrors.UnknownUser, function(err) {
-      req.flash('info', err.message);
-      return res.redirect(LOGIN_PAGE);
-    })["catch"](global.myErrors.InvalidAccess, function(err) {
-      req.flash('info', err.message);
-      return res.redirect(HOME_PAGE);
-    })["catch"](function(err) {
-      console.log(err);
-      req.flash('info', "Unknown Error.");
-      return res.redirect(HOME_PAGE);
-    });
-  };
-
 }).call(this);
 
 //# sourceMappingURL=controller.js.map
