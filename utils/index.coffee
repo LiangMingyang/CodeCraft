@@ -92,6 +92,7 @@ exports.getGroupPeopleCount = (groups)->
   options = {
     where:
       group_id : (group.id for group in groups)
+      access_level: ['member', 'admin', 'owner']
     group : 'group_id'
     distinct : true
     attributes : ['group_id']
