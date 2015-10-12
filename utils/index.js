@@ -158,7 +158,8 @@
             results1.push(group.id);
           }
           return results1;
-        })()
+        })(),
+        access_level: ['member', 'admin', 'owner']
       },
       group: 'group_id',
       distinct: true,
