@@ -270,7 +270,7 @@ block content
         -else
             a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset, disabled="disabled") 上一页
         a.button.btn.btn-default(href="../submission/index") 首页
-        - if(page_of_this_page>4)
+        //- if(page_of_this_page>4)
             |......
         //-- if(page_of_this_page>5)
         //-    - var prevOffset5 = offset - pageLimit * 5;
@@ -282,23 +282,23 @@ block content
         //-    - if(prevOffset4 < 0)
         //-        - prevOffset4 = 0;
         //-    a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset4) #{page_of_this_page-4}
-        - if(page_of_this_page>3)
+        //- if(page_of_this_page>3)
             - var prevOffset3 = offset - pageLimit * 3;
             - if(prevOffset3 < 0)
                 - prevOffset3 = 0;
             a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset3) #{page_of_this_page-3}
-        - if(page_of_this_page>2)
+        //- if(page_of_this_page>2)
             - var prevOffset2 = offset - pageLimit * 2;
             - if(prevOffset2 < 0)
                 - prevOffset2 = 0;
             a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset2) #{page_of_this_page-2}
-        - if(page_of_this_page>1)
+        //- if(page_of_this_page>1)
             - var prevOffset1 = offset - pageLimit * 1;
             - if(prevOffset1 < 0)
                 - prevOffset1 = 0;
             a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset1) #{page_of_this_page-1}
         a.button.btn.btn-success(href="../submission/index?offset=" + offset) #{page_of_this_page}
-        - if(submissions.length == pageLimit)
+        //- if(submissions.length == pageLimit)
             - var nextOffset1 = offset - 0 + pageLimit * 1;
             a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset1) #{page_of_this_page+1}
             - var nextOffset2 = offset - 0 + pageLimit * 2;
@@ -313,6 +313,8 @@ block content
         - if(submissions.length == pageLimit)
             a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset) 下一页
         -else
+            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset, disabled="disabled") 下一页
+        //-.text-right
             a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset, disabled="disabled") 下一页
     script.
         function change_time_into_standard_format(){
