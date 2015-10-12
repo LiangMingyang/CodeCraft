@@ -33,7 +33,8 @@ block content
                 - for(var j = 0 ; j < rank.length ; ++j)
                     tr.text-center
                         td #{j+1}
-                        td #{rank[j].user.nickname}
+                        td
+                            a(href='../../../user/' + rank[j].user.id + '/index') #{rank[j].user.nickname}
                         td #{rank[j].score}
                         - seconds = (rank[j].penalty - rank[j].penalty % 1000) / 1000 % 60;
                         - if(seconds < 10)
