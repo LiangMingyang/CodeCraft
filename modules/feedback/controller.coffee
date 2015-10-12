@@ -26,16 +26,20 @@ exports.getIndex = (req, res) ->
 exports.postIndex = (req, res)->
   User = global.db.models.user
   Feedback = global.db.models.feedback
+  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     throw new global.myErrors.UnknownUser() if not user
+    currentUser = user
     form = {
       title : req.body.title
       content : req.body.content
     }
     Feedback.create(form)
+  .then (fb)->
+    fb.setCreator(currentUser)
   .then ->
     req.flash 'info' , 'Received.'
     res.redirect HOME_PAGE
