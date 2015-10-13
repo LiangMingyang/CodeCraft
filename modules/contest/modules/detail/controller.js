@@ -15,8 +15,9 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var User;
+    var Group, User;
     User = global.db.models.user;
+    Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -26,6 +27,8 @@
         {
           model: User,
           as: 'creator'
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {
@@ -47,12 +50,13 @@
   };
 
   exports.getProblem = function(req, res) {
-    var Problem, User, currentContest, currentProblems, currentUser;
+    var Group, Problem, User, currentContest, currentProblems, currentUser;
     currentContest = void 0;
     currentUser = void 0;
     currentProblems = void 0;
     User = global.db.models.user;
     Problem = global.db.models.problem;
+    Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -65,6 +69,8 @@
           as: 'creator'
         }, {
           model: Problem
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {
@@ -102,11 +108,12 @@
   };
 
   exports.getSubmission = function(req, res) {
-    var Problem, User, currentContest, currentUser;
+    var Group, Problem, User, currentContest, currentUser;
     currentContest = void 0;
     currentUser = void 0;
     Problem = global.db.models.problem;
     User = global.db.models.user;
+    Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -119,6 +126,8 @@
           as: 'creator'
         }, {
           model: Problem
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {
@@ -179,12 +188,13 @@
   };
 
   exports.getQuestion = function(req, res) {
-    var Issue, Problem, User, currentContest, currentUser, dic;
+    var Group, Issue, Problem, User, currentContest, currentUser, dic;
     currentContest = void 0;
     currentUser = void 0;
     Problem = global.db.models.problem;
     User = global.db.models.user;
     Issue = global.db.models.issue;
+    Group = global.db.models.group;
     dic = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -206,6 +216,8 @@
               as: 'creator'
             }
           ]
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {
@@ -318,9 +330,10 @@
   };
 
   exports.getRank = function(req, res) {
-    var Problem, User, currentContest;
+    var Group, Problem, User, currentContest;
     User = global.db.models.user;
     Problem = global.db.models.problem;
+    Group = global.db.models.group;
     currentContest = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -333,6 +346,8 @@
           as: 'creator'
         }, {
           model: Problem
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {

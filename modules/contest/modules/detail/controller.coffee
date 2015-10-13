@@ -15,6 +15,7 @@ LOGIN_PAGE = '/user/login'
 
 exports.getIndex = (req, res)->
   User = global.db.models.user
+  Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -22,6 +23,8 @@ exports.getIndex = (req, res)->
     global.myUtils.findContest(user, req.params.contestID, [
       model : User
       as : 'creator'
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -44,6 +47,7 @@ exports.getProblem = (req, res)->
   currentProblems = undefined
   User = global.db.models.user
   Problem = global.db.models.problem
+  Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -54,6 +58,8 @@ exports.getProblem = (req, res)->
       as : 'creator'
     ,
       model : Problem
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -85,6 +91,7 @@ exports.getSubmission = (req, res)->
   currentUser = undefined
   Problem = global.db.models.problem
   User = global.db.models.user
+  Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -95,6 +102,8 @@ exports.getSubmission = (req, res)->
       as : 'creator'
     ,
       model : Problem
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -154,6 +163,7 @@ exports.getQuestion = (req, res)->
   Problem = global.db.models.problem
   User = global.db.models.user
   Issue = global.db.models.issue
+  Group = global.db.models.group
   dic = undefined
   global.db.Promise.resolve()
   .then ->
@@ -171,6 +181,8 @@ exports.getQuestion = (req, res)->
         model : User
         as : 'creator'
       ]
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -258,6 +270,7 @@ exports.postQuestion = (req, res)->
 exports.getRank = (req, res)->
   User = global.db.models.user
   Problem = global.db.models.problem
+  Group = global.db.models.group
   currentContest = undefined
   global.db.Promise.resolve()
   .then ->
@@ -268,6 +281,8 @@ exports.getRank = (req, res)->
       as : 'creator'
     ,
       model : Problem
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest

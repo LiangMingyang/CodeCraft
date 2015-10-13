@@ -20,6 +20,7 @@ CONTEST_PAGE = '/contest'
 exports.getIndex = (req, res) ->
   User = global.db.models.user
   Problem = global.db.models.problem
+  Group = global.db.models.group
   currentProblem = undefined
   currentContest = undefined
   currentProblems = undefined
@@ -31,6 +32,8 @@ exports.getIndex = (req, res) ->
     currentUser = user
     global.myUtils.findContest(user,req.params.contestID,[
       model : Problem
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -136,6 +139,7 @@ exports.getSubmissions = (req, res) ->
   User = global.db.models.user
   Problem = global.db.models.problem
   Contest = global.db.models.contest
+  Group = global.db.models.group
   currentProblem = undefined
   currentProblems = undefined
   currentContest = undefined
@@ -148,6 +152,8 @@ exports.getSubmissions = (req, res) ->
     currentUser = user
     global.myUtils.findContest(user,req.params.contestID,[
       model : Problem
+    ,
+      model : Group
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest

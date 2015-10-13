@@ -27,9 +27,10 @@
   CONTEST_PAGE = '/contest';
 
   exports.getIndex = function(req, res) {
-    var Problem, User, currentContest, currentProblem, currentProblems, currentUser;
+    var Group, Problem, User, currentContest, currentProblem, currentProblems, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
+    Group = global.db.models.group;
     currentProblem = void 0;
     currentContest = void 0;
     currentProblems = void 0;
@@ -43,6 +44,8 @@
       return global.myUtils.findContest(user, req.params.contestID, [
         {
           model: Problem
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {
@@ -176,10 +179,11 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
+    var Contest, Group, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     Contest = global.db.models.contest;
+    Group = global.db.models.group;
     currentProblem = void 0;
     currentProblems = void 0;
     currentContest = void 0;
@@ -194,6 +198,8 @@
       return global.myUtils.findContest(user, req.params.contestID, [
         {
           model: Problem
+        }, {
+          model: Group
         }
       ]);
     }).then(function(contest) {
