@@ -3,3 +3,6 @@ if(contest)
         a(href="./index")
             label.control-label
                 h3 #{contest.title}
+        if(contest.group && contest.group.name)
+            label.control-label
+                a(href="/group/" + contest.group.id + "/index")
