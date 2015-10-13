@@ -1,8 +1,7 @@
 if(contest)
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
         a(href="./index")
-            label.control-label
-                h3 #{contest.title}
+            h3 #{contest.title}&nbsp&nbsp&nbsp
         if(contest.group && contest.group.name)
-            label.control-label
-                a(href="/group/" + contest.group.id + "/index")
+            a(href="/group/" + contest.group.id + "/index")
+                h5(style="font-size:16px;") #{contest.group.name}
