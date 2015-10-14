@@ -16,7 +16,12 @@
         return User.find(req.session.user.id);
       }
     }).then(function(user) {
-      return global.myUtils.findSubmissions(user, req.query.offset, [
+      var opt;
+      opt = {
+        contest_id: null,
+        offset: req.query.offset
+      };
+      return global.myUtils.findSubmissions(user, opt, [
         {
           model: User,
           as: 'creator'
@@ -28,6 +33,53 @@
         submissions: submissions,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.submission
+      });
+    })["catch"](global.myErrors.UnknownUser, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(LOGIN_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
+    });
+  };
+
+  exports.postIndex = function(req, res) {
+    var User, opt;
+    User = global.db.models.user;
+    opt = {};
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      opt.offset = req.query.offset;
+      if (req.body.nickname !== '') {
+        opt.nickname = req.body.nickname;
+      }
+      if (req.body.problem_id !== '') {
+        opt.problem_id = req.body.problem_id;
+      }
+      opt.contest_id = null;
+      if (req.body.language !== '') {
+        opt.language = req.body.language;
+      }
+      if (req.body.result !== '') {
+        opt.result = req.body.result;
+      }
+      return global.myUtils.findSubmissions(user, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
+    }).then(function(submissions) {
+      return res.render('submission/index', {
+        user: req.session.user,
+        submissions: submissions,
+        offset: opt.offset,
+        pageLimit: global.config.pageLimit.submission,
+        query: req.body
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);

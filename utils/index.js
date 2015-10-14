@@ -1003,7 +1003,7 @@
     });
   };
 
-  exports.findSubmissions = function(user, offset, include) {
+  exports.findSubmissions = function(user, opt, include) {
     var Submission, myUtils, normalProblems;
     Submission = global.db.models.submission;
     normalProblems = void 0;
@@ -1011,7 +1011,7 @@
     return global.db.Promise.resolve().then(function() {
       return myUtils.findProblems(user);
     }).then(function(problems) {
-      var problem;
+      var problem, where;
       if (!problems) {
         return [];
       }
@@ -1024,48 +1024,66 @@
         }
         return results1;
       })();
-      return Submission.findAll({
-        where: {
-          problem_id: normalProblems,
-          contest_id: null
-        },
-        include: include,
-        order: [['created_at', 'DESC'], ['id', 'DESC']],
-        offset: offset,
-        limit: global.config.pageLimit.submission
-      });
-    });
-  };
-
-  exports.findSubmissionsAdmin = function(user, offset, include) {
-    var Submission, adminProblems, myUtils;
-    Submission = global.db.models.submission;
-    adminProblems = void 0;
-    myUtils = this;
-    return global.db.Promise.resolve().then(function() {
-      return myUtils.findProblemsAdmin(user);
-    }).then(function(problems) {
-      var problem;
-      if (!problems) {
-        return [];
+      where = {
+        $and: [
+          {
+            problem_id: normalProblems
+          }
+        ]
+      };
+      if (opt.problem_id) {
+        where.$and.push({
+          problem_id: opt.problem_id
+        });
       }
-      adminProblems = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
-          results1.push(problem.id);
-        }
-        return results1;
-      })();
+      if (opt.contest_id) {
+        where.$and.push({
+          contest_id: opt.contest_id
+        });
+      }
+      if (opt.language) {
+        where.$and.push({
+          lang: opt.language
+        });
+      }
+      if (opt.result) {
+        where.$and.push({
+          result: opt.result
+        });
+      }
+      if (opt.nickname) {
+        (function(include) {
+          var j, len, model;
+          if (include == null) {
+            include = {};
+          }
+          for (j = 0, len = include.length; j < len; j++) {
+            model = include[j];
+            if (model.as === 'creator') {
+              if (model.where == null) {
+                model.where = {};
+              }
+              model.where.nickname = opt.nickname;
+              return;
+            }
+          }
+          return include.push({
+            model: User,
+            as: 'creator',
+            where: {
+              nickname: opt.nickname
+            }
+          });
+        })(include);
+      }
+      if (opt.offset == null) {
+        opt.offset = 0;
+      }
       return Submission.findAll({
-        where: {
-          problem_id: adminProblems,
-          contest_id: null
-        },
+        where: where,
         include: include,
         order: [['created_at', 'DESC'], ['id', 'DESC']],
-        offset: offset,
+        offset: opt.offset,
         limit: global.config.pageLimit.submission
       });
     });
@@ -1080,73 +1098,6 @@
         creator_id: (user ? user.id : null)
       },
       include: include
-    });
-  };
-
-  exports.findSubmissionAdmin = function(user, submissionID, include) {
-    var Submission, adminContestIDs, adminProblemIDs, myUtils;
-    Submission = global.db.models.submission;
-    adminContestIDs = void 0;
-    adminProblemIDs = void 0;
-    myUtils = this;
-    return global.db.Promise.resolve().then(function() {
-      return myUtils.findContestsAdmin(user);
-    }).then(function(contests) {
-      var contest;
-      adminContestIDs = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = contests.length; j < len; j++) {
-          contest = contests[j];
-          results1.push(contest.id);
-        }
-        return results1;
-      })();
-      return myUtils.findProblemsAdmin(user);
-    }).then(function(problems) {
-      var problem;
-      adminProblemIDs = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
-          results1.push(problem.id);
-        }
-        return results1;
-      })();
-      if (!user) {
-        return void 0;
-      }
-      return Submission.find({
-        where: {
-          id: submissionID,
-          $or: [
-            {
-              creator_id: user.id
-            }, {
-              contest_id: adminContestIDs
-            }, {
-              problem_id: adminProblemIDs
-            }
-          ]
-        },
-        include: include
-      });
-    });
-  };
-
-  exports.checkJudge = function(opt) {
-    var Judge;
-    Judge = global.db.models.judge;
-    return global.db.Promise.resolve().then(function() {
-      return Judge.find(opt.id);
-    }).then(function(judge) {
-      if (!judge) {
-        throw new global.myErrors.UnknownJudge();
-      }
-      if (opt.token !== crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')) {
-        throw new global.myErrors.UnknownJudge("Wrong secret_key!");
-      }
     });
   };
 

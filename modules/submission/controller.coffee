@@ -11,7 +11,11 @@ exports.getIndex = (req, res) ->
   .then ->
     User.find req.session.user.id if req.session.user
   .then (user)->
-    global.myUtils.findSubmissions(user,req.query.offset,[
+    opt = {
+      contest_id : null
+      offset : req.query.offset
+    }
+    global.myUtils.findSubmissions(user, opt, [
       model : User
       as : 'creator'
     ])
@@ -21,6 +25,40 @@ exports.getIndex = (req, res) ->
       submissions : submissions
       offset : req.query.offset
       pageLimit : global.config.pageLimit.submission
+    }
+  .catch global.myErrors.UnknownUser, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE
+
+exports.postIndex = (req, res) ->
+  User = global.db.models.user
+  opt = {}
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    opt.offset = req.query.offset
+    opt.nickname = req.body.nickname if req.body.nickname isnt ''
+    opt.problem_id = req.body.problem_id if req.body.problem_id isnt ''
+    #opt.contest_id = req.body.contest_id if req.body.contest_id isnt ''
+    opt.contest_id = null #在表站只能看到非比赛中的提交记录
+    opt.language = req.body.language if req.body.language isnt ''
+    opt.result = req.body.result if req.body.result isnt ''
+    global.myUtils.findSubmissions(user, opt, [
+      model : User
+      as : 'creator'
+    ])
+  .then (submissions)->
+    res.render 'submission/index', {
+      user : req.session.user
+      submissions : submissions
+      offset : opt.offset
+      pageLimit : global.config.pageLimit.submission
+      query : req.body
     }
   .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
