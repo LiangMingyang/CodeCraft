@@ -138,28 +138,90 @@
       currentProblems = [problem];
       return global.myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
-      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
-      return currentProblem.getSubmissions({
-        include: [
-          {
-            model: User,
-            as: 'creator'
-          }
-        ],
-        order: [['created_at', 'DESC'], ['id', 'DESC']],
-        where: {
-          contest_id: null
-        },
+      var opt;
+      opt = {
         offset: req.query.offset,
-        limit: global.config.pageLimit.submission
-      });
+        problem_id: currentProblem.id
+      };
+      return global.myUtils.findSubmissions(currentUser, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
     }).then(function(submissions) {
+      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
       return res.render('problem/submission', {
         submissions: submissions,
         problem: currentProblem,
         user: req.session.user,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.submission
+      });
+    })["catch"](global.myErrors.UnknownUser, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(LOGIN_PAGE);
+    })["catch"](global.myErrors.UnknownProblem, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(PROBLEM_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', 'Unknown error!');
+      return res.redirect(HOME_PAGE);
+    });
+  };
+
+  exports.postSubmissions = function(req, res) {
+    var User, currentProblem, currentProblems, currentUser, opt;
+    User = global.db.models.user;
+    currentProblem = void 0;
+    currentUser = void 0;
+    currentProblems = void 0;
+    opt = {};
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      return global.myUtils.findProblemAdmin(user, req.params.problemID);
+    }).then(function(problem) {
+      if (!problem) {
+        throw new global.myErrors.UnknownProblem();
+      }
+      currentProblem = problem;
+      currentProblems = [problem];
+      return global.myUtils.getProblemsStatus(currentProblems, currentUser);
+    }).then(function() {
+      opt.offset = req.query.offset;
+      if (req.body.nickname !== '') {
+        opt.nickname = req.body.nickname;
+      }
+      opt.problem_id = currentProblem.id;
+      if (req.body.contest_id !== '') {
+        opt.contest_id = req.body.contest_id;
+      }
+      if (req.body.language !== '') {
+        opt.language = req.body.language;
+      }
+      if (req.body.result !== '') {
+        opt.result = req.body.result;
+      }
+      return global.myUtils.findSubmissions(currentUser, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
+    }).then(function(submissions) {
+      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
+      return res.render('problem/submission', {
+        submissions: submissions,
+        problem: currentProblem,
+        user: req.session.user,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission,
+        query: req.body
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);
