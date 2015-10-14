@@ -1,4 +1,4 @@
-//-
+//
     Created by lmy on 15-6-7.
 
 extends ../layout
@@ -30,8 +30,13 @@ block content
                 - var hours = 0;
                 - var oddeventable = "odd";
                 - var coloroftable = "red";
+                - var firstB = [];
+                - var secondB = [];
+                - for(var i = 0;i < contest.problems.length ; ++i)
+                    - firstB[i] = 1221102012211060;
+                    - secondB[i] = -1;
                 - for(var j = 0 ; j < rank.length ; ++j)
-                    tr.text-center
+                    tr.text-center(id = "tr" + j)
                         td #{j+1}
                         td
                             a(href='../../../user/' + rank[j].user.id + '/index') #{rank[j].user.nickname}
@@ -52,7 +57,8 @@ block content
                         - for(var k = 0 ; k < contest.problems.length ; ++k)
                             - var p = contest.problems[k];
                             - var order = p.contest_problem_list.order;
-                            - if(rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
+                            - if(rank[j].detail[order] && rank[j].detail[order].result == "AC" && rank[j].detail[order].accepted_time && firstB[k] > rank[j].detail[order].accepted_time){firstB[k] = rank[j].detail[order].accepted_time;secondB[k] = j;}
+                            - if(rank[j].detail[order] && rank[j].detail[order].score > 0 && rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
                                 - var times = rank[j].detail[order].accepted_time;
                                 - seconds = (times - times % 1000) / 1000 % 60;
                                 - if(seconds < 10)
@@ -62,7 +68,7 @@ block content
                                     - minutes = "0" + minutes;
                                 - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600;
                                 td(id="td" + "-" + j + "-" + k) #{hours}:#{minutes}:#{seconds} (-#{rank[j].detail[order].wrong_count})
-                            - else if(rank[j].detail[order])
+                            - else if(rank[j].detail[order] && rank[j].detail[order].result == "AC" && rank[j].detail[order])
                                 - var times = rank[j].detail[order].accepted_time;
                                 - seconds = (times - times % 1000) / 1000 % 60;
                                 - if(seconds < 10)
@@ -72,6 +78,8 @@ block content
                                     - minutes = "0" + minutes;
                                 - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600;
                                 td(id="td" + "-" + j + "-" + k) #{hours}:#{minutes}:#{seconds}
+                            - else if(rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
+                                td(id="td" + "-" + j + "-" + k) (-#{rank[j].detail[order].wrong_count})
                             - else
                                 td(id="td" + "-" + j + "-" + k)
                             - if(!rank[j].detail[order])
@@ -83,6 +91,11 @@ block content
                             - else
                                 - coloroftable = "red";
                             script $("#td-#{j}-#{k}").attr("class","#{oddeventable}#{coloroftable}td");
-    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+                        script $("#tr#{j}").attr("class", "text-center "+"#{oddeventable}whitetr");
+                - for(var i = 0 ; i < contest.problems.length ; ++i)
+                    - if(secondB[i] == -1 || firstB[i] == -1)
+                        - continue;
+                    - sb = secondB[i];
+                    script $("#td-#{sb}-#{i}").attr("class","yixiegreentd");
     script.
-        //-$("#td-0-0").attr("class","yixiegreentd");
+        //$("#td-0-0").attr("class","yixiegreentd");
