@@ -1004,30 +1004,54 @@
   };
 
   exports.findSubmissions = function(user, opt, include) {
-    var Submission, myUtils, normalProblems;
+    var Submission, currentContests, currentProblems, myUtils, normalProblems;
     Submission = global.db.models.submission;
+    currentProblems = void 0;
+    currentContests = void 0;
     normalProblems = void 0;
     myUtils = this;
     return global.db.Promise.resolve().then(function() {
       return myUtils.findProblems(user);
     }).then(function(problems) {
-      var problem, where;
-      if (!problems) {
+      currentProblems = problems;
+      return myUtils.findContests(user);
+    }).then(function(contests) {
+      var contest, normalContests, problem, where;
+      currentContests = contests;
+      if (!currentProblems) {
+        return [];
+      }
+      if (!currentContests) {
         return [];
       }
       normalProblems = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
+        for (j = 0, len = currentProblems.length; j < len; j++) {
+          problem = currentProblems[j];
           results1.push(problem.id);
+        }
+        return results1;
+      })();
+      normalContests = (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = currentContests.length; j < len; j++) {
+          contest = currentContests[j];
+          results1.push(contest.id);
         }
         return results1;
       })();
       where = {
         $and: [
           {
-            problem_id: normalProblems
+            $or: [
+              {
+                problem_id: normalProblems
+              }, {
+                contest_id: normalContests
+              }
+            ]
           }
         ]
       };
@@ -1040,6 +1064,15 @@
         where.$and.push({
           contest_id: opt.contest_id
         });
+        if (user) {
+          where.$and.push({
+            creator_id: user.id
+          });
+        } else {
+          where.$and.push({
+            creator_id: null
+          });
+        }
       }
       if (opt.language) {
         where.$and.push({

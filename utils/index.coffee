@@ -578,23 +578,41 @@ exports.createSubmissionTransaction = (form, form_code, problem, user)->
 #得到用户可见的所有的Submissions
 exports.findSubmissions = (user, opt, include)->
   Submission = global.db.models.submission
+  currentProblems = undefined
+  currentContests = undefined
   normalProblems = undefined
   myUtils = this
   global.db.Promise.resolve()
   .then ->
     myUtils.findProblems(user)
   .then (problems)->
-    return [] if not problems
-    normalProblems = (problem.id for problem in problems)
+    currentProblems = problems
+    #return [] if not problems
+    myUtils.findContests(user)
+  .then (contests)->
+    currentContests = contests
+    return [] if not currentProblems
+    return [] if not currentContests
+
+    normalProblems = (problem.id for problem in currentProblems)
+    normalContests = (contest.id for contest in currentContests)
 
     where = $and:[
-      problem_id : normalProblems
+      $or : [
+        problem_id : normalProblems
+      ,
+        contest_id : normalContests
+      ]
     ]
 
     if opt.problem_id
       where.$and.push problem_id:opt.problem_id
     if opt.contest_id
       where.$and.push contest_id:opt.contest_id
+      if user
+        where.$and.push creator_id: user.id
+      else
+        where.$and.push creator_id: null
     if opt.language
       where.$and.push lang:opt.language
     if opt.result
