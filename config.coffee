@@ -10,7 +10,7 @@ module.exports = {
       port: 3306
       timezone: '+08:00'
       pool:
-        max: 5
+        max: 50
         min: 0
         idle: 10000
       logging: null
