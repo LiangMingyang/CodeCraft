@@ -588,7 +588,7 @@ exports.findSubmissions = (user, opt, include)->
   .then (problems)->
     currentProblems = problems
     #return [] if not problems
-    #myUtils.findContests(user)
+    myUtils.findContests(user)
   .then (contests)->
     currentContests = contests
     return [] if not currentProblems

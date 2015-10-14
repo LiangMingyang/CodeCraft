@@ -1013,7 +1013,8 @@
     return global.db.Promise.resolve().then(function() {
       return myUtils.findProblems(user);
     }).then(function(problems) {
-      return currentProblems = problems;
+      currentProblems = problems;
+      return myUtils.findContests(user);
     }).then(function(contests) {
       var contest, normalContests, problem, where;
       currentContests = contests;
