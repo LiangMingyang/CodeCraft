@@ -524,11 +524,11 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail[problemOrderLetter].score ?= 0
       detail[problemOrderLetter].accepted_time ?= new Date()
       detail[problemOrderLetter].wrong_count ?= 0
-      if sub.score >= detail[problemOrderLetter].score #应当选出得分最高，时间最早的
+      if sub.score > detail[problemOrderLetter].score #应当选出得分最高，时间最早的
         detail[problemOrderLetter].score = sub.score
-        detail[problemOrderLetter].result = sub.result
-        detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time if sub.created_at < detail[problemOrderLetter].accepted_time
-      if detail[problemOrderLetter].score < AC_SCORE #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
+        detail[problemOrderLetter].result = sub.result if detail[problemOrderLetter].result isnt 'AC'
+        detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time
+      if detail[problemOrderLetter].result isnt 'AC' #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
         ++detail[problemOrderLetter].wrong_count
     for user of tmp
       tmp[user].score ?= 0

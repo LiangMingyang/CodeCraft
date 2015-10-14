@@ -923,14 +923,14 @@
         if ((base4 = detail[problemOrderLetter]).wrong_count == null) {
           base4.wrong_count = 0;
         }
-        if (sub.score >= detail[problemOrderLetter].score) {
+        if (sub.score > detail[problemOrderLetter].score) {
           detail[problemOrderLetter].score = sub.score;
-          detail[problemOrderLetter].result = sub.result;
-          if (sub.created_at < detail[problemOrderLetter].accepted_time) {
-            detail[problemOrderLetter].accepted_time = sub.created_at - contest.start_time;
+          if (detail[problemOrderLetter].result !== 'AC') {
+            detail[problemOrderLetter].result = sub.result;
           }
+          detail[problemOrderLetter].accepted_time = sub.created_at - contest.start_time;
         }
-        if (detail[problemOrderLetter].score < AC_SCORE) {
+        if (detail[problemOrderLetter].result !== 'AC') {
           ++detail[problemOrderLetter].wrong_count;
         }
       }
