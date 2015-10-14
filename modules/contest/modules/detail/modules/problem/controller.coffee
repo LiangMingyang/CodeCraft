@@ -138,7 +138,6 @@ exports.postSubmission = (req, res) ->
 exports.getSubmissions = (req, res) ->
   User = global.db.models.user
   Problem = global.db.models.problem
-  Contest = global.db.models.contest
   Group = global.db.models.group
   currentProblem = undefined
   currentProblems = undefined
@@ -172,30 +171,15 @@ exports.getSubmissions = (req, res) ->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     currentProblem.test_setting = JSON.parse currentProblem.test_setting
-    currentProblem.getSubmissions(
-      include : [
-        model : User
-        as : 'creator'
-        where :
-          id : (
-            if currentUser
-              currentUser.id
-            else
-              null
-          )
-      ,
-        model : Contest
-        where :
-          id : currentContest.id
-      ]
-      order : [
-        ['created_at', 'DESC']
-      ,
-        ['id','DESC']
-      ]
-      offset : req.query.offset
-      limit : global.config.pageLimit.submission
-    )
+    opt = {
+      offset: req.query.offset
+      contest_id: currentContest.id
+      problem_id: problem.id
+    }
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ])
   .then (submissions) ->
     currentSubmissions = submissions
     for problem in currentContest.problems
@@ -223,4 +207,78 @@ exports.getSubmissions = (req, res) ->
     req.flash 'info', 'Unknown error!'
     res.redirect HOME_PAGE
 
+exports.postSubmissions = (req, res)->
+  User = global.db.models.user
+  Problem = global.db.models.problem
+  Group = global.db.models.group
+  currentProblem = undefined
+  currentProblems = undefined
+  currentContest = undefined
+  currentUser = undefined
+  currentSubmissions = undefined
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    global.myUtils.findContestAdmin(user,req.params.contestID,[
+      model : Problem
+    ,
+      model : Group
+    ])
+  .then (contest)->
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
+    currentContest = contest
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
+    currentProblems = contest.problems
+    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+  .then ->
+    order = global.myUtils.lettersToNumber(req.params.problemID)
+    for problem in currentProblems
+      if problem.contest_problem_list.order is order
+        return problem
+  .then (problem)->
+    throw new global.myErrors.UnknownProblem() if not problem
+    currentProblem = problem
+    currentProblem.test_setting = JSON.parse currentProblem.test_setting
+    opt ={}
+    opt.offset = req.query.offset
+    opt.nickname = req.body.nickname if req.body.nickname isnt ''
+    opt.problem_id = currentProblem.id
+    opt.contest_id = currentContest.id
+    opt.language = req.body.language if req.body.language isnt ''
+    opt.result = req.body.result if req.body.result isnt ''
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ])
+  .then (submissions) ->
+    currentSubmissions = submissions
+    for problem in currentContest.problems
+      problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
+    res.render('problem/submission', {
+      submissions: currentSubmissions
+      problem : currentProblem
+      contest : currentContest
+      user: req.session.user
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
+      query: req.body
+    })
+
+  .catch global.myErrors.UnknownUser, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch global.myErrors.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch global.myErrors.UnknownContest, (err)->
+    req.flash 'info', err.message
+    res.redirect CONTEST_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', 'Unknown error!'
+    res.redirect HOME_PAGE
 
