@@ -22,7 +22,7 @@
 
   router.get('/problem', controller.getProblem);
 
-  router.get('/submission', controller.getSubmission);
+  router.get('/submission', controller.getSubmission).post('/submission', controller.postSubmissions);
 
   router.get('/clarification', controller.getClarification);
 
