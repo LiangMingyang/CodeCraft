@@ -18,7 +18,7 @@
     return res.redirect(req.params.problemID + "/index");
   });
 
-  router.get('/submission', controller.getSubmissions);
+  router.get('/submission', controller.getSubmissions).post('/submission', controller.postSubmissions);
 
   router.get('/index', controller.getIndex);
 

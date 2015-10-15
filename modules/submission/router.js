@@ -16,7 +16,7 @@
 
   router.get('/', function(req, res) {
     return res.redirect('submission/index');
-  }).get('/index', controller.getIndex).get('/:submissionID([0-9]+)', controller.getSubmission);
+  }).get('/index', controller.getIndex).post('/index', controller.postIndex).get('/:submissionID([0-9]+)', controller.getSubmission);
 
   module.exports = router;
 

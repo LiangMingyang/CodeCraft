@@ -12,6 +12,7 @@ router.get '/', (req, res) ->
 
 router
  .get '/submission', controller.getSubmissions
+ .post '/submission', controller.postSubmissions
 
 router
  .get '/index', controller.getIndex

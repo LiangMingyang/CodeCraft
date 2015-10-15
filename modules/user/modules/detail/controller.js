@@ -86,6 +86,7 @@
       user.school = req.body.school;
       user.college = req.body.college;
       user.description = req.body.description;
+      user.student_id = req.body.student_id;
       return user.save();
     }).then(function(user) {
       global.myUtils.login(req, res, user);

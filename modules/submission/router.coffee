@@ -11,6 +11,7 @@ router
   res.redirect 'submission/index'
 
 .get '/index', controller.getIndex
+.post '/index', controller.postIndex
 
 .get '/:submissionID([0-9]+)', controller.getSubmission
 

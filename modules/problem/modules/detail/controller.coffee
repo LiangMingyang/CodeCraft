@@ -113,23 +113,16 @@ exports.getSubmissions = (req, res) ->
     currentProblems = [problem]
     global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
-    currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
-    currentProblem.getSubmissions({
-      include: [
-        model: User
-        as : 'creator'
-      ]
-      order : [
-        ['created_at', 'DESC']
-      ,
-        ['id','DESC']
-      ]
-      where :
-        contest_id : null
-      offset : req.query.offset
-      limit : global.config.pageLimit.submission
-    })
+    opt = {
+      offset: req.query.offset
+      problem_id: currentProblem.id
+    }
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ])
   .then (submissions) ->
+    currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
     res.render('problem/submission', {
       submissions: submissions
       problem : currentProblem
@@ -150,3 +143,52 @@ exports.getSubmissions = (req, res) ->
     res.redirect HOME_PAGE
 
 
+exports.postSubmissions = (req, res) ->
+  User = global.db.models.user
+  currentProblem = undefined
+  currentUser = undefined
+  currentProblems = undefined
+  opt = {}
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    global.myUtils.findProblemAdmin(user, req.params.problemID)
+  .then (problem)->
+    throw new global.myErrors.UnknownProblem() if not problem
+    currentProblem = problem
+    currentProblems = [problem]
+    global.myUtils.getProblemsStatus(currentProblems,currentUser)
+  .then ->
+    opt.offset = req.query.offset
+    opt.nickname = req.body.nickname if req.body.nickname isnt ''
+    opt.problem_id = currentProblem.id
+    opt.contest_id = req.body.contest_id if req.body.contest_id isnt ''
+    opt.language = req.body.language if req.body.language isnt ''
+    opt.result = req.body.result if req.body.result isnt ''
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ])
+  .then (submissions) ->
+    currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
+    res.render('problem/submission', {
+      submissions: submissions
+      problem : currentProblem
+      user: req.session.user
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
+      query : req.body
+    })
+
+  .catch global.myErrors.UnknownUser, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch global.myErrors.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch (err)->
+    console.log err
+    req.flash 'info', 'Unknown error!'
+    res.redirect HOME_PAGE

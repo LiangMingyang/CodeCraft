@@ -486,9 +486,10 @@ exports.getRank = (contest)->
   myUtils.buildRank(contest,dicProblemIDToOrder,dicProblemOrderToScore)
   global.redis.get "rank_#{contest.id}"
   .then (cache)->
-    rank = []
-    rank = JSON.parse(cache) if cache isnt null
+    rank = "[]"
+    rank = cache if cache isnt null
     return rank
+
 AC_SCORE = 1
 PER_PENALTY = 20 * 60 * 1000
 CACHE_TIME = 1000 #间歇性封榜时间
@@ -504,6 +505,13 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       include : [
         model : User
         as : 'creator'
+        attributes : [
+          'id'
+        ,
+          'nickname'
+        ,
+          'student_id'
+        ]
       ]
       order : [
         ['created_at','ASC']
@@ -514,6 +522,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
   .then (submissions)->
     return if not getLock
     tmp = {}
+    firstB = {}
     for sub in submissions
       tmp[sub.creator.id] ?= {}
       tmp[sub.creator.id].user ?= sub.creator
@@ -524,12 +533,18 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail[problemOrderLetter].score ?= 0
       detail[problemOrderLetter].accepted_time ?= new Date()
       detail[problemOrderLetter].wrong_count ?= 0
-      if sub.score >= detail[problemOrderLetter].score #应当选出得分最高，时间最早的
+
+      if sub.result is 'AC'
+        firstB[problemOrderLetter] ?= sub.created_at-contest.start_time
+        firstB[problemOrderLetter] = sub.created_at-contest.start_time if sub.created_at-contest.start_time < firstB[problemOrderLetter]
+
+      if sub.score > detail[problemOrderLetter].score #应当选出得分最高，时间最早的
         detail[problemOrderLetter].score = sub.score
-        detail[problemOrderLetter].result = sub.result
-        detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time if sub.created_at < detail[problemOrderLetter].accepted_time
-      if detail[problemOrderLetter].score < AC_SCORE #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
+        detail[problemOrderLetter].result = sub.result if detail[problemOrderLetter].result isnt 'AC'
+        detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time
+      if detail[problemOrderLetter].result isnt 'AC' #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
         ++detail[problemOrderLetter].wrong_count
+
     for user of tmp
       tmp[user].score ?= 0
       tmp[user].penalty ?= 0
@@ -537,6 +552,8 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
         problem = tmp[user].detail[p]
         problem.score *= dicProblemOrderToScore[p]
         tmp[user].score += problem.score
+        if problem.accepted_time is firstB[p]
+          problem.first_blood = true
         if problem.score > 0
           tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY
 
@@ -576,53 +593,80 @@ exports.createSubmissionTransaction = (form, form_code, problem, user)->
     return current_submission
 
 #得到用户可见的所有的Submissions
-exports.findSubmissions = (user,offset,include)-> #TODO: 这个不包括比赛中的提交
+exports.findSubmissions = (user, opt, include)->
   Submission = global.db.models.submission
+  currentProblems = undefined
+  currentContests = undefined
   normalProblems = undefined
   myUtils = this
   global.db.Promise.resolve()
   .then ->
     myUtils.findProblems(user)
   .then (problems)->
-    return [] if not problems
-    normalProblems = (problem.id for problem in problems)
-    Submission.findAll(
-      where :
+    currentProblems = problems
+    #return [] if not problems
+    myUtils.findContests(user)
+  .then (contests)->
+    currentContests = contests
+    return [] if not currentProblems
+    return [] if not currentContests
+
+    normalProblems = (problem.id for problem in currentProblems)
+    normalContests = (contest.id for contest in currentContests)
+
+    where = $and:[
+      $or : [
         problem_id : normalProblems
-        contest_id : null
+      ,
+        contest_id : normalContests
+      ]
+    ]
+
+    if opt.problem_id
+      where.$and.push problem_id:opt.problem_id
+    if opt.contest_id
+      where.$and.push contest_id:opt.contest_id
+      if user
+        where.$and.push creator_id: user.id
+      else
+        where.$and.push creator_id: null
+    if opt.language
+      where.$and.push lang:opt.language
+    if opt.result
+      where.$and.push result:opt.result
+
+    if opt.nickname
+      ((include)->
+        include ?= {}
+        for model in include
+          if model.as is 'creator'
+            model.where ?= {}
+            model.where.nickname = opt.nickname
+            return
+        include.push {
+          model : User
+          as : 'creator'
+          where :
+            nickname : opt.nickname
+        }
+      )(include)
+
+    opt.offset ?= 0
+
+
+
+    Submission.findAll(
+      where : where
       include : include
       order : [
         ['created_at', 'DESC']
       ,
         ['id','DESC']
       ]
-      offset : offset
+      offset : opt.offset
       limit : global.config.pageLimit.submission
     )
 
-exports.findSubmissionsAdmin = (user,offset,include)-> #所有有管理能力的提交记录 TODO: 这个是有问题的，这个不能包括比赛
-  Submission = global.db.models.submission #即做到的是，任何有管理能力的题目的提交记录
-  adminProblems = undefined
-  myUtils = this
-  global.db.Promise.resolve()
-  .then ->
-    myUtils.findProblemsAdmin(user)
-  .then (problems)->
-    return [] if not problems
-    adminProblems = (problem.id for problem in problems)
-    Submission.findAll(
-      where :
-        problem_id : adminProblems
-        contest_id : null
-      include : include
-      order : [
-        ['created_at', 'DESC']
-      ,
-        ['id','DESC']
-      ]
-      offset : offset
-      limit : global.config.pageLimit.submission
-    )
 #查找对应ID的submission
 exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代码自己才能看
   Submission = global.db.models.submission
@@ -637,39 +681,3 @@ exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代
       )
     include : include
   )
-exports.findSubmissionAdmin = (user,submissionID,include)-> #只有自己提交的代码自己才能看
-  Submission = global.db.models.submission
-  adminContestIDs = undefined
-  adminProblemIDs = undefined
-  myUtils = this
-  global.db.Promise.resolve()
-  .then ->
-    myUtils.findContestsAdmin(user)
-  .then (contests)->
-    adminContestIDs = (contest.id for contest in contests)
-    myUtils.findProblemsAdmin(user)
-  .then (problems)->
-    adminProblemIDs = (problem.id for problem in problems)
-    return undefined if not user
-    Submission.find(
-      where:
-        id : submissionID
-        $or: [
-          creator_id: user.id
-        ,
-          contest_id: adminContestIDs
-        ,
-          problem_id: adminProblemIDs
-        ]
-      include: include
-    )
-#judge
-#验证评测机是否合法
-exports.checkJudge = (opt)->
-  Judge = global.db.models.judge
-  global.db.Promise.resolve()
-  .then ->
-    Judge.find opt.id
-  .then (judge)->
-    throw new global.myErrors.UnknownJudge() if not judge
-    throw new global.myErrors.UnknownJudge("Wrong secret_key!") if opt.token isnt crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')

@@ -860,9 +860,9 @@
     myUtils.buildRank(contest, dicProblemIDToOrder, dicProblemOrderToScore);
     return global.redis.get("rank_" + contest.id).then(function(cache) {
       var rank;
-      rank = [];
+      rank = "[]";
       if (cache !== null) {
-        rank = JSON.parse(cache);
+        rank = cache;
       }
       return rank;
     });
@@ -887,17 +887,19 @@
         include: [
           {
             model: User,
-            as: 'creator'
+            as: 'creator',
+            attributes: ['id', 'nickname', 'student_id']
           }
         ],
         order: [['created_at', 'ASC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
-      var base, base1, base2, base3, base4, base5, base6, detail, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
+      var base, base1, base2, base3, base4, base5, base6, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
       if (!getLock) {
         return;
       }
       tmp = {};
+      firstB = {};
       for (j = 0, len = submissions.length; j < len; j++) {
         sub = submissions[j];
         if (tmp[name = sub.creator.id] == null) {
@@ -923,14 +925,22 @@
         if ((base4 = detail[problemOrderLetter]).wrong_count == null) {
           base4.wrong_count = 0;
         }
-        if (sub.score >= detail[problemOrderLetter].score) {
-          detail[problemOrderLetter].score = sub.score;
-          detail[problemOrderLetter].result = sub.result;
-          if (sub.created_at < detail[problemOrderLetter].accepted_time) {
-            detail[problemOrderLetter].accepted_time = sub.created_at - contest.start_time;
+        if (sub.result === 'AC') {
+          if (firstB[problemOrderLetter] == null) {
+            firstB[problemOrderLetter] = sub.created_at - contest.start_time;
+          }
+          if (sub.created_at - contest.start_time < firstB[problemOrderLetter]) {
+            firstB[problemOrderLetter] = sub.created_at - contest.start_time;
           }
         }
-        if (detail[problemOrderLetter].score < AC_SCORE) {
+        if (sub.score > detail[problemOrderLetter].score) {
+          detail[problemOrderLetter].score = sub.score;
+          if (detail[problemOrderLetter].result !== 'AC') {
+            detail[problemOrderLetter].result = sub.result;
+          }
+          detail[problemOrderLetter].accepted_time = sub.created_at - contest.start_time;
+        }
+        if (detail[problemOrderLetter].result !== 'AC') {
           ++detail[problemOrderLetter].wrong_count;
         }
       }
@@ -945,6 +955,9 @@
           problem = tmp[user].detail[p];
           problem.score *= dicProblemOrderToScore[p];
           tmp[user].score += problem.score;
+          if (problem.accepted_time === firstB[p]) {
+            problem.first_blood = true;
+          }
           if (problem.score > 0) {
             tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY;
           }
@@ -1003,69 +1016,120 @@
     });
   };
 
-  exports.findSubmissions = function(user, offset, include) {
-    var Submission, myUtils, normalProblems;
+  exports.findSubmissions = function(user, opt, include) {
+    var Submission, currentContests, currentProblems, myUtils, normalProblems;
     Submission = global.db.models.submission;
+    currentProblems = void 0;
+    currentContests = void 0;
     normalProblems = void 0;
     myUtils = this;
     return global.db.Promise.resolve().then(function() {
       return myUtils.findProblems(user);
     }).then(function(problems) {
-      var problem;
-      if (!problems) {
+      currentProblems = problems;
+      return myUtils.findContests(user);
+    }).then(function(contests) {
+      var contest, normalContests, problem, where;
+      currentContests = contests;
+      if (!currentProblems) {
+        return [];
+      }
+      if (!currentContests) {
         return [];
       }
       normalProblems = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
+        for (j = 0, len = currentProblems.length; j < len; j++) {
+          problem = currentProblems[j];
           results1.push(problem.id);
         }
         return results1;
       })();
-      return Submission.findAll({
-        where: {
-          problem_id: normalProblems,
-          contest_id: null
-        },
-        include: include,
-        order: [['created_at', 'DESC'], ['id', 'DESC']],
-        offset: offset,
-        limit: global.config.pageLimit.submission
-      });
-    });
-  };
-
-  exports.findSubmissionsAdmin = function(user, offset, include) {
-    var Submission, adminProblems, myUtils;
-    Submission = global.db.models.submission;
-    adminProblems = void 0;
-    myUtils = this;
-    return global.db.Promise.resolve().then(function() {
-      return myUtils.findProblemsAdmin(user);
-    }).then(function(problems) {
-      var problem;
-      if (!problems) {
-        return [];
-      }
-      adminProblems = (function() {
+      normalContests = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
-          results1.push(problem.id);
+        for (j = 0, len = currentContests.length; j < len; j++) {
+          contest = currentContests[j];
+          results1.push(contest.id);
         }
         return results1;
       })();
+      where = {
+        $and: [
+          {
+            $or: [
+              {
+                problem_id: normalProblems
+              }, {
+                contest_id: normalContests
+              }
+            ]
+          }
+        ]
+      };
+      if (opt.problem_id) {
+        where.$and.push({
+          problem_id: opt.problem_id
+        });
+      }
+      if (opt.contest_id) {
+        where.$and.push({
+          contest_id: opt.contest_id
+        });
+        if (user) {
+          where.$and.push({
+            creator_id: user.id
+          });
+        } else {
+          where.$and.push({
+            creator_id: null
+          });
+        }
+      }
+      if (opt.language) {
+        where.$and.push({
+          lang: opt.language
+        });
+      }
+      if (opt.result) {
+        where.$and.push({
+          result: opt.result
+        });
+      }
+      if (opt.nickname) {
+        (function(include) {
+          var j, len, model;
+          if (include == null) {
+            include = {};
+          }
+          for (j = 0, len = include.length; j < len; j++) {
+            model = include[j];
+            if (model.as === 'creator') {
+              if (model.where == null) {
+                model.where = {};
+              }
+              model.where.nickname = opt.nickname;
+              return;
+            }
+          }
+          return include.push({
+            model: User,
+            as: 'creator',
+            where: {
+              nickname: opt.nickname
+            }
+          });
+        })(include);
+      }
+      if (opt.offset == null) {
+        opt.offset = 0;
+      }
       return Submission.findAll({
-        where: {
-          problem_id: adminProblems,
-          contest_id: null
-        },
+        where: where,
         include: include,
         order: [['created_at', 'DESC'], ['id', 'DESC']],
-        offset: offset,
+        offset: opt.offset,
         limit: global.config.pageLimit.submission
       });
     });
@@ -1080,73 +1144,6 @@
         creator_id: (user ? user.id : null)
       },
       include: include
-    });
-  };
-
-  exports.findSubmissionAdmin = function(user, submissionID, include) {
-    var Submission, adminContestIDs, adminProblemIDs, myUtils;
-    Submission = global.db.models.submission;
-    adminContestIDs = void 0;
-    adminProblemIDs = void 0;
-    myUtils = this;
-    return global.db.Promise.resolve().then(function() {
-      return myUtils.findContestsAdmin(user);
-    }).then(function(contests) {
-      var contest;
-      adminContestIDs = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = contests.length; j < len; j++) {
-          contest = contests[j];
-          results1.push(contest.id);
-        }
-        return results1;
-      })();
-      return myUtils.findProblemsAdmin(user);
-    }).then(function(problems) {
-      var problem;
-      adminProblemIDs = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = problems.length; j < len; j++) {
-          problem = problems[j];
-          results1.push(problem.id);
-        }
-        return results1;
-      })();
-      if (!user) {
-        return void 0;
-      }
-      return Submission.find({
-        where: {
-          id: submissionID,
-          $or: [
-            {
-              creator_id: user.id
-            }, {
-              contest_id: adminContestIDs
-            }, {
-              problem_id: adminProblemIDs
-            }
-          ]
-        },
-        include: include
-      });
-    });
-  };
-
-  exports.checkJudge = function(opt) {
-    var Judge;
-    Judge = global.db.models.judge;
-    return global.db.Promise.resolve().then(function() {
-      return Judge.find(opt.id);
-    }).then(function(judge) {
-      if (!judge) {
-        throw new global.myErrors.UnknownJudge();
-      }
-      if (opt.token !== crypto.createHash('sha1').update(judge.secret_key + '$' + opt.post_time).digest('hex')) {
-        throw new global.myErrors.UnknownJudge("Wrong secret_key!");
-      }
     });
   };
 

@@ -131,6 +131,7 @@
         }
       ]);
     }).then(function(contest) {
+      var opt;
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
@@ -138,20 +139,16 @@
         throw new global.myErrors.UnknownContest();
       }
       currentContest = contest;
-      return currentContest.getSubmissions({
-        include: [
-          {
-            model: User,
-            as: 'creator',
-            where: {
-              id: (currentUser ? currentUser.id : null)
-            }
-          }
-        ],
-        order: [['created_at', 'DESC'], ['id', 'DESC']],
+      opt = {
         offset: req.query.offset,
-        limit: global.config.pageLimit.submission
-      });
+        contest_id: currentContest.id
+      };
+      return global.myUtils.findSubmissions(currentUser, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
     }).then(function(submissions) {
       var dicProblemIDtoOrder, i, j, len, len1, problem, ref, submission;
       dicProblemIDtoOrder = {};
@@ -178,6 +175,84 @@
       console.log(err);
       req.flash('info', "Unknown Error!");
       return res.redirect(HOME_PAGE);
+    });
+  };
+
+  exports.postSubmissions = function(req, res) {
+    var Group, Problem, User, currentContest, currentUser, dicOrdertoProblemID, dicProblemIDtoOrder;
+    currentContest = void 0;
+    currentUser = void 0;
+    Problem = global.db.models.problem;
+    User = global.db.models.user;
+    Group = global.db.models.group;
+    dicProblemIDtoOrder = {};
+    dicOrdertoProblemID = {};
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      return global.myUtils.findContestAdmin(user, req.params.contestID, [
+        {
+          model: User,
+          as: 'creator'
+        }, {
+          model: Problem
+        }, {
+          model: Group
+        }
+      ]);
+    }).then(function(contest) {
+      var i, len, opt, problem, ref;
+      if (!contest) {
+        throw new global.myErrors.UnknownContest();
+      }
+      if (contest.start_time > (new Date())) {
+        throw new global.myErrors.UnknownContest();
+      }
+      currentContest = contest;
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
+        dicProblemIDtoOrder[problem.id] = global.myUtils.numberToLetters(problem.contest_problem_list.order);
+        dicOrdertoProblemID[dicProblemIDtoOrder[problem.id]] = problem.id;
+      }
+      opt = {};
+      opt.offset = req.query.offset;
+      if (req.body.nickname !== '') {
+        opt.nickname = req.body.nickname;
+      }
+      if (req.body.problem_order !== '') {
+        opt.problem_id = dicOrdertoProblemID[req.body.problem_order];
+      }
+      opt.contest_id = currentContest.id;
+      if (req.body.language !== '') {
+        opt.language = req.body.language;
+      }
+      if (req.body.result !== '') {
+        opt.result = req.body.result;
+      }
+      return global.myUtils.findSubmissions(currentUser, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
+    }).then(function(submissions) {
+      var i, len, submission;
+      for (i = 0, len = submissions.length; i < len; i++) {
+        submission = submissions[i];
+        submission.problem_order = dicProblemIDtoOrder[submission.problem_id];
+      }
+      return res.render('contest/submission', {
+        user: req.session.user,
+        contest: currentContest,
+        submissions: submissions,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission,
+        query: req.body
+      });
     });
   };
 

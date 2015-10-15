@@ -179,10 +179,9 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Contest, Group, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
+    var Group, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
     User = global.db.models.user;
     Problem = global.db.models.problem;
-    Contest = global.db.models.contest;
     Group = global.db.models.group;
     currentProblem = void 0;
     currentProblems = void 0;
@@ -225,30 +224,23 @@
         }
       }
     }).then(function(problem) {
+      var opt;
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
       }
       currentProblem = problem;
       currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
-      return currentProblem.getSubmissions({
-        include: [
-          {
-            model: User,
-            as: 'creator',
-            where: {
-              id: (currentUser ? currentUser.id : null)
-            }
-          }, {
-            model: Contest,
-            where: {
-              id: currentContest.id
-            }
-          }
-        ],
-        order: [['created_at', 'DESC'], ['id', 'DESC']],
+      opt = {
         offset: req.query.offset,
-        limit: global.config.pageLimit.submission
-      });
+        contest_id: currentContest.id,
+        problem_id: problem.id
+      };
+      return global.myUtils.findSubmissions(currentUser, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
     }).then(function(submissions) {
       var i, len, problem, ref;
       currentSubmissions = submissions;
@@ -264,6 +256,110 @@
         user: req.session.user,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.submission
+      });
+    })["catch"](global.myErrors.UnknownUser, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(LOGIN_PAGE);
+    })["catch"](global.myErrors.UnknownProblem, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(PROBLEM_PAGE);
+    })["catch"](global.myErrors.UnknownContest, function(err) {
+      req.flash('info', err.message);
+      return res.redirect(CONTEST_PAGE);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', 'Unknown error!');
+      return res.redirect(HOME_PAGE);
+    });
+  };
+
+  exports.postSubmissions = function(req, res) {
+    var Group, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    Group = global.db.models.group;
+    currentProblem = void 0;
+    currentProblems = void 0;
+    currentContest = void 0;
+    currentUser = void 0;
+    currentSubmissions = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      return global.myUtils.findContestAdmin(user, req.params.contestID, [
+        {
+          model: Problem
+        }, {
+          model: Group
+        }
+      ]);
+    }).then(function(contest) {
+      if (!contest) {
+        throw new global.myErrors.UnknownContest();
+      }
+      if (contest.start_time > (new Date())) {
+        throw new global.myErrors.UnknownContest();
+      }
+      currentContest = contest;
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      currentProblems = contest.problems;
+      return global.myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
+    }).then(function() {
+      var i, len, order, problem;
+      order = global.myUtils.lettersToNumber(req.params.problemID);
+      for (i = 0, len = currentProblems.length; i < len; i++) {
+        problem = currentProblems[i];
+        if (problem.contest_problem_list.order === order) {
+          return problem;
+        }
+      }
+    }).then(function(problem) {
+      var opt;
+      if (!problem) {
+        throw new global.myErrors.UnknownProblem();
+      }
+      currentProblem = problem;
+      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
+      opt = {};
+      opt.offset = req.query.offset;
+      if (req.body.nickname !== '') {
+        opt.nickname = req.body.nickname;
+      }
+      opt.problem_id = currentProblem.id;
+      opt.contest_id = currentContest.id;
+      if (req.body.language !== '') {
+        opt.language = req.body.language;
+      }
+      if (req.body.result !== '') {
+        opt.result = req.body.result;
+      }
+      return global.myUtils.findSubmissions(currentUser, opt, [
+        {
+          model: User,
+          as: 'creator'
+        }
+      ]);
+    }).then(function(submissions) {
+      var i, len, problem, ref;
+      currentSubmissions = submissions;
+      ref = currentContest.problems;
+      for (i = 0, len = ref.length; i < len; i++) {
+        problem = ref[i];
+        problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order);
+      }
+      return res.render('problem/submission', {
+        submissions: currentSubmissions,
+        problem: currentProblem,
+        contest: currentContest,
+        user: req.session.user,
+        offset: req.query.offset,
+        pageLimit: global.config.pageLimit.submission,
+        query: req.body
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);

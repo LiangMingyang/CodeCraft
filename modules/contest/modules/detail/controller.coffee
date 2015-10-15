@@ -109,26 +109,14 @@ exports.getSubmission = (req, res)->
     throw new global.myErrors.UnknownContest() if not contest
     throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     currentContest = contest
-    currentContest.getSubmissions(
-      include : [
-        model : User
-        as : 'creator'
-        where :
-          id : (
-            if currentUser
-              currentUser.id
-            else
-              null
-          )
-      ]
-      order : [
-        ['created_at','DESC']
-      ,
-        ['id','DESC']
-      ]
-      offset : req.query.offset
-      limit : global.config.pageLimit.submission
-    )
+    opt = {
+      offset: req.query.offset
+      contest_id: currentContest.id
+    }
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ])
   .then (submissions)->
     dicProblemIDtoOrder = {}
     for problem in currentContest.problems
@@ -151,6 +139,57 @@ exports.getSubmission = (req, res)->
     console.log err
     req.flash 'info', "Unknown Error!"
     res.redirect HOME_PAGE
+
+exports.postSubmissions = (req, res)->
+  currentContest = undefined
+  currentUser = undefined
+  Problem = global.db.models.problem
+  User = global.db.models.user
+  Group = global.db.models.group
+  dicProblemIDtoOrder = {}
+  dicOrdertoProblemID = {}
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    global.myUtils.findContestAdmin(user, req.params.contestID, [
+      model : User
+      as : 'creator'
+    ,
+      model : Problem
+    ,
+      model : Group
+    ])
+  .then (contest)->
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
+    currentContest = contest
+    for problem in currentContest.problems
+      dicProblemIDtoOrder[problem.id] = global.myUtils.numberToLetters(problem.contest_problem_list.order)
+      dicOrdertoProblemID[dicProblemIDtoOrder[problem.id]] = problem.id
+    opt ={}
+    opt.offset = req.query.offset
+    opt.nickname = req.body.nickname if req.body.nickname isnt ''
+    opt.problem_id = dicOrdertoProblemID[req.body.problem_order] if req.body.problem_order isnt ''
+    opt.contest_id = currentContest.id
+    opt.language = req.body.language if req.body.language isnt ''
+    opt.result = req.body.result if req.body.result isnt ''
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ])
+  .then (submissions)->
+    for submission in submissions
+      submission.problem_order = dicProblemIDtoOrder[submission.problem_id]
+    res.render 'contest/submission', {
+      user : req.session.user
+      contest : currentContest
+      submissions : submissions
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
+      query: req.body
+    }
 
 exports.getClarification = (req, res)->
   res.render 'contest/detail', {
