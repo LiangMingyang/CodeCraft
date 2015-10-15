@@ -13,7 +13,7 @@ block content
         include time.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 比赛排名
-        table(class = "table table-striped", style="border:1px solid #DDDDDD;").containing
+        table(class = "table table-striped", style="border:1px solid #DDDDDD;", id="table_of_rank").containing
             tr.text-center
                 td 排名
                 td 用户
@@ -24,78 +24,9 @@ block content
                         - var problem = contest.problems[i];
                         td
                             a(href="problem/"+problem.contest_problem_list.order) #{problem.contest_problem_list.order}
-            if(rank)
-                - var seconds = 0;
-                - var minutes = 0;
-                - var hours = 0;
-                - var oddeventable = "odd";
-                - var coloroftable = "red";
-                - var firstB = [];
-                - var secondB = [];
-                - for(var i = 0;i < contest.problems.length ; ++i)
-                    - firstB[i] = 1221102012211060;
-                    - secondB[i] = -1;
-                - for(var j = 0 ; j < rank.length ; ++j)
-                    tr.text-center(id = "tr" + j)
-                        td #{j+1}
-                        td
-                            a(href='../../../user/' + rank[j].user.id + '/index') #{rank[j].user.nickname}
-                        td #{rank[j].score}
-                        - seconds = (rank[j].penalty - rank[j].penalty % 1000) / 1000 % 60;
-                        - if(seconds < 10)
-                            - seconds = "0" + seconds;
-                        - minutes = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds) / 60 % 60;
-                        - if(minutes < 10)
-                            - minutes = "0" + minutes;
-                        - hours = ((rank[j].penalty - rank[j].penalty % 1000) / 1000 - seconds - minutes * 60) / 3600;
-                        - if(j % 2 == 1)
-                            - oddeventable = "odd"
-                        - else
-                            - oddeventable = "even"
-                        td #{hours}:#{minutes}:#{seconds}
-                            //-#{new Date(rank[j].penalty).getDay()*24+new Date(rank[j].penalty).getHours()}:#{new Date(rank[j].penalty).getMinutes()}:#{new Date(rank[j].penalty).getSeconds()}
-                        - for(var k = 0 ; k < contest.problems.length ; ++k)
-                            - var p = contest.problems[k];
-                            - var order = p.contest_problem_list.order;
-                            - if(rank[j].detail[order] && rank[j].detail[order].result == "AC" && rank[j].detail[order].accepted_time && firstB[k] > rank[j].detail[order].accepted_time){firstB[k] = rank[j].detail[order].accepted_time;secondB[k] = j;}
-                            - if(rank[j].detail[order] && rank[j].detail[order].score > 0 && rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
-                                - var times = rank[j].detail[order].accepted_time;
-                                - seconds = (times - times % 1000) / 1000 % 60;
-                                - if(seconds < 10)
-                                    - seconds = "0" + seconds;
-                                - minutes = ((times - times % 1000) / 1000 - seconds) / 60 % 60;
-                                - if(minutes < 10)
-                                    - minutes = "0" + minutes;
-                                - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600;
-                                td(id="td" + "-" + j + "-" + k) #{hours}:#{minutes}:#{seconds} (-#{rank[j].detail[order].wrong_count})
-                            - else if(rank[j].detail[order] && rank[j].detail[order].result == "AC" && rank[j].detail[order])
-                                - var times = rank[j].detail[order].accepted_time;
-                                - seconds = (times - times % 1000) / 1000 % 60;
-                                - if(seconds < 10)
-                                    - seconds = "0" + seconds;
-                                - minutes = ((times - times % 1000) / 1000 - seconds) / 60 % 60;
-                                - if(minutes < 10)
-                                    - minutes = "0" + minutes;
-                                - hours = ((times - times % 1000) / 1000 - seconds - minutes * 60) / 3600;
-                                td(id="td" + "-" + j + "-" + k) #{hours}:#{minutes}:#{seconds}
-                            - else if(rank[j].detail[order] && rank[j].detail[order].wrong_count != 0)
-                                td(id="td" + "-" + j + "-" + k) (-#{rank[j].detail[order].wrong_count})
-                            - else
-                                td(id="td" + "-" + j + "-" + k)
-                            - if(!rank[j].detail[order])
-                                - coloroftable = "white";
-                            - else if(rank[j].detail[order].result == "AC")
-                                - coloroftable = "green";
-                            - else if(rank[j].detail[order].score > 0)
-                                - coloroftable = "blue";
-                            - else
-                                - coloroftable = "red";
-                            script $("#td-#{j}-#{k}").attr("class","#{oddeventable}#{coloroftable}td");
-                        script $("#tr#{j}").attr("class", "text-center "+"#{oddeventable}whitetr");
-                - for(var i = 0 ; i < contest.problems.length ; ++i)
-                    - if(secondB[i] == -1 || firstB[i] == -1)
-                        - continue;
-                    - sb = secondB[i];
-                    script $("#td-#{sb}-#{i}").attr("class","yixiegreentd");
+            - var rank_js = "";
+            - if(rank)
+                - rank_js = rank;
+        script(src="/js/layout.js")
     script.
-        //$("#td-0-0").attr("class","yixiegreentd");
+        $(rank_onLoad(!{rank_js},"#{contest.problems.length}"));
