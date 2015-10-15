@@ -486,9 +486,10 @@ exports.getRank = (contest)->
   myUtils.buildRank(contest,dicProblemIDToOrder,dicProblemOrderToScore)
   global.redis.get "rank_#{contest.id}"
   .then (cache)->
-    rank = []
-    rank = JSON.parse(cache) if cache isnt null
+    rank = "[]"
+    rank = cache if cache isnt null
     return rank
+
 AC_SCORE = 1
 PER_PENALTY = 20 * 60 * 1000
 CACHE_TIME = 1000 #间歇性封榜时间
@@ -504,6 +505,13 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       include : [
         model : User
         as : 'creator'
+        attributes : [
+          'id'
+        ,
+          'nickname'
+        ,
+          'student_id'
+        ]
       ]
       order : [
         ['created_at','ASC']
@@ -514,6 +522,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
   .then (submissions)->
     return if not getLock
     tmp = {}
+    firstB = {}
     for sub in submissions
       tmp[sub.creator.id] ?= {}
       tmp[sub.creator.id].user ?= sub.creator
@@ -524,12 +533,18 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail[problemOrderLetter].score ?= 0
       detail[problemOrderLetter].accepted_time ?= new Date()
       detail[problemOrderLetter].wrong_count ?= 0
+
+      if sub.result is 'AC'
+        firstB[problemOrderLetter] ?= sub.created_at-contest.start_time
+        firstB[problemOrderLetter] = sub.created_at-contest.start_time if sub.created_at-contest.start_time < firstB[problemOrderLetter]
+
       if sub.score > detail[problemOrderLetter].score #应当选出得分最高，时间最早的
         detail[problemOrderLetter].score = sub.score
         detail[problemOrderLetter].result = sub.result if detail[problemOrderLetter].result isnt 'AC'
         detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time
       if detail[problemOrderLetter].result isnt 'AC' #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
         ++detail[problemOrderLetter].wrong_count
+
     for user of tmp
       tmp[user].score ?= 0
       tmp[user].penalty ?= 0
@@ -537,6 +552,8 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
         problem = tmp[user].detail[p]
         problem.score *= dicProblemOrderToScore[p]
         tmp[user].score += problem.score
+        if problem.accepted_time is firstB[p]
+          problem.first_blood = true
         if problem.score > 0
           tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY
 
