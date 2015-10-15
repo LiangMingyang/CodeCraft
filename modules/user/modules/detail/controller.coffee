@@ -66,6 +66,9 @@ exports.postEdit = (req, res)->
     user.school = req.body.school
     user.college = req.body.college
     user.description = req.body.description
+    #此处允许更新学号了
+    #TODO: 这里本来应该由统一认证来搞的
+    user.student_id = req.body.student_id
     user.save()
   .then (user)->
     global.myUtils.login(req,res,user)
