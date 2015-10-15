@@ -15,7 +15,15 @@
       req.session.last_vis = now;
       req.session.last_url = req.url;
       if (fail) {
-        return res.end("骚年,别着急,等会儿再刷新");
+        return res.render('error', {
+          message: "骚年，别着急，等会儿再刷新",
+          user: {
+            nickname: "你可真着急"
+          },
+          error: {
+            status: ''
+          }
+        });
       } else {
         return next();
       }

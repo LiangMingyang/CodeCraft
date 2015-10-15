@@ -9,7 +9,13 @@ module.exports = [
     req.session.last_vis = now
     req.session.last_url = req.url
     if fail
-      res.end("骚年,别着急,等会儿再刷新")
+      res.render('error', {
+        message: "骚年，别着急，等会儿再刷新",
+        user:
+          nickname:"你可真着急"
+        error:
+          status:''
+      });
     else
       next()
 ]
