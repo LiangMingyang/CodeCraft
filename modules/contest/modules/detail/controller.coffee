@@ -42,23 +42,29 @@ exports.getIndex = (req, res)->
 
 exports.getProblem = (req, res)->
   currentContest = undefined
-  currentUser = undefined
   currentProblems = undefined
   User = global.db.models.user
   Problem = global.db.models.problem
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
       model : Problem
+      attributes: [
+        'id'
+      ,
+        'title'
+      ]
     ,
       model : Group
+      attributes: [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -67,7 +73,7 @@ exports.getProblem = (req, res)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentContest = contest
     currentProblems = contest.problems
-    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems,req.session.user,currentContest)
   .then ->
     for problem in currentProblems
       problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)

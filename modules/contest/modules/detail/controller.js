@@ -43,27 +43,23 @@
   };
 
   exports.getProblem = function(req, res) {
-    var Group, Problem, User, currentContest, currentProblems, currentUser;
+    var Group, Problem, User, currentContest, currentProblems;
     currentContest = void 0;
-    currentUser = void 0;
     currentProblems = void 0;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      currentUser = user;
-      return global.myUtils.findContest(user, req.params.contestID, [
+      return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
           model: User,
           as: 'creator'
         }, {
-          model: Problem
+          model: Problem,
+          attributes: ['id', 'title']
         }, {
-          model: Group
+          model: Group,
+          attributes: ['id', 'name']
         }
       ]);
     }).then(function(contest) {
@@ -78,7 +74,7 @@
       });
       currentContest = contest;
       currentProblems = contest.problems;
-      return global.myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
+      return global.myUtils.getProblemsStatus(currentProblems, req.session.user, currentContest);
     }).then(function() {
       var i, len, problem;
       for (i = 0, len = currentProblems.length; i < len; i++) {
