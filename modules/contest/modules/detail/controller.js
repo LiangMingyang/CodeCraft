@@ -43,18 +43,14 @@
   };
 
   exports.getProblem = function(req, res) {
-    var Group, Problem, User, currentContest, currentProblems;
+    var Group, Problem, currentContest, currentProblems;
     currentContest = void 0;
     currentProblems = void 0;
-    User = global.db.models.user;
     Problem = global.db.models.problem;
     Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
-          model: User,
-          as: 'creator'
-        }, {
           model: Problem,
           attributes: ['id', 'title']
         }, {

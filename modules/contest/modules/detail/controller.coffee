@@ -43,15 +43,11 @@ exports.getIndex = (req, res)->
 exports.getProblem = (req, res)->
   currentContest = undefined
   currentProblems = undefined
-  User = global.db.models.user
   Problem = global.db.models.problem
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
     global.myUtils.findContest(req.session.user, req.params.contestID, [
-      model : User
-      as : 'creator'
-    ,
       model : Problem
       attributes: [
         'id'
