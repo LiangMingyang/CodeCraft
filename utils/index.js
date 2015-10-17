@@ -561,25 +561,28 @@
   };
 
   exports.findContests = function(user, include) {
-    var Contest;
+    var Contest, MemberShip;
     Contest = global.db.models.contest;
+    MemberShip = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return user.getGroups({
-        attributes: ['id']
+      return MemberShip.findAll({
+        where: {
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        },
+        attributes: ['group_id']
       });
-    }).then(function(groups) {
-      var group, normalGroups;
+    }).then(function(memberships) {
+      var membership, normalGroups;
       normalGroups = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
+        for (j = 0, len = memberships.length; j < len; j++) {
+          membership = memberships[j];
+          results1.push(membership.group_id);
         }
         return results1;
       })();
@@ -591,48 +594,6 @@
             }, {
               access_level: 'protect',
               group_id: normalGroups
-            }
-          ]
-        },
-        include: include,
-        order: [['start_time', 'DESC'], ['id', 'DESC']]
-      });
-    });
-  };
-
-  exports.findContestsAdmin = function(user, include) {
-    var Contest;
-    Contest = global.db.models.contest;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var adminGroups, group;
-      if (!user) {
-        return [];
-      }
-      adminGroups = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'owner' || ref === 'admin') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Contest.findAll({
-        where: {
-          $or: [
-            {
-              group_id: adminGroups
-            }, {
-              creator_id: user.id
             }
           ]
         },
@@ -643,25 +604,28 @@
   };
 
   exports.findAndCountContests = function(user, offset, include) {
-    var Contest;
+    var Contest, MemberShip;
     Contest = global.db.models.contest;
+    MemberShip = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return user.getGroups({
-        attributes: ['id']
+      return MemberShip.findAll({
+        where: {
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        },
+        attributes: ['group_id']
       });
-    }).then(function(groups) {
-      var group, normalGroups;
+    }).then(function(memberships) {
+      var membership, normalGroups;
       normalGroups = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
+        for (j = 0, len = memberships.length; j < len; j++) {
+          membership = memberships[j];
+          results1.push(membership.group_id);
         }
         return results1;
       })();
@@ -673,53 +637,6 @@
             }, {
               access_level: 'protect',
               group_id: normalGroups
-            }
-          ]
-        },
-        include: include,
-        order: [['start_time', 'DESC'], ['id', 'DESC']],
-        offset: offset,
-        limit: global.config.pageLimit.contest
-      });
-    });
-  };
-
-  exports.findAndCountContestsAdmin = function(user, offset, include) {
-    var Contest;
-    Contest = global.db.models.contest;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var adminGroups, group;
-      if (!user) {
-        return {
-          count: 0,
-          rows: []
-        };
-      }
-      adminGroups = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'admin' || ref === 'owner') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Contest.findAndCountAll({
-        where: {
-          $or: [
-            {
-              group_id: adminGroups
-            }, {
-              creator_id: user.id
             }
           ]
         },
