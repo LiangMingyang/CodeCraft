@@ -1,4 +1,4 @@
-//-
+//
     Created by zp on 15-5-26.
 extends ../layout
 block title
@@ -7,6 +7,5 @@ block title
 
 block content
     script(src="/js/coderender.js")
-    pre.text-left(id="usercode") #{submission.submission_code.content}
-        //-script document.write(renderCode(document.getElementById("usercode").value));
-        //-script document.write(renderCode("#{submission.submission_code.content}"));
+    textarea.form-control.text-left(style=style="resize: none; width: 100%; overflow-y: scroll; overflow-x: hidden; word-wrap: break-word; height: 500px;", data-autosize-on="true", readonly=true, contenteditable=false, id="usercode") #{submission.submission_code.content}
+    script $("#usercode").focus();

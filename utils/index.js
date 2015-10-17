@@ -860,9 +860,9 @@
     myUtils.buildRank(contest, dicProblemIDToOrder, dicProblemOrderToScore);
     return global.redis.get("rank_" + contest.id).then(function(cache) {
       var rank;
-      rank = [];
+      rank = "[]";
       if (cache !== null) {
-        rank = JSON.parse(cache);
+        rank = cache;
       }
       return rank;
     });
@@ -887,17 +887,19 @@
         include: [
           {
             model: User,
-            as: 'creator'
+            as: 'creator',
+            attributes: ['id', 'nickname', 'student_id']
           }
         ],
         order: [['created_at', 'ASC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
-      var base, base1, base2, base3, base4, base5, base6, detail, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
+      var base, base1, base2, base3, base4, base5, base6, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
       if (!getLock) {
         return;
       }
       tmp = {};
+      firstB = {};
       for (j = 0, len = submissions.length; j < len; j++) {
         sub = submissions[j];
         if (tmp[name = sub.creator.id] == null) {
@@ -923,6 +925,14 @@
         if ((base4 = detail[problemOrderLetter]).wrong_count == null) {
           base4.wrong_count = 0;
         }
+        if (sub.result === 'AC') {
+          if (firstB[problemOrderLetter] == null) {
+            firstB[problemOrderLetter] = sub.created_at - contest.start_time;
+          }
+          if (sub.created_at - contest.start_time < firstB[problemOrderLetter]) {
+            firstB[problemOrderLetter] = sub.created_at - contest.start_time;
+          }
+        }
         if (sub.score > detail[problemOrderLetter].score) {
           detail[problemOrderLetter].score = sub.score;
           if (detail[problemOrderLetter].result !== 'AC') {
@@ -945,6 +955,9 @@
           problem = tmp[user].detail[p];
           problem.score *= dicProblemOrderToScore[p];
           tmp[user].score += problem.score;
+          if (problem.accepted_time === firstB[p]) {
+            problem.first_blood = true;
+          }
           if (problem.score > 0) {
             tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY;
           }

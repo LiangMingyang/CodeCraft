@@ -1,4 +1,4 @@
-//-
+//
    Created by zp on 15-6-5.
 extends ../layout
 block title
@@ -17,7 +17,7 @@ block content
     - var hh;
     - var mi;
     - var ss;
-    //-以上为标准时间的格式计算变量
+    //以上为标准时间的格式计算变量
     - var tc;
     - var nt;
     - nt = new Date();
@@ -25,29 +25,107 @@ block content
     - var mmm;
     - var hhh;
     - var ddd;
-    //-以上为时间差计算变量
+    //以上为时间差计算变量
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
         include time.jade
-    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+    form.col-lg-8.col-md-8.col-sm-8.col-xs-12#form_of_submission(method='post')
         h3 比赛所有提交记录
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
             tr.submission-title-tr
                 td 序号
+                td
+                    |用户
+                    br
+                    - if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="nickname", value=query.nickname, name="nickname")
+                    - else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="nickname", name="nickname")
                 if(!problem)
-                    td 题目
-                td 结果
+                    td
+                        |题目
+                        br
+                        - var order_sss,ii;
+                        select.form-control(onchange="request_ajax_searching()", id="problem_order", name="problem_order")
+                            option(value="") all
+                            - if(contest && contest.problems && contest.problems.length)
+                                - for(var i=0;i<contest.problems.length;i++)
+                                    - ii = i;
+                                    - order_sss = "";
+                                    - if(ii==0)
+                                        - order_sss = "A";
+                                    - while(ii>0)
+                                        - order_sss = String.fromCharCode(ii%26+65) + order_sss;
+                                        - ii = parseInt(ii/26);
+                                    option(value="#{order_sss}") #{order_sss}
+                            - if(query && query.problem_order!="")
+                                script.
+                                    var sjll=document.getElementById("problem_order");
+                                    sjll.options[0].selected = true;
+                                    for(var i=1;i<="#{contest.problems.length}";i++)
+                                        if(sjll.options[i].value == "#{query.problem_order}")
+                                            sjll.options[i].selected = true;
+                            //- 写<=length的原因是因为第一项是all
+                td
+                    |结果
+                    br
+                    select.form-control(onchange="request_ajax_searching()", id="result", name="result")
+                        option(value = "") all
+                        option(value = "AC") Accepted
+                        option(value = "WA") Wrong Answer
+                        option(value = "CE") Compile Error
+                        option(value = "TLE") Time Limit Exceed
+                        option(value = "PE") Presentation Error
+                        option(value = "MLE") Memory Limit Exceed
+                        option(value = "REP") Runtime Error (SIGFPE)
+                        option(value = "REG") Runtime Error (SIGSEGV)
+                        option(value = "WT") Waiting
+                        option(value = "JG") Running
+                        option(value = "IFNR") Input File Not Ready
+                        option(value = "OFNR") Output File Not Ready
+                        option(value = "OE") Other Error
+                    - if(query && query.result!="")
+                        script.
+                            var sjl=document.getElementById("result");
+                            sjl.options[0].selected = true;
+                            for(var i=1;i<14;i++)
+                                if(sjl.options[i].value == "#{query.result}")
+                                    sjl.options[i].selected = true;
                 td 得分
-                td 语言
-                td 代码长度
-                td 运行时间
-                td 运行内存
+                td
+                    |语言
+                    br
+                    select.form-control(onchange="request_ajax_searching()", id="language", name="language")
+                        option(value="") all
+                        option(value="c++") c++
+                        option(value="c") c
+                        option(value="java") java
+                        option(value="python") python
+                    - if(query && query.language!="")
+                        script.
+                            var sjl2=document.getElementById("language");
+                            sjl2.options[0].selected = true;
+                            for(var i=1;i<5;i++)
+                                if(sjl2.options[i].value == "#{query.language}")
+                                        sjl2.options[i].selected = true;
+                td(onmousedown="console.log('length')")
+                    |代码长度
+                    br
+                    label.form-control-static (Bytes)
+                td
+                    |运行时间
+                    br
+                    label.form-control-static (ms)
+                td
+                    |运行内存
+                    br
+                    label.form-control-static (KB)
                 td 提交时间
             - if(submissions)
                 - for (var i = 0 ;i < submissions.length ; i++)
                     tr(id = "tr" + i)
-                        //-在渲染前处理时间
+                        //在渲染前处理时间
                         - yy = submissions[i].created_at.getFullYear();
                         - mm = submissions[i].created_at.getMonth() - 0 + 1;
                         - if(mm<10)
@@ -64,7 +142,7 @@ block content
                         - ss = submissions[i].created_at.getSeconds();
                         - if(ss<10)
                             - ss="0"+ss;
-                        //-计算完成标准时间变量
+                        //计算完成标准时间变量
                         - tc = nt - submissions[i].created_at;
                         - sss = (tc - tc % 1000) / 1000;
                         - mmm = (sss - sss % 60) / 60;
@@ -86,9 +164,11 @@ block content
                         - else
                             - tc += sss + " 秒";
                         - tc += "前";
-                        //-计算完成时间差变量
-                        //-生成表格
+                        //计算完成时间差变量
+                        //生成表格
                         td #{submissions[i].id}
+                        td
+                            a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         if(!problem)
                             td
                                 a(href = "./problem/" + submissions[i].problem_order + "/index") #{submissions[i].problem_order}
@@ -110,7 +190,7 @@ block content
                         td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
                             label(class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
                             label(class="time-difference") #{tc}
-                        //-td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
+                        //td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
                         - if(i % 2 == 1)
                             - oddEvenTable = "odd"
                         - else
@@ -131,82 +211,88 @@ block content
                                 $("#td"+numi).popover('hide');
                             }
         .row
-            //-.col-lg-12.col-md-12.col-sm-12
-            //-    - if(!pageLimit)
-            //-        - pageLimit = 15;
-            //-    - if(!offset)
-            //-        - offset = 0;
-            //-    - var prevOffset = offset - pageLimit;
-            //-    - if(prevOffset < 0)
-            //-        - prevOffset = 0;
-            //-    - var nextOffset = offset - 0 + pageLimit;
-            //-    - if(offset>0)
-            //-        a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-            //-    a.button.btn.btn-default(href="./submission") 首页
-            //-    - if(submissions.length == pageLimit)
-            //-        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
+            //.col-lg-12.col-md-12.col-sm-12
+            //    - if(!pageLimit)
+            //        - pageLimit = 15;
+            //    - if(!offset)
+            //        - offset = 0;
+            //    - var prevOffset = offset - pageLimit;
+            //    - if(prevOffset < 0)
+            //        - prevOffset = 0;
+            //    - var nextOffset = offset - 0 + pageLimit;
+            //    - if(offset>0)
+            //        a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
+            //    a.button.btn.btn-default(href="./submission") 首页
+            //    - if(submissions.length == pageLimit)
+            //        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
             .col-lg-12.col-md-12.col-sm-12.text-left
-                   //-分页
-                   - if(!pageLimit)
-                       - pageLimit = 15;
-                   - if(!offset)
-                       - offset = 0;
-                   - var prevOffset = offset - pageLimit;
-                   - if(prevOffset < 0)
-                       - prevOffset = 0;
-                   - var nextOffset = offset - 0 + pageLimit;
-                   - var page_of_this_page = (offset-0+15-offset%15)/15;
-                   - if(offset%15!=0)
-                       - page_of_this_page++;
-                   - if(offset>0)
-                       a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-                   -else
-                       a.button.btn.btn-default(href="./submission?offset=" + prevOffset, disabled="disabled") 上一页
-                   a.button.btn.btn-default(href="./submission") 首页
-                   //- if(page_of_this_page>4)
-                       |......
-                   //-- if(page_of_this_page>5)
-                   //-    - var prevOffset5 = offset - pageLimit * 5;
-                   //-    - if(prevOffset5 < 0)
-                   //-        - prevOffset5 = 0;
-                   //-    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
-                   //-- if(page_of_this_page>4)
-                   //-    - var prevOffset4 = offset - pageLimit * 4;
-                   //-    - if(prevOffset4 < 0)
-                   //-        - prevOffset4 = 0;
-                   //-    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
-                   //- if(page_of_this_page>3)
+                    //分页
+                    //-a.button.btn.btn-default(href="./submission") 首页
+                    .buttion.btn.btn-default(onclick='change_page("./submission")') 首页
+                    - if(!pageLimit)
+                        - pageLimit = 15;
+                    - if(!offset)
+                        - offset = 0;
+                    - var prevOffset = offset - pageLimit;
+                    - if(prevOffset < 0)
+                        - prevOffset = 0;
+                    - var nextOffset = offset - 0 + pageLimit;
+                    - var page_of_this_page = (offset-0+15-offset%15)/15;
+                    - if(offset%15!=0)
+                        - page_of_this_page++;
+                    - if(offset>0)
+                        //-a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
+                        .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + prevOffset + '")') 上一页
+                    -else
+                        //-a.button.btn.btn-default(href="./submission?offset=" + prevOffset, disabled="disabled") 上一页
+                        .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + prevOffset + '")', disabled="disabled") 上一页
+                    //- if(page_of_this_page>4)
+                        |......
+                    //- if(page_of_this_page>5)
+                    //    - var prevOffset5 = offset - pageLimit * 5;
+                    //    - if(prevOffset5 < 0)
+                    //        - prevOffset5 = 0;
+                    //    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
+                    //- if(page_of_this_page>4)
+                    //    - var prevOffset4 = offset - pageLimit * 4;
+                    //    - if(prevOffset4 < 0)
+                    //        - prevOffset4 = 0;
+                    //    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
+                    //- if(page_of_this_page>3)
                        - var prevOffset3 = offset - pageLimit * 3;
-                       - if(prevOffset3 < 0)
-                           - prevOffset3 = 0;
-                       a.button.btn.btn-default(href="./submission?offset=" + prevOffset3) #{page_of_this_page-3}
-                   //- if(page_of_this_page>2)
+                          - if(prevOffset3 < 0)
+                             - prevOffset3 = 0;
+                         a.button.btn.btn-default(href="./submission?offset=" + prevOffset3) #{page_of_this_page-3}
+                    //- if(page_of_this_page>2)
                        - var prevOffset2 = offset - pageLimit * 2;
                        - if(prevOffset2 < 0)
                            - prevOffset2 = 0;
                        a.button.btn.btn-default(href="./submission?offset=" + prevOffset2) #{page_of_this_page-2}
-                   //- if(page_of_this_page>1)
+                    //- if(page_of_this_page>1)
                        - var prevOffset1 = offset - pageLimit * 1;
                        - if(prevOffset1 < 0)
                            - prevOffset1 = 0;
                        a.button.btn.btn-default(href="./submission?offset=" + prevOffset1) #{page_of_this_page-1}
-                   a.button.btn.btn-success(href="./submission?offset=" + offset) #{page_of_this_page}
-                   //- if(submissions.length == pageLimit)
-                       - var nextOffset1 = offset - 0 + pageLimit * 1;
-                       a.button.btn.btn-default(href="./submission?offset=" + nextOffset1) #{page_of_this_page+1}
-                       - var nextOffset2 = offset - 0 + pageLimit * 2;
-                       a.button.btn.btn-default(href="./submission?offset=" + nextOffset2) #{page_of_this_page+2}
-                       - var nextOffset3 = offset - 0 + pageLimit * 3;
-                       a.button.btn.btn-default(href="./submission?offset=" + nextOffset3) #{page_of_this_page+3}
-                       //-- var nextOffset4 = offset - 0 + pageLimit * 4;
-                       //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
-                       //-- var nextOffset5 = offset - 0 + pageLimit * 5;
-                       //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
-                       |......
-                   - if(submissions.length == pageLimit)
-                       a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
-                   -else
-                       a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
+                    //-a.button.btn.btn-success(href="./submission?offset=" + offset) #{page_of_this_page}
+                    .buttion.btn.btn-success(onclick='change_page("./submission?offset=' + offset + '")') #{page_of_this_page}
+                    //- if(submissions.length == pageLimit)
+                         - var nextOffset1 = offset - 0 + pageLimit * 1;
+                         a.button.btn.btn-default(href="./submission?offset=" + nextOffset1) #{page_of_this_page+1}
+                         - var nextOffset2 = offset - 0 + pageLimit * 2;
+                         a.button.btn.btn-default(href="./submission?offset=" + nextOffset2) #{page_of_this_page+2}
+                         - var nextOffset3 = offset - 0 + pageLimit * 3;
+                         a.button.btn.btn-default(href="./submission?offset=" + nextOffset3) #{page_of_this_page+3}
+                         //- var nextOffset4 = offset - 0 + pageLimit * 4;
+                         //a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
+                         //- var nextOffset5 = offset - 0 + pageLimit * 5;
+                         //a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
+                         |......
+                    - if(submissions.length == pageLimit)
+                        //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
+                        .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + nextOffset + '")') 下一页
+                    -else
+                        //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
+                        .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
     script.
         function change_time_into_standard_format(){
@@ -216,4 +302,12 @@ block content
         function change_time_into_time_difference(){
             $(".standard-format").css("display", "none");
             $(".time-difference").css("display", "block");
+        }
+        function request_ajax_searching() {
+            $("#form_of_submission").submit();
+        }
+        function change_page(url){
+            var __form = $("#form_of_submission");
+            __form.attr("action", url);
+            __form.submit();
         }

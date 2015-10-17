@@ -34,6 +34,12 @@ block content
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12
+                        label.control-label(for="student_id")  学号：
+                    .col-lg-10.col-md-10.col-sm-10.col-xs-12
+                        input.form-control(type="input", name='student_id', id="student_id", value=target.student_id)
+            .form-horizontal
+                .form-group
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-12
                         label.control-label(for="school")  学校：
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
                         select.form-control(type="input", name='school', id="school", value=target.school)
