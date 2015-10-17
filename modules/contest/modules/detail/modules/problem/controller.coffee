@@ -221,7 +221,7 @@ exports.postSubmissions = (req, res)->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    global.myUtils.findContestAdmin(user,req.params.contestID,[
+    global.myUtils.findContest(user,req.params.contestID,[
       model : Problem
     ,
       model : Group

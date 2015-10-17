@@ -184,7 +184,7 @@
       }
     }).then(function(user) {
       currentUser = user;
-      return global.myUtils.findProblemAdmin(user, req.params.problemID);
+      return global.myUtils.findProblem(user, req.params.problemID);
     }).then(function(problem) {
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
