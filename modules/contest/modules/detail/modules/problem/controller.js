@@ -289,7 +289,7 @@
       }
     }).then(function(user) {
       currentUser = user;
-      return global.myUtils.findContestAdmin(user, req.params.contestID, [
+      return global.myUtils.findContest(user, req.params.contestID, [
         {
           model: Problem
         }, {
