@@ -15,20 +15,13 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Group, User;
-    User = global.db.models.user;
+    var Group;
     Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      return global.myUtils.findContest(user, req.params.contestID, [
+      return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
-          model: User,
-          as: 'creator'
-        }, {
-          model: Group
+          model: Group,
+          attributes: ['id', 'name']
         }
       ]);
     }).then(function(contest) {

@@ -685,53 +685,6 @@
     });
   };
 
-  exports.findContestAdmin = function(user, contestID, include) {
-    var Contest;
-    Contest = global.db.models.contest;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var adminGroups, group;
-      if (!user) {
-        return void 0;
-      }
-      adminGroups = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'admin' || ref === 'owner') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Contest.find({
-        where: {
-          $and: [
-            {
-              id: contestID
-            }, {
-              $or: [
-                {
-                  group_id: adminGroups
-                }, {
-                  creator_id: user.id
-                }
-              ]
-            }
-          ]
-        },
-        include: include
-      });
-    });
-  };
-
   exports.lettersToNumber = function(word) {
     var i, j, len, res;
     res = 0;

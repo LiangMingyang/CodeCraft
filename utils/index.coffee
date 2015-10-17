@@ -395,30 +395,6 @@ exports.findContest = (user, contestID, include)->
   .then (flag)->
     return currentContest if flag
 
-exports.findContestAdmin = (user, contestID, include)->
-  Contest = global.db.models.contest
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    user.getGroups(
-      attributes : ['id']
-    )
-  .then (groups)->
-    return undefined if not user
-    adminGroups = (group.id for group in groups when group.membership.access_level in ['admin', 'owner'])
-    Contest.find({
-      where :
-        $and:[
-          id : contestID
-        ,
-          $or:[
-            group_id : adminGroups
-          ,
-            creator_id : user.id
-          ]
-        ]
-      include : include
-    })
 #把字母转为对应的数字
 exports.lettersToNumber = (word)->
   res = 0

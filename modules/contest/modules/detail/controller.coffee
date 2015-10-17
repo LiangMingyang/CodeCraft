@@ -14,17 +14,16 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res)->
-  User = global.db.models.user
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    global.myUtils.findContest(user, req.params.contestID, [
-      model : User
-      as : 'creator'
-    ,
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : Group
+      attributes: [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
