@@ -303,11 +303,11 @@ exports.getStaticProblem = (problemId) ->
 #找到该用户可以看到的所有Contest
 exports.findContests = (user, include) ->
   Contest = global.db.models.contest
-  MemberShip = global.db.models.membership
+  Membership = global.db.models.membership
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    MemberShip.findAll(
+    Membership.findAll(
       where:
         user_id : user.id
         access_level : ['member', 'admin', 'owner']
@@ -336,11 +336,11 @@ exports.findContests = (user, include) ->
 #找到所有的contest并计数
 exports.findAndCountContests = (user, offset, include) ->
   Contest = global.db.models.contest
-  MemberShip = global.db.models.membership
+  Membership = global.db.models.membership
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    MemberShip.findAll(
+    Membership.findAll(
       where:
         user_id : user.id
         access_level : ['member', 'admin', 'owner']
@@ -372,28 +372,28 @@ exports.findAndCountContests = (user, offset, include) ->
 #找到对应id的contest
 exports.findContest = (user, contestID, include)->
   Contest = global.db.models.contest
+  Membership = global.db.models.membership
+  currentContest = undefined
   global.db.Promise.resolve()
   .then ->
-    return [] if not user
-    user.getGroups(
-      attributes : ['id']
-    )
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
-    Contest.find({
-      where :
-        $and:[
-          id : contestID
-        ,
-          $or:[
-            access_level : 'public'    #public的题目谁都可以看
-          ,
-            access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
-            group_id : normalGroups
-          ]
-        ]
+    Contest.find(
+      where:
+        id : contestID
       include : include
-    })
+    )
+  .then (contest)->
+    currentContest = contest
+    return true if not contest
+    return true if contest.access_level is 'public'
+    return false if not user
+    Membership.find(
+      where:
+        group_id: contest.group_id
+        user_id: user.id
+        access_level : ['member', 'admin', 'owner']
+    )
+  .then (flag)->
+    return currentContest if flag
 
 exports.findContestAdmin = (user, contestID, include)->
   Contest = global.db.models.contest

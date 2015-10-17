@@ -561,14 +561,14 @@
   };
 
   exports.findContests = function(user, include) {
-    var Contest, MemberShip;
+    var Contest, Membership;
     Contest = global.db.models.contest;
-    MemberShip = global.db.models.membership;
+    Membership = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return MemberShip.findAll({
+      return Membership.findAll({
         where: {
           user_id: user.id,
           access_level: ['member', 'admin', 'owner']
@@ -604,14 +604,14 @@
   };
 
   exports.findAndCountContests = function(user, offset, include) {
-    var Contest, MemberShip;
+    var Contest, Membership;
     Contest = global.db.models.contest;
-    MemberShip = global.db.models.membership;
+    Membership = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return MemberShip.findAll({
+      return Membership.findAll({
         where: {
           user_id: user.id,
           access_level: ['member', 'admin', 'owner']
@@ -649,47 +649,39 @@
   };
 
   exports.findContest = function(user, contestID, include) {
-    var Contest;
+    var Contest, Membership, currentContest;
     Contest = global.db.models.contest;
+    Membership = global.db.models.membership;
+    currentContest = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var group, normalGroups;
-      normalGroups = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
       return Contest.find({
         where: {
-          $and: [
-            {
-              id: contestID
-            }, {
-              $or: [
-                {
-                  access_level: 'public'
-                }, {
-                  access_level: 'protect',
-                  group_id: normalGroups
-                }
-              ]
-            }
-          ]
+          id: contestID
         },
         include: include
       });
+    }).then(function(contest) {
+      currentContest = contest;
+      if (!contest) {
+        return true;
+      }
+      if (contest.access_level === 'public') {
+        return true;
+      }
+      if (!user) {
+        return false;
+      }
+      return Membership.find({
+        where: {
+          group_id: contest.group_id,
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        }
+      });
+    }).then(function(flag) {
+      if (flag) {
+        return currentContest;
+      }
     });
   };
 
