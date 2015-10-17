@@ -113,12 +113,20 @@ exports.addGroupsCountKey = (counts, currentGroups, key)->
 #得到对应user的problems,include可以接受group信息
 exports.findProblems = (user, include) ->
   Problem = global.db.models.problem
+  Membership = global.db.models.membership
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    user.getGroups(attributes : ['id'])
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
+    Membership.findAll(
+      where:
+        user_id : user.id
+        access_level : ['member', 'admin', 'owner']
+      attributes: [
+        'group_id'
+      ]
+    )
+  .then (memberships)->
+    normalGroups = (membership.group_id for membership in memberships)
     Problem.findAll({
       where :
         $or:[
@@ -129,33 +137,24 @@ exports.findProblems = (user, include) ->
         ]
       include : include
     })
-exports.findProblemsAdmin = (user, include) ->
-  Problem = global.db.models.problem
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    user.getGroups(attributes : ['id'])
-  .then (groups)->
-    return [] if not user
-    adminGroups = (group.id for group in groups when group.membership.access_level in ['admin','owner'])
-    Problem.findAll({
-      where :
-        $or:[
-          creator_id : user.id    #为题目创建者
-        ,
-          group_id : adminGroups  #为该小组管理员
-        ]
-      include : include
-    })
+
 #找到对应user的problems的信息并且进行计数,include可以接受group等参数
 exports.findAndCountProblems = (user, offset, include) ->
   Problem = global.db.models.problem
+  Membership = global.db.models.membership
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    user.getGroups(attributes : ['id'])
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
+    Membership.findAll(
+      where:
+        user_id : user.id
+        access_level : ['member', 'admin', 'owner']
+      attributes: [
+        'group_id'
+      ]
+    )
+  .then (memberships)->
+    normalGroups = (membership.group_id for membership in memberships)
     Problem.findAndCountAll({
       where :
         $or:[
@@ -169,75 +168,32 @@ exports.findAndCountProblems = (user, offset, include) ->
       limit : global.config.pageLimit.problem
     })
 
-exports.findAndCountProblemsAdmin = (user, offset, include) ->
-  Problem = global.db.models.problem
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    user.getGroups(attributes : ['id'])
-  .then (groups)->
-    return {
-    count: 0
-    rows : []
-    } if not user
-    adminGroups = (group.id for group in groups when group.membership.access_level in ['admin','owner'])
-    Problem.findAndCountAll({
-      where :
-        $or:[
-          creator_id : user.id    #为题目创建者
-        ,
-          group_id : adminGroups  #为该小组管理员
-        ]
-      include : include
-      offset : offset
-      limit : global.config.pageLimit.problem
-    })
-#找到对应id的problem
-exports.findProblemAdmin = (user, problemID,include)->
-  Problem = global.db.models.problem
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    user.getGroups(attributes : ['id'])
-  .then (groups)->
-    return undefined if not user
-    adminGroups = (group.id for group in groups when group.membership.access_level in ['admin','owner'])
-    Problem.find({
-      where :
-        $and:[
-          id : problemID
-        ,
-          $or:[
-            creator_id : user.id    #为题目创建者
-          ,
-            group_id : adminGroups  #为该小组管理员
-          ]
-        ]
-      include : include
-    })
 
+#找到对应id的problem
 exports.findProblem = (user, problemID,include)->
   Problem = global.db.models.problem
+  Membership = global.db.models.membership
+  currentProblem = undefined
   global.db.Promise.resolve()
   .then ->
-    return [] if not user
-    user.getGroups(attributes : ['id'])
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
-    Problem.find({
-      where :
-        $and:[
-          id : problemID
-        ,
-          $or:[                        #该网站仅能看到public和protect的题目
-            access_level : 'public'    #public的题目谁都可以看
-          ,
-            access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
-            group_id : normalGroups
-          ]
-        ]
+    Problem.find(
+      where:
+        id : problemID
       include : include
-    })
+    )
+  .then (problem)->
+    currentProblem = problem
+    return true if not problem
+    return true if problem.access_level is 'public'
+    return false if not user
+    Membership.find(
+      where:
+        group_id: contest.group_id
+        user_id: user.id
+        access_level : ['member', 'admin', 'owner']
+    )
+  .then (flag)->
+    return currentProblem if flag
 #得到一个题目数组中的某一个状态的计数(people)
 exports.getResultPeopleCount = (problems, results, contest)->
   problems = [problems] if not (problems instanceof Array)

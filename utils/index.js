@@ -190,25 +190,28 @@
   };
 
   exports.findProblems = function(user, include) {
-    var Problem;
+    var Membership, Problem;
     Problem = global.db.models.problem;
+    Membership = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return user.getGroups({
-        attributes: ['id']
+      return Membership.findAll({
+        where: {
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        },
+        attributes: ['group_id']
       });
-    }).then(function(groups) {
-      var group, normalGroups;
+    }).then(function(memberships) {
+      var membership, normalGroups;
       normalGroups = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
+        for (j = 0, len = memberships.length; j < len; j++) {
+          membership = memberships[j];
+          results1.push(membership.group_id);
         }
         return results1;
       })();
@@ -220,47 +223,6 @@
             }, {
               access_level: 'protect',
               group_id: normalGroups
-            }
-          ]
-        },
-        include: include
-      });
-    });
-  };
-
-  exports.findProblemsAdmin = function(user, include) {
-    var Problem;
-    Problem = global.db.models.problem;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var adminGroups, group;
-      if (!user) {
-        return [];
-      }
-      adminGroups = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'admin' || ref === 'owner') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Problem.findAll({
-        where: {
-          $or: [
-            {
-              creator_id: user.id
-            }, {
-              group_id: adminGroups
             }
           ]
         },
@@ -270,25 +232,28 @@
   };
 
   exports.findAndCountProblems = function(user, offset, include) {
-    var Problem;
+    var Membership, Problem;
     Problem = global.db.models.problem;
+    Membership = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return user.getGroups({
-        attributes: ['id']
+      return Membership.findAll({
+        where: {
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        },
+        attributes: ['group_id']
       });
-    }).then(function(groups) {
-      var group, normalGroups;
+    }).then(function(memberships) {
+      var membership, normalGroups;
       normalGroups = (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
+        for (j = 0, len = memberships.length; j < len; j++) {
+          membership = memberships[j];
+          results1.push(membership.group_id);
         }
         return results1;
       })();
@@ -310,141 +275,40 @@
     });
   };
 
-  exports.findAndCountProblemsAdmin = function(user, offset, include) {
-    var Problem;
-    Problem = global.db.models.problem;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var adminGroups, group;
-      if (!user) {
-        return {
-          count: 0,
-          rows: []
-        };
-      }
-      adminGroups = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'admin' || ref === 'owner') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Problem.findAndCountAll({
-        where: {
-          $or: [
-            {
-              creator_id: user.id
-            }, {
-              group_id: adminGroups
-            }
-          ]
-        },
-        include: include,
-        offset: offset,
-        limit: global.config.pageLimit.problem
-      });
-    });
-  };
-
-  exports.findProblemAdmin = function(user, problemID, include) {
-    var Problem;
-    Problem = global.db.models.problem;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var adminGroups, group;
-      if (!user) {
-        return void 0;
-      }
-      adminGroups = (function() {
-        var j, len, ref, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if ((ref = group.membership.access_level) === 'admin' || ref === 'owner') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
-      return Problem.find({
-        where: {
-          $and: [
-            {
-              id: problemID
-            }, {
-              $or: [
-                {
-                  creator_id: user.id
-                }, {
-                  group_id: adminGroups
-                }
-              ]
-            }
-          ]
-        },
-        include: include
-      });
-    });
-  };
-
   exports.findProblem = function(user, problemID, include) {
-    var Problem;
+    var Membership, Problem, currentProblem;
     Problem = global.db.models.problem;
+    Membership = global.db.models.membership;
+    currentProblem = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var group, normalGroups;
-      normalGroups = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
       return Problem.find({
         where: {
-          $and: [
-            {
-              id: problemID
-            }, {
-              $or: [
-                {
-                  access_level: 'public'
-                }, {
-                  access_level: 'protect',
-                  group_id: normalGroups
-                }
-              ]
-            }
-          ]
+          id: problemID
         },
         include: include
       });
+    }).then(function(problem) {
+      currentProblem = problem;
+      if (!problem) {
+        return true;
+      }
+      if (problem.access_level === 'public') {
+        return true;
+      }
+      if (!user) {
+        return false;
+      }
+      return Membership.find({
+        where: {
+          group_id: contest.group_id,
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        }
+      });
+    }).then(function(flag) {
+      if (flag) {
+        return currentProblem;
+      }
     });
   };
 
