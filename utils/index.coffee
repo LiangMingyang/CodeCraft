@@ -12,17 +12,28 @@ exports.logout = (req) ->
   delete req.session.user
 
 #group
-#找到该用户对应的所有的组
-exports.findGroups = (user, include)->
-  Group = global.db.models.group
+#找到该用户对应的所有的组ID
+exports.findGroupsID = (user)->
+  Membership = global.db.models.membership
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    user.getGroups({
-      attributes : ['id']
-    })
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
+    Membership.findAll(
+      where:
+        user_id : user.id
+        access_level : ['member', 'admin', 'owner']
+      attributes: [
+        'group_id'
+      ]
+    )
+  .then (memberships)->
+    return (membership.group_id for membership in memberships)
+#找到该用户对应的所有的组
+exports.findGroups = (user, include)->
+  Group = global.db.models.group
+  myUtils = this
+  myUtils.findGroupsID(user)
+  .then (normalGroups)->
     Group.findAll
       where:
         $or: [
@@ -32,30 +43,13 @@ exports.findGroups = (user, include)->
         ]
       include : include
 
-exports.findGroupsAdmin = (user, include)->
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    user.getGroups(
-      through:
-        where:
-          access_level : ['admin', 'owner', 'member']
-      include: include
-    )
 
 #找到对应id的group
 exports.findGroup = (user, groupID, include)->
   Group = global.db.models.group
-  currentUser = undefined
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    currentUser = user
-    user.getGroups({
-      attributes : ['id']
-    })
-  .then (groups)->
-    normalGroups = (group.id for group in groups when group.membership.access_level isnt 'verifying')
+  myUtils = this
+  myUtils.findGroupsID(user)
+  .then (normalGroups)->
     Group.find
       where:
         $and: [
@@ -69,22 +63,7 @@ exports.findGroup = (user, groupID, include)->
         ]
       include : include
 
-exports.findGroupAdmin = (user, groupID, include)->
-  currentUser = undefined
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    currentUser = user
-    user.getGroups({
-      where:
-        id : groupID
-      through:
-        where:
-          access_level : ['admin', 'owner'] #仅显示以上权限的成员
-      include : include
-    })
-  .then (groups)->
-    return groups[0]
+
 #找到一组group的人数
 exports.getGroupPeopleCount = (groups)->
   groups = [groups] if not (groups instanceof Array)
@@ -110,23 +89,27 @@ exports.addGroupsCountKey = (counts, currentGroups, key)->
 
 
 #problem
+exports.findProblemsID = (normalGroups=[])->
+  Problem = global.db.models.problem
+  Problem.findAll(
+    where:
+      $or:[
+        access_level : 'public'    #public的题目谁都可以看
+      ,
+        access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
+        group_id : normalGroups
+      ]
+    attributes : [
+      'id'
+    ]
+  ).then (problems)->
+    return (problem.id for problem in problems)
 #得到对应user的problems,include可以接受group信息
 exports.findProblems = (user, include) ->
   Problem = global.db.models.problem
-  Membership = global.db.models.membership
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    Membership.findAll(
-      where:
-        user_id : user.id
-        access_level : ['member', 'admin', 'owner']
-      attributes: [
-        'group_id'
-      ]
-    )
-  .then (memberships)->
-    normalGroups = (membership.group_id for membership in memberships)
+  myUtils = this
+  myUtils.findGroupsID(user)
+  .then (normalGroups)->
     Problem.findAll({
       where :
         $or:[
@@ -141,20 +124,9 @@ exports.findProblems = (user, include) ->
 #找到对应user的problems的信息并且进行计数,include可以接受group等参数
 exports.findAndCountProblems = (user, offset, include) ->
   Problem = global.db.models.problem
-  Membership = global.db.models.membership
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    Membership.findAll(
-      where:
-        user_id : user.id
-        access_level : ['member', 'admin', 'owner']
-      attributes: [
-        'group_id'
-      ]
-    )
-  .then (memberships)->
-    normalGroups = (membership.group_id for membership in memberships)
+  myUtils = this
+  myUtils.findGroupsID(user)
+  .then (normalGroups)->
     Problem.findAndCountAll({
       where :
         $or:[
@@ -256,23 +228,28 @@ exports.getStaticProblem = (problemId) ->
 
 #Const
 
+exports.findContestsID = (normalGroups=[])->
+  Contest = global.db.models.contest
+  Contest.findAll(
+    where :
+      $or:[
+        access_level : 'public'    #public的赛事谁都可以看到
+      ,
+        access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
+        group_id : normalGroups
+      ]
+    attributes : [
+      'id'
+    ]
+  ).then (contests)->
+    return (contest.id for contest in contests)
+
 #找到该用户可以看到的所有Contest
 exports.findContests = (user, include) ->
   Contest = global.db.models.contest
-  Membership = global.db.models.membership
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    Membership.findAll(
-      where:
-        user_id : user.id
-        access_level : ['member', 'admin', 'owner']
-      attributes: [
-        'group_id'
-      ]
-    )
-  .then (memberships)->
-    normalGroups = (membership.group_id for membership in memberships)
+  myUtils = this
+  myUtils.findGroupsID(user)
+  .then (normalGroups)->
     Contest.findAll({
       where :
         $or:[
@@ -292,20 +269,9 @@ exports.findContests = (user, include) ->
 #找到所有的contest并计数
 exports.findAndCountContests = (user, offset, include) ->
   Contest = global.db.models.contest
-  Membership = global.db.models.membership
-  global.db.Promise.resolve()
-  .then ->
-    return [] if not user
-    Membership.findAll(
-      where:
-        user_id : user.id
-        access_level : ['member', 'admin', 'owner']
-      attributes: [
-        'group_id'
-      ]
-    )
-  .then (memberships)->
-    normalGroups = (membership.group_id for membership in memberships)
+  myUtils = this
+  myUtils.findGroupsID(user)
+  .then (normalGroups)->
     Contest.findAndCountAll({
       where :
         $or:[
@@ -485,25 +451,19 @@ exports.createSubmissionTransaction = (form, form_code, problem, user)->
 #得到用户可见的所有的Submissions
 exports.findSubmissions = (user, opt, include)->
   Submission = global.db.models.submission
-  currentProblems = undefined
-  currentContests = undefined
+  normalGroups = undefined
   normalProblems = undefined
   myUtils = this
   global.db.Promise.resolve()
   .then ->
-    myUtils.findProblems(user)
+    myUtils.findGroupsID(user)
+  .then (groups)->
+    normalGroups = groups
+    myUtils.findProblemsID(normalGroups)
   .then (problems)->
-    currentProblems = problems
-    #return [] if not problems
-    myUtils.findContests(user)
-  .then (contests)->
-    currentContests = contests
-    return [] if not currentProblems
-    return [] if not currentContests
-
-    normalProblems = (problem.id for problem in currentProblems)
-    normalContests = (contest.id for contest in currentContests)
-
+    normalProblems = problems
+    myUtils.findContestsID(normalGroups)
+  .then (normalContests)->
     where = $and:[
       $or : [
         problem_id : normalProblems
@@ -512,20 +472,20 @@ exports.findSubmissions = (user, opt, include)->
       ]
     ]
 
-    if opt.problem_id
+    if opt.problem_id isnt undefined
       where.$and.push problem_id:opt.problem_id
-    if opt.contest_id
+    if opt.contest_id isnt undefined
       where.$and.push contest_id:opt.contest_id
       if user
         where.$and.push creator_id: user.id
       else
         where.$and.push creator_id: null
-    if opt.language
+    if opt.language isnt undefined
       where.$and.push lang:opt.language
-    if opt.result
+    if opt.result isnt undefined
       where.$and.push result:opt.result
 
-    if opt.nickname
+    if opt.nickname isnt undefined
       ((include)->
         include ?= {}
         for model in include

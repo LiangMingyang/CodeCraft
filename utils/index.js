@@ -18,29 +18,39 @@
     return delete req.session.user;
   };
 
-  exports.findGroups = function(user, include) {
-    var Group;
-    Group = global.db.models.group;
+  exports.findGroupsID = function(user) {
+    var Membership;
+    Membership = global.db.models.membership;
     return global.db.Promise.resolve().then(function() {
       if (!user) {
         return [];
       }
-      return user.getGroups({
-        attributes: ['id']
+      return Membership.findAll({
+        where: {
+          user_id: user.id,
+          access_level: ['member', 'admin', 'owner']
+        },
+        attributes: ['group_id']
       });
-    }).then(function(groups) {
-      var group, normalGroups;
-      normalGroups = (function() {
+    }).then(function(memberships) {
+      var membership;
+      return (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
+        for (j = 0, len = memberships.length; j < len; j++) {
+          membership = memberships[j];
+          results1.push(membership.group_id);
         }
         return results1;
       })();
+    });
+  };
+
+  exports.findGroups = function(user, include) {
+    var Group, myUtils;
+    Group = global.db.models.group;
+    myUtils = this;
+    return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Group.findAll({
         where: {
           $or: [
@@ -56,47 +66,11 @@
     });
   };
 
-  exports.findGroupsAdmin = function(user, include) {
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return user.getGroups({
-        through: {
-          where: {
-            access_level: ['admin', 'owner', 'member']
-          }
-        },
-        include: include
-      });
-    });
-  };
-
   exports.findGroup = function(user, groupID, include) {
-    var Group, currentUser;
+    var Group, myUtils;
     Group = global.db.models.group;
-    currentUser = void 0;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      currentUser = user;
-      return user.getGroups({
-        attributes: ['id']
-      });
-    }).then(function(groups) {
-      var group, normalGroups;
-      normalGroups = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = groups.length; j < len; j++) {
-          group = groups[j];
-          if (group.membership.access_level !== 'verifying') {
-            results1.push(group.id);
-          }
-        }
-        return results1;
-      })();
+    myUtils = this;
+    return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Group.find({
         where: {
           $and: [
@@ -115,30 +89,6 @@
         },
         include: include
       });
-    });
-  };
-
-  exports.findGroupAdmin = function(user, groupID, include) {
-    var currentUser;
-    currentUser = void 0;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      currentUser = user;
-      return user.getGroups({
-        where: {
-          id: groupID
-        },
-        through: {
-          where: {
-            access_level: ['admin', 'owner']
-          }
-        },
-        include: include
-      });
-    }).then(function(groups) {
-      return groups[0];
     });
   };
 
@@ -189,32 +139,43 @@
     return results1;
   };
 
-  exports.findProblems = function(user, include) {
-    var Membership, Problem;
+  exports.findProblemsID = function(normalGroups) {
+    var Problem;
+    if (normalGroups == null) {
+      normalGroups = [];
+    }
     Problem = global.db.models.problem;
-    Membership = global.db.models.membership;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return Membership.findAll({
-        where: {
-          user_id: user.id,
-          access_level: ['member', 'admin', 'owner']
-        },
-        attributes: ['group_id']
-      });
-    }).then(function(memberships) {
-      var membership, normalGroups;
-      normalGroups = (function() {
+    return Problem.findAll({
+      where: {
+        $or: [
+          {
+            access_level: 'public'
+          }, {
+            access_level: 'protect',
+            group_id: normalGroups
+          }
+        ]
+      },
+      attributes: ['id']
+    }).then(function(problems) {
+      var problem;
+      return (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = memberships.length; j < len; j++) {
-          membership = memberships[j];
-          results1.push(membership.group_id);
+        for (j = 0, len = problems.length; j < len; j++) {
+          problem = problems[j];
+          results1.push(problem.id);
         }
         return results1;
       })();
+    });
+  };
+
+  exports.findProblems = function(user, include) {
+    var Problem, myUtils;
+    Problem = global.db.models.problem;
+    myUtils = this;
+    return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Problem.findAll({
         where: {
           $or: [
@@ -232,31 +193,10 @@
   };
 
   exports.findAndCountProblems = function(user, offset, include) {
-    var Membership, Problem;
+    var Problem, myUtils;
     Problem = global.db.models.problem;
-    Membership = global.db.models.membership;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return Membership.findAll({
-        where: {
-          user_id: user.id,
-          access_level: ['member', 'admin', 'owner']
-        },
-        attributes: ['group_id']
-      });
-    }).then(function(memberships) {
-      var membership, normalGroups;
-      normalGroups = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = memberships.length; j < len; j++) {
-          membership = memberships[j];
-          results1.push(membership.group_id);
-        }
-        return results1;
-      })();
+    myUtils = this;
+    return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Problem.findAndCountAll({
         where: {
           $or: [
@@ -424,32 +364,43 @@
     return path.join(dirname, problemId.toString());
   };
 
-  exports.findContests = function(user, include) {
-    var Contest, Membership;
+  exports.findContestsID = function(normalGroups) {
+    var Contest;
+    if (normalGroups == null) {
+      normalGroups = [];
+    }
     Contest = global.db.models.contest;
-    Membership = global.db.models.membership;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return Membership.findAll({
-        where: {
-          user_id: user.id,
-          access_level: ['member', 'admin', 'owner']
-        },
-        attributes: ['group_id']
-      });
-    }).then(function(memberships) {
-      var membership, normalGroups;
-      normalGroups = (function() {
+    return Contest.findAll({
+      where: {
+        $or: [
+          {
+            access_level: 'public'
+          }, {
+            access_level: 'protect',
+            group_id: normalGroups
+          }
+        ]
+      },
+      attributes: ['id']
+    }).then(function(contests) {
+      var contest;
+      return (function() {
         var j, len, results1;
         results1 = [];
-        for (j = 0, len = memberships.length; j < len; j++) {
-          membership = memberships[j];
-          results1.push(membership.group_id);
+        for (j = 0, len = contests.length; j < len; j++) {
+          contest = contests[j];
+          results1.push(contest.id);
         }
         return results1;
       })();
+    });
+  };
+
+  exports.findContests = function(user, include) {
+    var Contest, myUtils;
+    Contest = global.db.models.contest;
+    myUtils = this;
+    return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Contest.findAll({
         where: {
           $or: [
@@ -468,31 +419,10 @@
   };
 
   exports.findAndCountContests = function(user, offset, include) {
-    var Contest, Membership;
+    var Contest, myUtils;
     Contest = global.db.models.contest;
-    Membership = global.db.models.membership;
-    return global.db.Promise.resolve().then(function() {
-      if (!user) {
-        return [];
-      }
-      return Membership.findAll({
-        where: {
-          user_id: user.id,
-          access_level: ['member', 'admin', 'owner']
-        },
-        attributes: ['group_id']
-      });
-    }).then(function(memberships) {
-      var membership, normalGroups;
-      normalGroups = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = memberships.length; j < len; j++) {
-          membership = memberships[j];
-          results1.push(membership.group_id);
-        }
-        return results1;
-      })();
+    myUtils = this;
+    return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Contest.findAndCountAll({
         where: {
           $or: [
@@ -743,44 +673,21 @@
   };
 
   exports.findSubmissions = function(user, opt, include) {
-    var Submission, currentContests, currentProblems, myUtils, normalProblems;
+    var Submission, myUtils, normalGroups, normalProblems;
     Submission = global.db.models.submission;
-    currentProblems = void 0;
-    currentContests = void 0;
+    normalGroups = void 0;
     normalProblems = void 0;
     myUtils = this;
     return global.db.Promise.resolve().then(function() {
-      return myUtils.findProblems(user);
+      return myUtils.findGroupsID(user);
+    }).then(function(groups) {
+      normalGroups = groups;
+      return myUtils.findProblemsID(normalGroups);
     }).then(function(problems) {
-      currentProblems = problems;
-      return myUtils.findContests(user);
-    }).then(function(contests) {
-      var contest, normalContests, problem, where;
-      currentContests = contests;
-      if (!currentProblems) {
-        return [];
-      }
-      if (!currentContests) {
-        return [];
-      }
-      normalProblems = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = currentProblems.length; j < len; j++) {
-          problem = currentProblems[j];
-          results1.push(problem.id);
-        }
-        return results1;
-      })();
-      normalContests = (function() {
-        var j, len, results1;
-        results1 = [];
-        for (j = 0, len = currentContests.length; j < len; j++) {
-          contest = currentContests[j];
-          results1.push(contest.id);
-        }
-        return results1;
-      })();
+      normalProblems = problems;
+      return myUtils.findContestsID(normalGroups);
+    }).then(function(normalContests) {
+      var where;
       where = {
         $and: [
           {
@@ -794,12 +701,12 @@
           }
         ]
       };
-      if (opt.problem_id) {
+      if (opt.problem_id !== void 0) {
         where.$and.push({
           problem_id: opt.problem_id
         });
       }
-      if (opt.contest_id) {
+      if (opt.contest_id !== void 0) {
         where.$and.push({
           contest_id: opt.contest_id
         });
@@ -813,17 +720,17 @@
           });
         }
       }
-      if (opt.language) {
+      if (opt.language !== void 0) {
         where.$and.push({
           lang: opt.language
         });
       }
-      if (opt.result) {
+      if (opt.result !== void 0) {
         where.$and.push({
           result: opt.result
         });
       }
-      if (opt.nickname) {
+      if (opt.nickname !== void 0) {
         (function(include) {
           var j, len, model;
           if (include == null) {
