@@ -221,13 +221,22 @@ exports.postSubmissions = (req, res)->
   currentSubmissions = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user,req.params.contestID,[
+    global.myUtils.findContest(req.session.user,req.params.contestID,[
       model : Problem
+      attributes : [
+        'id'
+      ,
+        'title'
+      ,
+        'test_setting'
+      ]
     ,
       model : Group
+      attributes : [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -253,7 +262,7 @@ exports.postSubmissions = (req, res)->
     opt.contest_id = currentContest.id
     opt.language = req.body.language if req.body.language isnt ''
     opt.result = req.body.result if req.body.result isnt ''
-    global.myUtils.findSubmissions(currentUser, opt, [
+    global.myUtils.findSubmissions(req.session.user, opt, [
       model : User
       as : 'creator'
     ])
