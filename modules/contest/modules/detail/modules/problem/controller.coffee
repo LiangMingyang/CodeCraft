@@ -18,22 +18,22 @@ LOGIN_PAGE = '/user/login'
 CONTEST_PAGE = '/contest'
 
 exports.getIndex = (req, res) ->
-  User = global.db.models.user
   Problem = global.db.models.problem
   Group = global.db.models.group
   currentProblem = undefined
   currentContest = undefined
   currentProblems = undefined
-  currentUser = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user,req.params.contestID,[
+    global.myUtils.findContest(req.session.user,req.params.contestID,[
       model : Problem
     ,
       model : Group
+      attributes : [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -42,7 +42,7 @@ exports.getIndex = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems,req.session.user,currentContest)
   .then ->
     order = global.myUtils.lettersToNumber(req.params.problemID)
     for problem in currentProblems
@@ -142,15 +142,18 @@ exports.getSubmissions = (req, res) ->
   currentProblem = undefined
   currentProblems = undefined
   currentContest = undefined
-  currentUser = undefined
   currentSubmissions = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user,req.params.contestID,[
+    global.myUtils.findContest(req.session.user ,req.params.contestID, [
       model : Problem
+      attributes : [
+        'id'
+      ,
+        'title'
+      ,
+        'test_setting'
+      ]
     ,
       model : Group
     ])
@@ -161,7 +164,7 @@ exports.getSubmissions = (req, res) ->
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentProblems = contest.problems
-    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems, req.session.user, currentContest)
   .then ->
     order = global.myUtils.lettersToNumber(req.params.problemID)
     for problem in currentProblems
@@ -176,7 +179,7 @@ exports.getSubmissions = (req, res) ->
       contest_id: currentContest.id
       problem_id: problem.id
     }
-    global.myUtils.findSubmissions(currentUser, opt, [
+    global.myUtils.findSubmissions(req.session.user, opt, [
       model : User
       as : 'creator'
     ])
