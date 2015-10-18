@@ -15,7 +15,7 @@ module.exports = [
 #    req.session.last_vis = now
 #    req.session.last_url = req.url
 #    if fail
-#      res.end("éªšå¹´,åˆ«ç€æ€¥,ç­‰ä¼šå„¿å†åˆ·æ–°")
+#      res.end("É§Äê,±ğ×Å¼±,µÈ»á¶ùÔÙË¢ĞÂ")
 #    else
 #      next()
 ]

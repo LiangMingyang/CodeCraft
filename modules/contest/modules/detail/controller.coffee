@@ -14,17 +14,16 @@ LOGIN_PAGE = '/user/login'
 #index
 
 exports.getIndex = (req, res)->
-  User = global.db.models.user
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    global.myUtils.findContest(user, req.params.contestID, [
-      model : User
-      as : 'creator'
-    ,
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : Group
+      attributes: [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -43,23 +42,25 @@ exports.getIndex = (req, res)->
 
 exports.getProblem = (req, res)->
   currentContest = undefined
-  currentUser = undefined
   currentProblems = undefined
-  User = global.db.models.user
   Problem = global.db.models.problem
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user, req.params.contestID, [
-      model : User
-      as : 'creator'
-    ,
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : Problem
+      attributes: [
+        'id'
+      ,
+        'title'
+      ]
     ,
       model : Group
+      attributes: [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -68,7 +69,7 @@ exports.getProblem = (req, res)->
       a.contest_problem_list.order-b.contest_problem_list.order
     currentContest = contest
     currentProblems = contest.problems
-    global.myUtils.getProblemsStatus(currentProblems,currentUser,currentContest)
+    global.myUtils.getProblemsStatus(currentProblems,req.session.user,currentContest)
   .then ->
     for problem in currentProblems
       problem.contest_problem_list.order = global.myUtils.numberToLetters(problem.contest_problem_list.order)
@@ -88,22 +89,26 @@ exports.getProblem = (req, res)->
 
 exports.getSubmission = (req, res)->
   currentContest = undefined
-  currentUser = undefined
   Problem = global.db.models.problem
   User = global.db.models.user
   Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user, req.params.contestID, [
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : User
       as : 'creator'
     ,
       model : Problem
+      attributes : [
+        'id'
+      ]
     ,
       model : Group
+      attributes : [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -113,7 +118,7 @@ exports.getSubmission = (req, res)->
       offset: req.query.offset
       contest_id: currentContest.id
     }
-    global.myUtils.findSubmissions(currentUser, opt, [
+    global.myUtils.findSubmissions(req.session.user, opt, [
       model : User
       as : 'creator'
     ])
@@ -142,7 +147,6 @@ exports.getSubmission = (req, res)->
 
 exports.postSubmissions = (req, res)->
   currentContest = undefined
-  currentUser = undefined
   Problem = global.db.models.problem
   User = global.db.models.user
   Group = global.db.models.group
@@ -150,16 +154,18 @@ exports.postSubmissions = (req, res)->
   dicOrdertoProblemID = {}
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
-    global.myUtils.findContest(user, req.params.contestID, [
-      model : User
-      as : 'creator'
-    ,
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : Problem
+      attributes : [
+        'id'
+      ]
     ,
       model : Group
+      attributes : [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
@@ -175,7 +181,7 @@ exports.postSubmissions = (req, res)->
     opt.contest_id = currentContest.id
     opt.language = req.body.language if req.body.language isnt ''
     opt.result = req.body.result if req.body.result isnt ''
-    global.myUtils.findSubmissions(currentUser, opt, [
+    global.myUtils.findSubmissions(req.session.user, opt, [
       model : User
       as : 'creator'
     ])
@@ -307,21 +313,23 @@ exports.postQuestion = (req, res)->
     res.redirect HOME_PAGE
 
 exports.getRank = (req, res)->
-  User = global.db.models.user
   Problem = global.db.models.problem
   Group = global.db.models.group
   currentContest = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    global.myUtils.findContest(user, req.params.contestID, [
-      model : User
-      as : 'creator'
-    ,
+    global.myUtils.findContest(req.session.user, req.params.contestID, [
       model : Problem
+      attributes : [
+        'id'
+      ]
     ,
       model : Group
+      attributes : [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (contest)->
     throw new global.myErrors.UnknownContest() if not contest
