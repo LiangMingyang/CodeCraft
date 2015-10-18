@@ -93,26 +93,22 @@
   };
 
   exports.getSubmission = function(req, res) {
-    var Group, Problem, User, currentContest, currentUser;
+    var Group, Problem, User, currentContest;
     currentContest = void 0;
-    currentUser = void 0;
     Problem = global.db.models.problem;
     User = global.db.models.user;
     Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      currentUser = user;
-      return global.myUtils.findContest(user, req.params.contestID, [
+      return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
           model: User,
           as: 'creator'
         }, {
-          model: Problem
+          model: Problem,
+          attributes: ['id']
         }, {
-          model: Group
+          model: Group,
+          attributes: ['id', 'name']
         }
       ]);
     }).then(function(contest) {
@@ -128,7 +124,7 @@
         offset: req.query.offset,
         contest_id: currentContest.id
       };
-      return global.myUtils.findSubmissions(currentUser, opt, [
+      return global.myUtils.findSubmissions(req.session.user, opt, [
         {
           model: User,
           as: 'creator'
