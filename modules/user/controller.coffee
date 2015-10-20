@@ -1,7 +1,6 @@
 passwordHash = require('password-hash')
 Promise = require('sequelize').Promise
 rp = require('request-promise')
-xml2js = Promise.promisifyAll(require('xml2js'), suffix:'Promised')
 #global.myUtils = require('./utils')
 #page
 

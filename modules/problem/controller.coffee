@@ -7,24 +7,24 @@ INDEX_PAGE = '.'
 
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
-  User = global.db.models.user
   currentProblems = undefined
-  currentUser = undefined
   problemCount = undefined
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    currentUser = user
     req.query.page ?= 1
     offset = (req.query.page-1) * global.config.pageLimit.problem
-    global.myUtils.findAndCountProblems(user, offset, [
+    global.myUtils.findAndCountProblems(req.session.user, offset, [
       model : Group
+      attributes: [
+        'id'
+      ,
+        'name'
+      ]
     ])
   .then (result)->
     problemCount = result.count
     currentProblems = result.rows
-    global.myUtils.getProblemsStatus(currentProblems,currentUser)
+    global.myUtils.getProblemsStatus(currentProblems, req.session.user)
   .then ->
     res.render('problem/index', {
       user: req.session.user

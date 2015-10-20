@@ -154,7 +154,7 @@ exports.postSubmissions = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    global.myUtils.findProblemAdmin(user, req.params.problemID)
+    global.myUtils.findProblem(user, req.params.problemID)
   .then (problem)->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem

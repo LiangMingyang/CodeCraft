@@ -27,25 +27,19 @@
   CONTEST_PAGE = '/contest';
 
   exports.getIndex = function(req, res) {
-    var Group, Problem, User, currentContest, currentProblem, currentProblems, currentUser;
-    User = global.db.models.user;
+    var Group, Problem, currentContest, currentProblem, currentProblems;
     Problem = global.db.models.problem;
     Group = global.db.models.group;
     currentProblem = void 0;
     currentContest = void 0;
     currentProblems = void 0;
-    currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      currentUser = user;
-      return global.myUtils.findContest(user, req.params.contestID, [
+      return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
           model: Problem
         }, {
-          model: Group
+          model: Group,
+          attributes: ['id', 'name']
         }
       ]);
     }).then(function(contest) {
@@ -60,7 +54,7 @@
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
       currentProblems = contest.problems;
-      return global.myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
+      return global.myUtils.getProblemsStatus(currentProblems, req.session.user, currentContest);
     }).then(function() {
       var i, len, order, problem;
       order = global.myUtils.lettersToNumber(req.params.problemID);
@@ -179,24 +173,19 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Group, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions, currentUser;
+    var Group, Problem, User, currentContest, currentProblem, currentProblems, currentSubmissions;
     User = global.db.models.user;
     Problem = global.db.models.problem;
     Group = global.db.models.group;
     currentProblem = void 0;
     currentProblems = void 0;
     currentContest = void 0;
-    currentUser = void 0;
     currentSubmissions = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      currentUser = user;
-      return global.myUtils.findContest(user, req.params.contestID, [
+      return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
-          model: Problem
+          model: Problem,
+          attributes: ['id', 'title', 'test_setting']
         }, {
           model: Group
         }
@@ -213,7 +202,7 @@
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
       currentProblems = contest.problems;
-      return global.myUtils.getProblemsStatus(currentProblems, currentUser, currentContest);
+      return global.myUtils.getProblemsStatus(currentProblems, req.session.user, currentContest);
     }).then(function() {
       var i, len, order, problem;
       order = global.myUtils.lettersToNumber(req.params.problemID);
@@ -235,7 +224,7 @@
         contest_id: currentContest.id,
         problem_id: problem.id
       };
-      return global.myUtils.findSubmissions(currentUser, opt, [
+      return global.myUtils.findSubmissions(req.session.user, opt, [
         {
           model: User,
           as: 'creator'
@@ -284,16 +273,13 @@
     currentUser = void 0;
     currentSubmissions = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
-      currentUser = user;
-      return global.myUtils.findContestAdmin(user, req.params.contestID, [
+      return global.myUtils.findContest(req.session.user, req.params.contestID, [
         {
-          model: Problem
+          model: Problem,
+          attributes: ['id', 'title', 'test_setting']
         }, {
-          model: Group
+          model: Group,
+          attributes: ['id', 'name']
         }
       ]);
     }).then(function(contest) {
@@ -338,7 +324,7 @@
       if (req.body.result !== '') {
         opt.result = req.body.result;
       }
-      return global.myUtils.findSubmissions(currentUser, opt, [
+      return global.myUtils.findSubmissions(req.session.user, opt, [
         {
           model: User,
           as: 'creator'
