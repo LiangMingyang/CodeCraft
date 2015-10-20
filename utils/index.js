@@ -710,14 +710,16 @@
         where.$and.push({
           contest_id: opt.contest_id
         });
-        if (user) {
-          where.$and.push({
-            creator_id: user.id
-          });
-        } else {
-          where.$and.push({
-            creator_id: null
-          });
+        if (opt.contest_id !== null) {
+          if (user) {
+            where.$and.push({
+              creator_id: user.id
+            });
+          } else {
+            where.$and.push({
+              creator_id: null
+            });
+          }
         }
       }
       if (opt.language !== void 0) {
