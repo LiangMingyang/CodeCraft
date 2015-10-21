@@ -4,5 +4,6 @@ if(contest)
             label.control-label
                 h3 #{contest.title}
         if(contest.group && contest.group.name)
-            a(href="/group/" + contest.group.id + "/index")
-                h5(style="font-size:16px;") #{contest.group.name}
+            p
+                a(href="/group/" + contest.group.id + "/index")
+                    h5(style="font-size:16px;") #{contest.group.name}
