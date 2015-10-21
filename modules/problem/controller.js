@@ -9,8 +9,9 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    var Group, currentProblems, problemCount;
+    var Group, User, currentProblems, problemCount;
     Group = global.db.models.group;
+    User = global.db.models.user;
     currentProblems = void 0;
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
@@ -23,6 +24,10 @@
         {
           model: Group,
           attributes: ['id', 'name']
+        }, {
+          model: User,
+          attributes: ['id', 'nickname'],
+          as: 'creator'
         }
       ]);
     }).then(function(result) {
