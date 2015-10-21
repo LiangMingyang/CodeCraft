@@ -2,31 +2,7 @@
 (function() {
   module.exports = [
     function(req, res, next) {
-      var base, fail, now;
-      now = new Date();
-      now = now.getTime();
-      if ((base = req.session).last_vis == null) {
-        base.last_vis = now;
-      }
-      fail = false;
-      if (req.session.last_url === req.url && now - req.session.last_vis < 1000) {
-        fail = true;
-      }
-      req.session.last_vis = now;
-      req.session.last_url = req.url;
-      if (fail) {
-        return res.render('error', {
-          message: "骚年，别着急，等会儿再刷新",
-          user: {
-            nickname: "你可真着急"
-          },
-          error: {
-            status: ''
-          }
-        });
-      } else {
-        return next();
-      }
+      return next();
     }
   ];
 
