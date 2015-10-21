@@ -387,7 +387,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail = tmp[sub.creator.id].detail
       detail[problemOrderLetter] ?= {}
       detail[problemOrderLetter].score ?= 0
-      detail[problemOrderLetter].accepted_time ?= new Date()
+      #detail[problemOrderLetter].accepted_time ?= (new Date()).getTime()
       detail[problemOrderLetter].wrong_count ?= 0
 
       if sub.result is 'AC'
