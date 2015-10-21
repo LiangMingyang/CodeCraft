@@ -15,7 +15,7 @@
         port: 3306,
         timezone: '+08:00',
         pool: {
-          max: 50,
+          max: 500,
           min: 0,
           idle: 10000
         },
