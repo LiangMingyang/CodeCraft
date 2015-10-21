@@ -3,4 +3,7 @@
 if(contest)
     .text-center
         - for (var i = 0 ; i < contest.problems.length ; ++i)
-            a.btn.btn-default(href= "../../problem/" +contest.problems[i].contest_problem_list.order + "/index") #{contest.problems[i].contest_problem_list.order}
+            if(problem && problem.id == contest.problems[i].id)
+                a.btn.btn-primary(href= "../../problem/" +contest.problems[i].contest_problem_list.order + "/index") #{contest.problems[i].contest_problem_list.order}
+            else
+                a.btn.btn-default(href= "../../problem/" +contest.problems[i].contest_problem_list.order + "/index") #{contest.problems[i].contest_problem_list.order}
