@@ -52,7 +52,7 @@ block content
                             a(href= "../group/" + problem.group.id + "/index") #{problem.group.name}
                         td
                             - if(problem.creator)
-                                a(href = "/user/" + problem.creator.creator_id + "/index") #{problem.creator.creator_id}
+                                a(href = "/user/" + problem.creator.id + "/index") #{problem.creator.nickname}
                         //-td.progress
                         //-    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
                         //-    - if (level < 10) level = 10;
@@ -77,6 +77,7 @@ block content
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
     //-.col-lg-2
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
+        - console.log(problems[0])
         - if(!pageLimit)
             - pageLimit = 15;
         - if(!page)
