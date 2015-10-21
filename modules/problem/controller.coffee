@@ -7,6 +7,7 @@ INDEX_PAGE = '.'
 
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
+  User = global.db.models.user
   currentProblems = undefined
   problemCount = undefined
   global.db.Promise.resolve()
@@ -20,6 +21,14 @@ exports.getIndex = (req, res) ->
       ,
         'name'
       ]
+    ,
+      model : User
+      attributes: [
+        'id'
+      ,
+        'nickname'
+      ]
+      as : 'creator'
     ])
   .then (result)->
     problemCount = result.count
