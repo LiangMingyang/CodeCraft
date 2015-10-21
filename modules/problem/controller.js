@@ -9,32 +9,31 @@
   INDEX_PAGE = '.';
 
   exports.getIndex = function(req, res) {
-    var Group, User, currentProblems, currentUser, problemCount;
+    var Group, User, currentProblems, problemCount;
     Group = global.db.models.group;
     User = global.db.models.user;
     currentProblems = void 0;
-    currentUser = void 0;
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.session.user) {
-        return User.find(req.session.user.id);
-      }
-    }).then(function(user) {
       var base, offset;
-      currentUser = user;
       if ((base = req.query).page == null) {
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.problem;
-      return global.myUtils.findAndCountProblems(user, offset, [
+      return global.myUtils.findAndCountProblems(req.session.user, offset, [
         {
-          model: Group
+          model: Group,
+          attributes: ['id', 'name']
+        }, {
+          model: User,
+          attributes: ['id', 'nickname'],
+          as: 'creator'
         }
       ]);
     }).then(function(result) {
       problemCount = result.count;
       currentProblems = result.rows;
-      return global.myUtils.getProblemsStatus(currentProblems, currentUser);
+      return global.myUtils.getProblemsStatus(currentProblems, req.session.user);
     }).then(function() {
       return res.render('problem/index', {
         user: req.session.user,
