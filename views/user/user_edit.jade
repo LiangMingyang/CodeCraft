@@ -45,6 +45,11 @@ block content
                         select.form-control(type="input", name='school', id="school", value=target.school)
                             option(value="北京航空航天大学") 北京航空航天大学
                             option(value="北京邮电大学") 北京邮电大学
+                        script.
+                            var sjl=document.getElementById("school");
+                            for(var i=0;i<2;i++)
+                                if(sjl.options[i].value == "#{target.school}")
+                                    sjl.options[i].selected = true;
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12
@@ -53,6 +58,12 @@ block content
                         select.form-control(type="input", name='college', id="college", value=target.college)
                             option(value="软件学院") 软件学院
                             option(value="计算机学院") 计算机学院
+                            option(value="北京学院") 北京学院
+                        script.
+                            var sjl2=document.getElementById("college");
+                            for(var i=0;i<3;i++)
+                                if(sjl2.options[i].value == "#{target.college}")
+                                    sjl2.options[i].selected = true;
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12
