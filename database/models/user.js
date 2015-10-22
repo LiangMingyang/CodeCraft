@@ -22,7 +22,7 @@
         defaultValue: '-----'
       },
       college: {
-        type: DataTypes.ENUM('软件学院', '计算机学院', '-----'),
+        type: DataTypes.ENUM('软件学院', '计算机学院', '北京学院', '-----'),
         defaultValue: '-----'
       },
       student_id: {

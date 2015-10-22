@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.ENUM('北京航空航天大学', '北京邮电大学', '-----')
       defaultValue: '-----'
     college:
-      type: DataTypes.ENUM('软件学院', '计算机学院', '-----')
+      type: DataTypes.ENUM('软件学院', '计算机学院', '北京学院', '-----')
       defaultValue: '-----'
     student_id:
       type: DataTypes.STRING
