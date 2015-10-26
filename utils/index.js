@@ -550,7 +550,7 @@
         order: [['created_at', 'ASC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
-      var base, base1, base2, base3, base4, base5, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
+      var base, base1, base2, base3, base4, base5, base6, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
       if (!getLock) {
         return;
       }
@@ -575,8 +575,11 @@
         if ((base2 = detail[problemOrderLetter]).score == null) {
           base2.score = 0;
         }
-        if ((base3 = detail[problemOrderLetter]).wrong_count == null) {
-          base3.wrong_count = 0;
+        if ((base3 = detail[problemOrderLetter]).accepted_time == null) {
+          base3.accepted_time = new Date();
+        }
+        if ((base4 = detail[problemOrderLetter]).wrong_count == null) {
+          base4.wrong_count = 0;
         }
         if (sub.result === 'AC') {
           if (firstB[problemOrderLetter] == null) {
@@ -598,17 +601,17 @@
         }
       }
       for (user in tmp) {
-        if ((base4 = tmp[user]).score == null) {
-          base4.score = 0;
+        if ((base5 = tmp[user]).score == null) {
+          base5.score = 0;
         }
-        if ((base5 = tmp[user]).penalty == null) {
-          base5.penalty = 0;
+        if ((base6 = tmp[user]).penalty == null) {
+          base6.penalty = 0;
         }
         for (p in tmp[user].detail) {
           problem = tmp[user].detail[p];
           problem.score *= dicProblemOrderToScore[p];
           tmp[user].score += problem.score;
-          if (problem.accepted_time === firstB[p]) {
+          if (problem.result === 'AC' && problem.accepted_time === firstB[p]) {
             problem.first_blood = true;
           }
           if (problem.score > 0) {
