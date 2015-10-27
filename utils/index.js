@@ -608,7 +608,7 @@
           problem = tmp[user].detail[p];
           problem.score *= dicProblemOrderToScore[p];
           tmp[user].score += problem.score;
-          if (problem.accepted_time === firstB[p]) {
+          if (problem.result === 'AC' && problem.accepted_time === firstB[p]) {
             problem.first_blood = true;
           }
           if (problem.score > 0) {

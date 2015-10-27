@@ -387,7 +387,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail = tmp[sub.creator.id].detail
       detail[problemOrderLetter] ?= {}
       detail[problemOrderLetter].score ?= 0
-      #detail[problemOrderLetter].accepted_time ?= (new Date()).getTime()
+      #detail[problemOrderLetter].accepted_time ?= new Date()
       detail[problemOrderLetter].wrong_count ?= 0
 
       if sub.result is 'AC'
@@ -408,7 +408,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
         problem = tmp[user].detail[p]
         problem.score *= dicProblemOrderToScore[p]
         tmp[user].score += problem.score
-        if problem.accepted_time is firstB[p]
+        if problem.result is 'AC' and problem.accepted_time is firstB[p]
           problem.first_blood = true
         if problem.score > 0
           tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY
