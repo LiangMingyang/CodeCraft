@@ -20,6 +20,8 @@ module.exports = (database, username, password, config)->
   Issue = sequelize.import path.join(__dirname, 'models/issue')
   IssueReply = sequelize.import path.join(__dirname, 'models/issue-reply')
   Feedback = sequelize.import path.join(__dirname, 'models/feedback')
+  Tag = sequelize.import path.join(__dirname, 'models/tag')
+  ProblemTag = sequelize.import path.join(__dirname, 'models/problem-tag')
 
   #associations
 
@@ -106,6 +108,15 @@ module.exports = (database, username, password, config)->
     foreignKey: 'contest_id'
   })
 
+  #tag and problem
+  Problem.belongsToMany(Tag,
+    through:
+      model: ProblemTag
+  )
+  Tag.belongsToMany(Problem,
+    through:
+      model: ProblemTag
+  )
 
   # 1:1
 
