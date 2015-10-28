@@ -179,6 +179,7 @@ block content
                             a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         td(id="submission_result"+i)
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
+                            img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
                         td(id="submission_score"+i) #{submissions[i].score}
                         td
                             - if(user && user.id==submissions[i].creator.id)
