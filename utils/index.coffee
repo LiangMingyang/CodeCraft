@@ -532,3 +532,31 @@ exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代
       )
     include : include
   )
+
+exports.findSubmissionsInIDs = (user, submission_id, include)-> #所有有管理能力的提交记录
+  Submission = global.db.models.submission
+  normalGroups = undefined
+  normalProblems = undefined
+  myUtils = this
+  global.db.Promise.resolve()
+  .then ->
+    myUtils.findGroupsID(user)
+  .then (groups)->
+    normalGroups = groups
+    myUtils.findProblemsID(normalGroups)
+  .then (problems)->
+    normalProblems = problems
+    myUtils.findContestsID(normalGroups)
+  .then (normalContests)->
+    Submission.findAll(
+      where:
+        id : submission_id
+        $or : [
+          problem_id : normalProblems
+        ,
+          contest_id : normalContests
+        ]
+      include: include
+    )
+  .then (submissions)->
+    return (sub.get({plain:true}) for sub in submissions)

@@ -127,6 +127,26 @@
     });
   };
 
+  exports.postSubmissionApi = function(req, res) {
+    var User;
+    User = global.db.models.user;
+    return global.db.Promise.resolve().then(function() {
+      return global.myUtils.findSubmissionsInIDs(req.session.user, JSON.parse(req.body.submission_id), [
+        {
+          model: User,
+          as: 'creator',
+          attributes: ['id', 'nickname']
+        }
+      ]);
+    }).then(function(submissions) {
+      return res.json(submissions);
+    })["catch"](function(err) {
+      console.log(err);
+      req.flash('info', "Unknown Error!");
+      return res.redirect(HOME_PAGE);
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=controller.js.map
