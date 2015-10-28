@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) ->
     test_setting:
       type: DataTypes.TEXT('long')
       allowNull: false
+    difficulty:
+      type: DataTypes.DECIMAL(10,5)
   #creator foreign key
   #group   foreign key
   }, {

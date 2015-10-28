@@ -9,7 +9,7 @@
   models = require('./models');
 
   module.exports = function(database, username, password, config) {
-    var Contest, ContestProblemList, Feedback, Group, Issue, IssueReply, Judge, Membership, Message, Problem, Submission, SubmissionCode, User, sequelize;
+    var Contest, ContestProblemList, Feedback, Group, Issue, IssueReply, Judge, Membership, Message, Problem, ProblemTag, Submission, SubmissionCode, Tag, User, sequelize;
     sequelize = new Sequelize(database, username, password, config);
     Contest = sequelize["import"](path.join(__dirname, 'models/contest'));
     ContestProblemList = sequelize["import"](path.join(__dirname, 'models/contest-problem-list'));
@@ -24,6 +24,8 @@
     Issue = sequelize["import"](path.join(__dirname, 'models/issue'));
     IssueReply = sequelize["import"](path.join(__dirname, 'models/issue-reply'));
     Feedback = sequelize["import"](path.join(__dirname, 'models/feedback'));
+    Tag = sequelize["import"](path.join(__dirname, 'models/tag'));
+    ProblemTag = sequelize["import"](path.join(__dirname, 'models/problem-tag'));
     Feedback.belongsTo(User, {
       as: 'creator'
     });
@@ -92,6 +94,16 @@
         model: ContestProblemList
       },
       foreignKey: 'contest_id'
+    });
+    Problem.belongsToMany(Tag, {
+      through: {
+        model: ProblemTag
+      }
+    });
+    Tag.belongsToMany(Problem, {
+      through: {
+        model: ProblemTag
+      }
     });
     Submission.hasOne(SubmissionCode);
     return sequelize;
