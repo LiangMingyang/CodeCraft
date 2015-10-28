@@ -387,7 +387,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail = tmp[sub.creator.id].detail
       detail[problemOrderLetter] ?= {}
       detail[problemOrderLetter].score ?= 0
-      #detail[problemOrderLetter].accepted_time ?= (new Date()).getTime()
+      #detail[problemOrderLetter].accepted_time ?= new Date()
       detail[problemOrderLetter].wrong_count ?= 0
 
       if sub.result is 'AC'
@@ -408,7 +408,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
         problem = tmp[user].detail[p]
         problem.score *= dicProblemOrderToScore[p]
         tmp[user].score += problem.score
-        if problem.accepted_time is firstB[p]
+        if problem.result is 'AC' and problem.accepted_time is firstB[p]
           problem.first_blood = true
         if problem.score > 0
           tmp[user].penalty += problem.accepted_time + problem.wrong_count * PER_PENALTY
@@ -532,3 +532,31 @@ exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代
       )
     include : include
   )
+
+exports.findSubmissionsInIDs = (user, submission_id, include)-> #所有有管理能力的提交记录
+  Submission = global.db.models.submission
+  normalGroups = undefined
+  normalProblems = undefined
+  myUtils = this
+  global.db.Promise.resolve()
+  .then ->
+    myUtils.findGroupsID(user)
+  .then (groups)->
+    normalGroups = groups
+    myUtils.findProblemsID(normalGroups)
+  .then (problems)->
+    normalProblems = problems
+    myUtils.findContestsID(normalGroups)
+  .then (normalContests)->
+    Submission.findAll(
+      where:
+        id : submission_id
+        $or : [
+          problem_id : normalProblems
+        ,
+          contest_id : normalContests
+        ]
+      include: include
+    )
+  .then (submissions)->
+    return (sub.get({plain:true}) for sub in submissions)

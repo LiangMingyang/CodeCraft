@@ -15,4 +15,6 @@ router
 
 .get '/:submissionID([0-9]+)', controller.getSubmission
 
+.post '/getSubmissionApi', controller.postSubmissionApi
+
 module.exports = router

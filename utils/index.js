@@ -608,7 +608,7 @@
           problem = tmp[user].detail[p];
           problem.score *= dicProblemOrderToScore[p];
           tmp[user].score += problem.score;
-          if (problem.accepted_time === firstB[p]) {
+          if (problem.result === 'AC' && problem.accepted_time === firstB[p]) {
             problem.first_blood = true;
           }
           if (problem.score > 0) {
@@ -776,6 +776,50 @@
         creator_id: (user ? user.id : null)
       },
       include: include
+    });
+  };
+
+  exports.findSubmissionsInIDs = function(user, submission_id, include) {
+    var Submission, myUtils, normalGroups, normalProblems;
+    Submission = global.db.models.submission;
+    normalGroups = void 0;
+    normalProblems = void 0;
+    myUtils = this;
+    return global.db.Promise.resolve().then(function() {
+      return myUtils.findGroupsID(user);
+    }).then(function(groups) {
+      normalGroups = groups;
+      return myUtils.findProblemsID(normalGroups);
+    }).then(function(problems) {
+      normalProblems = problems;
+      return myUtils.findContestsID(normalGroups);
+    }).then(function(normalContests) {
+      return Submission.findAll({
+        where: {
+          id: submission_id,
+          $or: [
+            {
+              problem_id: normalProblems
+            }, {
+              contest_id: normalContests
+            }
+          ]
+        },
+        include: include
+      });
+    }).then(function(submissions) {
+      var sub;
+      return (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = submissions.length; j < len; j++) {
+          sub = submissions[j];
+          results1.push(sub.get({
+            plain: true
+          }));
+        }
+        return results1;
+      })();
     });
   };
 
