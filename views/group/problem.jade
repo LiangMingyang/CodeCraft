@@ -19,6 +19,7 @@ block content
                 td 题目标题
                 //-td 难度
                 td 通过人数/提交人数
+                td 通过人数 / 提交总次数
             - if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - if(i % 2 == 1)
@@ -53,6 +54,7 @@ block content
                         //-        .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
                         //-    span.sr-only #{level}% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
+                        td #{problem.acceptedPeopleCount} / #{problem.submissionCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
         - if(!pageLimit)
             - pageLimit = 15;
