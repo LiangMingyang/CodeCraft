@@ -252,23 +252,12 @@
     });
   };
 
-  exports.getResultPeopleCount = function(problems, results, contest) {
-    var Submission, options, problem;
-    if (!(problems instanceof Array)) {
-      problems = [problems];
-    }
+  exports.getResultPeopleCount = function(problems_id, results, contest) {
+    var Submission, options;
     Submission = global.db.models.submission;
     options = {
       where: {
-        problem_id: (function() {
-          var j, len, results1;
-          results1 = [];
-          for (j = 0, len = problems.length; j < len; j++) {
-            problem = problems[j];
-            results1.push(problem.id);
-          }
-          return results1;
-        })()
+        problem_id: problems_id
       },
       group: 'problem_id',
       distinct: true,
@@ -284,27 +273,37 @@
     return Submission.aggregate('creator_id', 'count', options);
   };
 
-  exports.hasResult = function(user, problems, results, contest) {
+  exports.getResultCount = function(problems_id, results, contest) {
+    var Submission, options;
+    Submission = global.db.models.submission;
+    options = {
+      where: {
+        problem_id: problems_id
+      },
+      group: 'problem_id',
+      distinct: true,
+      attributes: ['problem_id'],
+      plain: false
+    };
+    if (results) {
+      options.where.result = results;
+    }
+    if (contest) {
+      options.where.contest_id = contest.id;
+    }
+    return Submission.aggregate('id', 'count', options);
+  };
+
+  exports.hasResult = function(user, problems_id, results, contest) {
     return global.db.Promise.resolve().then(function() {
-      var Submission, options, problem;
+      var Submission, options;
       if (!user) {
         return [];
-      }
-      if (!(problems instanceof Array)) {
-        problems = [problems];
       }
       Submission = global.db.models.submission;
       options = {
         where: {
-          problem_id: (function() {
-            var j, len, results1;
-            results1 = [];
-            for (j = 0, len = problems.length; j < len; j++) {
-              problem = problems[j];
-              results1.push(problem.id);
-            }
-            return results1;
-          })(),
+          problem_id: problems_id,
           creator_id: user.id
         },
         group: 'problem_id',
@@ -343,17 +342,31 @@
   };
 
   exports.getProblemsStatus = function(currentProblems, currentUser, currentContest) {
-    var myUtils;
+    var myUtils, problem, problems_id;
     myUtils = this;
+    if (!(currentProblems instanceof Array)) {
+      currentProblems = [currentProblems];
+    }
+    problems_id = (function() {
+      var j, len, results1;
+      results1 = [];
+      for (j = 0, len = currentProblems.length; j < len; j++) {
+        problem = currentProblems[j];
+        results1.push(problem.id);
+      }
+      return results1;
+    })();
     return global.db.Promise.all([
-      myUtils.getResultPeopleCount(currentProblems, 'AC', currentContest).then(function(counts) {
+      myUtils.getResultPeopleCount(problems_id, 'AC', currentContest).then(function(counts) {
         return myUtils.addProblemsCountKey(counts, currentProblems, 'acceptedPeopleCount');
-      }), myUtils.getResultPeopleCount(currentProblems, void 0, currentContest).then(function(counts) {
+      }), myUtils.getResultPeopleCount(problems_id, void 0, currentContest).then(function(counts) {
         return myUtils.addProblemsCountKey(counts, currentProblems, 'triedPeopleCount');
-      }), myUtils.hasResult(currentUser, currentProblems, 'AC', currentContest).then(function(counts) {
+      }), myUtils.hasResult(currentUser, problems_id, 'AC', currentContest).then(function(counts) {
         return myUtils.addProblemsCountKey(counts, currentProblems, 'accepted');
-      }), myUtils.hasResult(currentUser, currentProblems, void 0, currentContest).then(function(counts) {
+      }), myUtils.hasResult(currentUser, problems_id, void 0, currentContest).then(function(counts) {
         return myUtils.addProblemsCountKey(counts, currentProblems, 'tried');
+      }), myUtils.getResultCount(problems_id, void 0, currentContest).then(function(counts) {
+        return myUtils.addProblemsCountKey(counts, currentProblems, 'submissionCount');
       })
     ]);
   };
@@ -548,7 +561,7 @@
         order: [['created_at', 'ASC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
-      var base, base1, base2, base3, base4, base5, base6, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
+      var base, base1, base2, base3, base4, base5, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
       if (!getLock) {
         return;
       }
@@ -573,11 +586,8 @@
         if ((base2 = detail[problemOrderLetter]).score == null) {
           base2.score = 0;
         }
-        if ((base3 = detail[problemOrderLetter]).accepted_time == null) {
-          base3.accepted_time = new Date();
-        }
-        if ((base4 = detail[problemOrderLetter]).wrong_count == null) {
-          base4.wrong_count = 0;
+        if ((base3 = detail[problemOrderLetter]).wrong_count == null) {
+          base3.wrong_count = 0;
         }
         if (sub.result === 'AC') {
           if (firstB[problemOrderLetter] == null) {
@@ -599,11 +609,11 @@
         }
       }
       for (user in tmp) {
-        if ((base5 = tmp[user]).score == null) {
-          base5.score = 0;
+        if ((base4 = tmp[user]).score == null) {
+          base4.score = 0;
         }
-        if ((base6 = tmp[user]).penalty == null) {
-          base6.penalty = 0;
+        if ((base5 = tmp[user]).penalty == null) {
+          base5.penalty = 0;
         }
         for (p in tmp[user].detail) {
           problem = tmp[user].detail[p];
@@ -780,6 +790,50 @@
         creator_id: (user ? user.id : null)
       },
       include: include
+    });
+  };
+
+  exports.findSubmissionsInIDs = function(user, submission_id, include) {
+    var Submission, myUtils, normalGroups, normalProblems;
+    Submission = global.db.models.submission;
+    normalGroups = void 0;
+    normalProblems = void 0;
+    myUtils = this;
+    return global.db.Promise.resolve().then(function() {
+      return myUtils.findGroupsID(user);
+    }).then(function(groups) {
+      normalGroups = groups;
+      return myUtils.findProblemsID(normalGroups);
+    }).then(function(problems) {
+      normalProblems = problems;
+      return myUtils.findContestsID(normalGroups);
+    }).then(function(normalContests) {
+      return Submission.findAll({
+        where: {
+          id: submission_id,
+          $or: [
+            {
+              problem_id: normalProblems
+            }, {
+              contest_id: normalContests
+            }
+          ]
+        },
+        include: include
+      });
+    }).then(function(submissions) {
+      var sub;
+      return (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = submissions.length; j < len; j++) {
+          sub = submissions[j];
+          results1.push(sub.get({
+            plain: true
+          }));
+        }
+        return results1;
+      })();
     });
   };
 

@@ -167,12 +167,11 @@ exports.findProblem = (user, problemID,include)->
   .then (flag)->
     return currentProblem if flag
 #得到一个题目数组中的某一个状态的计数(people)
-exports.getResultPeopleCount = (problems, results, contest)->
-  problems = [problems] if not (problems instanceof Array)
+exports.getResultPeopleCount = (problems_id, results, contest)->
   Submission = global.db.models.submission
   options = {
     where:
-      problem_id : (problem.id for problem in problems)
+      problem_id : problems_id
     group : 'problem_id'
     distinct : true
     attributes : ['problem_id']
@@ -181,16 +180,30 @@ exports.getResultPeopleCount = (problems, results, contest)->
   options.where.result = results if results
   options.where.contest_id = contest.id if contest
   Submission.aggregate('creator_id', 'count', options)
+
+exports.getResultCount = (problems_id, results, contest)->
+  Submission = global.db.models.submission
+  options = {
+    where:
+      problem_id : problems_id
+    group : 'problem_id'
+    distinct : true
+    attributes : ['problem_id']
+    plain : false
+  }
+  options.where.result = results if results
+  options.where.contest_id = contest.id if contest
+  Submission.aggregate('id', 'count', options)
+
 #得到对于一个题来说这个人过没过
-exports.hasResult = (user, problems, results, contest)->
+exports.hasResult = (user, problems_id, results, contest)->
   global.db.Promise.resolve()
   .then ->
     return [] if not user
-    problems = [problems] if not (problems instanceof Array)
     Submission = global.db.models.submission
     options = {
       where:
-        problem_id : (problem.id for problem in problems)
+        problem_id : problems_id
         creator_id : user.id
       group : 'problem_id'
       distinct : true
@@ -212,14 +225,18 @@ exports.addProblemsCountKey = (counts, currentProblems, key)->
 #得到所有的problem的status
 exports.getProblemsStatus = (currentProblems,currentUser,currentContest)->
   myUtils = this
+  currentProblems = [currentProblems] if not (currentProblems instanceof Array)
+  problems_id = (problem.id for problem in currentProblems)
   global.db.Promise.all [
-    myUtils.getResultPeopleCount(currentProblems, 'AC',currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'acceptedPeopleCount')
+    myUtils.getResultPeopleCount(problems_id, 'AC',currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'acceptedPeopleCount')
   ,
-    myUtils.getResultPeopleCount(currentProblems,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'triedPeopleCount')
+    myUtils.getResultPeopleCount(problems_id,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'triedPeopleCount')
   ,
-    myUtils.hasResult(currentUser,currentProblems,'AC',currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'accepted')
+    myUtils.hasResult(currentUser,problems_id,'AC',currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'accepted')
   ,
-    myUtils.hasResult(currentUser,currentProblems,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'tried')
+    myUtils.hasResult(currentUser,problems_id,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'tried')
+  ,
+    myUtils.getResultCount(problems_id,undefined,currentContest).then (counts)->myUtils.addProblemsCountKey(counts, currentProblems, 'submissionCount')
   ]
 #得到题目文件的路径
 exports.getStaticProblem = (problemId) ->
@@ -386,7 +403,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       detail = tmp[sub.creator.id].detail
       detail[problemOrderLetter] ?= {}
       detail[problemOrderLetter].score ?= 0
-      detail[problemOrderLetter].accepted_time ?= new Date()
+      #detail[problemOrderLetter].accepted_time ?= new Date()
       detail[problemOrderLetter].wrong_count ?= 0
 
       if sub.result is 'AC'
@@ -532,3 +549,31 @@ exports.findSubmission = (user,submissionID,include)-> #只有自己提交的代
       )
     include : include
   )
+
+exports.findSubmissionsInIDs = (user, submission_id, include)-> #所有有管理能力的提交记录
+  Submission = global.db.models.submission
+  normalGroups = undefined
+  normalProblems = undefined
+  myUtils = this
+  global.db.Promise.resolve()
+  .then ->
+    myUtils.findGroupsID(user)
+  .then (groups)->
+    normalGroups = groups
+    myUtils.findProblemsID(normalGroups)
+  .then (problems)->
+    normalProblems = problems
+    myUtils.findContestsID(normalGroups)
+  .then (normalContests)->
+    Submission.findAll(
+      where:
+        id : submission_id
+        $or : [
+          problem_id : normalProblems
+        ,
+          contest_id : normalContests
+        ]
+      include: include
+    )
+  .then (submissions)->
+    return (sub.get({plain:true}) for sub in submissions)

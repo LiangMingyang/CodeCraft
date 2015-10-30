@@ -20,6 +20,7 @@ block content
                 td 题目标题
                 td 题目分数
                 td 通过 / 提交
+                td 通过人数 / 提交总次数
             if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - var problem = problems[i];
@@ -42,6 +43,7 @@ block content
                             a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
                         td #{problem.contest_problem_list.score}
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
+                        td #{problem.acceptedPeopleCount} / #{problem.submissionCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
 //-TODO:

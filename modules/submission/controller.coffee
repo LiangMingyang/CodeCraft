@@ -95,3 +95,23 @@ exports.getSubmission = (req, res)->
     console.log err
     req.flash 'info', "Unknown Error!"
     res.redirect HOME_PAGE
+
+exports.postSubmissionApi = (req, res) ->
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    global.myUtils.findSubmissionsInIDs(req.session.user, JSON.parse(req.body.submission_id), [
+      model : User
+      as : 'creator'
+      attributes : [
+        'id'
+      ,
+        'nickname'
+      ]
+    ])
+  .then (submissions)->
+    res.json(submissions)
+  .catch (err)->
+    console.log err
+    req.flash 'info', "Unknown Error!"
+    res.redirect HOME_PAGE

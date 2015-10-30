@@ -23,6 +23,9 @@ block title
         - var whichPage = "比赛题目评测记录"
     title #{whichPage}
 
+block script
+    script(src="/js/request.js")
+
 block content
     - console.log(query);
     - var oddeventable = "odd"
@@ -113,7 +116,7 @@ block content
                             for(var i=1;i<5;i++)
                                 if(sjl2.options[i].value == "#{query.language}")
                                         sjl2.options[i].selected = true;
-                td(onmousedown="console.log('length')")
+                td
                     |代码长度
                     br
                     label.form-control-static (Bytes)
@@ -170,13 +173,14 @@ block content
                         - tc += "前";
                         //计算完成时间差变量
                         //生成表格
-                        td #{submissions[i].id}
+                        td(id="submission_id"+i) #{submissions[i].id}
                         //- if(!contest)
                         td
                             a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
-                        td
+                        td(id="submission_result"+i)
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
-                        td #{submissions[i].score}
+                            img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
+                        td(id="submission_score"+i) #{submissions[i].score}
                         td
                             - if(user && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
@@ -187,8 +191,8 @@ block content
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
                             - else
                                 label #{submissions[i].code_length}
-                        td #{submissions[i].time_cost}
-                        td #{submissions[i].memory_cost}
+                        td(id="submission_time"+i) #{submissions[i].time_cost}
+                        td(id="submission_memory"+i) #{submissions[i].memory_cost}
                         td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
                             label(class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
                             label(class="time-difference") #{tc}
@@ -201,6 +205,7 @@ block content
                             - coloroftable = "blue"
                         - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
                             - coloroftable = "green"
+                            script $("#img#{i}").css("display", "inline-block");
                         - else
                             - coloroftable = "red"
                         script.
@@ -312,4 +317,70 @@ block content
             var __form = $("#form_of_submission");
             __form.attr("action", url);
             __form.submit();
+        }
+        var is_need_request = 1;
+        var length_of_submission = "#{submissions.length}";
+        $(document).ready(function (){
+            setInterval ("loop_request()", request_time);
+        });
+        function loop_request(){
+            var post_data = {};
+            var my_submission_id,my_submission_result;
+            post_data.submission_id = [];
+            for(var i = 0;i < length_of_submission;i++){
+                my_submission_id = $("#submission_id" + i);
+                my_submission_result = $("#submission_result" + i);
+                if(my_submission_result.text() == "Running" || my_submission_result.text() == "Waiting"){
+                    post_data.submission_id.push(my_submission_id.text());
+                }
+            }
+            if(post_data.submission_id.length == 0){
+                is_need_request = 0;
+            }
+            post_data.submission_id = JSON.stringify(post_data.submission_id);
+            if(is_need_request == 1){
+                request.exec_request({
+                    data: post_data,
+                    url: "/submission/getSubmissionApi",
+                    method: "POST",
+                    callback: fill_submission
+                });
+            }
+        }
+        function fill_submission(data){
+            var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"};
+            var my_submission_id,my_submission_result,my_submission_time,my_submission_memory,my_submission_score,result,oddeventable,coloroftable,my_img;
+            for(var i = 0;i < data.length;i++){
+                for(var j = 0;j < length_of_submission;j++){
+                    my_submission_id = $("#submission_id" + j);
+                    if (data[i].id == my_submission_id.text()){
+                        my_submission_result = $("#td" + j);
+                        my_submission_result.attr("data-content", data[i].detail);
+                        result = changeSubmissionResult[data[i].result];
+                        my_submission_result.text(result);
+                        my_submission_time = $("#submission_time" + j);
+                        my_submission_time.text(data[i].time_cost);
+                        my_submission_memory = $("#submission_memory" + j);
+                        my_submission_memory.text(data[i].memory_cost);
+                        my_submission_score = $("#submission_score" + j);
+                        my_submission_score.text(data[i].score);
+                        my_img = $("#img" + j);
+                        my_img.css("display", "none");
+                        if(j % 2 == 1)
+                            oddeventable = "odd";
+                        else
+                            oddeventable = "even";
+                        if(data[i].result == "AC")
+                            coloroftable = "blue";
+                        else if(data[i].result == "WT" || data[i].result == "JG"){
+                            coloroftable = "green";
+                            my_img.css("display", "inline-block");
+                        }
+                        else
+                            coloroftable = "red";
+                        $("#tr" + j).attr("class",oddeventable + coloroftable + "tr");
+                        my_submission_result.attr("class",coloroftable + "td");
+                    }
+                }
+            }
         }
