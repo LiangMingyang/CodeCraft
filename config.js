@@ -15,7 +15,7 @@
         port: 3306,
         timezone: '+08:00',
         pool: {
-          max: 500,
+          max: 50,
           min: 0,
           idle: 10000
         },
@@ -29,7 +29,12 @@
       problem: 20
     },
     problem_resource_path: path.resolve(__dirname, 'modules/problem/resource'),
-    cluster: 3
+    cluster: 1,
+    judge: {
+      penalty: 20 * 60 * 1000,
+      cache: 1000,
+      max_code_length: 233333
+    }
   };
 
 }).call(this);
