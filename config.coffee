@@ -21,4 +21,8 @@ module.exports = {
     problem : 20
   problem_resource_path : path.resolve(__dirname,'modules/problem/resource')
   cluster: 1
+  judge :
+    penalty : 20 * 60 * 1000 #每次的罚时时间
+    cache : 1000 #间歇性封榜时间
+    max_code_length : 233333 #限制提交的代码长度
 }
