@@ -15,7 +15,7 @@
         port: 3306,
         timezone: '+08:00',
         pool: {
-          max: 50,
+          max: 500,
           min: 0,
           idle: 10000
         },
@@ -29,7 +29,7 @@
       problem: 20
     },
     problem_resource_path: path.resolve(__dirname, 'modules/problem/resource'),
-    cluster: 1,
+    cluster: 3,
     judge: {
       penalty: 20 * 60 * 1000,
       cache: 1000,
