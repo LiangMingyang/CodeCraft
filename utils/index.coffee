@@ -363,9 +363,8 @@ exports.getRank = (contest)->
     rank = cache if cache isnt null
     return rank
 
-AC_SCORE = 1
-PER_PENALTY = 20 * 60 * 1000
-CACHE_TIME = 1000 #间歇性封榜时间
+PER_PENALTY = global.config.judge.penalty
+CACHE_TIME = global.config.judge.cache
 #进行rank的计算，如果被缓存就不计算，通过lock进行间歇性封榜
 exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
   User = global.db.models.user
@@ -446,6 +445,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
 #Submission
 #创建Submission
 exports.createSubmissionTransaction = (form, form_code, problem, user)->
+  throw new global.myErrors.UnknownProblem("Your code is too long.") if form_code.content.length > global.config.judge.max_code_length
   Submission = global.db.models.submission
   Submission_Code = global.db.models.submission_code
   current_submission = undefined
