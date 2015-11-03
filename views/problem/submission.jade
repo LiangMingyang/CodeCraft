@@ -222,7 +222,7 @@ block content
         //    a.button.btn.btn-default(href="./submission") 首页
         //    - if(submissions.length == pageLimit)
         //        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
-        .col-lg-12.col-md-12.col-sm-12.text-left.row
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
             //分页
             //a.button.btn.btn-default(href="./submission") 首页
             .buttion.btn.btn-default(onclick='change_page("./submission")') 首页
@@ -290,7 +290,7 @@ block content
             -else
                 //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
                 .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
-    .col-lg-2.col-md-2.col-sm-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include problem.jade
     script.
         function change_time_into_standard_format(){
