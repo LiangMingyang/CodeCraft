@@ -36,10 +36,11 @@ block content
     //以上为时间差计算变量
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
     include ../contest/contest-title.jade
-    include problem-list
     .col-lg-2.col-md-2.col-sm-2.col-xs-12.containing
         include contest.jade
+        include ../contest/time.jade
     form.col-lg-8.col-md-8.col-sm-8.col-xs-12(style="padding-top:15px", method='post', id="form_of_submission")
+        include problem-list
         if(problem)
             h3 #{problem.title} 的评测记录
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
