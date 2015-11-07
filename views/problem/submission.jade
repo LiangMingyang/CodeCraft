@@ -4,18 +4,6 @@
    submissions --提交记录的数组
    submissions.each:
 
-
-//
-    返回结果
-    'WT' = waiting
-    'JG' = judging
-    'AC' = accepted
-    'WA' = wrong answer
-    'TLE' = time limit exceed
-    'MLE' = memory limit exceed
-    'RE' = run time error
-    'CE' = compile error
-    'PE' = presentation error
 extends ../layout
 block title
     - var whichPage = "评测记录"
@@ -25,6 +13,7 @@ block title
 
 block script
     script(src="/js/request.js")
+    script(src="/js/time.js")
 
 block content
     - console.log(query);
@@ -47,10 +36,11 @@ block content
     //以上为时间差计算变量
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
     include ../contest/contest-title.jade
-    include problem-list
     .col-lg-2.col-md-2.col-sm-2.col-xs-12.containing
         include contest.jade
+        include ../contest/time.jade
     form.col-lg-8.col-md-8.col-sm-8.col-xs-12(style="padding-top:15px", method='post', id="form_of_submission")
+        include problem-list
         if(problem)
             h3 #{problem.title} 的评测记录
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
@@ -130,6 +120,7 @@ block content
                     label.form-control-static (KB)
                 td 提交时间
             - if(submissions)
+                script var submission_length = "#{submissions.length}";
                 - for (var i = 0 ;i < submissions.length ; i++)
                     tr(id = "tr" + i)
                         //在渲染前处理时间
@@ -194,8 +185,8 @@ block content
                         td(id="submission_time"+i) #{submissions[i].time_cost}
                         td(id="submission_memory"+i) #{submissions[i].memory_cost}
                         td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
-                            label(class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
-                            label(class="time-difference") #{tc}
+                            label(id="standard-format-"+i, class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+                            label(id="time-difference-"+i, class="time-difference") #{tc}
                         //td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
                         - if(i % 2 == 1)
                             - oddeventable = "odd"
@@ -231,7 +222,7 @@ block content
         //    a.button.btn.btn-default(href="./submission") 首页
         //    - if(submissions.length == pageLimit)
         //        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
-        .col-lg-12.col-md-12.col-sm-12.text-left.row
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
             //分页
             //a.button.btn.btn-default(href="./submission") 首页
             .buttion.btn.btn-default(onclick='change_page("./submission")') 首页
@@ -299,7 +290,7 @@ block content
             -else
                 //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
                 .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
-    .col-lg-2.col-md-2.col-sm-2
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include problem.jade
     script.
         function change_time_into_standard_format(){
@@ -322,7 +313,20 @@ block content
         var length_of_submission = "#{submissions.length}";
         $(document).ready(function (){
             setInterval ("loop_request()", request_time);
+            setInterval("change_submission_time_every_second()", 1000);
         });
+        function change_submission_time_every_second(){
+            var standard_format, time_difference, time_of, time_of_now, time_of_difference, now_of_time;
+            now_of_time = new Date();
+            for (var i = 0; i < submission_length; i++){
+                standard_format = $("#standard-format-" + i);
+                time_difference = $("#time-difference-" + i);
+                time_of = new Date(standard_format.text());
+                time_of_difference = now_of_time.getTime() - time_of;
+                //standard_format.text(change_time_into_date_time(time_of_now));
+                time_difference.text(change_time_into_chinese_string_time(time_of_difference));
+            }
+        }
         function loop_request(){
             var post_data = {};
             var my_submission_id,my_submission_result;
