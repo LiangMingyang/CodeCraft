@@ -21,6 +21,10 @@
     "angular-route": "~1.4.8",
     "angular": "~1.4.8",
     "jquery": "~2.1.4",
-    "bootstrap": "~3.3.6"
+    "bootstrap": "~3.3.6",
+    "MathJax": "~2.5.3",
+    "normalize-strings": "normalize#~1.0.4",
+    "html5-boilerplate": "~5.2.0",
+    "marked": "~0.3.5"
   }
 }

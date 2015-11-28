@@ -1,0 +1,1 @@
+exports.contest = require('./contest')

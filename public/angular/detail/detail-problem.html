@@ -1,0 +1,10 @@
+<div class="text-center">
+    <a ng-click="setProblem($index)" ng-repeat="problem in contest.problems" class="btn btn-default" ng-class="{active:isProblem($index)}">
+        {{$index}}
+    </a>
+</div>
+<div class="container">
+    <p>{{contest.problems[order].title}}</p>
+    <p>{{contest.problems[order].description}}</p>
+    <p>{{contest.problems[order].test_setting}}</p>
+</div>

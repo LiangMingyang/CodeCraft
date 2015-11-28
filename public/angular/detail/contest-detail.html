@@ -1,0 +1,28 @@
+<div class="col-lg-2">
+    <p>比赛标题{{contest.title}}</p>
+    <div class="form-horizontal">
+        <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('description') }" ng-click="setPage('description')">description</a>
+        <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('problem') }" ng-click="setPage('problem')">problems</a>
+        <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('rank') }" ng-click="setPage('rank')">rank</a>
+        <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('submission') }" ng-click="setPage('submission')">submission</a>
+    </div>
+</div>
+
+<div class="col-lg-8" ng-show="isPage('description')">
+    <h3>比赛简介</h3>
+    <div class="container">{{contest.description}}</div>
+</div>
+
+<div class="col-lg-8" ng-show="isPage('problem')" ng-include="'detail/detail-problem.html'">
+</div>
+
+<div class="col-lg-2" ng-show="isPage('problem')">
+    <p>侧边蓝</p>
+</div>
+
+<div class="col-lg-8" ng-show="isPage('rank')" ng-include="'detail/detail-rank.html'">
+</div>
+
+<div class="col-lg-8" ng-show="isPage('submission')">
+    <p>{{submissions}}</p>
+</div>

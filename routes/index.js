@@ -28,6 +28,8 @@
 
   router.use('/feedback', modules.feedback.router);
 
+  router.use('/api', modules.api.router);
+
   router.get('/', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',
