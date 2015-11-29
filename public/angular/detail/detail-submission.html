@@ -1,5 +1,5 @@
 <!--<p>{{submissions}}</p>-->
-<table class="table-bordered">
+<table class="table table-bordered">
     <thead>
         <tr>
             <td>编号</td>
@@ -16,14 +16,18 @@
     <tbody>
         <tr ng-repeat="submission in submissions">
             <td>{{submission.id}}</td>
-            <td>{{submission.problem_id}}</td>
+            <td>
+                <a ng-click="setPage('problem');setProblem(idToOrder[submission.problem_id])">
+                    {{numberToLetters(idToOrder[submission.problem_id])}}
+                </a>
+            </td>
             <td>{{submission.result}}</td>
             <td>{{submission.score}}</td>
             <td>{{submission.lang}}</td>
             <td>{{submission.code_length}}</td>
             <td>{{submission.time_cost}}</td>
             <td>{{submission.memory_cost}}</td>
-            <td>{{submission.created_time}}</td>
+            <td>{{submission.created_at | date: 'yyyy-MM-dd hh:mm:ss'}}</td>
         </tr>
     </tbody>
 </table>

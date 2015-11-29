@@ -1,2 +1,27 @@
 <h3>比赛排名</h3>
-<div class="container">{{rank}}</div>
+<div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <td>排名</td>
+                <td>用户</td>
+                <td>得分</td>
+                <td>罚时</td>
+                <td ng-repeat="problem in contest.problems">{{numberToLetters($index)}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="r in rank">
+                <td>{{$index}}</td>
+                <td>{{r.user.nickname}}</td>
+                <td>{{r.score}}</td>
+                <td>{{r.penalty | date: 'HH:mm:ss'}}</td>
+                <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
+                <td ng-repeat="problem in contest.problems" >
+                    {{r.detail[numberToLetters($index)].accepted_time | date:'HH:mm:ss'}}(-{{r.detail[numberToLetters($index)].wrong_count}})
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {{rank}}
+</div>

@@ -14,19 +14,22 @@
     '$scope', '$routeParams', '$http', "$timeout", function($scope, $routeParams, $http, $timeout) {
       var contestPoller, rankPoller, subPoller;
       $scope.contest = {
-        title: "Waiting for data..."
+        title: "Waiting for data...",
+        description: "Waiting for data..."
       };
+      $scope.idToOrder = {};
       contestPoller = function() {
         return $http.get("/api/contest/" + $routeParams.contestId).then(function(res) {
-          var contest, i, len, p, ref;
+          var contest, i, j, len, p, ref;
           contest = res.data;
           contest.problems.sort(function(a, b) {
             return a.contest_problem_list.order - b.contest_problem_list.order;
           });
           ref = contest.problems;
-          for (i = 0, len = ref.length; i < len; i++) {
+          for (i = j = 0, len = ref.length; j < len; i = ++j) {
             p = ref[i];
             p.test_setting = JSON.parse(p.test_setting);
+            $scope.idToOrder[p.id] = i;
           }
           return $scope.contest = contest;
         }, function() {
@@ -37,7 +40,7 @@
       $scope.rank = [];
       rankPoller = function() {
         return $http.get("/api/contest/" + $routeParams.contestId + "/rank").then(function(res) {
-          $scope.rank = res.data;
+          $scope.rank = JSON.parse(res.data);
           return $timeout(rankPoller, 5000 + Math.random() * 5000);
         }, function() {
           return $timeout(rankPoller, Math.random() * 10000);

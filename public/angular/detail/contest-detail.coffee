@@ -9,7 +9,11 @@
 
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
-    $scope.contest = {title: "Waiting for data..."}
+    $scope.contest = {
+      title: "Waiting for data..."
+      description: "Waiting for data..."
+    }
+    $scope.idToOrder = {}
 
     contestPoller = ()->
       $http.get("/api/contest/#{$routeParams.contestId}")
@@ -18,8 +22,9 @@
           contest = res.data
           contest.problems.sort (a,b)->
             a.contest_problem_list.order-b.contest_problem_list.order
-          for p in contest.problems
+          for p,i in contest.problems
             p.test_setting = JSON.parse(p.test_setting)
+            $scope.idToOrder[p.id] = i
           $scope.contest = contest  #轮询
           #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
       ,
@@ -36,14 +41,13 @@
       $http.get("/api/contest/#{$routeParams.contestId}/rank")
       .then(
         (res)->
-          $scope.rank = res.data #轮询
+          $scope.rank = JSON.parse(res.data) #轮询
           $timeout(rankPoller,5000+Math.random()*5000)
       ,
         ()->
           $timeout(rankPoller,Math.random()*10000)
       )
     rankPoller()
-
 
     $scope.submissions = []
 

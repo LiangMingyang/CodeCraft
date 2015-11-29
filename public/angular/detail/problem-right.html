@@ -1,2 +1,20 @@
-<p>Your submissions</p>
-<p ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">{{submission.result}}</p>
+<h3>Your submissions</h3>
+<table class="table table-condensed table-bordered">
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>Res</td>
+            <td>Time</td>
+            <td>Mem</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">
+            <td>{{submission.id}}</td>
+            <td>{{submission.result}}</td>
+            <td>{{submission.time_cost}}</td>
+            <td>{{submission.memory_cost}}</td>
+        </tr>
+    </tbody>
+</table>
+<!--<p ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">{{submission.result}}</p>-->
