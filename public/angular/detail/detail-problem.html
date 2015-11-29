@@ -1,10 +1,14 @@
 <div class="text-center">
     <a ng-click="setProblem($index)" ng-repeat="problem in contest.problems" class="btn btn-default" ng-class="{active:isProblem($index)}">
-        {{$index}}
+        {{numberToLetters($index)}}
     </a>
 </div>
-<div class="container">
-    <p>{{contest.problems[order].title}}</p>
-    <p>{{contest.problems[order].description}}</p>
-    <p>{{contest.problems[order].test_setting}}</p>
+<div>
+    <h1 class="text-center">{{contest.problems[order].title}}</h1>
+    <div class="problem-limit">
+        <p class="text-center">时间限制:{{contest.problems[order].test_setting.time_limit}}ms 空间限制:{{contest.problems[order].test_setting.memory_limit}}kb</p>
+    </div>
+    <!--<p>{{contest.problems[order].description}}</p>-->
+    <div ng-bind-html="contest.problems[order].description | marked"></div>
+    <!--<p>{{contest.problems[order].test_setting}}</p>-->
 </div>

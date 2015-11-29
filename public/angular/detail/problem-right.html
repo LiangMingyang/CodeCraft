@@ -1,0 +1,2 @@
+<p>Your submissions</p>
+<p ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">{{submission.result}}</p>

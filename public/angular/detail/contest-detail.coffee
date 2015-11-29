@@ -1,25 +1,64 @@
 'use script';
 @angular.module('contest-detail', [])
 
+.filter('marked', ['$sce', ($sce)->
+  (text)->
+    text = "" if not text
+    $sce.trustAsHtml(marked(text))
+])
 
-.controller('contest-detail', ['$scope', '$routeParams', '$http', ($scope, $routeParams, $http)->
+.controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
-    $scope.contest = {}
-    $http.get("/api/contest/#{$routeParams.contestId}")
-    .success (contest, status, headers, config)->
-      contest.problems.sort (a,b)->
-        a.contest_problem_list.order-b.contest_problem_list.order
-      $scope.contest = contest  #轮询
+    $scope.contest = {title: "Waiting for data..."}
+
+    contestPoller = ()->
+      $http.get("/api/contest/#{$routeParams.contestId}")
+      .then(
+        (res)->
+          contest = res.data
+          contest.problems.sort (a,b)->
+            a.contest_problem_list.order-b.contest_problem_list.order
+          for p in contest.problems
+            p.test_setting = JSON.parse(p.test_setting)
+          $scope.contest = contest  #轮询
+          #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
+      ,
+        ()->
+          $timeout(contestPoller,Math.random()*10000)
+      )
+    contestPoller()
+
+
 
     $scope.rank = []
-    $http.get("/api/contest/#{$routeParams.contestId}/rank")
-    .success (rank, status, headers, config)->
-      $scope.rank = rank #轮询
+
+    rankPoller = ()->
+      $http.get("/api/contest/#{$routeParams.contestId}/rank")
+      .then(
+        (res)->
+          $scope.rank = res.data #轮询
+          $timeout(rankPoller,5000+Math.random()*5000)
+      ,
+        ()->
+          $timeout(rankPoller,Math.random()*10000)
+      )
+    rankPoller()
+
 
     $scope.submissions = []
-    $http.get("/api/contest/#{$routeParams.contestId}/submission")
-    .success (submissions, status, headers, config)->
-      $scope.submissions = submissions #轮询
+
+    subPoller = ()->
+      $http.get("/api/contest/#{$routeParams.contestId}/submission")
+      .then(
+        (res)->
+          $scope.submissions = res.data #轮询
+          $timeout(subPoller, 1000 + Math.random()*1000)
+      ,
+        ()->
+          $timeout(subPoller,Math.random()*5000)
+      )
+    subPoller()
+
 
 
     $scope.page = "description"
@@ -38,4 +77,12 @@
 
     $scope.isProblem = (order)->
       $scope.order is order
+
+    $scope.numberToLetters = (num)->
+      return 'A' if num is 0
+      res = ""
+      while(num>0)
+        res = String.fromCharCode(num%26 + 65) + res
+        num = parseInt(num/26)
+      return res
   ])

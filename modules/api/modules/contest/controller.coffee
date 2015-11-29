@@ -1,7 +1,6 @@
 exports.get = (req, res)->
   Group = global.db.models.group
   Problem = global.db.models.problem
-  User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
     global.myUtils.findContest(req.session.user, req.params.contestId, [
@@ -10,6 +9,7 @@ exports.get = (req, res)->
       model : Problem
     ])
   .then (contest)->
+    throw new global.myError.UnknownContest() if not contest
     res.json(contest.get({plain:true}))
   .catch (err)->
     res.json(err)
@@ -17,7 +17,6 @@ exports.get = (req, res)->
 
 exports.getRank = (req, res)->
   Problem = global.db.models.problem
-  Group = global.db.models.group
   global.db.Promise.resolve()
   .then ->
     global.myUtils.findContest(req.session.user, req.params.contestId, [
@@ -42,9 +41,10 @@ exports.getSubmissions = (req, res)->
   Submission = global.db.models.submission
   global.db.Promise.resolve()
   .then ->
+    return [] if not req.session.user
     Submission.findAll(
       where:
-        creator_id: req.user.id
+        creator_id: req.session.user.id
         contest_id: req.params.contestId
     )
   .then (submissions)->
