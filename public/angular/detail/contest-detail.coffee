@@ -101,7 +101,8 @@
       $scope.form.order = order
       $http.post("/api/contest/#{$routeParams.contestId}/submissions",$scope.form)
       .then(
-          undefined
+          (res)->
+            $scope.submissions.splice(0,0,res.data)
         ,
           (res)->
             alert(res.data)

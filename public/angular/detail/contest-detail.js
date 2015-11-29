@@ -89,7 +89,9 @@
       };
       return $scope.submit = function(order) {
         $scope.form.order = order;
-        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(void 0, function(res) {
+        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(function(res) {
+          return $scope.submissions.splice(0, 0, res.data);
+        }, function(res) {
           return alert(res.data);
         });
       };
