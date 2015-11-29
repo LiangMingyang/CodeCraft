@@ -78,6 +78,10 @@
 
     $scope.setProblem = (order)->
       $scope.order = order
+      $timeout(->
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub])
+      ,500)
+      #MathJax.Hub.Typeset()
 
     $scope.isProblem = (order)->
       $scope.order is order

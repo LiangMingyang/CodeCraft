@@ -18,10 +18,10 @@
                 <td>{{r.penalty | date: 'HH:mm:ss'}}</td>
                 <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
                 <td ng-repeat="problem in contest.problems" >
-                    {{r.detail[numberToLetters($index)].accepted_time | date:'HH:mm:ss'}}(-{{r.detail[numberToLetters($index)].wrong_count}})
+                    {{r.detail[numberToLetters($index)].accepted_time | date:'HH:mm'}}(-{{r.detail[numberToLetters($index)].wrong_count}})
                 </td>
             </tr>
         </tbody>
     </table>
-    {{rank}}
+    <!--{{rank}}-->
 </div>

@@ -66,7 +66,10 @@
         return page === $scope.page;
       };
       $scope.setProblem = function(order) {
-        return $scope.order = order;
+        $scope.order = order;
+        return $timeout(function() {
+          return MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }, 500);
       };
       $scope.isProblem = function(order) {
         return $scope.order === order;
