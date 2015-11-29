@@ -8,6 +8,8 @@ router
 
 .get '/:contestId/rank', controller.getRank
 
-.get '/:contestId/submission', controller.getSubmissions
+.get '/:contestId/submissions', controller.getSubmissions
+
+.post '/:contestId/submissions', controller.postSubmissions
 
 module.exports = router

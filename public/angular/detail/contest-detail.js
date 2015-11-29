@@ -49,7 +49,7 @@
       rankPoller();
       $scope.submissions = [];
       subPoller = function() {
-        return $http.get("/api/contest/" + $routeParams.contestId + "/submission").then(function(res) {
+        return $http.get("/api/contest/" + $routeParams.contestId + "/submissions").then(function(res) {
           $scope.submissions = res.data;
           return $timeout(subPoller, 1000 + Math.random() * 1000);
         }, function() {
@@ -87,9 +87,10 @@
         }
         return res;
       };
-      return $scope.submit = function(problem) {
-        return $http.post("/contest/" + $routeParams.contestId + "/problem/" + problem + "/submit", $scope.form).then(function(r) {
-          return console.log(r);
+      return $scope.submit = function(order) {
+        $scope.form.order = order;
+        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(void 0, function(res) {
+          return alert(res.data);
         });
       };
     }

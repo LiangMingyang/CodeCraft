@@ -52,7 +52,7 @@
     $scope.submissions = []
 
     subPoller = ()->
-      $http.get("/api/contest/#{$routeParams.contestId}/submission")
+      $http.get("/api/contest/#{$routeParams.contestId}/submissions")
       .then(
         (res)->
           $scope.submissions = res.data #轮询
@@ -97,8 +97,13 @@
         num = parseInt(num/26)
       return res
 
-    $scope.submit = (problem)->
-      $http.post("/contest/#{$routeParams.contestId}/problem/#{problem}/submit",$scope.form)
-      .then (r)->
-        console.log r
+    $scope.submit = (order)->
+      $scope.form.order = order
+      $http.post("/api/contest/#{$routeParams.contestId}/submissions",$scope.form)
+      .then(
+          undefined
+        ,
+          (res)->
+            alert(res.data)
+      )
   ])

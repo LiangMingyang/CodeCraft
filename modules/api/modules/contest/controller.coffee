@@ -9,11 +9,12 @@ exports.get = (req, res)->
       model : Problem
     ])
   .then (contest)->
-    throw new global.myError.UnknownContest() if not contest
+    throw new global.myErrors.UnknownContest() if not contest
     res.json(contest.get({plain:true}))
   .catch (err)->
-    res.json(err)
-    console.log err
+    res.status(err.status)
+    res.json(error:err.message)
+
 
 exports.getRank = (req, res)->
   Problem = global.db.models.problem
@@ -34,8 +35,8 @@ exports.getRank = (req, res)->
   .then (rank)->
     res.json(rank)
   .catch (err)->
-    res.json(err)
-    console.log err
+    res.status(err.status)
+    res.json(error:err.message)
 
 exports.getSubmissions = (req, res)->
   Submission = global.db.models.submission
@@ -55,4 +56,49 @@ exports.getSubmissions = (req, res)->
   .then (submissions)->
     res.json(submission.get(plain:true) for submission in submissions)
   .catch (err)->
-    console.log err
+    res.status(err.status)
+    res.json(error:err.message)
+
+exports.postSubmissions = (req, res) ->
+  User = global.db.models.user
+  Problem = global.db.models.problem
+  currentUser = undefined
+  currentProblem = undefined
+  currentContest = undefined
+  currentSubmission = undefined
+
+
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    global.myUtils.findContest(user,req.params.contestId,[
+      model: Problem
+    ])
+  .then (contest)->
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.InvalidAccess() if (new Date()) < contest.start_time or contest.end_time < (new Date())
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
+    currentContest = contest
+    problem = currentContest.problems[req.body.order]
+    throw new global.myErrors.UnknownProblem() if not problem
+    currentProblem = problem
+    form = {
+      lang : req.body.lang
+      code_length : req.body.code.length
+    }
+    form_code = {
+      content: req.body.code
+    }
+    global.myUtils.createSubmissionTransaction(form, form_code, currentProblem, currentUser)
+  .then (submission) ->
+    currentSubmission = submission.get(plain: true) if submission
+    currentContest.addSubmission(submission)
+  .then ->
+    res.json(currentSubmission)
+
+  .catch (err)->
+    res.status(err.status)
+    res.json(error:err.message)

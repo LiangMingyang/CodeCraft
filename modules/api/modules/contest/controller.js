@@ -14,14 +14,16 @@
       ]);
     }).then(function(contest) {
       if (!contest) {
-        throw new global.myError.UnknownContest();
+        throw new global.myErrors.UnknownContest();
       }
       return res.json(contest.get({
         plain: true
       }));
     })["catch"](function(err) {
-      res.json(err);
-      return console.log(err);
+      res.status(err.status);
+      return res.json({
+        error: err.message
+      });
     });
   };
 
@@ -49,8 +51,10 @@
     }).then(function(rank) {
       return res.json(rank);
     })["catch"](function(err) {
-      res.json(err);
-      return console.log(err);
+      res.status(err.status);
+      return res.json({
+        error: err.message
+      });
     });
   };
 
@@ -82,7 +86,71 @@
         return results;
       })());
     })["catch"](function(err) {
-      return console.log(err);
+      res.status(err.status);
+      return res.json({
+        error: err.message
+      });
+    });
+  };
+
+  exports.postSubmissions = function(req, res) {
+    var Problem, User, currentContest, currentProblem, currentSubmission, currentUser;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    currentUser = void 0;
+    currentProblem = void 0;
+    currentContest = void 0;
+    currentSubmission = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      return global.myUtils.findContest(user, req.params.contestId, [
+        {
+          model: Problem
+        }
+      ]);
+    }).then(function(contest) {
+      var form, form_code, problem;
+      if (!contest) {
+        throw new global.myErrors.UnknownContest();
+      }
+      if ((new Date()) < contest.start_time || contest.end_time < (new Date())) {
+        throw new global.myErrors.InvalidAccess();
+      }
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      currentContest = contest;
+      problem = currentContest.problems[req.body.order];
+      if (!problem) {
+        throw new global.myErrors.UnknownProblem();
+      }
+      currentProblem = problem;
+      form = {
+        lang: req.body.lang,
+        code_length: req.body.code.length
+      };
+      form_code = {
+        content: req.body.code
+      };
+      return global.myUtils.createSubmissionTransaction(form, form_code, currentProblem, currentUser);
+    }).then(function(submission) {
+      if (submission) {
+        currentSubmission = submission.get({
+          plain: true
+        });
+      }
+      return currentContest.addSubmission(submission);
+    }).then(function() {
+      return res.json(currentSubmission);
+    })["catch"](function(err) {
+      res.status(err.status);
+      return res.json({
+        error: err.message
+      });
     });
   };
 

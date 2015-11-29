@@ -7,7 +7,7 @@ class UnknownUser extends Error
 class UnknownGroup extends Error
   constructor: (@message = "Unknown Group") ->
     @name = 'UnknownGroup'
-    @status = 404
+    @status = 403
     Error.captureStackTrace(this, UnknownGroup)
 
 class LoginError extends Error
@@ -37,13 +37,13 @@ class UpdateError extends Error
 class UnknownSubmission extends Error
   constructor: (@message = "Unknown submission.") ->
     @name = 'UnknownSubmission'
-    @status = 404
+    @status = 403
     Error.captureStackTrace(this, UnknownSubmission)
 
 class UnknownProblem extends Error
   constructor: (@message = "Unknown problem") ->
     @name = 'UnknownProblem'
-    @status = 404
+    @status = 403
     Error.captureStackTrace(this, UnknownProblem)
 
 class InvalidFile extends Error
@@ -55,13 +55,13 @@ class InvalidFile extends Error
 class UnknownJudge extends Error
   constructor: (@message = "Unknown judge.") ->
     @name = 'UnknownJudge'
-    @status = 404
+    @status = 403
     Error.captureStackTrace(this, UnknownJudge)
 
 class UnknownContest extends Error
   constructor: (@message = "Unknown contest.") ->
     @name = 'UnknownContest'
-    @status = 404
+    @status = 403
     Error.captureStackTrace(this, UnknownContest)
 
 module.exports = {

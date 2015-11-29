@@ -24,7 +24,7 @@
     function UnknownGroup(message) {
       this.message = message != null ? message : "Unknown Group";
       this.name = 'UnknownGroup';
-      this.status = 404;
+      this.status = 403;
       Error.captureStackTrace(this, UnknownGroup);
     }
 
@@ -94,7 +94,7 @@
     function UnknownSubmission(message) {
       this.message = message != null ? message : "Unknown submission.";
       this.name = 'UnknownSubmission';
-      this.status = 404;
+      this.status = 403;
       Error.captureStackTrace(this, UnknownSubmission);
     }
 
@@ -108,7 +108,7 @@
     function UnknownProblem(message) {
       this.message = message != null ? message : "Unknown problem";
       this.name = 'UnknownProblem';
-      this.status = 404;
+      this.status = 403;
       Error.captureStackTrace(this, UnknownProblem);
     }
 
@@ -136,7 +136,7 @@
     function UnknownJudge(message) {
       this.message = message != null ? message : "Unknown judge.";
       this.name = 'UnknownJudge';
-      this.status = 404;
+      this.status = 403;
       Error.captureStackTrace(this, UnknownJudge);
     }
 
@@ -150,7 +150,7 @@
     function UnknownContest(message) {
       this.message = message != null ? message : "Unknown contest.";
       this.name = 'UnknownContest';
-      this.status = 404;
+      this.status = 403;
       Error.captureStackTrace(this, UnknownContest);
     }
 
