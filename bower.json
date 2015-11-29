@@ -25,6 +25,7 @@
     "MathJax": "~2.5.3",
     "normalize-strings": "normalize#~1.0.4",
     "html5-boilerplate": "~5.2.0",
-    "marked": "~0.3.5"
+    "marked": "~0.3.5",
+    "angular-timer": "~1.3.3"
   }
 }

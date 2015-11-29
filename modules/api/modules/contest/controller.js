@@ -65,7 +65,8 @@
         where: {
           creator_id: req.session.user.id,
           contest_id: req.params.contestId
-        }
+        },
+        order: [['created_at', 'DESC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
       var submission;

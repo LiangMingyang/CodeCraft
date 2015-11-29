@@ -56,6 +56,8 @@
       .then(
         (res)->
           $scope.submissions = res.data #轮询
+#          $scope.submissions.sort (a,b)->
+#            a.id-b.id
           $timeout(subPoller, 1000 + Math.random()*1000)
       ,
         ()->
@@ -64,9 +66,10 @@
     subPoller()
 
 
-
+    #init
     $scope.page = "description"
     $scope.order = 0
+    $scope.form = {}
 
     #Function
 
@@ -93,4 +96,9 @@
         res = String.fromCharCode(num%26 + 65) + res
         num = parseInt(num/26)
       return res
+
+    $scope.submit = (problem)->
+      $http.post("/contest/#{$routeParams.contestId}/problem/#{problem}/submit",$scope.form)
+      .then (r)->
+        console.log r
   ])

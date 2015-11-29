@@ -59,6 +59,7 @@
       subPoller();
       $scope.page = "description";
       $scope.order = 0;
+      $scope.form = {};
       $scope.setPage = function(page) {
         return $scope.page = page;
       };
@@ -74,7 +75,7 @@
       $scope.isProblem = function(order) {
         return $scope.order === order;
       };
-      return $scope.numberToLetters = function(num) {
+      $scope.numberToLetters = function(num) {
         var res;
         if (num === 0) {
           return 'A';
@@ -85,6 +86,11 @@
           num = parseInt(num / 26);
         }
         return res;
+      };
+      return $scope.submit = function(problem) {
+        return $http.post("/contest/" + $routeParams.contestId + "/problem/" + problem + "/submit", $scope.form).then(function(r) {
+          return console.log(r);
+        });
       };
     }
   ]);
