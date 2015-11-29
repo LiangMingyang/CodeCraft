@@ -10,6 +10,7 @@
     function UnknownUser(message) {
       this.message = message != null ? message : "Unknown user.";
       this.name = 'UnknownUser';
+      this.status = 401;
       Error.captureStackTrace(this, UnknownUser);
     }
 
@@ -23,6 +24,7 @@
     function UnknownGroup(message) {
       this.message = message != null ? message : "Unknown Group";
       this.name = 'UnknownGroup';
+      this.status = 404;
       Error.captureStackTrace(this, UnknownGroup);
     }
 
@@ -36,6 +38,7 @@
     function LoginError(message) {
       this.message = message != null ? message : "Wrong password or username.";
       this.name = 'LoginError';
+      this.status = 401;
       Error.captureStackTrace(this, LoginError);
     }
 
@@ -48,8 +51,9 @@
 
     function RegisterError(message) {
       this.message = message != null ? message : "Unvalidated register message.";
-      this.name = 'LoginError';
-      Error.captureStackTrace(this, LoginError);
+      this.name = 'RegisterError';
+      this.status = 400;
+      Error.captureStackTrace(this, RegisterError);
     }
 
     return RegisterError;
@@ -62,6 +66,7 @@
     function InvalidAccess(message) {
       this.message = message != null ? message : "Invalid Access, please return";
       this.name = 'InvalidAccess';
+      this.status = 403;
       Error.captureStackTrace(this, InvalidAccess);
     }
 
@@ -75,6 +80,7 @@
     function UpdateError(message) {
       this.message = message != null ? message : "Unvalidated update message.";
       this.name = 'UpdateError';
+      this.status = 403;
       Error.captureStackTrace(this, UpdateError);
     }
 
@@ -88,6 +94,7 @@
     function UnknownSubmission(message) {
       this.message = message != null ? message : "Unknown submission.";
       this.name = 'UnknownSubmission';
+      this.status = 404;
       Error.captureStackTrace(this, UnknownSubmission);
     }
 
@@ -101,6 +108,7 @@
     function UnknownProblem(message) {
       this.message = message != null ? message : "Unknown problem";
       this.name = 'UnknownProblem';
+      this.status = 404;
       Error.captureStackTrace(this, UnknownProblem);
     }
 
@@ -114,6 +122,7 @@
     function InvalidFile(message) {
       this.message = message != null ? message : "File not exist!";
       this.name = 'InvalidFile';
+      this.status = 403;
       Error.captureStackTrace(this, InvalidFile);
     }
 
@@ -127,6 +136,7 @@
     function UnknownJudge(message) {
       this.message = message != null ? message : "Unknown judge.";
       this.name = 'UnknownJudge';
+      this.status = 404;
       Error.captureStackTrace(this, UnknownJudge);
     }
 
@@ -140,6 +150,7 @@
     function UnknownContest(message) {
       this.message = message != null ? message : "Unknown contest.";
       this.name = 'UnknownContest';
+      this.status = 404;
       Error.captureStackTrace(this, UnknownContest);
     }
 
