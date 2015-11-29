@@ -27,7 +27,7 @@
 
 
 
-<!-- Modal -->
+<!-- form -->
 <div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog"
      aria-labelledby = "myModalLabel" aria-hidden = "true">
 
@@ -45,7 +45,13 @@
             </div>
 
             <div class = "modal-body">
-                <textarea class="form-control" rows="20"></textarea>
+                <label for="lang">Language:</label>
+                <select id="lang" name="lang" class="form-control" ng-model="form.lang" required>
+                    <option ng-repeat="lang in contest.problems[order].test_setting.supported_languages.split(',')" value="{{lang}}">{{lang}}</option>
+                </select>
+                <label for="code" >Code:</label>
+                <textarea class="form-control" rows="20" name="code" id="code" ng-model="form.code"></textarea>
+                <p>form={{form | json}}</p>
             </div>
 
             <div class = "modal-footer">
