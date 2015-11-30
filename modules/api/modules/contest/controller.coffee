@@ -12,7 +12,7 @@ exports.get = (req, res)->
     throw new global.myErrors.UnknownContest() if not contest
     res.json(contest.get({plain:true}))
   .catch (err)->
-    res.status(err.status)
+    res.status(err.status || 400)
     res.json(error:err.message)
 
 
@@ -35,7 +35,7 @@ exports.getRank = (req, res)->
   .then (rank)->
     res.json(rank)
   .catch (err)->
-    res.status(err.status)
+    res.status(err.status || 400)
     res.json(error:err.message)
 
 exports.getSubmissions = (req, res)->
@@ -100,5 +100,5 @@ exports.postSubmissions = (req, res) ->
     res.json(currentSubmission)
 
   .catch (err)->
-    res.status(err.status)
+    res.status(err.status || 400)
     res.json(error:err.message)

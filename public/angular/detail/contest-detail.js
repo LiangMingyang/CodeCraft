@@ -10,6 +10,29 @@
         return $sce.trustAsHtml(marked(text));
       };
     }
+  ]).filter('penalty', [
+    function() {
+      return function(date) {
+        var hours, minutes, peanlty, penalty, seconds;
+        if (!date) {
+          return "--";
+        }
+        penalty = new Date(date);
+        peanlty = penalty.getTime();
+        seconds = (peanlty - peanlty % 1000) / 1000;
+        minutes = (seconds - seconds % 60) / 60;
+        hours = (minutes - minutes % 60) / 60;
+        minutes %= 60;
+        if (minutes < 10) {
+          minutes = '0' + minutes;
+        }
+        seconds %= 60;
+        if (seconds < 10) {
+          seconds = '0' + seconds;
+        }
+        return hours + ":" + minutes + ":" + seconds;
+      };
+    }
   ]).controller('contest-detail', [
     '$scope', '$routeParams', '$http', "$timeout", function($scope, $routeParams, $http, $timeout) {
       var contestPoller, rankPoller, subPoller;
@@ -59,7 +82,9 @@
       subPoller();
       $scope.page = "description";
       $scope.order = 0;
-      $scope.form = {};
+      $scope.form = {
+        lang: 'c++'
+      };
       $scope.setPage = function(page) {
         return $scope.page = page;
       };
@@ -87,13 +112,47 @@
         }
         return res;
       };
-      return $scope.submit = function(order) {
+      $scope.submit = function(order) {
         $scope.form.order = order;
-        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(function(res) {
-          return $scope.submissions.splice(0, 0, res.data);
-        }, function(res) {
-          return alert(res.data);
+        if (!$scope.form.code || $scope.form.code.length < 20) {
+          alert("Code is too short.");
+          return;
+        }
+        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(void 0, function(res) {
+          return alert(res.data.error);
         });
+      };
+      $scope.accepted = function(order) {
+        var res, sub;
+        res = (function() {
+          var j, len, ref, results;
+          ref = $scope.submissions;
+          results = [];
+          for (j = 0, len = ref.length; j < len; j++) {
+            sub = ref[j];
+            if ($scope.idToOrder[sub.problem_id] === order && sub.result === 'AC') {
+              results.push(sub);
+            }
+          }
+          return results;
+        })();
+        return res.length !== 0;
+      };
+      return $scope.tried = function(order) {
+        var res, sub;
+        res = (function() {
+          var j, len, ref, results;
+          ref = $scope.submissions;
+          results = [];
+          for (j = 0, len = ref.length; j < len; j++) {
+            sub = ref[j];
+            if ($scope.idToOrder[sub.problem_id] === order) {
+              results.push(sub);
+            }
+          }
+          return results;
+        })();
+        return res.length !== 0;
       };
     }
   ]);

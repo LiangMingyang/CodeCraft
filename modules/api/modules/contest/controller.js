@@ -20,7 +20,7 @@
         plain: true
       }));
     })["catch"](function(err) {
-      res.status(err.status);
+      res.status(err.status || 400);
       return res.json({
         error: err.message
       });
@@ -51,7 +51,7 @@
     }).then(function(rank) {
       return res.json(rank);
     })["catch"](function(err) {
-      res.status(err.status);
+      res.status(err.status || 400);
       return res.json({
         error: err.message
       });
@@ -147,7 +147,7 @@
     }).then(function() {
       return res.json(currentSubmission);
     })["catch"](function(err) {
-      res.status(err.status);
+      res.status(err.status || 400);
       return res.json({
         error: err.message
       });

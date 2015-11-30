@@ -7,6 +7,21 @@
     $sce.trustAsHtml(marked(text))
 ])
 
+.filter('penalty', [()->
+  (date)->
+    return "--" if not date
+    penalty = new Date(date)
+    peanlty = penalty.getTime()
+    seconds = (peanlty - peanlty%1000)/1000
+    minutes = (seconds - seconds%60)/60
+    hours = (minutes - minutes%60)/60
+    minutes %= 60
+    minutes = '0'+minutes if minutes < 10
+    seconds %= 60
+    seconds = '0'+seconds if seconds < 10
+    return "#{hours}:#{minutes}:#{seconds}"
+])
+
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
     $scope.contest = {
@@ -69,7 +84,7 @@
     #init
     $scope.page = "description"
     $scope.order = 0
-    $scope.form = {}
+    $scope.form = {lang:'c++'}
 
     #Function
 
@@ -99,12 +114,22 @@
 
     $scope.submit = (order)->
       $scope.form.order = order
+      if not $scope.form.code or $scope.form.code.length < 20
+        alert("Code is too short.")
+        return
       $http.post("/api/contest/#{$routeParams.contestId}/submissions",$scope.form)
       .then(
-          (res)->
-            $scope.submissions.splice(0,0,res.data)
+          undefined
         ,
           (res)->
-            alert(res.data)
+            alert(res.data.error)
       )
+
+    $scope.accepted = (order)->
+      res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order and sub.result is 'AC')
+      return res.length isnt 0
+
+    $scope.tried = (order)->
+      res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order)
+      return res.length isnt 0
   ])

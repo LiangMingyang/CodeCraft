@@ -2,7 +2,7 @@
 <div>
     <table class="table table-bordered table-hover">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <td>排名</td>
                 <td>用户</td>
                 <td>得分</td>
@@ -11,14 +11,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="r in rank">
-                <td>{{$index}}</td>
-                <td>{{r.user.nickname}}</td>
+            <tr ng-repeat="r in rank"  class="text-center">
+                <td>{{$index+1}}</td>
+                <td>{{r.user.nickname | limitTo:5}}</td>
                 <td>{{r.score}}</td>
-                <td>{{r.penalty | date: 'HH:mm:ss'}}</td>
+                <td>{{r.penalty | penalty}}</td>
                 <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
                 <td ng-repeat="problem in contest.problems" >
-                    {{r.detail[numberToLetters($index)].accepted_time | date:'HH:mm'}}(-{{r.detail[numberToLetters($index)].wrong_count}})
+                    <!--<p ng-show="r.detail[numberToLetters($index)].accepted_time">-->
+                        {{r.detail[numberToLetters($index)].accepted_time | penalty}}(+{{r.detail[numberToLetters($index)].wrong_count}})
+                    <!--</p>-->
                 </td>
             </tr>
         </tbody>
