@@ -144,7 +144,8 @@
         return
       $http.post("/api/contest/#{$routeParams.contestId}/submissions",$scope.form)
       .then(
-          undefined
+          ()->
+            $scope.form.code = ""
         ,
           (res)->
             alert(res.data.error)

@@ -158,7 +158,9 @@
           alert("Code is too short.");
           return;
         }
-        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(void 0, function(res) {
+        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(function() {
+          return $scope.form.code = "";
+        }, function(res) {
           return alert(res.data.error);
         });
       };

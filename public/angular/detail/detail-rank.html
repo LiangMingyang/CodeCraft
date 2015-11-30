@@ -7,7 +7,7 @@
                 <td>用户</td>
                 <td>得分</td>
                 <td>罚时</td>
-                <td ng-repeat="problem in contest.problems">
+                <td ng-repeat="problem in contest.problems" ng-click="setPage('problem');setProblem($index)">
                     <a ng-click="setPage('problem');setProblem($index)">{{numberToLetters($index)}}</a>
                     <!--<br>-->
                     <p>

@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">
+        <tr ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true" ng-class="{'danger':submission.result != 'AC' && submission.result != 'WT'}">
             <td>{{submission.id}}</td>
             <td>{{submission.result}}</td>
             <td>{{submission.time_cost}}</td>
