@@ -9,7 +9,7 @@
 
 .filter('penalty', [()->
   (date)->
-    return "--" if not date
+    return "" if not date
     penalty = new Date(date)
     peanlty = penalty.getTime()
     seconds = (peanlty - peanlty%1000)/1000
@@ -22,8 +22,32 @@
     return "#{hours}:#{minutes}:#{seconds}"
 ])
 
+.filter('wrongCount', [()->
+  (wrong_count)->
+    return "" if not wrong_count or wrong_count is 0
+    return "(+#{wrong_count})"
+])
+
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
+
+    rankStatistics = (rank)->
+      triedPeopleCount = {}
+      acceptedPeopleCount = {}
+      triedSubCount = {}
+      for r in rank
+        for p of r.detail
+          acceptedPeopleCount[p] ?= 0
+          ++acceptedPeopleCount[p] if r.detail[p].result is 'AC'
+          triedPeopleCount[p] ?= 0
+          ++triedPeopleCount[p]
+          triedSubCount[p] ?= 0
+          triedSubCount[p] += r.detail[p].wrong_count + 1
+      return {
+        triedPeopleCount : triedPeopleCount
+        acceptedPeopleCount : acceptedPeopleCount
+        triedSubCount : triedSubCount
+      }
     $scope.contest = {
       title: "Waiting for data..."
       description: "Waiting for data..."
@@ -57,6 +81,7 @@
       .then(
         (res)->
           $scope.rank = JSON.parse(res.data) #轮询
+          $scope.rankStatistics = rankStatistics($scope.rank)
           $timeout(rankPoller,5000+Math.random()*5000)
       ,
         ()->

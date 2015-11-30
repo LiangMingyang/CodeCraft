@@ -15,7 +15,7 @@
       return function(date) {
         var hours, minutes, peanlty, penalty, seconds;
         if (!date) {
-          return "--";
+          return "";
         }
         penalty = new Date(date);
         peanlty = penalty.getTime();
@@ -33,9 +33,48 @@
         return hours + ":" + minutes + ":" + seconds;
       };
     }
+  ]).filter('wrongCount', [
+    function() {
+      return function(wrong_count) {
+        if (!wrong_count || wrong_count === 0) {
+          return "";
+        }
+        return "(+" + wrong_count + ")";
+      };
+    }
   ]).controller('contest-detail', [
     '$scope', '$routeParams', '$http', "$timeout", function($scope, $routeParams, $http, $timeout) {
-      var contestPoller, rankPoller, subPoller;
+      var contestPoller, rankPoller, rankStatistics, subPoller;
+      rankStatistics = function(rank) {
+        var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
+        triedPeopleCount = {};
+        acceptedPeopleCount = {};
+        triedSubCount = {};
+        for (j = 0, len = rank.length; j < len; j++) {
+          r = rank[j];
+          for (p in r.detail) {
+            if (acceptedPeopleCount[p] == null) {
+              acceptedPeopleCount[p] = 0;
+            }
+            if (r.detail[p].result === 'AC') {
+              ++acceptedPeopleCount[p];
+            }
+            if (triedPeopleCount[p] == null) {
+              triedPeopleCount[p] = 0;
+            }
+            ++triedPeopleCount[p];
+            if (triedSubCount[p] == null) {
+              triedSubCount[p] = 0;
+            }
+            triedSubCount[p] += r.detail[p].wrong_count + 1;
+          }
+        }
+        return {
+          triedPeopleCount: triedPeopleCount,
+          acceptedPeopleCount: acceptedPeopleCount,
+          triedSubCount: triedSubCount
+        };
+      };
       $scope.contest = {
         title: "Waiting for data...",
         description: "Waiting for data..."
@@ -64,6 +103,7 @@
       rankPoller = function() {
         return $http.get("/api/contest/" + $routeParams.contestId + "/rank").then(function(res) {
           $scope.rank = JSON.parse(res.data);
+          $scope.rankStatistics = rankStatistics($scope.rank);
           return $timeout(rankPoller, 5000 + Math.random() * 5000);
         }, function() {
           return $timeout(rankPoller, Math.random() * 10000);

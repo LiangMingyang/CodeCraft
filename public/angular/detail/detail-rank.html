@@ -7,7 +7,13 @@
                 <td>用户</td>
                 <td>得分</td>
                 <td>罚时</td>
-                <td ng-repeat="problem in contest.problems">{{numberToLetters($index)}}</td>
+                <td ng-repeat="problem in contest.problems">
+                    <a ng-click="setPage('problem');setProblem($index)">{{numberToLetters($index)}}</a>
+                    <!--<br>-->
+                    <p>
+                        ({{rankStatistics.acceptedPeopleCount[numberToLetters($index)]}}/{{rankStatistics.triedPeopleCount[numberToLetters($index)]}})
+                    </p>
+                </td>
             </tr>
         </thead>
         <tbody>
@@ -17,9 +23,11 @@
                 <td>{{r.score}}</td>
                 <td>{{r.penalty | penalty}}</td>
                 <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
-                <td ng-repeat="problem in contest.problems" >
+                <td ng-repeat="problem in contest.problems"
+                    ng-class = "{ 'danger': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score === 0, 'success': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result == 'AC', 'info': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].first_blood, 'warning': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score > 0} "
+                >
                     <!--<p ng-show="r.detail[numberToLetters($index)].accepted_time">-->
-                        {{r.detail[numberToLetters($index)].accepted_time | penalty}}(+{{r.detail[numberToLetters($index)].wrong_count}})
+                        {{r.detail[numberToLetters($index)].accepted_time | penalty}}{{r.detail[numberToLetters($index)].wrong_count | wrongCount}}
                     <!--</p>-->
                 </td>
             </tr>
