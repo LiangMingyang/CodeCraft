@@ -81,7 +81,7 @@
       };
       $scope.idToOrder = {};
       contestPoller = function() {
-        return $http.get("/api/contest/" + $routeParams.contestId).then(function(res) {
+        return $http.get("/api/contests/" + $routeParams.contestId).then(function(res) {
           var contest, i, j, len, p, ref;
           contest = res.data;
           contest.problems.sort(function(a, b) {
@@ -94,25 +94,39 @@
             $scope.idToOrder[p.id] = i;
           }
           return $scope.contest = contest;
-        }, function() {
+        }, function(res) {
+          $.notify(res.data.error, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'danger'
+          });
           return $timeout(contestPoller, Math.random() * 10000);
         });
       };
       contestPoller();
       $scope.rank = [];
       rankPoller = function() {
-        return $http.get("/api/contest/" + $routeParams.contestId + "/rank").then(function(res) {
+        return $http.get("/api/contests/" + $routeParams.contestId + "/rank").then(function(res) {
           $scope.rank = JSON.parse(res.data);
           $scope.rankStatistics = rankStatistics($scope.rank);
           return $timeout(rankPoller, 5000 + Math.random() * 5000);
-        }, function() {
+        }, function(res) {
+          $.notify(res.data.error, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'danger'
+          });
           return $timeout(rankPoller, Math.random() * 10000);
         });
       };
       rankPoller();
       $scope.submissions = [];
       subPoller = function() {
-        return $http.get("/api/contest/" + $routeParams.contestId + "/submissions").then(function(res) {
+        return $http.get("/api/contests/" + $routeParams.contestId + "/submissions").then(function(res) {
           $scope.submissions = res.data;
           return $timeout(subPoller, 1000 + Math.random() * 1000);
         }, function() {
@@ -158,10 +172,23 @@
           alert("Code is too short.");
           return;
         }
-        return $http.post("/api/contest/" + $routeParams.contestId + "/submissions", $scope.form).then(function() {
-          return $scope.form.code = "";
+        return $http.post("/api/contests/" + $routeParams.contestId + "/submissions", $scope.form).then(function() {
+          $scope.form.code = "";
+          return $.notify("提交成功", {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'success'
+          });
         }, function(res) {
-          return alert(res.data.error);
+          return $.notify(res.data.error, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'danger'
+          });
         });
       };
       $scope.accepted = function(order) {

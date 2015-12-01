@@ -10,7 +10,7 @@
 
   modules = require('./modules');
 
-  router.use('/contest', modules.contest.router);
+  router.use('/contests', modules.contest.router).use('/users', modules.user.router);
 
   module.exports = router;
 

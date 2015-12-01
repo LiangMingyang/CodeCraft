@@ -4,7 +4,7 @@ controller = require('./controller')
 
 
 router
-.get '/:contestId', controller.get
+.get '/:contestId', controller.getContest
 
 .get '/:contestId/rank', controller.getRank
 

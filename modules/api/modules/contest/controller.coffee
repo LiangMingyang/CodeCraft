@@ -1,4 +1,4 @@
-exports.get = (req, res)->
+exports.getContest = (req, res)->
   Group = global.db.models.group
   Problem = global.db.models.problem
   global.db.Promise.resolve()
@@ -73,6 +73,7 @@ exports.postSubmissions = (req, res) ->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
+    throw new global.myErrors.UnknownUser() if not user
     global.myUtils.findContest(user,req.params.contestId,[
       model: Problem
     ])
@@ -95,6 +96,7 @@ exports.postSubmissions = (req, res) ->
     global.myUtils.createSubmissionTransaction(form, form_code, currentProblem, currentUser)
   .then (submission) ->
     currentSubmission = submission.get(plain: true) if submission
+    console.log currentContest
     currentContest.addSubmission(submission)
   .then ->
     res.json(currentSubmission)

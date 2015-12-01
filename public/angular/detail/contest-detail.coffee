@@ -31,6 +31,21 @@
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
 
+#    $timeout(->
+#      $.notify("Enter: Fade In and RightExit: Fade Out and Right",
+#        animate: {
+#          enter: 'animated fadeInRight',
+#          exit: 'animated fadeOutRight'
+#        }
+#        type: 'danger'
+#      )
+#    , 1000)
+#    $.notify("Enter: Fade In and RightExit: Fade Out and Right", {
+#      animate: {
+#        enter: 'animated fadeInRight',
+#        exit: 'animated fadeOutRight'
+#      }
+#    });
     rankStatistics = (rank)->
       triedPeopleCount = {}
       acceptedPeopleCount = {}
@@ -55,7 +70,7 @@
     $scope.idToOrder = {}
 
     contestPoller = ()->
-      $http.get("/api/contest/#{$routeParams.contestId}")
+      $http.get("/api/contests/#{$routeParams.contestId}")
       .then(
         (res)->
           contest = res.data
@@ -67,7 +82,15 @@
           $scope.contest = contest  #轮询
           #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
       ,
-        ()->
+        (res)->
+          #alert(res.data.error)
+          $.notify(res.data.error,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'danger'
+          )
           $timeout(contestPoller,Math.random()*10000)
       )
     contestPoller()
@@ -77,14 +100,22 @@
     $scope.rank = []
 
     rankPoller = ()->
-      $http.get("/api/contest/#{$routeParams.contestId}/rank")
+      $http.get("/api/contests/#{$routeParams.contestId}/rank")
       .then(
         (res)->
           $scope.rank = JSON.parse(res.data) #轮询
           $scope.rankStatistics = rankStatistics($scope.rank)
           $timeout(rankPoller,5000+Math.random()*5000)
       ,
-        ()->
+        (res)->
+          #alert(res.data.error)
+          $.notify(res.data.error,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'danger'
+          )
           $timeout(rankPoller,Math.random()*10000)
       )
     rankPoller()
@@ -92,7 +123,7 @@
     $scope.submissions = []
 
     subPoller = ()->
-      $http.get("/api/contest/#{$routeParams.contestId}/submissions")
+      $http.get("/api/contests/#{$routeParams.contestId}/submissions")
       .then(
         (res)->
           $scope.submissions = res.data #轮询
@@ -142,13 +173,26 @@
       if not $scope.form.code or $scope.form.code.length < 20
         alert("Code is too short.")
         return
-      $http.post("/api/contest/#{$routeParams.contestId}/submissions",$scope.form)
+      $http.post("/api/contests/#{$routeParams.contestId}/submissions",$scope.form)
       .then(
           ()->
             $scope.form.code = ""
+            $.notify("提交成功",
+              animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+              }
+              type: 'success'
+            )
         ,
           (res)->
-            alert(res.data.error)
+            $.notify(res.data.error,
+              animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+              }
+              type: 'danger'
+            )
       )
 
     $scope.accepted = (order)->

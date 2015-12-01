@@ -9,7 +9,7 @@
 ##获取比赛信息
 
 - 方法: `GET`
-- 路由: `/contest/:contestId`
+- 路由: `/contests/:contestId`
 - 发送参数:
 - 返回结果:
     - status | {number}  : 2xx(成功)或者4xx(出错)
@@ -19,7 +19,7 @@
 ##获取用户在比赛中的所有提交
 
 - 方法: `GET`
-- 路由: `/contest/:contestId/submissions`
+- 路由: `/contests/:contestId/submissions`
 - 发送参数:
 - 返回结果:
     - status | {number}  : 2xx(成功)或者4xx(出错)
@@ -29,7 +29,7 @@
 ##用户提交代码
 
 - 方法: `POST`
-- 路由: `/contest/:contestId/submissions`
+- 路由: `/contests/:contestId/submissions`
 - 发送参数:
     - order | {number} : 题目
     - lang | {string} : 提交代码的语言
@@ -41,10 +41,21 @@
 ##获取比赛排名
 
 - 方法: `GET`
-- 路由: `/contest/:contestId/rank`
+- 路由: `/contests/:contestId/rank`
 - 发送参数:
 - 返回结果:
     - status | {number}  : 2xx(成功)或者4xx(出错)
     - rank | {array} : 排名的每一个条目
+    - error | {string}  : 如果出错则此处有错误信息
+    
+    
+###获取当前用户信息
+
+- 方法: `GET`
+- 路由: `/users/me`
+- 发送参数:
+- 返回结果:
+    - status | {number}  : 2xx(成功)或者4xx(出错)
+    - user | {object} : 当前用户对象
     - error | {string}  : 如果出错则此处有错误信息
 

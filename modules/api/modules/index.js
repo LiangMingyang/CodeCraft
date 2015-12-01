@@ -2,6 +2,8 @@
 (function() {
   exports.contest = require('./contest');
 
+  exports.user = require('./user');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map
