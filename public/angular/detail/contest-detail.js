@@ -44,7 +44,7 @@
     }
   ]).controller('contest-detail', [
     '$scope', '$routeParams', '$http', "$timeout", function($scope, $routeParams, $http, $timeout) {
-      var contestPoller, rankPoller, rankStatistics, subPoller;
+      var contestPoller, rankPoller, rankStatistics, subPoller, userPoller;
       rankStatistics = function(rank) {
         var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
         triedPeopleCount = {};
@@ -80,6 +80,25 @@
         description: "Waiting for data..."
       };
       $scope.idToOrder = {};
+      $scope.user = {
+        nickname: "游客"
+      };
+      userPoller = function() {
+        return $http.get("/api/users/me").then(function(res) {
+          $scope.user = res.data;
+          return $timeout(userPoller, 1000 + Math.random() * 1000);
+        }, function(res) {
+          $.notify(res.data.error, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'danger'
+          });
+          return $timeout(userPoller, Math.random() * 10000);
+        });
+      };
+      userPoller();
       contestPoller = function() {
         return $http.get("/api/contests/" + $routeParams.contestId).then(function(res) {
           var contest, i, j, len, p, ref;

@@ -4,7 +4,9 @@
     </a>
 </div>
 <div>
-    <h1 class="text-center">{{numberToLetters(order)}}:{{contest.problems[order].title}}</h1>
+    <h1 class="text-center">
+        <code>{{numberToLetters(order)}}</code>
+        {{contest.problems[order].title}}</h1>
     <div class="problem-limit">
         <p class="text-center">时间限制:{{contest.problems[order].test_setting.time_limit}}ms 空间限制:{{contest.problems[order].test_setting.memory_limit}}kb</p>
     </div>

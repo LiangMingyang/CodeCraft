@@ -54,6 +54,31 @@
     }
     $scope.idToOrder = {}
 
+
+    $scope.user = {
+      nickname: "游客"
+    }
+
+    userPoller = ()->
+      $http.get("/api/users/me")
+      .then(
+        (res)->
+          $scope.user = res.data
+          $timeout(userPoller,1000+Math.random()*1000)
+      ,
+        (res)->
+#alert(res.data.error)
+          $.notify(res.data.error,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'danger'
+          )
+          $timeout(userPoller,Math.random()*10000)
+      )
+    userPoller()
+
     contestPoller = ()->
       $http.get("/api/contests/#{$routeParams.contestId}")
       .then(
@@ -126,6 +151,7 @@
     $scope.page = "description"
     $scope.order = 0
     $scope.form = {lang:'c++'}
+
 
     #Function
 

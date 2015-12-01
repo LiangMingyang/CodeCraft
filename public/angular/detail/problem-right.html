@@ -1,7 +1,21 @@
 <h3>通过状态</h3>
+<div>
+    <p>
+        通过人数比：{{rankStatistics.acceptedPeopleCount[numberToLetters(order)]}}/{{rankStatistics.triedPeopleCount[numberToLetters(order)]}}
+        <code>
+            ({{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedPeopleCount[numberToLetters(order)]*100 | number:2}}%)
+        </code>
+    </p>
+    <p>
+        通过次数比：{{rankStatistics.acceptedPeopleCount[numberToLetters(order)]}}/{{rankStatistics.triedSubCount[numberToLetters(order)]}}
+        <code>
+            ({{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%)
+        </code>
+    </p>
+</div>
 <!-- Button trigger modal -->
 <button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
-    submit
+    提交
 </button>
 <h3>Your submissions</h3>
 <table class="table table-condensed table-bordered">
@@ -14,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true" ng-class="{'danger':submission.result != 'AC' && submission.result != 'WT'}">
+        <tr ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">
             <td>{{submission.id}}</td>
             <td>{{submission.result}}</td>
             <td>{{submission.time_cost}}</td>
@@ -40,16 +54,22 @@
                 </button>
 
                 <h4 class = "modal-title" id = "myModalLabel">
-                    Your Code
+                    交给{{numberToLetters(order)}}题的代码
                 </h4>
+                <p>
+                    该题通过率为
+                    <code>
+                        {{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%
+                    </code>
+                </p>
             </div>
 
             <div class = "modal-body">
-                <label for="lang">Language:</label>
+                <label for="lang">语言:</label>
                 <select id="lang" name="lang" class="form-control" ng-model="form.lang" required>
                     <option ng-repeat="lang in contest.problems[order].test_setting.supported_languages.split(',')" value="{{lang}}">{{lang}}</option>
                 </select>
-                <label for="code" >Code:</label>
+                <label for="code" >代码:</label>
                 <textarea class="form-control" rows="20" name="code" id="code" ng-model="form.code"></textarea>
             </div>
 
