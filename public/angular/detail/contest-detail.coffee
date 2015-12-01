@@ -31,21 +31,6 @@
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
 
-#    $timeout(->
-#      $.notify("Enter: Fade In and RightExit: Fade Out and Right",
-#        animate: {
-#          enter: 'animated fadeInRight',
-#          exit: 'animated fadeOutRight'
-#        }
-#        type: 'danger'
-#      )
-#    , 1000)
-#    $.notify("Enter: Fade In and RightExit: Fade Out and Right", {
-#      animate: {
-#        enter: 'animated fadeInRight',
-#        exit: 'animated fadeOutRight'
-#      }
-#    });
     rankStatistics = (rank)->
       triedPeopleCount = {}
       acceptedPeopleCount = {}

@@ -11,7 +11,7 @@
                     <a ng-click="setPage('problem');setProblem($index)">{{numberToLetters($index)}}</a>
                     <!--<br>-->
                     <p>
-                        ({{rankStatistics.acceptedPeopleCount[numberToLetters($index)]}}/{{rankStatistics.triedPeopleCount[numberToLetters($index)]}})
+                        {{rankStatistics.acceptedPeopleCount[numberToLetters($index)]}}/{{rankStatistics.triedPeopleCount[numberToLetters($index)]}}
                     </p>
                 </td>
             </tr>
