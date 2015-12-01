@@ -168,8 +168,8 @@
       };
       $scope.submit = function(order) {
         $scope.form.order = order;
-        if (!$scope.form.code || $scope.form.code.length < 20) {
-          alert("Code is too short.");
+        if (!$scope.form.code || $scope.form.code.length < 10) {
+          alert("代码太短了，拒绝提交");
           return;
         }
         return $http.post("/api/contests/" + $routeParams.contestId + "/submissions", $scope.form).then(function() {

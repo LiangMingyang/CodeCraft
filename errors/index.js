@@ -8,7 +8,7 @@
     extend(UnknownUser, superClass);
 
     function UnknownUser(message) {
-      this.message = message != null ? message : "Unknown user.";
+      this.message = message != null ? message : "请先登录";
       this.name = 'UnknownUser';
       this.status = 401;
       Error.captureStackTrace(this, UnknownUser);
@@ -22,7 +22,7 @@
     extend(UnknownGroup, superClass);
 
     function UnknownGroup(message) {
-      this.message = message != null ? message : "Unknown Group";
+      this.message = message != null ? message : "小组不存在，或者你没有权限";
       this.name = 'UnknownGroup';
       this.status = 403;
       Error.captureStackTrace(this, UnknownGroup);
@@ -36,7 +36,7 @@
     extend(LoginError, superClass);
 
     function LoginError(message) {
-      this.message = message != null ? message : "Wrong password or username.";
+      this.message = message != null ? message : "用户名或密码错误";
       this.name = 'LoginError';
       this.status = 401;
       Error.captureStackTrace(this, LoginError);
@@ -50,7 +50,7 @@
     extend(RegisterError, superClass);
 
     function RegisterError(message) {
-      this.message = message != null ? message : "Unvalidated register message.";
+      this.message = message != null ? message : "注册信息有误";
       this.name = 'RegisterError';
       this.status = 400;
       Error.captureStackTrace(this, RegisterError);
@@ -64,7 +64,7 @@
     extend(InvalidAccess, superClass);
 
     function InvalidAccess(message) {
-      this.message = message != null ? message : "Invalid Access, please return";
+      this.message = message != null ? message : "做不到";
       this.name = 'InvalidAccess';
       this.status = 403;
       Error.captureStackTrace(this, InvalidAccess);
@@ -78,7 +78,7 @@
     extend(UpdateError, superClass);
 
     function UpdateError(message) {
-      this.message = message != null ? message : "Unvalidated update message.";
+      this.message = message != null ? message : "更新出错";
       this.name = 'UpdateError';
       this.status = 403;
       Error.captureStackTrace(this, UpdateError);
@@ -92,7 +92,7 @@
     extend(UnknownSubmission, superClass);
 
     function UnknownSubmission(message) {
-      this.message = message != null ? message : "Unknown submission.";
+      this.message = message != null ? message : "提交记录不存在，或者你没有权限";
       this.name = 'UnknownSubmission';
       this.status = 403;
       Error.captureStackTrace(this, UnknownSubmission);
@@ -106,7 +106,7 @@
     extend(UnknownProblem, superClass);
 
     function UnknownProblem(message) {
-      this.message = message != null ? message : "Unknown problem";
+      this.message = message != null ? message : "题目不存在，或者你没有权限";
       this.name = 'UnknownProblem';
       this.status = 403;
       Error.captureStackTrace(this, UnknownProblem);
@@ -120,7 +120,7 @@
     extend(InvalidFile, superClass);
 
     function InvalidFile(message) {
-      this.message = message != null ? message : "File not exist!";
+      this.message = message != null ? message : "文件不存在，或者你没有权限";
       this.name = 'InvalidFile';
       this.status = 403;
       Error.captureStackTrace(this, InvalidFile);
@@ -134,7 +134,7 @@
     extend(UnknownJudge, superClass);
 
     function UnknownJudge(message) {
-      this.message = message != null ? message : "Unknown judge.";
+      this.message = message != null ? message : "评测机不合法";
       this.name = 'UnknownJudge';
       this.status = 403;
       Error.captureStackTrace(this, UnknownJudge);
@@ -148,7 +148,7 @@
     extend(UnknownContest, superClass);
 
     function UnknownContest(message) {
-      this.message = message != null ? message : "Unknown contest.";
+      this.message = message != null ? message : "比赛不存在，或者你没有权限";
       this.name = 'UnknownContest';
       this.status = 403;
       Error.captureStackTrace(this, UnknownContest);

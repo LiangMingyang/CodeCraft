@@ -170,8 +170,8 @@
 
     $scope.submit = (order)->
       $scope.form.order = order
-      if not $scope.form.code or $scope.form.code.length < 20
-        alert("Code is too short.")
+      if not $scope.form.code or $scope.form.code.length < 10
+        alert("代码太短了，拒绝提交")
         return
       $http.post("/api/contests/#{$routeParams.contestId}/submissions",$scope.form)
       .then(
