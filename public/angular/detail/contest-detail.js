@@ -114,6 +114,9 @@
           }
           return $scope.contest = contest;
         }, function(res) {
+          if (!$scope.user.id) {
+            res.data.error = "该比赛需要登录才可以查看";
+          }
           $.notify(res.data.error, {
             animate: {
               enter: 'animated fadeInRight',
@@ -132,6 +135,9 @@
           $scope.rankStatistics = rankStatistics($scope.rank);
           return $timeout(rankPoller, 5000 + Math.random() * 5000);
         }, function(res) {
+          if (!$scope.user.id) {
+            res.data.error = "该比赛需要登录才可以查看";
+          }
           $.notify(res.data.error, {
             animate: {
               enter: 'animated fadeInRight',

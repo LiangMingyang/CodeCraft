@@ -94,6 +94,7 @@
       ,
         (res)->
           #alert(res.data.error)
+          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
           $.notify(res.data.error,
             animate: {
               enter: 'animated fadeInRight',
@@ -119,6 +120,7 @@
       ,
         (res)->
           #alert(res.data.error)
+          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
           $.notify(res.data.error,
             animate: {
               enter: 'animated fadeInRight',
