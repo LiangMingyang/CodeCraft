@@ -4,11 +4,23 @@
     </a>
 </div>
 <div>
-    <h1 class="text-center">
+    <h1 class="text-center problem-title">
         <code>{{numberToLetters(order)}}</code>
         {{contest.problems[order].title}}</h1>
     <div class="problem-limit">
-        <p class="text-center">时间限制:{{contest.problems[order].test_setting.time_limit}}ms 空间限制:{{contest.problems[order].test_setting.memory_limit}}kb</p>
+        <p class="text-center">时间限制：{{contest.problems[order].test_setting.time_limit}}ms &nbsp 内存限制：{{contest.problems[order].test_setting.memory_limit}}kb</p>
     </div>
-    <div ng-bind-html="contest.problems[order].description | marked"></div>
+    <div>
+        <p class="text-center">
+            通过率：{{rankStatistics.acceptedPeopleCount[numberToLetters(order)]}}/{{rankStatistics.triedPeopleCount[numberToLetters(order)]}}
+            <code>
+                ({{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedPeopleCount[numberToLetters(order)]*100 | number:2}}%)
+            </code>&nbsp&nbsp
+            正确率：{{rankStatistics.acceptedPeopleCount[numberToLetters(order)]}}/{{rankStatistics.triedSubCount[numberToLetters(order)]}}
+            <code>
+                ({{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%)
+            </code>
+        </p>
+    </div>
+    <div class="markdown-body" ng-bind-html="contest.problems[order].description | marked"></div>
 </div>
