@@ -1,6 +1,6 @@
 /* app css stylesheet */
 
-.menu {
+/*.menu {
   list-style: none;
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
@@ -27,4 +27,10 @@
 .menu > li:nth-child(1):before {
   content: "";
   padding: 0;
+}*/
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #333;
+  background-color: #e5e5e5;
 }

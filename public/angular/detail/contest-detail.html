@@ -1,41 +1,51 @@
-<div class="collapse navbar navbar-collapse navbar-default">
-    <ul class="nav navbar-nav navbar-middle">
-        <li>
-            <a href="/">主页</a>
-        </li>
-        <li>
-            <a href="/group/index">小组</a>
-        </li>
-        <li>
-            <a href="/problem/index">题目</a>
-        </li>
-        <li class="active">
-            <a href="/contest/index">赛事</a>
-        </li>
-        <li>
-            <a href="/submission/index">评测记录</a>
-        </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right" ng-show="user.id">
-        <li>
-            <a href="/user/{{user.id}}/index">{{user.nickname}}</a>
-        </li>
-        <li>
-            <a href="/user/logout">登出</a>
-        </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right" ng-hide="user.id">
-        <li>
-            <a href="/user/login">登录</a>
-        </li>
-        <li>
-            <a href="/user/register">注册</a>
-        </li>
-    </ul>
+<nav class="navbar navbar-default">
+    <div class="navbar-header">
+        <button type="button" data-toggle="collapse" data-target="#nav-ul" class="navbar-toggle collapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="/" id="logo" class="navbar-brand">BUAA ONLINE JUDGE</a>
+    </div>
+    <div class="collapse navbar-collapse" id="nav-ul">
+        <ul class="nav navbar-nav navbar-middle">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="/group/index">小组</a>
+            </li>
+            <li>
+                <a href="/problem/index">题目</a>
+            </li>
+            <li class="active">
+                <a href="/contest/index">赛事</a>
+            </li>
+            <li>
+                <a href="/submission/index">评测记录</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-show="user.id">
+            <li>
+                <a href="/user/{{user.id}}/index">{{user.nickname}}</a>
+            </li>
+            <li>
+                <a href="/user/logout">登出</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-hide="user.id">
+            <li>
+                <a href="/user/login">登录</a>
+            </li>
+            <li>
+                <a href="/user/register">注册</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-</div>
-
-<div class="col-lg-2">
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
     <h4>{{contest.title}}</h4>
     <div class="form-horizontal">
         <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('description') }" ng-click="setPage('description')">简介</a>
@@ -45,19 +55,19 @@
     </div>
 </div>
 
-<div class="col-lg-8" ng-show="isPage('description')">
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('description')">
     <h4>比赛简介</h4>
     <div class="container">{{contest.description}}</div>
 </div>
 
-<div class="col-lg-8" ng-show="isPage('problem')" ng-include="'detail/detail-problem.html'">
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/detail-problem.html'">
 </div>
 
-<div class="col-lg-2" ng-show="isPage('problem')" ng-include="'detail/problem-right.html'">
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/problem-right.html'">
 </div>
 
-<div class="col-lg-10" ng-show="isPage('rank')" ng-include="'detail/detail-rank.html'">
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('rank')" ng-include="'detail/detail-rank.html'">
 </div>
 
-<div class="col-lg-8" ng-show="isPage('submission')" ng-include="'detail/detail-submission.html'">
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('submission')" ng-include="'detail/detail-submission.html'">
 </div>
