@@ -35,41 +35,16 @@
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout",'$resource','poller', ($scope, $routeParams, $http, $timeout, $resource, poller)->
     #data
 
-    rankStatistics = (rank)->
-      triedPeopleCount = {}
-      acceptedPeopleCount = {}
-      triedSubCount = {}
-      for r in rank
-        for p of r.detail
-          acceptedPeopleCount[p] ?= 0
-          ++acceptedPeopleCount[p] if r.detail[p].result is 'AC'
-          triedPeopleCount[p] ?= 0
-          ++triedPeopleCount[p]
-          triedSubCount[p] ?= 0
-          triedSubCount[p] += r.detail[p].wrong_count + 1
-      return {
-        triedPeopleCount : triedPeopleCount
-        acceptedPeopleCount : acceptedPeopleCount
-        triedSubCount : triedSubCount
-      }
-    $scope.contest = {
+    $scope.contest ?= {
       title: "Waiting for data..."
       description: "Waiting for data..."
     }
-    $scope.idToOrder = {}
-    Contest = $resource('/api/contests/:contestId', contestId:$routeParams.contestId)
-    Contest.get(contestId:$routeParams.contestId,(contest)->
-      contest.problems.sort (a,b)->
-        a.contest_problem_list.order-b.contest_problem_list.order
-      for p,i in contest.problems
-        p.test_setting = JSON.parse(p.test_setting)
-        $scope.idToOrder[p.id] = i
-      $scope.contest = contest
-    )
+    $scope.idToOrder ?= {}
+    $scope.page ?= "description"
+    $scope.order ?= 0
+    $scope.form ?= {lang:'c++'}
 
-
-
-    $scope.user = {
+    $scope.user ?= {
       nickname: "游客"
     }
 
@@ -78,10 +53,9 @@
       .then(
         (res)->
           $scope.user = res.data
-          $timeout(userPoller,1000+Math.random()*1000)
+          $timeout(userPoller,10000+Math.random()*1000)
       ,
         (res)->
-#alert(res.data.error)
           $.notify(res.data.error,
             animate: {
               enter: 'animated fadeInRight',
@@ -93,31 +67,31 @@
       )
     userPoller()
 
-#    contestPoller = ()->
-#      $http.get("/api/contests/#{$routeParams.contestId}")
-#      .then(
-#        (res)->
-#          contest = res.data
-#          contest.problems.sort (a,b)->
-#            a.contest_problem_list.order-b.contest_problem_list.order
-#          for p,i in contest.problems
-#            p.test_setting = JSON.parse(p.test_setting)
-#            $scope.idToOrder[p.id] = i
-#          $scope.contest = contest  #轮询
-#          #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
-#      ,
-#        (res)->
-#          #alert(res.data.error)
-#          $.notify(res.data.error,
-#            animate: {
-#              enter: 'animated fadeInRight',
-#              exit: 'animated fadeOutRight'
-#            }
-#            type: 'danger'
-#          )
-#          $timeout(contestPoller,Math.random()*10000)
-#      )
-#    contestPoller()
+    contestPoller = ()->
+      $http.get("/api/contests/#{$routeParams.contestId}")
+      .then(
+        (res)->
+          contest = res.data
+          contest.problems.sort (a,b)->
+            a.contest_problem_list.order-b.contest_problem_list.order
+          for p,i in contest.problems
+            p.test_setting = JSON.parse(p.test_setting)
+            $scope.idToOrder[p.id] = i
+          $scope.contest = contest  #轮询
+          #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
+      ,
+        (res)->
+          #alert(res.data.error)
+          $.notify(res.data.error,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'danger'
+          )
+          $timeout(contestPoller,Math.random()*10000)
+      )
+    contestPoller()
 
 
 
@@ -151,21 +125,12 @@
       .then(
         (res)->
           $scope.submissions = res.data #轮询
-#          $scope.submissions.sort (a,b)->
-#            a.id-b.id
           $timeout(subPoller, 1000 + Math.random()*1000)
       ,
         ()->
           $timeout(subPoller,Math.random()*5000)
       )
     subPoller()
-
-
-    #init
-    $scope.page = "description"
-    $scope.order = 0
-    $scope.form = {lang:'c++'}
-
 
     #Function
 
@@ -227,4 +192,23 @@
     $scope.tried = (order)->
       res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order)
       return res.length isnt 0
+
+    #private functions
+    rankStatistics = (rank)->
+      triedPeopleCount = {}
+      acceptedPeopleCount = {}
+      triedSubCount = {}
+      for r in rank
+        for p of r.detail
+          acceptedPeopleCount[p] ?= 0
+          ++acceptedPeopleCount[p] if r.detail[p].result is 'AC'
+          triedPeopleCount[p] ?= 0
+          ++triedPeopleCount[p]
+          triedSubCount[p] ?= 0
+          triedSubCount[p] += r.detail[p].wrong_count + 1
+      return {
+        triedPeopleCount : triedPeopleCount
+        acceptedPeopleCount : acceptedPeopleCount
+        triedSubCount : triedSubCount
+      }
   ])

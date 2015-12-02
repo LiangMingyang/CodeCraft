@@ -44,67 +44,36 @@
     }
   ]).controller('contest-detail', [
     '$scope', '$routeParams', '$http', "$timeout", '$resource', 'poller', function($scope, $routeParams, $http, $timeout, $resource, poller) {
-      var Contest, rankPoller, rankStatistics, subPoller, userPoller;
-      rankStatistics = function(rank) {
-        var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
-        triedPeopleCount = {};
-        acceptedPeopleCount = {};
-        triedSubCount = {};
-        for (j = 0, len = rank.length; j < len; j++) {
-          r = rank[j];
-          for (p in r.detail) {
-            if (acceptedPeopleCount[p] == null) {
-              acceptedPeopleCount[p] = 0;
-            }
-            if (r.detail[p].result === 'AC') {
-              ++acceptedPeopleCount[p];
-            }
-            if (triedPeopleCount[p] == null) {
-              triedPeopleCount[p] = 0;
-            }
-            ++triedPeopleCount[p];
-            if (triedSubCount[p] == null) {
-              triedSubCount[p] = 0;
-            }
-            triedSubCount[p] += r.detail[p].wrong_count + 1;
-          }
-        }
-        return {
-          triedPeopleCount: triedPeopleCount,
-          acceptedPeopleCount: acceptedPeopleCount,
-          triedSubCount: triedSubCount
+      var contestPoller, rankPoller, rankStatistics, subPoller, userPoller;
+      if ($scope.contest == null) {
+        $scope.contest = {
+          title: "Waiting for data...",
+          description: "Waiting for data..."
         };
-      };
-      $scope.contest = {
-        title: "Waiting for data...",
-        description: "Waiting for data..."
-      };
-      $scope.idToOrder = {};
-      Contest = $resource('/api/contests/:contestId', {
-        contestId: $routeParams.contestId
-      });
-      Contest.get({
-        contestId: $routeParams.contestId
-      }, function(contest) {
-        var i, j, len, p, ref;
-        contest.problems.sort(function(a, b) {
-          return a.contest_problem_list.order - b.contest_problem_list.order;
-        });
-        ref = contest.problems;
-        for (i = j = 0, len = ref.length; j < len; i = ++j) {
-          p = ref[i];
-          p.test_setting = JSON.parse(p.test_setting);
-          $scope.idToOrder[p.id] = i;
-        }
-        return $scope.contest = contest;
-      });
-      $scope.user = {
-        nickname: "游客"
-      };
+      }
+      if ($scope.idToOrder == null) {
+        $scope.idToOrder = {};
+      }
+      if ($scope.page == null) {
+        $scope.page = "description";
+      }
+      if ($scope.order == null) {
+        $scope.order = 0;
+      }
+      if ($scope.form == null) {
+        $scope.form = {
+          lang: 'c++'
+        };
+      }
+      if ($scope.user == null) {
+        $scope.user = {
+          nickname: "游客"
+        };
+      }
       userPoller = function() {
         return $http.get("/api/users/me").then(function(res) {
           $scope.user = res.data;
-          return $timeout(userPoller, 1000 + Math.random() * 1000);
+          return $timeout(userPoller, 10000 + Math.random() * 1000);
         }, function(res) {
           $.notify(res.data.error, {
             animate: {
@@ -117,6 +86,32 @@
         });
       };
       userPoller();
+      contestPoller = function() {
+        return $http.get("/api/contests/" + $routeParams.contestId).then(function(res) {
+          var contest, i, j, len, p, ref;
+          contest = res.data;
+          contest.problems.sort(function(a, b) {
+            return a.contest_problem_list.order - b.contest_problem_list.order;
+          });
+          ref = contest.problems;
+          for (i = j = 0, len = ref.length; j < len; i = ++j) {
+            p = ref[i];
+            p.test_setting = JSON.parse(p.test_setting);
+            $scope.idToOrder[p.id] = i;
+          }
+          return $scope.contest = contest;
+        }, function(res) {
+          $.notify(res.data.error, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'danger'
+          });
+          return $timeout(contestPoller, Math.random() * 10000);
+        });
+      };
+      contestPoller();
       $scope.rank = [];
       rankPoller = function() {
         return $http.get("/api/contests/" + $routeParams.contestId + "/rank").then(function(res) {
@@ -145,11 +140,6 @@
         });
       };
       subPoller();
-      $scope.page = "description";
-      $scope.order = 0;
-      $scope.form = {
-        lang: 'c++'
-      };
       $scope.setPage = function(page) {
         return $scope.page = page;
       };
@@ -218,7 +208,7 @@
         })();
         return res.length !== 0;
       };
-      return $scope.tried = function(order) {
+      $scope.tried = function(order) {
         var res, sub;
         res = (function() {
           var j, len, ref, results;
@@ -233,6 +223,36 @@
           return results;
         })();
         return res.length !== 0;
+      };
+      return rankStatistics = function(rank) {
+        var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
+        triedPeopleCount = {};
+        acceptedPeopleCount = {};
+        triedSubCount = {};
+        for (j = 0, len = rank.length; j < len; j++) {
+          r = rank[j];
+          for (p in r.detail) {
+            if (acceptedPeopleCount[p] == null) {
+              acceptedPeopleCount[p] = 0;
+            }
+            if (r.detail[p].result === 'AC') {
+              ++acceptedPeopleCount[p];
+            }
+            if (triedPeopleCount[p] == null) {
+              triedPeopleCount[p] = 0;
+            }
+            ++triedPeopleCount[p];
+            if (triedSubCount[p] == null) {
+              triedSubCount[p] = 0;
+            }
+            triedSubCount[p] += r.detail[p].wrong_count + 1;
+          }
+        }
+        return {
+          triedPeopleCount: triedPeopleCount,
+          acceptedPeopleCount: acceptedPeopleCount,
+          triedSubCount: triedSubCount
+        };
       };
     }
   ]);
