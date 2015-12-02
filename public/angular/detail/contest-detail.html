@@ -53,6 +53,30 @@
         <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('rank') }" ng-click="setPage('rank')">排名</a>
         <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('submission') }" ng-click="setPage('submission')">我的提交</a>
     </div>
+    <div ng-show="isPage('problem')">
+        <p class="text-center">
+            <code>{{numberToLetters(order)}}</code>
+            提交记录：
+        </p>
+        <table class="table table-condensed table-bordered text-center" id="submission-table">
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>结果</td>
+                <td>时间</td>
+                <td>内存</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="submission in submissions | filter:{problem_id:contest.problems[order].id}:true">
+                <td>{{submission.id}}</td>
+                <td>{{submission.result}}</td>
+                <td>{{submission.time_cost}}</td>
+                <td>{{submission.memory_cost}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('description')">
