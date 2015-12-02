@@ -1,5 +1,5 @@
 'use script';
-@angular.module('contest-detail', [])
+@angular.module('contest-detail', ['ngRoute','ngResource','emguo.poller'])
 
 .filter('marked', ['$sce', ($sce)->
   (text)->
@@ -28,7 +28,11 @@
     return "(+#{wrong_count})"
 ])
 
-.controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
+#.factory('Contest', ['$resource', ($resource)->
+#    return $resource('/api/contests/:contestId', contestId:'@contestId')
+#])
+
+.controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout",'$resource','poller', ($scope, $routeParams, $http, $timeout, $resource, poller)->
     #data
 
     rankStatistics = (rank)->
@@ -53,6 +57,16 @@
       description: "Waiting for data..."
     }
     $scope.idToOrder = {}
+    Contest = $resource('/api/contests/:contestId', contestId:$routeParams.contestId)
+    Contest.get(contestId:$routeParams.contestId,(contest)->
+      contest.problems.sort (a,b)->
+        a.contest_problem_list.order-b.contest_problem_list.order
+      for p,i in contest.problems
+        p.test_setting = JSON.parse(p.test_setting)
+        $scope.idToOrder[p.id] = i
+      $scope.contest = contest
+    )
+
 
 
     $scope.user = {
@@ -79,31 +93,31 @@
       )
     userPoller()
 
-    contestPoller = ()->
-      $http.get("/api/contests/#{$routeParams.contestId}")
-      .then(
-        (res)->
-          contest = res.data
-          contest.problems.sort (a,b)->
-            a.contest_problem_list.order-b.contest_problem_list.order
-          for p,i in contest.problems
-            p.test_setting = JSON.parse(p.test_setting)
-            $scope.idToOrder[p.id] = i
-          $scope.contest = contest  #轮询
-          #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
-      ,
-        (res)->
-          #alert(res.data.error)
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-          )
-          $timeout(contestPoller,Math.random()*10000)
-      )
-    contestPoller()
+#    contestPoller = ()->
+#      $http.get("/api/contests/#{$routeParams.contestId}")
+#      .then(
+#        (res)->
+#          contest = res.data
+#          contest.problems.sort (a,b)->
+#            a.contest_problem_list.order-b.contest_problem_list.order
+#          for p,i in contest.problems
+#            p.test_setting = JSON.parse(p.test_setting)
+#            $scope.idToOrder[p.id] = i
+#          $scope.contest = contest  #轮询
+#          #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
+#      ,
+#        (res)->
+#          #alert(res.data.error)
+#          $.notify(res.data.error,
+#            animate: {
+#              enter: 'animated fadeInRight',
+#              exit: 'animated fadeOutRight'
+#            }
+#            type: 'danger'
+#          )
+#          $timeout(contestPoller,Math.random()*10000)
+#      )
+#    contestPoller()
 
 
 
