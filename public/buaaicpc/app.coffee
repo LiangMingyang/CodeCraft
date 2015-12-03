@@ -2,7 +2,23 @@
 
 @angular.module('bcpc',[])
 
-.controller('bcpc.ctrl',['$scope',($scope)->
+.controller('bcpc.ctrl',($scope,$http,$timeout)->
   $scope.registed = false
-
-])
+  $http.get('/api/bcpc/status')
+  .then(
+    (res)->
+      $scope.registed = res.data.registed
+  ,
+    (res)->
+      console.log res.data.error
+  )
+  $scope.register = ()->
+    $http.get('/api/bcpc/register')
+    .then(
+      (res)->
+        $scope.registed = res.data.registed
+    ,
+      (res)->
+        alert(res.data.error)
+    )
+)

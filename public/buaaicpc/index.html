@@ -167,7 +167,7 @@
 
                             <p class="hide-mob">
                                 <x>
-                                    <a ng-if="!registed" style="color: #AB3C03">您尚未注册该项赛事(点击注册) </a>
+                                    <a ng-if="!registed" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
                                     <p ng-if="registed" style="color: #AB3C03">您已注册该项赛事 </p>
                                 </x>
                                 <br>
@@ -344,7 +344,7 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>
-                    <a ng-if="!registed">注册报名</a>
+                    <a ng-if="!registed" ng-click="register()">注册报名</a>
                     <p ng-if="registed">{{me.nickname}},您已注册</p>
                 </h1>
 
