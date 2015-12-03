@@ -177,10 +177,10 @@
                                     <a ng-if="!registed" style="color: #AB3C03">您尚未注册该项赛事(点击注册) </a>
                                     <p ng-if="registed" style="color: #AB3C03">您已注册该项赛事 </p>
                                 </x>
-                                <br><br>
-                                相关链接：&nbsp;&nbsp;
+                                <br>
+                                <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
                                 <a href="http://www.buaa.edu.cn">北航官网</a>&nbsp;&nbsp;
-                                <a href="http://par.buaa.edu.cn">北航ACM集训队</a>&nbsp;&nbsp;
+                                <a href="http://par.buaa.edu.cn/acm-icpc/p/trace/">北航ACM集训队</a>&nbsp;&nbsp;
                                 <a href="http://biancheng.love">比赛平台</a>&nbsp;&nbsp;
                             </p>
                         </div>
@@ -191,7 +191,7 @@
 
             </div>
             <!-- Set background for slide in css -->
-            <div class="bg header-back"><div class="ibg-bg" style="width: 1840px; height: 949px; transform: matrix(1, 0, 0, 1, 0, 0); transition: transform 100ms linear; background: url(http://cs.ecust.edu.cn/acm/img/landing/header_.png) 50% 50% / cover no-repeat;"></div>
+            <div class="bg header-back"><div class="ibg-bg" style="width: 1840px; height: 949px; transform: matrix(1, 0, 0, 1, 0, 0); transition: transform 100ms linear; background: #ffffff 50% 50% / cover no-repeat;"></div>
             </div>
         </div>
     </div>
@@ -482,7 +482,7 @@
 <!--<script src="./夸氪金融杯 - ACM_ICPC国际大学生程序设计竞赛@上海_files/pace.min.js"></script>-->
 <script src="/bower_components/wow/dist/wow.min.js"></script>
 <!--<script src="./夸氪金融杯 - ACM_ICPC国际大学生程序设计竞赛@上海_files/jquery.interactive_bg.min.js"></script>-->
-<script src="./jquery.interactive_bg.min.js"></script>
+<!--<script src="./jquery.interactive_bg.min.js"></script>-->
 
 
 
@@ -504,13 +504,13 @@
             event.preventDefault();
         });
 
-        $(".bg").interactive_bg({
-            strength: 20,
-            scale: 1,
-            animationSpeed: "100ms",
-            contain: false,
-            wrapContent: false
-        });
+//        $(".bg").interactive_bg({
+//            strength: 20,
+//            scale: 1,
+//            animationSpeed: "100ms",
+//            contain: false,
+//            wrapContent: false
+//        });
 
         $(window).resize(function() {
             $(".bg > .ibg-bg").css({
