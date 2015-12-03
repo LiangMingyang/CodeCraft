@@ -53,7 +53,7 @@
       return group.hasUser(joiner);
     }).then(function(res) {
       if (res) {
-        throw new global.myErrors.UnknownGroup();
+        throw new global.myErrors.UnknownGroup("你已经注册过了");
       }
       return currentGroup.addUser(joiner, {
         access_level: 'member'

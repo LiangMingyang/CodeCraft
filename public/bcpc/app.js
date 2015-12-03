@@ -2,13 +2,14 @@
 (function() {
   'use strict';
   this.angular.module('bcpc', []).controller('bcpc.ctrl', function($scope, $http, $timeout) {
-    $scope.registed = false;
+    $scope.registed = "waiting";
     $http.get('/api/bcpc/status').then(function(res) {
       return $scope.registed = res.data.registed;
     }, function(res) {
       return console.log(res.data.error);
     });
     return $scope.register = function() {
+      $scope.registed = 'waiting';
       return $http.get('/api/bcpc/register').then(function(res) {
         return $scope.registed = res.data.registed;
       }, function(res) {
