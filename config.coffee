@@ -5,7 +5,7 @@ module.exports = {
     username: 'root'
     password: 'alimengmengda'
     config:
-      host: '101.200.3.143'
+      host: 'localhost'
       dialect: 'mysql'
       port: 3306
       timezone: '+08:00'
@@ -22,7 +22,7 @@ module.exports = {
   problem_resource_path : path.resolve(__dirname,'modules/problem/resource')
   cluster: 3
   judge :
-    penalty : 20 * 60 * 1000 #Ã¿´ÎµÄ·£Ê±Ê±¼ä
-    cache : 1000 #¼äÐªÐÔ·â°ñÊ±¼ä
-    max_code_length : 233333 #ÏÞÖÆÌá½»µÄ´úÂë³¤¶È
+    penalty : 20 * 60 * 1000 #Ã¿ï¿½ÎµÄ·ï¿½Ê±Ê±ï¿½ï¿½
+    cache : 1000 #ï¿½ï¿½Ðªï¿½Ô·ï¿½ï¿½Ê±ï¿½ï¿½
+    max_code_length : 233333 #ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½Ä´ï¿½ï¿½ë³¤ï¿½ï¿½
 }
