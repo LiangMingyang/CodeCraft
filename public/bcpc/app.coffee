@@ -3,7 +3,7 @@
 @angular.module('bcpc',[])
 
 .controller('bcpc.ctrl',($scope,$http,$timeout)->
-  $scope.registed = false
+  $scope.registed = "waiting"
   $http.get('/api/bcpc/status')
   .then(
     (res)->
@@ -13,6 +13,7 @@
       console.log res.data.error
   )
   $scope.register = ()->
+    $scope.registed = 'waiting'
     $http.get('/api/bcpc/register')
     .then(
       (res)->

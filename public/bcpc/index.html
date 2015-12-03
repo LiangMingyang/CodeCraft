@@ -167,8 +167,9 @@
 
                             <p class="hide-mob">
                                 <x>
-                                    <a ng-if="!registed" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
-                                    <p ng-if="registed" style="color: #AB3C03">您已注册该项赛事 </p>
+                                    <a ng-if="registed == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
+                                    <p ng-if="registed == true" style="color: #AB3C03">您已注册该项赛事 </p>
+                                    <p ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
                                 </x>
                                 <br>
                                 <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
@@ -344,8 +345,9 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>
-                    <a ng-if="!registed" ng-click="register()">注册报名</a>
-                    <a ng-if="registed">已注册</a>
+                    <a ng-if="registed == false" ng-click="register()">注册报名</a>
+                    <a ng-if="registed == true">已注册</a>
+                    <a ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
                 </h1>
 
             </div>

@@ -37,7 +37,7 @@ exports.getRegister = (req, res)->
     currentGroup = group
     group.hasUser(joiner)
   .then (res) ->
-    throw new global.myErrors.UnknownGroup() if res
+    throw new global.myErrors.UnknownGroup("你已经注册过了") if res
     currentGroup.addUser(joiner, {access_level : 'member'})
   .then ->
     res.json(registed:true)
