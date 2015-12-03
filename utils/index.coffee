@@ -353,8 +353,8 @@ exports.getRank = (contest)->
   myUtils = this
   dicProblemIDToOrder = {} #把题目ID变为字母序号
   dicProblemOrderToScore = {} #最后计算得分的时候需要计算这个比赛中这个题目的分数
-  for p in contest.problems
-    dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order)
+  for p,i in contest.problems
+    dicProblemIDToOrder[p.id] = myUtils.numberToLetters(i)
     dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score
   myUtils.buildRank(contest,dicProblemIDToOrder,dicProblemOrderToScore)
   global.redis.get "rank_#{contest.id}"
