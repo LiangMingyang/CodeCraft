@@ -42,6 +42,17 @@
         return "(+" + wrong_count + ")";
       };
     }
+  ]).filter('result', [
+    function() {
+      return function(result) {
+        var dic;
+        dic = {
+          AC: 'accepted',
+          CE: 'compiled error'
+        };
+        return dic[result] || "Other Error";
+      };
+    }
   ]).controller('contest-detail', [
     '$scope', '$routeParams', '$http', "$timeout", function($scope, $routeParams, $http, $timeout) {
       var contestPoller, rankPoller, rankStatistics, subPoller, userPoller;

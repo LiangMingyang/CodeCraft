@@ -28,6 +28,15 @@
     return "(+#{wrong_count})"
 ])
 
+.filter('result', [()->
+  (result)->
+    dic = {
+      AC : 'accepted'
+      CE : 'compiled error'
+    }
+    return dic[result] || "Other Error"
+])
+
 .controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout", ($scope, $routeParams, $http, $timeout)->
     #data
 
