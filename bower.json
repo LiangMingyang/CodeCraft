@@ -1,0 +1,25 @@
+{
+  "name": "OJ4TH",
+  "description": "",
+  "main": "",
+  "authors": [
+    "lmy <lmysoar@hotmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/yangsiy/CodeCraft",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "metisMenu": "~2.2.0",
+    "inspinia": "~1.0.4",
+    "wow": "~1.1.2",
+    "angular": "~1.4.8"
+  }
+}
