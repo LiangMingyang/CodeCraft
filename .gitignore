@@ -35,3 +35,9 @@ node_modules
 Thumbs.db
 
 # Coffee middle file
+
+<<<<<<< HEAD
+public/bower_components
+=======
+public/angular/bower_components
+>>>>>>> angular

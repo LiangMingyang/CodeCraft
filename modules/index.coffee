@@ -11,3 +11,5 @@ exports.message = require('./message')
 exports.submission = require('./submission')
 
 exports.feedback = require('./feedback')
+
+exports.api = require('./api')

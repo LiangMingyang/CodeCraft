@@ -1,0 +1,33 @@
+<!--<p>{{submissions}}</p>-->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>编号</td>
+            <td>题目</td>
+            <td>结果</td>
+            <td>得分</td>
+            <td>语言</td>
+            <td>代码长度</td>
+            <td>耗时</td>
+            <td>内存</td>
+            <td>提交时间</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="submission in submissions">
+            <td>{{submission.id}}</td>
+            <td>
+                <a ng-click="setPage('problem');setProblem(idToOrder[submission.problem_id])">
+                    {{numberToLetters(idToOrder[submission.problem_id])}}
+                </a>
+            </td>
+            <td>{{submission.result | result}}</td>
+            <td>{{submission.score}}</td>
+            <td>{{submission.lang}}</td>
+            <td>{{submission.code_length}}</td>
+            <td>{{submission.time_cost}}</td>
+            <td>{{submission.memory_cost}}</td>
+            <td>{{submission.created_at | date: 'yyyy-MM-dd hh:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>

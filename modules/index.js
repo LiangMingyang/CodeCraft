@@ -14,6 +14,8 @@
 
   exports.feedback = require('./feedback');
 
+  exports.api = require('./api');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map
