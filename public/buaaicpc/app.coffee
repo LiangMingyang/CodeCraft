@@ -19,6 +19,9 @@
         $scope.registed = res.data.registed
     ,
       (res)->
+        if res.status is 401
+          window.location = "/user/login"
+          return
         alert(res.data.error)
     )
 )

@@ -12,6 +12,10 @@
       return $http.get('/api/bcpc/register').then(function(res) {
         return $scope.registed = res.data.registed;
       }, function(res) {
+        if (res.status === 401) {
+          window.location = "/user/login";
+          return;
+        }
         return alert(res.data.error);
       });
     };
