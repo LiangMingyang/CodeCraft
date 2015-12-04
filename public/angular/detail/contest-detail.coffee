@@ -231,10 +231,31 @@
       return res.length isnt 0
 
     #change submission color by ZP
-    $scope.change_submission_color = (submission,index)->
-      return "green-tr" if submission == "WT" or submission == "JG"
-      return "blue-tr" if submission == "AC"
-      return "red-tr"
+    $scope.change_submission_color = (submission, index)->
+      color = undefined
+      number = undefined
+      if submission == "WT" or submission == "JG"
+        color = "green"
+      else if submission == "AC"
+        color = "blue"
+      else
+        color = "red"
+      if index % 2 == 0
+        number = "even"
+      else
+        number = "odd"
+      return color + "-" + number + "-" + "tr"
+
+    #change submission result color by ZP
+    $scope.change_submission_result_color = (result)->
+      return "green-td" if result == "WT" or result == "JG"
+      return "blue-td" if result == "AC"
+      return "red-td"
+
+    #return if the result is running or judging
+    $scope.check_submission_is_running = (result)->
+      return true if result == "WT" or result == "JG"
+      return false
 
     #private functions
     rankStatistics = (rank)->

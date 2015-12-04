@@ -258,13 +258,37 @@
       return res.length !== 0;
     };
     $scope.change_submission_color = function(submission, index) {
+      var color, number;
+      color = void 0;
+      number = void 0;
       if (submission === "WT" || submission === "JG") {
-        return "green-tr";
+        color = "green";
+      } else if (submission === "AC") {
+        color = "blue";
+      } else {
+        color = "red";
       }
-      if (submission === "AC") {
-        return "blue-tr";
+      if (index % 2 === 0) {
+        number = "even";
+      } else {
+        number = "odd";
       }
-      return "red-tr";
+      return color + "-" + number + "-" + "tr";
+    };
+    $scope.change_submission_result_color = function(result) {
+      if (result === "WT" || result === "JG") {
+        return "green-td";
+      }
+      if (result === "AC") {
+        return "blue-td";
+      }
+      return "red-td";
+    };
+    $scope.check_submission_is_running = function(result) {
+      if (result === "WT" || result === "JG") {
+        return true;
+      }
+      return false;
     };
     return rankStatistics = function(rank) {
       var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
