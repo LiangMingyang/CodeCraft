@@ -1,5 +1,5 @@
 'use script';
-@angular.module('contest-detail', ['ngRoute','ngResource','emguo.poller'])
+@angular.module('contest-detail', ['ngRoute'])
 
 .filter('marked', ['$sce', ($sce)->
   (text)->
@@ -28,11 +28,31 @@
     return "(+#{wrong_count})"
 ])
 
-#.factory('Contest', ['$resource', ($resource)->
-#    return $resource('/api/contests/:contestId', contestId:'@contestId')
-#])
+.filter('result', [()->
+  (result)->
+    dic = {
+      AC : "Accepted",
+      WA : "Wrong Answer",
+      CE : "Compile Error",
+      RE : "Runtime Error",
+      REG : "Runtime Error (SIGSEGV)",
+      REP : "Runtime Error (SIGFPE)",
+      WT : "Waiting",
+      JG : "Running",
+      TLE : "Time Limit Exceed",
+      MLE : "Memory Limit Exceed",
+      PE : "Presentation Error",
+      ERR : "Judge Error",
+      IFNR : "Input File Not Ready",
+      OFNR : "Output File Not Ready",
+      EFNR : "Error File Not Ready",
+      OE : "Other Error"
+    }
+    return dic[result] || "Other Error"
+])
 
-.controller('contest-detail', ['$scope', '$routeParams', '$http', "$timeout",'$resource','poller', ($scope, $routeParams, $http, $timeout, $resource, poller)->
+
+.controller('contest-detail', ($scope, $routeParams, $http, $timeout)->
     #data
 
     $scope.contest ?= {
@@ -82,6 +102,7 @@
       ,
         (res)->
           #alert(res.data.error)
+          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
           $.notify(res.data.error,
             animate: {
               enter: 'animated fadeInRight',
@@ -107,6 +128,7 @@
       ,
         (res)->
           #alert(res.data.error)
+          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
           $.notify(res.data.error,
             animate: {
               enter: 'animated fadeInRight',
@@ -226,4 +248,4 @@
         acceptedPeopleCount : acceptedPeopleCount
         triedSubCount : triedSubCount
       }
-  ])
+)

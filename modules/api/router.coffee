@@ -8,4 +8,6 @@ router
 
 .use '/users', modules.user.router
 
+.use '/bcpc', modules.bcpc.router
+
 module.exports = router

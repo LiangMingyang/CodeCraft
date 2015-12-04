@@ -160,7 +160,7 @@ exports.findProblem = (user, problemID,include)->
     return false if not user
     Membership.find(
       where:
-        group_id: contest.group_id
+        group_id: currentProblem.group_id
         user_id: user.id
         access_level : ['member', 'admin', 'owner']
     )
