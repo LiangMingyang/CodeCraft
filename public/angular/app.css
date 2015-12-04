@@ -48,30 +48,42 @@ tr.red-even-tr {
   background-color: #ffdddd;
 }
 
-tr.red-tr:hover {
-  background-color: #ffcccc;
+tr.red-odd-tr:hover {
+  background-color: #ffbbbb;
 }
 
-tr.green-odd-tr{
+tr.red-even-tr:hover {
+  background-color: #ffbbbb;
+}
+
+tr.green-odd-tr {
   background-color: #eeffee;
 }
 
-tr.green-even-tr{
+tr.green-even-tr {
   background-color: #ddffdd;
 }
 
-tr.green-tr:hover {
-  background-color: #ccffcc;
+tr.green-odd-tr:hover {
+  background-color: #bbffbb;
 }
 
-tr.blue-odd-tr{
+tr.green-even-tr:hover {
+  background-color: #bbffbb;
+}
+
+tr.blue-odd-tr {
   background-color: #eeffff;
 }
 
-tr.blue-even-tr{
+tr.blue-even-tr {
   background-color: #ddffff;
 }
 
-tr.blue-tr:hover {
-  background-color: #ccffff;
+tr.blue-odd-tr:hover {
+  background-color: #bbffff;
+}
+
+tr.blue-even-tr:hover {
+  background-color: #bbffff;
 }
