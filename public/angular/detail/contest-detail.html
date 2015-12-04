@@ -59,7 +59,8 @@
 
 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('description')">
     <h4>比赛简介</h4>
-    <div class="container">{{contest.description}}</div>
+    <div ng-bind-html="contest.description | marked"></div>
+
 </div>
 
 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/detail-problem.html'">
