@@ -194,7 +194,7 @@
       return res.length isnt 0
 
     #change submission color by ZP
-    $scope.change_submission_color = (submission)->
+    $scope.change_submission_color = (submission,index)->
       return "green-tr" if submission == "WT" or submission == "JG"
       return "blue-tr" if submission == "AC"
       return "red-tr"

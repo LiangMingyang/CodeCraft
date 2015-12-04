@@ -224,7 +224,7 @@
         })();
         return res.length !== 0;
       };
-      $scope.change_submission_color = function(submission) {
+      $scope.change_submission_color = function(submission, index) {
         if (submission === "WT" || submission === "JG") {
           return "green-tr";
         }

@@ -40,26 +40,38 @@
   font-weight: 500;
 }
 
-tr.red-tr {
+tr.red-odd-tr {
   background-color: #ffeeee;
 }
 
-tr.red-tr:hover {
+tr.red-even-tr {
   background-color: #ffdddd;
 }
 
-tr.green-tr{
+tr.red-tr:hover {
+  background-color: #ffcccc;
+}
+
+tr.green-odd-tr{
   background-color: #eeffee;
 }
 
-tr.green-tr:hover {
+tr.green-even-tr{
   background-color: #ddffdd;
 }
 
-tr.blue-tr{
+tr.green-tr:hover {
+  background-color: #ccffcc;
+}
+
+tr.blue-odd-tr{
   background-color: #eeffff;
 }
 
-tr.blue-tr:hover {
+tr.blue-even-tr{
   background-color: #ddffff;
+}
+
+tr.blue-tr:hover {
+  background-color: #ccffff;
 }
