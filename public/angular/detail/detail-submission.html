@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="submission in submissions" ng-class="change_submission_color(submission.result, $index)">
-            <td><a href="/submission/{{submission.id}}">{{submission.id}}</a></td>
+            <td><a href="/submission/{{submission.id}}" target="_blank">{{submission.id}}</a></td>
             <td>
                 <a ng-click="setPage('problem');setProblem(idToOrder[submission.problem_id])">
                     {{numberToLetters(idToOrder[submission.problem_id])}}
