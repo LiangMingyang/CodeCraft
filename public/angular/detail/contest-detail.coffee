@@ -230,6 +230,18 @@
       else
         number = "odd"
       return color + "-" + number + "-" + "tr"
+
+    #change submission result color by ZP
+    $scope.change_submission_result_color = (result)->
+      return "green-td" if result == "WT" or result == "JG"
+      return "blue-td" if result == "AC"
+      return "red-td"
+
+    #return if the result is running or judging
+    $scope.check_submission_is_running = (result)->
+      return true if result == "WT" or result == "JG"
+      return false
+
     #private functions
     rankStatistics = (rank)->
       triedPeopleCount = {}

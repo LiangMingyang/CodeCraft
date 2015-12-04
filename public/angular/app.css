@@ -87,3 +87,22 @@ tr.blue-odd-tr:hover {
 tr.blue-even-tr:hover {
   background-color: #bbffff;
 }
+
+td.red-td {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+td.green-td {
+  color: #008000;
+  font-weight: bold;
+}
+
+td.blue-td {
+  color: #0000d0;
+  font-weight: bold;
+}
+
+td {
+  white-space: nowrap;
+}
