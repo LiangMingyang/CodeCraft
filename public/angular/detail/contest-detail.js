@@ -68,7 +68,7 @@
       };
     }
   ]).controller('contest-detail', function($scope, $routeParams, $http, $timeout) {
-    var contestPoller, rankPoller, rankStatistics, subPoller, userPoller;
+    var contestPoller, countDown, rankPoller, rankStatistics, subPoller, userPoller;
     if ($scope.contest == null) {
       $scope.contest = {
         title: "Waiting for data...",
@@ -94,6 +94,17 @@
         nickname: "游客"
       };
     }
+    if ($scope.server_time == null) {
+      $scope.server_time = new Date();
+    }
+    $http.get("/api/contests/server_time").then(function(res) {
+      $scope.server_time = new Date(res.data.server_time);
+      return countDown();
+    });
+    countDown = function() {
+      $scope.server_time = new Date($scope.server_time.getTime() + 1000);
+      return $timeout(countDown, 1000);
+    };
     userPoller = function() {
       return $http.get("/api/users/me").then(function(res) {
         $scope.user = res.data;
@@ -123,6 +134,8 @@
           p.test_setting = JSON.parse(p.test_setting);
           $scope.idToOrder[p.id] = i;
         }
+        contest.start_time = new Date(contest.start_time);
+        contest.end_time = new Date(contest.end_time);
         return $scope.contest = contest;
       }, function(res) {
         if (!$scope.user.id) {
@@ -146,16 +159,6 @@
         $scope.rankStatistics = rankStatistics($scope.rank);
         return $timeout(rankPoller, 5000 + Math.random() * 5000);
       }, function(res) {
-        if (!$scope.user.id) {
-          res.data.error = "该比赛需要登录才可以查看";
-        }
-        $.notify(res.data.error, {
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          },
-          type: 'danger'
-        });
         return $timeout(rankPoller, Math.random() * 10000);
       });
     };

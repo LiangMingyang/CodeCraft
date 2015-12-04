@@ -1,30 +1,18 @@
-<h3>通过状态</h3>
-<div>
-    <p>
-        通过人数比：{{rankStatistics.acceptedPeopleCount[numberToLetters(order)]}}/{{rankStatistics.triedPeopleCount[numberToLetters(order)]}}
-        <code>
-            ({{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedPeopleCount[numberToLetters(order)]*100 | number:2}}%)
-        </code>
-    </p>
-    <p>
-        通过次数比：{{rankStatistics.acceptedPeopleCount[numberToLetters(order)]}}/{{rankStatistics.triedSubCount[numberToLetters(order)]}}
-        <code>
-            ({{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%)
-        </code>
-    </p>
-</div>
 <!-- Button trigger modal -->
 <button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
     提交
 </button>
-<h3>Your submissions</h3>
+<p class="text-center">
+    <code>{{numberToLetters(order)}}</code>
+    提交记录：
+</p>
 <table class="table table-condensed table-bordered">
     <thead>
         <tr>
-            <td>id</td>
-            <td>Res</td>
-            <td>Time</td>
-            <td>Mem</td>
+            <td>ID</td>
+            <td>结果</td>
+            <td>时间</td>
+            <td>内存</td>
         </tr>
     </thead>
     <tbody>
