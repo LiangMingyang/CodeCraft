@@ -346,7 +346,7 @@
                 <div class="navy-line"></div>
                 <h1>
                     <a ng-if="registed == false" ng-click="register()">注册报名</a>
-                    <a href="/bcpc/list.html" registed == true>已注册</a>
+                    <a href="/bcpc/list.html" ng-if="registed == true">已注册</a>
                     <a ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
                 </h1>
 
