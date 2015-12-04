@@ -1,2 +1,37 @@
 <h3>比赛排名</h3>
-<div class="container">{{rank}}</div>
+<div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="text-center">
+                <td>排名</td>
+                <td>用户</td>
+                <td>得分</td>
+                <td>罚时</td>
+                <td ng-repeat="problem in contest.problems" ng-click="setPage('problem');setProblem($index)">
+                    <a ng-click="setPage('problem');setProblem($index)">{{numberToLetters($index)}}</a>
+                    <!--<br>-->
+                    <p>
+                        {{rankStatistics.acceptedPeopleCount[numberToLetters($index)]}}/{{rankStatistics.triedPeopleCount[numberToLetters($index)]}}
+                    </p>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="r in rank"  class="text-center">
+                <td>{{$index+1}}</td>
+                <td>{{r.user.nickname | limitTo:5}}</td>
+                <td>{{r.score}}</td>
+                <td>{{r.penalty | penalty}}</td>
+                <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
+                <td ng-repeat="problem in contest.problems"
+                    ng-class = "{ 'danger': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score === 0, 'success': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result == 'AC', 'info': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].first_blood, 'warning': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score > 0} "
+                >
+                    <!--<p ng-show="r.detail[numberToLetters($index)].accepted_time">-->
+                        {{r.detail[numberToLetters($index)].accepted_time | penalty}}{{r.detail[numberToLetters($index)].wrong_count | wrongCount}}
+                    <!--</p>-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--{{rank}}-->
+</div>

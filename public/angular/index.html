@@ -9,28 +9,32 @@
     <title>Contest</title>
     <meta name="description" content="It is a page for contests">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/MathJax/MathJax.js"></script>
-    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="/bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="/bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/bower_components/animate.css/animate.min.css">
+    <link rel="stylesheet" href="detail/markdown.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
+    <script src="/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <style type="text/css">
+        body {
+            overflow:scroll;
+        }
+    </style>
 </head>
 <body>
-<!--<ul class="menu">-->
-<!--<li><a href="#/view1">view1</a></li>-->
-<!--<li><a href="#/view2">view2</a></li>-->
-<!--</ul>-->
 
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"></div>
-        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="row" ng-view></div>
         </div>
     </div>
@@ -42,14 +46,17 @@
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-
+<script src="/bower_components/angular/angular.js"></script>
+<script src="/bower_components/angular-route/angular-route.js"></script>
+<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="/bower_components/angular-poller/angular-poller.min.js"></script>
+<script src="/bower_components/marked/marked.min.js"></script>
+<script src="/bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
 <script src="app.js"></script>
 <script src="list/contest-list.js"></script>
 <script src="detail/contest-detail.js"></script>
-<!--<script src="view1/view1.js"></script>-->
-<!--<script src="view2/view2.js"></script>-->
+<script src="index.js"></script>
+
 <!--<script src="components/version/version.js"></script>-->
 <!--<script src="components/version/version-directive.js"></script>-->
 <!--<script src="components/version/interpolate-filter.js"></script>-->

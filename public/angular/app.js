@@ -8,15 +8,11 @@ angular.module('myApp', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider
-  .when('/contests', {
-    templateUrl: 'list/contest-list.html',
-    controller: 'contest-list'
-  })
   .when('/contest/:contestId', {
     templateUrl: 'detail/contest-detail.html',
     controller: 'contest-detail'
   })
   .otherwise({
-    redirectTo: '/contests'
+    redirectTo: '/contest/1'
   });
 }]);

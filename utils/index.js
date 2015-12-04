@@ -240,7 +240,7 @@
       }
       return Membership.find({
         where: {
-          group_id: contest.group_id,
+          group_id: currentProblem.group_id,
           user_id: user.id,
           access_level: ['member', 'admin', 'owner']
         }
@@ -516,14 +516,14 @@
   };
 
   exports.getRank = function(contest) {
-    var dicProblemIDToOrder, dicProblemOrderToScore, j, len, myUtils, p, ref;
+    var dicProblemIDToOrder, dicProblemOrderToScore, i, j, len, myUtils, p, ref;
     myUtils = this;
     dicProblemIDToOrder = {};
     dicProblemOrderToScore = {};
     ref = contest.problems;
-    for (j = 0, len = ref.length; j < len; j++) {
-      p = ref[j];
-      dicProblemIDToOrder[p.id] = myUtils.numberToLetters(p.contest_problem_list.order);
+    for (i = j = 0, len = ref.length; j < len; i = ++j) {
+      p = ref[i];
+      dicProblemIDToOrder[p.id] = myUtils.numberToLetters(i);
       dicProblemOrderToScore[dicProblemIDToOrder[p.id]] = p.contest_problem_list.score;
     }
     myUtils.buildRank(contest, dicProblemIDToOrder, dicProblemOrderToScore);

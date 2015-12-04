@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "router.js",
+  "sourceRoot": "",
+  "sources": [
+    "router.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,OAAA,GAAU,OAAA,CAAQ,SAAR;;EACV,MAAA,GAAS,OAAO,CAAC,MAAR,CAAe;IAAA,WAAA,EAAa,IAAb;GAAf;;EACT,UAAA,GAAa,OAAA,CAAQ,cAAR;;EAGb,MACA,CAAC,GADD,CACK,KADL,EACY,UAAU,CAAC,KADvB;;EAIA,MAAM,CAAC,OAAP,GAAiB;AATjB"
+}

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="bcpc"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="BUAA,icpc">
+    <meta name="author" content="Thor">
+
+    <title>第十一届北航程序设计竞赛</title>
+    <!--Angular-->
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="./app.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Animation CSS -->
+    <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="./style.css" rel="stylesheet">
+    <style type="text/css">
+        body{
+            font-family: arial,  'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', \5b8b\4f53, Tahoma, Arial, Helvetica, '宋体', STHeiti !important;
+        }
+        p{
+            font-size: 16px !important;
+        }
+        @media(max-width:800px){
+            .hide-mob{
+                display:none;
+            }
+        }
+        .landing-page .navbar-default .nav li a{
+            color:#000;
+        }
+
+        .landing-page .navbar-default .navbar-nav > .active > a:focus{
+            color:#1ab394;
+        }
+
+        .carousel-inner h1{
+            color:#555;
+        }
+
+
+        .carousel-inner h2{
+            color:#777;
+        }
+
+
+        .carousel-inner p{
+            color:#AAA;
+        }
+        .carousel-inner a{
+            color: #1ab394;
+        }
+
+        .main-head h2{
+            margin: 0;
+            font-size:22px;
+            letter-spacing: 1.7px;
+        }
+        .main-head h1{
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .main-head p{
+            margin-top: 70px;
+        }
+
+        .main-head small{
+            color: #ddd;
+        }
+
+        tr:hover{
+            background-color: rgba(167, 232, 222, 0.09);
+        }
+
+        .modalbtn{
+            margin-right:10px
+        }
+
+        .day{
+            padding-left: 80px;
+            padding-right: 80px;
+            margin-bottom: 20px;
+        }
+
+        .day>h1{
+            text-align:center;
+        }
+
+        .detail {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail>p {
+            text-align: left;
+        }
+
+        .sponser div {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .sponser{
+            margin-bottom: 20px;
+        }
+        .bg{
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .invert{
+            filter: invert(1);
+            -webkit-filter: invert(1);
+            -moz-filter: invert(1);
+            -o-filter: invert(1);
+            -ms-filter: invert(1);
+        }
+    </style>
+    <style type="text/css"></style></head>
+<body id="page-top" class="landing-page  pace-done" ng-controller="bcpc.ctrl"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+    <div class="pace-progress-inner"></div>
+</div>
+    <div class="pace-activity"></div></div>
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-scroll" role="navigation">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class=""><a class="page-scroll" href="#page-top">主页</a></li>
+                    <li class="active"><a class="page-scroll" href="#about">竞赛简介</a></li>
+                    <li class="active"><a class="page-scroll" href="#service">日程安排</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div id="inSlider">
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption main-head col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row text-center">
+                                <img src="./icpc_logo.png" style="width:100%">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+
+                            <h1>第十一届北航程序设计竞赛&nbsp;&nbsp;&nbsp;<br></h1>
+                            <h2 class="hide-mob">The 11th Beihang University Collegiate Programing Contest
+                                <br></h2>
+
+                            <p class="hide-mob">依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十一届。</p>
+
+                            <p class="hide-mob">
+                                <x>
+                                    <a ng-if="registed == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
+                                    <a ng-if="registed == true" style="color: #AB3C03" href="/bcpc/list.html">您已注册该项赛事 </a>
+                                    <p ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
+                                </x>
+                                <br>
+                                <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
+                                <a href="http://www.buaa.edu.cn">北航官网</a>&nbsp;&nbsp;
+                                <a href="http://par.buaa.edu.cn/acm-icpc/p/trace/">北航ACM集训队</a>&nbsp;&nbsp;
+                                <a href="http://biancheng.love">比赛平台</a>&nbsp;&nbsp;
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="bg header-back"><div class="ibg-bg" style="width: 1840px; height: 949px; transform: matrix(1, 0, 0, 1, 0, 0); transition: transform 100ms linear; background: #ffffff 50% 50% / cover no-repeat;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="about" class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1>竞赛简介</h1>
+            <!--<p>依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十一届。<br>-->
+                <!--比赛每年吸引全校数百名程序爱好者参加，为广大程序设计爱好者搭建了一个学习、交流、竞技的平台。<br>-->
+                <!--为激发我校大学生程序设计学习的兴趣，加强学风建设，增进我校学生在计算机程序设计、数据结构、算法设计等学科的学习，同时选拔出一批优秀的选手参加学校ACM集训队，我校今年将在12月份如期举办第十一届北航程序设计竞赛。</p>-->
+            <p>本次比赛由所有获得过亚洲区域赛金、银牌的北航2015ACM集训队队员作为命题组，将不参与比赛。非北航ACM集训队的北航在校本科生研究生均可报名参赛，并且届时会邀请北航周边兄弟院校的同学同场竞技。</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="tabs-container">
+            <div class="tabs-left">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="http://cs.ecust.edu.cn/acm/#tab1" aria-expanded="true">竞赛赛制</a></li>
+                    <li class=""><a data-toggle="tab" href="http://cs.ecust.edu.cn/acm/#tab2" aria-expanded="false">竞赛规则</a></li>
+                    <li class=""><a data-toggle="tab" href="http://cs.ecust.edu.cn/acm/#tab3" aria-expanded="false">奖励方案</a></li>
+                    <li class=""><a data-toggle="tab" href="http://cs.ecust.edu.cn/acm/#tab4" aria-expanded="false">承办及赞助</a></li>
+                </ul>
+                <div class="tab-content ">
+                    <div id="tab1" class="tab-pane  active">
+                        <div class="panel-body">
+                            <p>比赛将分网络预赛与现场决赛两个阶段进行。<br>
+                                <strong>网络预赛</strong>：通过网络进行比赛，届时将在<a href="http://biancheng.love">平台</a>进行比赛，赛后根据比赛情况，选拔出约90名选手晋级现场决赛。<br>
+                                <strong>现场决赛</strong>：选手在机房现场进行比赛。
+                            </p>
+
+
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab-pane">
+                        <div class="panel-body">
+                            <p>
+                                <strong>网络预赛</strong>
+                                <ol>
+                                    <li>比赛时间共 3天，参赛选手以在任意时间任意地点登陆网站参加。试题以中文表述，约 10~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>
+                                    <li>要求参赛选手在规定时间内，尽可能多的解出题目。预赛将只按解题数排名。不能进行任何作弊、抄袭、复制他人代码的行为。</li>
+                                </ol>
+                            </p>
+                            <p>
+                                <strong>现场决赛</strong>
+                                <ol>
+                                    <li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>
+                                    <li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>
+                                    <li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>
+                                    <li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>
+                                    <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
+                                    <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。比赛结束前一小时将停止更新计分板。</li>
+                                </ol>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="tab3" class="tab-pane">
+                        <div class="panel-body">
+                            <p>　　大赛设冠、亚、季军各1名，并设一等奖5名（包含冠亚季军），二等奖7名，三等奖9名。所有获奖选手将颁发北航教务处的证书及相应奖品。获得冠亚季军的选手可申请相应的校级奖学金。</p>
+                        </div>
+                    </div>
+                    <div id="tab4" class="tab-pane">
+                        <div class="panel-body">
+                            <p>
+                                <strong>主办</strong>：北京航空航天大学教务处<br>
+                                <strong>承办</strong>：北京航空航天大学软件学院<br>
+                                <strong>协办</strong>：北京航空航天大学ACM竞赛集训队<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</section>
+
+<section id="service" class="gray-section team">
+    <div class=" container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>日程表</h1>
+            </div>
+        </div>
+        <div class="day">
+            <!--<h1>参赛报名</h1>-->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>活动</th>
+                    <th>地点</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2015年12月2日0点--11日12点</td>
+                    <td>参赛报名</td>
+                    <td>本页</td>
+                    <td>无</td>
+                </tr>
+                <tr>
+                    <td>2015年12月12日0点--14日24点</td>
+                    <td>网络预赛</td>
+                    <td>比赛平台</td>
+                    <td>参赛队员</td>
+                </tr>
+                <tr>
+                    <td>2015年12月17日</td>
+                    <td>公布比赛晋级名单</td>
+                    <td>本页</td>
+                    <td>无</td>
+                </tr>
+                <tr>
+                    <td>2015年12月18日--19日</td>
+                    <td>向现场赛选手通知比赛具体事宜</td>
+                    <td>无</td>
+                    <td>无</td>
+                </tr>
+                <tr>
+                    <td>2015年12月20日12点--16点</td>
+                    <td>现场决赛</td>
+                    <td>沙河现场</td>
+                    <td>决赛队员</td>
+                </tr>
+                <tr>
+                    <td>2015年12月20日16点--17点</td>
+                    <td>颁奖典礼</td>
+                    <td>沙河现场</td>
+                    <td>决赛队员</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="detail">
+            <p>本次比赛的地点是地点位于北航沙河校区实验7号楼4、5层。北航沙河校区在北京昌平沙河，可乘坐地铁昌平线到达沙河地铁站，转乘公交昌66到达沙河校区东门，我们将安排工作人员在东门等待大家光临。
+                祥见下面的参赛地图。
+            </p>
+            <img src="./map.png" alt="">
+        </div>
+    </div>
+
+</section>
+
+
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>
+                    <a ng-if="registed == false" ng-click="register()">注册报名</a>
+                    <a href="/bcpc/list.html" ng-if="registed == true">已注册</a>
+                    <a ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
+                </h1>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                <p><strong>© 2015&nbsp;北航ACM集训队</strong></p>
+                <p><small>powered by Liang Mingyang, hire and contact please mail <a href="mailto:lmysoar@hotmail">lmysoar@hotmail.com</a></small></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mainly scripts -->
+
+
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<script src="/bower_components/inspinia/assets/js/inspinia.js"></script>
+<script src="/bower_components/wow/dist/wow.min.js"></script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+        });
+
+//        $(".bg").interactive_bg({
+//            strength: 20,
+//            scale: 1,
+//            animationSpeed: "100ms",
+//            contain: false,
+//            wrapContent: false
+//        });
+
+        $(window).resize(function() {
+            $(".bg > .ibg-bg").css({
+                width: $(window).outerWidth(),
+                height: $(window).outerHeight()
+            })
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    new WOW().init();
+
+
+</script>
+</body>
+</html>
