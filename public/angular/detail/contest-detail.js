@@ -255,6 +255,29 @@
       return res.length !== 0;
     };
     $scope.change_submission_color = function(submission, index) {
+      if (submission === "WT" || submission === "JG") {
+        return "green-tr";
+      }
+      if (submission === "AC") {
+        return "blue-tr";
+      }
+      return "red-tr";
+    };
+    return rankStatistics = function(rank) {
+      var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
+      triedPeopleCount = {};
+      acceptedPeopleCount = {};
+      triedSubCount = {};
+      for (j = 0, len = rank.length; j < len; j++) {
+        r = rank[j];
+        for (p in r.detail) {
+          if (acceptedPeopleCount[p] == null) {
+            acceptedPeopleCount[p] = 0;
+        return results;
+      })();
+      return res.length !== 0;
+    };
+    $scope.change_submission_color = function(submission, index) {
       var color, number;
       color = void 0;
       number = void 0;
