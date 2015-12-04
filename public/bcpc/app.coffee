@@ -4,6 +4,7 @@
 
 .controller('bcpc.ctrl',($scope,$http,$timeout)->
   $scope.registed = "waiting"
+  $scope.list = []
   $http.get('/api/bcpc/status')
   .then(
     (res)->
@@ -25,4 +26,15 @@
           return
         alert(res.data.error)
     )
+)
+.controller('bcpc.list',($scope,$http)->
+  $scope.list = []
+  $http.get('/api/bcpc/list')
+  .then(
+    (res)->
+      $scope.list = res.data.users
+  ,
+    (res)->
+      alert(res.data.error)
+  )
 )

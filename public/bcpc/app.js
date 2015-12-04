@@ -3,6 +3,7 @@
   'use strict';
   this.angular.module('bcpc', []).controller('bcpc.ctrl', function($scope, $http, $timeout) {
     $scope.registed = "waiting";
+    $scope.list = [];
     $http.get('/api/bcpc/status').then(function(res) {
       return $scope.registed = res.data.registed;
     }, function(res) {
@@ -20,6 +21,13 @@
         return alert(res.data.error);
       });
     };
+  }).controller('bcpc.list', function($scope, $http) {
+    $scope.list = [];
+    return $http.get('/api/bcpc/list').then(function(res) {
+      return $scope.list = res.data.users;
+    }, function(res) {
+      return alert(res.data.error);
+    });
   });
 
 }).call(this);
