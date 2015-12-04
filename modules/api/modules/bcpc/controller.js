@@ -70,6 +70,44 @@
     });
   };
 
+  exports.getList = function(req, res) {
+    var BCPC_GROUP, Group, User, currentGroup, joiner;
+    User = global.db.models.user;
+    Group = global.db.models.group;
+    joiner = void 0;
+    currentGroup = void 0;
+    BCPC_GROUP = 6;
+    return global.db.Promise.resolve().then(function() {
+      return Group.find({
+        where: {
+          id: BCPC_GROUP
+        },
+        include: [
+          {
+            model: User,
+            through: {
+              where: {
+                access_level: ['member']
+              }
+            }
+          }
+        ]
+      });
+    }).then(function(group) {
+      if (!group) {
+        throw new global.myErrors.UnknownGroup();
+      }
+      return res.json(group.get({
+        plain: true
+      }));
+    })["catch"](function(err) {
+      res.status(err.status || 400);
+      return res.json({
+        error: err.message
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=controller.js.map

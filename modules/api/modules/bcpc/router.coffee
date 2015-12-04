@@ -8,4 +8,6 @@ router
 
 .get '/register', controller.getRegister
 
+.get '/list', controller.getList
+
 module.exports = router

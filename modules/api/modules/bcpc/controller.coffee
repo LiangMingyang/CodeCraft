@@ -44,3 +44,28 @@ exports.getRegister = (req, res)->
   .catch (err)->
     res.status(err.status || 400)
     res.json(error:err.message)
+
+
+exports.getList = (req, res)->
+  User  = global.db.models.user
+  Group = global.db.models.group
+  joiner = undefined
+  currentGroup = undefined
+  BCPC_GROUP = 6
+  global.db.Promise.resolve()
+  .then ->
+    Group.find
+      where :
+        id : BCPC_GROUP
+      include : [
+        model: User
+        through:
+          where:
+            access_level : ['member'] #仅显示成员
+      ]
+  .then (group)->
+    throw new global.myErrors.UnknownGroup() if not group
+    res.json(group.get(plain:true))
+  .catch (err)->
+    res.status(err.status || 400)
+    res.json(error:err.message)
