@@ -215,6 +215,12 @@
       res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order)
       return res.length isnt 0
 
+    #change submission color by ZP
+    $scope.change_submission_color = (submission,index)->
+      return "green-tr" if submission == "WT" or submission == "JG"
+      return "blue-tr" if submission == "AC"
+      return "red-tr"
+
     #private functions
     rankStatistics = (rank)->
       triedPeopleCount = {}

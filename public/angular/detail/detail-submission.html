@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="submission in submissions">
+        <tr ng-repeat="submission in submissions" ng-class="change_submission_color(submission.result)">
             <td>{{submission.id}}</td>
             <td>
                 <a ng-click="setPage('problem');setProblem(idToOrder[submission.problem_id])">
