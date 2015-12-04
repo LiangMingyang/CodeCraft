@@ -39,3 +39,27 @@
   color: #0000ff;
   font-weight: 500;
 }
+
+tr.red-tr {
+  background-color: #ffeeee;
+}
+
+tr.red-tr:hover {
+  background-color: #ffdddd;
+}
+
+tr.green-tr{
+  background-color: #eeffee;
+}
+
+tr.green-tr:hover {
+  background-color: #ddffdd;
+}
+
+tr.blue-tr{
+  background-color: #eeffff;
+}
+
+tr.blue-tr:hover {
+  background-color: #ddffff;
+}

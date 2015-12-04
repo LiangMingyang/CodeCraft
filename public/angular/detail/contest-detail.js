@@ -224,6 +224,15 @@
         })();
         return res.length !== 0;
       };
+      $scope.change_submission_color = function(submission) {
+        if (submission === "WT" || submission === "JG") {
+          return "green-tr";
+        }
+        if (submission === "AC") {
+          return "blue-tr";
+        }
+        return "red-tr";
+      };
       return rankStatistics = function(rank) {
         var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
         triedPeopleCount = {};
