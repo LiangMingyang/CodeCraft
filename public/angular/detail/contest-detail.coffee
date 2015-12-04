@@ -68,6 +68,19 @@
       nickname: "游客"
     }
 
+    $scope.server_time ?= new Date()
+
+    $http.get("/api/contests/server_time")
+    .then(
+      (res)->
+        $scope.server_time = new Date(res.data.server_time)
+        countDown()
+    )
+    countDown = ()->
+      $scope.server_time = new Date($scope.server_time.getTime() + 1000)
+      $timeout(countDown,1000)
+
+
     userPoller = ()->
       $http.get("/api/users/me")
       .then(
@@ -97,6 +110,8 @@
           for p,i in contest.problems
             p.test_setting = JSON.parse(p.test_setting)
             $scope.idToOrder[p.id] = i
+          contest.start_time = new Date(contest.start_time)
+          contest.end_time = new Date(contest.end_time)
           $scope.contest = contest  #轮询
           #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
       ,
@@ -128,14 +143,14 @@
       ,
         (res)->
           #alert(res.data.error)
-          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-          )
+#          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
+##          $.notify(res.data.error,
+##            animate: {
+##              enter: 'animated fadeInRight',
+##              exit: 'animated fadeOutRight'
+##            }
+##            type: 'danger'
+##          )
           $timeout(rankPoller,Math.random()*10000)
       )
     rankPoller()
@@ -214,6 +229,33 @@
     $scope.tried = (order)->
       res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order)
       return res.length isnt 0
+
+    #change submission color by ZP
+    $scope.change_submission_color = (submission, index)->
+      color = undefined
+      number = undefined
+      if submission == "WT" or submission == "JG"
+        color = "green"
+      else if submission == "AC"
+        color = "blue"
+      else
+        color = "red"
+      if index % 2 == 0
+        number = "even"
+      else
+        number = "odd"
+      return color + "-" + number + "-" + "tr"
+
+    #change submission result color by ZP
+    $scope.change_submission_result_color = (result)->
+      return "green-td" if result == "WT" or result == "JG"
+      return "blue-td" if result == "AC"
+      return "red-td"
+
+    #return if the result is running or judging
+    $scope.check_submission_is_running = (result)->
+      return true if result == "WT" or result == "JG"
+      return false
 
     #private functions
     rankStatistics = (rank)->

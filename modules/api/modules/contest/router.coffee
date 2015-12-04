@@ -4,6 +4,8 @@ controller = require('./controller')
 
 
 router
+.get '/server_time', controller.getTime
+
 .get '/:contestId', controller.getContest
 
 .get '/:contestId/rank', controller.getRank
