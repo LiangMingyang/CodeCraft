@@ -160,7 +160,6 @@
 
   exports.getTime = function(req, res) {
     var now;
-    console.log("hh");
     now = new Date();
     return res.json({
       server_time: now

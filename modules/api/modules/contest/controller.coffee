@@ -106,6 +106,5 @@ exports.postSubmissions = (req, res) ->
     res.json(error:err.message)
 
 exports.getTime = (req, res)->
-  console.log "hh"
   now = new Date()
   res.json(server_time:now)
