@@ -10,7 +10,7 @@
 
   controller = require('./controller');
 
-  router.get('/:contestId', controller.getContest).get('/:contestId/rank', controller.getRank).get('/:contestId/submissions', controller.getSubmissions).post('/:contestId/submissions', controller.postSubmissions);
+  router.get('/server_time', controller.getTime).get('/:contestId', controller.getContest).get('/:contestId/rank', controller.getRank).get('/:contestId/submissions', controller.getSubmissions).post('/:contestId/submissions', controller.postSubmissions);
 
   module.exports = router;
 

@@ -104,3 +104,8 @@ exports.postSubmissions = (req, res) ->
   .catch (err)->
     res.status(err.status || 400)
     res.json(error:err.message)
+
+exports.getTime = (req, res)->
+  console.log "hh"
+  now = new Date()
+  res.json(server_time:now)
