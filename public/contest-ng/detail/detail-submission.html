@@ -32,7 +32,7 @@
             <tr ng-repeat="submission in Submission.data" ng-class="change_submission_color(submission.result, $index)">
                 <td><a href="/submission/{{submission.id}}" target="_blank">{{submission.id}}</a></td>
                 <td>
-                    <a ng-click="setPage('problem');setProblem(Contest.idToOrder[submission.problem_id])">
+                    <a ng-click="setProblem(Contest.idToOrder[submission.problem_id])" href="#/{{contestId}}/problems">
                         {{numberToLetters(Contest.idToOrder[submission.problem_id])}}
                     </a>
                 </td>

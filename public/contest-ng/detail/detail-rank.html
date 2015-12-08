@@ -37,7 +37,7 @@
             <tbody>
                 <tr ng-repeat="r in Rank.data"  class="text-center">
                     <td>{{$index+1}}</td>
-                    <td>{{r.user.nickname | limitTo:5}}</td>
+                    <td><a href="/user/{{r.user.id}}">{{r.user.nickname | limitTo:5}}</a></td>
                     <td>{{r.score}}</td>
                     <td>{{r.penalty | penalty}}</td>
                     <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
