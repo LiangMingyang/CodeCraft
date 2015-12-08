@@ -13,6 +13,9 @@
         }
       ]);
     }).then(function(contest) {
+      if (!contest && !req.session.user) {
+        throw new global.myErrors.UnknownUser();
+      }
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }

@@ -124,9 +124,6 @@
         contest.end_time = new Date(contest.end_time);
         return Contest.data = contest;
       }, function(res) {
-        if (!res.status === 401) {
-          res.data.error = "该比赛需要登录才可以查看";
-        }
         $.notify(res.data.error, {
           animate: {
             enter: 'animated fadeInRight',

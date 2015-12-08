@@ -107,8 +107,6 @@
         Contest.data  = contest  #轮询
     ,
       (res)->
-        #alert(res.data.error)
-        res.data.error = "该比赛需要登录才可以查看" if not res.status is 401
         $.notify(res.data.error,
           animate: {
             enter: 'animated fadeInRight',

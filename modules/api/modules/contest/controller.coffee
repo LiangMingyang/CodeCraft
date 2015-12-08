@@ -9,6 +9,7 @@ exports.getContest = (req, res)->
       model : Problem
     ])
   .then (contest)->
+    throw new global.myErrors.UnknownUser() if not contest and not req.session.user
     throw new global.myErrors.UnknownContest() if not contest
     res.json(contest.get({plain:true}))
   .catch (err)->
