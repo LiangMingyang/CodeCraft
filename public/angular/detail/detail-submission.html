@@ -1,33 +1,49 @@
-<!--<p>{{submissions}}</p>-->
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <td>编号</td>
-            <td>题目</td>
-            <td>结果</td>
-            <td>得分</td>
-            <td>语言</td>
-            <td>代码长度</td>
-            <td>耗时</td>
-            <td>内存</td>
-            <td>提交时间</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="submission in submissions" ng-class="change_submission_color(submission.result, $index)">
-            <td><a href="/submission/{{submission.id}}" target="_blank">{{submission.id}}</a></td>
-            <td>
-                <a ng-click="setPage('problem');setProblem(idToOrder[submission.problem_id])">
-                    {{numberToLetters(idToOrder[submission.problem_id])}}
-                </a>
-            </td>
-            <td ng-class="change_submission_result_color(submission.result)">{{submission.result | result}}</td>
-            <td>{{submission.score}}</td>
-            <td>{{submission.lang}}</td>
-            <td>{{submission.code_length}}</td>
-            <td>{{submission.time_cost}}</td>
-            <td>{{submission.memory_cost}}</td>
-            <td>{{submission.created_at | date: 'yyyy-MM-dd hh:mm:ss'}}</td>
-        </tr>
-    </tbody>
-</table>
+<nav class="navbar navbar-default" ng-include="'detail/nav.html'"></nav>
+
+
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+    <h4>{{Contest.data.title}}</h4>
+    <div class="form-horizontal">
+        <a class = "normal-color list-group-item" href="#/{{contestId}}" >简介</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/problems">题目</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item active" href="#/{{contestId}}/submissions">我的提交</a>
+    </div>
+    <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
+    <!--</div>-->
+    <div class="text-center" ng-include="'detail/time.html'"></div>
+</div>
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>编号</td>
+                <td>题目</td>
+                <td>结果</td>
+                <td>得分</td>
+                <td>语言</td>
+                <td>代码长度</td>
+                <td>耗时</td>
+                <td>内存</td>
+                <td>提交时间</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="submission in Submission.data" ng-class="change_submission_color(submission.result, $index)">
+                <td><a href="/submission/{{submission.id}}" target="_blank">{{submission.id}}</a></td>
+                <td>
+                    <a ng-click="setPage('problem');setProblem(Contest.idToOrder[submission.problem_id])">
+                        {{numberToLetters(Contest.idToOrder[submission.problem_id])}}
+                    </a>
+                </td>
+                <td ng-class="change_submission_result_color(submission.result)">{{submission.result | result}}</td>
+                <td>{{submission.score}}</td>
+                <td>{{submission.lang}}</td>
+                <td>{{submission.code_length}}</td>
+                <td>{{submission.time_cost}}</td>
+                <td>{{submission.memory_cost}}</td>
+                <td>{{submission.created_at | date: 'yyyy-MM-dd hh:mm:ss'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

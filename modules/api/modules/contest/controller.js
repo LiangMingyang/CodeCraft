@@ -13,6 +13,9 @@
         }
       ]);
     }).then(function(contest) {
+      if (!contest && !req.session.user) {
+        throw new global.myErrors.UnknownUser();
+      }
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
@@ -38,6 +41,9 @@
         }
       ]);
     }).then(function(contest) {
+      if (!contest && !req.session.user) {
+        throw new global.myErrors.UnknownUser();
+      }
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
@@ -117,6 +123,9 @@
       ]);
     }).then(function(contest) {
       var form, form_code, problem;
+      if (!contest && !req.session.user) {
+        throw new global.myErrors.UnknownUser();
+      }
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
