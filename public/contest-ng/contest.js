@@ -221,11 +221,13 @@
     Rank.ori = "";
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
+    Rank.version = void 0;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
         Rank.data = [];
-        return Rank.statistics = {};
+        Rank.statistics = {};
+        return Rank.version = void 0;
       }
     };
     doRankStatistics = function(rank) {
@@ -265,6 +267,7 @@
           Rank.statistics = doRankStatistics(Rank.data);
           Rank.ori = res.data;
         }
+        Rank.version = new Date();
         return $timeout(Poller, 5000 + Math.random() * 5000);
       }, function() {
         return $timeout(Poller, Math.random() * 5000);

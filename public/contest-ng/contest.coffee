@@ -206,12 +206,14 @@ config( ($routeProvider)->
   Rank.ori = ""
   Rank.statistics = {}
   Rank.contestId = $routeParams.contestId || 1
+  Rank.version = undefined
 
   Rank.setContestId = (newContestId)->
     if newContestId isnt Rank.contestId
       Rank.contestId = newContestId
       Rank.data = []
       Rank.statistics = {}
+      Rank.version = undefined
 
   doRankStatistics = (rank)->
     triedPeopleCount = {}
@@ -238,6 +240,7 @@ config( ($routeProvider)->
           Rank.data = JSON.parse(res.data) #轮询
           Rank.statistics = doRankStatistics(Rank.data)
           Rank.ori = res.data
+        Rank.version = new Date()
         $timeout(Poller,5000+Math.random()*5000)
     ,
       ()->
