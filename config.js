@@ -10,7 +10,7 @@
       username: 'root',
       password: 'alimengmengda',
       config: {
-        host: 'localhost',
+        host: '101.200.3.143',
         dialect: 'mysql',
         port: 3306,
         timezone: '+08:00',

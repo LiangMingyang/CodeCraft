@@ -37,7 +37,7 @@ app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({extended: false,limit: '20mb'}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use('/', routes);
 //app.use('/users', users);
 

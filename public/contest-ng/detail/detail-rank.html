@@ -1,0 +1,56 @@
+<nav class="navbar navbar-default" ng-include="'detail/nav.html'"></nav>
+
+
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+    <h4>{{Contest.data.title}}</h4>
+    <div class="form-horizontal">
+        <a class = "normal-color list-group-item" href="#/{{contestId}}" >简介</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/problems">题目</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item active" href="#/{{contestId}}/rank">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/submissions">我的提交</a>
+    </div>
+    <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
+    <!--</div>-->
+    <div class="text-center" ng-include="'detail/time.html'"></div>
+</div>
+
+
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+    <h3>比赛排名</h3>
+    <div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="text-center">
+                    <td>排名</td>
+                    <td>用户</td>
+                    <td>得分</td>
+                    <td>罚时</td>
+                    <td ng-repeat="problem in Contest.data.problems">
+                        <a ng-click="setProblem($index)" href="#/{{contestId}}/problems">{{numberToLetters($index)}}</a>
+                        <!--<br>-->
+                        <p>
+                            {{Rank.statistics.acceptedPeopleCount[numberToLetters($index)]}}/{{Rank.statistics.triedPeopleCount[numberToLetters($index)]}}
+                        </p>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="r in Rank.data"  class="text-center">
+                    <td>{{$index+1}}</td>
+                    <td><a href="/user/{{r.user.id}}">{{r.user.nickname | limitTo:5}}</a></td>
+                    <td>{{r.score}}</td>
+                    <td>{{r.penalty | penalty}}</td>
+                    <!-- TODO: there are some problems in the penalty: the hour is wrong. -->
+                    <td ng-repeat="problem in Contest.data.problems"
+                        ng-class = "{ 'danger': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score === 0, 'success': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result == 'AC', 'info': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].first_blood, 'warning': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score > 0} "
+                    >
+                        <!--<p ng-show="r.detail[numberToLetters($index)].accepted_time">-->
+                            {{r.detail[numberToLetters($index)].accepted_time | penalty}}{{r.detail[numberToLetters($index)].wrong_count | wrongCount}}
+                        <!--</p>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--{{rank}}-->
+    </div>
+</div>

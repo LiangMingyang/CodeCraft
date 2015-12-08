@@ -1,0 +1,33 @@
+<nav class="navbar navbar-default" ng-include="'detail/nav.html'">
+</nav>
+
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+    <h4>{{Contest.data.title}}</h4>
+    <div class="form-horizontal">
+        <a class = "normal-color list-group-item active" href="#/{{contestId}}" >简介</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/problems">题目</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/submissions">我的提交</a>
+    </div>
+    <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
+    <!--</div>-->
+    <div class="text-center" ng-include="'detail/time.html'"></div>
+</div>
+
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+    <h4>比赛简介</h4>
+    <div ng-bind-html="Contest.data.description | marked"></div>
+
+</div>
+
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/detail-problem.html'">
+</div>
+
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/problem-right.html'">
+</div>
+
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('rank')" ng-include="'detail/detail-rank.html'">
+</div>
+
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('submission')" ng-include="'detail/detail-submission.html'">
+</div>

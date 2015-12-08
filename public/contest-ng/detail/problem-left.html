@@ -1,0 +1,78 @@
+<!-- Button trigger modal -->
+<button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
+    提交
+</button>
+<p class="text-center">
+    <code>{{numberToLetters(order)}}</code>
+    提交记录：
+</p>
+<table class="table table-condensed table-bordered">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>结果</td>
+            <td>时间</td>
+            <td>内存</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="submission in Submission.data | filter:{problem_id:contest.problems[order].id}:true" ng-class="change_submission_color(submission.result, $index)">
+            <td><a href="/submission/{{submission.id}}" target="_blank">{{submission.id}}</a></td>
+            <td ng-class="change_submission_result_color(submission.result)" ng-if="!check_submission_is_running(submission.result)">{{submission.result}}</td>
+            <td ng-class="change_submission_result_color(submission.result)" ng-if="check_submission_is_running(submission.result)"><img src="img/waiting.gif" width="20px" height="20px"></td>
+            <td>{{submission.time_cost}}</td>
+            <td>{{submission.memory_cost}}</td>
+        </tr>
+    </tbody>
+</table>
+<!--<p ng-repeat="submission in Submission.data | filter:{problem_id:contest.problems[order].id}:true">{{submission.result}}</p>-->
+
+
+
+
+<!-- form -->
+<div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog"
+     aria-labelledby = "myModalLabel" aria-hidden = "true">
+
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+
+            <div class = "modal-header">
+                <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                    &times;
+                </button>
+
+                <h4 class = "modal-title" id = "myModalLabel">
+                    交给{{numberToLetters(order)}}题的代码
+                </h4>
+                <p>
+                    该题通过率为
+                    <code>
+                        {{rankStatistics.acceptedPeopleCount[numberToLetters(order)]/rankStatistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%
+                    </code>
+                </p>
+            </div>
+
+            <div class = "modal-body">
+                <label for="lang">语言:</label>
+                <select id="lang" name="lang" class="form-control" ng-model="form.lang" required>
+                    <option ng-repeat="lang in contest.problems[order].test_setting.supported_languages.split(',')" value="{{lang}}">{{lang}}</option>
+                </select>
+                <label for="code" >代码:</label>
+                <textarea class="form-control" rows="20" name="code" id="code" ng-model="form.code"></textarea>
+            </div>
+
+            <div class = "modal-footer">
+                <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                    Close
+                </button>
+
+                <button type = "button" class = "btn btn-primary" data-dismiss = "modal" ng-click="submit(order)">
+                    Submit
+                </button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+</div><!-- /.modal -->

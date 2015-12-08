@@ -35,3 +35,7 @@ node_modules
 Thumbs.db
 
 # Coffee middle file
+
+
+bower_components
+
