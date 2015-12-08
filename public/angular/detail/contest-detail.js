@@ -67,8 +67,29 @@
         return dic[result] || "Other Error";
       };
     }
-  ]).controller('contest-detail', function($scope, $routeParams, $http, $timeout) {
-    var contestPoller, countDown, rankPoller, rankStatistics, subPoller, userPoller;
+  ]).factory('Submission', function($routeParams, $http, $timeout) {
+    var Poller, Sub;
+    Sub = {};
+    Sub.data = [];
+    Sub.contestId = $routeParams.contestId || 1;
+    Sub.setContestId = function(newContestId) {
+      if (newContestId !== Sub.contestId) {
+        Sub.data = [];
+      }
+      return Sub.contestId = newContestId;
+    };
+    Poller = function() {
+      return $http.get("/api/contests/" + Sub.contestId + "/submissions").then(function(res) {
+        Sub.data = res.data;
+        return $timeout(Poller, 1000 + Math.random() * 1000);
+      }, function() {
+        return $timeout(Poller, Math.random() * 5000);
+      });
+    };
+    Poller();
+    return Sub;
+  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission) {
+    var contestPoller, countDown, rankPoller, rankStatistics, userPoller;
     if ($scope.contest == null) {
       $scope.contest = {
         title: "Waiting for data...",
@@ -97,14 +118,15 @@
     if ($scope.server_time == null) {
       $scope.server_time = new Date();
     }
-    $http.get("/api/contests/server_time").then(function(res) {
-      $scope.server_time = new Date(res.data.server_time);
-      return countDown();
-    });
+    Submission.setContestId($routeParams.contestId);
     countDown = function() {
       $scope.server_time = new Date($scope.server_time.getTime() + 1000);
       return $timeout(countDown, 1000);
     };
+    $http.get("/api/contests/server_time").then(function(res) {
+      $scope.server_time = new Date(res.data.server_time);
+      return countDown();
+    });
     userPoller = function() {
       return $http.get("/api/users/me").then(function(res) {
         $scope.user = res.data;
@@ -163,16 +185,7 @@
       });
     };
     rankPoller();
-    $scope.submissions = [];
-    subPoller = function() {
-      return $http.get("/api/contests/" + $routeParams.contestId + "/submissions").then(function(res) {
-        $scope.submissions = res.data;
-        return $timeout(subPoller, 1000 + Math.random() * 1000);
-      }, function() {
-        return $timeout(subPoller, Math.random() * 5000);
-      });
-    };
-    subPoller();
+    $scope.Submission = Submission;
     $scope.setPage = function(page) {
       return $scope.page = page;
     };
@@ -229,7 +242,7 @@
       var res, sub;
       res = (function() {
         var j, len, ref, results;
-        ref = $scope.submissions;
+        ref = Submission.data;
         results = [];
         for (j = 0, len = ref.length; j < len; j++) {
           sub = ref[j];
@@ -245,7 +258,7 @@
       var res, sub;
       res = (function() {
         var j, len, ref, results;
-        ref = $scope.submissions;
+        ref = Submission.data;
         results = [];
         for (j = 0, len = ref.length; j < len; j++) {
           sub = ref[j];

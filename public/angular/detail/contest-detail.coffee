@@ -51,8 +51,33 @@
     return dic[result] || "Other Error"
 ])
 
+.factory('Submission', ($routeParams, $http, $timeout)->
+  Sub = {}
+  Sub.data = []
+  Sub.contestId = $routeParams.contestId || 1
 
-.controller('contest-detail', ($scope, $routeParams, $http, $timeout)->
+  Sub.setContestId = (newContestId)->
+    if newContestId isnt Sub.contestId
+      Sub.data = []
+    Sub.contestId = newContestId
+
+  Poller = ()->
+    $http.get("/api/contests/#{Sub.contestId}/submissions")
+    .then(
+      (res)->
+        Sub.data = res.data #轮询
+        $timeout(Poller, 1000 + Math.random()*1000)
+    ,
+      ()->
+        $timeout(Poller,Math.random()*5000)
+  )
+  Poller()
+
+  return Sub
+)
+
+
+.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission)->
     #data
 
     $scope.contest ?= {
@@ -69,6 +94,11 @@
     }
 
     $scope.server_time ?= new Date()
+    Submission.setContestId($routeParams.contestId)
+
+    countDown = ()->
+      $scope.server_time = new Date($scope.server_time.getTime() + 1000)
+      $timeout(countDown,1000)
 
     $http.get("/api/contests/server_time")
     .then(
@@ -76,10 +106,6 @@
         $scope.server_time = new Date(res.data.server_time)
         countDown()
     )
-    countDown = ()->
-      $scope.server_time = new Date($scope.server_time.getTime() + 1000)
-      $timeout(countDown,1000)
-
 
     userPoller = ()->
       $http.get("/api/users/me")
@@ -155,19 +181,7 @@
       )
     rankPoller()
 
-    $scope.submissions = []
-
-    subPoller = ()->
-      $http.get("/api/contests/#{$routeParams.contestId}/submissions")
-      .then(
-        (res)->
-          $scope.submissions = res.data #轮询
-          $timeout(subPoller, 1000 + Math.random()*1000)
-      ,
-        ()->
-          $timeout(subPoller,Math.random()*5000)
-      )
-    subPoller()
+    $scope.Submission = Submission
 
     #Function
 
@@ -223,11 +237,11 @@
       )
 
     $scope.accepted = (order)->
-      res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order and sub.result is 'AC')
+      res = (sub for sub in Submission.data when $scope.idToOrder[sub.problem_id] is order and sub.result is 'AC')
       return res.length isnt 0
 
     $scope.tried = (order)->
-      res = (sub for sub in $scope.submissions when $scope.idToOrder[sub.problem_id] is order)
+      res = (sub for sub in Submission.data when $scope.idToOrder[sub.problem_id] is order)
       return res.length isnt 0
 
     #change submission color by ZP
