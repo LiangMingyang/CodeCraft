@@ -23,11 +23,9 @@
         plain: true
       });
       if (contest.start_time > (new Date())) {
-        delete contest.problems;
+        contest.problems = [];
       }
-      return res.json(contest.get({
-        plain: true
-      }));
+      return res.json(contest);
     })["catch"](function(err) {
       res.status(err.status || 400);
       return res.json({

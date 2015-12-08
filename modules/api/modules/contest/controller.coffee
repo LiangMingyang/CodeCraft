@@ -13,8 +13,8 @@ exports.getContest = (req, res)->
     throw new global.myErrors.UnknownContest() if not contest
     contest = contest.get(plain:true)
     if contest.start_time > (new Date())
-      delete contest.problems
-    res.json(contest.get({plain:true}))
+      contest.problems = []
+    res.json(contest)
   .catch (err)->
     res.status(err.status || 400)
     res.json(error:err.message)
