@@ -28,6 +28,7 @@ exports.getRank = (req, res)->
       ]
     ])
   .then (contest)->
+    throw new global.myErrors.UnknownUser() if not contest and not req.session.user
     throw new global.myErrors.UnknownContest() if not contest
     throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     contest.problems.sort (a,b)->
@@ -79,6 +80,7 @@ exports.postSubmissions = (req, res) ->
       model: Problem
     ])
   .then (contest)->
+    throw new global.myErrors.UnknownUser() if not contest and not req.session.user
     throw new global.myErrors.UnknownContest() if not contest
     throw new global.myErrors.InvalidAccess() if (new Date()) < contest.start_time or contest.end_time < (new Date())
     contest.problems.sort (a,b)->
@@ -107,6 +109,5 @@ exports.postSubmissions = (req, res) ->
     res.json(error:err.message)
 
 exports.getTime = (req, res)->
-  console.log "hh"
   now = new Date()
   res.json(server_time:now)
