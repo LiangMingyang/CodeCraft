@@ -157,8 +157,62 @@
     };
     Poller();
     return Me;
-  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me) {
-    var countDown, rankPoller, rankStatistics;
+  }).factory('Rank', function($routeParams, $http, $timeout) {
+    var Poller, Rank, doRankStatistics;
+    Rank = {};
+    Rank.data = [];
+    Rank.statistics = {};
+    Rank.contestId = $routeParams.contestId || 1;
+    Rank.setContestId = function(newContestId) {
+      if (newContestId !== Rank.contestId) {
+        Rank.contestId = newContestId;
+        Rank.data = [];
+        return Rank.statistics = {};
+      }
+    };
+    doRankStatistics = function(rank) {
+      var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
+      triedPeopleCount = {};
+      acceptedPeopleCount = {};
+      triedSubCount = {};
+      for (j = 0, len = rank.length; j < len; j++) {
+        r = rank[j];
+        for (p in r.detail) {
+          if (acceptedPeopleCount[p] == null) {
+            acceptedPeopleCount[p] = 0;
+          }
+          if (r.detail[p].result === 'AC') {
+            ++acceptedPeopleCount[p];
+          }
+          if (triedPeopleCount[p] == null) {
+            triedPeopleCount[p] = 0;
+          }
+          ++triedPeopleCount[p];
+          if (triedSubCount[p] == null) {
+            triedSubCount[p] = 0;
+          }
+          triedSubCount[p] += r.detail[p].wrong_count + 1;
+        }
+      }
+      return {
+        triedPeopleCount: triedPeopleCount,
+        acceptedPeopleCount: acceptedPeopleCount,
+        triedSubCount: triedSubCount
+      };
+    };
+    Poller = function() {
+      return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
+        Rank.data = JSON.parse(res.data);
+        Rank.statistics = doRankStatistics(Rank.data);
+        return $timeout(Poller, 5000 + Math.random() * 5000);
+      }, function() {
+        return $timeout(Poller, Math.random() * 5000);
+      });
+    };
+    Poller();
+    return Rank;
+  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank) {
+    var countDown;
     if ($scope.page == null) {
       $scope.page = "description";
     }
@@ -178,6 +232,8 @@
     $scope.Contest = Contest;
     Submission.setContestId($routeParams.contestId);
     $scope.Submission = Submission;
+    Rank.setContestId($routeParams.contestId);
+    $scope.Rank = Rank;
     countDown = function() {
       $scope.server_time = new Date($scope.server_time.getTime() + 1000);
       return $timeout(countDown, 1000);
@@ -186,17 +242,6 @@
       $scope.server_time = new Date(res.data.server_time);
       return countDown();
     });
-    $scope.rank = [];
-    rankPoller = function() {
-      return $http.get("/api/contests/" + $routeParams.contestId + "/rank").then(function(res) {
-        $scope.rank = JSON.parse(res.data);
-        $scope.rankStatistics = rankStatistics($scope.rank);
-        return $timeout(rankPoller, 5000 + Math.random() * 5000);
-      }, function(res) {
-        return $timeout(rankPoller, Math.random() * 10000);
-      });
-    };
-    rankPoller();
     $scope.setPage = function(page) {
       return $scope.page = page;
     };
@@ -308,41 +353,11 @@
       }
       return "red-td";
     };
-    $scope.check_submission_is_running = function(result) {
+    return $scope.check_submission_is_running = function(result) {
       if (result === "WT" || result === "JG") {
         return true;
       }
       return false;
-    };
-    return rankStatistics = function(rank) {
-      var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
-      triedPeopleCount = {};
-      acceptedPeopleCount = {};
-      triedSubCount = {};
-      for (j = 0, len = rank.length; j < len; j++) {
-        r = rank[j];
-        for (p in r.detail) {
-          if (acceptedPeopleCount[p] == null) {
-            acceptedPeopleCount[p] = 0;
-          }
-          if (r.detail[p].result === 'AC') {
-            ++acceptedPeopleCount[p];
-          }
-          if (triedPeopleCount[p] == null) {
-            triedPeopleCount[p] = 0;
-          }
-          ++triedPeopleCount[p];
-          if (triedSubCount[p] == null) {
-            triedSubCount[p] = 0;
-          }
-          triedSubCount[p] += r.detail[p].wrong_count + 1;
-        }
-      }
-      return {
-        triedPeopleCount: triedPeopleCount,
-        acceptedPeopleCount: acceptedPeopleCount,
-        triedSubCount: triedSubCount
-      };
     };
   });
 

@@ -11,13 +11,13 @@
                     <a ng-click="setPage('problem');setProblem($index)">{{numberToLetters($index)}}</a>
                     <!--<br>-->
                     <p>
-                        {{rankStatistics.acceptedPeopleCount[numberToLetters($index)]}}/{{rankStatistics.triedPeopleCount[numberToLetters($index)]}}
+                        {{Rank.statistics.acceptedPeopleCount[numberToLetters($index)]}}/{{Rank.statistics.triedPeopleCount[numberToLetters($index)]}}
                     </p>
                 </td>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="r in rank"  class="text-center">
+            <tr ng-repeat="r in Rank.data"  class="text-center">
                 <td>{{$index+1}}</td>
                 <td>{{r.user.nickname | limitTo:5}}</td>
                 <td>{{r.score}}</td>

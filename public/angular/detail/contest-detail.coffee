@@ -119,7 +119,6 @@
   Poller()
   return Contest
 )
-
 .factory('Me', ($http, $timeout)->
   Me = {}
   Me.data = {}
@@ -143,9 +142,53 @@
   Poller()
   return Me
 )
+.factory('Rank', ($routeParams, $http, $timeout)->
+  Rank = {}
+  Rank.data = []
+  Rank.statistics = {}
+  Rank.contestId = $routeParams.contestId || 1
+
+  Rank.setContestId = (newContestId)->
+    if newContestId isnt Rank.contestId
+      Rank.contestId = newContestId
+      Rank.data = []
+      Rank.statistics = {}
+
+  doRankStatistics = (rank)->
+    triedPeopleCount = {}
+    acceptedPeopleCount = {}
+    triedSubCount = {}
+    for r in rank
+      for p of r.detail
+        acceptedPeopleCount[p] ?= 0
+        ++acceptedPeopleCount[p] if r.detail[p].result is 'AC'
+        triedPeopleCount[p] ?= 0
+        ++triedPeopleCount[p]
+        triedSubCount[p] ?= 0
+        triedSubCount[p] += r.detail[p].wrong_count + 1
+    return {
+    triedPeopleCount : triedPeopleCount
+    acceptedPeopleCount : acceptedPeopleCount
+    triedSubCount : triedSubCount
+    }
+  Poller = ()->
+    $http.get("/api/contests/#{Rank.contestId}/rank")
+    .then(
+      (res)->
+        Rank.data = JSON.parse(res.data) #轮询
+        Rank.statistics = doRankStatistics(Rank.data)
+        $timeout(Poller,5000+Math.random()*5000)
+    ,
+      ()->
+        $timeout(Poller,Math.random()*5000)
+    )
+  Poller()
+
+  return Rank
+)
 
 
-.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me)->
+.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank)->
     #data
 
     $scope.page ?= "description"
@@ -162,6 +205,9 @@
     Submission.setContestId($routeParams.contestId)
     $scope.Submission = Submission
 
+    Rank.setContestId($routeParams.contestId)
+    $scope.Rank = Rank
+
     countDown = ()->
       $scope.server_time = new Date($scope.server_time.getTime() + 1000)
       $timeout(countDown,1000)
@@ -172,22 +218,6 @@
         $scope.server_time = new Date(res.data.server_time)
         countDown()
     )
-
-
-    $scope.rank = []
-
-    rankPoller = ()->
-      $http.get("/api/contests/#{$routeParams.contestId}/rank")
-      .then(
-        (res)->
-          $scope.rank = JSON.parse(res.data) #轮询
-          $scope.rankStatistics = rankStatistics($scope.rank)
-          $timeout(rankPoller,5000+Math.random()*5000)
-      ,
-        (res)->
-          $timeout(rankPoller,Math.random()*10000)
-      )
-    rankPoller()
 
     #Function
 
@@ -278,21 +308,5 @@
       return false
 
     #private functions
-    rankStatistics = (rank)->
-      triedPeopleCount = {}
-      acceptedPeopleCount = {}
-      triedSubCount = {}
-      for r in rank
-        for p of r.detail
-          acceptedPeopleCount[p] ?= 0
-          ++acceptedPeopleCount[p] if r.detail[p].result is 'AC'
-          triedPeopleCount[p] ?= 0
-          ++triedPeopleCount[p]
-          triedSubCount[p] ?= 0
-          triedSubCount[p] += r.detail[p].wrong_count + 1
-      return {
-        triedPeopleCount : triedPeopleCount
-        acceptedPeopleCount : acceptedPeopleCount
-        triedSubCount : triedSubCount
-      }
+
 )
