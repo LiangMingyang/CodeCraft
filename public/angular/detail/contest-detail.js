@@ -135,10 +135,30 @@
       });
     };
     Poller();
-    console.log("Built Contest");
     return Contest;
-  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest) {
-    var countDown, rankPoller, rankStatistics, userPoller;
+  }).factory('Me', function($http, $timeout) {
+    var Me, Poller;
+    Me = {};
+    Me.data = {};
+    Poller = function() {
+      return $http.get("/api/users/me").then(function(res) {
+        Me.data = res.data;
+        return $timeout(Poller, 10000 + Math.random() * 1000);
+      }, function(res) {
+        $.notify(res.data.error, {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'danger'
+        });
+        return $timeout(Poller, Math.random() * 10000);
+      });
+    };
+    Poller();
+    return Me;
+  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me) {
+    var countDown, rankPoller, rankStatistics;
     if ($scope.page == null) {
       $scope.page = "description";
     }
@@ -150,11 +170,7 @@
         lang: 'c++'
       };
     }
-    if ($scope.user == null) {
-      $scope.user = {
-        nickname: "游客"
-      };
-    }
+    $scope.Me = Me;
     if ($scope.server_time == null) {
       $scope.server_time = new Date();
     }
@@ -170,22 +186,6 @@
       $scope.server_time = new Date(res.data.server_time);
       return countDown();
     });
-    userPoller = function() {
-      return $http.get("/api/users/me").then(function(res) {
-        $scope.user = res.data;
-        return $timeout(userPoller, 10000 + Math.random() * 1000);
-      }, function(res) {
-        $.notify(res.data.error, {
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          },
-          type: 'danger'
-        });
-        return $timeout(userPoller, Math.random() * 10000);
-      });
-    };
-    userPoller();
     $scope.rank = [];
     rankPoller = function() {
       return $http.get("/api/contests/" + $routeParams.contestId + "/rank").then(function(res) {

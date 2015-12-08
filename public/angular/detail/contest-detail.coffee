@@ -117,25 +117,48 @@
         $timeout(Poller,Math.random()*10000)
     )
   Poller()
-  console.log "Built Contest"
   return Contest
 )
 
+.factory('Me', ($http, $timeout)->
+  Me = {}
+  Me.data = {}
+  Poller = ()->
+    $http.get("/api/users/me")
+    .then(
+      (res)->
+        Me.data = res.data
+        $timeout(Poller,10000+Math.random()*1000)
+    ,
+      (res)->
+        $.notify(res.data.error,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'danger'
+        )
+        $timeout(Poller,Math.random()*10000)
+    )
+  Poller()
+  return Me
+)
 
-.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest)->
+
+.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me)->
     #data
 
     $scope.page ?= "description"
     $scope.order ?= 0
     $scope.form ?= {lang:'c++'}
 
-    $scope.user ?= {
-      nickname: "游客"
-    }
+    $scope.Me = Me
 
     $scope.server_time ?= new Date()
+
     Contest.setContestId($routeParams.contestId)
     $scope.Contest = Contest
+
     Submission.setContestId($routeParams.contestId)
     $scope.Submission = Submission
 
@@ -150,25 +173,6 @@
         countDown()
     )
 
-    userPoller = ()->
-      $http.get("/api/users/me")
-      .then(
-        (res)->
-          $scope.user = res.data
-          $timeout(userPoller,10000+Math.random()*1000)
-      ,
-        (res)->
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-          )
-          $timeout(userPoller,Math.random()*10000)
-      )
-    userPoller()
-
 
     $scope.rank = []
 
@@ -181,15 +185,6 @@
           $timeout(rankPoller,5000+Math.random()*5000)
       ,
         (res)->
-          #alert(res.data.error)
-#          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
-##          $.notify(res.data.error,
-##            animate: {
-##              enter: 'animated fadeInRight',
-##              exit: 'animated fadeOutRight'
-##            }
-##            type: 'danger'
-##          )
           $timeout(rankPoller,Math.random()*10000)
       )
     rankPoller()

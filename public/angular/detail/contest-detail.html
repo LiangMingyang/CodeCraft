@@ -29,15 +29,15 @@
                 <a href="/contest/{{Contest.data.id}}">切回原版</a>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" ng-show="user.id">
+        <ul class="nav navbar-nav navbar-right" ng-show="Me.data.id">
             <li>
-                <a href="/user/{{user.id}}/index">{{user.nickname}}</a>
+                <a href="/user/{{Me.data.id}}/index">{{Me.data.nickname}}</a>
             </li>
             <li>
                 <a href="/user/logout">登出</a>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" ng-hide="user.id">
+        <ul class="nav navbar-nav navbar-right" ng-hide="Me.data.id">
             <li>
                 <a href="/user/login">登录</a>
             </li>
