@@ -200,8 +200,7 @@
     Me.data = {};
     Poller = function() {
       return $http.get("/api/users/me").then(function(res) {
-        Me.data = res.data;
-        return $timeout(Poller, 10000 + Math.random() * 1000);
+        return Me.data = res.data;
       }, function(res) {
         $.notify(res.data.error, {
           animate: {

@@ -185,7 +185,7 @@ config( ($routeProvider)->
     .then(
       (res)->
         Me.data = res.data
-        $timeout(Poller,10000+Math.random()*1000)
+        #$timeout(Poller,10000+Math.random()*1000)
     ,
       (res)->
         $.notify(res.data.error,
