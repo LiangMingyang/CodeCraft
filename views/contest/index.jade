@@ -61,7 +61,7 @@ block content
                             label(id = "td" + i) #{contestStatus}
                         td
                             //a(href= "/contest/" + contest.id + "/index") #{contest.title}
-                            a(href="/angular/index.html#/contest/"+contest.id) #{contest.title}
+                            a(href= "/contest-ng/index.html#/" + contest.id) #{contest.title}
                         td
                             a(href= "../group/" + contest.group.id + "/index") #{contest.group.name}
                         td #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
