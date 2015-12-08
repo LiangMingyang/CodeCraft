@@ -79,25 +79,56 @@ config( ($routeProvider)->
 
 .factory('Submission', ($routeParams, $http, $timeout)->
   Sub = {}
-  Sub.data = []
-  Sub.contestId = $routeParams.contestId || 1
-
   Sub.setContestId = (newContestId)->
     if newContestId isnt Sub.contestId
       Sub.contestId = newContestId
       Sub.data = []
+      $http.get("/api/contests/#{Sub.contestId}/submissions")
+      .then(
+        (res)->
+          Sub.data = res.data #轮询
+      )
+  Sub.setContestId($routeParams.contestId || 1)
 
   Poller = ()->
-    $http.get("/api/contests/#{Sub.contestId}/submissions")
+    queue = (sub for sub in Sub.data when sub.result is "WT" or sub.result is "JG")
+    if queue.length > 0
+      $http.get("/api/contests/#{Sub.contestId}/submissions")
+      .then(
+        (res)->
+          Sub.data = res.data #轮询
+          $timeout(Poller, 1000 + Math.random()*1000)
+      ,
+        ()->
+          $timeout(Poller,Math.random()*5000)
+      )
+    else
+      $timeout(Poller,Math.random()*1000)
+  Poller()
+
+  Sub.submit = (form)->
+    $http.post("/api/contests/#{Sub.contestId}/submissions", form)
     .then(
       (res)->
-        Sub.data = res.data #轮询
-        $timeout(Poller, 1000 + Math.random()*1000)
+        form.code = "" #clear
+        $.notify("提交成功",
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'success'
+        )
+        Sub.data.unshift(res.data)
     ,
-      ()->
-        $timeout(Poller,Math.random()*5000)
-  )
-  Poller()
+      (res)->
+        $.notify(res.data.error,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'danger'
+        )
+    )
 
   return Sub
 )
@@ -273,32 +304,12 @@ config( ($routeProvider)->
         num = parseInt(num/26)
       return res
 
-    $scope.submit = (order)->
-      $scope.form.order = order
+    $scope.submit = ()->
+      $scope.form.order = $scope.order
       if not $scope.form.code or $scope.form.code.length < 10
         alert("代码太短了，拒绝提交")
         return
-      $http.post("/api/contests/#{$routeParams.contestId}/submissions",$scope.form)
-      .then(
-          ()->
-            $scope.form.code = ""
-            $.notify("提交成功",
-              animate: {
-                enter: 'animated fadeInRight',
-                exit: 'animated fadeOutRight'
-              }
-              type: 'success'
-            )
-        ,
-          (res)->
-            $.notify(res.data.error,
-              animate: {
-                enter: 'animated fadeInRight',
-                exit: 'animated fadeOutRight'
-              }
-              type: 'danger'
-            )
-      )
+      Submission.submit($scope.form)
 
     $scope.accepted = (order)->
       res = (sub for sub in Submission.data when $scope.Contest.idToOrder[sub.problem_id] is order and sub.result is 'AC')
@@ -326,14 +337,14 @@ config( ($routeProvider)->
 
     #change submission result color by ZP
     $scope.change_submission_result_color = (result)->
-      return "green-td" if result == "WT" or result == "JG"
-      return "blue-td" if result == "AC"
-      return "red-td"
+      switch result
+        when "WT","JG" then "green-td"
+        when "AC" then "blue-td"
+        else "red-td"
 
     #return if the result is running or judging
     $scope.check_submission_is_running = (result)->
-      return true if result == "WT" or result == "JG"
-      return false
+      return result == "WT" or result == "JG"
 
     #private functions
 

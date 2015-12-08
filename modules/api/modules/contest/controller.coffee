@@ -102,7 +102,6 @@ exports.postSubmissions = (req, res) ->
     global.myUtils.createSubmissionTransaction(form, form_code, currentProblem, currentUser)
   .then (submission) ->
     currentSubmission = submission.get(plain: true) if submission
-    console.log currentContest
     currentContest.addSubmission(submission)
   .then ->
     res.json(currentSubmission)

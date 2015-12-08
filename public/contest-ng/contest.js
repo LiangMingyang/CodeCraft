@@ -86,23 +86,63 @@
   ]).factory('Submission', function($routeParams, $http, $timeout) {
     var Poller, Sub;
     Sub = {};
-    Sub.data = [];
-    Sub.contestId = $routeParams.contestId || 1;
     Sub.setContestId = function(newContestId) {
       if (newContestId !== Sub.contestId) {
         Sub.contestId = newContestId;
-        return Sub.data = [];
+        Sub.data = [];
+        return $http.get("/api/contests/" + Sub.contestId + "/submissions").then(function(res) {
+          return Sub.data = res.data;
+        });
       }
     };
+    Sub.setContestId($routeParams.contestId || 1);
     Poller = function() {
-      return $http.get("/api/contests/" + Sub.contestId + "/submissions").then(function(res) {
-        Sub.data = res.data;
-        return $timeout(Poller, 1000 + Math.random() * 1000);
-      }, function() {
-        return $timeout(Poller, Math.random() * 5000);
-      });
+      var queue, sub;
+      queue = (function() {
+        var j, len, ref, results;
+        ref = Sub.data;
+        results = [];
+        for (j = 0, len = ref.length; j < len; j++) {
+          sub = ref[j];
+          if (sub.result === "WT" || sub.result === "JG") {
+            results.push(sub);
+          }
+        }
+        return results;
+      })();
+      if (queue.length > 0) {
+        return $http.get("/api/contests/" + Sub.contestId + "/submissions").then(function(res) {
+          Sub.data = res.data;
+          return $timeout(Poller, 1000 + Math.random() * 1000);
+        }, function() {
+          return $timeout(Poller, Math.random() * 5000);
+        });
+      } else {
+        return $timeout(Poller, Math.random() * 1000);
+      }
     };
     Poller();
+    Sub.submit = function(form) {
+      return $http.post("/api/contests/" + Sub.contestId + "/submissions", form).then(function(res) {
+        form.code = "";
+        $.notify("提交成功", {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'success'
+        });
+        return Sub.data.unshift(res.data);
+      }, function(res) {
+        return $.notify(res.data.error, {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'danger'
+        });
+      });
+    };
     return Sub;
   }).factory('Contest', function($routeParams, $http, $timeout) {
     var Contest, Poller;
@@ -283,30 +323,13 @@
       }
       return res;
     };
-    $scope.submit = function(order) {
-      $scope.form.order = order;
+    $scope.submit = function() {
+      $scope.form.order = $scope.order;
       if (!$scope.form.code || $scope.form.code.length < 10) {
         alert("代码太短了，拒绝提交");
         return;
       }
-      return $http.post("/api/contests/" + $routeParams.contestId + "/submissions", $scope.form).then(function() {
-        $scope.form.code = "";
-        return $.notify("提交成功", {
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          },
-          type: 'success'
-        });
-      }, function(res) {
-        return $.notify(res.data.error, {
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          },
-          type: 'danger'
-        });
-      });
+      return Submission.submit($scope.form);
     };
     $scope.accepted = function(order) {
       var res, sub;
@@ -359,19 +382,18 @@
       return color + "-" + number + "-" + "tr";
     };
     $scope.change_submission_result_color = function(result) {
-      if (result === "WT" || result === "JG") {
-        return "green-td";
+      switch (result) {
+        case "WT":
+        case "JG":
+          return "green-td";
+        case "AC":
+          return "blue-td";
+        default:
+          return "red-td";
       }
-      if (result === "AC") {
-        return "blue-td";
-      }
-      return "red-td";
     };
     return $scope.check_submission_is_running = function(result) {
-      if (result === "WT" || result === "JG") {
-        return true;
-      }
-      return false;
+      return result === "WT" || result === "JG";
     };
   });
 
