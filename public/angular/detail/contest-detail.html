@@ -52,9 +52,9 @@
     <h4>{{contest.title}}</h4>
     <div class="form-horizontal">
         <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('description') }" ng-click="setPage('description')">简介</a>
-        <a ng-if="contest.end_time > server_time && contest.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('problem') }" ng-click="setPage('problem')">题目</a>
-        <a ng-if="contest.end_time > server_time && contest.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('rank') }" ng-click="setPage('rank')">排名</a>
-        <a ng-if="contest.end_time > server_time && contest.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('submission') }" ng-click="setPage('submission')">我的提交</a>
+        <a ng-if="contest.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('problem') }" ng-click="setPage('problem')">题目</a>
+        <a ng-if="contest.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('rank') }" ng-click="setPage('rank')">排名</a>
+        <a ng-if="contest.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('submission') }" ng-click="setPage('submission')">我的提交</a>
     </div>
     <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
     <!--</div>-->
