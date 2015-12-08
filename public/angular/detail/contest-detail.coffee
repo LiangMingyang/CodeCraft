@@ -58,8 +58,8 @@
 
   Sub.setContestId = (newContestId)->
     if newContestId isnt Sub.contestId
+      Sub.contestId = newContestId
       Sub.data = []
-    Sub.contestId = newContestId
 
   Poller = ()->
     $http.get("/api/contests/#{Sub.contestId}/submissions")
@@ -76,15 +76,57 @@
   return Sub
 )
 
+.factory('Contest', ($routeParams, $http, $timeout)->
+  Contest = {}
+  Contest.id = $routeParams.contestId || 1
+  Contest.idToOrder = {}
+  Contest.data = {
+    title: "Waiting for data..."
+    description: "Waiting for data..."
+  }
+  Contest.setContestId = (newContestId)->
+    if newContestId isnt Contest.id
+      Contest.id = newContestId
+      Contest.data = {
+        title: "Waiting for data..."
+        description: "Waiting for data..."
+      }
+      Poller()
+  Poller = ()->
+    $http.get("/api/contests/#{Contest.id}")
+    .then(
+      (res)->
+        contest = res.data
+        contest.problems.sort (a,b)->
+          a.contest_problem_list.order-b.contest_problem_list.order
+        for p,i in contest.problems
+          p.test_setting = JSON.parse(p.test_setting)
+          Contest.idToOrder[p.id] = i
+        contest.start_time = new Date(contest.start_time)
+        contest.end_time = new Date(contest.end_time)
+        Contest.data  = contest  #轮询
+    ,
+      (res)->
+        #alert(res.data.error)
+        res.data.error = "该比赛需要登录才可以查看" if not res.status is 401
+        $.notify(res.data.error,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'danger'
+        )
+        $timeout(Poller,Math.random()*10000)
+    )
+  Poller()
+  console.log "Built Contest"
+  return Contest
+)
 
-.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission)->
+
+.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest)->
     #data
 
-    $scope.contest ?= {
-      title: "Waiting for data..."
-      description: "Waiting for data..."
-    }
-    $scope.idToOrder ?= {}
     $scope.page ?= "description"
     $scope.order ?= 0
     $scope.form ?= {lang:'c++'}
@@ -94,7 +136,10 @@
     }
 
     $scope.server_time ?= new Date()
+    Contest.setContestId($routeParams.contestId)
+    $scope.Contest = Contest
     Submission.setContestId($routeParams.contestId)
+    $scope.Submission = Submission
 
     countDown = ()->
       $scope.server_time = new Date($scope.server_time.getTime() + 1000)
@@ -126,36 +171,6 @@
       )
     userPoller()
 
-    contestPoller = ()->
-      $http.get("/api/contests/#{$routeParams.contestId}")
-      .then(
-        (res)->
-          contest = res.data
-          contest.problems.sort (a,b)->
-            a.contest_problem_list.order-b.contest_problem_list.order
-          for p,i in contest.problems
-            p.test_setting = JSON.parse(p.test_setting)
-            $scope.idToOrder[p.id] = i
-          contest.start_time = new Date(contest.start_time)
-          contest.end_time = new Date(contest.end_time)
-          $scope.contest = contest  #轮询
-          #$timeout(contestPoller,Math.random()*60000) #比赛不需要实时更新
-      ,
-        (res)->
-          #alert(res.data.error)
-          res.data.error = "该比赛需要登录才可以查看" if not $scope.user.id
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-          )
-          $timeout(contestPoller,Math.random()*10000)
-      )
-    contestPoller()
-
-
 
     $scope.rank = []
 
@@ -180,8 +195,6 @@
           $timeout(rankPoller,Math.random()*10000)
       )
     rankPoller()
-
-    $scope.Submission = Submission
 
     #Function
 
@@ -237,11 +250,11 @@
       )
 
     $scope.accepted = (order)->
-      res = (sub for sub in Submission.data when $scope.idToOrder[sub.problem_id] is order and sub.result is 'AC')
+      res = (sub for sub in Submission.data when $scope.Contest.idToOrder[sub.problem_id] is order and sub.result is 'AC')
       return res.length isnt 0
 
     $scope.tried = (order)->
-      res = (sub for sub in Submission.data when $scope.idToOrder[sub.problem_id] is order)
+      res = (sub for sub in Submission.data when $scope.Contest.idToOrder[sub.problem_id] is order)
       return res.length isnt 0
 
     #change submission color by ZP

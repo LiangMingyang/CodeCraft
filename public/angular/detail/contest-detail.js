@@ -74,9 +74,9 @@
     Sub.contestId = $routeParams.contestId || 1;
     Sub.setContestId = function(newContestId) {
       if (newContestId !== Sub.contestId) {
-        Sub.data = [];
+        Sub.contestId = newContestId;
+        return Sub.data = [];
       }
-      return Sub.contestId = newContestId;
     };
     Poller = function() {
       return $http.get("/api/contests/" + Sub.contestId + "/submissions").then(function(res) {
@@ -88,17 +88,60 @@
     };
     Poller();
     return Sub;
-  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission) {
-    var contestPoller, countDown, rankPoller, rankStatistics, userPoller;
-    if ($scope.contest == null) {
-      $scope.contest = {
-        title: "Waiting for data...",
-        description: "Waiting for data..."
-      };
-    }
-    if ($scope.idToOrder == null) {
-      $scope.idToOrder = {};
-    }
+  }).factory('Contest', function($routeParams, $http, $timeout) {
+    var Contest, Poller;
+    Contest = {};
+    Contest.id = $routeParams.contestId || 1;
+    Contest.idToOrder = {};
+    Contest.data = {
+      title: "Waiting for data...",
+      description: "Waiting for data..."
+    };
+    Contest.setContestId = function(newContestId) {
+      if (newContestId !== Contest.id) {
+        Contest.id = newContestId;
+        Contest.data = {
+          title: "Waiting for data...",
+          description: "Waiting for data..."
+        };
+        return Poller();
+      }
+    };
+    Poller = function() {
+      return $http.get("/api/contests/" + Contest.id).then(function(res) {
+        var contest, i, j, len, p, ref;
+        contest = res.data;
+        contest.problems.sort(function(a, b) {
+          return a.contest_problem_list.order - b.contest_problem_list.order;
+        });
+        ref = contest.problems;
+        for (i = j = 0, len = ref.length; j < len; i = ++j) {
+          p = ref[i];
+          p.test_setting = JSON.parse(p.test_setting);
+          Contest.idToOrder[p.id] = i;
+        }
+        contest.start_time = new Date(contest.start_time);
+        contest.end_time = new Date(contest.end_time);
+        return Contest.data = contest;
+      }, function(res) {
+        if (!res.status === 401) {
+          res.data.error = "该比赛需要登录才可以查看";
+        }
+        $.notify(res.data.error, {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'danger'
+        });
+        return $timeout(Poller, Math.random() * 10000);
+      });
+    };
+    Poller();
+    console.log("Built Contest");
+    return Contest;
+  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest) {
+    var countDown, rankPoller, rankStatistics, userPoller;
     if ($scope.page == null) {
       $scope.page = "description";
     }
@@ -118,7 +161,10 @@
     if ($scope.server_time == null) {
       $scope.server_time = new Date();
     }
+    Contest.setContestId($routeParams.contestId);
+    $scope.Contest = Contest;
     Submission.setContestId($routeParams.contestId);
+    $scope.Submission = Submission;
     countDown = function() {
       $scope.server_time = new Date($scope.server_time.getTime() + 1000);
       return $timeout(countDown, 1000);
@@ -143,37 +189,6 @@
       });
     };
     userPoller();
-    contestPoller = function() {
-      return $http.get("/api/contests/" + $routeParams.contestId).then(function(res) {
-        var contest, i, j, len, p, ref;
-        contest = res.data;
-        contest.problems.sort(function(a, b) {
-          return a.contest_problem_list.order - b.contest_problem_list.order;
-        });
-        ref = contest.problems;
-        for (i = j = 0, len = ref.length; j < len; i = ++j) {
-          p = ref[i];
-          p.test_setting = JSON.parse(p.test_setting);
-          $scope.idToOrder[p.id] = i;
-        }
-        contest.start_time = new Date(contest.start_time);
-        contest.end_time = new Date(contest.end_time);
-        return $scope.contest = contest;
-      }, function(res) {
-        if (!$scope.user.id) {
-          res.data.error = "该比赛需要登录才可以查看";
-        }
-        $.notify(res.data.error, {
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          },
-          type: 'danger'
-        });
-        return $timeout(contestPoller, Math.random() * 10000);
-      });
-    };
-    contestPoller();
     $scope.rank = [];
     rankPoller = function() {
       return $http.get("/api/contests/" + $routeParams.contestId + "/rank").then(function(res) {
@@ -185,7 +200,6 @@
       });
     };
     rankPoller();
-    $scope.Submission = Submission;
     $scope.setPage = function(page) {
       return $scope.page = page;
     };
@@ -246,7 +260,7 @@
         results = [];
         for (j = 0, len = ref.length; j < len; j++) {
           sub = ref[j];
-          if ($scope.idToOrder[sub.problem_id] === order && sub.result === 'AC') {
+          if ($scope.Contest.idToOrder[sub.problem_id] === order && sub.result === 'AC') {
             results.push(sub);
           }
         }
@@ -262,7 +276,7 @@
         results = [];
         for (j = 0, len = ref.length; j < len; j++) {
           sub = ref[j];
-          if ($scope.idToOrder[sub.problem_id] === order) {
+          if ($scope.Contest.idToOrder[sub.problem_id] === order) {
             results.push(sub);
           }
         }

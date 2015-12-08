@@ -1,14 +1,14 @@
 <div class="text-center">
-    <a ng-click="setProblem($index)" ng-repeat="problem in contest.problems" class="btn btn-default" ng-class="{'active':isProblem($index), 'btn-danger': tried($index) && !accepted($index), 'btn-success': accepted($index)}">
+    <a ng-click="setProblem($index)" ng-repeat="problem in Contest.data.problems" class="btn btn-default" ng-class="{'active':isProblem($index), 'btn-danger': tried($index) && !accepted($index), 'btn-success': accepted($index)}">
         {{numberToLetters($index)}}
     </a>
 </div>
 <div>
     <h1 class="text-center problem-title">
         <code>{{numberToLetters(order)}}</code>
-        {{contest.problems[order].title}}</h1>
+        {{Contest.data.problems[order].title}}</h1>
     <div class="problem-limit">
-        <p class="text-center">时间限制：{{contest.problems[order].test_setting.time_limit}}ms &nbsp 内存限制：{{contest.problems[order].test_setting.memory_limit}}kb</p>
+        <p class="text-center">时间限制：{{Contest.data.problems[order].test_setting.time_limit}}ms &nbsp 内存限制：{{Contest.data.problems[order].test_setting.memory_limit}}kb</p>
     </div>
     <div>
         <p class="text-center">
@@ -22,5 +22,5 @@
             </code>
         </p>
     </div>
-    <div class="markdown-body" ng-bind-html="contest.problems[order].description | marked"></div>
+    <div class="markdown-body" ng-bind-html="Contest.data.problems[order].description | marked"></div>
 </div>
