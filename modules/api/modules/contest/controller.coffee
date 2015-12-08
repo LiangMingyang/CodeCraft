@@ -11,7 +11,10 @@ exports.getContest = (req, res)->
   .then (contest)->
     throw new global.myErrors.UnknownUser() if not contest and not req.session.user
     throw new global.myErrors.UnknownContest() if not contest
-    res.json(contest.get({plain:true}))
+    contest = contest.get(plain:true)
+    if contest.start_time > (new Date())
+      contest.problems = []
+    res.json(contest)
   .catch (err)->
     res.status(err.status || 400)
     res.json(error:err.message)

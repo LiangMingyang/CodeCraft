@@ -19,9 +19,13 @@
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
-      return res.json(contest.get({
+      contest = contest.get({
         plain: true
-      }));
+      });
+      if (contest.start_time > (new Date())) {
+        contest.problems = [];
+      }
+      return res.json(contest);
     })["catch"](function(err) {
       res.status(err.status || 400);
       return res.json({
