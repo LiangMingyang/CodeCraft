@@ -211,8 +211,20 @@
     };
     Poller();
     return Rank;
-  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank) {
-    var countDown;
+  }).factory('ServerTime', function($http, $timeout) {
+    var ST, countDown;
+    ST = {};
+    ST.data = new Date();
+    countDown = function() {
+      ST.data = new Date(ST.data.getTime() + 1000);
+      return $timeout(countDown, 1000);
+    };
+    $http.get("/api/contests/server_time").then(function(res) {
+      ST.data = new Date(res.data.server_time);
+      return countDown();
+    });
+    return ST;
+  }).controller('contest-detail', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime) {
     if ($scope.page == null) {
       $scope.page = "description";
     }
@@ -225,23 +237,13 @@
       };
     }
     $scope.Me = Me;
-    if ($scope.server_time == null) {
-      $scope.server_time = new Date();
-    }
+    $scope.ServerTime = ServerTime;
     Contest.setContestId($routeParams.contestId);
     $scope.Contest = Contest;
     Submission.setContestId($routeParams.contestId);
     $scope.Submission = Submission;
     Rank.setContestId($routeParams.contestId);
     $scope.Rank = Rank;
-    countDown = function() {
-      $scope.server_time = new Date($scope.server_time.getTime() + 1000);
-      return $timeout(countDown, 1000);
-    };
-    $http.get("/api/contests/server_time").then(function(res) {
-      $scope.server_time = new Date(res.data.server_time);
-      return countDown();
-    });
     $scope.setPage = function(page) {
       return $scope.page = page;
     };

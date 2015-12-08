@@ -75,7 +75,6 @@
 
   return Sub
 )
-
 .factory('Contest', ($routeParams, $http, $timeout)->
   Contest = {}
   Contest.id = $routeParams.contestId || 1
@@ -186,9 +185,23 @@
 
   return Rank
 )
+.factory('ServerTime', ($http,$timeout)->
+  ST = {}
+  ST.data = new Date()
+  countDown = ()->
+    ST.data = new Date(ST.data.getTime() + 1000)
+    $timeout(countDown,1000)
+  $http.get("/api/contests/server_time")
+  .then(
+    (res)->
+      ST.data = new Date(res.data.server_time)
+      countDown()
+  )
+  return ST
+)
 
 
-.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank)->
+.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime)->
     #data
 
     $scope.page ?= "description"
@@ -197,7 +210,7 @@
 
     $scope.Me = Me
 
-    $scope.server_time ?= new Date()
+    $scope.ServerTime = ServerTime
 
     Contest.setContestId($routeParams.contestId)
     $scope.Contest = Contest
@@ -208,16 +221,7 @@
     Rank.setContestId($routeParams.contestId)
     $scope.Rank = Rank
 
-    countDown = ()->
-      $scope.server_time = new Date($scope.server_time.getTime() + 1000)
-      $timeout(countDown,1000)
 
-    $http.get("/api/contests/server_time")
-    .then(
-      (res)->
-        $scope.server_time = new Date(res.data.server_time)
-        countDown()
-    )
 
     #Function
 

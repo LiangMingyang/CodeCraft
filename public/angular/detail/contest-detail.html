@@ -52,32 +52,32 @@
     <h4>{{Contest.data.title}}</h4>
     <div class="form-horizontal">
         <a class = "normal-color list-group-item" ng-class ="{ 'active':isPage('description') }" ng-click="setPage('description')">简介</a>
-        <a ng-if="Contest.data.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('problem') }" ng-click="setPage('problem')">题目</a>
-        <a ng-if="Contest.data.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('rank') }" ng-click="setPage('rank')">排名</a>
-        <a ng-if="Contest.data.start_time < server_time" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('submission') }" ng-click="setPage('submission')">我的提交</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('problem') }" ng-click="setPage('problem')">题目</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('rank') }" ng-click="setPage('rank')">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" ng-class ="{ 'active':isPage('submission') }" ng-click="setPage('submission')">我的提交</a>
     </div>
     <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
     <!--</div>-->
     <div class="text-center">
         <label style="border:1px solid #DDDDDD;background-color:#F5F5F5;margin-bottom:0;margin-top:15px;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             服务器当前时间<br>
-            <label>{{server_time | date:'yyyy-MM-dd HH:mm:ss'}}</label><br>
+            <label>{{ServerTime.data | date:'yyyy-MM-dd HH:mm:ss'}}</label><br>
         </label>
         <label style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             比赛结束时间<br>
             <label>{{Contest.data.end_time | date:'yyyy-MM-dd HH:mm:ss'}}</label><br>
         </label>
-        <label ng-if="Contest.data.end_time < server_time" style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>
+        <label ng-if="Contest.data.end_time < ServerTime.data" style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>
             比赛已结束</label><br>
 
         </label>
-        <label ng-if="Contest.data.start_time > server_time" style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>
+        <label ng-if="Contest.data.start_time > ServerTime.data" style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>
             距离比赛开始</label><br>
-            <label>{{Contest.data.start_time-server_time | penalty}}</label>
+            <label>{{Contest.data.start_time-ServerTime.data | penalty}}</label>
         </label>
-        <label ng-if="Contest.data.end_time > server_time && Contest.data.start_time < server_time" style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>
+        <label ng-if="Contest.data.end_time > ServerTime.data && Contest.data.start_time < ServerTime.data" style="border:1px solid #DDDDDD;border-top:none;background-color:#F5F5F5;margin-bottom:0;margin-top:0;padding-top:5px;padding-bottom:5px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>
             比赛剩余时间</label><br>
-            <label>{{Contest.data.end_time - server_time | penalty}}</label>
+            <label>{{Contest.data.end_time - ServerTime.data | penalty}}</label>
         </label>
     </div>
 </div>
