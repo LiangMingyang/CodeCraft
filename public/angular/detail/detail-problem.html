@@ -1,26 +1,45 @@
-<div class="text-center">
-    <a ng-click="setProblem($index)" ng-repeat="problem in Contest.data.problems" class="btn btn-default" ng-class="{'active':isProblem($index), 'btn-danger': tried($index) && !accepted($index), 'btn-success': accepted($index)}">
-        {{numberToLetters($index)}}
-    </a>
+<nav class="navbar navbar-default" ng-include="'detail/nav.html'">
+</nav>
+
+
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+    <h4>{{Contest.data.title}}</h4>
+    <div class="form-horizontal">
+        <a class = "normal-color list-group-item" href="#/{{contestId}}" >简介</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item active" href="#/{{contestId}}/problems">题目</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/submissions">我的提交</a>
+    </div>
+    <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
+    <!--</div>-->
+    <div class="text-center" ng-include="'detail/time.html'"></div>
 </div>
-<div>
-    <h1 class="text-center problem-title">
-        <code>{{numberToLetters(order)}}</code>
-        {{Contest.data.problems[order].title}}</h1>
-    <div class="problem-limit">
-        <p class="text-center">时间限制：{{Contest.data.problems[order].test_setting.time_limit}}ms &nbsp 内存限制：{{Contest.data.problems[order].test_setting.memory_limit}}kb</p>
+
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+    <div class="text-center">
+        <a ng-click="setProblem($index)" ng-repeat="problem in Contest.data.problems" class="btn btn-default" ng-class="{'active':isProblem($index), 'btn-danger': tried($index) && !accepted($index), 'btn-success': accepted($index)}">
+            {{numberToLetters($index)}}
+        </a>
     </div>
     <div>
-        <p class="text-center">
-            通过率：{{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]}}/{{Rank.statistics.triedPeopleCount[numberToLetters(order)]}}
-            <code>
-                ({{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]/Rank.statistics.triedPeopleCount[numberToLetters(order)]*100 | number:2}}%)
-            </code>&nbsp&nbsp
-            正确率：{{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]}}/{{Rank.statistics.triedSubCount[numberToLetters(order)]}}
-            <code>
-                ({{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]/Rank.statistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%)
-            </code>
-        </p>
+        <h1 class="text-center problem-title">
+            <code>{{numberToLetters(order)}}</code>
+            {{Contest.data.problems[order].title}}</h1>
+        <div class="problem-limit">
+            <p class="text-center">时间限制：{{Contest.data.problems[order].test_setting.time_limit}}ms &nbsp 内存限制：{{Contest.data.problems[order].test_setting.memory_limit}}kb</p>
+        </div>
+        <div>
+            <p class="text-center">
+                通过率：{{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]}}/{{Rank.statistics.triedPeopleCount[numberToLetters(order)]}}
+                <code>
+                    ({{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]/Rank.statistics.triedPeopleCount[numberToLetters(order)]*100 | number:2}}%)
+                </code>&nbsp&nbsp
+                正确率：{{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]}}/{{Rank.statistics.triedSubCount[numberToLetters(order)]}}
+                <code>
+                    ({{Rank.statistics.acceptedPeopleCount[numberToLetters(order)]/Rank.statistics.triedSubCount[numberToLetters(order)]*100 | number:2}}%)
+                </code>
+            </p>
+        </div>
+        <div class="markdown-body" ng-bind-html="Contest.data.problems[order].description | marked"></div>
     </div>
-    <div class="markdown-body" ng-bind-html="Contest.data.problems[order].description | marked"></div>
 </div>

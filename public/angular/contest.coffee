@@ -1,6 +1,32 @@
-'use script';
-@angular.module('contest-detail', ['ngRoute'])
+'use strict'
 
+# Declare app level module which depends on views, and components
+
+angular.module('contest', [
+  'ngRoute'
+]).
+config( ($routeProvider)->
+  $routeProvider
+  .when('/:contestId', {
+      templateUrl: 'detail/contest-detail.html',
+      controller: 'contest.ctrl'
+    })
+  .when('/:contestId/problems', {
+      templateUrl: 'detail/detail-problem.html',
+      controller: 'contest.ctrl'
+    })
+  .when('/:contestId/rank', {
+      templateUrl: 'detail/detail-rank.html',
+      controller: 'contest.ctrl'
+    })
+  .when('/:contestId/submissions', {
+      templateUrl: 'detail/detail-submission.html',
+      controller: 'contest.ctrl'
+    })
+  .otherwise({
+      redirectTo: '/1'
+    })
+)
 .filter('marked', ['$sce', ($sce)->
   (text)->
     text = "" if not text
@@ -201,7 +227,7 @@
 )
 
 
-.controller('contest-detail', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime)->
+.controller('contest.ctrl', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime)->
     #data
 
     $scope.page ?= "description"
@@ -211,6 +237,7 @@
     $scope.Me = Me
 
     $scope.ServerTime = ServerTime
+    $scope.contestId = $routeParams.contestId
 
     Contest.setContestId($routeParams.contestId)
     $scope.Contest = Contest

@@ -1,18 +1,24 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
-  'ngRoute',
-  'contest-list',
-  'contest-detail'
+angular.module('contest', [
+  'ngRoute'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider
-  .when('/contest/:contestId', {
+  .when('/:contestId', {
     templateUrl: 'detail/contest-detail.html',
     controller: 'contest-detail'
   })
+  .when('/:contestId/problems', {
+    templateUrl: 'detail/detail-problem.html',
+    controller: 'contest-detail'
+  })
+  .when('/:contestId/rank', {
+    templateUrl: 'detail/detail-problem.html',
+    controller: 'contest-detail'
+  })
   .otherwise({
-    redirectTo: '/contest/1'
+    redirectTo: '/1'
   });
 }]);
