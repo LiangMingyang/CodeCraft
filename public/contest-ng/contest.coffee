@@ -203,6 +203,7 @@ config( ($routeProvider)->
 .factory('Rank', ($routeParams, $http, $timeout)->
   Rank = {}
   Rank.data = []
+  Rank.ori = ""
   Rank.statistics = {}
   Rank.contestId = $routeParams.contestId || 1
 
@@ -225,16 +226,18 @@ config( ($routeProvider)->
         triedSubCount[p] ?= 0
         triedSubCount[p] += r.detail[p].wrong_count + 1
     return {
-    triedPeopleCount : triedPeopleCount
-    acceptedPeopleCount : acceptedPeopleCount
-    triedSubCount : triedSubCount
+      triedPeopleCount : triedPeopleCount
+      acceptedPeopleCount : acceptedPeopleCount
+      triedSubCount : triedSubCount
     }
   Poller = ()->
     $http.get("/api/contests/#{Rank.contestId}/rank")
     .then(
       (res)->
-        Rank.data = JSON.parse(res.data) #轮询
-        Rank.statistics = doRankStatistics(Rank.data)
+        if Rank.ori isnt res.data
+          Rank.data = JSON.parse(res.data) #轮询
+          Rank.statistics = doRankStatistics(Rank.data)
+          Rank.ori = res.data
         $timeout(Poller,5000+Math.random()*5000)
     ,
       ()->

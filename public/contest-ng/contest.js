@@ -219,6 +219,7 @@
     var Poller, Rank, doRankStatistics;
     Rank = {};
     Rank.data = [];
+    Rank.ori = "";
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
     Rank.setContestId = function(newContestId) {
@@ -260,8 +261,11 @@
     };
     Poller = function() {
       return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
-        Rank.data = JSON.parse(res.data);
-        Rank.statistics = doRankStatistics(Rank.data);
+        if (Rank.ori !== res.data) {
+          Rank.data = JSON.parse(res.data);
+          Rank.statistics = doRankStatistics(Rank.data);
+          Rank.ori = res.data;
+        }
         return $timeout(Poller, 5000 + Math.random() * 5000);
       }, function() {
         return $timeout(Poller, Math.random() * 5000);
