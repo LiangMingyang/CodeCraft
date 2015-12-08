@@ -19,6 +19,12 @@
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
+      contest = contest.get({
+        plain: true
+      });
+      if (contest.start_time > (new Date())) {
+        delete contest.problems;
+      }
       return res.json(contest.get({
         plain: true
       }));
