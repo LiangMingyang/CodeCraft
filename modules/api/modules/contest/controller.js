@@ -159,7 +159,6 @@
           plain: true
         });
       }
-      console.log(currentContest);
       return currentContest.addSubmission(submission);
     }).then(function() {
       return res.json(currentSubmission);
