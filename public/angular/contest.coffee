@@ -104,6 +104,7 @@ config( ($routeProvider)->
 .factory('Contest', ($routeParams, $http, $timeout)->
   Contest = {}
   Contest.id = $routeParams.contestId || 1
+  Contest.order = 0
   Contest.idToOrder = {}
   Contest.data = {
     title: "Waiting for data..."
@@ -116,6 +117,7 @@ config( ($routeProvider)->
         title: "Waiting for data..."
         description: "Waiting for data..."
       }
+      Contest.order = 0
       Poller()
   Poller = ()->
     $http.get("/api/contests/#{Contest.id}")
@@ -231,7 +233,7 @@ config( ($routeProvider)->
     #data
 
     $scope.page ?= "description"
-    $scope.order ?= 0
+    $scope.order = Contest.order
     $scope.form ?= {lang:'c++'}
 
     $scope.Me = Me
@@ -252,13 +254,8 @@ config( ($routeProvider)->
 
     #Function
 
-    $scope.setPage = (page)->
-      $scope.page = page
-
-    $scope.isPage = (page)->
-      page is $scope.page
-
     $scope.setProblem = (order)->
+      Contest.order = order
       $scope.order = order
       $timeout(->
         MathJax.Hub.Queue(["Typeset",MathJax.Hub])
