@@ -16,18 +16,5 @@
 
 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
     <h4>比赛简介</h4>
-    <div ng-bind-html="Contest.data.description | marked"></div>
-
-</div>
-
-<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/detail-problem.html'">
-</div>
-
-<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" ng-show="isPage('problem')" ng-include="'detail/problem-right.html'">
-</div>
-
-<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('rank')" ng-include="'detail/detail-rank.html'">
-</div>
-
-<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" ng-show="isPage('submission')" ng-include="'detail/detail-submission.html'">
+    <div class="markdown-body" ng-bind-html="Contest.data.description | marked"></div>
 </div>
