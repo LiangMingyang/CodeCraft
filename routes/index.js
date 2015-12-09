@@ -31,6 +31,10 @@
   router.use('/api', modules.api.router);
 
   router.get('/', function(req, res) {
+    return res.redirect('/bcpc/index.html');
+  });
+
+  router.get('/index', function(req, res) {
     return res.render('index', {
       title: 'OJ4TH',
       user: req.session.user
