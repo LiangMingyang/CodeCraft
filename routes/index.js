@@ -31,7 +31,7 @@
   router.use('/api', modules.api.router);
 
   router.get('/', function(req, res) {
-    return res.redirect('/bcpc/index.html');
+    return res.redirect('/index');
   });
 
   router.get('/index', function(req, res) {
