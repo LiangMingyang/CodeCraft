@@ -23,7 +23,10 @@ router.use '/feedback', modules.feedback.router
 router.use '/api', modules.api.router
 
 # Get home page
-router.get '/', (req, res) ->
+router.get '/', (req, res)->
+  res.redirect '/bcpc/index.html'
+
+router.get '/index', (req, res) ->
   res.render 'index', {
     title: 'OJ4TH',
     user: req.session.user
