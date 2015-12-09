@@ -269,7 +269,6 @@ config( ($routeProvider)->
 .controller('contest.ctrl', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime)->
     #data
 
-    $scope.page ?= "description"
     $scope.order = Contest.order
     $scope.form ?= {lang:'c++'}
 

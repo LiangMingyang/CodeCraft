@@ -289,9 +289,6 @@
     });
     return ST;
   }).controller('contest.ctrl', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime) {
-    if ($scope.page == null) {
-      $scope.page = "description";
-    }
     $scope.order = Contest.order;
     if ($scope.form == null) {
       $scope.form = {

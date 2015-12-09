@@ -16,9 +16,16 @@
 
 
 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-    <h3>比赛排名</h3>
     <p>
-        上次更新<code>{{Rank.version | date:"yyyy-MM-dd HH:mm:ss"}}</code>
+        <h3>
+            比赛排名
+            <small>
+                更新于
+                <code>
+                    {{Rank.version | date:"yyyy-MM-dd HH:mm:ss"}}
+                </code>
+            </small>
+        </h3>
     </p>
     <div>
         <table class="table table-bordered table-hover">
