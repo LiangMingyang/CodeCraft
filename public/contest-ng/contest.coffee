@@ -163,6 +163,7 @@ config( ($routeProvider)->
         contest.start_time = new Date(contest.start_time)
         contest.end_time = new Date(contest.end_time)
         Contest.data  = contest  #轮询
+        $timeout(Poller,Math.random()*100000) if not contest.problems or contest.problems.length is 0
     ,
       (res)->
         $.notify(res.data.error,
