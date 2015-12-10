@@ -23,7 +23,7 @@
       contest = contest.get({
         plain: true
       });
-      OFFSET = 1000 * 60 * 5;
+      OFFSET = 1000 * 60 * 2;
       if (contest.start_time.getTime() - OFFSET > (new Date()).getTime()) {
         contest.problems = [];
       }

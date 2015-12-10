@@ -12,7 +12,7 @@ exports.getContest = (req, res)->
     throw new global.myErrors.UnknownUser() if not contest and not req.session.user
     throw new global.myErrors.UnknownContest() if not contest
     contest = contest.get(plain:true)
-    OFFSET = 1000*60*5
+    OFFSET = 1000*60*2
     if contest.start_time.getTime()-OFFSET > (new Date()).getTime()
       contest.problems = []
     res.json(contest)
