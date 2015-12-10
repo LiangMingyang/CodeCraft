@@ -180,7 +180,10 @@
         }
         contest.start_time = new Date(contest.start_time);
         contest.end_time = new Date(contest.end_time);
-        return Contest.data = contest;
+        Contest.data = contest;
+        if (!contest.problems || contest.problems.length === 0) {
+          return $timeout(Poller, Math.random() * 100000);
+        }
       }, function(res) {
         $.notify(res.data.error, {
           animate: {

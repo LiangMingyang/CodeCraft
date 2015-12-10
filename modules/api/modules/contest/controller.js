@@ -13,6 +13,7 @@
         }
       ]);
     }).then(function(contest) {
+      var OFFSET;
       if (!contest && !req.session.user) {
         throw new global.myErrors.UnknownUser();
       }
@@ -22,7 +23,8 @@
       contest = contest.get({
         plain: true
       });
-      if (contest.start_time > (new Date())) {
+      OFFSET = 1000 * 60 * 2;
+      if (contest.start_time.getTime() - OFFSET > (new Date()).getTime()) {
         contest.problems = [];
       }
       return res.json(contest);
