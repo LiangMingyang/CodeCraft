@@ -30,7 +30,7 @@ config( ($routeProvider)->
 .filter('marked', ['$sce', ($sce)->
   (text)->
     text = "" if not text
-    $sce.trustAsHtml(marked(text))
+    $sce.trustAsHtml(markdown.toHTML(text))
 ])
 
 .filter('penalty', [()->

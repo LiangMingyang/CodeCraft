@@ -23,7 +23,7 @@
         if (!text) {
           text = "";
         }
-        return $sce.trustAsHtml(marked(text));
+        return $sce.trustAsHtml(markdown.toHTML(text));
       };
     }
   ]).filter('penalty', [
