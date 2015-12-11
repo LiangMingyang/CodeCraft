@@ -15,7 +15,7 @@
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
     }).otherwise({
-      redirectTo: '/1'
+      redirectTo: '/10'
     });
   }).filter('marked', [
     '$sce', function($sce) {
@@ -217,7 +217,7 @@
     };
     Poller();
     return Me;
-  }).factory('Rank', function($routeParams, $http, $timeout) {
+  }).factory('Rank', function($routeParams, $http, $timeout, Me) {
     var Poller, Rank, doRankStatistics;
     Rank = {};
     Rank.data = [];
@@ -225,21 +225,27 @@
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
     Rank.version = void 0;
+    Rank.pollLife = 1;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
         Rank.data = [];
         Rank.statistics = {};
-        return Rank.version = void 0;
+        Rank.version = void 0;
       }
+      return Rank.pollLife = 3;
     };
     doRankStatistics = function(rank) {
-      var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
+      var acceptedPeopleCount, i, j, len, myRank, p, r, triedPeopleCount, triedSubCount;
       triedPeopleCount = {};
       acceptedPeopleCount = {};
       triedSubCount = {};
-      for (j = 0, len = rank.length; j < len; j++) {
-        r = rank[j];
+      myRank = void 0;
+      for (i = j = 0, len = rank.length; j < len; i = ++j) {
+        r = rank[i];
+        if (r.user.id === Me.data.id) {
+          myRank = i + 1;
+        }
         for (p in r.detail) {
           if (acceptedPeopleCount[p] == null) {
             acceptedPeopleCount[p] = 0;
@@ -260,21 +266,28 @@
       return {
         triedPeopleCount: triedPeopleCount,
         acceptedPeopleCount: acceptedPeopleCount,
-        triedSubCount: triedSubCount
+        triedSubCount: triedSubCount,
+        myRank: myRank
       };
     };
     Poller = function() {
-      return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
-        if (Rank.ori !== res.data) {
-          Rank.data = JSON.parse(res.data);
-          Rank.statistics = doRankStatistics(Rank.data);
-          Rank.ori = res.data;
-        }
-        Rank.version = new Date();
-        return $timeout(Poller, 5000 + Math.random() * 5000);
-      }, function() {
-        return $timeout(Poller, Math.random() * 5000);
-      });
+      if (Rank.pollLife > 0) {
+        Rank.pollLife = Rank.pollLife - 1;
+        console.log(Rank.pollLife);
+        return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
+          if (Rank.ori !== res.data) {
+            Rank.data = JSON.parse(res.data);
+            Rank.statistics = doRankStatistics(Rank.data);
+            Rank.ori = res.data;
+          }
+          Rank.version = new Date();
+          return $timeout(Poller, 5000 + Math.random() * 5000);
+        }, function() {
+          return $timeout(Poller, Math.random() * 5000);
+        });
+      } else {
+        return $timeout(Poller, 1000 + Math.random() * 1000);
+      }
     };
     Poller();
     return Rank;
@@ -309,6 +322,7 @@
     $scope.Rank = Rank;
     $scope.setProblem = function(order) {
       Contest.order = order;
+      Rank.setContestId($routeParams.contestId);
       $scope.order = order;
       return $timeout(function() {
         return MathJax.Hub.Queue(["Typeset", MathJax.Hub]);

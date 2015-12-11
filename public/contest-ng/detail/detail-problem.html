@@ -7,8 +7,9 @@
     <div class="form-horizontal">
         <a class = "normal-color list-group-item" href="#/{{contestId}}" >简介</a>
         <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item active" href="#/{{contestId}}/problems">题目</a>
-        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名({{Rank.pollLife}})</a>
         <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/submissions">我的提交</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="mailto:lmysoar@hotmail">提问</a>
     </div>
     <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
     <!--</div>-->
@@ -20,10 +21,19 @@
         <a ng-click="setProblem($index)" ng-repeat="problem in Contest.data.problems" class="btn btn-default" ng-class="{'active':isProblem($index), 'btn-danger': tried($index) && !accepted($index), 'btn-success': accepted($index)}">
             {{numberToLetters($index)}}
         </a>
+
         <!-- Button trigger modal -->
-        <button class = "btn btn-primary btn-lg pull-right" data-toggle = "modal" data-target = "#myModal">
-            提交
-        </button>
+        <div class="pull-right">
+            <h5 style="display: inline-block">
+                当前排名
+                <code>
+                    {{Rank.statistics.myRank}}
+                </code>
+            </h5>
+            <button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
+                提交
+            </button>
+        </div>
     </div>
     <div>
         <h1 class="text-center problem-title">
