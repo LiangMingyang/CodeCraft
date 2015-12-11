@@ -23,7 +23,7 @@
         if (!text) {
           text = "";
         }
-        return $sce.trustAsHtml(marked(text));
+        return $sce.trustAsHtml(markdown.toHTML(text));
       };
     }
   ]).filter('penalty', [
@@ -217,7 +217,7 @@
     };
     Poller();
     return Me;
-  }).factory('Rank', function($routeParams, $http, $timeout) {
+  }).factory('Rank', function($routeParams, $http, $timeout, Me) {
     var Poller, Rank, doRankStatistics;
     Rank = {};
     Rank.data = [];
@@ -234,12 +234,16 @@
       }
     };
     doRankStatistics = function(rank) {
-      var acceptedPeopleCount, j, len, p, r, triedPeopleCount, triedSubCount;
+      var acceptedPeopleCount, i, j, len, myRank, p, r, triedPeopleCount, triedSubCount;
       triedPeopleCount = {};
       acceptedPeopleCount = {};
       triedSubCount = {};
-      for (j = 0, len = rank.length; j < len; j++) {
-        r = rank[j];
+      myRank = void 0;
+      for (i = j = 0, len = rank.length; j < len; i = ++j) {
+        r = rank[i];
+        if (r.user.id === Me.data.id) {
+          myRank = i + 1;
+        }
         for (p in r.detail) {
           if (acceptedPeopleCount[p] == null) {
             acceptedPeopleCount[p] = 0;
@@ -260,7 +264,8 @@
       return {
         triedPeopleCount: triedPeopleCount,
         acceptedPeopleCount: acceptedPeopleCount,
-        triedSubCount: triedSubCount
+        triedSubCount: triedSubCount,
+        myRank: myRank
       };
     };
     Poller = function() {

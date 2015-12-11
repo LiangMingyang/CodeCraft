@@ -20,10 +20,19 @@
         <a ng-click="setProblem($index)" ng-repeat="problem in Contest.data.problems" class="btn btn-default" ng-class="{'active':isProblem($index), 'btn-danger': tried($index) && !accepted($index), 'btn-success': accepted($index)}">
             {{numberToLetters($index)}}
         </a>
+
         <!-- Button trigger modal -->
-        <button class = "btn btn-primary btn-lg pull-right" data-toggle = "modal" data-target = "#myModal">
-            提交
-        </button>
+        <div class="pull-right">
+            <h5 style="display: inline-block">
+                当前排名
+                <code>
+                    {{Rank.statistics.myRank}}
+                </code>
+            </h5>
+            <button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
+                提交
+            </button>
+        </div>
     </div>
     <div>
         <h1 class="text-center problem-title">

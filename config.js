@@ -10,12 +10,12 @@
       username: 'root',
       password: 'alimengmengda',
       config: {
-        host: '101.200.3.143',
+        host: 'biancheng.love',
         dialect: 'mysql',
         port: 3306,
         timezone: '+08:00',
         pool: {
-          max: 50,
+          max: 500,
           min: 0,
           idle: 10000
         },
