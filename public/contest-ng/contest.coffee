@@ -24,7 +24,7 @@ config( ($routeProvider)->
       controller: 'contest.ctrl'
     })
   .otherwise({
-      redirectTo: '/1'
+      redirectTo: '/10'
     })
 )
 .filter('marked', ['$sce', ($sce)->

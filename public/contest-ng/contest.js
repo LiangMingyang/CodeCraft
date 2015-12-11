@@ -15,7 +15,7 @@
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
     }).otherwise({
-      redirectTo: '/1'
+      redirectTo: '/10'
     });
   }).filter('marked', [
     '$sce', function($sce) {
