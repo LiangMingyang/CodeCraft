@@ -7,7 +7,7 @@
     <div class="form-horizontal">
         <a class = "normal-color list-group-item" href="#/{{contestId}}" >简介</a>
         <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item active" href="#/{{contestId}}/problems">题目</a>
-        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名({{Rank.pollLife}})</a>
         <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/submissions">我的提交</a>
     </div>
     <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->

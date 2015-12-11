@@ -208,6 +208,7 @@ config( ($routeProvider)->
   Rank.statistics = {}
   Rank.contestId = $routeParams.contestId || 1
   Rank.version = undefined
+  Rank.pollLife = 1
 
   Rank.setContestId = (newContestId)->
     if newContestId isnt Rank.contestId
@@ -215,6 +216,7 @@ config( ($routeProvider)->
       Rank.data = []
       Rank.statistics = {}
       Rank.version = undefined
+    Rank.pollLife = 3
 
   doRankStatistics = (rank)->
     triedPeopleCount = {}
@@ -237,19 +239,24 @@ config( ($routeProvider)->
       myRank : myRank
     }
   Poller = ()->
-    $http.get("/api/contests/#{Rank.contestId}/rank")
-    .then(
-      (res)->
-        if Rank.ori isnt res.data
-          Rank.data = JSON.parse(res.data) #轮询
-          Rank.statistics = doRankStatistics(Rank.data)
-          Rank.ori = res.data
-        Rank.version = new Date()
-        $timeout(Poller,5000+Math.random()*5000)
-    ,
-      ()->
-        $timeout(Poller,Math.random()*5000)
-    )
+    if Rank.pollLife > 0
+      Rank.pollLife = Rank.pollLife - 1
+      console.log Rank.pollLife
+      $http.get("/api/contests/#{Rank.contestId}/rank")
+      .then(
+        (res)->
+          if Rank.ori isnt res.data
+            Rank.data = JSON.parse(res.data) #轮询
+            Rank.statistics = doRankStatistics(Rank.data)
+            Rank.ori = res.data
+          Rank.version = new Date()
+          $timeout(Poller,5000+Math.random()*5000)
+      ,
+        ()->
+          $timeout(Poller,Math.random()*5000)
+      )
+    else
+      $timeout(Poller,1000+Math.random()*1000)
   Poller()
 
   return Rank
@@ -296,6 +303,7 @@ config( ($routeProvider)->
 
     $scope.setProblem = (order)->
       Contest.order = order
+      Rank.setContestId($routeParams.contestId)
       $scope.order = order
       $timeout(->
         MathJax.Hub.Queue(["Typeset",MathJax.Hub])
