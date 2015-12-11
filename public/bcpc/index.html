@@ -169,7 +169,7 @@
                             <p class="hide-mob">
                                 <x>
                                     <a ng-if="registed == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
-                                    <a ng-if="registed == true" style="color: #AB3C03" href="/bcpc/list.html">您已注册该项赛事 </a>
+                                    <a ng-if="registed == true" style="color: #AB3C03" href="/contest-ng/index.html#/29">带我去比赛 </a>
                                     <p ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
                                 </x>
                                 <br>
@@ -248,7 +248,14 @@
                     </div>
                     <div id="tab3" class="tab-pane">
                         <div class="panel-body">
-                            <p>　　大赛设冠、亚、季军各1名，并设一等奖5名（包含冠亚季军），二等奖7名，三等奖9名。所有获奖选手将颁发北航教务处的证书及相应奖品。获得冠亚季军的选手可申请相应的校级奖学金。</p>
+                            <p>　　
+                                大赛设冠、亚、季军各1名，并设一等奖5名（包含冠亚季军），二等奖7名，三等奖9名。所有获奖选手将颁发北航教务处的证书及相应奖品。获得冠亚季军的选手可申请相应的校级奖学金。<br>
+                                <ol>
+                                    <li>一等奖为<strong>cherry机械键盘</strong></li>
+                                    <li>二等奖为<strong>AKG 450耳机</strong></li>
+                                    <li>三等奖为<strong>小米手环</strong></li>
+                                </ol>
+                            </p>
                         </div>
                     </div>
                     <div id="tab4" class="tab-pane">
@@ -347,7 +354,7 @@
                 <div class="navy-line"></div>
                 <h1>
                     <a ng-if="registed == false" ng-click="register()">注册报名</a>
-                    <a href="/bcpc/list.html" ng-if="registed == true">已注册</a>
+                    <a href="/contest-ng/index.html#/29" ng-if="registed == true">带我去比赛</a>
                     <a ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
                 </h1>
 
