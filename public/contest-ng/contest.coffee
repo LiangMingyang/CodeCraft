@@ -201,7 +201,7 @@ config( ($routeProvider)->
   Poller()
   return Me
 )
-.factory('Rank', ($routeParams, $http, $timeout)->
+.factory('Rank', ($routeParams, $http, $timeout, Me)->
   Rank = {}
   Rank.data = []
   Rank.ori = ""
@@ -220,7 +220,9 @@ config( ($routeProvider)->
     triedPeopleCount = {}
     acceptedPeopleCount = {}
     triedSubCount = {}
-    for r in rank
+    myRank = undefined
+    for r,i in rank
+      myRank = i+1 if r.user.id is Me.data.id
       for p of r.detail
         acceptedPeopleCount[p] ?= 0
         ++acceptedPeopleCount[p] if r.detail[p].result is 'AC'
@@ -232,6 +234,7 @@ config( ($routeProvider)->
       triedPeopleCount : triedPeopleCount
       acceptedPeopleCount : acceptedPeopleCount
       triedSubCount : triedSubCount
+      myRank : myRank
     }
   Poller = ()->
     $http.get("/api/contests/#{Rank.contestId}/rank")
