@@ -62,7 +62,7 @@ exports.postEdit = (req, res)->
     throw new global.myErrors.UnknownUser() if not req.session.user
     throw new global.myErrors.InvalidAccess() if not user
     throw new global.myErrors.InvalidAccess() if user.id.toString() isnt req.session.user.id.toString() #这里设定为只有自己才能修改
-    user.nickname = req.body.nickname
+    #user.nickname = req.body.nickname
     user.school = req.body.school
     user.college = req.body.college
     user.description = req.body.description
