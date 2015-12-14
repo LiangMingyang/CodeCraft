@@ -150,6 +150,7 @@
     Contest.id = $routeParams.contestId || 1;
     Contest.order = 0;
     Contest.idToOrder = {};
+    Contest.pollLife = 3;
     Contest.data = {
       title: "Waiting for data...",
       description: "Waiting for data..."
@@ -165,35 +166,41 @@
         return Poller();
       }
     };
+    Contest.active = function() {
+      return Contest.pollLife = 3;
+    };
     Poller = function() {
-      return $http.get("/api/contests/" + Contest.id).then(function(res) {
-        var contest, i, j, len, p, ref;
-        contest = res.data;
-        contest.problems.sort(function(a, b) {
-          return a.contest_problem_list.order - b.contest_problem_list.order;
-        });
-        ref = contest.problems;
-        for (i = j = 0, len = ref.length; j < len; i = ++j) {
-          p = ref[i];
-          p.test_setting = JSON.parse(p.test_setting);
-          Contest.idToOrder[p.id] = i;
-        }
-        contest.start_time = new Date(contest.start_time);
-        contest.end_time = new Date(contest.end_time);
-        Contest.data = contest;
-        if (!contest.problems || contest.problems.length === 0) {
+      if (Contest.pollLife > 0 || !contest.problems || contest.problems.length === 0) {
+        --Contest.pollLife;
+        return $http.get("/api/contests/" + Contest.id).then(function(res) {
+          var contest, i, j, len, p, ref;
+          contest = res.data;
+          contest.problems.sort(function(a, b) {
+            return a.contest_problem_list.order - b.contest_problem_list.order;
+          });
+          ref = contest.problems;
+          for (i = j = 0, len = ref.length; j < len; i = ++j) {
+            p = ref[i];
+            p.test_setting = JSON.parse(p.test_setting);
+            Contest.idToOrder[p.id] = i;
+          }
+          contest.start_time = new Date(contest.start_time);
+          contest.end_time = new Date(contest.end_time);
+          Contest.data = contest;
           return $timeout(Poller, Math.random() * 100000);
-        }
-      }, function(res) {
-        $.notify(res.data.error, {
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          },
-          type: 'danger'
+        }, function(res) {
+          $.notify(res.data.error, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'danger'
+          });
+          return $timeout(Poller, Math.random() * 10000);
         });
-        return $timeout(Poller, Math.random() * 10000);
-      });
+      } else {
+        return $timeout(Poller, 1000 + Math.random() * 1000);
+      }
     };
     Poller();
     return Contest;
@@ -225,14 +232,17 @@
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
     Rank.version = void 0;
-    Rank.pollLife = 1;
+    Rank.pollLife = 3;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
         Rank.data = [];
         Rank.statistics = {};
         Rank.version = void 0;
+        return Rank.pollLife = 3;
       }
+    };
+    Rank.active = function() {
       return Rank.pollLife = 3;
     };
     doRankStatistics = function(rank) {
@@ -272,8 +282,7 @@
     };
     Poller = function() {
       if (Rank.pollLife > 0) {
-        Rank.pollLife = Rank.pollLife - 1;
-        console.log(Rank.pollLife);
+        --Rank.pollLife;
         return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
           if (Rank.ori !== res.data) {
             Rank.data = JSON.parse(res.data);
@@ -322,7 +331,6 @@
     $scope.Rank = Rank;
     $scope.setProblem = function(order) {
       Contest.order = order;
-      Rank.setContestId($routeParams.contestId);
       $scope.order = order;
       return $timeout(function() {
         return MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
@@ -412,8 +420,12 @@
           return "red-td";
       }
     };
-    return $scope.check_submission_is_running = function(result) {
+    $scope.check_submission_is_running = function(result) {
       return result === "WT" || result === "JG";
+    };
+    return $scope.active = function() {
+      $scope.Rank.active();
+      return $scope.Contest.active();
     };
   });
 

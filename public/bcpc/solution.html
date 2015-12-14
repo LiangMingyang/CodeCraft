@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Title</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h2 id="a模式">A.模式</h2>
+
+<p>计算机学院是6系，软件学院是21系，对于输入的学号只需要判断<script type="math/tex" id="MathJax-Element-1840">\lfloor \frac{id}{10000} \rfloor</script>是多少即可。</p>
+
+<h2 id="b-并联变阻器">B. 并联变阻器</h2>
+
+<p>题意即统计满足<script type="math/tex" id="MathJax-Element-1490">a,b\le N</script>且<script type="math/tex" id="MathJax-Element-1491">\frac{a\cdot b}{a+b}</script>是整数的二元组<script type="math/tex" id="MathJax-Element-1492">(a,b)</script>的个数，条件也即<script type="math/tex" id="MathJax-Element-1493">a,b\le N</script>且<script type="math/tex" id="MathJax-Element-1494">(a+b)|a\cdot b</script>。 <br>
+令<script type="math/tex" id="MathJax-Element-1495">r=\gcd(a,b)</script>，则有<script type="math/tex" id="MathJax-Element-1496">\gcd(\frac{a}{r},\frac{b}{r})=1</script>，再令<script type="math/tex" id="MathJax-Element-1497">a=rx,b=ry</script>，那么<script type="math/tex" id="MathJax-Element-1498">(a+b)|a\cdot b</script>可以表示为<script type="math/tex" id="MathJax-Element-1499">r\cdot(x+y)|r^2\cdot x\cdot y</script>，也就是<script type="math/tex" id="MathJax-Element-1500">(x+y)|r\cdot x\cdot y</script>。 <br>
+由于<script type="math/tex" id="MathJax-Element-1501">x</script>与<script type="math/tex" id="MathJax-Element-1502">y</script>互质，所以<script type="math/tex" id="MathJax-Element-1503">\gcd(x+y,x)=\gcd(x+y,y)=\gcd(x,y)=1</script>，<script type="math/tex" id="MathJax-Element-1504">(x+y)</script>与<script type="math/tex" id="MathJax-Element-1505">x,y</script>也是互质的，则必然有<script type="math/tex" id="MathJax-Element-1506">(x+y)|r</script>。 <br>
+令<script type="math/tex" id="MathJax-Element-1507">r=k(x+y)</script>，则<script type="math/tex" id="MathJax-Element-1508">a=k\cdot x\cdot(x+y),b=k\cdot y\cdot(x+y)</script>，可以发现<script type="math/tex" id="MathJax-Element-1509">a,b\le N</script>对应着<script type="math/tex" id="MathJax-Element-1510">x,y\le\sqrt{N}</script>，只需要枚举不超过<script type="math/tex" id="MathJax-Element-1511">\sqrt{N}</script>的互质数对<script type="math/tex" id="MathJax-Element-1512">(x,y)</script>，即可计算出对应的每一组解，这样做的时间复杂度是<script type="math/tex" id="MathJax-Element-1513">O(\sqrt{N}^2)=O(N)</script>的，其中求最大公约数的部分可以通过预处理达到<script type="math/tex" id="MathJax-Element-1514">O(1)</script>。 <br>
+注意到本题的数据组数较大，单组数据使用<script type="math/tex" id="MathJax-Element-1515">O(N)</script>算法也会超时，但是枚举所有解的时候也确定了这组解是属于<script type="math/tex" id="MathJax-Element-1516">N\ge\max(a,b)</script>的所有<script type="math/tex" id="MathJax-Element-1517">N</script>，所以将这组<script type="math/tex" id="MathJax-Element-1518">(a,b)</script>统计到对应的<script type="math/tex" id="MathJax-Element-1519">\max(a,b)</script>，再求一遍前缀和即可得到所有答案，预处理复杂度<script type="math/tex" id="MathJax-Element-1520">O(N)</script>，单点查询<script type="math/tex" id="MathJax-Element-1521">O(1)</script>。</p>
+
+
+
+<h2 id="c-抽奖箱">C. 抽奖箱</h2>
+
+<p>题意可以稍作简化，考虑成<script type="math/tex" id="MathJax-Element-3362">n</script>次抽奖，每次只有<script type="math/tex" id="MathJax-Element-3363">m</script>位老师和<script type="math/tex" id="MathJax-Element-3364">a_i</script>位学生，需要求抽到<script type="math/tex" id="MathJax-Element-3365">k</script>位老师时，在这<script type="math/tex" id="MathJax-Element-3366">k</script>位学生之前的同学平均情况下有多少位。不同班的学生之间互相不影响。 <br>
+注意到样例解释里不同情况下的概率是不一样的，不便于分析，可以将抽取的序列补全成抽完<script type="math/tex" id="MathJax-Element-3367">(m+a_i)</script>个结果的一个排列，这样每个排列的概率都是<script type="math/tex" id="MathJax-Element-3368">\frac{1}{(m+a_i)!}</script>。 <br>
+一个直观的结论是，可以认为学生是等概率分布在老师之间的，即任意两个相邻的老师之间平均情况下有相同数量的学生，那么<script type="math/tex" id="MathJax-Element-3369">m</script>位老师将序列划分成<script type="math/tex" id="MathJax-Element-3370">(m+1)</script>个段，每段平均情况下有<script type="math/tex" id="MathJax-Element-3371">\frac{a_i}{m+1}</script>个学生，所求即前<script type="math/tex" id="MathJax-Element-3372">k</script>个段里平均情况下的学生个数，也就是<script type="math/tex" id="MathJax-Element-3373">\frac{a_i\cdot k}{m+1}</script>。如果理解了数学期望的线性性，应该会很快得到这个结论。详细的证明可以参考超几何分布的期望。</p>
+
+
+
+<h2 id="d-最大公约数">D. 最大公约数</h2>
+
+<p>最大公约数满足结合律，所以题目所说相等的<script type="math/tex" id="MathJax-Element-3521">\gcd</script>就是原数列的<script type="math/tex" id="MathJax-Element-3522">\gcd</script>，不妨设为<script type="math/tex" id="MathJax-Element-3523">d</script>。</p>
+
+<p>设<script type="math/tex" id="MathJax-Element-3524">f[i]</script>为前<script type="math/tex" id="MathJax-Element-3525">i</script>个数能分的最大段数，枚举最后一个段是<script type="math/tex" id="MathJax-Element-3526">[j+1,i]</script>，则有<script type="math/tex" id="MathJax-Element-3527">\gcd_{k=j+1}^{i}{a_k}=d</script>，而<script type="math/tex" id="MathJax-Element-3528">f[i]=max\{f[j]\}+1</script>。如果<script type="math/tex" id="MathJax-Element-3529">j</script>不存在，可以认为<script type="math/tex" id="MathJax-Element-3530">f[i]</script>是不合法的部分，令<script type="math/tex" id="MathJax-Element-3531">f[i]=0</script>即可。</p>
+
+<p>不难证明满足条件的<script type="math/tex" id="MathJax-Element-3532">j</script>是一段前缀区间，而且<script type="math/tex" id="MathJax-Element-3533">f[i]</script>是单调的，所以最大的<script type="math/tex" id="MathJax-Element-3534">f[j]</script>一定是尽量靠右的，可以直接找到这个<script type="math/tex" id="MathJax-Element-3535">j</script>来对<script type="math/tex" id="MathJax-Element-3536">f[i]</script>更新答案。</p>
+
+<p>区间<script type="math/tex" id="MathJax-Element-3537">\gcd</script>可以预处理ST表得到，或者顺着推以每个点结尾的区间<script type="math/tex" id="MathJax-Element-3538">\gcd</script>即可，可以证明以每个点结尾的区间<script type="math/tex" id="MathJax-Element-3539">\gcd</script>的值个数是不超过<script type="math/tex" id="MathJax-Element-3540">logn</script>个的，所以整体的复杂度是<script type="math/tex" id="MathJax-Element-3541">O(n \log^2n)</script>。</p>
+
+<h2 id="e-矩阵">E. 矩阵</h2>
+
+<p>设 <script type="math/tex" id="MathJax-Element-1396">X_i</script>代表第<script type="math/tex" id="MathJax-Element-1397">i</script>行所减少的权值，设 <script type="math/tex" id="MathJax-Element-1398">Y_j</script>代表第<script type="math/tex" id="MathJax-Element-1399">j</script> 列所增加的权值。</p>
+
+<p>则 <script type="math/tex" id="MathJax-Element-1400">C_{ij} = Y_j - X_i</script>, 推出 <script type="math/tex" id="MathJax-Element-1401">X_i + C_{ij} \leq Y_j</script> 和 <script type="math/tex" id="MathJax-Element-1402">Y_j - C_{ij} \leq X_i</script>，根据差分关系建边。原问题就变成：是否所有的环权值都为<script type="math/tex" id="MathJax-Element-1403">0</script>。<script type="math/tex" id="MathJax-Element-1404">n + m</script> 只有 <script type="math/tex" id="MathJax-Element-1405">100</script>，所以floyd和spfa找环什么的都可以过。</p>
+
+<p>PS:没想到大部分人都用高斯消元过掉了。</p>
+
+
+
+<h2 id="f-序列">F. 序列</h2>
+
+<p>对于一个固定的排列<script type="math/tex" id="MathJax-Element-3784">p</script>，权值为 <script type="math/tex" id="MathJax-Element-3785">1 + \sum_{i=1}^{n-1}[p_i > p_{i+1}]</script>。所以相邻两个数字，如果前面数字大于后面数字则对答案贡献<script type="math/tex" id="MathJax-Element-3786">1</script>。</p>
+
+<p>公式：<script type="math/tex" id="MathJax-Element-3787">\binom{n}{2}  \binom{n-1}{1} \cdot (n-2)! + n! = \frac{(n+1)!}{2}</script>。</p>
+
+
+
+<h2 id="g-就是这么巧">G. 就是这么巧</h2>
+
+<p>这题的结论： <br>
+1.对于符号条件的<script type="math/tex" id="MathJax-Element-3788">(a,b)，\frac{a^2+b^2}{ab+1}</script>是一个完全平方数 <br>
+ 2. 对于给定的<script type="math/tex" id="MathJax-Element-3789">n,\frac{a^2+b^2}{ab+1}=n^2</script>的所有解是数列 <br>
+    <script type="math/tex; mode=display" id="MathJax-Element-3790">a_1=n,a_2=n^3,a_i=n^2a_{i-1}-a_{i-2},i>2</script>中的相邻两项。</p>
+
+<p>证明：</p>
+
+<ul>
+<li>结论1：<a href="http://wenku.baidu.com/link?url=ae8AwrpCgm_SYcVwnig98Chw5attBpqUi1M9pED1u3ke7KXYtQ4_iOg1Tdz5Gvs1j6nVoVPGBocw6oiGhiOtLNhJUs2wYCV_xmAVZzhtFBy">保加利亚选手的证明</a></li>
+<li>结论2：参考结论1的证明 <br>
+令：<script type="math/tex" id="MathJax-Element-3791">\frac{a^2+b^2}{ab+1}=k > 0，a \ge b，</script>并移项化简得:<script type="math/tex" id="MathJax-Element-3792">a^2-kb*a+b^2-k=0</script>。 <br>
+对于给定的<script type="math/tex" id="MathJax-Element-3793">k，</script>我们将<script type="math/tex" id="MathJax-Element-3794">a,b</script>的范围从正整数扩大为整数。那么<script type="math/tex" id="MathJax-Element-3795">a,b</script>不会异号（否则<script type="math/tex" id="MathJax-Element-3796">a^2-kb*a+b^2-k \ge a^2+k+b^2-k > 0</script>，矛盾)，即<script type="math/tex" id="MathJax-Element-3797">ab \ge 0</script>。 <br>
+已知a是一元二次方程<script type="math/tex" id="MathJax-Element-3798">x^2-kb*x+b^2-k=0</script>的一个解，设另一个解为<script type="math/tex" id="MathJax-Element-3799">a'</script>。 <br>
+根据韦达定理:  <br>
+<script type="math/tex; mode=display" id="MathJax-Element-3800">a+a'=kb \\ aa'=b^2-k=>a'=\frac{b^2-k}{a}<b \le a</script> <br>
+公式<script type="math/tex" id="MathJax-Element-3801">a+a'=kb</script>就是<script type="math/tex" id="MathJax-Element-3802">A_{n-1}+A_n=kA_{n+1}</script>。 <br>
+就是说任意给定一组解<script type="math/tex" id="MathJax-Element-3803">(b,a)</script>，我们可以求出另一组解<script type="math/tex">(a',b)</script>，且<script type="math/tex">a'< b \le a</script>，继续迭代可以得到一个无穷数列<script type="math/tex">\{A_i\},(A_i,A_{i+1})</script>都是解。 <br>
+当<script type="math/tex">k>1</script>时，这个数列是递增的；并且关于原点对称，因为<script type="math/tex">(-a,-b)</script>也是一组是解；并且0是数列中的某一项（否则必然存在<script type="math/tex">A_i<0<A_{i+1} </script>）；从而对于给定的<script type="math/tex">k</script>，所有的解都在这个数列中。</li>
+</ul>
+
+<h2 id="h-高中数学题">H. 高中数学题</h2>
+
+<p>题目给出了一个仅含<script type="math/tex" id="MathJax-Element-2447">a_n</script>、<script type="math/tex" id="MathJax-Element-2448">S_n</script>的公式，根据高中数学知识，很容易解出它的通项：<script type="math/tex" id="MathJax-Element-2449">a_n = 2n + 1</script></p>
+
+<p>我们要求的是这个序列的前<script type="math/tex" id="MathJax-Element-2450">n</script>项异或和</p>
+
+<p>对于自然数的前<script type="math/tex" id="MathJax-Element-2451">n</script>项异或和<script type="math/tex" id="MathJax-Element-2452">X_n</script>，有如下规律：</p>
+
+
+
+<p><script type="math/tex; mode=display" id="MathJax-Element-3720">
+\begin{eqnarray}X_n=
+\begin{cases}
+n, &n \equiv 0 \mod 4 \cr
+1, &n \equiv 1 \mod 4 \cr
+n+1, &n \equiv 2 \mod 4 \cr
+0, &n \equiv 3 \mod 4
+\end{cases}
+\end{eqnarray}
+</script></p>
+
+<p>本题中的序列就是自然数序列左移一位，再加1得到的</p>
+
+<p>因此先将自然数序列的前<script type="math/tex" id="MathJax-Element-3721">n</script>项异或和算出，之后将其左移一位再单独考虑最后一位的情况就好了。</p>
+
+<h2 id="i-神奇宝贝大师">I. 神奇宝贝大师</h2>
+
+<p>首先很重要的一点，我们可以发现X方向位置的选择和Y方向位置的选择是相互独立的。如果能想到这点这题就非常非常简单了。</p>
+
+<p>假设我们最后答案是(ansx, ansy)，我们只要独立的找到ansx和ansy就好了。 <br>
+而只考虑X方向或者Y方向的话，就把原题转换成了一维的问题：给一个数组<script type="math/tex" id="MathJax-Element-3727">a</script>，找一个位置<script type="math/tex" id="MathJax-Element-3728">x</script>使得￥<script type="math/tex" id="MathJax-Element-3729">\sum{a_i \cdot |i-x|}</script>最小。</p>
+
+<p>而这个一维的问题就很好解决了。可以<script type="math/tex" id="MathJax-Element-3730">O(n)</script>扫一遍维护一下前后的距离暴力统计取min，或者直接找中间位置。而这个题更加简单一些，2000的数据范围直接<script type="math/tex" id="MathJax-Element-3731">O(n^2)</script>暴力枚举都是可以的。</p>
+
+
+
+<h2 id="j-铅导体">J. 铅导体</h2>
+
+<p>这个题目的操作是在原图的每条边上加上一个<script type="math/tex" id="MathJax-Element-3732">dt</script>，我们可以发现，最终影响答案的是每条路径的边数。我们不妨把所有从<script type="math/tex" id="MathJax-Element-3733">S</script>到<script type="math/tex" id="MathJax-Element-3734">T</script>的路径表示为<script type="math/tex" id="MathJax-Element-3735">A+B \cdot dt</script>的形式，<script type="math/tex" id="MathJax-Element-3736">A</script>代表原图该路径的长度，<script type="math/tex" id="MathJax-Element-3737">B</script>代表该路径的边数。</p>
+
+<p>而<script type="math/tex" id="MathJax-Element-3738">A+B \cdot dt</script>是一束直线，且我们显然可以将其优化为<script type="math/tex" id="MathJax-Element-3739">n</script>条直线(对每个<script type="math/tex" id="MathJax-Element-3740">B</script>，取最小的<script type="math/tex" id="MathJax-Element-3741">A</script>)。那么对于每个询问<script type="math/tex" id="MathJax-Element-3742">dt</script>，答案就是这一束直线在<script type="math/tex" id="MathJax-Element-3743">x=dt</script>处的最小值。我们可以处理出一个最多由<script type="math/tex" id="MathJax-Element-3744">n</script>条边组成的下凸壳，对每个询问二分查找其所在的凸壳上的段，即可直接求出答案。</p>
+
+<p>由于前面求<script type="math/tex" id="MathJax-Element-3745">n</script>条直线的复杂度为<script type="math/tex" id="MathJax-Element-3746">O(nm)</script>,求下凸壳的复杂度为<script type="math/tex" id="MathJax-Element-3747">O(n)</script>,回答询问的复杂度为<script type="math/tex" id="MathJax-Element-3748">O(q \log n)</script>,所以总的复杂度为<script type="math/tex" id="MathJax-Element-3749">O(nm + q \log n)</script>。题目中的<script type="math/tex" id="MathJax-Element-3750">nm</script>比较大，但是实际上在图中跑的速度还是很快的。另外，由于数据未进行特别的构造，导致暴力处理<script type="math/tex" id="MathJax-Element-3751">n</script>条直线，并且询问时枚举<script type="math/tex" id="MathJax-Element-3752">n</script>条直线计算最值的算法也通过了此题。</p>
+
+<h2 id="k-危险密码">K. 危险密码</h2>
+
+<p>两个字符串的编辑距离即一个串通过添加、删除、修改三种操作变成另外一个串的最少操作次数。</p>
+
+<p>对于一个字符串<script type="math/tex" id="MathJax-Element-3677">s</script>，设它的长度为<script type="math/tex" id="MathJax-Element-3678">n</script>，可以发现<script type="math/tex" id="MathJax-Element-3679">h=(\sum_{i=0}^{n-1}{a_i\cdot K^{n-1-i}})\;\text{mod}\;M</script>，枚举添加、删除、修改的一个字符串，计算新串的<script type="math/tex" id="MathJax-Element-3680">h'</script>即可。</p>
+
+<p>对于修改第<script type="math/tex" id="MathJax-Element-3681">i(0\le i<n)</script>个位置为<script type="math/tex" id="MathJax-Element-3682">c</script>，<script type="math/tex" id="MathJax-Element-3683">h'=h+(c-a_i)\cdot K^{n-1-i}</script>。</p>
+
+<p>对于添加和删除需要一些额外的信息，令<script type="math/tex" id="MathJax-Element-3684">pre_i</script>表示字符串<script type="math/tex" id="MathJax-Element-3685">s</script>的前<script type="math/tex" id="MathJax-Element-3686">i</script>个字符表示的<script type="math/tex" id="MathJax-Element-3687">h</script>值，<script type="math/tex" id="MathJax-Element-3688">pre_n</script>即<script type="math/tex" id="MathJax-Element-3689">s</script>的<script type="math/tex" id="MathJax-Element-3690">h</script>，再令<script type="math/tex" id="MathJax-Element-3691">suf_i=pre_n-pre_i\cdot K^{n-i+1}</script>。</p>
+
+<p>对于在第<script type="math/tex" id="MathJax-Element-3692">i(0\le i\le n)</script>个字符前添加一个<script type="math/tex" id="MathJax-Element-3693">c</script>，<script type="math/tex" id="MathJax-Element-3694">h'=pre_i\cdot K^{n-i+1}+c\cdot K^{n-i}+suf_{i+1}</script>。</p>
+
+<p>对于删除第<script type="math/tex" id="MathJax-Element-3695">i(0\le i<n)</script>个字符，<script type="math/tex" id="MathJax-Element-3696">h'=pre_{i-1}\cdot K^{n-i}+suf_{i+1}</script>。</p>
+
+<h2 id="l-偶回文串">L. 偶回文串</h2>
+
+<p>题意即统计有多少个连续的子串满足在它里面出现的字符都出现了偶数次，满足这样条件的子串总能通过重排字符的顺序得到一个偶回文串。 <br>
+任意一个子串里某个字符的出现次数可以被表示成两个前缀字符串里出现次数的差，例如<script type="math/tex" id="MathJax-Element-1941">abbababbabbab</script>的子串<script type="math/tex" id="MathJax-Element-1942">ababba</script>，就可以表示成<script type="math/tex" id="MathJax-Element-1943">abbababba</script>和<script type="math/tex" id="MathJax-Element-1944">abb</script>的差，如果这两个前缀串里任意一个字符出现的次数在模<script type="math/tex" id="MathJax-Element-1945">2</script>意义下是相等的，那么他们的差对应的子串就是一个合法的解。 <br>
+以第<script type="math/tex" id="MathJax-Element-1946">i</script>个字符结尾的前缀串和以第<script type="math/tex" id="MathJax-Element-1947">i+1</script>个字符结尾的前缀串只差一个字符，可以通过线性递推得到所有的前缀串的<script type="math/tex" id="MathJax-Element-1948">26</script>个字符出现次数的奇偶性，可以发现每个前缀串对应<script type="math/tex" id="MathJax-Element-1949">26</script>个不是<script type="math/tex" id="MathJax-Element-1950">0</script>就是<script type="math/tex" id="MathJax-Element-1951">1</script>的数字，可以将其压缩成一个二进制数字<script type="math/tex" id="MathJax-Element-1952">s_i</script>，<script type="math/tex" id="MathJax-Element-1953">s_i</script>的第<script type="math/tex" id="MathJax-Element-1954">k</script>位对应第<script type="math/tex" id="MathJax-Element-1955">k</script>个字符出现次数的奇偶性，添加一个字符可以利用二进制不进位加法，其中二进制不进位加法可以用异或<script type="math/tex" id="MathJax-Element-1956">(xor)</script>来表示。 <br>
+算出所有的<script type="math/tex" id="MathJax-Element-1957">s_i</script>之后，可以通过<script type="math/tex" id="MathJax-Element-1958">\text{C++ STL map}</script>或手写散列函数统计相同的<script type="math/tex" id="MathJax-Element-1959">s_i</script>出现个数，也可以直接进行排序将相同的<script type="math/tex" id="MathJax-Element-1960">s_i</script>排到一起。不妨设有<script type="math/tex" id="MathJax-Element-1961">a</script>个<script type="math/tex" id="MathJax-Element-1962">s_i</script>是相等的，那么它们可以对应<script type="math/tex" id="MathJax-Element-1963">\frac{a\cdot(a-1)}{2}</script>个子串，分别考虑每组相等的<script type="math/tex" id="MathJax-Element-1964">s_i</script>，将贡献累加即可。时间复杂度<script type="math/tex" id="MathJax-Element-1965">O(n \log n)</script>。</p>
+
+
+
+<h2 id="m-我是鱼">M. 我是鱼</h2>
+
+<p>一个数和自己异或(<script type="math/tex" id="MathJax-Element-2254">\oplus</script>)结果为0，所以如果只有一个数是奇数全部异或起来就能得到结果，如果有两个数是奇数，假设为<script type="math/tex" id="MathJax-Element-2255">a</script>，<script type="math/tex" id="MathJax-Element-2256">b</script>，把所有数异或起来的结果等于<script type="math/tex" id="MathJax-Element-2257">a \oplus b</script>，设<script type="math/tex" id="MathJax-Element-2258">c=a \oplus b</script>，则<script type="math/tex" id="MathJax-Element-2259">c \not = 0</script>，<script type="math/tex" id="MathJax-Element-2260">c</script>的二进制表示中必有某一位为1，假设为第<script type="math/tex" id="MathJax-Element-2261">x</script>位，那么将所有第<script type="math/tex" id="MathJax-Element-2262">x</script>位为<script type="math/tex" id="MathJax-Element-2263">0</script>的异或起来，所有为<script type="math/tex" id="MathJax-Element-2264">1</script>的异或起来就能得到<script type="math/tex" id="MathJax-Element-2265">a</script>，<script type="math/tex" id="MathJax-Element-2266">b</script>。</p></div></body>
+</html>
