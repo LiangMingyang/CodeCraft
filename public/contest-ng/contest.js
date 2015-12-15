@@ -15,7 +15,7 @@
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
     }).otherwise({
-      redirectTo: '/1'
+      redirectTo: '/10'
     });
   }).filter('marked', [
     '$sce', function($sce) {
@@ -225,13 +225,15 @@
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
     Rank.version = void 0;
+    Rank.pollLife = 1;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
         Rank.data = [];
         Rank.statistics = {};
-        return Rank.version = void 0;
+        Rank.version = void 0;
       }
+      return Rank.pollLife = 3;
     };
     doRankStatistics = function(rank) {
       var acceptedPeopleCount, i, j, len, myRank, p, r, triedPeopleCount, triedSubCount;
@@ -269,17 +271,23 @@
       };
     };
     Poller = function() {
-      return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
-        if (Rank.ori !== res.data) {
-          Rank.data = JSON.parse(res.data);
-          Rank.statistics = doRankStatistics(Rank.data);
-          Rank.ori = res.data;
-        }
-        Rank.version = new Date();
-        return $timeout(Poller, 5000 + Math.random() * 5000);
-      }, function() {
-        return $timeout(Poller, Math.random() * 5000);
-      });
+      if (Rank.pollLife > 0) {
+        Rank.pollLife = Rank.pollLife - 1;
+        console.log(Rank.pollLife);
+        return $http.get("/api/contests/" + Rank.contestId + "/rank").then(function(res) {
+          if (Rank.ori !== res.data) {
+            Rank.data = JSON.parse(res.data);
+            Rank.statistics = doRankStatistics(Rank.data);
+            Rank.ori = res.data;
+          }
+          Rank.version = new Date();
+          return $timeout(Poller, 5000 + Math.random() * 5000);
+        }, function() {
+          return $timeout(Poller, Math.random() * 5000);
+        });
+      } else {
+        return $timeout(Poller, 1000 + Math.random() * 1000);
+      }
     };
     Poller();
     return Rank;
@@ -314,6 +322,7 @@
     $scope.Rank = Rank;
     $scope.setProblem = function(order) {
       Contest.order = order;
+      Rank.setContestId($routeParams.contestId);
       $scope.order = order;
       return $timeout(function() {
         return MathJax.Hub.Queue(["Typeset", MathJax.Hub]);

@@ -2,22 +2,28 @@
 (function() {
   'use strict';
   this.angular.module('bcpc', []).controller('bcpc.ctrl', function($scope, $http, $timeout) {
-    $scope.registed = "waiting";
+    $scope.passed = "waiting";
+    $scope.confirmed = "waiting";
     $scope.list = [];
     $http.get('/api/bcpc/status').then(function(res) {
-      return $scope.registed = res.data.registed;
+      $scope.passed = res.data.passed || false;
+      $scope.confirmed = res.data.confirmed || false;
+      return $scope.user = res.data.user || false;
     }, function(res) {
       return console.log(res.data.error);
     });
-    return $scope.register = function() {
-      $scope.registed = 'waiting';
-      return $http.get('/api/bcpc/register').then(function(res) {
-        return $scope.registed = res.data.registed;
+    $scope.form = {
+      nickname: "",
+      student_id: ""
+    };
+    return $scope.confirm = function() {
+      if ($scope.form.nickname === "" || $scope.form.student_id === "") {
+        alert("请认真一点");
+        return;
+      }
+      return $http.post('/api/bcpc/confirm', $scope.form).then(function(res) {
+        return $scope.confirmed = res.data.confirmed;
       }, function(res) {
-        if (res.status === 401) {
-          window.location = "/user/login";
-          return;
-        }
         return alert(res.data.error);
       });
     };

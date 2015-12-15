@@ -3,27 +3,33 @@
 @angular.module('bcpc',[])
 
 .controller('bcpc.ctrl',($scope,$http,$timeout)->
-  $scope.registed = "waiting"
+  $scope.passed = "waiting"
+  $scope.confirmed = "waiting"
   $scope.list = []
   $http.get('/api/bcpc/status')
   .then(
     (res)->
-      $scope.registed = res.data.registed
+      $scope.passed = res.data.passed || false
+      $scope.confirmed = res.data.confirmed || false
+      $scope.user = res.data.user || false
   ,
     (res)->
       console.log res.data.error
   )
-  $scope.register = ()->
-    $scope.registed = 'waiting'
-    $http.get('/api/bcpc/register')
+  $scope.form = {
+    nickname : ""
+    student_id : ""
+  }
+  $scope.confirm = ()->
+    if $scope.form.nickname is "" or $scope.form.student_id is ""
+      alert("请认真一点")
+      return
+    $http.post('/api/bcpc/confirm', $scope.form)
     .then(
       (res)->
-        $scope.registed = res.data.registed
+        $scope.confirmed = res.data.confirmed
     ,
       (res)->
-        if res.status is 401
-          window.location = "/user/login"
-          return
         alert(res.data.error)
     )
 )
