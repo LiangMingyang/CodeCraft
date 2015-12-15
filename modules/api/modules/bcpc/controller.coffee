@@ -1,6 +1,6 @@
 check = (userId)->
   cheat = {
-    99:true,51:true,142:true,85:true,60:true,217:true,124:true,146:true,194:true,62:true,98:true,43:true,282:true,307:true,88:true,47:true,164:true,143:true,147:true,207:true,74:true,210:true,11:true
+    99:true,51:true,142:true,85:true,60:true,217:true,124:true,146:true,194:true,62:true,98:true,43:true,282:true,307:true,88:true,47:true,164:true,143:true,147:true,207:true,210:true,11:true
   }
   return false if cheat[userId]
   up = {
