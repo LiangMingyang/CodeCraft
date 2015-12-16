@@ -10,4 +10,6 @@ router
 
 .get '/list', controller.getList
 
+.post '/confirm', controller.postConfirm
+
 module.exports = router
