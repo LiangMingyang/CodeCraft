@@ -19,10 +19,17 @@
   $scope.form = {
     nickname : ""
     student_id : ""
+    phone : ""
   }
   $scope.confirm = ()->
+    if $scope.form.nickname is "" or $scope.form.student_id is "" or $scope.form.phone is ""
+      alert("请认真一点")
+      return
+    $('#double_check').modal('show')
+  $scope.double_confirm = ()->
     if $scope.form.nickname is "" or $scope.form.student_id is ""
       alert("请认真一点")
+      $('#double_check').modal('hide')
       return
     $http.post('/api/bcpc/confirm', $scope.form)
     .then(
@@ -32,6 +39,7 @@
       (res)->
         alert(res.data.error)
     )
+    $('#double_check').modal('hide')
 )
 .controller('bcpc.list',($scope,$http)->
   $scope.list = []

@@ -175,7 +175,40 @@
                                         <input id="nickname" ng-model="form.nickname" style="color:#000000;">
                                         <label for="student_id" style="color:#000000;">学号</label>
                                         <input id="student_id" ng-model="form.student_id" style="color:#000000;">
+                                        <label for="phone" style="color:#000000;">手机</label>
+                                        <input id="phone" ng-model="form.phone" style="color:#000000;">
                                         <button class="btn btn-default" ng-click="confirm()">我确定参加决赛</button>
+                                    </div>
+                                    <div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">
+                                        <div ng-if="passed == true && confirmed == false" class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">x</span>
+                                                    </button>
+                                                    <h4 id="double_check_label" class="modal-title">确认报名参加？</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        <ol>
+                                                            <li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>
+                                                            <li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>
+                                                            <li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>
+                                                            <li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>
+                                                            <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
+                                                            <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。。</li>
+                                                            <li><strong>注册要求真实姓名，学号，手机号码。</strong></li>
+                                                        </ol>
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-warning" type="button" data-dismiss="modal">
+                                                        取消
+                                                    </button>
+                                                    <button class="btn btn-success" ng-click="double_confirm()">确认</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>
                                     <p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
@@ -249,7 +282,7 @@
                                     <li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>
                                     <li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>
                                     <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
-                                    <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。比赛结束前一小时将停止更新计分板。</li>
+                                    <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。</li>
                                 </ol>
                             </p>
                         </div>
@@ -361,9 +394,11 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>
-                    <a ng-if="registed == false" ng-click="register()">注册报名</a>
-                    <a href="/contest-ng/index.html#/29" ng-if="registed == true">带我去比赛</a>
-                    <a ng-if="registed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
+                    <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
+                    <a ng-if="passed == false && user" style="color: #AB3C03" >您未通过预赛 </a>
+                    <a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>
+                    <a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>
+                    <a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
                 </h1>
 
             </div>

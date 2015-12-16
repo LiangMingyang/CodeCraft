@@ -14,18 +14,28 @@
     });
     $scope.form = {
       nickname: "",
-      student_id: ""
+      student_id: "",
+      phone: ""
     };
-    return $scope.confirm = function() {
-      if ($scope.form.nickname === "" || $scope.form.student_id === "") {
+    $scope.confirm = function() {
+      if ($scope.form.nickname === "" || $scope.form.student_id === "" || $scope.form.phone === "") {
         alert("请认真一点");
         return;
       }
-      return $http.post('/api/bcpc/confirm', $scope.form).then(function(res) {
+      return $('#double_check').modal('show');
+    };
+    return $scope.double_confirm = function() {
+      if ($scope.form.nickname === "" || $scope.form.student_id === "") {
+        alert("请认真一点");
+        $('#double_check').modal('hide');
+        return;
+      }
+      $http.post('/api/bcpc/confirm', $scope.form).then(function(res) {
         return $scope.confirmed = res.data.confirmed;
       }, function(res) {
         return alert(res.data.error);
       });
+      return $('#double_check').modal('hide');
     };
   }).controller('bcpc.list', function($scope, $http) {
     $scope.list = [];
