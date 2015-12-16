@@ -29,6 +29,9 @@
         type: DataTypes.STRING,
         unique: "nickname"
       },
+      phone: {
+        type: DataTypes.STRING
+      },
       nickname: {
         type: DataTypes.STRING,
         allowNull: false,

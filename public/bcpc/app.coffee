@@ -19,9 +19,10 @@
   $scope.form = {
     nickname : ""
     student_id : ""
+    phone : ""
   }
   $scope.confirm = ()->
-    if $scope.form.nickname is "" or $scope.form.student_id is ""
+    if $scope.form.nickname is "" or $scope.form.student_id is "" or $scope.form.phone is ""
       alert("请认真一点")
       return
     $('#double_check').modal('show')
