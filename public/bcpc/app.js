@@ -14,10 +14,11 @@
     });
     $scope.form = {
       nickname: "",
-      student_id: ""
+      student_id: "",
+      phone: ""
     };
     $scope.confirm = function() {
-      if ($scope.form.nickname === "" || $scope.form.student_id === "") {
+      if ($scope.form.nickname === "" || $scope.form.student_id === "" || $scope.form.phone === "") {
         alert("请认真一点");
         return;
       }

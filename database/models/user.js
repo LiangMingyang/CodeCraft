@@ -28,6 +28,9 @@
       student_id: {
         type: DataTypes.STRING
       },
+      phone: {
+        type: DataTypes.STRING
+      },
       nickname: {
         type: DataTypes.STRING,
         allowNull: false,
