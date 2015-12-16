@@ -137,6 +137,7 @@ config( ($routeProvider)->
   Contest.id = $routeParams.contestId || 1
   Contest.order = 0
   Contest.idToOrder = {}
+  Contest.pollLife = 3
   Contest.data = {
     title: "Waiting for data..."
     description: "Waiting for data..."
@@ -150,31 +151,37 @@ config( ($routeProvider)->
       }
       Contest.order = 0
       Poller()
+  Contest.active = ()->
+    Contest.pollLife = 3
   Poller = ()->
-    $http.get("/api/contests/#{Contest.id}")
-    .then(
-      (res)->
-        contest = res.data
-        contest.problems.sort (a,b)->
-          a.contest_problem_list.order-b.contest_problem_list.order
-        for p,i in contest.problems
-          p.test_setting = JSON.parse(p.test_setting)
-          Contest.idToOrder[p.id] = i
-        contest.start_time = new Date(contest.start_time)
-        contest.end_time = new Date(contest.end_time)
-        Contest.data  = contest  #轮询
-        $timeout(Poller,Math.random()*100000) if not contest.problems or contest.problems.length is 0
-    ,
-      (res)->
-        $.notify(res.data.error,
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'danger'
-        )
-        $timeout(Poller,Math.random()*10000)
-    )
+    if Contest.pollLife > 0 or not contest.problems or contest.problems.length is 0
+      --Contest.pollLife
+      $http.get("/api/contests/#{Contest.id}")
+      .then(
+        (res)->
+          contest = res.data
+          contest.problems.sort (a,b)->
+            a.contest_problem_list.order-b.contest_problem_list.order
+          for p,i in contest.problems
+            p.test_setting = JSON.parse(p.test_setting)
+            Contest.idToOrder[p.id] = i
+          contest.start_time = new Date(contest.start_time)
+          contest.end_time = new Date(contest.end_time)
+          Contest.data  = contest  #轮询
+          $timeout(Poller,Math.random()*100000)
+      ,
+        (res)->
+          $.notify(res.data.error,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'danger'
+          )
+          $timeout(Poller,Math.random()*10000)
+      )
+    else
+      $timeout(Poller,1000+Math.random()*1000)
   Poller()
   return Contest
 )
@@ -208,7 +215,7 @@ config( ($routeProvider)->
   Rank.statistics = {}
   Rank.contestId = $routeParams.contestId || 1
   Rank.version = undefined
-  Rank.pollLife = 1
+  Rank.pollLife = 3
 
   Rank.setContestId = (newContestId)->
     if newContestId isnt Rank.contestId
@@ -216,6 +223,9 @@ config( ($routeProvider)->
       Rank.data = []
       Rank.statistics = {}
       Rank.version = undefined
+      Rank.pollLife = 3
+
+  Rank.active = ()->
     Rank.pollLife = 3
 
   doRankStatistics = (rank)->
@@ -240,8 +250,7 @@ config( ($routeProvider)->
     }
   Poller = ()->
     if Rank.pollLife > 0
-      Rank.pollLife = Rank.pollLife - 1
-      console.log Rank.pollLife
+      --Rank.pollLife
       $http.get("/api/contests/#{Rank.contestId}/rank")
       .then(
         (res)->
@@ -303,7 +312,6 @@ config( ($routeProvider)->
 
     $scope.setProblem = (order)->
       Contest.order = order
-      Rank.setContestId($routeParams.contestId)
       $scope.order = order
       $timeout(->
         MathJax.Hub.Queue(["Typeset",MathJax.Hub])
@@ -362,6 +370,10 @@ config( ($routeProvider)->
     #return if the result is running or judging
     $scope.check_submission_is_running = (result)->
       return result == "WT" or result == "JG"
+
+    $scope.active = ()->
+      $scope.Rank.active()
+      $scope.Contest.active()
 
     #private functions
 
