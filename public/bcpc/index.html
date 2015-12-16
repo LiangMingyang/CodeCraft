@@ -169,7 +169,7 @@
                             <p class="hide-mob">
                                 <x>
                                     <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
-                                    <p ng-if="passed == false && user" style="color: #AB3C03" >您未通过预赛 </p>
+                                    <p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>
                                     <div ng-if="passed == true && confirmed == false">
                                         <label for="nickname" style="color:#000000;">真实姓名</label>
                                         <input id="nickname" ng-model="form.nickname" style="color:#000000;">
@@ -395,7 +395,7 @@
                 <div class="navy-line"></div>
                 <h1>
                     <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
-                    <a ng-if="passed == false && user" style="color: #AB3C03" >您未通过预赛 </a>
+                    <a ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </a>
                     <a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>
                     <a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>
                     <a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
