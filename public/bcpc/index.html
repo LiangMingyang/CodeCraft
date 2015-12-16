@@ -171,16 +171,18 @@
                                     <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
                                     <p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>
                                     <div ng-if="passed == true && confirmed == false">
+                                        <p>恭喜您成功晋级决赛</p>
                                         <label for="nickname" style="color:#000000;">真实姓名</label>
                                         <input id="nickname" ng-model="form.nickname" style="color:#000000;">
                                         <label for="student_id" style="color:#000000;">学号</label>
                                         <input id="student_id" ng-model="form.student_id" style="color:#000000;">
                                         <label for="phone" style="color:#000000;">手机</label>
                                         <input id="phone" ng-model="form.phone" style="color:#000000;">
-                                        <button class="btn btn-default" ng-click="confirm()">我确定参加决赛</button>
+                                        <button class="btn btn-success" ng-click="confirm()">我确定参加决赛</button>
                                     </div>
                                     <div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">
                                         <div ng-if="passed == true && confirmed == false" class="modal-dialog">
+
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -198,6 +200,8 @@
                                                             <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
                                                             <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。。</li>
                                                             <li><strong>注册要求真实姓名，学号，手机号码。</strong></li>
+                                                            <li><strong>决赛将在12月20日下午1点-5点在北航沙河校区实验楼7号楼4层5层进行</strong></li>
+                                                            <li><strong>决赛当天请提前20分钟携带有效证件入场</strong></li>
                                                         </ol>
                                                     </p>
                                                 </div>
