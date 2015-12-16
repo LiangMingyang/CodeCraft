@@ -177,6 +177,42 @@
                                         <input id="student_id" ng-model="form.student_id" style="color:#000000;">
                                         <button class="btn btn-default" ng-click="confirm()">我确定参加决赛</button>
                                     </div>
+                                    <div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">
+                                        <div ng-if="passed == true && confirmed == false" class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">x</span>
+                                                    </button>
+                                                    <h4 id="double_check_label" class="modal-title">确认报名参加？</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        参赛须知！
+                                                        <br>
+                                                        参赛须知！
+                                                        <br>
+                                                        参赛须知！
+                                                        <br>
+                                                        参赛须知！
+                                                        <br>
+                                                        参赛须知！
+                                                        <br>
+                                                        参赛须知！
+                                                        <br>
+                                                        参赛须知！
+                                                        <br>
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-warning" type="button" data-dismiss="modal">
+                                                        取消
+                                                    </button>
+                                                    <button class="btn btn-success" ng-click="double_confirm()">确认</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>
                                     <p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
                                 </x>
