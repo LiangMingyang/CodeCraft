@@ -26,12 +26,13 @@
         defaultValue: '-----'
       },
       student_id: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: "nickname"
       },
       nickname: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: "nickname",
         validate: {
           notEmpty: true
         }
