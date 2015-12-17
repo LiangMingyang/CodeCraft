@@ -53,11 +53,17 @@
     return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Group.findAll({
         where: {
-          $and: [
+          $or: [
             {
-              access_level: ['public', 'protect']
+              $and: [
+                {
+                  access_level: ['protect']
+                }, {
+                  id: normalGroups
+                }
+              ]
             }, {
-              id: normalGroups
+              access_level: ['public']
             }
           ]
         },
@@ -77,11 +83,17 @@
             {
               id: groupID
             }, {
-              $and: [
+              $or: [
                 {
-                  access_level: ['public', 'protect']
+                  $and: [
+                    {
+                      access_level: ['protect']
+                    }, {
+                      id: normalGroups
+                    }
+                  ]
                 }, {
-                  id: normalGroups
+                  access_level: ['public']
                 }
               ]
             }
