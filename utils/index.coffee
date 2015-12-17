@@ -36,7 +36,7 @@ exports.findGroups = (user, include)->
   .then (normalGroups)->
     Group.findAll
       where:
-        $or: [
+        $and: [
           access_level : ['public','protect']
         ,
           id : normalGroups

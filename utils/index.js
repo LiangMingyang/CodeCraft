@@ -53,7 +53,7 @@
     return myUtils.findGroupsID(user).then(function(normalGroups) {
       return Group.findAll({
         where: {
-          $or: [
+          $and: [
             {
               access_level: ['public', 'protect']
             }, {
