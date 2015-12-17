@@ -23,6 +23,10 @@ config( ($routeProvider)->
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
     })
+  .when('/:contestId/issues', {
+      templateUrl: 'detail/detail-issues.html',
+      controller: 'contest.ctrl'
+    })
   .otherwise({
       redirectTo: '/10'
     })
@@ -208,6 +212,51 @@ config( ($routeProvider)->
   Poller()
   return Me
 )
+.factory('Issue', ($routeParams, $http, $timeout)->
+  Issue = {}
+  Issue.data = []
+  Issue.ori = ""
+  Issue.contestId = $routeParams.contestId || 1
+  Issue.version = undefined
+  Issue.pollLife = 5000
+
+  Issue.setContestId = (newContestId)->
+    if newContestId isnt Issue.contestId
+      Issue.data = []
+      Issue.ori = ""
+      Issue.contestId = newContestId
+      Issue.version = undefined
+      Issue.pollLife = 5000
+  Issue.active = ()->
+    Issue.pollLife = 5000
+  Poller = ()->
+    if Issue.pollLife > 0
+      --Issue.pollLife
+      $http.get("/api/contests/#{Issue.contestId}/issues")
+      .then(
+        (res)->
+          if Issue.ori isnt JSON.stringify(res.data)
+            Issue.data = res.data #轮询
+            if Issue.ori isnt ""
+              $.notify("有新的通知请查阅",
+                animate: {
+                  enter: 'animated fadeInRight',
+                  exit: 'animated fadeOutRight'
+                }
+                type: 'success'
+              )
+            Issue.ori = JSON.stringify(res.data)
+          Issue.version = new Date()
+          $timeout(Poller,5000+Math.random()*5000)
+      ,
+        ()->
+          $timeout(Poller,Math.random()*5000)
+      )
+    else
+      $timeout(Poller,1000+Math.random()*1000)
+  Poller()
+  return Issue
+)
 .factory('Rank', ($routeParams, $http, $timeout, Me)->
   Rank = {}
   Rank.data = []
@@ -286,7 +335,7 @@ config( ($routeProvider)->
 )
 
 
-.controller('contest.ctrl', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime)->
+.controller('contest.ctrl', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime,Issue)->
     #data
 
     $scope.order = Contest.order
@@ -306,6 +355,8 @@ config( ($routeProvider)->
     Rank.setContestId($routeParams.contestId)
     $scope.Rank = Rank
 
+    Issue.setContestId($routeParams.contestId)
+    $scope.Issue = Issue
 
 
     #Function
@@ -374,6 +425,7 @@ config( ($routeProvider)->
     $scope.active = ()->
       $scope.Rank.active()
       $scope.Contest.active()
+      $scope.Issue.active()
 
     #private functions
 

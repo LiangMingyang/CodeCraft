@@ -14,6 +14,9 @@
     }).when('/:contestId/submissions', {
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
+    }).when('/:contestId/issues', {
+      templateUrl: 'detail/detail-issues.html',
+      controller: 'contest.ctrl'
     }).otherwise({
       redirectTo: '/10'
     });
@@ -224,6 +227,54 @@
     };
     Poller();
     return Me;
+  }).factory('Issue', function($routeParams, $http, $timeout) {
+    var Issue, Poller;
+    Issue = {};
+    Issue.data = [];
+    Issue.ori = "";
+    Issue.contestId = $routeParams.contestId || 1;
+    Issue.version = void 0;
+    Issue.pollLife = 5000;
+    Issue.setContestId = function(newContestId) {
+      if (newContestId !== Issue.contestId) {
+        Issue.data = [];
+        Issue.ori = "";
+        Issue.contestId = newContestId;
+        Issue.version = void 0;
+        return Issue.pollLife = 5000;
+      }
+    };
+    Issue.active = function() {
+      return Issue.pollLife = 5000;
+    };
+    Poller = function() {
+      if (Issue.pollLife > 0) {
+        --Issue.pollLife;
+        return $http.get("/api/contests/" + Issue.contestId + "/issues").then(function(res) {
+          if (Issue.ori !== JSON.stringify(res.data)) {
+            Issue.data = res.data;
+            if (Issue.ori !== "") {
+              $.notify("有新的通知请查阅", {
+                animate: {
+                  enter: 'animated fadeInRight',
+                  exit: 'animated fadeOutRight'
+                },
+                type: 'success'
+              });
+            }
+            Issue.ori = JSON.stringify(res.data);
+          }
+          Issue.version = new Date();
+          return $timeout(Poller, 5000 + Math.random() * 5000);
+        }, function() {
+          return $timeout(Poller, Math.random() * 5000);
+        });
+      } else {
+        return $timeout(Poller, 1000 + Math.random() * 1000);
+      }
+    };
+    Poller();
+    return Issue;
   }).factory('Rank', function($routeParams, $http, $timeout, Me) {
     var Poller, Rank, doRankStatistics;
     Rank = {};
@@ -313,7 +364,7 @@
       return countDown();
     });
     return ST;
-  }).controller('contest.ctrl', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime) {
+  }).controller('contest.ctrl', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime, Issue) {
     $scope.order = Contest.order;
     if ($scope.form == null) {
       $scope.form = {
@@ -329,6 +380,8 @@
     $scope.Submission = Submission;
     Rank.setContestId($routeParams.contestId);
     $scope.Rank = Rank;
+    Issue.setContestId($routeParams.contestId);
+    $scope.Issue = Issue;
     $scope.setProblem = function(order) {
       Contest.order = order;
       $scope.order = order;
@@ -425,7 +478,8 @@
     };
     return $scope.active = function() {
       $scope.Rank.active();
-      return $scope.Contest.active();
+      $scope.Contest.active();
+      return $scope.Issue.active();
     };
   });
 
