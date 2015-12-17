@@ -219,6 +219,7 @@ config( ($routeProvider)->
   Issue.contestId = $routeParams.contestId || 1
   Issue.version = undefined
   Issue.pollLife = 5000
+  updateDic = undefined
 
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
@@ -227,26 +228,33 @@ config( ($routeProvider)->
       Issue.contestId = newContestId
       Issue.version = undefined
       Issue.pollLife = 5000
+      Issue.updateDic = undefined
   Issue.active = ()->
     Issue.pollLife = 5000
+  hasUpdate = (data)->
+    res = false
+    for i in data
+      if i.updated_at isnt Issue.updateDic[i.id]
+        res = true
+        Issue.updateDic[i.id] = i.updated_at
+    return res
   Poller = ()->
     if Issue.pollLife > 0
       --Issue.pollLife
       $http.get("/api/contests/#{Issue.contestId}/issues")
       .then(
         (res)->
-          if Issue.ori isnt JSON.stringify(res.data)
-            Issue.data = res.data #轮询
-            if Issue.ori isnt ""
-              $.notify("有新的通知请查阅",
-                animate: {
-                  enter: 'animated fadeInRight',
-                  exit: 'animated fadeOutRight'
-                }
-                type: 'success'
-                delay: -1
-              )
-            Issue.ori = JSON.stringify(res.data)
+          Issue.data = res.data #轮询
+
+          if Issue.updateDic isnt undefined and hasUpdate()
+            $.notify("有新的通知请查阅",
+              animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+              }
+              type: 'success'
+              delay: -1
+            )
           Issue.version = new Date()
           $timeout(Poller,5000+Math.random()*5000)
       ,
@@ -271,7 +279,6 @@ config( ($routeProvider)->
           type: 'success'
         )
         Issue.data.unshift(res.data)
-        Issue.ori = ""
     ,
       (res)->
         $.notify(res.data.error,

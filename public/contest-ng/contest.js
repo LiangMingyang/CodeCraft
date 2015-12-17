@@ -228,42 +228,53 @@
     Poller();
     return Me;
   }).factory('Issue', function($routeParams, $http, $timeout) {
-    var Issue, Poller;
+    var Issue, Poller, hasUpdate, updateDic;
     Issue = {};
     Issue.data = [];
     Issue.ori = "";
     Issue.contestId = $routeParams.contestId || 1;
     Issue.version = void 0;
     Issue.pollLife = 5000;
+    updateDic = void 0;
     Issue.setContestId = function(newContestId) {
       if (newContestId !== Issue.contestId) {
         Issue.data = [];
         Issue.ori = "";
         Issue.contestId = newContestId;
         Issue.version = void 0;
-        return Issue.pollLife = 5000;
+        Issue.pollLife = 5000;
+        return Issue.updateDic = void 0;
       }
     };
     Issue.active = function() {
       return Issue.pollLife = 5000;
     };
+    hasUpdate = function(data) {
+      var i, j, len, res;
+      res = false;
+      for (j = 0, len = data.length; j < len; j++) {
+        i = data[j];
+        if (i.updated_at !== Issue.updateDic[i.id]) {
+          res = true;
+          Issue.updateDic[i.id] = i.updated_at;
+        }
+      }
+      return res;
+    };
     Poller = function() {
       if (Issue.pollLife > 0) {
         --Issue.pollLife;
         return $http.get("/api/contests/" + Issue.contestId + "/issues").then(function(res) {
-          if (Issue.ori !== JSON.stringify(res.data)) {
-            Issue.data = res.data;
-            if (Issue.ori !== "") {
-              $.notify("有新的通知请查阅", {
-                animate: {
-                  enter: 'animated fadeInRight',
-                  exit: 'animated fadeOutRight'
-                },
-                type: 'success',
-                delay: -1
-              });
-            }
-            Issue.ori = JSON.stringify(res.data);
+          Issue.data = res.data;
+          if (Issue.updateDic !== void 0 && hasUpdate()) {
+            $.notify("有新的通知请查阅", {
+              animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+              },
+              type: 'success',
+              delay: -1
+            });
           }
           Issue.version = new Date();
           return $timeout(Poller, 5000 + Math.random() * 5000);
@@ -286,8 +297,7 @@
           },
           type: 'success'
         });
-        Issue.data.unshift(res.data);
-        return Issue.ori = "";
+        return Issue.data.unshift(res.data);
       }, function(res) {
         return $.notify(res.data.error, {
           animate: {
