@@ -55,7 +55,7 @@ exports.findGroup = (user, groupID, include)->
         $and: [
           id : groupID
         ,
-          $or: [
+          $and: [
             access_level : ['public','protect']
           ,
             id : normalGroups

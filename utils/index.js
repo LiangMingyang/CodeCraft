@@ -77,7 +77,7 @@
             {
               id: groupID
             }, {
-              $or: [
+              $and: [
                 {
                   access_level: ['public', 'protect']
                 }, {
