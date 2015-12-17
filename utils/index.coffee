@@ -611,5 +611,10 @@ exports.findIssues = (user, contestID, include)->
                       )
           ]
         ]
+      order : [
+        ['created_at','DESC']
+      ,
+        ['id','DESC']
+      ]
       include: include
     )

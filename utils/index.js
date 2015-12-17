@@ -875,6 +875,7 @@
             }
           ]
         },
+        order: [['created_at', 'DESC'], ['id', 'DESC']],
         include: include
       });
     });
