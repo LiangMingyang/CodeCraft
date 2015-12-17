@@ -173,7 +173,7 @@
       return Contest.pollLife = 3;
     };
     Poller = function() {
-      if (Contest.pollLife > 0 || !contest.problems || contest.problems.length === 0) {
+      if (Contest.pollLife > 0 || !Contest.data.problems || Contest.data.problems.length === 0) {
         --Contest.pollLife;
         return $http.get("/api/contests/" + Contest.id).then(function(res) {
           var contest, i, j, len, p, ref;
@@ -259,7 +259,8 @@
                   enter: 'animated fadeInRight',
                   exit: 'animated fadeOutRight'
                 },
-                type: 'success'
+                type: 'success',
+                delay: -1
               });
             }
             Issue.ori = JSON.stringify(res.data);
@@ -274,6 +275,29 @@
       }
     };
     Poller();
+    Issue.create = function(form) {
+      return $http.post("/api/contests/" + Issue.contestId + "/issues", form).then(function(res) {
+        form.title = "";
+        form.content = "";
+        $.notify("提问成功", {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'success'
+        });
+        Issue.data.unshift(res.data);
+        return Issue.ori = "";
+      }, function(res) {
+        return $.notify(res.data.error, {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'danger'
+        });
+      });
+    };
     return Issue;
   }).factory('Rank', function($routeParams, $http, $timeout, Me) {
     var Poller, Rank, doRankStatistics;

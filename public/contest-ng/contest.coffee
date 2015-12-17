@@ -158,7 +158,7 @@ config( ($routeProvider)->
   Contest.active = ()->
     Contest.pollLife = 3
   Poller = ()->
-    if Contest.pollLife > 0 or not contest.problems or contest.problems.length is 0
+    if Contest.pollLife > 0 or not Contest.data.problems or Contest.data.problems.length is 0
       --Contest.pollLife
       $http.get("/api/contests/#{Contest.id}")
       .then(
@@ -244,6 +244,7 @@ config( ($routeProvider)->
                   exit: 'animated fadeOutRight'
                 }
                 type: 'success'
+                delay: -1
               )
             Issue.ori = JSON.stringify(res.data)
           Issue.version = new Date()
@@ -255,6 +256,33 @@ config( ($routeProvider)->
     else
       $timeout(Poller,1000+Math.random()*1000)
   Poller()
+
+  Issue.create = (form)->
+    $http.post("/api/contests/#{Issue.contestId}/issues", form)
+    .then(
+      (res)->
+        form.title = "" # clear
+        form.content = "" #clear
+        $.notify("提问成功",
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'success'
+        )
+        Issue.data.unshift(res.data)
+        Issue.ori = ""
+    ,
+      (res)->
+        $.notify(res.data.error,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'danger'
+        )
+    )
+
   return Issue
 )
 .factory('Rank', ($routeParams, $http, $timeout, Me)->
