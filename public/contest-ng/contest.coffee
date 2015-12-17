@@ -459,6 +459,7 @@ config( ($routeProvider)->
 
     #by ZP
     $scope.question_form = {}
+    question_list = {}
     $scope.submit_question_form = (order)->
       $scope.question_form.order = $scope.order
       Issue.create($scope.question_form)
@@ -471,5 +472,10 @@ config( ($routeProvider)->
       else
         $scope.is_question = 0
         $scope.question_title = "提问"
+    $scope.change_question_list = (index)->
+      question_list[index] = !!!question_list[index]
+    $scope.query_question_list = (index)->
+      !!question_list[index]
+
     #end
 )
