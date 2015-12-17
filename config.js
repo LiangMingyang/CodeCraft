@@ -10,7 +10,7 @@
       username: 'root',
       password: 'alimengmengda',
       config: {
-        host: 'localhost',
+        host: 'biancheng.love',
         dialect: 'mysql',
         port: 3306,
         timezone: '+08:00',
@@ -29,7 +29,7 @@
       problem: 20
     },
     problem_resource_path: path.resolve(__dirname, 'modules/problem/resource'),
-    cluster: 3,
+    cluster: 1,
     judge: {
       penalty: 20 * 60 * 1000,
       cache: 1000,
