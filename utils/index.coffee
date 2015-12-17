@@ -589,13 +589,9 @@ exports.findSubmissionsInIDs = (user, submission_id, include)-> #所有有管理
 #Issue
 
 exports.findIssues = (user, contestID, include)->
-  myUtils = this
   Issue = global.db.models.issue
   global.db.Promise.resolve()
   .then ->
-    myUtils.findContest(user, contestID)
-  .then (contest)->
-    return [] if not contest
     Issue.findAll(
       where:
         contest_id : contestID
