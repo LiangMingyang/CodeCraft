@@ -6,6 +6,5 @@ module.exports = (sequelize, DataTypes) ->
       validate:
         notEmpty: true
   }, {
-    timestamps: false
     underscored: true
   }

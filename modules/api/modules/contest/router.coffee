@@ -14,4 +14,6 @@ router
 
 .post '/:contestId/submissions', controller.postSubmissions
 
+.get '/:contestId/issues', controller.getIssues
+
 module.exports = router

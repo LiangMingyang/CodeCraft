@@ -98,7 +98,7 @@
         return results;
       })());
     })["catch"](function(err) {
-      res.status(err.status);
+      res.status(err.status || 400);
       return res.json({
         error: err.message
       });
@@ -177,6 +177,37 @@
     now = new Date();
     return res.json({
       server_time: now
+    });
+  };
+
+  exports.getIssues = function(req, res) {
+    var IssueReply;
+    IssueReply = global.db.models.issue_reply;
+    return global.db.Promise.resolve().then(function() {
+      return global.myUtils.findIssues(req.session.user, req.params.contestId, [
+        {
+          model: IssueReply
+        }
+      ]);
+    }).then(function(issues) {
+      var issue;
+      issues = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = issues.length; i < len; i++) {
+          issue = issues[i];
+          results.push(issue.get({
+            plain: true
+          }));
+        }
+        return results;
+      })();
+      return res.json(issues);
+    })["catch"](function(err) {
+      res.status(err.status || 400);
+      return res.json({
+        error: err.message
+      });
     });
   };
 

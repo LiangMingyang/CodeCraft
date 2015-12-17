@@ -62,7 +62,7 @@ exports.getSubmissions = (req, res)->
   .then (submissions)->
     res.json(submission.get(plain:true) for submission in submissions)
   .catch (err)->
-    res.status(err.status)
+    res.status(err.status || 400)
     res.json(error:err.message)
 
 exports.postSubmissions = (req, res) ->
@@ -114,3 +114,23 @@ exports.postSubmissions = (req, res) ->
 exports.getTime = (req, res)->
   now = new Date()
   res.json(server_time:now)
+
+exports.getIssues = (req, res)->
+  #Issue = global.db.models.issue
+  IssueReply = global.db.models.issue_reply
+
+  global.db.Promise.resolve()
+  .then ->
+    global.myUtils.findIssues(req.session.user, req.params.contestId, [
+      model : IssueReply
+    ])
+  .then (issues)->
+    issues = (issue.get(plain: true) for issue in issues)
+    res.json(issues)
+
+  .catch (err)->
+    res.status(err.status || 400)
+    res.json(error:err.message)
+
+#exports.postIssues = (req, res)->
+
