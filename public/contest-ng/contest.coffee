@@ -212,31 +212,69 @@ config( ($routeProvider)->
   Poller()
   return Me
 )
-.factory('Issue', ($routeParams, $http, $timeout)->
+.factory('Issue', ($routeParams, $http, $timeout, Contest)->
   Issue = {}
-  Issue.data = []
-  Issue.ori = ""
   Issue.contestId = $routeParams.contestId || 1
-  Issue.version = undefined
-  Issue.pollLife = 5000
-  updateDic = undefined
+  Issue.pollLife = 50
+  Issue.replyDic = undefined
 
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
       Issue.data = []
-      Issue.ori = ""
       Issue.contestId = newContestId
-      Issue.version = undefined
-      Issue.pollLife = 5000
-      Issue.updateDic = undefined
+      Issue.pollLife = 50
+      Issue.replyDic = undefined
   Issue.active = ()->
-    Issue.pollLife = 5000
-  hasUpdate = (data)->
+    Issue.pollLife = 50
+  checkUpdate = (data)->
+    if Issue.replyDic is undefined
+      Issue.replyDic = {}
+      for i in data
+        Issue.replyDic[i.id] = i.issue_replies.length
+      return true
     res = false
     for i in data
-      if i.updated_at isnt Issue.updateDic[i.id]
+      if Issue.replyDic[i.id] is undefined
+        if i.access_level is 'public'
+          #公告
+          $.notify(
+            title: "新的公告[#{i.id}]:#{i.title}"
+            message: i.content
+          ,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'info'
+            delay: -1
+          )
+        Issue.replyDic[i.id] = i.issue_replies.length
         res = true
-        Issue.updateDic[i.id] = i.updated_at
+      while i.issue_replies.length > Issue.replyDic[i.id]
+        $.notify(
+          title: "ID为#{i.id}的对#{numberToLetters(Contest.idToOrder[i.problem_id])}的提问有新的回复:"
+          message: "#{i.issue_replies[Issue.replyDic[i.id]].content}"
+        ,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'info'
+          delay: -1
+        )
+        ++Issue.replyDic[i.id]
+        res = true
+      if Issue.replyDic[i.id] isnt i.issue_replies.length
+        Issue.replyDic[i.id] = i.issue_replies.length
+        res = true
+    return res
+
+  numberToLetters = (num)->
+    return 'A' if num is 0
+    res = ""
+    while(num>0)
+      res = String.fromCharCode(num%26 + 65) + res
+      num = parseInt(num/26)
     return res
   Poller = ()->
     if Issue.pollLife > 0
@@ -244,18 +282,7 @@ config( ($routeProvider)->
       $http.get("/api/contests/#{Issue.contestId}/issues")
       .then(
         (res)->
-          Issue.data = res.data #轮询
-
-          if Issue.updateDic isnt undefined and hasUpdate()
-            $.notify("有新的通知请查阅",
-              animate: {
-                enter: 'animated fadeInRight',
-                exit: 'animated fadeOutRight'
-              }
-              type: 'success'
-              delay: -1
-            )
-          Issue.version = new Date()
+          Issue.data = res.data if checkUpdate(res.data) #轮询
           $timeout(Poller,5000+Math.random()*5000)
       ,
         ()->
@@ -298,7 +325,7 @@ config( ($routeProvider)->
   Rank.ori = ""
   Rank.statistics = {}
   Rank.contestId = $routeParams.contestId || 1
-  Rank.version = undefined
+  Rank.version = "Waiting..."
   Rank.pollLife = 3
 
   Rank.setContestId = (newContestId)->
@@ -306,7 +333,7 @@ config( ($routeProvider)->
       Rank.contestId = newContestId
       Rank.data = []
       Rank.statistics = {}
-      Rank.version = undefined
+      Rank.version = "Waiting..."
       Rank.pollLife = 3
 
   Rank.active = ()->

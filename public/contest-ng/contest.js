@@ -227,37 +227,84 @@
     };
     Poller();
     return Me;
-  }).factory('Issue', function($routeParams, $http, $timeout) {
-    var Issue, Poller, hasUpdate, updateDic;
+  }).factory('Issue', function($routeParams, $http, $timeout, Contest) {
+    var Issue, Poller, checkUpdate, numberToLetters;
     Issue = {};
-    Issue.data = [];
-    Issue.ori = "";
     Issue.contestId = $routeParams.contestId || 1;
-    Issue.version = void 0;
-    Issue.pollLife = 5000;
-    updateDic = void 0;
+    Issue.pollLife = 50;
+    Issue.replyDic = void 0;
     Issue.setContestId = function(newContestId) {
       if (newContestId !== Issue.contestId) {
         Issue.data = [];
-        Issue.ori = "";
         Issue.contestId = newContestId;
-        Issue.version = void 0;
-        Issue.pollLife = 5000;
-        return Issue.updateDic = void 0;
+        Issue.pollLife = 50;
+        return Issue.replyDic = void 0;
       }
     };
     Issue.active = function() {
-      return Issue.pollLife = 5000;
+      return Issue.pollLife = 50;
     };
-    hasUpdate = function(data) {
-      var i, j, len, res;
-      res = false;
-      for (j = 0, len = data.length; j < len; j++) {
-        i = data[j];
-        if (i.updated_at !== Issue.updateDic[i.id]) {
-          res = true;
-          Issue.updateDic[i.id] = i.updated_at;
+    checkUpdate = function(data) {
+      var i, j, k, len, len1, res;
+      if (Issue.replyDic === void 0) {
+        Issue.replyDic = {};
+        for (j = 0, len = data.length; j < len; j++) {
+          i = data[j];
+          Issue.replyDic[i.id] = i.issue_replies.length;
         }
+        return true;
+      }
+      res = false;
+      for (k = 0, len1 = data.length; k < len1; k++) {
+        i = data[k];
+        if (Issue.replyDic[i.id] === void 0) {
+          if (i.access_level === 'public') {
+            $.notify({
+              title: "新的公告[" + i.id + "]:" + i.title,
+              message: i.content
+            }, {
+              animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+              },
+              type: 'info',
+              delay: -1
+            });
+          }
+          Issue.replyDic[i.id] = i.issue_replies.length;
+          res = true;
+        }
+        while (i.issue_replies.length > Issue.replyDic[i.id]) {
+          $.notify({
+            title: "ID为" + i.id + "的对" + (numberToLetters(Contest.idToOrder[i.problem_id])) + "的提问有新的回复:",
+            message: "" + i.issue_replies[Issue.replyDic[i.id]].content
+          }, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'info',
+            delay: -1
+          });
+          ++Issue.replyDic[i.id];
+          res = true;
+        }
+        if (Issue.replyDic[i.id] !== i.issue_replies.length) {
+          Issue.replyDic[i.id] = i.issue_replies.length;
+          res = true;
+        }
+      }
+      return res;
+    };
+    numberToLetters = function(num) {
+      var res;
+      if (num === 0) {
+        return 'A';
+      }
+      res = "";
+      while (num > 0) {
+        res = String.fromCharCode(num % 26 + 65) + res;
+        num = parseInt(num / 26);
       }
       return res;
     };
@@ -265,18 +312,9 @@
       if (Issue.pollLife > 0) {
         --Issue.pollLife;
         return $http.get("/api/contests/" + Issue.contestId + "/issues").then(function(res) {
-          Issue.data = res.data;
-          if (Issue.updateDic !== void 0 && hasUpdate()) {
-            $.notify("有新的通知请查阅", {
-              animate: {
-                enter: 'animated fadeInRight',
-                exit: 'animated fadeOutRight'
-              },
-              type: 'success',
-              delay: -1
-            });
+          if (checkUpdate(res.data)) {
+            Issue.data = res.data;
           }
-          Issue.version = new Date();
           return $timeout(Poller, 5000 + Math.random() * 5000);
         }, function() {
           return $timeout(Poller, Math.random() * 5000);
@@ -316,14 +354,14 @@
     Rank.ori = "";
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
-    Rank.version = void 0;
+    Rank.version = "Waiting...";
     Rank.pollLife = 3;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
         Rank.data = [];
         Rank.statistics = {};
-        Rank.version = void 0;
+        Rank.version = "Waiting...";
         return Rank.pollLife = 3;
       }
     };
