@@ -211,6 +211,69 @@
     });
   };
 
+  exports.postIssues = function(req, res) {
+    var Issue, Problem, User, currentContest, currentProblem, currentUser;
+    User = global.db.models.user;
+    Problem = global.db.models.problem;
+    Issue = global.db.models.issue;
+    currentUser = void 0;
+    currentProblem = void 0;
+    currentContest = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      if (!user) {
+        throw new global.myErrors.UnknownUser();
+      }
+      return global.myUtils.findContest(user, req.params.contestId, [
+        {
+          model: Problem
+        }
+      ]);
+    }).then(function(contest) {
+      var form, problem;
+      if (!contest && !req.session.user) {
+        throw new global.myErrors.UnknownUser();
+      }
+      if (!contest) {
+        throw new global.myErrors.UnknownContest();
+      }
+      if ((new Date()) < contest.start_time || contest.end_time < (new Date())) {
+        throw new global.myErrors.InvalidAccess();
+      }
+      contest.problems.sort(function(a, b) {
+        return a.contest_problem_list.order - b.contest_problem_list.order;
+      });
+      currentContest = contest;
+      problem = currentContest.problems[req.body.order];
+      if (!problem) {
+        throw new global.myErrors.UnknownProblem();
+      }
+      currentProblem = problem;
+      form = {
+        title: req.body.title,
+        content: req.body.content,
+        creator_id: currentUser.id,
+        contest_id: contest.id,
+        problem_id: problem.id,
+        access_level: 'protect'
+      };
+      return Issue.create(form);
+    }).then(function(issue) {
+      return res.json(issue.get({
+        plain: true
+      }));
+    })["catch"](function(err) {
+      res.status(err.status || 400);
+      return res.json({
+        error: err.message
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=controller.js.map
