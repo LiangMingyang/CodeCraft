@@ -1,0 +1,23 @@
+<label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row" style="margin-top:10px">
+        <h4 style="display: inline-block">我的提问</h4>
+        <button class="btn btn-success pull-right" type="button" ng-click="show_question_area()">{{question_title}}</button>
+    </div>
+</label>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="is_question">
+    <div class="row">
+        <input type="form" class="form-control" placeholder="提问标题" ng-model="question_form.title">
+        <textarea type="form" class="form-control" rows="5" ng-model="haha" placeholder="提问内容" ng-model="question_form.content"></textarea>
+        <button type = "button" class = "btn btn-primary pull-right" data-dismiss = "modal" ng-click="submit_question_form(order)">
+            提问
+        </button>
+    </div>
+</div>
+
+<div ng-repeat="data in Issue.data">
+    <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="cursor:pointer;border:1px solid #DDDDDD;">{{data.title}}</label>
+    <label>{{data.content}}</label>
+    <textarea class="form-control" ng-repeat="reply in data.issue_replies" disabled>{{reply.content}}</textarea>
+    <br>
+</div>

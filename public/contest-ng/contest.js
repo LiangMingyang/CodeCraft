@@ -476,10 +476,26 @@
     $scope.check_submission_is_running = function(result) {
       return result === "WT" || result === "JG";
     };
-    return $scope.active = function() {
+    $scope.active = function() {
       $scope.Rank.active();
       $scope.Contest.active();
       return $scope.Issue.active();
+    };
+    $scope.question_form = {};
+    $scope.submit_question_form = function(order) {
+      $scope.question_form.order = $scope.order;
+      return Issue.create($scope.question_form);
+    };
+    $scope.is_question = 0;
+    $scope.question_title = "提问";
+    return $scope.show_question_area = function() {
+      if ($scope.is_question === 0) {
+        $scope.question_title = "收起";
+        return $scope.is_question = 1;
+      } else {
+        $scope.is_question = 0;
+        return $scope.question_title = "提问";
+      }
     };
   });
 

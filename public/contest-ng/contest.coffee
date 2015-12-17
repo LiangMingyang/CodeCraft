@@ -429,4 +429,19 @@ config( ($routeProvider)->
 
     #private functions
 
+    #by ZP
+    $scope.question_form = {}
+    $scope.submit_question_form = (order)->
+      $scope.question_form.order = $scope.order
+      Issue.create($scope.question_form)
+    $scope.is_question = 0
+    $scope.question_title = "提问"
+    $scope.show_question_area = ()->
+      if($scope.is_question == 0)
+        $scope.question_title = "收起"
+        $scope.is_question = 1
+      else
+        $scope.is_question = 0
+        $scope.question_title = "提问"
+    #end
 )
