@@ -515,6 +515,22 @@ config( ($routeProvider)->
       question_list[index] = !!!question_list[index]
     $scope.query_question_list = (index)->
       !!question_list[index]
+    $scope.question_page = 0;
+    $scope.table_tr_title = {title:"提问标题",nickname:"提问者",time:"提问时间",problem:"提问题目"}
+    $scope.change_table_tr_title_to_issue = ()->
+      $scope.table_tr_title.title = "公告标题"
+      $scope.table_tr_title.nickname = "发布者"
+      $scope.table_tr_title.time = "发布公告时间"
+      $scope.table_tr_title.problem = "公告对应题目"
+    $scope.change_table_tr_title_to_question = ()->
+      $scope.table_tr_title.title = "提问标题"
+      $scope.table_tr_title.nickname = "提问者"
+      $scope.table_tr_title.time = "提问时间"
+      $scope.table_tr_title.problem = "提问题目"
+    $scope.set_question_page = (question_page)->
+      $scope.question_page = question_page
+      $scope.change_table_tr_title_to_issue() if question_page == 2
+      $scope.change_table_tr_title_to_question() if question_page == 0 || question_page == 1
 
     #end
 )
