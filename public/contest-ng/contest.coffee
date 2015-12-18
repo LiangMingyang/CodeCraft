@@ -138,14 +138,6 @@ config( ($routeProvider)->
 )
 .factory('Contest', ($routeParams, $http, $timeout)->
   Contest = {}
-  Contest.id = $routeParams.contestId || 1
-  Contest.order = 0
-  Contest.idToOrder = {}
-  Contest.pollLife = 3
-  Contest.data = {
-    title: "Waiting for data..."
-    description: "Waiting for data..."
-  }
   Contest.setContestId = (newContestId)->
     if newContestId isnt Contest.id
       Contest.id = newContestId
@@ -154,9 +146,21 @@ config( ($routeProvider)->
         description: "Waiting for data..."
       }
       Contest.order = 0
-      Poller()
+      Contest.idToOrder = {}
+      Contest.pollLife = 3
+
+  Contest.setContestId($routeParams.contestId || 1)
+
   Contest.active = ()->
     Contest.pollLife = 3
+
+  numberToLetters = (num)->
+    return 'A' if num is 0
+    res = ""
+    while(num>0)
+      res = String.fromCharCode(num%26 + 65) + res
+      num = parseInt(num/26)
+    return res
   Poller = ()->
     if Contest.pollLife > 0 or not Contest.data.problems or Contest.data.problems.length is 0
       --Contest.pollLife
@@ -169,6 +173,7 @@ config( ($routeProvider)->
           for p,i in contest.problems
             p.test_setting = JSON.parse(p.test_setting)
             Contest.idToOrder[p.id] = i
+            p.order = numberToLetters(i)
           contest.start_time = new Date(contest.start_time)
           contest.end_time = new Date(contest.end_time)
           Contest.data  = contest  #轮询

@@ -148,16 +148,8 @@
     };
     return Sub;
   }).factory('Contest', function($routeParams, $http, $timeout) {
-    var Contest, Poller;
+    var Contest, Poller, numberToLetters;
     Contest = {};
-    Contest.id = $routeParams.contestId || 1;
-    Contest.order = 0;
-    Contest.idToOrder = {};
-    Contest.pollLife = 3;
-    Contest.data = {
-      title: "Waiting for data...",
-      description: "Waiting for data..."
-    };
     Contest.setContestId = function(newContestId) {
       if (newContestId !== Contest.id) {
         Contest.id = newContestId;
@@ -166,11 +158,25 @@
           description: "Waiting for data..."
         };
         Contest.order = 0;
-        return Poller();
+        Contest.idToOrder = {};
+        return Contest.pollLife = 3;
       }
     };
+    Contest.setContestId($routeParams.contestId || 1);
     Contest.active = function() {
       return Contest.pollLife = 3;
+    };
+    numberToLetters = function(num) {
+      var res;
+      if (num === 0) {
+        return 'A';
+      }
+      res = "";
+      while (num > 0) {
+        res = String.fromCharCode(num % 26 + 65) + res;
+        num = parseInt(num / 26);
+      }
+      return res;
     };
     Poller = function() {
       if (Contest.pollLife > 0 || !Contest.data.problems || Contest.data.problems.length === 0) {
@@ -186,6 +192,7 @@
             p = ref[i];
             p.test_setting = JSON.parse(p.test_setting);
             Contest.idToOrder[p.id] = i;
+            p.order = numberToLetters(i);
           }
           contest.start_time = new Date(contest.start_time);
           contest.end_time = new Date(contest.end_time);
