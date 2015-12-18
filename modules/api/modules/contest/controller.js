@@ -181,12 +181,16 @@
   };
 
   exports.getIssues = function(req, res) {
-    var IssueReply;
+    var IssueReply, User;
+    User = global.db.models.user;
     IssueReply = global.db.models.issue_reply;
     return global.db.Promise.resolve().then(function() {
       return global.myUtils.findIssues(req.session.user, req.params.contestId, [
         {
           model: IssueReply
+        }, {
+          model: User,
+          as: 'creator'
         }
       ]);
     }).then(function(issues) {
