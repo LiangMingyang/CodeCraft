@@ -59,7 +59,12 @@
                                 {{data.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center">
-                                {{numberToLetters(Contest.idToOrder[data.problem_id])}}
+                                <div ng-show="data.problem_id === null">
+                                    ALL
+                                </div>
+                                <div ng-hide="data.problem_id === null">
+                                    {{numberToLetters(Contest.idToOrder[data.problem_id])}}
+                                </div>
                             </div>
                         </div>
                         <div class="row" ng-show="query_question_list($index)">
