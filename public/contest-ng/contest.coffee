@@ -138,14 +138,6 @@ config( ($routeProvider)->
 )
 .factory('Contest', ($routeParams, $http, $timeout)->
   Contest = {}
-  Contest.id = $routeParams.contestId || 1
-  Contest.order = 0
-  Contest.idToOrder = {}
-  Contest.pollLife = 3
-  Contest.data = {
-    title: "Waiting for data..."
-    description: "Waiting for data..."
-  }
   Contest.setContestId = (newContestId)->
     if newContestId isnt Contest.id
       Contest.id = newContestId
@@ -154,9 +146,21 @@ config( ($routeProvider)->
         description: "Waiting for data..."
       }
       Contest.order = 0
-      Poller()
+      Contest.idToOrder = {}
+      Contest.pollLife = 3
+
+  Contest.setContestId($routeParams.contestId || 1)
+
   Contest.active = ()->
     Contest.pollLife = 3
+
+  numberToLetters = (num)->
+    return 'A' if num is 0
+    res = ""
+    while(num>0)
+      res = String.fromCharCode(num%26 + 65) + res
+      num = parseInt(num/26)
+    return res
   Poller = ()->
     if Contest.pollLife > 0 or not Contest.data.problems or Contest.data.problems.length is 0
       --Contest.pollLife
@@ -169,6 +173,7 @@ config( ($routeProvider)->
           for p,i in contest.problems
             p.test_setting = JSON.parse(p.test_setting)
             Contest.idToOrder[p.id] = i
+            p.order = numberToLetters(i)
           contest.start_time = new Date(contest.start_time)
           contest.end_time = new Date(contest.end_time)
           Contest.data  = contest  #轮询
@@ -510,6 +515,22 @@ config( ($routeProvider)->
       question_list[index] = !!!question_list[index]
     $scope.query_question_list = (index)->
       !!question_list[index]
+    $scope.question_page = 0;
+    $scope.table_tr_title = {title:"提问标题",nickname:"提问者",time:"提问时间",problem:"提问题目"}
+    $scope.change_table_tr_title_to_issue = ()->
+      $scope.table_tr_title.title = "公告标题"
+      $scope.table_tr_title.nickname = "发布者"
+      $scope.table_tr_title.time = "发布公告时间"
+      $scope.table_tr_title.problem = "公告对应题目"
+    $scope.change_table_tr_title_to_question = ()->
+      $scope.table_tr_title.title = "提问标题"
+      $scope.table_tr_title.nickname = "提问者"
+      $scope.table_tr_title.time = "提问时间"
+      $scope.table_tr_title.problem = "提问题目"
+    $scope.set_question_page = (question_page)->
+      $scope.question_page = question_page
+      $scope.change_table_tr_title_to_issue() if question_page == 2
+      $scope.change_table_tr_title_to_question() if question_page == 0 || question_page == 1
 
     #end
 )

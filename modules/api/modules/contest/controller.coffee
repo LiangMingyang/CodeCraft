@@ -117,12 +117,16 @@ exports.getTime = (req, res)->
 
 exports.getIssues = (req, res)->
   #Issue = global.db.models.issue
+  User = global.db.models.user
   IssueReply = global.db.models.issue_reply
 
   global.db.Promise.resolve()
   .then ->
     global.myUtils.findIssues(req.session.user, req.params.contestId, [
       model : IssueReply
+    ,
+      model : User
+      as : 'creator'
     ])
   .then (issues)->
     issues = (issue.get(plain: true) for issue in issues)

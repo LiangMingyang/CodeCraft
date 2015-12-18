@@ -148,16 +148,8 @@
     };
     return Sub;
   }).factory('Contest', function($routeParams, $http, $timeout) {
-    var Contest, Poller;
+    var Contest, Poller, numberToLetters;
     Contest = {};
-    Contest.id = $routeParams.contestId || 1;
-    Contest.order = 0;
-    Contest.idToOrder = {};
-    Contest.pollLife = 3;
-    Contest.data = {
-      title: "Waiting for data...",
-      description: "Waiting for data..."
-    };
     Contest.setContestId = function(newContestId) {
       if (newContestId !== Contest.id) {
         Contest.id = newContestId;
@@ -166,11 +158,25 @@
           description: "Waiting for data..."
         };
         Contest.order = 0;
-        return Poller();
+        Contest.idToOrder = {};
+        return Contest.pollLife = 3;
       }
     };
+    Contest.setContestId($routeParams.contestId || 1);
     Contest.active = function() {
       return Contest.pollLife = 3;
+    };
+    numberToLetters = function(num) {
+      var res;
+      if (num === 0) {
+        return 'A';
+      }
+      res = "";
+      while (num > 0) {
+        res = String.fromCharCode(num % 26 + 65) + res;
+        num = parseInt(num / 26);
+      }
+      return res;
     };
     Poller = function() {
       if (Contest.pollLife > 0 || !Contest.data.problems || Contest.data.problems.length === 0) {
@@ -186,6 +192,7 @@
             p = ref[i];
             p.test_setting = JSON.parse(p.test_setting);
             Contest.idToOrder[p.id] = i;
+            p.order = numberToLetters(i);
           }
           contest.start_time = new Date(contest.start_time);
           contest.end_time = new Date(contest.end_time);
@@ -574,8 +581,36 @@
     $scope.change_question_list = function(index) {
       return question_list[index] = !!!question_list[index];
     };
-    return $scope.query_question_list = function(index) {
+    $scope.query_question_list = function(index) {
       return !!question_list[index];
+    };
+    $scope.question_page = 0;
+    $scope.table_tr_title = {
+      title: "提问标题",
+      nickname: "提问者",
+      time: "提问时间",
+      problem: "提问题目"
+    };
+    $scope.change_table_tr_title_to_issue = function() {
+      $scope.table_tr_title.title = "公告标题";
+      $scope.table_tr_title.nickname = "发布者";
+      $scope.table_tr_title.time = "发布公告时间";
+      return $scope.table_tr_title.problem = "公告对应题目";
+    };
+    $scope.change_table_tr_title_to_question = function() {
+      $scope.table_tr_title.title = "提问标题";
+      $scope.table_tr_title.nickname = "提问者";
+      $scope.table_tr_title.time = "提问时间";
+      return $scope.table_tr_title.problem = "提问题目";
+    };
+    return $scope.set_question_page = function(question_page) {
+      $scope.question_page = question_page;
+      if (question_page === 2) {
+        $scope.change_table_tr_title_to_issue();
+      }
+      if (question_page === 0 || question_page === 1) {
+        return $scope.change_table_tr_title_to_question();
+      }
     };
   });
 
