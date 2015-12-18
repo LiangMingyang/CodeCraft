@@ -515,6 +515,7 @@ config( ($routeProvider)->
       question_list[index] = !!!question_list[index]
     $scope.query_question_list = (index)->
       !!question_list[index]
+    $scope.question_page = 0;
     $scope.table_tr_title = {title:"提问标题",nickname:"提问者",time:"提问时间",problem:"提问题目"}
     $scope.change_table_tr_title_to_issue = ()->
       $scope.table_tr_title.title = "公告标题"

@@ -584,6 +584,7 @@
     $scope.query_question_list = function(index) {
       return !!question_list[index];
     };
+    $scope.question_page = 0;
     $scope.table_tr_title = {
       title: "提问标题",
       nickname: "提问者",
