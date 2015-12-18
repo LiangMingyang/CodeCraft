@@ -14,6 +14,9 @@
     }).when('/:contestId/submissions', {
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
+    }).when('/:contestId/issues', {
+      templateUrl: 'detail/detail-issues.html',
+      controller: 'contest.ctrl'
     }).otherwise({
       redirectTo: '/10'
     });
@@ -170,7 +173,7 @@
       return Contest.pollLife = 3;
     };
     Poller = function() {
-      if (Contest.pollLife > 0 || !contest.problems || contest.problems.length === 0) {
+      if (Contest.pollLife > 0 || !Contest.data.problems || Contest.data.problems.length === 0) {
         --Contest.pollLife;
         return $http.get("/api/contests/" + Contest.id).then(function(res) {
           var contest, i, j, len, p, ref;
@@ -224,6 +227,126 @@
     };
     Poller();
     return Me;
+  }).factory('Issue', function($routeParams, $http, $timeout, Contest) {
+    var Issue, Poller, checkUpdate, numberToLetters;
+    Issue = {};
+    Issue.contestId = $routeParams.contestId || 1;
+    Issue.pollLife = 50;
+    Issue.replyDic = void 0;
+    Issue.setContestId = function(newContestId) {
+      if (newContestId !== Issue.contestId) {
+        Issue.data = [];
+        Issue.contestId = newContestId;
+        Issue.pollLife = 50;
+        return Issue.replyDic = void 0;
+      }
+    };
+    Issue.active = function() {
+      return Issue.pollLife = 50;
+    };
+    checkUpdate = function(data) {
+      var i, j, k, len, len1, res;
+      if (Issue.replyDic === void 0) {
+        Issue.replyDic = {};
+        for (j = 0, len = data.length; j < len; j++) {
+          i = data[j];
+          Issue.replyDic[i.id] = i.issue_replies.length;
+        }
+        return true;
+      }
+      res = false;
+      for (k = 0, len1 = data.length; k < len1; k++) {
+        i = data[k];
+        if (Issue.replyDic[i.id] === void 0) {
+          if (i.access_level === 'public') {
+            $.notify({
+              title: "新的公告[" + i.id + "]:" + i.title,
+              message: i.content
+            }, {
+              animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+              },
+              type: 'info',
+              delay: -1
+            });
+          }
+          Issue.replyDic[i.id] = i.issue_replies.length;
+          res = true;
+        }
+        while (i.issue_replies.length > Issue.replyDic[i.id]) {
+          $.notify({
+            title: "ID为" + i.id + "的对" + (numberToLetters(Contest.idToOrder[i.problem_id])) + "的提问有新的回复:",
+            message: "" + i.issue_replies[Issue.replyDic[i.id]].content
+          }, {
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            },
+            type: 'info',
+            delay: -1
+          });
+          ++Issue.replyDic[i.id];
+          res = true;
+        }
+        if (Issue.replyDic[i.id] !== i.issue_replies.length) {
+          Issue.replyDic[i.id] = i.issue_replies.length;
+          res = true;
+        }
+      }
+      return res;
+    };
+    numberToLetters = function(num) {
+      var res;
+      if (num === 0) {
+        return 'A';
+      }
+      res = "";
+      while (num > 0) {
+        res = String.fromCharCode(num % 26 + 65) + res;
+        num = parseInt(num / 26);
+      }
+      return res;
+    };
+    Poller = function() {
+      if (Issue.pollLife > 0) {
+        --Issue.pollLife;
+        return $http.get("/api/contests/" + Issue.contestId + "/issues").then(function(res) {
+          if (checkUpdate(res.data)) {
+            Issue.data = res.data;
+          }
+          return $timeout(Poller, 5000 + Math.random() * 5000);
+        }, function() {
+          return $timeout(Poller, Math.random() * 5000);
+        });
+      } else {
+        return $timeout(Poller, 1000 + Math.random() * 1000);
+      }
+    };
+    Poller();
+    Issue.create = function(form) {
+      return $http.post("/api/contests/" + Issue.contestId + "/issues", form).then(function(res) {
+        form.title = "";
+        form.content = "";
+        $.notify("提问成功", {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'success'
+        });
+        return Issue.data.unshift(res.data);
+      }, function(res) {
+        return $.notify(res.data.error, {
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          },
+          type: 'danger'
+        });
+      });
+    };
+    return Issue;
   }).factory('Rank', function($routeParams, $http, $timeout, Me) {
     var Poller, Rank, doRankStatistics;
     Rank = {};
@@ -231,14 +354,14 @@
     Rank.ori = "";
     Rank.statistics = {};
     Rank.contestId = $routeParams.contestId || 1;
-    Rank.version = void 0;
+    Rank.version = "Waiting...";
     Rank.pollLife = 3;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
         Rank.data = [];
         Rank.statistics = {};
-        Rank.version = void 0;
+        Rank.version = "Waiting...";
         return Rank.pollLife = 3;
       }
     };
@@ -313,7 +436,8 @@
       return countDown();
     });
     return ST;
-  }).controller('contest.ctrl', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime) {
+  }).controller('contest.ctrl', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime, Issue) {
+    var question_list;
     $scope.order = Contest.order;
     if ($scope.form == null) {
       $scope.form = {
@@ -329,6 +453,8 @@
     $scope.Submission = Submission;
     Rank.setContestId($routeParams.contestId);
     $scope.Rank = Rank;
+    Issue.setContestId($routeParams.contestId);
+    $scope.Issue = Issue;
     $scope.setProblem = function(order) {
       Contest.order = order;
       $scope.order = order;
@@ -423,9 +549,33 @@
     $scope.check_submission_is_running = function(result) {
       return result === "WT" || result === "JG";
     };
-    return $scope.active = function() {
+    $scope.active = function() {
       $scope.Rank.active();
-      return $scope.Contest.active();
+      $scope.Contest.active();
+      return $scope.Issue.active();
+    };
+    $scope.question_form = {};
+    question_list = {};
+    $scope.submit_question_form = function(order) {
+      $scope.question_form.order = $scope.order;
+      return Issue.create($scope.question_form);
+    };
+    $scope.is_question = 0;
+    $scope.question_title = "提问";
+    $scope.show_question_area = function() {
+      if ($scope.is_question === 0) {
+        $scope.question_title = "收起";
+        return $scope.is_question = 1;
+      } else {
+        $scope.is_question = 0;
+        return $scope.question_title = "提问";
+      }
+    };
+    $scope.change_question_list = function(index) {
+      return question_list[index] = !!!question_list[index];
+    };
+    return $scope.query_question_list = function(index) {
+      return !!question_list[index];
     };
   });
 

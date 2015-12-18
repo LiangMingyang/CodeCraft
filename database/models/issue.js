@@ -2,6 +2,13 @@
 (function() {
   module.exports = function(sequelize, DataTypes) {
     return sequelize.define('issue', {
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
       content: {
         type: DataTypes.TEXT('long'),
         allowNull: false,
@@ -14,7 +21,6 @@
         defaultValue: 'private'
       }
     }, {
-      timestamps: false,
       underscored: true
     });
   };

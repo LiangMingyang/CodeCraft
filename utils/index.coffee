@@ -585,3 +585,32 @@ exports.findSubmissionsInIDs = (user, submission_id, include)-> #所有有管理
     )
   .then (submissions)->
     return (sub.get({plain:true}) for sub in submissions)
+
+#Issue
+
+exports.findIssues = (user, contestID, include)->
+  Issue = global.db.models.issue
+  global.db.Promise.resolve()
+  .then ->
+    Issue.findAll(
+      where:
+        contest_id : contestID
+        $or: [
+          access_level: 'public'
+        ,
+          $and: [
+            access_level: 'protect'
+            creator_id : (if user
+                          user.id
+                       else
+                          null
+                      )
+          ]
+        ]
+      order : [
+        ['created_at','DESC']
+      ,
+        ['id','DESC']
+      ]
+      include: include
+    )

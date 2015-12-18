@@ -23,6 +23,10 @@ config( ($routeProvider)->
       templateUrl: 'detail/detail-submission.html',
       controller: 'contest.ctrl'
     })
+  .when('/:contestId/issues', {
+      templateUrl: 'detail/detail-issues.html',
+      controller: 'contest.ctrl'
+    })
   .otherwise({
       redirectTo: '/10'
     })
@@ -154,7 +158,7 @@ config( ($routeProvider)->
   Contest.active = ()->
     Contest.pollLife = 3
   Poller = ()->
-    if Contest.pollLife > 0 or not contest.problems or contest.problems.length is 0
+    if Contest.pollLife > 0 or not Contest.data.problems or Contest.data.problems.length is 0
       --Contest.pollLife
       $http.get("/api/contests/#{Contest.id}")
       .then(
@@ -208,13 +212,120 @@ config( ($routeProvider)->
   Poller()
   return Me
 )
+.factory('Issue', ($routeParams, $http, $timeout, Contest)->
+  Issue = {}
+  Issue.contestId = $routeParams.contestId || 1
+  Issue.pollLife = 50
+  Issue.replyDic = undefined
+
+  Issue.setContestId = (newContestId)->
+    if newContestId isnt Issue.contestId
+      Issue.data = []
+      Issue.contestId = newContestId
+      Issue.pollLife = 50
+      Issue.replyDic = undefined
+  Issue.active = ()->
+    Issue.pollLife = 50
+  checkUpdate = (data)->
+    if Issue.replyDic is undefined
+      Issue.replyDic = {}
+      for i in data
+        Issue.replyDic[i.id] = i.issue_replies.length
+      return true
+    res = false
+    for i in data
+      if Issue.replyDic[i.id] is undefined
+        if i.access_level is 'public'
+          #公告
+          $.notify(
+            title: "新的公告[#{i.id}]:#{i.title}"
+            message: i.content
+          ,
+            animate: {
+              enter: 'animated fadeInRight',
+              exit: 'animated fadeOutRight'
+            }
+            type: 'info'
+            delay: -1
+          )
+        Issue.replyDic[i.id] = i.issue_replies.length
+        res = true
+      while i.issue_replies.length > Issue.replyDic[i.id]
+        $.notify(
+          title: "ID为#{i.id}的对#{numberToLetters(Contest.idToOrder[i.problem_id])}的提问有新的回复:"
+          message: "#{i.issue_replies[Issue.replyDic[i.id]].content}"
+        ,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'info'
+          delay: -1
+        )
+        ++Issue.replyDic[i.id]
+        res = true
+      if Issue.replyDic[i.id] isnt i.issue_replies.length
+        Issue.replyDic[i.id] = i.issue_replies.length
+        res = true
+    return res
+
+  numberToLetters = (num)->
+    return 'A' if num is 0
+    res = ""
+    while(num>0)
+      res = String.fromCharCode(num%26 + 65) + res
+      num = parseInt(num/26)
+    return res
+  Poller = ()->
+    if Issue.pollLife > 0
+      --Issue.pollLife
+      $http.get("/api/contests/#{Issue.contestId}/issues")
+      .then(
+        (res)->
+          Issue.data = res.data if checkUpdate(res.data) #轮询
+          $timeout(Poller,5000+Math.random()*5000)
+      ,
+        ()->
+          $timeout(Poller,Math.random()*5000)
+      )
+    else
+      $timeout(Poller,1000+Math.random()*1000)
+  Poller()
+
+  Issue.create = (form)->
+    $http.post("/api/contests/#{Issue.contestId}/issues", form)
+    .then(
+      (res)->
+        form.title = "" # clear
+        form.content = "" #clear
+        $.notify("提问成功",
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'success'
+        )
+        Issue.data.unshift(res.data)
+    ,
+      (res)->
+        $.notify(res.data.error,
+          animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+          }
+          type: 'danger'
+        )
+    )
+
+  return Issue
+)
 .factory('Rank', ($routeParams, $http, $timeout, Me)->
   Rank = {}
   Rank.data = []
   Rank.ori = ""
   Rank.statistics = {}
   Rank.contestId = $routeParams.contestId || 1
-  Rank.version = undefined
+  Rank.version = "Waiting..."
   Rank.pollLife = 3
 
   Rank.setContestId = (newContestId)->
@@ -222,7 +333,7 @@ config( ($routeProvider)->
       Rank.contestId = newContestId
       Rank.data = []
       Rank.statistics = {}
-      Rank.version = undefined
+      Rank.version = "Waiting..."
       Rank.pollLife = 3
 
   Rank.active = ()->
@@ -286,7 +397,7 @@ config( ($routeProvider)->
 )
 
 
-.controller('contest.ctrl', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime)->
+.controller('contest.ctrl', ($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime,Issue)->
     #data
 
     $scope.order = Contest.order
@@ -306,6 +417,8 @@ config( ($routeProvider)->
     Rank.setContestId($routeParams.contestId)
     $scope.Rank = Rank
 
+    Issue.setContestId($routeParams.contestId)
+    $scope.Issue = Issue
 
 
     #Function
@@ -374,7 +487,29 @@ config( ($routeProvider)->
     $scope.active = ()->
       $scope.Rank.active()
       $scope.Contest.active()
+      $scope.Issue.active()
 
     #private functions
 
+    #by ZP
+    $scope.question_form = {}
+    question_list = {}
+    $scope.submit_question_form = (order)->
+      $scope.question_form.order = $scope.order
+      Issue.create($scope.question_form)
+    $scope.is_question = 0
+    $scope.question_title = "提问"
+    $scope.show_question_area = ()->
+      if($scope.is_question == 0)
+        $scope.question_title = "收起"
+        $scope.is_question = 1
+      else
+        $scope.is_question = 0
+        $scope.question_title = "提问"
+    $scope.change_question_list = (index)->
+      question_list[index] = !!!question_list[index]
+    $scope.query_question_list = (index)->
+      !!question_list[index]
+
+    #end
 )

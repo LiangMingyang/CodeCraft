@@ -62,7 +62,7 @@ exports.getSubmissions = (req, res)->
   .then (submissions)->
     res.json(submission.get(plain:true) for submission in submissions)
   .catch (err)->
-    res.status(err.status)
+    res.status(err.status || 400)
     res.json(error:err.message)
 
 exports.postSubmissions = (req, res) ->
@@ -114,3 +114,65 @@ exports.postSubmissions = (req, res) ->
 exports.getTime = (req, res)->
   now = new Date()
   res.json(server_time:now)
+
+exports.getIssues = (req, res)->
+  #Issue = global.db.models.issue
+  IssueReply = global.db.models.issue_reply
+
+  global.db.Promise.resolve()
+  .then ->
+    global.myUtils.findIssues(req.session.user, req.params.contestId, [
+      model : IssueReply
+    ])
+  .then (issues)->
+    issues = (issue.get(plain: true) for issue in issues)
+    res.json(issues)
+
+  .catch (err)->
+    res.status(err.status || 400)
+    res.json(error:err.message)
+
+exports.postIssues = (req, res)->
+  User = global.db.models.user
+  Problem = global.db.models.problem
+  Issue = global.db.models.issue
+  currentUser = undefined
+  currentProblem = undefined
+  currentContest = undefined
+
+
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    throw new global.myErrors.UnknownUser() if not user
+    global.myUtils.findContest(user,req.params.contestId,[
+      model: Problem
+    ])
+  .then (contest)->
+    throw new global.myErrors.UnknownUser() if not contest and not req.session.user
+    throw new global.myErrors.UnknownContest() if not contest
+    throw new global.myErrors.InvalidAccess() if (new Date()) < contest.start_time or contest.end_time < (new Date())
+    contest.problems.sort (a,b)->
+      a.contest_problem_list.order-b.contest_problem_list.order
+    currentContest = contest
+    problem = currentContest.problems[req.body.order]
+    throw new global.myErrors.UnknownProblem() if not problem
+    currentProblem = problem
+    form = {
+      title : req.body.title
+      content: req.body.content
+      creator_id: currentUser.id
+      contest_id: contest.id
+      problem_id: problem.id
+      access_level: 'protect'
+    }
+    Issue.create(form)
+  .then (issue)->
+    res.json(issue.get(plain:true))
+
+  .catch (err)->
+    res.status(err.status || 400)
+    res.json(error:err.message)
+

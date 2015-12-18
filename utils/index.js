@@ -849,6 +849,32 @@
     });
   };
 
+  exports.findIssues = function(user, contestID, include) {
+    var Issue;
+    Issue = global.db.models.issue;
+    return global.db.Promise.resolve().then(function() {
+      return Issue.findAll({
+        where: {
+          contest_id: contestID,
+          $or: [
+            {
+              access_level: 'public'
+            }, {
+              $and: [
+                {
+                  access_level: 'protect',
+                  creator_id: (user ? user.id : null)
+                }
+              ]
+            }
+          ]
+        },
+        order: [['created_at', 'DESC'], ['id', 'DESC']],
+        include: include
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

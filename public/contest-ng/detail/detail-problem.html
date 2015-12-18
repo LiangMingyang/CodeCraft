@@ -7,13 +7,15 @@
     <div class="form-horizontal">
         <a class = "normal-color list-group-item" href="#/{{contestId}}" >简介</a>
         <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item active" href="#/{{contestId}}/problems">题目</a>
-        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名({{Rank.pollLife}})</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/rank">排名</a>
         <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/submissions">我的提交</a>
-        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="mailto:lmysoar@hotmail">提问</a>
+        <a ng-if="Contest.data.start_time < ServerTime.data" class = "normal-color list-group-item" href="#/{{contestId}}/issues">提问&&公告</a>
     </div>
     <!--<div ng-show="isPage('problem')" ng-include="'detail/problem-left.html'">-->
     <!--</div>-->
     <div class="text-center" ng-include="'detail/time.html'"></div>
+
+    <div ng-include="'detail/detail-question.html'"></div>
 </div>
 
 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
