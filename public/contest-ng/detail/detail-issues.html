@@ -17,18 +17,63 @@
 </div>
 
 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-    <p>
     <h3>
         提问 && 公告
-        <small>
-            更新于
-            <code>
-                {{Issue.version | date:"yyyy-MM-dd HH:mm:ss"}}
-            </code>
-        </small>
     </h3>
-    </p>
-    <div>
-        {{Issue.data}}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-left: 2px;padding-right: 2px;">
+                <a class="list-group-item" ng-click="set_question_page(0)" ng-class="{'active':question_page===0}">未回复</a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-left: 2px;padding-right: 2px;">
+                <a class="list-group-item" ng-click="set_question_page(1)" ng-class="{'active':question_page===1}">已回复</a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-left: 2px;padding-right: 2px;">
+                <a class="list-group-item" ng-click="set_question_page(2)" ng-class="{'active':question_page===2}">公告</a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 10px;">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                        {{table_tr_title.title}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                        {{table_tr_title.nickname}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                        {{table_tr_title.time}}
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center">
+                        {{table_tr_title.problem}}
+                    </div>
+                </div>
+                <div ng-repeat="data in Issue.data">
+                    <div ng-show="question_page===0 && data.issue_replies.length===0 && data.access_level==='protect' || question_page===1 && data.issue_replies.length>0 && data.access_level==='protect' || question_page===2 && data.access_level==='public'">
+                        <div class="row" style="cursor:pointer;border:1px solid #DDDDDD;" ng-click="change_question_list($index)" ng-class="{'list-group-item active':query_question_list($index)}">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                                {{data.title}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                                {{data.creator.nickname}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                                {{data.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center">
+                                {{numberToLetters(Contest.idToOrder[data.problem_id])}}
+                            </div>
+                        </div>
+                        <div class="row" ng-show="query_question_list($index)">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row" style="padding-bottom: 10px;">
+                                    <textarea class="form-control" disabled>{{data.content}}</textarea>
+                                    <label ng-show="data.issue_replies.length>0">回复内容：</label>
+                                    <textarea class="form-control" ng-repeat="reply in data.issue_replies" disabled>{{reply.content}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

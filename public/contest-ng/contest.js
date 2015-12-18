@@ -581,8 +581,35 @@
     $scope.change_question_list = function(index) {
       return question_list[index] = !!!question_list[index];
     };
-    return $scope.query_question_list = function(index) {
+    $scope.query_question_list = function(index) {
       return !!question_list[index];
+    };
+    $scope.table_tr_title = {
+      title: "提问标题",
+      nickname: "提问者",
+      time: "提问时间",
+      problem: "提问题目"
+    };
+    $scope.change_table_tr_title_to_issue = function() {
+      $scope.table_tr_title.title = "公告标题";
+      $scope.table_tr_title.nickname = "发布者";
+      $scope.table_tr_title.time = "发布公告时间";
+      return $scope.table_tr_title.problem = "公告对应题目";
+    };
+    $scope.change_table_tr_title_to_question = function() {
+      $scope.table_tr_title.title = "提问标题";
+      $scope.table_tr_title.nickname = "提问者";
+      $scope.table_tr_title.time = "提问时间";
+      return $scope.table_tr_title.problem = "提问题目";
+    };
+    return $scope.set_question_page = function(question_page) {
+      $scope.question_page = question_page;
+      if (question_page === 2) {
+        $scope.change_table_tr_title_to_issue();
+      }
+      if (question_page === 0 || question_page === 1) {
+        return $scope.change_table_tr_title_to_question();
+      }
     };
   });
 
