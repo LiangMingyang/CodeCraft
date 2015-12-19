@@ -6,9 +6,6 @@ db = require('./database')(
   config.database.password,
   config.database.config
 )
-.sync {force: true}
-.then (db)->
-  console.log 'Sync successfully!'
-  require('./init_show')(db)
-.catch (err)->
-  console.log err.message
+
+require('./init')(db)
+
