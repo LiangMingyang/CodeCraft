@@ -391,6 +391,8 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
           'nickname'
         ,
           'student_id'
+        ,
+          'school'
         ]
       ]
       order : [
