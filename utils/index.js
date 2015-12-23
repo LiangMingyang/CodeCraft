@@ -567,7 +567,7 @@
           {
             model: User,
             as: 'creator',
-            attributes: ['id', 'nickname', 'student_id']
+            attributes: ['id', 'nickname', 'student_id', 'school']
           }
         ],
         order: [['created_at', 'ASC'], ['id', 'DESC']]
