@@ -36,7 +36,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({extended: false,limit: '20mb'}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public'), {maxAge: 2592000000}));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: 3600000*12}));
 app.use('/', routes);
 //app.use('/users', users);
 
