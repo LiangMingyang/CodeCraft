@@ -153,7 +153,7 @@ angular.module('contest-factory', [
 .factory('Issue', ($http, $timeout, Contest)->
   Issue = {}
   POLL_LIFE = 50
-  SLEEP_TIME = 5000
+  SLEEP_TIME = 10000
   UP_TIME = 500
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
@@ -321,7 +321,7 @@ angular.module('contest-factory', [
             type: 'danger'
             delay : -1
           )
-        $timeout(Poller,Math.random()*SLEEP_TIME)
+          $timeout(Poller, Math.random()*SLEEP_TIME)
       )
     else
       $timeout(Poller, UP_TIME)
@@ -337,7 +337,7 @@ angular.module('contest-factory', [
   countDown = ()->
     now = new Date()
     ST.data = new Date(now.getTime() + ST.delta)
-    $timeout(countDown,1000)
+    $timeout(countDown, 1000)
 
   $http.get("/api/contests/server_time")
   .then(

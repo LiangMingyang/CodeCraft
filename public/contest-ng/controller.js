@@ -69,6 +69,9 @@
   ]).controller('contest.mainCtrl', function($scope, $routeParams, $http, $timeout, Submission, Contest, Me, Rank, ServerTime, Issue) {
     var question_list;
     $scope.order = Contest.order;
+    if ($scope.order == null) {
+      $scope.order = 0;
+    }
     if ($scope.form == null) {
       $scope.form = {
         lang: 'c++'
@@ -90,7 +93,7 @@
       $scope.order = order;
       return $timeout(function() {
         return MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-      }, 500);
+      }, 100);
     };
     $scope.isProblem = function(order) {
       return $scope.order === order;
@@ -196,7 +199,7 @@
     };
     $scope.question_form = {};
     question_list = {};
-    $scope.submit_question_form = function(order) {
+    $scope.submit_question_form = function() {
       $scope.question_form.order = $scope.order;
       return Issue.create($scope.question_form);
     };

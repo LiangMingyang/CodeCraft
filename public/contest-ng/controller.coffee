@@ -62,6 +62,7 @@ angular.module('contest', [
 #data
 
   $scope.order = Contest.order
+  $scope.order ?= 0
   $scope.form ?= {lang:'c++'}
 
   $scope.Me = Me
@@ -89,7 +90,7 @@ angular.module('contest', [
     $scope.order = order
     $timeout(->
       MathJax.Hub.Queue(["Typeset",MathJax.Hub])
-    ,500)
+    ,100)
   #MathJax.Hub.Typeset()
 
   $scope.isProblem = (order)->
@@ -160,7 +161,7 @@ angular.module('contest', [
   #by ZP
   $scope.question_form = {}
   question_list = {}
-  $scope.submit_question_form = (order)->
+  $scope.submit_question_form = ()->
     $scope.question_form.order = $scope.order
     Issue.create($scope.question_form)
   $scope.is_question = 0

@@ -164,7 +164,7 @@
     var Issue, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, checkUpdate, numberToLetters;
     Issue = {};
     POLL_LIFE = 50;
-    SLEEP_TIME = 5000;
+    SLEEP_TIME = 10000;
     UP_TIME = 500;
     Issue.setContestId = function(newContestId) {
       if (newContestId !== Issue.contestId) {
@@ -348,7 +348,7 @@
           Rank.version = new Date();
           return $timeout(Poller, Math.random() * SLEEP_TIME);
         }, function(res) {
-          return $.notify(res.data.error, {
+          $.notify(res.data.error, {
             animate: {
               enter: 'animated fadeInRight',
               exit: 'animated fadeOutRight'
@@ -356,7 +356,8 @@
             type: 'danger',
             delay: -1
           });
-        }, $timeout(Poller, Math.random() * SLEEP_TIME));
+          return $timeout(Poller, Math.random() * SLEEP_TIME);
+        });
       } else {
         return $timeout(Poller, UP_TIME);
       }
