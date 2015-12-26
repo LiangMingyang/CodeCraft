@@ -119,6 +119,7 @@ angular.module('contest-factory', [
             type: 'danger'
             delay : -1
           )
+          $timeout(Poller,Math.random()*SLEEP_TIME)
       )
     else
       $timeout(Poller, UP_TIME)
@@ -152,7 +153,7 @@ angular.module('contest-factory', [
 .factory('Issue', ($http, $timeout, Contest)->
   Issue = {}
   POLL_LIFE = 50
-  SLEEP_TIME = 10000
+  SLEEP_TIME = 5000
   UP_TIME = 500
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
@@ -216,7 +217,7 @@ angular.module('contest-factory', [
       num = parseInt(num/26)
     return res
   Poller = ()->
-    if Issue.pollLife > 0
+    if Issue.pollLife > 0 and Issue.contestId
       --Issue.pollLife
       $http.get("/api/contests/#{Issue.contestId}/issues")
       .then(
@@ -225,11 +226,11 @@ angular.module('contest-factory', [
           $timeout(Poller, Math.random()*SLEEP_TIME)
       ,
         ()->
-          $timeout(Poller, Math.random()*5000)
+          $timeout(Poller, Math.random()*SLEEP_TIME)
       )
     else
-      $timeout(Poller, Math.random()*5000)
-  $timeout(Poller, UP_TIME)
+      $timeout(Poller, UP_TIME)
+  $timeout(Poller, Math.random()*UP_TIME)
 
   Issue.create = (form)->
     $http.post("/api/contests/#{Issue.contestId}/issues", form)
@@ -320,6 +321,7 @@ angular.module('contest-factory', [
             type: 'danger'
             delay : -1
           )
+        $timeout(Poller,Math.random()*SLEEP_TIME)
       )
     else
       $timeout(Poller, UP_TIME)
@@ -354,6 +356,7 @@ angular.module('contest-factory', [
         type: 'danger'
         delay : -1
       )
+      countDown()
   )
   return ST
 )

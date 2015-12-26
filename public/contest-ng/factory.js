@@ -124,7 +124,7 @@
           Contest.data = contest;
           return $timeout(Poller, Math.random() * SLEEP_TIME);
         }, function(res) {
-          return $.notify(res.data.error, {
+          $.notify(res.data.error, {
             animate: {
               enter: 'animated fadeInRight',
               exit: 'animated fadeOutRight'
@@ -132,6 +132,7 @@
             type: 'danger',
             delay: -1
           });
+          return $timeout(Poller, Math.random() * SLEEP_TIME);
         });
       } else {
         return $timeout(Poller, UP_TIME);
@@ -163,7 +164,7 @@
     var Issue, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, checkUpdate, numberToLetters;
     Issue = {};
     POLL_LIFE = 50;
-    SLEEP_TIME = 10000;
+    SLEEP_TIME = 5000;
     UP_TIME = 500;
     Issue.setContestId = function(newContestId) {
       if (newContestId !== Issue.contestId) {
@@ -242,7 +243,7 @@
       return res;
     };
     Poller = function() {
-      if (Issue.pollLife > 0) {
+      if (Issue.pollLife > 0 && Issue.contestId) {
         --Issue.pollLife;
         return $http.get("/api/contests/" + Issue.contestId + "/issues").then(function(res) {
           if (checkUpdate(res.data)) {
@@ -250,13 +251,13 @@
           }
           return $timeout(Poller, Math.random() * SLEEP_TIME);
         }, function() {
-          return $timeout(Poller, Math.random() * 5000);
+          return $timeout(Poller, Math.random() * SLEEP_TIME);
         });
       } else {
-        return $timeout(Poller, Math.random() * 5000);
+        return $timeout(Poller, UP_TIME);
       }
     };
-    $timeout(Poller, UP_TIME);
+    $timeout(Poller, Math.random() * UP_TIME);
     Issue.create = function(form) {
       return $http.post("/api/contests/" + Issue.contestId + "/issues", form).then(function(res) {
         form.title = "";
@@ -355,7 +356,7 @@
             type: 'danger',
             delay: -1
           });
-        });
+        }, $timeout(Poller, Math.random() * SLEEP_TIME));
       } else {
         return $timeout(Poller, UP_TIME);
       }
@@ -380,7 +381,7 @@
       ST.delta = server_time - now;
       return countDown();
     }, function(res) {
-      return $.notify(res.data.error, {
+      $.notify(res.data.error, {
         animate: {
           enter: 'animated fadeInRight',
           exit: 'animated fadeOutRight'
@@ -388,6 +389,7 @@
         type: 'danger',
         delay: -1
       });
+      return countDown();
     });
     return ST;
   });
