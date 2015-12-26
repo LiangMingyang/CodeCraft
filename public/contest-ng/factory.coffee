@@ -152,7 +152,7 @@ angular.module('contest-factory', [
 )
 .factory('Issue', ($http, $timeout, Contest)->
   Issue = {}
-  POLL_LIFE = 50
+  POLL_LIFE = 20
   SLEEP_TIME = 10000
   UP_TIME = 500
   Issue.setContestId = (newContestId)->
@@ -261,7 +261,7 @@ angular.module('contest-factory', [
 )
 .factory('Rank', ($http, $timeout, Me)->
   Rank = {}
-  POLL_LIFE = 1000*1000
+  POLL_LIFE = 5
   SLEEP_TIME = 10000
   UP_TIME = 500
 

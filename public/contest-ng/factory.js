@@ -163,7 +163,7 @@
   }).factory('Issue', function($http, $timeout, Contest) {
     var Issue, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, checkUpdate, numberToLetters;
     Issue = {};
-    POLL_LIFE = 50;
+    POLL_LIFE = 20;
     SLEEP_TIME = 10000;
     UP_TIME = 500;
     Issue.setContestId = function(newContestId) {
@@ -284,7 +284,7 @@
   }).factory('Rank', function($http, $timeout, Me) {
     var POLL_LIFE, Poller, Rank, SLEEP_TIME, UP_TIME, doRankStatistics;
     Rank = {};
-    POLL_LIFE = 1000 * 1000;
+    POLL_LIFE = 5;
     SLEEP_TIME = 10000;
     UP_TIME = 500;
     Rank.setContestId = function(newContestId) {
