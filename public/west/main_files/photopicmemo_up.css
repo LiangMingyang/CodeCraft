@@ -1,0 +1,58 @@
+/* ============Õº∆¨+ΩÈ…‹¡–±Ì============== */
+
+div.photopicmemo_up{
+	border:0px #ebebeb solid;
+	padding:0px;
+	margin:12px 0px 0px 0px;
+}
+
+div#demo3{
+	overflow:hidden;
+	width:235px;
+	height:350px;
+}
+
+div.photopicmemo_conall{
+	clear:all;
+}
+
+div.photopicmemo_up div.fang{
+	float:left;
+	border:0px #ccc solid;
+	background: #fff;
+	padding:0px;
+	margin:0px 18px 11px 3px;
+}
+
+div.photopicmemo_up div.photopicmemo_con{
+	float:left;
+}
+
+div.photopicmemo_up div.picFit{
+	overflow: hidden;
+}
+
+
+div.photopicmemo_up div.title{
+	overflow: hidden;
+	white-space:nowrap;
+}
+
+div.photopicmemo_up a:link,div.photopicmemo_up a:visited,div.photopicmemo_up a:active{
+	color:#000;
+	font:12px/18px arial,simsun;
+	text-decoration: none;
+}
+
+div.photopicmemo_up a:hover{
+	color:#ff0000;
+	text-decoration: underline;
+	font:12px/18px arial,simsun;
+}
+
+div.photopicmemo_up div.memo{
+	width:100px;
+	font:12px/18px simsun;
+	margin-top:3px;
+	color:#000;
+}

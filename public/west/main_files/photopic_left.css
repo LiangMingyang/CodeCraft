@@ -1,0 +1,23 @@
+/* ============Í¼Æ¬ÁÐ±í============== */
+div .photopic_left{
+	padding:0px;
+	margin:5px 0px 0px 0px;
+}
+
+div#demo{
+	overflow:hidden;
+	width:735px;
+	color:#ff0000;
+}
+
+div.photopic_left div.fang{
+	border:0px #ccecf9 solid;
+	background: #fff;
+	padding:0px;
+	margin:0px 2px 0px 0px;
+	text-align:center;
+}
+
+div.photopic_left div.picFit{
+	overflow: hidden;
+}

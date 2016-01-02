@@ -1,0 +1,28 @@
+/* ============分类列表============== */
+
+div.newsclass_dolphin{
+margin:12px 0px 26px 21px;
+padding:0px;
+}
+
+
+a.newsclass_dolphin:link,a.newsclass_dolphin:visited,a.newsclass_dolphin:active{
+display:block;
+text-decoration: none;
+font:12px/29px Verdana, Arial, Helvetica, sans-serif;
+height:29px;
+text-align:left;
+background:url(../images/dot2.gif) 0px 0px no-repeat;
+padding-left:36px;
+margin:0px;
+color:#505050;
+}
+
+a.newsclass_dolphin:hover{
+display:block;
+color: #ff0000; 
+text-decoration: none;
+height:29px;
+font:12px/29px Verdana, Arial, Helvetica, sans-serif;
+background:url(../images/dot3.gif) 0px 0px no-repeat;
+}
