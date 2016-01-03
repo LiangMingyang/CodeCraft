@@ -4,11 +4,15 @@
 body {
 	margin: 0px;
 	background-image:url(http://www.cwdpa.org.cn/images/body.jpg);
-	
+
 }
 td {
-font-size:12px;
-color:#000000;
+    font-size:12px;
+    color:#000000;
+}
+
+.layout {
+    padding: 5px;
 }
 #table01 td{
 height:25px;
@@ -73,7 +77,7 @@ a.three:active { color: #DC0C00; text-decoration:underline;}
 	padding:0px;
 	border-bottom:1px dotted #ccc;
 	height:22px;
-	
+
 }
 
 
@@ -100,7 +104,7 @@ img{ border:0}
 
 /*²Ëµ¥*/
 .menu{width:1000px;margin:0 auto 0px auto;font-size:12px; }
-.menu  ul{  background:url(http://www.cwdpa.org.cn/images/mbj.jpg) no-repeat  center;height:25px;line-height:25px;overflow:hidden;padding:0px; margin:0px;padding-top:5px; padding-bottom:5px; padding-left:5px;}
+.menu  ul{  background:url(http://www.cwdpa.org.cn/images/mbj.jpg) no-repeat  center;height:35px;line-height:25px;overflow:hidden;padding:0px; margin:0px;padding-top:5px; padding-bottom:5px; padding-left:5px;}
 .menu li{float:left;width:190px;text-align:center; font-size:14px; font-weight:bold; padding:0px; margin:0px; }
 .menu li a{color: #fff;}
 
