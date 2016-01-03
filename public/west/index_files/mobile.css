@@ -1,0 +1,519 @@
+body { margin:auto 0px;font-size:12px;}
+
+ul{list-style-type:none;margin:0;padding:0;}
+
+li{ list-style-type:none;}
+
+img{ width:48px; height:48px}
+
+.boild{ font-weight:bold;}
+
+.cc30{ color:#c30; font-family:Arial;}
+
+.c390{ color:#390; font-family:Arial; margin-right:10px;}
+
+.c4899BE{ color:#4899BE; font-family:Arial;}
+
+.cf00{ color:#f00; font-family:Arial;}
+
+tr{cursor:pointer}
+
+img{ border:solid 0px black}
+
+a{text-decoration:none; color:Black; font-family:宋体; cursor:pointer; }
+
+.centerimg{ background-image:url(http://static.xixik.com.cn/images/weather.png); width:25px; height:25px;position:relative; left:50%; margin-left:-12px; float:left;}
+
+#img{ background-image:url(http://static.xixik.com.cn/images/weather.png); width:25px; height:25px; float:left}
+
+.img{float:left}
+
+.centertwo{ width:40px; height:22px;position:relative; left:50%; margin-left:-20px; float:left;padding-top:3px;}
+
+
+
+#mobile1{height:25px; line-height:25px;cursor: pointer;width: 960px;overflow: hidden;}
+
+#mobile1 a{ padding-right:5px; color:#000;}
+
+#mobile1 div{ float:left; margin-right:10px;}
+
+#mobile1 .divForecastWeather{ padding-right:3px;}
+
+#mobile1 .divCurrentWeather{ padding-right:3px;}
+
+
+
+#mobile2{text-align:center;overflow:hidden;cursor: pointer;}
+
+#mobile2 .mleft{width:70px;float:left;}
+
+#mobile2 .mright{width:auto;float:left;}
+
+#mobile2 .wtname{width:70px;float:left; margin-top:20px}
+
+#mobile2 .wtname a{font-weight:bold;font-size:15px;}
+
+#mobile2 .order{width:70px;float:left; margin-top:7px; height:20px;}
+
+#mobile2 .wt{float:left;width:90px;}
+
+#mobile2 .wt2{float:left;margin-top:1px;width:145px;}
+
+#mobile2 .wtpic{line-height:25px;height:20px;float:left;width:100%;}
+
+#mobile2 .wtpath{height:18px; line-height:18px; float:left; width:100%;}
+
+#mobile2 .wtpath,.wtwt,.wtfx{height:18px; line-height:18px; float:left; width:100%; text-align:center;overflow: hidden;}
+
+#mobile2 a.wea_more{background: url("../images/wea_arrow.gif") no-repeat scroll 0 30px transparent;float: right;height: 120px;margin: 25px 2px 0 0;width: 11px;}
+
+#mobile2 .img{margin:0 22px;}
+
+#mobile2 .day{ padding-right:5px;}
+
+#mobile2 .red{ color:#f00;}
+
+#mobile2 .blue{ color:#06c;}
+
+
+
+#mobile3{width:auto; text-align:center;height:70px;cursor: pointer;}
+
+#mobile3 a{color:#000;}
+
+#mobile3 .wtleft{ width:70px;float:left;height:70px;}
+
+#mobile3 .wtname{width:70px;float:left; margin-top:15px; height:20px;}
+
+#mobile3 .order{width:70px;float:left; margin-top:5px; height:20px;}
+
+#mobile3 .wt{width:140px;float:left;margin-top:5px }
+
+#mobile3 .wtpic{line-height:50px;height:50px;width:50px;float:left;}
+
+#mobile3 .wt1{width:90px; float:left;}
+
+#mobile3 .wtline{width:100%;float:left; height:18px; line-height:18px}
+
+
+
+#mobile4{width:auto;height:60px;overflow:hidden;cursor: pointer;}
+
+#mobile4 a{color:#000;}
+
+#mobile4 .wtleft{ width:75px;float:left;}
+
+#mobile4 .wtname{width:100%;float:left; margin-top:8px; height:20px;}
+
+#mobile4 .wtname a .ico{width:15px;background:url("../images/edit.png") no-repeat scroll right 4px transparent;display:inline-block;height:15px;}
+
+#mobile4 .wtname a:hover .ico{background:url("../images/edit.png") no-repeat scroll right -33px transparent;}
+
+#mobile4 .order{width:100%;float:left; margin-top:3px; height:20px;}
+
+#mobile4 .wt{width:112px;float:left;margin-top:5px }
+
+#mobile4 .wtpic{line-height:48px;height:48px;width:48px;float:left;}
+
+#mobile4 .wt1{width:64px; float:left;}
+
+#mobile4 .wtline{width:100%;float:left; height:18px; line-height:18px;margin-top:3px;}
+
+
+
+#mobile5{width:420px; text-align:center;height:80px; margin-top:5px } 
+
+#mobile5 a{color:#000;}
+
+#mobile5 .mobile5_tdw{ float:left;}
+
+#mobile5 .wt,#mobile5 .img{margin:0 auto;float:none;}
+
+#mobile5 .wtmid{height:22px; padding-top:2px;margin-top:2px; margin-bottom:2px; width:120px;}
+
+
+
+#mobile6{width:auto;height:70px;text-align:center;overflow:hidden;}
+
+#mobile6 .mright a{ color:#000;} 
+
+#mobile6 .mleft{width:100px;float:left;}
+
+#mobile6 .mright{width:auto;float:left;}
+
+#mobile6 .wtname{width:100px;float:left; margin-top:15px}
+
+#mobile6 .wtname a{font-weight:bold;font-size:14px;}
+
+#mobile6 .order{width:100px;float:left; margin-top:10px; height:20px;}
+
+#mobile6 .wt{float:left;margin-top:5px;width:110px;}
+
+#mobile6 .wtpic{line-height:25px;height:25px;float:left;width:100%;}
+
+#mobile6 .wtpath{height:20px; line-height:20px; float:left; width:100%;}
+
+#mobile6 a.wea_more{background: url("../images/wea_arrow.gif") no-repeat scroll 0 30px transparent;float: right;height: 65px;margin: 0 2px 0 0;width: 11px;}
+
+#mobile6 .img{margin:0 5px;}
+
+
+
+#mobile7{width:100%; text-align:center;} 
+
+#mobile7 a{ color:##f00;}
+
+#mobile7 .wt{width:100%;height:105px}
+
+#mobile7 .wtwt,#mobile7 .wtwind,#mobile7 .wttemp,#mobile7 .wtname,#mobile7 .wtbg{float:left; width:100%; height:20px; line-height:20px }
+
+#mobile7 .wtname{ color:#00aa00; font-size:14px; font-weight:bold;height:20px; line-height:20px;}
+
+#mobile7 .wtwt{ font-weight:bold;height:20px; line-height:20px;}
+
+#mobile7 .wtpic{ height:25px; line-height:25px; width:100%;}
+
+#mobile7 .wtwind{ height:15px; line-height:15px;}
+
+#mobile7 .wttemp{ color:#749900; font-size:14px; font-weight:bold;height:20px; line-height:20px;}
+
+#mobile7 .wtwt{ font-weight:bold;}
+
+#mobile7 .wtbg{background-color:#e4f0f8 }
+
+
+
+#mobile8{width:232px;height:80px;}
+
+#mobile8 .wtleft{ width:181px; float:left; text-indent:1em}
+
+#mobile8 .wtname{width:100%;float:left; height:20px; line-height:20px;margin-top:10px; overflow:hidden}
+
+#mobile8 .wtline{width:100%;float:left; height:20px; line-height:20px; overflow:hidden}
+
+#mobile8 .wtpic{line-height:50px;height:50px;width:50px;margin-top:15px; float:left}
+
+
+
+.mobile9{width:100%;font-size:12px;height:24px;overflow:hidden;}
+
+.mobile9 ul{list-style-type:none;margin:0;padding:0;}
+
+.mobile9 ul li{height:25px;line-height:25px;float:left;display:inline;width:100%; overflow:hidden;}
+
+.mobile9 .wtdate,.mobile9 .wtname,.mobile9 .wtwt,.mobile9 .wttemp{float:left; height:25px; line-height:25px;width:auto }
+
+.mobile9 .wtname{ margin-right:5px;}
+
+.mobile9 .wtwt{ margin-left:5px; }
+
+.mobile9 .wttemp{ margin-left:5px;}
+
+
+
+.mobile10{width:100%;text-align:center;height:25px; line-height:25px;vertical-align:middle;}
+
+.mobile10 a{color:#333; padding:0 5px 0 0; display:inline-block;}
+
+.mobile10 a img{border:none}
+
+
+
+#mobile11{width:auto;height:100px;text-align:center;overflow:hidden;}
+
+#mobile11 .mright a{ color:#000;} 
+
+#mobile11 .mright{width:auto;float:left;}
+
+#mobile11 .wtname{width:100px;float:left; margin-top:15px}
+
+#mobile11 .wtname a{font-weight:bold;font-size:14px;}
+
+#mobile11 .order{width:100px;float:left; margin-top:10px; height:20px;}
+
+#mobile11 .wt{float:left;margin-top:5px;width:155px;}
+
+#mobile11 .wtpic{line-height:25px;height:25px;float:left;width:100%; font-size:24px; vertical-align:middle;color: #06C;
+
+font-weight: bold;}
+
+#mobile11 .wtpath{height:20px; line-height:20px; float:left; width:100%;}
+
+#mobile11 a.wea_more{background: url("../images/wea_arrow.gif") no-repeat scroll 0 30px transparent;float: right;height: 65px;margin: 0 2px 0 0;width: 11px;}
+
+#mobile11 .img{margin:0 5px;}
+
+
+
+
+
+#mobile01{width:auto;height:60px;text-align:center;overflow:hidden;}
+
+#mobile01 .mright a{ color:#000;}
+
+#mobile01 .mleft_01{width:90px;float:left; height:60px; line-height:24px;} 
+
+#mobile01 .mleft_01 a.rl{width:88px;float:left; height:58px; display:block; overflow:hidden; padding:1px;} 
+
+#mobile01 .mleft_01 a.rl:hover{ float:left; width:88px; height:58px; border:1px solid #ebebeb; padding:0px;display:block; overflow:hidden;}
+
+#mobile01 .mleft_01 .rl span{ float:left; width:88px; text-align:center; padding:4px 0 0 0;}
+
+#mobile01 .mright{width:auto;float:left;}
+
+#mobile01 a.box_a{float:left; height:58px; display:block; overflow:hidden; padding:1px;}
+
+#mobile01 a.box_a:hover{ float:left; height:58px; border:1px solid #ebebeb; padding:0px;display:block; overflow:hidden;} 
+
+#mobile01 .mleft{width:90px;float:left;line-height:20px;}
+
+#mobile01 .wtname{width:90px;float:left; height:20px; overflow:hidden; padding-top:8px;}
+
+#mobile01 .wtname a{font-size:14px;}
+
+#mobile01 .order{width:90px;float:left; padding-top:4px; height:20px;}
+
+#mobile01 .wt{float:left;}
+
+#mobile01 .wt .img{float:left; padding:5px 5px 0 5px;}
+
+#mobile01 .taday01{width:92px;float:left; height:58px; display:block; overflow:hidden; text-align:left; padding:2px 0 0 0;}
+
+#mobile01 .taday01 li{ float:left; width:94px; height:24px; line-height:24px; padding:2px 0 0;overflow:hidden;}
+
+#mobile01 .taday01 .day{height:20px;  float:left; padding:0 6px 0 0;}
+
+#mobile01 .taday01 .wtpath{height:20px; float:left; width:60px; overflow:hidden;}
+
+#mobile01 .mright_01{float:left; height:60px; line-height:24px;display:block; overflow:hidden;}
+
+#mobile01 .mright_01 a.more{width:38px;float:left; height:53px; display:block; overflow:hidden; padding:5px 1px 1px 1px;} 
+
+#mobile01 .mright_01 a.more:hover{ float:left; width:38px; height:54px; border:1px solid #ebebeb; padding:4px 0 0 0;display:block; overflow:hidden;}
+
+
+
+#mobile01 .mright{width:auto;float:left; position:relative;}
+
+#mobile01 .taday02{width:116px;float:left; height:58px; display:block; overflow:hidden; text-align:left; padding:2px 0 0 0;}
+
+#mobile01 .taday02 li{ float:left; width:100px; height:24px; line-height:24px; padding:2px 0 0;overflow:hidden;}
+
+#mobile01 .taday02 .day{height:20px;  float:left; padding:0 6px 0 0;}
+
+#mobile01 .taday02 .wtpath{height:20px; float:left; width:60px; overflow:hidden; text-align:center;}
+
+#mobile03 .taday02 .wtwt{height:20px; float:left; width:70px; overflow:hidden; line-height:24px;}
+
+
+
+
+
+#mobile01 .zl{ float:left;line-height:20px; position:absolute; left:58px; top:30px;}
+
+#mobile01 .zl .f1{ background:#54A932; color:#fff; line-height:12px; padding:1px 2px 2px;}
+
+#mobile01 .zl a:hover{ color:#f00;}
+
+
+
+.welcombar { float:left; line-height:20px;position:absolute; left:10px; top:-10px; width:220px;}
+
+.welcombar p {float: left; height:20px; background:#DCF5A1; margin:0; padding:0;}
+
+.welcombar .txt {color: #4A8847;float: left; padding: 0 4px 0 10px;}
+
+.welcombar span { float: left;}
+
+.welcombar i { float: left; width:24px; height:5px; display:block; overflow:hidden; background:url("http://www.tianqi.com/static/images/close_b.gif") no-repeat 0 0;clear:both }
+
+.welcombar .close { color: #D65750; cursor: pointer; float: right;font-family: "宋体"; font-weight:bold;font-size: 12px;height: 20px;text-align: center;width:20px; text-align:center; }
+
+
+
+#mobile03{width:auto;height:60px;overflow:hidden;cursor: pointer;}
+
+#mobile03 a{color:#000;}
+
+#mobile03 .wtleft{ width:75px;float:left;}
+
+#mobile03 .wtname{width:100%;float:left; margin-top:8px; height:25px;}
+
+#mobile03 .wtname a .ico{width:15px;background:url("http://www.tianqi.com/static/images/edit.png") no-repeat scroll right 4px transparent;display:inline-block;height:15px;}
+
+#mobile03 .wtname a:hover .ico{background:url("http://www.tianqi.com/static/images/edit.png") no-repeat scroll right -33px transparent;}
+
+#mobile03 .mright{width:auto;float:left; position:relative;}
+
+#mobile03 a.box_a{float:left; height:58px; display:block; overflow:hidden; padding:1px;}
+
+#mobile03 a.box_a:hover{ float:left; height:58px; border:1px solid #ebebeb; padding:0px;display:block; overflow:hidden;} 
+
+#mobile03 .wt{float:left;}
+
+#mobile03 .wt .img{float:left; padding:5px 5px 0 5px;}
+
+#mobile03 a.box_a{float:left; height:58px; display:block; overflow:hidden; padding:1px;}
+
+#mobile03 a.box_a:hover{ float:left; height:58px; border:1px solid #ebebeb; padding:0px;display:block; overflow:hidden;} 
+
+#mobile03 .taday02{width:102px;float:left; height:58px; display:block; overflow:hidden; text-align:left; padding:2px 0 0 0;}
+
+#mobile03 .taday02 li{ float:left; width:100px; height:24px; line-height:24px; padding:2px 0 0;overflow:hidden;}
+
+#mobile03 .taday02 .day{height:20px;  float:left; padding:0 6px 0 0;}
+
+#mobile03 .taday02 .wtpath{height:20px; float:left; width:60px; overflow:hidden; text-align:center;}
+
+#mobile03 .taday02 .wtwt{height:20px; float:left; width:70px; overflow:hidden; line-height:24px;}
+
+#mobile03 .zl{ float:left;line-height:20px; position:absolute; left:58px; top:30px;}
+
+#mobile03 .zl .f1{ background:#54A932; color:#fff; line-height:12px; padding:1px 2px 2px;}
+
+#mobile03 .zl a:hover{ color:#f00;}
+
+#mobile03 .taday01{width:94px;float:left; height:58px; display:block; overflow:hidden; text-align:left; padding:2px 0 0 0;}
+
+#mobile03 .taday01 li{ float:left; width:98px; height:24px; line-height:24px; padding:2px 0 0;overflow:hidden;}
+
+#mobile03 .taday01 .day{height:20px;  float:left; padding:0 6px 0 0;}
+
+#mobile03 .taday01 .wtpath{height:20px; float:left; width:60px; overflow:hidden;}
+
+
+
+.mobile04{width:100%;font-size:12px;height:24px;overflow:hidden;}
+
+.mobile04 ul{list-style-type:none;margin:0;padding:0;}
+
+.mobile04 ul li{height:25px;line-height:25px;float:left;display:inline;width:100%; overflow:hidden;}
+
+.mobile04 .f1{ background:#54A932; color:#fff; line-height:12px; padding:1px 2px 2px;}
+
+
+
+#mobile360{width:auto;height:60px;text-align:center;overflow:hidden;}
+
+#mobile360 .mright a{ color:#000;}
+
+#mobile360 .mleft_01{width:110px;float:left; height:60px; line-height:24px;} 
+
+#mobile360 .mleft_01 a.rl{width:108px;float:left; height:58px; display:block; overflow:hidden; padding:1px 0;border-left:1px solid #ebebeb;border-right:1px solid #ebebeb;} 
+
+#mobile360 .mleft_01 a.rl:hover{ float:left; width:108px; height:58px; border:1px solid #ebebeb; padding:0px;display:block; overflow:hidden;}
+
+#mobile360 .mleft_01 .rl span{ float:left; width:108px; text-align:center; padding:4px 0 0 0;}
+
+#mobile360 .mright{width:auto;float:left; position:relative;}
+
+#mobile360 a.box_a{float:left; height:58px; display:block; overflow:hidden; padding:1px;}
+
+#mobile360 a.box_a:hover{ float:left; height:58px; border:1px solid #ebebeb; padding:0px;display:block; overflow:hidden;} 
+
+#mobile360 .mleft{width:90px;float:left;line-height:20px;}
+
+#mobile360 .wtname{width:90px;float:left; height:20px; overflow:hidden; padding-top:8px;}
+
+#mobile360 .wtname a{font-size:14px;}
+
+#mobile360 .order{width:90px;float:left; padding-top:4px; height:20px;}
+
+#mobile360 .wt{float:left;}
+
+#mobile360 .wt .img{float:left; padding:5px 5px 0 5px;}
+
+#mobile360 .taday01{width:82px;float:left; height:58px; display:block; overflow:hidden; text-align:left; padding:2px 0 0 0;}
+
+#mobile360 .taday01 li{ float:left; width:82px; height:24px; line-height:24px; padding:2px 0 0;overflow:hidden;}
+
+#mobile360 .taday01 .day{height:20px;  float:left; padding:0 6px 0 0;}
+
+#mobile360 .taday01 .wtpath{height:20px; float:left; width:60px; overflow:hidden;}
+
+#mobile360 .taday02{width:154px;float:left; height:58px; display:block; overflow:hidden; text-align:left; padding:2px 0 0 0;}
+
+#mobile360 .taday02 li{ float:left; width:150px; height:24px; line-height:24px; padding:2px 0 0;overflow:hidden;}
+
+#mobile360 .taday02 .day{height:20px;  float:left; padding:0 6px 0 0;}
+
+#mobile360 .taday02 .wtpath{height:20px; float:left; width:60px; overflow:hidden; text-align:center;}
+
+#mobile360 .taday02 .wtwt{height:20px; float:left; width:70px; overflow:hidden; line-height:24px;}
+
+#mobile360 .zl{ float:left;line-height:20px; position:absolute; left:58px; top:30px;}
+
+#mobile360 .zl .f1{ background:#54A932; color:#fff; line-height:12px; padding:1px 2px 2px;}
+
+#mobile360 .zl a:hover{ color:#f00;}
+
+#mobile360 .mright_01{float:left; height:60px; line-height:24px;display:block; overflow:hidden;}
+
+#mobile360 .mright_01 a.more{width:38px;float:left; height:53px; display:block; overflow:hidden; padding:5px 1px 1px 1px;} 
+
+#mobile360 .mright_01 a.more:hover{ float:left; width:38px; height:54px; border:1px solid #ebebeb; padding:4px 0 0 0;display:block; overflow:hidden;}
+
+#mobile360 .mright_02{float:left; width:30px; padding:0 5px 0 0; height:60px; line-height:60px;display:block; overflow:hidden; font-family: "宋体"; font-size:12px; font-weight: normal;}
+
+#mobile360 .mright_02 a:hover{ color:#f00;}
+
+
+
+#mobile05{width:auto;height:45px;text-align:center;overflow:hidden;}
+
+#mobile05 .mleft{width:80px;float:left;line-height:20px; border-right:1px dotted #ebebeb;}
+
+#mobile05 .wtname{width:80px;float:left; height:20px; overflow:hidden; padding-top: 3px;}
+
+#mobile05 .wtname a{font-size:14px; font-weight:bold;}
+
+#mobile05 .order{width:80px;float:left; padding-top: 0px; height:20px;}
+
+#mobile05 .wt{float:left;}
+
+#mobile05 .wt .img{float:left; padding:0px 4px 0 5px;}
+
+#mobile05 .mright{width:182px;float:left; position:relative; padding:0 5px;}
+
+#mobile05 .mright .more_dm{ float:left; width:15px; height:40px; background:url(http://www.tianqi.com/static/img/more_dm.gif) no-repeat 5px 15px; display:block;}
+
+#mobile05 .taday02{float:left; height:45px; display:block; overflow:hidden; text-align:left; padding:0px 0 0 0;_width:140px;}
+
+#mobile05 .taday02 li{height:20px; line-height:20px; padding:2px 0 0;overflow:hidden;}
+
+#mobile05 .taday02 .day{height:20px;  float:left; padding:0 3px 0 0;}
+
+#mobile05 .taday02 .bt{height:20px;  float:left; padding:0 3px 0 0; width:36px; overflow:hidden;}
+
+#mobile05 .taday02 .wtpath{height:20px; float:left; overflow:hidden;}
+
+#mobile05 .zl{ float:left;line-height:20px; position:absolute; left:60px; top: 22px;}
+
+#mobile05 .zl .f1{ background:#54A932; color:#fff; line-height:12px; padding:1px 2px 2px;}
+
+#mobile05 .zl a:hover{ color:#f00;}
+
+
+
+#codebox{ float:left; background:#FE9900; height:68px;}
+
+#codebox .img{float:left;  padding:11px 4px;}
+
+#codebox ul{ float:left;width:80px; padding:7px 1px 0 0;}
+
+#codebox ul li{ float:left; width:80px; text-align:center; line-height:18px;color:#fff; height:18px; overflow:hidden; font-family:"宋体";}
+
+a#codebox{ color:#fff;}
+
+
+
+#codebox1{ float:left; height:26px;}
+
+#codebox1 .img{float:left;  padding:0px 4px;}
+
+#codebox1 ul{ float:left; padding:0; line-height:26px;}
+
+#codebox1 ul li{ float:left;  line-height:26px;color:#fff; height:26px; overflow:hidden; font-family:"宋体"; padding:0 4px;}
+
+a#codebox1{ color:#fff;}
