@@ -21,6 +21,40 @@
         text: "指导"
       }
     ];
+  }).controller('news', function($scope) {
+    return $scope.news_list = [
+      {
+        title: '一篇新闻',
+        content: 'blabla',
+        created_at: '2016-01-03 23:33',
+        updated_at: '2016-01-04 07:11'
+      }, {
+        title: '学而时习之，不亦说乎',
+        content: 'RT',
+        created_at: '2016-01-02 23:33',
+        updated_at: '2016-01-03 07:11'
+      }, {
+        title: '千乘之国，敬事而信',
+        content: 'RT',
+        created_at: '2016-01-01 23:33',
+        updated_at: '2016-01-02 07:11'
+      }, {
+        title: '谨而信，泛爱众而亲仁',
+        content: 'RT',
+        created_at: '2015-12-30 23:33',
+        updated_at: '2015-12-31 07:11'
+      }, {
+        title: '温良恭俭让',
+        content: 'RT',
+        created_at: '2015-12-29 23:33',
+        updated_at: '2015-12-30 07:11'
+      }, {
+        title: '慎终追远，民德归厚',
+        content: 'RT',
+        created_at: '2015-12-28 23:33',
+        updated_at: '2015-12-31 07:11'
+      }
+    ];
   });
 
 }).call(this);
