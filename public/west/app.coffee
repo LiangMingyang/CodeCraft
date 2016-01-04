@@ -66,12 +66,12 @@ angular.module('west', ['ui.bootstrap'])
   $scope.moments = [
     title: '贤贤易色'
     content: 'blabla'
-    created_at: '2016-01-03 23:33'
+    created_at: new Date('Sat Dec 31 2015 12:33:00 GMT+0800 (CST)')
     updated_at: '2016-01-04 07:11'
   ,
     title: '君子务本，本立而道生'
     content: 'RT'
-    created_at: '2016-01-02 23:33'
+    created_at: new Date('Sat Dec 31 2016 12:33:00 GMT+0800 (CST)')
     updated_at: '2016-01-03 07:11'
   ]
 )
