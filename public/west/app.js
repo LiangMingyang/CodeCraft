@@ -55,6 +55,20 @@
         updated_at: '2015-12-31 07:11'
       }
     ];
+  }).controller('work', function($scope) {
+    return $scope.moments = [
+      {
+        title: '贤贤易色',
+        content: 'blabla',
+        created_at: '2016-01-03 23:33',
+        updated_at: '2016-01-04 07:11'
+      }, {
+        title: '君子务本，本立而道生',
+        content: 'RT',
+        created_at: '2016-01-02 23:33',
+        updated_at: '2016-01-03 07:11'
+      }
+    ];
   });
 
 }).call(this);

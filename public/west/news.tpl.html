@@ -1,20 +1,8 @@
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-    <tbody><tr>
-        <td align="center"><script src="http://www.cwdpa.org.cn/d/js/acmsd/thea2.js"></script> </td>
-    </tr>
-    </tbody></table>
-
-
-
-
-
-
-
-
 
 <table width="100%" border="0" cellpadding="0" cellspacing="1" style="border:#FCC8BC 1px solid">
-    <tbody><tr>
+    <tbody>
+    <tr>
         <td background="./index_files/lmbj02.jpg" height="26">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tbody><tr>
@@ -29,162 +17,36 @@
     </tr>
     <tr>
         <td style="padding:5px; padding-top:10px; padding-bottom:10px;" class="full">
-
-
-
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tbody><tr>
+                <tbody>
+                <tr>
                     <td width="310"><img src="./index_files/dt.jpg" width="307" height="248"></td>
-                    <td align="left"><table id="ArticleList3_DataList1" cellspacing="0" border="0" style="border-collapse:collapse;">
-                        <tbody><tr>
+                    <td align="left">
+                        <table id="ArticleList3_DataList1" cellspacing="0" border="0" style="border-collapse:collapse;">
+                        <tbody>
+                        <tr ng-repeat="news in news_list">
                             <td>
                                 <div class="ListInfo">
                                     <table>
                                         <tbody><tr>
                                             <td>
                                                 <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3914.html" title="习近平在中共中央政治局第二十九次集体学习时强调 大力弘扬伟大爱国主义精神 为实现中国梦提供精神支柱">习近平在中共中央政治局第二十九次集体学习时强调 大力弘</a>
+                                                <a href="./news/{{news.id}}" title="{{news.title}}">{{news.title}}</a>
                                             </td>
-                                            <td style="text-align:right" class="">12-31</td>
+                                            <td style="text-align:right" class="">{{news.created_at | date:"yyyy-MM-dd"}}</td>
                                         </tr>
                                         </tbody></table>
                                 </div>
                             </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3899.html" title="中共中央政治局召开专题民主生活会 对照检查践行“三严三实”情况 讨论研究加强党风廉政建设措施 中共中央总书记习近平主持会议并发表重要讲话">中共中央政治局召开专题民主生活会 对照检查践行“三严三</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-30</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3890.html" title="回顾：中央经济工作会议的重点">回顾：中央经济工作会议的重点</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-29</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3871.html" title="习近平在视察解放军报社时强调 为实现中国梦强军梦提供思想舆论支持">习近平在视察解放军报社时强调 为实现中国梦强军梦提供思</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-28</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3859.html" title="中央纪委监察部网站开设专区 接受“两节”期间作风问题举报">中央纪委监察部网站开设专区 接受“两节”期间作风问题举</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-25</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3856.html" title="李克强主持召开国务院常务会议 ●部署推进农村一二三产业融合发展 以结构性改革强农惠农 ●确定进一步显著提高直接融资比重措施 提升金融服务实体经济效率 ●决定下调全国燃煤发电上网电价 减轻企业负担促进结">李克强主持召开国务院常务会议 ●部署推进农村一二三产业</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-24</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3823.html" title="中央城市工作会议在北京举行 习近平李克强作重要讲话 张德江俞正声刘云山王岐山张高丽出席会议">中央城市工作会议在北京举行 习近平李克强作重要讲话 张</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-23</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3798.html" title="中央经济工作会议在北京举行 习近平李克强作重要讲话张德江俞正声刘云山王岐山张高丽出席会议">中央经济工作会议在北京举行 习近平李克强作重要讲话张德</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-22</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3791.html" title="习近平对深圳市恒泰裕工业园山体滑坡灾害抢险救援工作作出重要指示 要求全力组织搜救尽最大努力减少人员伤亡 李克强就抢险救援工作作出批示">习近平对深圳市恒泰裕工业园山体滑坡灾害抢险救援工作作</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-21</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr><tr>
-                            <td>
-                                <div class="ListInfo">
-                                    <table>
-                                        <tbody><tr>
-                                            <td>
-                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
-                                                <a href="http://www.cwdpa.org.cn/jgsz/3773.html" title="李克强与梅德韦杰夫共同主持中俄总理第二十次定期会晤时强调 深化中俄发展战略对接 推动两国务实合作提质增量">李克强与梅德韦杰夫共同主持中俄总理第二十次定期会晤时</a>
-                                            </td>
-                                            <td style="text-align:right" class="">12-18</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                            </td>
-                        </tr></tbody></table></td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </td>
                 </tr>
-                </tbody></table>
-
-
-
-
-
+                </tbody>
+            </table>
         </td>
     </tr>
-    </tbody></table>
+    </tbody>
+</table>
 
