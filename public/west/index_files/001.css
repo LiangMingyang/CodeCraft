@@ -102,11 +102,10 @@ img{ border:0}
 -->
 
 
-/*²Ëµ¥*/
+/*ï¿½Ëµï¿½*/
 .menu{width:1000px;margin:0 auto 0px auto;font-size:12px; }
-.menu  ul{  background:url(http://www.cwdpa.org.cn/images/mbj.jpg) no-repeat  center;height:35px;line-height:25px;overflow:hidden;padding:0px; margin:0px;padding-top:5px; padding-bottom:5px; padding-left:5px;}
-.menu li{float:left;width:190px;text-align:center; font-size:14px; font-weight:bold; padding:0px; margin:0px; }
-.menu li a{color: #fff;}
+.menu  ul{  background:url(http://www.chinawestern.org/images/menubj_07.jpg) repeat-x  center;height:35px;line-height:25px;overflow:hidden;padding:0px; margin:0px;padding-top:5px; padding-bottom:5px; padding-left:5px;}
+.menu li{float:left;width:160px;text-align:center; font-size:14px; font-weight:bold; padding:0px; margin:0px; }
 
 
 
@@ -118,9 +117,9 @@ img{ border:0}
 
 .hover a{ color:#FFF}
 
-.zuocebiao{ background:url(http://www.cwdpa.org.cn/images/lmbj02.jpg) repeat-x; height:26px; line-height:26px;}
+.zuocebiao{ background:url(./thead.jpg) no-repeat left; height:26px; line-height:26px;}
 
-.zuocebiao span{  background: url(http://www.cwdpa.org.cn/images/xxk.jpg) no-repeat left;width:80px; text-align:center; cursor:pointer; height:26px; line-height:26px;margin:0px; padding:0px; font-size:14px; font-weight:bold; display:block;margin-left:10px; color:#FFF }
+.zuocebiao span{ width:80px; text-align:center; cursor:pointer; height:26px; line-height:26px;margin:0px; padding:0px; font-size:14px; font-weight:bold; display:block;margin-left:10px; color:#FFF }
 
 .zuocebiao span a{  color:#FFF }
 
