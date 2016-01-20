@@ -1,36 +1,57 @@
-
-<table cellspacing="0" cellpadding="0" width="220" border="0" style="border-top: #fcc8bc 1px solid; border-right: #fcc8bc 1px solid; border-bottom: #fcc8bc 1px solid; border-left: #fcc8bc 1px solid">
-    <tbody>
-    <tr>
-        <td><div class="zuocebiao"><span><a href="#">组织结构</a></span></div></td>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border:#FCC8BC 1px solid">
+    <tbody><tr>
+        <td>
+            <div class="zuocebiao"><span><a href="#">协会简介</a></span></div>
+        </td>
     </tr>
-    <tr>
-        <td bgcolor="#FFF2D8"><table cellspacing="2" cellpadding="2" width="100%" border="0">
-            <tbody>
-            <tr>
-                <td width="102"><div class="ListInfo">
-                    <table width="100%">
-                        <tbody>
-                        <tr>
-                            <td align="left"><div align="left"><span>·</span><span class="hidden"><img alt="" src="./index_files/tubiao01.gif"></span> <a title="会长" href="#">会长</a></div></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div></td>
-                <td width="102"><div class="ListInfo">
-                    <table width="100%">
-                        <tbody>
-                        <tr>
-                            <td align="left"><div align="left"><span>·</span><span class="hidden"><img alt="" src="./index_files/tubiao01.gif"></span> <a title="副会长" href="#">副会长</a></div></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div></td>
-            </tr>
-            </tbody>
-            </table>
-    </td>
-    </tr>
-    </tbody>
-</table>
 
+    <tr>
+        <td height="180" valign="top" class="full" style="padding:5px;">
+            <div>
+                协会简介
+            </div>
+            <!--<table cellspacing="0" border="0" style="border-collapse:collapse;">-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="moment in moments">-->
+                    <!--<td>-->
+                        <!--<div class="ListInfo">-->
+                            <!--<table>-->
+                                <!--<tbody>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>-->
+                                        <!--<a href="#" title="{{moment.title}}">{{moment.title}}</a>-->
+                                    <!--</td>-->
+                                    <!--<td style="text-align:right" class="">{{moment.created_at | date: "yy-MM-dd"}}</td>-->
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
+               <!--</tbody>-->
+            <!--</table>-->
+        </td>
+    </tr>
+    </tbody></table>
+
+
+<form action="http://www.cwdpa.org.cn/e/search/index.php" method="post" name="searchform" id="searchform" style="padding:0; margin:0;">
+
+
+    <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="margin-top:5px;">
+        <tbody><tr>
+            <td style="color:#000000;" align="right"><label for="keyboard">站内搜索:</label></td>
+
+            <td align="center">
+                <input type="hidden" name="show" value="title">
+                <input type="hidden" name="tempid" value="1">
+                <input type="hidden" name="tbname" value="news">
+                <span id="RequiredFieldValidator1" style="color:Red;visibility:hidden;">*</span>
+                <input name="keyboard" type="text" id="keyboard" size="38"></td>
+            <td align="left"><input src="./index_files/but_search.gif" name="search" type="image" id="search" value="搜索" style="border-top: none;	border-right: none #C0C0C0;	border-bottom: none;border-left: none;">
+            </td>
+
+
+        </tr>
+        </tbody></table></form>

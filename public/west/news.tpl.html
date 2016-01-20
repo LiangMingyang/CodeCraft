@@ -19,8 +19,9 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tbody>
                 <tr>
-                    <td width="310"><img src="./index_files/dt.jpg" width="307" height="248"></td>
-                    <td align="left">
+                    <!--<td width="310"><img src="./index_files/dt.jpg" width="307" height="248"></td>-->
+                    <td class="layout" width="310" ng-include="'carousel.tpl.html'" ng-controller="carousel"></td>
+                    <td align="left" style="padding:5px; background-color:#F1E2AB">
                         <table id="ArticleList3_DataList1" cellspacing="0" border="0" style="border-collapse:collapse;">
                         <tbody>
                         <tr ng-repeat="news in news_list">
