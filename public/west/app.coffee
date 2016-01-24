@@ -2,18 +2,13 @@ angular.module('west', [
   'ui.bootstrap',
   'west-router'
 ])
-.controller('main', ($scope)->
-)
-.controller('top', ($scope, $timeout)->
-
+.controller('main', ($scope, $timeout)->
   $scope.now = new Date()
   update = ()->
     $scope.now = new Date()
     $timeout(update, 1000)
   update()
 
-)
-.controller('carousel', ($scope)->
   $scope.slides = [
     image: "/west/index_files/41533c1509a7aa914d240e2323ec931d.jpg"
     text: "讲话"
@@ -24,12 +19,6 @@ angular.module('west', [
     image: "/west/index_files/429101300209f00ec774cc4cda0f84e9.jpg"
     text: "指导"
   ]
-
-  #get method
-
-)
-
-.controller('news', ($scope)->
   $scope.news_list = [
     title: '一篇新闻'
     content: 'blabla'
@@ -62,10 +51,6 @@ angular.module('west', [
     updated_at: '2015-12-31 07:11'
   ]
 
-  #update method
-)
-
-.controller('work', ($scope)->
   $scope.moments = [
     title: '贤贤易色'
     content: 'blabla'
@@ -77,8 +62,8 @@ angular.module('west', [
     created_at: new Date('Sat Dec 31 2016 12:33:00 GMT+0800 (CST)')
     updated_at: '2016-01-03 07:11'
   ]
-)
 
-.controller('about', ($scope)->
   $scope.about = "协会简介"
+
+  $scope.expert = "我就是专家"
 )

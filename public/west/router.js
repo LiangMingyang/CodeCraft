@@ -7,6 +7,8 @@
       templateUrl: 'tpls/about.tpl.html'
     }).when('/news', {
       templateUrl: 'tpls/news.tpl.html'
+    }).when('/expert', {
+      templateUrl: 'tpls/expert.tpl.html'
     }).otherwise({
       redirectTo: '/index'
     });
