@@ -4,10 +4,6 @@
             <a href="#">
                 <img ng-src="{{slide.image}}" alt="{{slide.text}}" style="margin:auto">
             </a>
-            <!--<div class="carousel-caption">-->
-                <!--<h4>Slide {{$index}}</h4>-->
-                <!--<p>{{slide.text}}</p>-->
-            <!--</div>-->
         </uib-slide>
     </uib-carousel>
     <div ng-repeat="slide in slides" ng-if="slide.active" style="margin:4px 0px 0px 0px;" class="text-center">

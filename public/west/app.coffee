@@ -1,4 +1,7 @@
-angular.module('west', ['ui.bootstrap'])
+angular.module('west', [
+  'ui.bootstrap',
+  'west-router'
+])
 .controller('main', ($scope)->
 )
 .controller('top', ($scope, $timeout)->
@@ -74,4 +77,8 @@ angular.module('west', ['ui.bootstrap'])
     created_at: new Date('Sat Dec 31 2016 12:33:00 GMT+0800 (CST)')
     updated_at: '2016-01-03 07:11'
   ]
+)
+
+.controller('about', ($scope)->
+  $scope.about = "协会简介"
 )

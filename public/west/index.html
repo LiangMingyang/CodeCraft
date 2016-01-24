@@ -15,7 +15,9 @@
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/bower_components/angular/angular.min.js"></script>
+<script src="/bower_components/angular-route/angular-route.min.js"></script>
 <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="router.js"></script>
 <script src="app.js"></script>
 <!--<base target="_blank">--><base href="." target="_blank">
 
@@ -31,27 +33,43 @@
   <tr ng-include="'./nav-top.tpl.html'"></tr>
   </tbody>
 </table>
-<!--主题的三个：焦点图，工作动态，公告-->
 <table width="1000" border="0" align="center" style="background:white">
-  <tbody>
-      <tr>
-        <!--<td class="layout" height="245" width="320" valign="top" ng-include="'carousel.tpl.html'" ng-controller="carousel"></td>-->
-        <td width="320"><img src="./index_files/dt.jpg" width="307" height="248"></td>
-        <td class="layout" width="460" valign="top" ng-include="'intro.tpl.html'" ng-controller="work"></td>
-        <td class="layout" valign="top" ng-include="'notify.tpl.html'"></td>
-      </tr>
-  </tbody>
-</table>
-
-<!--这个是不太重要的新闻和协会简介，感觉并不是很需要这个-->
-<table width="1000" border="0" cellpadding="5" cellspacing="0" align="center" style="background:white">
-  <tbody>
   <tr>
-    <td class="layout" width="770" valign="top" ng-include="'news.tpl.html'" ng-controller="news"></td>
-    <td class="layout" width="210" valign="top" ng-include="'structure.tpl.html'"></td>
+    <td style="vertical-align: top;" width="780">
+      <div ng-view></div>
+    </td>
+    <td style="vertical-align: top;" width="210">
+      <table>
+        <tr>
+          <td class="layout" valign="top" ng-include="'notify.tpl.html'"></td>
+        </tr>
+        <tr>
+          <td class="layout" valign="top" ng-include="'structure.tpl.html'"></td>
+        </tr>
+      </table>
+    </td>
   </tr>
-  </tbody>
 </table>
+<!--主题的三个：焦点图，工作动态，公告-->
+<!--<table width="1000" border="0" align="center" style="background:white">-->
+  <!--<tbody>-->
+      <!--<tr>-->
+        <!--&lt;!&ndash;<td class="layout" height="245" width="320" valign="top" ng-include="'carousel.tpl.html'" ng-controller="carousel"></td>&ndash;&gt;-->
+        <!---->
+        <!--<td class="layout" valign="top" ng-include="'notify.tpl.html'"></td>-->
+      <!--</tr>-->
+  <!--</tbody>-->
+<!--</table>-->
+
+<!--&lt;!&ndash;这个是不太重要的新闻和协会简介，感觉并不是很需要这个&ndash;&gt;-->
+<!--<table width="1000" border="0" cellpadding="5" cellspacing="0" align="center" style="background:white">-->
+  <!--<tbody>-->
+  <!--<tr>-->
+    <!--<td class="layout" width="770" valign="top" ng-include="'news.tpl.html'" ng-controller="news"></td>-->
+    <!--<td class="layout" width="210" valign="top" ng-include="'structure.tpl.html'"></td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+<!--</table>-->
 
 <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
   <tbody>
