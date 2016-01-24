@@ -15,6 +15,12 @@ angular.module('west-router', [
   .when('/expert',
     templateUrl: 'tpls/expert.tpl.html'
   )
+  .when('/policy',
+    templateUrl: 'tpls/policy.tpl.html'
+  )
+  .when('/contact',
+    templateUrl: 'tpls/contact.tpl.html'
+  )
   .otherwise(
     redirectTo: '/index'
   )
