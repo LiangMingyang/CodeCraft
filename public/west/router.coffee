@@ -12,11 +12,17 @@ angular.module('west-router', [
   .when('/news',
     templateUrl: 'tpls/news.tpl.html'
   )
+  .when('/news/:index',
+    templateUrl: 'tpls/news-detail.tpl.html'
+  )
   .when('/expert',
     templateUrl: 'tpls/expert.tpl.html'
   )
   .when('/policy',
     templateUrl: 'tpls/policy.tpl.html'
+  )
+  .when('/policy/:index',
+    templateUrl: 'tpls/policy-detail.tpl.html'
   )
   .when('/contact',
     templateUrl: 'tpls/contact.tpl.html'
