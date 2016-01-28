@@ -17,14 +17,13 @@ angular.module('west', [
   update()
 
   $scope.slides = [
-    image: "/west/index_files/41533c1509a7aa914d240e2323ec931d.jpg"
-    text: "讲话"
+    image: "images/news/img1.jpg"
+    url: 'http://www.chinawestern.org/newsread.asp?NewsID=6272'
+    text: "医疗扶贫项目正式签约"
   ,
-    image: "/west/index_files/1295865472c035ed7c2b8cbea64c9fd7.jpg"
-    text: "视察"
-  ,
-    image: "/west/index_files/429101300209f00ec774cc4cda0f84e9.jpg"
-    text: "指导"
+    image: "images/news/img2.jpg"
+    url: 'http://www.chinawestern.org/newsread.asp?NewsID=6269'
+    text: "中国西部发展促进会慰问驻云南边防官兵"
   ]
   $scope.news_list = [
     title: '《“健康中国2020”战略研究报告》摘要'
@@ -274,22 +273,23 @@ angular.module('west', [
   </p>
   "
 
-  $scope.expert = "我就是专家"
-
   $scope.notify = "
   <strong>“健康中国2020”</strong>：改善城乡居民健康状况，提高国民健康生活质量，减少不同地区健康状况差异，主要健康指标基本达到中等发达国家水平。<br>&nbsp;&nbsp;&nbsp;&nbsp;到2015年，基本医疗卫生制度初步建立，使全体国民人人拥有基本医疗保障、人人享有基本公共卫生服务，医疗卫生服务可及性明显增强，地区间人群健康状况和资源配置差异明显缩小，国民健康水平居于发展中国家前列。<br>&nbsp;&nbsp;&nbsp;&nbsp;到2020年，完善覆盖城乡居民的基本医疗卫生制度，实现人人享有基本医疗卫生服务，医疗保障水平不断提高，卫生服务利用明显改善，地区间人群健康差异进一步缩小，国民健康水平达到中等发达国家水平。
   "
 
-  $scope.contact = '''
-  <p style="margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:
-  0in;line-height:21.0pt"><font size="3" color="black" face="宋体"><span lang="ZH-CN" style="font-size: 12pt;">健康中国推进工作委员会</span></font><font color="black" face="simsun"><span style="font-family: simsun, serif;"><o:p></o:p></span></font></p><p style="margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:
-  0in;line-height:21.0pt"><font size="3" color="black" face="宋体"><span lang="ZH-CN" style="font-size: 12pt;">地址：<span class="js_location_string" style="border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(171, 171, 171); z-index: 1; position: static;" isout="1">北京市西城区永安路</span></span></font><font color="black" face="simsun"><span style="font-family: simsun, serif;">106</span></font><font color="black"><span lang="ZH-CN">号</span></font><font color="black" face="simsun"><span style="font-family: simsun, serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <o:p></o:p></span></font></p><p style="margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:
-  0in;line-height:21.0pt"><font size="3" color="black" face="宋体"><span lang="ZH-CN" style="font-size: 12pt;">邮编：</span></font><font color="black" face="simsun"><span style="font-family: simsun, serif;">100050<o:p></o:p></span></font></p><p style="margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:
-  0in;line-height:21.0pt"><font size="3" color="black" face="宋体"><span lang="ZH-CN" style="font-size: 12pt;">电话号码：</span></font><font color="black" face="simsun"><span style="font-family: simsun, serif;">010-83167988<o:p></o:p></span></font></p><p style="margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:
-  0in;line-height:21.0pt"><font size="3" color="black" face="宋体"><span lang="ZH-CN" style="font-size: 12pt;">传真号码：</span></font><font color="black" face="simsun"><span style="font-family: simsun, serif;">010-83151568<o:p></o:p></span></font></p><p class="MsoSubtitle" style="text-align:justify;text-justify:inter-ideograph">
-  </p><p style="margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:
-  0in;line-height:21.0pt"><font size="3" face="宋体"><span lang="ZH-CN" style="font-size:
-  12.0pt">电子邮箱：</span><a href="mailto:44228557@qq.com"><font face="simsun"><span style="font-family:&quot;simsun&quot;,serif">44228557@qq.com</span></font></a>&nbsp;&nbsp;</font><font color="black" face="simsun"><span style="font-family: simsun, serif;"><o:p></o:p></span></font></p>
+  $scope.contact = '''<p>健康中国推进工作委员会</p>
+
+  <p>地址：北京市西城区永安路106号</p>
+
+  <p>邮编：100050</p>
+
+  <p>电话号码：010-83167988</p>
+
+  <p>传真号码：010-83151568</p>
+
+  <p>电子邮箱：<a href="mailto:44228557@qq.com">44228557@qq.com</a></p>
+
+  <p style="text-align:right">&nbsp;</p>
   '''
 
   $scope.policy_list = [
