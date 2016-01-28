@@ -8,9 +8,7 @@
 
     <tr>
         <td height="180" valign="top">
-            <div>
-                {{about}}
-            </div>
+            <div ng-bind-html="about | richtext"></div>
         </td>
     </tr>
 </table>

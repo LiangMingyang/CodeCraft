@@ -11,9 +11,7 @@
 
                 <tr>
                     <td height="180" valign="top" class="full" style="padding:5px;">
-                        <div>
-                            {{about}}
-                        </div>
+                        <div ng-bind-html="about | richtext"></div>
                     </td>
                 </tr>
                 </tbody></table>
