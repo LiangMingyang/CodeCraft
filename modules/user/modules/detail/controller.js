@@ -82,6 +82,7 @@
       if (user.id.toString() !== req.session.user.id.toString()) {
         throw new global.myErrors.InvalidAccess();
       }
+      user.nickname = req.body.nickname;
       user.school = req.body.school;
       user.college = req.body.college;
       user.description = req.body.description;
