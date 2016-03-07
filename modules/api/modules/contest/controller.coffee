@@ -34,7 +34,7 @@ exports.getRank = (req, res)->
   .then (contest)->
     throw new global.myErrors.UnknownUser() if not contest and not req.session.user
     throw new global.myErrors.UnknownContest() if not contest
-    throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
+    #throw new global.myErrors.UnknownContest() if contest.start_time > (new Date())
     contest.problems.sort (a,b)->
       a.contest_problem_list.order-b.contest_problem_list.order
     global.myUtils.getRank(contest)
