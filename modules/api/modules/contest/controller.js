@@ -53,9 +53,6 @@
       if (!contest) {
         throw new global.myErrors.UnknownContest();
       }
-      if (contest.start_time > (new Date())) {
-        throw new global.myErrors.UnknownContest();
-      }
       contest.problems.sort(function(a, b) {
         return a.contest_problem_list.order - b.contest_problem_list.order;
       });
