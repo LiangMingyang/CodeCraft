@@ -1,8 +1,19 @@
+notify = (message, type)->
+  $.notify(message,
+    animate: {
+      enter: 'animated fadeInRight',
+      exit: 'animated fadeOutRight'
+    }
+    type: type
+    delay : -1
+  )
+
 angular.module('contest-factory', [
 ])
 
 .factory('Submission', ($http, $timeout)->
   Sub = {}
+  Sub.data = []
   #POLL_LIFE = 1000*1000
   SLEEP_TIME = 1000
   UP_TIME = 500
@@ -23,14 +34,7 @@ angular.module('contest-factory', [
           $timeout(Poller, Math.random()*SLEEP_TIME)
       ,
         (res)->
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-            delay : -1
-          )
+          notify(res.data.error, 'danger')
           $timeout(Poller,Math.random()*SLEEP_TIME)
       )
     else
@@ -43,24 +47,11 @@ angular.module('contest-factory', [
     .then(
       (res)->
         form.code = "" #clear
-        $.notify("提交成功",
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'success'
-        )
+        notify("提交成功", 'success')
         Sub.data.unshift(res.data)
     ,
       (res)->
-        $.notify(res.data.error,
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'danger'
-          delay: -1
-        )
+        notify(res.data.error, 'danger')
     )
 
   return Sub
@@ -111,14 +102,7 @@ angular.module('contest-factory', [
           $timeout(Poller,Math.random()*SLEEP_TIME)
       ,
         (res)->
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-            delay : -1
-          )
+          notify(res.data.error, 'danger')
           $timeout(Poller,Math.random()*SLEEP_TIME)
       )
     else
@@ -138,14 +122,7 @@ angular.module('contest-factory', [
         Me.data = res.data
     ,
       (res)->
-        $.notify(res.data.error,
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'danger'
-          delay : -1
-        )
+        notify(res.data.error, 'danger')
     )
   Poller() #instant
   return Me
@@ -177,31 +154,11 @@ angular.module('contest-factory', [
       if Issue.replyDic[i.id] is undefined
         if i.access_level is 'public'
           #公告
-          $.notify(
-            title: "新的公告[#{i.id}]:#{i.title}"
-            message: i.content
-          ,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'info'
-            delay: -1
-          )
+          notify("新的公告[#{i.id}]:#{i.title}:#{i.content}", 'info')
         Issue.replyDic[i.id] = i.issue_replies.length
         res = true
       while i.issue_replies.length > Issue.replyDic[i.id]
-        $.notify(
-          title: "ID为#{i.id}的对#{numberToLetters(Contest.idToOrder[i.problem_id])}的提问有新的回复:"
-          message: "#{i.issue_replies[Issue.replyDic[i.id]].content}"
-        ,
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'info'
-          delay: -1
-        )
+        notify("ID为#{i.id}的对#{numberToLetters(Contest.idToOrder[i.problem_id])}的提问有新的回复:#{i.issue_replies[Issue.replyDic[i.id]].content}", 'info')
         ++Issue.replyDic[i.id]
         res = true
       if Issue.replyDic[i.id] isnt i.issue_replies.length
@@ -238,13 +195,7 @@ angular.module('contest-factory', [
       (res)->
         form.title = "" # clear
         form.content = "" #clear
-        $.notify("提问成功",
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'success'
-        )
+        notify("提问成功", 'success')
         Issue.data.unshift(res.data)
     ,
       (res)->
@@ -313,14 +264,7 @@ angular.module('contest-factory', [
           $timeout(Poller,Math.random()*SLEEP_TIME)
       ,
         (res)->
-          $.notify(res.data.error,
-            animate: {
-              enter: 'animated fadeInRight',
-              exit: 'animated fadeOutRight'
-            }
-            type: 'danger'
-            delay : -1
-          )
+          notify(res.data.error, 'danger')
           $timeout(Poller, Math.random()*SLEEP_TIME)
       )
     else
@@ -348,14 +292,7 @@ angular.module('contest-factory', [
       countDown()
   ,
     (res)->
-      $.notify(res.data.error,
-        animate: {
-          enter: 'animated fadeInRight',
-          exit: 'animated fadeOutRight'
-        }
-        type: 'danger'
-        delay : -1
-      )
+      notify(res.data.error, 'danger')
       countDown()
   )
   return ST
