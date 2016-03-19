@@ -10,10 +10,10 @@ block content
     - var level = 0
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
         h3 所有题目
-        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
             //-tr
                 td.col-lg-1 题目ID
-                td.col-lg-2 所属小组
+                td.col-lg-2 所属课程
                 td.col-lg-6 题目名称
                 td.col-lg-1 难度
                 td.col-lg-2 通过率(通过/提交)
@@ -22,7 +22,7 @@ block content
                     td 状态
                 td 题目ID
                 td 题目标题
-                td 所属小组
+                td 所属课程
                 td 作者
                 //-td 难度
                 td 通过人数 / 提交人数
@@ -85,13 +85,13 @@ block content
         - var nextPage = page - 0 + 1;
         - var prevPage = page - 1;
         - if(page > 1)
-            a.button.btn.btn-default(href="./index?page=" + prevPage) 上一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + prevPage) 上一页
         - else
-            a.button.btn.btn-default(href="./index?page=" + prevPage, disabled="disabled") 上一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + prevPage, disabled="disabled") 上一页
         - for(var i = 1 ; i <= numberOfPage ; ++i)
             a.button.btn.btn-default(href="./index?page=" + i, id="button" + i) #{i}
         - if(page < numberOfPage)
-            a.button.btn.btn-default(href="./index?page=" + nextPage) 下一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + nextPage) 下一页
         - else
-            a.button.btn.btn-default(href="./index?page=" + nextPage, disabled="disabled") 下一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + nextPage, disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");

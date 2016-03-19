@@ -3,7 +3,7 @@
 
 extends ../layout
 block title
-    - var whichPage = "管理小组题目"
+    - var whichPage = "管理课程题目"
     title #{whichPage}
 
 block content
@@ -13,13 +13,13 @@ block content
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         if(group)
             form(method='post')
-                h3 #{group.name}的小组题目
+                h3 #{group.name}的课程题目
                 table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
                     tr.text-center.problem-title-tr
                         td 题目ID
                         td 题目标题
                         td 题目创建者
-                        td(id="mytd", onmouseover="$('#mytd').popover('show')", onmouseout="$('#mytd').popover('hide')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="top", data-content="私有：仅小组管理员和题目创建者可见<br>组内可见：在私有的基础上只要是小组的成员即可见<br>所有人可见：所有用户都可见") 题目权限设置
+                        td(id="mytd", onmouseover="$('#mytd').popover('show')", onmouseout="$('#mytd').popover('hide')", data-html="true", data-toggle="popover", data-trigger="focus", data-placement="top", data-content="私有：仅课程管理员和题目创建者可见<br>组内可见：在私有的基础上只要是课程的成员即可见<br>所有人可见：所有用户都可见") 题目权限设置
                     - if(problems && problems.length)
                         - for(var i = 0;i < problems.length; i++)
                             - if(i % 2 == 1)

@@ -1,26 +1,26 @@
 //-
    Created by lmy on 15-5-19.
    form 表单
-      - name 申请的小组的名字
-      - description 申请的小组的简介
+      - name 申请的课程的名字
+      - description 申请的课程的简介
 extends ../layout
 
 block title
-    - var whichPage = "申请创建小组"
+    - var whichPage = "申请创建课程"
     title #{whichPage}
 
 block content
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         //-.list-group
-            a.list-group-item(href="/group/index") 返回小组列表
+            a.list-group-item(href="/group/index") 返回课程列表
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
-        h3 申请创建小组
+        h3 申请创建课程
         form(method='post').containing
             .form-group
-                label.sr-only(for="name") 小组名称
-                input.form-control(type="input", id="name", name='name', placeholder="输入小组名称")
+                label.sr-only(for="name") 课程名称
+                input.form-control(type="input", id="name", name='name', placeholder="输入课程名称")
             .form-group
-                label.sr-only(for="description") 小组简介
-                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", id="description", name='description', placeholder="输入小组简介")
+                label.sr-only(for="description") 课程简介
+                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", id="description", name='description', placeholder="输入课程简介")
             button.btn.btn-success(type="submit") 提交
     .col-lg-2.col-md-2.col-sm-2.col-xs-12

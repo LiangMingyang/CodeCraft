@@ -2,7 +2,7 @@
    Created by 明阳 on 2015/6/4.
 extends ../layout
 block title
-    - var whichPage = "小组比赛"
+    - var whichPage = "课程比赛"
     title #{whichPage}
 block content
     - var oddEvenTable = "odd"
@@ -11,8 +11,8 @@ block content
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./group.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
-        h3 #{group.name}的小组比赛
-        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+        h3 #{group.name}的课程比赛
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
             tr.text-center.contest-title-tr
                 td 比赛ID
                 td 比赛状态
@@ -54,14 +54,14 @@ block content
         - var nextPage = page - 0 + 1;
         - var prevPage = page - 1;
         - if(page > 1)
-            a.button.btn.btn-default(href="./contest?page=" + prevPage) 上一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./contest?page=" + prevPage) 上一页
         - else
-            a.button.btn.btn-default(href="./contest?page=" + prevPage, disabled="disabled  ") 上一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./contest?page=" + prevPage, disabled="disabled  ") 上一页
         - for(var i = 1 ; i <= numberOfPage ; ++i)
             a.button.btn.btn-default(href="./contest?page=" + i, id="button" + i) #{i}
         - if(page < numberOfPage)
-            a.button.btn.btn-default(href="./contest?page=" + nextPage) 下一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./contest?page=" + nextPage) 下一页
         - else
-            a.button.btn.btn-default(href="./contest?page=" + nextPage, disabled="disabled") 下一页
+            a.button.btn.btn-default.loginbtn.btnstyle(href="./contest?page=" + nextPage, disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
