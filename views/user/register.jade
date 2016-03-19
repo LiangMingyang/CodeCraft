@@ -7,34 +7,34 @@ block title
     title #{whichPage}
 
 block content
-    .col-lg-6.col-md-6.col-sm-6.col-xs-12
-        h3 注册
-        form(method='post', id="form").containing
+    .col-lg-6.col-md-6.col-sm-6.col-xs-6.col-lg-offset-3.col-md-offset-3.col-sm-offset-3.col-xs-offset-3
+        form#form.containing(method='post')
+            h3(style='color:black;') 注册
             .form-group
-                label.sr-only(for="email") 邮箱
-                input.form-control(type="email", id="email", name='username', placeholder="输入邮箱")
+                label.sr-only(for='email') 邮箱
+                input#email.form-control(type='email', name='username', placeholder='输入邮箱')
             .form-group
-                label.sr-only(for="password") 密码
-                input.form-control(type="password", id="password", name='password', placeholder="输入密码")
+                label.sr-only(for='password') 密码
+                input#password.form-control(type='password', name='password', placeholder='输入密码')
             .form-group
-                label.sr-only(for="password2") 重复密码
-                input.form-control(type="password", id="password2", name='password2', placeholder="重复密码")
+                label.sr-only(for='password2') 重复密码
+                input#password2.form-control(type='password', name='password2', placeholder='重复密码')
             .form-group
-                label.sr-only(for="nickname") 昵称
-                input.form-control(type="input", id="nickname", name='nickname', placeholder="输入昵称，不超过30个字符")
+                label.sr-only(for='nickname') 昵称
+                input#nickname.form-control(type='input', name='nickname', placeholder='输入昵称，不超过30个字符')
             .form-group
                 label.sr-only 学校
-                select.form-control(type="input", name='school')
-                    option(value="-----") -----
-                    option(value="北京航空航天大学") 北京航空航天大学
-                    option(value="北京邮电大学") 北京邮电大学
+                select.form-control(type='input', name='school')
+                    option(value='-----') 请选择
+                    option(value='北京航空航天大学') 北京航空航天大学
+                    option(value='北京邮电大学') 北京邮电大学
             .form-group
                 label.sr-only 专业
-                select.form-control(type="input", name='college')
-                    option(value="-----") -----
-                    option(value="软件学院") 软件学院
-                    option(value="计算机学院") 计算机学院
-            button.btn.btn-default(type="button", onclick="checkInformation()") 注册
+                select.form-control(type='input', name='college')
+                    option(value='-----') 请选择
+                    option(value='软件学院') 软件学院
+                    option(value='计算机学院') 计算机学院
+            button.btn.btn-default.btnstyle(type='button', onclick='checkInformation()') 注册
             script.
                 function checkInformation(){
                     if($("#nickname").val().length >= 30){
@@ -43,4 +43,3 @@ block content
                         $("#form").submit();
                     }
                 }
-    .col-lg-6.col-md-6.col-sm-6.col-xs-12
