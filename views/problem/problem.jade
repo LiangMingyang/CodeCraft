@@ -1,54 +1,53 @@
-.containing
-    //-//-.form-horizontal
-    //-    label.control-label  当前用户：
-    //-//-.form-horizontal
-    //-    a(href="/user/" + user.id + "/index", id="informationpage")
-    //-        label.control-label #{user.nickname}
-    .list-group
-        a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
-        //- if(!contest)
-            a(class="list-group-item normal-color", id="problem-problemeditpage", href="./edit") 编辑题目
-        a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
-    script.
-        if("#{whichPage}"=="评测记录"||"#{whichPage}"=="比赛题目评测记录")
-            $("#problem-submissionpage").attr("class","list-group-item change-color");
-        else
-            $("#problem-problemindexpage").attr("class","list-group-item change-color");
+//-//-.form-horizontal
+//-    label.control-label  当前用户：
+//-//-.form-horizontal
+//-    a(href="/user/" + user.id + "/index", id="informationpage")
+//-        label.control-label #{user.nickname}
+.list-group
+    a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
+    //- if(!contest)
+        a(class="list-group-item normal-color", id="problem-problemeditpage", href="./edit") 编辑题目
+    a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
+script.
+    if("#{whichPage}"=="评测记录"||"#{whichPage}"=="比赛题目评测记录")
+        $("#problem-submissionpage").attr("class","list-group-item change-color");
+    else
+        $("#problem-problemindexpage").attr("class","list-group-item change-color");
 
-    if(problem.test_setting && user)
-        .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+if(problem.test_setting && user)
+    .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
 
-        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-            .modal-dialog
-                .modal-content
-                    form(method='post', action='./submit', id="form")
-                        .modal-header
-                            button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                            h4#myModalLabel.modal-title 提交代码
-                        .modal-body.submitcode
-                            .row(style="margin-bottom:10px")
-                                .col-lg-3.col-md-3.col-sm-3.form-control-static
-                                    |语言选择：
-                                .col-lg-9.col-md-9.col-sm-9
-                                    select.form-control(type="input", name='lang')
-                                        - problem.test_setting.supported_languages = problem.test_setting.supported_languages.split(',')
-                                        - for (var i = 0 ; i < problem.test_setting.supported_languages.length ; i++)
-                                            - var language = problem.test_setting.supported_languages[i];
-                                            option(value=language) #{language}
-                            |源代码：
-                            label.sr-only(for="code") 输入代码
-                            textarea.form-control(style="margin-top:10px;resize: none;max-height: 300px;width: 100%;min-height: 100px;", type="input", id="code", name='code', placeholder="输入您的代码")
-                        .modal-footer
-                            //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
-                            button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交
-    script.
-        var cc = 0;
-        function check(){
-            if($("#code").val()!="" && cc == 0){
-                $("#form").submit();
-                cc = 1;
-            }
-            else if(cc == 0)
-                alert("代码不要为空！");
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                form(method='post', action='./submit', id="form")
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title 提交代码
+                    .modal-body.submitcode
+                        .row(style="margin-bottom:10px")
+                            .col-lg-3.col-md-3.col-sm-3.form-control-static
+                                |语言选择：
+                            .col-lg-9.col-md-9.col-sm-9
+                                select.form-control(type="input", name='lang')
+                                    - problem.test_setting.supported_languages = problem.test_setting.supported_languages.split(',')
+                                    - for (var i = 0 ; i < problem.test_setting.supported_languages.length ; i++)
+                                        - var language = problem.test_setting.supported_languages[i];
+                                        option(value=language) #{language}
+                        |源代码：
+                        label.sr-only(for="code") 输入代码
+                        textarea.form-control(style="margin-top:10px;resize: none;max-height: 300px;width: 100%;min-height: 100px;", type="input", id="code", name='code', placeholder="输入您的代码")
+                    .modal-footer
+                        //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                        button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交
+script.
+    var cc = 0;
+    function check(){
+        if($("#code").val()!="" && cc == 0){
+            $("#form").submit();
+            cc = 1;
         }
+        else if(cc == 0)
+            alert("代码不要为空！");
+    }

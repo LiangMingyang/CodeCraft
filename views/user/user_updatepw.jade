@@ -14,27 +14,27 @@ block content
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include ./user.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
-        h3 修改密码
-        form(method='post', id='form').containing
+        h3(style='color: #0274af; font-weight: bold;') 修改密码
+        form(method='post', id='form')
             .form-horizontal
                 .form-group
-                    .col-lg-4.col-md-4.col-sm-4.col-xs-12
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-12
                         label.control-label(for="oldPwd")  请输入旧密码：
-                    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+                    .col-lg-10.col-md-10.col-sm-10.col-xs-12
                         input.form-control(type="password", name='oldPwd', id="oldPwd")
             .form-horizontal
                 .form-group
-                    .col-lg-4.col-md-4.col-sm-4.col-xs-12
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-12
                         label.control-label(for="newPwd")  请输入新密码：
-                    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+                    .col-lg-10.col-md-10.col-sm-10.col-xs-12
                         input.form-control(type="password", name='newPwd', id="newPwd")
             .form-horizontal
                 .form-group
-                    .col-lg-4.col-md-4.col-sm-4.col-xs-12
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-12
                         label.control-label(for="confirmNewPwd")  请确认新密码：
-                    .col-lg-8.col-md-8.col-sm-8.col-xs-12
+                    .col-lg-10.col-md-10.col-sm-10.col-xs-12
                         input.form-control(type="password", name='confirmNewPwd', id="confirmNewPwd")
-            button.btn.btn-default(type="button", onclick="checkInformation()") 确认修改
+            .btn.btn-default.loginbtn.btnstyle(type="button", onclick="checkInformation()") 确认修改
             script.
                 function checkInformation(){
                     if($("#newPwd").val() != $("#confirmNewPwd").val()){

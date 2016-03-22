@@ -98,12 +98,12 @@ html(lang="zh-CN")
                         block content
                     script.
                         $(document).ready(function () {
-                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            $(".minheight").css("min-height", ($(window).height() - 140) + "px");
                             //-$("body").css({"background-image":'-webkit-gradient(linear,left bottom,left top,color-stop(0.1,#B7DAEE),color-stop(0.95,#fff))'});
                             //$("body").css({"background-image": "url(/images/ba.png)"});
                         });
                         $(window).resize(function () {
-                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            $(".minheight").css("min-height", ($(window).height() - 140) + "px");
                         });
                         function logoAlert(information) {
                             $("#logo").attr("data-content",information);

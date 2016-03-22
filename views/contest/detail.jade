@@ -11,7 +11,6 @@ block content
         include time.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 比赛简介
-        .containing
-            if(contest)
-                pre #{contest.description}
+        if(contest)
+            pre #{contest.description}
     .col-lg-2.col-md-2.col-sm-2.col-xs-12

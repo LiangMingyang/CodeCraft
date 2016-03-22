@@ -126,6 +126,10 @@ td.yellow-td{
     -webkit-box-shadow: none;
 }
 
+.btn {
+    margin-bottom: 6em;
+}
+
 .submitcode{
     font-size: 18px;
 }
