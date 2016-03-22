@@ -20,6 +20,5 @@ module.exports = (sequelize, DataTypes) ->
   #creator foreign key
   #group   foreign key
   }, {
-    timestamps: false
     underscored: true
   }

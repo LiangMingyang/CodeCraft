@@ -1,6 +1,5 @@
-module.exports = (sequelize, DataTypes) ->
+module.exports = (sequelize) ->
   sequelize.define 'problem_tag', {
   }, {
-    timestamps: false
     underscored: true
   }

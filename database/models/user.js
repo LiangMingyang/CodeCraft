@@ -53,7 +53,6 @@
         type: DataTypes.DATE
       }
     }, {
-      timestamps: false,
       underscored: true
     });
   };

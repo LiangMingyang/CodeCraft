@@ -26,7 +26,6 @@
         type: DataTypes.DECIMAL(10, 5)
       }
     }, {
-      timestamps: false,
       underscored: true
     });
   };

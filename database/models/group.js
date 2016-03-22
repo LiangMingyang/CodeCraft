@@ -19,7 +19,6 @@
         allowNull: false
       }
     }, {
-      timestamps: false,
       underscored: true
     });
   };

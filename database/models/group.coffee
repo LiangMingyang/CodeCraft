@@ -14,6 +14,5 @@ module.exports = (sequelize, DataTypes) ->
       defaultValue: 'verifying'
       allowNull: false
   }, {
-    timestamps: false
     underscored: true
   }
