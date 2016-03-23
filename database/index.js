@@ -106,6 +106,18 @@
       }
     });
     Submission.hasOne(SubmissionCode);
+    Problem.belongsToMany(User, {
+      through: {
+        model: Recommendation
+      },
+      foreignKey: 'problem_id'
+    });
+    User.belongsToMany(Problem, {
+      through: {
+        model: Recommendation
+      },
+      foreignKey: 'user_id'
+    });
     return sequelize;
   };
 

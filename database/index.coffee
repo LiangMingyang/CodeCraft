@@ -122,6 +122,19 @@ module.exports = (database, username, password, config)->
 
   Submission.hasOne(SubmissionCode)
 
+  # user and recommendation and problem
+  Problem.belongsToMany(User, {
+    through:
+      model: Recommendation
+    foreignKey: 'problem_id'
+  })
+
+  User.belongsToMany(Problem, {
+    through:
+      model: Recommendation
+    foreignKey: 'user_id'
+  })
+
   #transactions
 
   return sequelize
