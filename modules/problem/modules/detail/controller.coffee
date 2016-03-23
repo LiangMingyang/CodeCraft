@@ -39,14 +39,14 @@ exports.getIndex = (req, res) ->
     #TODO: 在这里进行了转码
     currentProblem.test_setting = JSON.parse problem.test_setting
     currentProblem.description = markdown.toHTML(problem.description)
+    return [] if not currentUser
     currentUser.getProblems()
   .then (recommendation_problems)->
     recommendation = (problem.get(plain: true) for problem in recommendation_problems)
-    global.myUtils.getProblemsStatus([currentProblem].concat(recommendation),currentUser)
-  .then ->
     recommendation.sort (a,b)->
       b.recommendation.score - a.recommendation.score
-    console.log recommendation
+    global.myUtils.getProblemsStatus([currentProblem].concat(recommendation),currentUser)
+  .then ->
     res.render 'problem/detail', {
       user: req.session.user
       problem: currentProblem
