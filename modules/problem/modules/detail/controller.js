@@ -25,12 +25,12 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Group, User, currentProblem, currentProblems, currentUser;
+    var Group, User, currentProblem, currentUser, recommendation;
     User = global.db.models.user;
     Group = global.db.models.group;
     currentProblem = void 0;
     currentUser = void 0;
-    currentProblems = void 0;
+    recommendation = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -49,15 +49,35 @@
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
       }
-      currentProblem = problem;
-      problem.test_setting = JSON.parse(problem.test_setting);
-      problem.description = markdown.toHTML(problem.description);
-      currentProblems = [currentProblem];
-      return global.myUtils.getProblemsStatus(currentProblems, currentUser);
+      currentProblem = problem.get({
+        plain: true
+      });
+      currentProblem.test_setting = JSON.parse(problem.test_setting);
+      currentProblem.description = markdown.toHTML(problem.description);
+      return currentUser.getProblems();
+    }).then(function(recommendation_problems) {
+      var problem;
+      recommendation = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = recommendation_problems.length; i < len; i++) {
+          problem = recommendation_problems[i];
+          results.push(problem.get({
+            plain: true
+          }));
+        }
+        return results;
+      })();
+      return global.myUtils.getProblemsStatus([currentProblem].concat(recommendation), currentUser);
     }).then(function() {
+      recommendation.sort(function(a, b) {
+        return b.recommendation.score - a.recommendation.score;
+      });
+      console.log(recommendation);
       return res.render('problem/detail', {
         user: req.session.user,
-        problem: currentProblem
+        problem: currentProblem,
+        recommendation: recommendation
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);

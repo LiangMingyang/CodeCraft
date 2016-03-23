@@ -21,7 +21,7 @@ exports.getIndex = (req, res) ->
   Group = global.db.models.group
   currentProblem = undefined
   currentUser = undefined
-  currentProblems = undefined
+  recommendation = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -35,16 +35,22 @@ exports.getIndex = (req, res) ->
     ])
   .then (problem) ->
     throw new global.myErrors.UnknownProblem() if not problem
-    currentProblem = problem
+    currentProblem = problem.get(plain: true)
     #TODO: 在这里进行了转码
-    problem.test_setting = JSON.parse problem.test_setting
-    problem.description = markdown.toHTML(problem.description)
-    currentProblems = [currentProblem]
-    global.myUtils.getProblemsStatus(currentProblems,currentUser)
+    currentProblem.test_setting = JSON.parse problem.test_setting
+    currentProblem.description = markdown.toHTML(problem.description)
+    currentUser.getProblems()
+  .then (recommendation_problems)->
+    recommendation = (problem.get(plain: true) for problem in recommendation_problems)
+    global.myUtils.getProblemsStatus([currentProblem].concat(recommendation),currentUser)
   .then ->
+    recommendation.sort (a,b)->
+      b.recommendation.score - a.recommendation.score
+    console.log recommendation
     res.render 'problem/detail', {
       user: req.session.user
       problem: currentProblem
+      recommendation: recommendation
     }
 
   .catch global.myErrors.UnknownUser, (err)->
