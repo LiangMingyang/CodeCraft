@@ -9,7 +9,7 @@
   models = require('./models');
 
   module.exports = function(database, username, password, config) {
-    var Contest, ContestProblemList, Feedback, Group, Issue, IssueReply, Judge, Membership, Message, Problem, ProblemTag, Submission, SubmissionCode, Tag, User, sequelize;
+    var Contest, ContestProblemList, Feedback, Group, Issue, IssueReply, Judge, Membership, Message, Problem, ProblemTag, Recommendation, Submission, SubmissionCode, Tag, User, sequelize;
     sequelize = new Sequelize(database, username, password, config);
     Contest = sequelize["import"](path.join(__dirname, 'models/contest'));
     ContestProblemList = sequelize["import"](path.join(__dirname, 'models/contest-problem-list'));
@@ -26,6 +26,7 @@
     Feedback = sequelize["import"](path.join(__dirname, 'models/feedback'));
     Tag = sequelize["import"](path.join(__dirname, 'models/tag'));
     ProblemTag = sequelize["import"](path.join(__dirname, 'models/problem-tag'));
+    Recommendation = sequelize["import"](path.join(__dirname, 'models/recommendation'));
     Feedback.belongsTo(User, {
       as: 'creator'
     });

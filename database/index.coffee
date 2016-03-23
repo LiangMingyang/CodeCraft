@@ -22,6 +22,7 @@ module.exports = (database, username, password, config)->
   Feedback = sequelize.import path.join(__dirname, 'models/feedback')
   Tag = sequelize.import path.join(__dirname, 'models/tag')
   ProblemTag = sequelize.import path.join(__dirname, 'models/problem-tag')
+  Recommendation = sequelize.import path.join(__dirname, 'models/recommendation')
 
   #associations
 
