@@ -44,7 +44,7 @@ if(problem.test_setting && user)
 - if(user && recommendation)
     h4(style='color: #0274af; font-weight: bold; margin-bottom:1em;') 推荐您做：
     - for(var i = 0; i < recommendation.length; i++)
-        a.text-center(style='font-weight: bold;') #{recommendation[i].problem_title}
+        a.text-center(href= recommendation[i].problem_id + "/index", style='font-weight: bold;') #{recommendation[i].problem_title}
 script.
     var cc = 0;
     function check(){
