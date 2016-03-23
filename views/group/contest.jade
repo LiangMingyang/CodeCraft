@@ -40,7 +40,7 @@ block content
                         td
                             label(id = "td" + i) #{contestStatus}
                         td
-                            a(href= "/contest/" + contest.id + "/index") #{contest.title}
+                            a(href= "/contest-ng/index.html#/" + contest.id) #{contest.title}
                         td #{contest.start_time.getFullYear()}-#{contest.start_time.getMonth()+1}-#{contest.start_time.getDate()} #{contest.start_time.getHours()}:#{contest.start_time.getMinutes()}:#{contest.start_time.getSeconds()}
                         td #{contest.end_time.getFullYear()}-#{contest.end_time.getMonth()+1}-#{contest.end_time.getDate()} #{contest.end_time.getHours()}:#{contest.end_time.getMinutes()}:#{contest.end_time.getSeconds()}
                         script.
