@@ -54,6 +54,9 @@
       });
       currentProblem.test_setting = JSON.parse(problem.test_setting);
       currentProblem.description = markdown.toHTML(problem.description);
+      if (!currentUser) {
+        return [];
+      }
       return currentUser.getProblems();
     }).then(function(recommendation_problems) {
       var problem;
@@ -68,12 +71,11 @@
         }
         return results;
       })();
-      return global.myUtils.getProblemsStatus([currentProblem].concat(recommendation), currentUser);
-    }).then(function() {
       recommendation.sort(function(a, b) {
         return b.recommendation.score - a.recommendation.score;
       });
-      console.log(recommendation);
+      return global.myUtils.getProblemsStatus([currentProblem].concat(recommendation), currentUser);
+    }).then(function() {
       return res.render('problem/detail', {
         user: req.session.user,
         problem: currentProblem,
