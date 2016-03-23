@@ -41,10 +41,16 @@ if(problem.test_setting && user)
                     .modal-footer
                         //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
                         button.btn.btn-primary(type='button', id="button", onclick="check()", style="margin-bottom: 0;") 确认提交
-- if(user && recommendation)
+- if(user && recommendation && recommendation.length != 0)
     h4(style='color: #0274af; font-weight: bold; margin-bottom:1em;') 推荐您做：
     - for(var i = 0; i < recommendation.length; i++)
-        a.text-center(href= recommendation[i].problem_id + "/index", style='font-weight: bold;') #{recommendation[i].problem_title}
+        p
+            - if(recommendation[i].accepted + recommendation[i].tried == 1)
+                a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation[i].id}--#{recommendation[i].title}
+            - else if (recommendation[i].accepted + recommendation[i].tried != 2)
+                a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation[i].id}--#{recommendation[i].title}
+
+            //-#{recommendation[i].acceptedPeopleCount}/#{recommendation[i].submissionCount}
 script.
     var cc = 0;
     function check(){
