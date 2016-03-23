@@ -15,7 +15,7 @@ script.
         $("#problem-problemindexpage").attr("class","list-group-item change-color");
 
 if(problem.test_setting && user)
-    .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal") 提交代码
+    .button(type="button", class="btn btn-primary btn-lg", data-toggle="modal", data-target="#myModal", style="margin-bottom: 2em;") 提交代码
 
     #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
@@ -40,7 +40,11 @@ if(problem.test_setting && user)
                         textarea.form-control(style="margin-top:10px;resize: none;max-height: 300px;width: 100%;min-height: 100px;", type="input", id="code", name='code', placeholder="输入您的代码")
                     .modal-footer
                         //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
-                        button.btn.btn-primary(type='button', id="button", onclick="check()") 确认提交
+                        button.btn.btn-primary(type='button', id="button", onclick="check()", style="margin-bottom: 0;") 确认提交
+- if(user && recommendation)
+    h4(style='color: #0274af; font-weight: bold; margin-bottom:1em;') 推荐您做：
+    - for(var i = 0; i < recommendation.length; i++)
+        a.text-center(style='font-weight: bold;') #{recommendation[i].problem_title}
 script.
     var cc = 0;
     function check(){
