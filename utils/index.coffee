@@ -616,3 +616,13 @@ exports.findIssues = (user, contestID, include)->
       ]
       include: include
     )
+
+exports.findRecommendations = (user)->
+  User = global.db.models.user
+  global.db.Promise.resolve()
+  .then ->
+    User.find(user.id) if user
+  .then (user)->
+    user.getProblems()
+  .then (problems)->
+

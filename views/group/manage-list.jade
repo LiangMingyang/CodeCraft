@@ -3,29 +3,29 @@
 
 if(group)
     .list-group
-        a(class="list-group-item normal-color", id="group-groupIndexPage", href="./index") 管理小组主页
+        a(class="list-group-item normal-color", id="group-groupIndexPage", href="./index") 管理课程主页
         a(class="list-group-item normal-color", id="group-memberPage", href="./member")
             - if(group.users)
-                | 管理小组成员------#{group.users.length}人
+                | 管理课程成员------#{group.users.length}人
             - else
-                | 管理小组成员
+                | 管理课程成员
         a(class="list-group-item normal-color", id="group-contestPage", href="./contest")
             - if(contestCount)
-                | 管理小组比赛------#{contestCount}场
+                | 管理课程比赛------#{contestCount}场
             - else
-                | 管理小组比赛
+                | 管理课程比赛
         a(class="list-group-item normal-color", id="group-problemPage", href="./problem")
             - if(problemCount)
-                | 管理小组题目------#{problemCount}道
+                | 管理课程题目------#{problemCount}道
             - else
-                | 管理小组题目
+                | 管理课程题目
         a(class="list-group-item normal-color", id="group-returnPage", href="../index", style="margin-top:20px;") 退出管理
     script.
-        if ("#{whichPage}" == "管理小组题目")
+        if ("#{whichPage}" == "管理课程题目")
             $("#group-problemPage").attr("class", "list-group-item change-color");
-        else if ("#{whichPage}" == "管理小组比赛")
+        else if ("#{whichPage}" == "管理课程比赛")
             $("#group-contestPage").attr("class", "list-group-item change-color");
-        else if ("#{whichPage}" == "管理小组成员")
+        else if ("#{whichPage}" == "管理课程成员")
             $("#group-memberPage").attr("class", "list-group-item change-color");
         else
             $("#group-groupIndexPage").attr("class", "list-group-item change-color");

@@ -1,58 +1,115 @@
-extends ./layout
-
-block title
-    - var whichPage = "OJ4TH"
-    title #{whichPage}
-
-block content
-    .containing
-        h1 北航在线编程
-        h3.col-lg-10.col-md-10.col-sm-10.col-xs-12.text-left(style="margin-top:20px;font-family:'Microsoft YaHei', 微软雅黑")
-            - if(user)
-                | HI,#{user.nickname}，第十一届北航程序设计竞赛报名戳上方BCPC
-                br
-                | 有什么BUG可以点击上方的反馈，也可以直接联系开发者
-                br
-                | lmysoar@hotmail.com
-                br
-                | 842675357@qq.com
-                br
-            - else
-                | 第十一届北航程序设计竞赛报名戳上方BCPC
-                br
-                | 如有问题请 发邮件至 lmysoar@hotmail.com
-           // p(style="margin-top:20px;")
-                | 如大家所见，功能已经基本实现但界面不够优秀
-                br
-                | 所以招募美工童鞋一起来开发整个工程
-                br
-                | 有意者可发邮件至
-                br
-                |lmysoar@hotmail.com
-                br
-                |842675357@qq.com
-                br
-
-        //-.col-lg-6
-        //-    h4.text-center 正在进行的比赛......
-        //-
-        //-.col-lg-6
-        //-    h4.text-center(href="/group") 活跃的小组......
-        //-.carousel.slide(data-ride="carousel", id="mycarousel")
-        //-    ol.carousel-indicators
-        //-        li.active(data-target="#mycarousel" data-slide-to="0")
-        //-        li(data-target="#mycarousel" data-slide-to="1")
-        //-        li(data-target="#mycarousel" data-slide-to="2")
-        //-    .carousel-inner(role="listbox").crspic
-        //-        .item.active
-        //-            img.crspic(src="/images/firstslide.jpg", alt="First Slide")
-        //-        .item
-        //-            img.crspic(src="/images/secondslide.jpg", alt="Second Slide")
-        //-        .item
-        //-            img.crspic(src="/images/thirdslide.jpg", alt="Third Slide")
-        //-    a.left.carousel-control(href="#mycarousel" role="button" data-slide="prev")
-        //-        span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
-        //-        span.sr-only Previous
-        //-    a.right.carousel-control(href="#mycarousel" role="button" data-slide="next")
-        //-        span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-        //-        span.sr-only Next
+html(lang='zh-CN')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        meta(name='keywords', content='OJ,Online Judge,ACM,BUAA,beihang,评测,教学')
+        meta(name='author', content='北航程序设计与算法研究实验室')
+        meta(name='generator', content='Ghost 0.5')
+        meta(name='renderer', content='webkit')
+        meta(name='referrer', content='always')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/layout.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+        link(rel='stylesheet', type='text/css', media='all', href='/stylesheets/Glyphicons.min.css')
+        title OJ4TH
+        script(src='/js/jquery-2.1.1.min.js')
+        script(src='/js/bootstrap.min.js')
+        script(src='/js/autosize.min.js')
+    body(style='background-image: url(/img/top-bg.png);')
+        #container.container-fluid
+            .row
+                .col-lg-12.col-md-12.col-sm-12.col-xs-12
+                    .row
+                        nav#navbar.navbar.navbar-default
+                            .container-fluid
+                                .navbar-header
+                                    button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                                        span.sr-only Toggle navigation
+                                        span.icon-bar
+                                        span.icon-bar
+                                        span.icon-bar
+                                    a#logo.navbar-brand(href='/index', data-toggle='popover', data-trigger='focus', data-placement='bottom', data-content='') BUAA ONLINE JUDGE
+                                #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                    ul.nav.navbar-nav.navbar-middle
+                                        li.normalli
+                                            a(href="/index", id="indexpage", class="nav-before") 主页
+                                        li.normalli
+                                            a(href="/group/index", id="grouppage", class="nav-before") 课程
+                                        li.normalli
+                                            a(href="/problem/index", id="problempage", class="nav-before") 题库
+                                        li.normalli
+                                            a(href="/contest/index", id="contestpage", class="nav-before") 比赛
+                                        li.normalli
+                                            a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
+                                        - if(user)
+                                            li.normalli
+                                                a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
+                                            li.normalli
+                                                a(href="/bcpc/index.html", id="feedbackpage", class="nav-before") BCPC
+                                    ul.nav.navbar-nav.navbar-right
+                                        - if(user)
+                                            li.normalli
+                                                a(href="/user/" + user.id + "/index") 欢迎，#{user.nickname}
+                                            li.normalli
+                                                a(href="/user/logout", id="logoutpage", class="nav-before") 登出
+                                        - else
+                                            li.normalli
+                                                a(href="/user/login", id="loginpage", class="nav-before") 登录
+                                            li.normalli
+                                                a(href="/user/register", id="registerpage", class="nav-before") 注册
+                                    - if(whichPage == "注册")
+                                        script $("#registerpage").attr("class", "nav-change");
+                                    - else if(whichPage == "登录")
+                                        script $("#loginpage").attr("class", "nav-change");
+                                    - else if(whichPage == "")
+                                        script $("#logoutpage").attr("class", "nav-change");
+                                    - else if(whichPage == "帮助")
+                                        script $("#helppage").attr("class", "nav-change");
+                                    - else if(whichPage == "所有评测记录"||whichPage == "查看代码")
+                                        script $("#submissionpage").attr("class", "nav-change");
+                                    - else if(whichPage == "系统消息")
+                                        script $("#messegepage").attr("class", "nav-change");
+                                    - else if(whichPage == "个人信息"||whichPage == "修改信息"||whichPage == "修改密码")
+                                        script $("#informationpage").attr("class", "nav-change");
+                                    - else if(whichPage == "赛事列表"||whichPage == "赛事信息"||whichPage == "比赛题目信息"||whichPage == "比赛题目评测记录"||whichPage == "比赛提交记录"||whichPage == "课程比赛"||whichPage == "比赛排名"||whichPage == "出比赛")
+                                        script $("#contestpage").attr("class", "nav-change");
+                                    - else if(whichPage == "题目列表"||whichPage == "题目信息"||whichPage == "评测记录"||whichPage == "查看代码"||whichPage == "课程题目"||whichPage == "出题")
+                                        script $("#problempage").attr("class", "nav-change");
+                                    - else if(whichPage == "申请创建课程"||whichPage == "课程信息"||whichPage == "所有课程"||whichPage == "课程成员"||whichPage == "课程题目"||whichPage == "管理课程"||whichPage == "管理课程成员"||whichPage == "管理课程题目"||whichPage == "管理课程比赛")
+                                        script $("#grouppage").attr("class", "nav-change");
+                                    - else if(whichPage == "反馈")
+                                        script $("#feedbackpage").attr("class", "nav-change");
+                                    - else
+                                        script $("#indexpage").attr("class", "nav-change");
+                        .alert-success
+                            - if (messages.info)
+                                .message.info
+                                    script $("#logo").attr("data-content", "#{messages.info}");
+                                    script $("#logo").popover('show');
+                                    script setTimeout(function () {$("#logo").popover('hide');}, 3000);
+                    .row
+                        #page.row.min-height.page-control
+                            img(style='position:absolute; left: 0px; top: 0px; width: 100%; height:100%; z-index:-1;', src='/img/over-bg3.png')
+                            .containing
+                                h1 北航在线编程
+                                h3.col-lg-10.col-md-10.col-sm-10.col-xs-12.text-left(style="margin-top:20px;font-family:'Microsoft YaHei', 微软雅黑")
+                    script.
+                        $(document).ready(function () {
+                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            $("body").css({"background-image": "url(/img/top-bg.png)"});
+                        });
+                        $(window).resize(function () {
+                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                        });
+                        function logoAlert(information) {
+                            $("#logo").attr("data-content",information);
+                            $("#logo").popover('show');
+                            setTimeout(function () {$("#logo").popover('hide');}, 3000);
+                        }
+                        autosize(document.querySelectorAll('textarea'));
+                    #footer.row
+                        footer.footer
+                            br
+                            p.text-center College of Software, Beihang University
+                .col-lg-1.col-md-12.col-sm-12.col-xs-12

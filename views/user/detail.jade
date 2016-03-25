@@ -24,14 +24,9 @@ block content
         - if (user && user.id === target.id)
             include ./user.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
-        //-- if (user && target && user.id === target.id)
-        //-    h3 个人信息
-        //-- else if(target)
-        //-    h3 #{target.nickname}的信息
         - if(target)
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
-                h3(style="color: blue; font-weight: bold;")
-                    //-|Expert
+                h3(style='color: #0274af; font-weight: bold;')
                     |#{target.nickname}
             //-.row.col-lg-12.col-md-12.col-sm-12.col-xs-12
                 span.glyphicon.glyphicon-triangle-top(aria-hidden="true" style="margin-right: 10px;color: springgreen;" )
@@ -54,12 +49,12 @@ block content
                     |提交数:
                     |-----
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
-                span.glyphicon.glyphicon-menu-right(aria-hidden="true" style="margin-right: 10px;color: lightgreen;")
+                span.glyphicon.glyphicon-map-marker(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                 label.form-control-static
                     |学&nbsp&nbsp&nbsp&nbsp校:
                     |#{target.school}
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
-                span.glyphicon.glyphicon-menu-right(aria-hidden="true" style="margin-right: 10px;color: lightgreen;")
+                span.glyphicon.glyphicon-book(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                 label.form-control-static
                     |专&nbsp&nbsp&nbsp&nbsp业:
                     |#{target.college}
@@ -69,7 +64,7 @@ block content
                     |邮&nbsp&nbsp&nbsp&nbsp箱:
                     |-----
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
-                span.glyphicon.glyphicon-tint(aria-hidden="true" style="margin-right: 10px;color: royalblue;")
+                span.glyphicon.glyphicon-user(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                 label.form-control-static
                     |学&nbsp&nbsp&nbsp&nbsp号:
                     - if(target.student_id)
@@ -77,7 +72,7 @@ block content
                     - else
                         |-----
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12
-                span.glyphicon.glyphicon-user(aria-hidden="true" style="margin-right: 10px;")
+                span.glyphicon.glyphicon-comment(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                 label.form-control-static
                     |简&nbsp&nbsp&nbsp&nbsp介:
             .row.col-lg-12.col-md-12.col-sm-12.col-xs-12

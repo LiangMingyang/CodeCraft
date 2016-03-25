@@ -17,16 +17,14 @@ block title
     title #{whichPage}
     link(rel='stylesheet', href='/stylesheets/problem/detail.css')
 block content
-    //-.col-lg-2
-    //-.col-lg-8
     include ../contest/contest-title.jade
-    .col-lg-2.col-md-2.col-sm-2.col-xs-12.containing
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
         include ../contest/time.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         include problem-list.jade
         if(problem)
-            .markdown-body.containing
+            .markdown-body
                 h1.problem-title #{problem.title}
                 .problem-limit 时间限制: #{problem.test_setting.time_limit} ms 内存限制: #{problem.test_setting.memory_limit} kb
                 .problem-limit 总通过人数: #{problem.acceptedPeopleCount} 总提交人数: #{problem.triedPeopleCount}
@@ -36,7 +34,6 @@ block content
                 p !{problem.description}
 
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
-        .containing
-            include problem.jade
+        include problem.jade
     script(src="/bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
     script(type="text/x-mathjax-config") MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});

@@ -875,6 +875,18 @@
     });
   };
 
+  exports.findRecommendations = function(user) {
+    var User;
+    User = global.db.models.user;
+    return global.db.Promise.resolve().then(function() {
+      if (user) {
+        return User.find(user.id);
+      }
+    }).then(function(user) {
+      return user.getProblems();
+    }).then(function(problems) {});
+  };
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

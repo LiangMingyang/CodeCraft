@@ -1,14 +1,14 @@
 //-
    Created by lmy on 15-5-20.
    group
-      - name 小组名字
-      - description 小组简介
-      - creator 小组创建者,与user的属性相同
+      - name 课程名字
+      - description 课程简介
+      - creator 课程创建者,与user的属性相同
 
 extends ../layout
 
 block title
-    - var whichPage = "小组信息"
+    - var whichPage = "课程信息"
     title #{whichPage}
 
 block content
@@ -16,10 +16,10 @@ block content
         include ./group.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         - if ( user && !isMember )
-            a.button.btn.btn-default(href="join" style="margin-top:20px") 申请加入该小组
+            a.button.btn.btn-default(href="join" style="margin-top:20px") 申请加入该课程
         //-- else
-            a.button.btn.btn-default(href="quit") 退出该小组
+            a.button.btn.btn-default(href="quit") 退出该课程
         if(group)
-            h3 #{group.name}的小组简介
+            h3 #{group.name}的课程简介
             textarea.form-control#fuck_br(readonly="true", rows = "10", style="resize: none;max-height: 300px;width: 100%;") #{group.description}
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
