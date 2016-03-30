@@ -13,6 +13,7 @@ var routes = require('./routes');
 
 var app = express();
 
+app.set('env', 'release');
 // session
 
 app.use(session({
@@ -42,9 +43,13 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('找不到这个页面啊');
     err.status = 404;
-    next(err);
+    res.render('error', {
+        user: req.session.user,
+        message: err.message,
+        error: err
+    });
 });
 
 // error handlers
@@ -52,6 +57,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+    console.log("你在Debug模式下，Debugger在忽悠着你");
     app.use(function (err, req, res) {
         res.status(err.status || 500);
         res.render('error', {
@@ -61,15 +67,15 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+//// production error handler
+//// no stacktraces leaked to user
+//app.use(function (err, req, res) {
+//    res.status(err.status || 500);
+//    res.render('error', {
+//        message: err.message,
+//        error: {}
+//    });
+//});
 
 global.db = require('./database')(
     config.database.name,
