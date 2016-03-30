@@ -38,10 +38,15 @@ block content
                                     span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
                             - else
                                 td
-                        td #{problem.contest_problem_list.order}
                         td
-                            a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
-                        td #{problem.contest_problem_list.score}
+                            - if(problem.contest_problem_list)
+                                #{problem.contest_problem_list.order}
+                        td
+                            - if(problem.contest_problem_list)
+                                a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
+                        td
+                            - if(problem.contest_problem_list)
+                                #{problem.contest_problem_list.score}
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
                         td #{problem.acceptedPeopleCount} / #{problem.submissionCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");

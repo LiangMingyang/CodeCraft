@@ -167,18 +167,19 @@ block content
                         td(id="submission_id"+i) #{submissions[i].id}
                         //- if(!contest)
                         td
-                            a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                            - if(submission[i].creator)
+                                a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         td(id="submission_result"+i)
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
                             img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
                         td(id="submission_score"+i) #{submissions[i].score}
                         td
-                            - if(user && user.id==submissions[i].creator.id)
+                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
                             - else
                                 label #{submissions[i].lang}
                         td
-                            - if(user && user.id==submissions[i].creator.id)
+                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
                             - else
                                 label #{submissions[i].code_length}

@@ -34,7 +34,8 @@ block content
                                 td
                                     a(href= "../../../contest/" + contests[i].id + "/index") #{contests[i].title}
                                 td
-                                    a(href= "../../../user/" + contests[i].creator_id + "/index") #{contests[i].creator.nickname}
+                                    - if(contest[i].creator)
+                                        a(href= "../../../user/" + contests[i].creator_id + "/index") #{contests[i].creator.nickname}
                                 td
                                     input(type="hidden", value=contests[i].access_level, name="access_level", id="access_level_"+i)
                                     button.btn.btn-default.btn-xs(type="button", id="button_1_"+i, onclick="change_type("+ i + ",'private')") 私有

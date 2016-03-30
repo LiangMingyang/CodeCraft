@@ -33,7 +33,8 @@ block content
                                 td
                                     a(href= "../../../problem/" + problems[i].id + "/index") #{problems[i].title}
                                 td
-                                    a(href= "../../../user/" + problems[i].creator.id + "/index") #{problems[i].creator.nickname}
+                                    - if(problems[i].creator)
+                                        a(href= "../../../user/" + problems[i].creator.id + "/index") #{problems[i].creator.nickname}
                                 td
                                     input(type="hidden", value=problems[i].access_level, name="access_level", id="access_level_"+i)
                                     button.btn.btn-default.btn-xs(type="button", id="button_1_"+i, onclick="change_type("+ i + ",'private')") 私有

@@ -63,7 +63,8 @@ block content
                             //a(href= "/contest/" + contest.id + "/index") #{contest.title}
                             a(href= "/contest-ng/index.html#/" + contest.id) #{contest.title}
                         td
-                            a(href= "../group/" + contest.group.id + "/index") #{contest.group.name}
+                            - if(contest.group)
+                                a(href= "../group/" + contest.group.id + "/index") #{contest.group.name}
                         td #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
                         - yy = contest.end_time.getFullYear();
                         - mm = contest.end_time.getMonth() - 0 + 1;

@@ -16,8 +16,9 @@ block content
                 form(method='post')
                     td
                         select(type='input' name='order')
-                            - for (var i = 0 ; i < contest.problems.length ; ++i)
-                                option(value=contest.problems[i].contest_problem_list.order) #{contest.problems[i].contest_problem_list.order}
+                            - if(contest && contest.problems)
+                                - for (var i = 0 ; i < contest.problems.length ; ++i)
+                                    option(value=contest.problems[i].contest_problem_list.order) #{contest.problems[i].contest_problem_list.order}
 
                     td
                         textarea(type='input', style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='content')
@@ -28,12 +29,13 @@ block content
                 td 提问
                 td 提问者
             tr
-
-            - for (var i = 0 ; i < issues.length ; ++i)
-                - var issue = issues[i]
-                tr
-                    td #{issue.problem_id}
-                    td #{issue.content}
-                    td
-                        a(href='/user/'+issue.creator.id) #{issue.creator.nickname}
+            - if(issues)
+                - for (var i = 0 ; i < issues.length ; ++i)
+                    - var issue = issues[i]
+                    tr
+                        td #{issue.problem_id}
+                        td #{issue.content}
+                        td
+                            - if(issue.creator)
+                                a(href='/user/'+issue.creator.id) #{issue.creator.nickname}
     .col-lg-2.col-md-2.col-sm-2.col-xs-12

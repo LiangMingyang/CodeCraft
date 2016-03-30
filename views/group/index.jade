@@ -33,9 +33,10 @@ block content
                         td
                             a(href="/group/" + groups[i].id + "/index")= groups[i].name
                         td
-                            a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
+                            - if(groups[i].creator)
+                                a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
                         td
-                            if(groups[i].member_count)
+                            - if(groups[i].member_count)
                                 a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
         //-p.text-right
