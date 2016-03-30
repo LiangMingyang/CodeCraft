@@ -172,18 +172,6 @@
         }
       ]);
     }).then(function(submissions) {
-      var sub;
-      submissions = (function() {
-        var i, len, results;
-        results = [];
-        for (i = 0, len = submissions.length; i < len; i++) {
-          sub = submissions[i];
-          results.push(sub.get({
-            plain: true
-          }));
-        }
-        return results;
-      })();
       currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
       return res.render('problem/submission', {
         submissions: submissions,

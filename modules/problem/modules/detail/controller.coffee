@@ -128,7 +128,6 @@ exports.getSubmissions = (req, res) ->
       as : 'creator'
     ])
   .then (submissions) ->
-    submissions = (sub.get(plain:true) for sub in submissions)
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
     res.render('problem/submission', {
       submissions: submissions
