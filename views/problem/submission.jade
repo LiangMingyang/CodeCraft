@@ -16,7 +16,6 @@ block script
     script(src="/js/time.js")
 
 block content
-    - console.log(query);
     - var oddeventable = "odd"
     - var coloroftable = "red"
     - var yy;
@@ -167,7 +166,7 @@ block content
                         td(id="submission_id"+i) #{submissions[i].id}
                         //- if(!contest)
                         td
-                            - if(submission[i].creator)
+                            - if(submissions[i].creator)
                                 a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         td(id="submission_result"+i)
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
@@ -188,7 +187,6 @@ block content
                         td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
                             label(id="standard-format-"+i, class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
                             label(id="time-difference-"+i, class="time-difference") #{tc}
-                        //td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
                         - if(i % 2 == 1)
                             - oddeventable = "odd"
                         - else
