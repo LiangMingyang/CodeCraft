@@ -1,0 +1,12 @@
+<div>
+    <uib-carousel interval="5000" no-wrap="false">
+        <uib-slide ng-repeat="slide in slides" active = "slide.active">
+            <a href="{{slide.url}}">
+                <img ng-src="{{slide.image}}" alt="{{slide.text}}" style="margin:auto;width:300px">
+            </a>
+        </uib-slide>
+    </uib-carousel>
+    <div ng-repeat="slide in slides" ng-if="slide.active" style="margin:4px 0px 0px 0px;" class="text-center">
+        <a href="{{slide.url}}"><strong>{{slide.text}}</strong></a>
+    </div>
+</div>

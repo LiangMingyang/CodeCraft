@@ -3,7 +3,7 @@
 
 extends ../layout
 block title
-    - var whichPage = "管理小组成员"
+    - var whichPage = "管理课程成员"
     title #{whichPage}
 
 block content
@@ -13,9 +13,9 @@ block content
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         if(group)
             form(method='post')
-                h3 #{group.name}的小组成员
+                h3 #{group.name}的课程成员
                 .list-group
-                    button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.change-color.text-center(type="button", id="button-top-1", onclick="change_nav(1)") 小组所有成员
+                    button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.change-color.text-center(type="button", id="button-top-1", onclick="change_nav(1)") 课程所有成员
                     button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.normal-color.text-center(type="button", id="button-top-2", onclick="change_nav(2)") 申请中的用户
                     //-button.col-lg-4.col-md-4.col-sm-4.col-xs-4.list-group-item.normal-color.text-center(type="button", id="button-top-3", onclick="change_nav(3)") 邀请用户
                 table.table.table-condensed.table-center(id="table-1", style="margin-top:70px;border:1px solid #DDDDDD;display:table;")
@@ -48,7 +48,7 @@ block content
                                 td
                                     input(type="hidden", value=members[i].membership.access_level, name="access_level", id="access_level_"+i)
                                     - if(members[i].membership.access_level == 'owner')
-                                        button.btn.btn-primary.btn-xs(type="button") 小组所有者
+                                        button.btn.btn-primary.btn-xs(type="button") 课程所有者
                                     - else
                                         button.btn.btn-default.btn-xs(type="button", id="button_1_"+i, onclick="change_type("+ i + ",'admin')") 管理员
                                         button.btn.btn-default.btn-xs(type="button", id="button_2_"+i, onclick="change_type("+ i + ",'member')") 普通用户
@@ -82,7 +82,7 @@ block content
                                 td
                                     input(type="hidden", value=members[i].membership.access_level, name="access_level", id="access_level_"+i)
                                     - if(members[i].membership.access_level == 'owner')
-                                        button.btn.btn-primary.btn-xs(type="button") 小组所有者
+                                        button.btn.btn-primary.btn-xs(type="button") 课程所有者
                                     - else
                                         button.btn.btn-default.btn-xs(type="button", id="button_4_"+i, onclick="change_type("+ i + ",'member')") 通过
                                         button.btn.btn-default.btn-xs(type="button", id="button_5_"+i, onclick="change_type("+ i + ",'delete')") 不通过

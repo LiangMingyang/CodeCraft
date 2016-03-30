@@ -3,7 +3,7 @@
 
 extends ../layout
 block title
-    - var whichPage = "管理小组"
+    - var whichPage = "管理课程"
     title #{whichPage}
 
 block content
@@ -11,13 +11,13 @@ block content
         include manage-list
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         - if(group)
-            h3 #{group.name}的小组简介
+            h3 #{group.name}的课程简介
         - else
-            h3 小组简介
+            h3 课程简介
         form(method='post')
             - if(!group.description)
-                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='description', id="description", value="", placeholder="请输入小组简介")
+                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='description', id="description", value="", placeholder="请输入课程简介")
             - else
-                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='description', id="description", value="", placeholder="请输入小组简介") #{group.description}
+                textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", name='description', id="description", value="", placeholder="请输入课程简介") #{group.description}
             button.btn.btn-success(type="submit") 保存
     .col-lg-2.col-md-2.col-sm-2.col-xs-12

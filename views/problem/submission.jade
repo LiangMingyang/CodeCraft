@@ -36,7 +36,7 @@ block content
     //以上为时间差计算变量
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
     include ../contest/contest-title.jade
-    .col-lg-2.col-md-2.col-sm-2.col-xs-12.containing
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include contest.jade
         include ../contest/time.jade
     form.col-lg-8.col-md-8.col-sm-8.col-xs-12(style="padding-top:15px", method='post', id="form_of_submission")
@@ -167,18 +167,19 @@ block content
                         td(id="submission_id"+i) #{submissions[i].id}
                         //- if(!contest)
                         td
-                            a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                            - if(submission[i].creator)
+                                a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         td(id="submission_result"+i)
                             label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
                             img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
                         td(id="submission_score"+i) #{submissions[i].score}
                         td
-                            - if(user && user.id==submissions[i].creator.id)
+                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
                             - else
                                 label #{submissions[i].lang}
                         td
-                            - if(user && user.id==submissions[i].creator.id)
+                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
                             - else
                                 label #{submissions[i].code_length}
@@ -225,7 +226,7 @@ block content
         .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
             //分页
             //a.button.btn.btn-default(href="./submission") 首页
-            .buttion.btn.btn-default(onclick='change_page("./submission")') 首页
+            a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission")') 首页
             - if(!pageLimit)
                 - pageLimit = 15;
             - if(!offset)
@@ -239,10 +240,10 @@ block content
                 - page_of_this_page++;
             - if(offset>0)
                 //-a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-                .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + prevOffset + '")') 上一页
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + prevOffset + '")') 上一页
             -else
                 //-a.button.btn.btn-default(href="./submission?offset=" + prevOffset, disabled="disabled") 上一页
-                .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + prevOffset + '")', disabled="disabled") 上一页
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + prevOffset + '")', disabled="disabled") 上一页
             //- if(page_of_this_page>4)
                 |......
             //- if(page_of_this_page>5)
@@ -286,10 +287,10 @@ block content
                 |......
             - if(submissions.length == pageLimit)
                 //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
-                .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + nextOffset + '")') 下一页
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + nextOffset + '")') 下一页
             -else
                 //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
-                .buttion.btn.btn-default(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include problem.jade
     script.

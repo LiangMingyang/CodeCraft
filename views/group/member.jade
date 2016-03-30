@@ -4,7 +4,7 @@
 extends ../layout
 
 block title
-    - var whichPage = "小组成员"
+    - var whichPage = "课程成员"
     title #{whichPage}
 
 block content
@@ -12,9 +12,10 @@ block content
         include ./group.jade
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         if(group)
-            h3 #{group.name}的小组成员
+            h3 #{group.name}的课程成员
             - var oddEvenTable = "odd"
-            table.table.table-condensed.table-center.containing(style="border:1px solid #DDDDDD;")
+            - var access_level_array = {owner: '课程所属者', admin: '管理员', member: '课程成员'}
+            table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
                 tr.group-title-tr
                     td 昵称
                     td 身份
@@ -27,9 +28,9 @@ block content
                     tr(id="tr" + i)
                         td
                             a(href= "/user/" + member.id + "/index") #{member.nickname}
-                        td #{member.membership.access_level}
+                        td #{access_level_array[member.membership.access_level]}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
-            .row
+            //-.row
                 .col-lg-12.col-md-12.col-sm-12.col-xs-12
                     - if(!pageLimit)
                         - pageLimit = 100;
@@ -40,8 +41,8 @@ block content
                         - prevOffset = 0;
                     - var nextOffset = offset - 0 + pageLimit;
                     - if(offset>0)
-                        a.button.btn.btn-default(href="./member?offset=" + prevOffset) 上一页
-                    a.button.btn.btn-default(href="./member") 首页
+                        a.button.btn.btn-default.loginbtn.btnstyle(href="./member?offset=" + prevOffset) 上一页
+                    a.button.btn.btn-default.loginbtn.btnstyle(href="./member") 首页
                     - if(group.users.length == pageLimit)
-                        a.button.btn.btn-default(href="./member?offset=" + nextOffset) 下一页
+                        a.button.btn.btn-default.loginbtn.btnstyle(href="./member?offset=" + nextOffset) 下一页
     .col-lg-2.col-md-2.col-sm-2.col-xs-12

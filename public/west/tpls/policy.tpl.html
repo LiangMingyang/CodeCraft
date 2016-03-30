@@ -1,0 +1,32 @@
+
+<table width="100%" style="border:#FCC8BC 1px solid;margin:5px;">
+    <tr>
+        <td>
+            <div class="zuocebiao"><span><a href="#/policy">政策文件</a></span></div>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="full">
+            <table id="ArticleList3_DataList1" cellspacing="0" border="0" style="border-collapse:collapse;">
+                <tbody>
+                <tr ng-repeat="policy in policy_list">
+                    <td>
+                        <div class="ListInfo">
+                            <table>
+                                <tbody><tr>
+                                    <td>
+                                        <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
+                                        <a href="#/policy/{{$index}}" title="{{policy.title}}">{{policy.title}}</a>
+                                    </td>
+                                    <td style="text-align:right" class="">{{policy.created_at | date:"yyyy-MM-dd"}}</td>
+                                </tr>
+                                </tbody></table>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>

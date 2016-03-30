@@ -12,7 +12,7 @@ block content
     .col-lg-8.col-md-8.col-sm-8.col-xs-12
         h3 所有题目
         - var oddEvenTable = "odd"
-        table.table.table-condensed.table-center.containing(style="border:1px solid #DDDDDD;")
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
             tr.text-center.problem-title-tr
                 if(user)
                     td 状态
@@ -38,10 +38,15 @@ block content
                                     span.glyphicon.glyphicon-warning-sign(aria-hidden="true")
                             - else
                                 td
-                        td #{problem.contest_problem_list.order}
                         td
-                            a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
-                        td #{problem.contest_problem_list.score}
+                            - if(problem.contest_problem_list)
+                                #{problem.contest_problem_list.order}
+                        td
+                            - if(problem.contest_problem_list)
+                                a(href= "./problem/" + problem.contest_problem_list.order + "/index") #{problem.title}
+                        td
+                            - if(problem.contest_problem_list)
+                                #{problem.contest_problem_list.score}
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
                         td #{problem.acceptedPeopleCount} / #{problem.submissionCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");

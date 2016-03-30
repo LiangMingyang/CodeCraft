@@ -31,7 +31,7 @@ block content
         h3 所有评测记录
     form.col-lg-12.col-md-12.col-sm-12.col-xs-12(method='post', id="form")
         //-表格本体
-        table.table.table-condensed.table-center.submission-table(style="border:1px solid #DDDDDD;")
+        table.table.table-condensed.table-center.submission-table(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
             tr.submission-title-tr
                 td 序号
                 - if(!contest)
@@ -153,7 +153,8 @@ block content
                         td(id="submission_id"+i) #{submissions[i].id}
                         - if(!contest)
                             td
-                                a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                                - if(submissions[i].creator)
+                                    a(href='../../user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
                         - if(submissions[i].problem_id)
                             td
                                 a(href='../../problem/' + submissions[i].problem_id + '/index') #{submissions[i].problem_id}
@@ -162,12 +163,12 @@ block content
                             img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
                         td(id="submission_score"+i) #{submissions[i].score}
                         td
-                            - if(user && user.id==submissions[i].creator.id)
+                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
                             - else
                                 label #{submissions[i].lang}
                         td
-                            - if(user && user.id==submissions[i].creator.id)
+                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
                             - else
                                 label #{submissions[i].code_length}
@@ -200,7 +201,7 @@ block content
     .col-lg-12.col-md-12.col-sm-12.text-left
         //-分页
         //-a.button.btn.btn-default(href="../submission/index") 首页
-        .buttion.btn.btn-default(onclick='change_page("../submission/index")') 首页
+        .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index")') 首页
         - if(!pageLimit)
             - pageLimit = 15;
         - if(!offset)
@@ -214,10 +215,10 @@ block content
             - page_of_this_page++;
         - if(offset>0)
             //-a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset) 上一页
-            .buttion.btn.btn-default(onclick='change_page("../submission/index?offset=' + prevOffset + '")') 上一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + prevOffset + '")') 上一页
         -else
             //-a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset, disabled="disabled") 上一页
-            .buttion.btn.btn-default(onclick='change_page("../submission/index?offset=' + prevOffset + '")', disabled="disabled") 上一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + prevOffset + '")', disabled="disabled") 上一页
         //- if(page_of_this_page>4)
             |......
         //- if(page_of_this_page>5)
@@ -261,9 +262,9 @@ block content
             |......
         - if(submissions.length == pageLimit)
             //-a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset) 下一页
-            .buttion.btn.btn-default(onclick='change_page("../submission/index?offset=' + nextOffset + '")') 下一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + nextOffset + '")') 下一页
         -else
-            .buttion.btn.btn-default(onclick='change_page("../submission/index?offset=' + nextOffset + '")', disabled="disabled") 下一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + nextOffset + '")', disabled="disabled") 下一页
     script.
         function change_time_into_standard_format(){
             $(".standard-format").css("display", "block");

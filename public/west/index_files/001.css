@@ -1,0 +1,129 @@
+
+*{ list-style-type:none; }
+
+body {
+	margin: 0px;
+	background-image:url(http://www.cwdpa.org.cn/images/body.jpg);
+
+}
+td {
+    font-size:12px;
+    color:#000000;
+}
+
+.layout {
+    padding: 5px;
+}
+#table01 td{
+height:25px;
+background-image:url(http://www.cwdpa.org.cn/images/lmbj01.jpg);
+padding-left:5px;
+}
+#table02 td{
+height:23px;
+background-image:url(http://www.cwdpa.org.cn/images/line_main.gif);
+padding-left:5px;
+}
+a:link  { color: #000000; text-decoration: none} 
+a:visited { color: #000000; text-decoration: none} 
+a:hover { color: #ff0000; text-decoration: none} 
+a:active { color: #ff0000; text-decoration: none}
+
+a.one:link  { color: #000;font-size:12px; text-decoration: none} 
+a.one:visited { color: #000;font-size:12px; text-decoration: none} 
+a.one:hover { color: #F00;font-size:12px; text-decoration: none} 
+a.one:active { color: #F00;font-size:12px; text-decoration: none}
+
+a.two:link  { color: #FFFFFF;font-size:14px; font-weight:bold;text-decoration: none} 
+a.two:visited { color: #FFFFFF;font-size:14px; font-weight:bold;text-decoration: none} 
+a.two:hover { color: #FCFF00;font-size:14px; font-weight:bold;text-decoration: none} 
+a.two:active { color: #FCFF00;font-size:14px; font-weight:bold;text-decoration: none}
+
+a.three:link  { color: #DC0C00;text-decoration: none} 
+a.three:visited { color: #DC0C00;text-decoration: none} 
+a.three:hover { color: #DC0C00; text-decoration:underline;} 
+a.three:active { color: #DC0C00; text-decoration:underline;}
+
+.dropdown {
+	display: none;
+	background-color:white;
+	border:1px solid #ACA899;
+	line-height:22px;
+	list-style:none outside none;
+	margin:8px 0 0 -4px;
+	padding:2px;
+	position:absolute;
+	width:100px;
+}
+
+.dropdown a {
+	display: block;
+	text-align: left;
+	padding-left:15px;
+}
+
+* html .dropdown li, * html .dropdown li a {
+	zoom: 1;
+}
+
+.dropdown a:hover {
+	background-color: #D13636;
+	color: white;
+}
+
+.ListInfo
+{
+	width:100%;
+	padding:0px;
+	border-bottom:1px dotted #ccc;
+	height:22px;
+
+}
+
+
+.lxwm{ padding-left:5px; line-height:24px;}
+
+
+
+
+#TBV{ margin-top:5px;}
+
+
+
+.full table{ width:100%}
+
+.category a:link  { color: #ff0000; text-decoration: none} 
+.category a:visited { color: #ff0000; text-decoration: none} 
+.category a:hover { color: #ff0000; text-decoration: none} 
+.category a:active { color: #ff0000; text-decoration: none}
+
+img{ border:0}
+.hidden{ display:none}
+-->
+
+
+/*�˵�*/
+.menu{width:1000px;margin:0 auto 0px auto;font-size:12px; }
+.menu  ul{  background:url(http://www.chinawestern.org/images/menubj_07.jpg) repeat-x  center;height:35px;line-height:25px;overflow:hidden;padding:0px; margin:0px;padding-top:5px; padding-bottom:5px; padding-left:5px;}
+.menu li{float:left;width:160px;text-align:center; font-size:14px; font-weight:bold; padding:0px; margin:0px; }
+
+
+
+.xxk{}
+.xxk ul{ margin:0px; padding:0px;margin-left:10px;}
+
+.xxk ul li{ float:left; width:80px; text-align:center; cursor:pointer; height:26px; line-height:26px;margin:0px; padding:0px; font-size:14px; font-weight:bold }
+.hover{ background: url(http://www.cwdpa.org.cn/images/xxk.jpg) no-repeat left; width:80px; height:26px; line-height:26px; color:#FFF}
+
+.hover a{ color:#FFF}
+
+.zuocebiao{ background:url(./thead.jpg) no-repeat left; height:26px; line-height:26px;}
+
+.zuocebiao span{ width:80px; text-align:center; cursor:pointer; height:26px; line-height:26px;margin:0px; padding:0px; font-size:14px; font-weight:bold; display:block;margin-left:10px; color:#FFF }
+
+.zuocebiao span a{  color:#FFF }
+
+
+.yqlj{ width:1000px; margin:0 auto; background-color:#FFF;}
+.yqlj ul{ margin:0px; padding:0px; padding-left:2px;}
+.yqlj ul li{ float:left; width:142px; margin:0px; padding:0px; text-align:center}

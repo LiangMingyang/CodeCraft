@@ -28,25 +28,46 @@ a.navbar-brand{
 
 /*大部分页面右边内容的上间距*/
 .containing{
-    margin-top: 30px;
+    margin-top: 50px;
+    margin-left: 15%;
+    color: white;
+    /*font-family: 'Microsoft YaHei' !important;*/
 }
 
+.containing-x{
+    margin-top: 50px;
+    color: white;
+    /*font-family: 'Microsoft YaHei' !important;*/
+}
+
+.containing-y{
+    color: white;
+    /*font-family: 'Microsoft YaHei' !important;*/
+}
 /*导航栏在当前页面时对应的背景色变化*/
 .nav-before{
     background-color: transparent;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
 }
 
 .nav-change{
-    /*此处为沛沛所加，目的为啦提示现在访问的地址*/
+    /*目的为了提示当下访问的地址-页面*/
     /*font-size: 20px;*/
-    background-color: #E2E2E2;
+
+    background-color: #0274af;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
 }
+
 
 /*导航栏的a,然而还并没有改好*/
 li a{
     /*text-decoration:none;*/
 }
-/*此处为沛沛所加，目的为啦提示现在访问的地址*/
+/*为提示现在访问的地址*/
 
 .list-group-item.normal-color{
     background-color: #ffffff;
@@ -69,8 +90,8 @@ label{
 /*将导航栏当前页面的选中栏背景色固定了*/
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-    color: #333;
-    background-color: #e5e5e5;
+    color: #62caf6;
+    background-color: #0274af;
 }
 
 td.green-td{
@@ -82,7 +103,31 @@ td.yellow-td{
 }
 
 .loginbtn{
+    margin-top: 15px;
     margin-right: 20px;
+}
+
+.btnstyle {
+    display: inline-block;
+    color: #fff;
+    width: 100px;
+    text-shadow: none;
+    font-size: 1em;
+    padding: 1em 0.5em;
+    letter-spacing: 0.05em;
+    border: 0;
+    text-transform: none;
+    background: #d96354 !important;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn {
+    margin-bottom: 6em;
 }
 
 .submitcode{
@@ -95,26 +140,6 @@ td.yellow-td{
     height: 600px;
 }
 
-/*body{*/
-    /*height: 100%;*/
-    /*border: 1px solid red;*/
-    /*padding-bottom: 50px;*/
-/*}*/
-
-
-/*怡年教*/
-/*.footer {*/
-    /*clear: both;*/
-    /*position: relative;*/
-    /*/!*z-index: 10;*!/*/
-    /*margin-top: 1rem;*/
-    /*bottom: 0;*/
-    /*width: 100%;*/
-    /*color: #A0A0A0;*/
-    /*/!*border-top: 1px solid #e1e1e1;*!/*/
-    /*border: 1px solid green;*/
-    /*height: 6rem;*/
-/*}*/
 
 body{
     margin: 0;
@@ -130,10 +155,12 @@ body{
 
 #page{
     margin: 0 auto;
-    padding-bottom: 60px;
+    /*padding-bottom: 60px;*/
 }
 
 .footer{
+    background-color: #184e6d;
+    color: white;
     position: relative;
     bottom: 0;
     height: 60px;
@@ -153,10 +180,6 @@ body{
     width: 83.33333333333%;
 }
 
-/*
-    下面这个文件为沛沛所创建，一切锅由沛沛来背！-OwO-
-    原submission.css
-*/
 tr.oddgreentr{
     background-color: #ddffdd;
 }
@@ -280,26 +303,26 @@ label.whitetd{
     margin-top: 20px;
 }
 
-
-/*
-    2015/8/14 之后沛沛修改的css
-*/
-
 .submission-title-tr {
-    background-color: #ECEDFB;
+    background-color: #184e6d;
+    color: white;
 }
 
 .problem-title-tr {
-    background-color: #ECEDFB;
+    background-color: #184e6d;
+    color: white;
 }
 
 .contest-title-tr {
-    background-color: #ECEDFB;
+    background-color: #184e6d;
+    color: white;
 }
 
 .group-title-tr {
-    background-color: #ECEDFB;
+    background-color: #184e6d;
+    color: white;
 }
+
 
 body {
     background-attachment:fixed;
@@ -339,3 +362,20 @@ td {
     /*-o-transition:all .25s ease-out;*/
     /*transition:all .25s ease-out;*/
 }
+
+.page-control {
+    position: relative;;
+    width: 100%;
+    height: 100%;
+}
+
+/*
+.img-page {
+    background-image: url(img/over-bg3.png) no-repeat 0 0;
+    position: absolute;
+    margin-top: 0px;
+    margin-left: 0px;
+    width: 100%;
+    height: 100%; 
+}
+*/

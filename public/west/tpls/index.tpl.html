@@ -1,0 +1,96 @@
+<table>
+    <tr>
+        <td class="layout" width="320"><img src="index_files/dt.jpg"></td>
+        <td class="layout" width="460" valign="top">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border:#FCC8BC 1px solid">
+                <tbody><tr>
+                    <td>
+                        <div class="zuocebiao"><span><a href="#/about">协会简介</a></span></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td height="180" valign="top" class="full" style="padding:5px;">
+                        <div ng-bind-html="about | richtext"></div>
+                    </td>
+                </tr>
+                </tbody></table>
+
+
+            <form action="#" method="post" name="searchform" id="searchform" style="padding:0; margin:0;">
+
+
+                <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="margin-top:5px;">
+                    <tbody><tr>
+                        <td style="color:#000000;" align="right"><label for="keyboard">站内搜索:</label></td>
+
+                        <td align="center">
+                            <input type="hidden" name="show" value="title">
+                            <input type="hidden" name="tempid" value="1">
+                            <input type="hidden" name="tbname" value="news">
+                            <span id="RequiredFieldValidator1" style="color:Red;visibility:hidden;">*</span>
+                            <input name="keyboard" type="text" id="keyboard" size="38"></td>
+                        <td align="left"><input src="./index_files/but_search.gif" name="search" type="image" id="search" value="搜索" style="border-top: none;	border-right: none #C0C0C0;	border-bottom: none;border-left: none;">
+                        </td>
+
+
+                    </tr>
+                    </tbody></table></form>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class="layout" width="770" valign="top">
+            <table width="100%" border="0" cellpadding="0" cellspacing="1" style="border:#FCC8BC 1px solid;">
+                <tbody>
+                <tr>
+                    <td height="26" style="background:url('index_files/thead.jpg') no-repeat left;">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tbody><tr>
+                                <td width="14%" style="font-size:14px;font-weight:bold;color:#FFFFFF;" align="center">新闻资讯</td>
+                                <td width="78%"></td>
+                                <td width="8%"><a href="#/news">更多&gt;&gt;</a></td>
+                            </tr>
+                            </tbody></table>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px; padding-top:10px; padding-bottom:10px;" class="full">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" style=" background-color:#F1E2AB">
+                            <tbody>
+                            <tr>
+                                <!--<td width="310"><img src="./index_files/dt.jpg" width="307" height="248"></td>-->
+                                <td class="layout" width="310" ng-include="'carousel.tpl.html'"></td>
+                                <td align="left" style="padding:5px;">
+                                    <table id="ArticleList3_DataList1" cellspacing="0" border="0" style="border-collapse:collapse;">
+                                        <tbody>
+                                        <tr ng-repeat="news in news_list">
+                                            <td>
+                                                <div class="ListInfo">
+                                                    <table>
+                                                        <tbody><tr>
+                                                            <td>
+                                                                <span class="">·</span><span class="hidden"><img src="./index_files/tubiao01.gif"></span>
+                                                                <a href="#/news/{{$index}}" title="{{news.title}}">{{news.title}}</a>
+                                                            </td>
+                                                            <td style="text-align:right" class="">{{news.created_at | date:"yyyy-MM-dd"}}</td>
+                                                        </tr>
+                                                        </tbody></table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>

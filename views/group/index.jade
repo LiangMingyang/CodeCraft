@@ -1,29 +1,29 @@
 //-
    Created by lmy on 15-5-20.
-   groups 小组的列表
-      - groups[i] 每一个单独的小组即group
-         - group 小组实体
-            - name 小组的名字
-            - id   小组的ID
-            - description 小组的简介
+   groups 课程的列表
+      - groups[i] 每一个单独的课程即group
+         - group 课程实体
+            - name 课程的名字
+            - id   课程的ID
+            - description 课程的简介
 extends ../layout
 
 block title
-    - var whichPage = "所有小组"
+    - var whichPage = "所有课程"
     title #{whichPage}
 
 block content
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
-        h3 所有小组
+        h3 所有课程
         if(groups)
-            table.table.table-condensed.containing.table-center(style="border:1px solid #DDDDDD;margin-top:0;background:#")
+            table.table.table-condensed.containing-x.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;margin-top:0;background:#")
                 tr.group-title-tr
                     td
-                        label 小组名称
+                        label 课程名称
                     td
                         label 创建者昵称
                     td
-                        label 小组人数
+                        label 课程人数
                 - for(var i = 0 ; i < groups.length ; ++i)
                     - if(i % 2 == 1)
                         - oddEvenTable = "odd"
@@ -33,14 +33,15 @@ block content
                         td
                             a(href="/group/" + groups[i].id + "/index")= groups[i].name
                         td
-                            a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
+                            - if(groups[i].creator)
+                                a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
                         td
-                            if(groups[i].member_count)
+                            - if(groups[i].member_count)
                                 a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
         //-p.text-right
-            |如果您希望创建属于自己的小组请阅读
-            a(href="#") 小组规范
+            |如果您希望创建属于自己的课程请阅读
+            a(href="#") 课程规范
         //-.col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
             a.btn-default.btn-lg(href="/group/create")
-                label 申请创建小组
+                label 申请创建课程

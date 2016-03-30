@@ -19,164 +19,264 @@
     testContest = void 0;
     testProblem = void 0;
     return db.Promise.resolve().then(function() {
-      return User.create({
-        username: "test@test.com",
-        password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
-        nickname: 'test'
-      });
-    }).then(function(user) {
-      var i, j;
-      testUser = user;
-      for (i = j = 0; j <= 100; i = ++j) {
-        Group.create({
-          name: "test_group_private" + i,
-          description: 'This group is created for testing private.',
-          access_level: 'private'
-        }).then(function(group) {
-          return group.setCreator(testUser);
-        }).then(function(group) {
-          return group.addUser(testUser, {
-            access_level: 'owner'
-          });
-        });
-      }
-      Group.create({
-        name: 'test_group_verifying',
-        description: 'This group is created for testing verifying.',
-        access_level: 'verifying'
-      }).then(function(group) {
-        return group.setCreator(testUser);
-      }).then(function(group) {
-        return group.addUser(testUser, {
-          access_level: 'owner'
-        });
-      });
-      return Group.create({
-        name: 'test_group',
-        description: 'This group is created for testing.',
-        access_level: 'protect'
-      }).then(function(group) {
-        testGroup = group;
-        return group.setCreator(testUser);
-      }).then(function(group) {
-        return group.addUser(testUser, {
-          access_level: 'owner'
-        });
-      });
-    }).then(function() {
-      var i, j;
-      for (i = j = 0; j <= 100; i = ++j) {
-        User.create({
-          username: "test" + i + "@test.com",
-          password: 'sha1$32f5d6c9$1$c84e8c6ed82e32549513da9444d940599ad30b96',
-          nickname: "test" + i
-        }).then(function(user) {
-          return testGroup.addUser(user, {
-            access_level: 'member'
-          });
-        });
-      }
-      return Problem.create({
-        title: 'test_problem_public',
-        access_level: 'public'
-      }).then(function(problem) {
-        testProblem = problem;
-        testUser.addProblem(problem);
-        return testGroup.addProblem(problem);
-      });
-    }).then(function() {
-      return Problem.create({
-        title: 'test_problem',
-        access_level: 'private'
-      }).then(function(problem) {
-        testUser.addProblem(problem);
-        return testGroup.addProblem(problem);
-      });
-    }).then(function() {
-      var i, j, results;
-      results = [];
-      for (i = j = 0; j <= 100; i = ++j) {
-        results.push(Problem.create({
-          title: "test_problem_protect" + i,
-          access_level: 'protect'
-        }).then(function(problem) {
-          testUser.addProblem(problem);
-          return testGroup.addProblem(problem);
+      var P, i, len, user, users;
+      users = [
+        {
+          school: "北京理工大学-计算机学院",
+          nickname: "迟泽闻",
+          username: "friend_1",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-1"
+        }, {
+          school: "北京理工大学-软件学院",
+          nickname: "姜天洋",
+          username: "friend_3",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-3"
+        }, {
+          school: "北京邮电大学",
+          nickname: "李世昊",
+          username: "friend_5",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-5"
+        }, {
+          school: "北京林业大学",
+          nickname: "于浩源",
+          username: "friend_7",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-7"
+        }, {
+          school: "北京理工大学-软件学院",
+          nickname: "蔡晓帆",
+          username: "friend_9",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-9"
+        }, {
+          school: "北京理工大学-软件学院",
+          nickname: "黄少勤",
+          username: "friend_11",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-11"
+        }, {
+          school: "北京邮电大学",
+          nickname: "杨炫越",
+          username: "friend_13",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-13"
+        }, {
+          school: "中国地质大学",
+          nickname: "曲文天",
+          username: "friend_15",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-15"
+        }, {
+          school: "中国地质大学",
+          nickname: "朱质宁",
+          username: "friend_17",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-17"
+        }, {
+          school: "北京理工大学-计算机学院",
+          nickname: "黄轩成",
+          username: "friend_19",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-19"
+        }, {
+          school: "中国地质大学",
+          nickname: "邹卓君",
+          username: "friend_21",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-21"
+        }, {
+          school: "中国地质大学",
+          nickname: "高翔",
+          username: "friend_23",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-23"
+        }, {
+          school: "中国地质大学",
+          nickname: "申则宇",
+          username: "friend_25",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-25"
+        }, {
+          school: "北京理工大学-计算机学院",
+          nickname: "张大猷",
+          username: "friend_27",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-27"
+        }, {
+          school: "北京科技大学",
+          nickname: "陈笑天",
+          username: "friend_29",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-29"
+        }, {
+          school: "北京林业大学",
+          nickname: "易彰彪",
+          username: "friend_31",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-31"
+        }, {
+          school: "中国地质大学",
+          nickname: "赵嘉诚",
+          username: "friend_33",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-33"
+        }, {
+          school: "中国地质大学",
+          nickname: "张文慧",
+          username: "friend_35",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-35"
+        }, {
+          school: "北京理工大学-软件学院",
+          nickname: "罗艺康",
+          username: "friend_37",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-37"
+        }, {
+          school: "中国地质大学",
+          nickname: "焦帅玉",
+          username: "friend_39",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-39"
+        }, {
+          school: "北京师范大学",
+          nickname: "孙文琦",
+          username: "friend_41",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-41"
+        }, {
+          school: "北京邮电大学",
+          nickname: "杨清平",
+          username: "friend_43",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-43"
+        }, {
+          school: "北京邮电大学",
+          nickname: "刘润涛",
+          username: "friend_45",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-45"
+        }, {
+          school: "北京交通大学",
+          nickname: "张彦潇",
+          username: "friend_47",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-47"
+        }, {
+          school: "中国地质大学",
+          nickname: "门一凡",
+          username: "friend_49",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-49"
+        }, {
+          school: "北京林业大学",
+          nickname: "熊瑞麒",
+          username: "friend_51",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-51"
+        }, {
+          school: "北京邮电大学",
+          nickname: "任琪宇",
+          username: "friend_53",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-53"
+        }, {
+          school: "北京师范大学",
+          nickname: "曾耀辉",
+          username: "friend_55",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-55"
+        }, {
+          school: "北京邮电大学",
+          nickname: "张晓宇",
+          username: "friend_57",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-57"
+        }, {
+          school: "北京林业大学",
+          nickname: "贾梓健",
+          username: "friend_59",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-59"
+        }, {
+          school: "北京邮电大学",
+          nickname: "郝绍明",
+          username: "friend_61",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-61"
+        }, {
+          school: "北京林业大学",
+          nickname: "胡轶群",
+          username: "friend_63",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-63"
+        }, {
+          school: "北京林业大学",
+          nickname: "刘超懿",
+          username: "friend_65",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-65"
+        }, {
+          school: "北京理工大学-软件学院",
+          nickname: "颜苏卿",
+          username: "friend_67",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-67"
+        }, {
+          school: "北京理工大学-软件学院",
+          nickname: "段然杰",
+          username: "friend_69",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-69"
+        }, {
+          school: "北京理工大学-计算机学院",
+          nickname: "张世强",
+          username: "friend_71",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-71"
+        }, {
+          school: "北京邮电大学",
+          nickname: "崔颢",
+          username: "friend_73",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-73"
+        }, {
+          school: "北京邮电大学",
+          nickname: "李松远",
+          username: "friend_75",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-75"
+        }, {
+          school: "北京师范大学",
+          nickname: "卜凡",
+          username: "friend_77",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-77"
+        }, {
+          school: "北京邮电大学",
+          nickname: "刘玉栋",
+          username: "friend_79",
+          password: "sha1$fe745f41$1$1179f8a080a75bd243764e66fc4832d2a2db55d0",
+          description: "504-79"
+        }
+      ];
+      P = [];
+      for (i = 0, len = users.length; i < len; i++) {
+        user = users[i];
+        P.push(User.create({
+          username: user.username,
+          password: user.password,
+          nickname: user.nickname,
+          description: user.description,
+          school: user.school
         }));
       }
-      return results;
+      return db.Promise.all(P);
     }).then(function() {
-      var i, j;
-      for (i = j = 0; j <= 100; i = ++j) {
-        Contest.create({
-          title: "test_contest_private" + i,
-          access_level: 'private',
-          description: '用来测试的比赛，权限是private',
-          start_time: new Date("2015-05-20 10:00"),
-          end_time: new Date("2015-05-21 10:00")
-        }).then(function(contest) {
-          testUser.addContest(contest);
-          return testGroup.addContest(contest);
-        });
-      }
-      return db.Promise.all([
-        Contest.create({
-          title: 'test_contest_private',
-          access_level: 'private',
-          description: '用来测试的比赛，权限是private',
-          start_time: new Date("2015-05-20 10:00"),
-          end_time: new Date("2015-05-21 10:00")
-        }).then(function(contest) {
-          testUser.addContest(contest);
-          return testGroup.addContest(contest);
-        }), Contest.create({
-          title: 'test_contest_public',
-          access_level: 'public',
-          description: '用来测试的比赛，权限是public',
-          start_time: new Date("2016-05-20 10:00"),
-          end_time: new Date("2016-09-21 10:00")
-        }).then(function(contest) {
-          testUser.addContest(contest);
-          return testGroup.addContest(contest);
-        }), Contest.create({
-          title: 'test_contest',
-          access_level: 'protect',
-          description: '用来测试的比赛，权限是protect',
-          start_time: new Date("2015-05-21 10:00"),
-          end_time: new Date("2015-06-21 10:00")
-        }).then(function(contest) {
-          testUser.addContest(contest);
-          testGroup.addContest(contest);
-          return contest.addProblem(testProblem, {
-            order: 0,
-            score: 1
-          });
-        })
-      ]);
-    }).then(function() {
-      return db.Promise.all([
-        Judge.create({
-          name: "Judge1",
-          secret_key: "沛神太帅了"
-        }), Judge.create({
-          name: "Judge2",
-          secret_key: "梁明阳专用judge"
-        })
-      ]);
-    }).then(function() {
-      var i, j;
-      for (i = j = 0; j <= 100; i = ++j) {
-        Submission.create({
-          result: 'AC'
-        }).then(function(submission) {
-          submission.setCreator(testUser);
-          testUser.addSubmission(submission);
-          return testProblem.addSubmission(submission);
-        });
-      }
-      return void 0;
-    }).then(function() {
-      return console.log("init ok!");
+      return console.log("Success");
     });
   };
 

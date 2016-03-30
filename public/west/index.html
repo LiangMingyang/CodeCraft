@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="zh-cn" ng-app="west" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="zh-cn" ng-app="west" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="zh-cn" ng-app="west" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="zh-cn" ng-app="west" class="no-js"> <!--<![endif]-->
+
+<head>
+<title> 西促会健康中国推进工作委员会</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+<link href="./index_files/001.css" rel="stylesheet" type="text/css">
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/angular/angular.min.js"></script>
+<script src="/bower_components/angular-route/angular-route.min.js"></script>
+<script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="router.js"></script>
+<script src="app.js"></script>
+<!--<base target="_blank">--><base href="." target="_blank">
+
+
+
+</head>
+<body ng-controller="main">
+
+<!--上面的导航栏-->
+<table width="1000" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tbody>
+  <tr ng-include="'./top.tpl.html'"></tr>
+  <tr ng-include="'./nav-top.tpl.html'"></tr>
+  </tbody>
+</table>
+<table width="1000" border="0" align="center" style="background:white">
+  <tr>
+    <td style="vertical-align: top;" width="780">
+      <div ng-view></div>
+    </td>
+    <td style="vertical-align: top;" width="210">
+      <table>
+        <tr>
+          <td class="layout" valign="top" ng-include="'notify.tpl.html'"></td>
+        </tr>
+        <tr>
+          <td class="layout" valign="top" ng-include="'structure.tpl.html'"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!--主题的三个：焦点图，工作动态，公告-->
+<!--<table width="1000" border="0" align="center" style="background:white">-->
+  <!--<tbody>-->
+      <!--<tr>-->
+        <!--&lt;!&ndash;<td class="layout" height="245" width="320" valign="top" ng-include="'carousel.tpl.html'" ng-controller="carousel"></td>&ndash;&gt;-->
+        <!---->
+        <!--<td class="layout" valign="top" ng-include="'notify.tpl.html'"></td>-->
+      <!--</tr>-->
+  <!--</tbody>-->
+<!--</table>-->
+
+<!--&lt;!&ndash;这个是不太重要的新闻和协会简介，感觉并不是很需要这个&ndash;&gt;-->
+<!--<table width="1000" border="0" cellpadding="5" cellspacing="0" align="center" style="background:white">-->
+  <!--<tbody>-->
+  <!--<tr>-->
+    <!--<td class="layout" width="770" valign="top" ng-include="'news.tpl.html'" ng-controller="news"></td>-->
+    <!--<td class="layout" width="210" valign="top" ng-include="'structure.tpl.html'"></td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+<!--</table>-->
+
+<table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tbody>
+  <tr>
+    <td height="100" align="center" bgcolor="#FFFFFF" style="font-family:arial; line-height:26px;background:url(./index_files/jcdzz_36.jpg)">
+        <br>Copyright@2016-2017  西促会健康中国推进工作委员会(暂时没有备案) All Rights Reserved 备案号<a style="COLOR: blue; TEXT-DECORATION: underline" class="hui" href="#">京ICP备06048741号</a>&nbsp;<br>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

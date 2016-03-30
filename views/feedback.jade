@@ -8,15 +8,21 @@ block title
 block content
    .col-lg-2.col-md-2.col-sm-2.col-xs-12
       //.list-group
-          a.list-group-item(href="/group/index") 返回小组列表
+          a.list-group-item(href="/group/index") 返回课程列表
    .col-lg-8.col-md-8.col-sm-8.col-xs-12
       h3 反馈
-      form(method='post').containing
+      form(method='post')
          .form-group
             label.sr-only(for="name") 主题
             input.form-control(type="input", id="name", name='title', placeholder="主要问题")
          .form-group
             label.sr-only(for="description") 详细内容
             textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", id="description", name='content', placeholder="详细内容")
-         button.btn.btn-success(type="submit") 提交
+         a.button.btn.btn-default.loginbtn.btnstyle(type="submit") 提交
+      h4 如果您对在线编程平台有更好的意见或者有重要的信息
+      h3 请联系我们
+      h2.
+         开发者团队：<br>
+         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsplmysoar@hotmail.com<br>
+         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp842675357@qq.com
    .col-lg-2.col-md-2.col-sm-2.col-xs-12
