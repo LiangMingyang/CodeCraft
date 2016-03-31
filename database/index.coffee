@@ -131,6 +131,7 @@ module.exports = (database, username, password, config)->
   })
 
   User.belongsToMany(Problem, {
+    as: 'recommendation'
     through:
       model: Recommendation
     foreignKey: 'user_id'

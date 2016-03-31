@@ -40,7 +40,7 @@ exports.getIndex = (req, res) ->
     currentProblem.test_setting = JSON.parse problem.test_setting
     currentProblem.description = markdown.toHTML(problem.description)
     return [] if not currentUser
-    currentUser.getProblems()
+    currentUser.getRecommendation()
   .then (recommendation_problems)->
     recommendation = (problem.get(plain: true) for problem in recommendation_problems)
     recommendation.sort (a,b)->

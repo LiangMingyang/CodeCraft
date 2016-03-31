@@ -57,7 +57,7 @@
       if (!currentUser) {
         return [];
       }
-      return currentUser.getProblems();
+      return currentUser.getRecommendation();
     }).then(function(recommendation_problems) {
       var problem;
       recommendation = (function() {
