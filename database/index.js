@@ -114,6 +114,7 @@
       foreignKey: 'problem_id'
     });
     User.belongsToMany(Problem, {
+      as: 'recommendation',
       through: {
         model: Recommendation
       },
