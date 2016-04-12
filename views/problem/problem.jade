@@ -45,10 +45,15 @@ if(problem.test_setting && user)
     h4(style='color: #0274af; font-weight: bold; margin-bottom:1em;') 推荐您做：
     - for(var i = 0; i < recommendation.length; i++)
         p
+            - var recommendation_problem_id = recommendation[i].id;
+            - if(recommendation_problem_id < 10)
+                - recommendation_problem_id = "00" + recommendation_problem_id;
+            - else if(recommendation_problem_id < 100)
+                - recommendation_problem_id = "0" + recommendation_problem_id;
             - if(recommendation[i].accepted + recommendation[i].tried == 1)
-                a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation[i].id}--#{recommendation[i].title}
+                a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
             - else if (recommendation[i].accepted + recommendation[i].tried != 2)
-                a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation[i].id}--#{recommendation[i].title}
+                a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
 
             //-#{recommendation[i].acceptedPeopleCount}/#{recommendation[i].submissionCount}
 script.

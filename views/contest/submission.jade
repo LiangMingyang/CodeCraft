@@ -1,4 +1,4 @@
-//
+//-
    Created by zp on 15-6-5.
 extends ../layout
 block title
@@ -147,7 +147,7 @@ block content
                         - ss = submissions[i].created_at.getSeconds();
                         - if(ss<10)
                             - ss="0"+ss;
-                        //计算完成标准时间变量
+                        //-计算完成标准时间变量
                         - tc = nt - submissions[i].created_at;
                         - sss = (tc - tc % 1000) / 1000;
                         - mmm = (sss - sss % 60) / 60;
@@ -169,8 +169,8 @@ block content
                         - else
                             - tc += sss + " 秒";
                         - tc += "前";
-                        //计算完成时间差变量
-                        //生成表格
+                        //-计算完成时间差变量
+                        //-生成表格
                         td(id="submission_id"+i) #{submissions[i].id}
                         td
                             - if(submissions[i].creator)
@@ -197,7 +197,7 @@ block content
                         td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
                             label(id="standard-format-"+i, class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
                             label(id="time-difference-"+i, class="time-difference") #{tc}
-                        //td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
+                        //-td #{submissions[i].created_at.getFullYear()}-#{submissions[i].created_at.getMonth()-0+1}-#{submissions[i].created_at.getDate()} #{submissions[i].created_at.getHours()}:#{submissions[i].created_at.getMinutes()}:#{submissions[i].created_at.getSeconds()}
                         - if(i % 2 == 1)
                             - oddEvenTable = "odd"
                         - else
@@ -219,22 +219,22 @@ block content
                                 $("#td"+numi).popover('hide');
                             }
         .row
-            //.col-lg-12.col-md-12.col-sm-12
-            //    - if(!pageLimit)
-            //        - pageLimit = 15;
-            //    - if(!offset)
-            //        - offset = 0;
-            //    - var prevOffset = offset - pageLimit;
-            //    - if(prevOffset < 0)
-            //        - prevOffset = 0;
-            //    - var nextOffset = offset - 0 + pageLimit;
-            //    - if(offset>0)
-            //        a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-            //    a.button.btn.btn-default(href="./submission") 首页
-            //    - if(submissions.length == pageLimit)
-            //        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
+            //-.col-lg-12.col-md-12.col-sm-12
+            //-    - if(!pageLimit)
+            //-        - pageLimit = 15;
+            //-    - if(!offset)
+            //-        - offset = 0;
+            //-    - var prevOffset = offset - pageLimit;
+            //-    - if(prevOffset < 0)
+            //-        - prevOffset = 0;
+            //-    - var nextOffset = offset - 0 + pageLimit;
+            //-    - if(offset>0)
+            //-        a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
+            //-    a.button.btn.btn-default(href="./submission") 首页
+            //-    - if(submissions.length == pageLimit)
+            //-        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
             .col-lg-12.col-md-12.col-sm-12.text-left
-                    //分页
+                    //-分页
                     //-a.button.btn.btn-default(href="./submission") 首页
                     a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission")') 首页
                     - if(!pageLimit)
@@ -257,15 +257,15 @@ block content
                     //- if(page_of_this_page>4)
                         |......
                     //- if(page_of_this_page>5)
-                    //    - var prevOffset5 = offset - pageLimit * 5;
-                    //    - if(prevOffset5 < 0)
-                    //        - prevOffset5 = 0;
-                    //    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
+                    //-    - var prevOffset5 = offset - pageLimit * 5;
+                    //-    - if(prevOffset5 < 0)
+                    //-        - prevOffset5 = 0;
+                    //-    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
                     //- if(page_of_this_page>4)
-                    //    - var prevOffset4 = offset - pageLimit * 4;
-                    //    - if(prevOffset4 < 0)
-                    //        - prevOffset4 = 0;
-                    //    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
+                    //-    - var prevOffset4 = offset - pageLimit * 4;
+                    //-    - if(prevOffset4 < 0)
+                    //-        - prevOffset4 = 0;
+                    //-    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
                     //- if(page_of_this_page>3)
                        - var prevOffset3 = offset - pageLimit * 3;
                           - if(prevOffset3 < 0)
@@ -290,10 +290,10 @@ block content
                          a.button.btn.btn-default(href="./submission?offset=" + nextOffset2) #{page_of_this_page+2}
                          - var nextOffset3 = offset - 0 + pageLimit * 3;
                          a.button.btn.btn-default(href="./submission?offset=" + nextOffset3) #{page_of_this_page+3}
-                         //- var nextOffset4 = offset - 0 + pageLimit * 4;
-                         //a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
-                         //- var nextOffset5 = offset - 0 + pageLimit * 5;
-                         //a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
+                         //-- var nextOffset4 = offset - 0 + pageLimit * 4;
+                         //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
+                         //-- var nextOffset5 = offset - 0 + pageLimit * 5;
+                         //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
                          |......
                     - if(submissions.length == pageLimit)
                         //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
