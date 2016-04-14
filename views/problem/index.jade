@@ -10,21 +10,39 @@ block content
     - var level = 0
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
         h3 所有题目
+    form.col-lg-12.col-md-12.col-sm-12.col-xs-12(method='post', id="form")
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
-            //-tr
-                td.col-lg-1 题目ID
-                td.col-lg-2 所属课程
-                td.col-lg-6 题目名称
-                td.col-lg-1 难度
-                td.col-lg-2 通过率(通过/提交)
             tr.problem-title-tr.text-center
                 if(user)
                     td 状态
-                td 题目ID
-                td 题目标题
-                td 所属课程
-                td 作者
-                //-td 难度
+                td
+                    |题目ID
+                    br
+                    - if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_id", value=query.problem_id, name="problem_id")
+                    - else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_id", name="problem_id")
+                td
+                    |题目标题
+                    br
+                    - if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_title", value=query.problem_title, name="problem_title")
+                    - else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_title", name="problem_title")
+                td
+                    |所属课程
+                    br
+                    - if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="group_name", value=query.group_name, name="group_name")
+                    - else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="group_name", name="group_name")
+                td
+                    |作者
+                    br
+                    - if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", value=query.problem_creator, name="problem_creator")
+                    - else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", name="problem_creator")
                 td 通过人数 / 提交人数
                 td 通过人数 / 提交总次数
             if(problems)
@@ -95,3 +113,7 @@ block content
         - else
             a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + nextPage, disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
+        script.
+            function request_ajax_searching(){
+                $("#form").submit();
+            }

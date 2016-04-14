@@ -60,7 +60,7 @@ block content
                         td
                             label(id = "td" + i) #{contestStatus}
                         td
-                            //a(href= "/contest/" + contest.id + "/index") #{contest.title}
+                            //-a(href= "/contest/" + contest.id + "/index") #{contest.title}
                             a(href= "/contest-ng/index.html#/" + contest.id) #{contest.title}
                         td
                             - if(contest.group)

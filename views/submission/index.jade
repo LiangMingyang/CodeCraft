@@ -200,71 +200,32 @@ block content
                             }
     .col-lg-12.col-md-12.col-sm-12.text-left
         //-分页
-        //-a.button.btn.btn-default(href="../submission/index") 首页
         .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index")') 首页
         - if(!pageLimit)
             - pageLimit = 15;
+        script pageLimit = "#{pageLimit}"
         - if(!offset)
             - offset = 0;
         - var prevOffset = offset - pageLimit;
         - if(prevOffset < 0)
             - prevOffset = 0;
         - var nextOffset = offset - 0 + pageLimit;
-        - var page_of_this_page = (offset-0+15-offset%15)/15;
-        - if(offset%15!=0)
+        - var page_of_this_page = (offset-0+pageLimit-offset%pageLimit)/pageLimit;
+        - if(offset%pageLimit!=0)
             - page_of_this_page++;
         - if(offset>0)
-            //-a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset) 上一页
             .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + prevOffset + '")') 上一页
         -else
-            //-a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset, disabled="disabled") 上一页
             .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + prevOffset + '")', disabled="disabled") 上一页
-        //- if(page_of_this_page>4)
-            |......
-        //- if(page_of_this_page>5)
-        //    - var prevOffset5 = offset - pageLimit * 5;
-        //    - if(prevOffset5 < 0)
-        //        - prevOffset5 = 0;
-        //    a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset5) #{page_of_this_page-5}
-        //- if(page_of_this_page>4)
-        //    - var prevOffset4 = offset - pageLimit * 4;
-        //    - if(prevOffset4 < 0)
-        //        - prevOffset4 = 0;
-        //    a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset4) #{page_of_this_page-4}
-        //- if(page_of_this_page>3)
-            - var prevOffset3 = offset - pageLimit * 3;
-            - if(prevOffset3 < 0)
-                - prevOffset3 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset3) #{page_of_this_page-3}
-        //- if(page_of_this_page>2)
-            - var prevOffset2 = offset - pageLimit * 2;
-            - if(prevOffset2 < 0)
-                - prevOffset2 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset2) #{page_of_this_page-2}
-        //- if(page_of_this_page>1)
-            - var prevOffset1 = offset - pageLimit * 1;
-            - if(prevOffset1 < 0)
-                - prevOffset1 = 0;
-            a.button.btn.btn-default(href="../submission/index?offset=" + prevOffset1) #{page_of_this_page-1}
-        //-a.button.btn.btn-success(href="../submission/index?offset=" + offset) #{page_of_this_page}
         .buttion.btn.btn-success(onclick='change_page("../submission/index?offset=' + offset + '")') #{page_of_this_page}
-        //- if(submissions.length == pageLimit)
-            - var nextOffset1 = offset - 0 + pageLimit * 1;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset1) #{page_of_this_page+1}
-            - var nextOffset2 = offset - 0 + pageLimit * 2;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset2) #{page_of_this_page+2}
-            - var nextOffset3 = offset - 0 + pageLimit * 3;
-            a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset3) #{page_of_this_page+3}
-            //- var nextOffset4 = offset - 0 + pageLimit * 4;
-            //a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset4) #{page_of_this_page+4}
-            //- var nextOffset5 = offset - 0 + pageLimit * 5;
-            //a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset5) #{page_of_this_page+5}
-            |......
         - if(submissions.length == pageLimit)
-            //-a.button.btn.btn-default(href="../submission/index?offset=" + nextOffset) 下一页
             .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + nextOffset + '")') 下一页
         -else
             .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("../submission/index?offset=' + nextOffset + '")', disabled="disabled") 下一页
+        .buttion.btn.btn-default.loginbtn.btnstyle(style="float:right; width:250px;")
+            |跳转到第&nbsp&nbsp&nbsp&nbsp
+            input.form-control.text-center(style="display:inline-block;width:100px;", type="number", onchange="jump_page()", id="jump_page_input", value=page_of_this_page)
+            |&nbsp&nbsp&nbsp&nbsp页
     script.
         function change_time_into_standard_format(){
             $(".standard-format").css("display", "block");
@@ -282,6 +243,13 @@ block content
             __form.attr("action", url);
             __form.submit();
         }
+        function jump_page(){
+            var __form = $("#form");
+            var url = "../submission/index?offset=";
+            url += pageLimit * ($("#jump_page_input").val() - 1);
+            __form.attr("action", url);
+            __form.submit();
+        }
         var is_need_request = 1;
         var length_of_submission = "#{submissions.length}";
         $(document).ready(function (){
@@ -296,7 +264,7 @@ block content
                 time_difference = $("#time-difference-" + i);
                 time_of = new Date(standard_format.text());
                 time_of_difference = now_of_time.getTime() - time_of;
-                //standard_format.text(change_time_into_date_time(time_of_now));
+                //-standard_format.text(change_time_into_date_time(time_of_now));
                 time_difference.text(change_time_into_chinese_string_time(time_of_difference));
             }
         }

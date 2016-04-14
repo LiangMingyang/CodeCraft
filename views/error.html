@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset=UTF-8>
+    <title>出错啦</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta name="renderer" content="webkit">
+    <style type="text/css">
+        html,body{padding:0;margin:0;border:0;overflow:hidden;
+            text-align:center;-moz-user-select:none;-webkit-user-select:none;user-select:none;}
+        body{overflow:visible;}
+        canvas{vertical-align:middle;opacity:1;border-top:solid 1px #000;}
+    </style>
+    <script type="text/javascript" src="../public/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../public/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../public/error_game_files/game.css">
+    <script type="text/javascript" src="../public/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <canvas id="stage" width="320" height="480" style="height: 480px;"></canvas>
+    <script>document.getElementById('stage').style.height = (480 - Math.max(0, 568 - screen.height)) + 'px';</script>
+    <script src="../public/error_game_files/game.js"></script>
+</body>
+</html>
