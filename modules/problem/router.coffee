@@ -12,6 +12,7 @@ router
 
   .get '/index', controller.getIndex
 
+  .post '/index', controller.postIndex
 #router.param 'problemID', (req, res, next, id) ->
 #  req.param.problemID = id;
 #  next()

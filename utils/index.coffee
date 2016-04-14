@@ -130,21 +130,48 @@ exports.findProblems = (user, include) ->
     })
 
 #找到对应user的problems的信息并且进行计数,include可以接受group等参数
-exports.findAndCountProblems = (user, offset, include) ->
+exports.findAndCountProblems = (user, opt, include) ->
   Problem = global.db.models.problem
   myUtils = this
   myUtils.findGroupsID(user)
   .then (normalGroups)->
-    Problem.findAndCountAll({
-      where :
+
+    where = {
+      $and: [
         $or:[
           access_level : 'public'    #public的题目谁都可以看
         ,
           access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
           group_id : normalGroups
         ]
+      ]
+    }
+
+    where.$and.push id:opt.problem_id if opt.problem_id
+    where.$and.push {
+      title:
+        like: "%#{opt.problem_title}%"
+    } if opt.problem_title
+    ((include)->
+      include ?= {}
+      for model in include
+        if model.as is 'creator'
+          model.where ?= {}
+          model.where.nickname = like: "%#{opt.problem_creator}%"
+          return
+      include.push {
+        model : User
+        as : 'creator'
+        where :
+          nickname :
+            like: "%#{opt.problem_creator}%"
+      }
+    )(include) if opt.problem_creator
+
+    Problem.findAndCountAll({
+      where : where
       include : include
-      offset : offset
+      offset : opt.offset
       limit : global.config.pageLimit.problem
     })
 
