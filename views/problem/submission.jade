@@ -54,16 +54,16 @@ block content
                 //-td 运行时间
                 //-td 运行内存
                 //-td 提交时间
-                td 序号
+                td(style="vertical-align: middle;") 序号
                 //-- if(!contest)
-                td
+                td(style="vertical-align: middle;")
                     |用户
                     br
                     - if(query)
                         input.form-control.text-center(onchange="request_ajax_searching()", id="nickname", value=query.nickname, name="nickname")
                     - else
                         input.form-control.text-center(onchange="request_ajax_searching()", id="nickname", name="nickname")
-                td
+                td(style="vertical-align: middle;")
                     |结果
                     br
                     select.form-control(onchange="request_ajax_searching()", id="result", name="result")
@@ -88,8 +88,8 @@ block content
                             for(var i=1;i<14;i++)
                                 if(sjl.options[i].value == "#{query.result}")
                                     sjl.options[i].selected = true;
-                td 得分
-                td
+                td(style="vertical-align: middle;") 得分
+                td(style="vertical-align: middle;")
                     |语言
                     br
                     select.form-control(onchange="request_ajax_searching()", id="language", name="language")
@@ -105,19 +105,19 @@ block content
                             for(var i=1;i<5;i++)
                                 if(sjl2.options[i].value == "#{query.language}")
                                         sjl2.options[i].selected = true;
-                td
+                td(style="vertical-align: middle;")
                     |代码长度
                     br
                     label.form-control-static (Bytes)
-                td
+                td(style="vertical-align: middle;")
                     |运行时间
                     br
                     label.form-control-static (ms)
-                td
+                td(style="vertical-align: middle;")
                     |运行内存
                     br
                     label.form-control-static (KB)
-                td 提交时间
+                td(style="vertical-align: middle;") 提交时间
             - if(submissions)
                 script var submission_length = "#{submissions.length}";
                 - for (var i = 0 ;i < submissions.length ; i++)

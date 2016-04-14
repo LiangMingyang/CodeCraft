@@ -14,37 +14,31 @@ block content
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
             tr.problem-title-tr.text-center
                 if(user)
-                    td 状态
-                td
+                    td(style="vertical-align: middle;") 状态
+                td(style="vertical-align: middle;")
                     |题目ID
                     br
                     - if(query)
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_id", value=query.problem_id, name="problem_id")
                     - else
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_id", name="problem_id")
-                td
+                td(style="vertical-align: middle;")
                     |题目标题
                     br
                     - if(query)
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_title", value=query.problem_title, name="problem_title")
                     - else
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_title", name="problem_title")
-                td
-                    |所属课程
-                    br
-                    - if(query)
-                        input.form-control.text-center(onchange="request_ajax_searching()", id="group_name", value=query.group_name, name="group_name")
-                    - else
-                        input.form-control.text-center(onchange="request_ajax_searching()", id="group_name", name="group_name")
-                td
+                td(style="vertical-align: middle;")
                     |作者
                     br
                     - if(query)
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", value=query.problem_creator, name="problem_creator")
                     - else
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", name="problem_creator")
-                td 通过人数 / 提交人数
-                td 通过人数 / 提交总次数
+                td(style="vertical-align: middle;") 所属课程
+                td(style="vertical-align: middle;") 通过人数 / 提交人数
+                td(style="vertical-align: middle;") 通过人数 / 提交总次数
             if(problems)
                 - for (var i = 0 ; i < problems.length ; ++i)
                     - if(i % 2 == 1)
@@ -67,10 +61,10 @@ block content
                         td
                             a(href= problem.id + "/index") #{problem.title}
                         td
-                            a(href= "../group/" + problem.group.id + "/index") #{problem.group.name}
-                        td
                             - if(problem.creator)
                                 a(href = "/user/" + problem.creator.id + "/index") #{problem.creator.nickname}
+                        td
+                            a(href= "../group/" + problem.group.id + "/index") #{problem.group.name}
                         //-td.progress
                         //-    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
                         //-    - if (level < 10) level = 10;
