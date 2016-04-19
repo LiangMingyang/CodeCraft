@@ -36,7 +36,7 @@ exports.getIndex = (req, res)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -83,7 +83,7 @@ exports.getProblem = (req, res)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
       
@@ -142,7 +142,7 @@ exports.getSubmission = (req, res)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -252,7 +252,7 @@ exports.getQuestion = (req, res)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -309,7 +309,7 @@ exports.postQuestion = (req, res)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -352,6 +352,6 @@ exports.getRank = (req, res)->
     req.flash 'info', err.message
     res.redirect CONTEST_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err

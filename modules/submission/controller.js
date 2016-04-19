@@ -38,7 +38,7 @@
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -87,7 +87,7 @@
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -121,11 +121,11 @@
       req.flash('info', err.message);
       return res.redirect(INDEX_PAGE);
     })["catch"](global.myErrors.UnknownUser, function(err) {
-      console.log(err);
+      console.error(err);
       req.flash('info', "Please Login First!");
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -147,7 +147,7 @@
     }).then(function(submissions) {
       return res.json(submissions);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err

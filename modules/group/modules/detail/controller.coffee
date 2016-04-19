@@ -43,7 +43,7 @@ exports.getIndex = (req, res) ->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -73,7 +73,7 @@ exports.getMember = (req, res) ->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -110,7 +110,7 @@ exports.getJoin = (req, res) ->
     req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
     res.redirect INDEX_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -158,7 +158,7 @@ exports.getProblem = (req, res) ->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -200,6 +200,6 @@ exports.getContest = (req, res) ->
     req.flash 'info', err.message
     res.redirect GROUP_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err

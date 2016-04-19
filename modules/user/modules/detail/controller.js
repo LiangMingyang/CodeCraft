@@ -33,7 +33,7 @@
       req.flash('info', err.message);
       return res.redirect(USER_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -65,7 +65,7 @@
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -106,7 +106,7 @@
       req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
       return res.redirect(EDIT_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -129,7 +129,7 @@
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     }))["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -177,7 +177,7 @@
       req.flash('info', err.message);
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err

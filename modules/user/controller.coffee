@@ -74,7 +74,7 @@ exports.postLogin = (req, res) ->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -126,7 +126,7 @@ exports.postRegister = (req, res) ->
     req.flash 'info', err.message
     res.redirect REGISTER_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -167,6 +167,6 @@ exports.getLogout = (req, res) ->
 #    req.flash('info', err.message)
 #    res.render 'error', error: err
 #  .catch (err)->
-#    console.log err
+#    console.error err
 #    req.flash('info', "Unknown Error.")
 #    res.render 'error', error: err

@@ -30,7 +30,7 @@
       req.flash('info', err.messages);
       return res.redirect(LOGIN_PAGE);
     })["catch"](function(err) {
-      console.log(err.message);
+      console.error(err.message);
       err.message = "未知错误";
       return res.render('error', {
         error: err

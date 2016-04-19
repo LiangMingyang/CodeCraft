@@ -36,7 +36,7 @@ exports.getIndex = (req, res) ->
       contestCount : count
     }
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 

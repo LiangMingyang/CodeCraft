@@ -45,7 +45,7 @@
         pageLimit: global.config.pageLimit.problem
       });
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -96,7 +96,7 @@
         query: req.body
       });
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err

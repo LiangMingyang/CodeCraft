@@ -44,7 +44,7 @@ exports.getIndex = (req, res) ->
     })
 
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -94,6 +94,6 @@ exports.postIndex = (req, res) ->
     })
 
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err

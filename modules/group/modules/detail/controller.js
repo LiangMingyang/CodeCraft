@@ -52,7 +52,7 @@
       req.flash('info', err.message);
       return res.redirect(GROUP_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -93,7 +93,7 @@
       req.flash('info', err.message);
       return res.redirect(GROUP_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -143,7 +143,7 @@
       req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
       return res.redirect(INDEX_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -206,7 +206,7 @@
       req.flash('info', err.message);
       return res.redirect(GROUP_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err
@@ -262,7 +262,7 @@
       req.flash('info', err.message);
       return res.redirect(GROUP_PAGE);
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err

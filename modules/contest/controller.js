@@ -35,7 +35,7 @@
         contestCount: count
       });
     })["catch"](function(err) {
-      console.log(err);
+      console.error(err);
       err.message = "未知错误";
       return res.render('error', {
         error: err

@@ -27,7 +27,7 @@ exports.getIndex = (req, res) ->
     req.flash 'info', err.message
     res.redirect USER_PAGE
   .catch (err) ->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -51,7 +51,7 @@ exports.getEdit = (req, res)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err) ->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -85,7 +85,7 @@ exports.postEdit = (req, res)->
     req.flash 'info', "#{err.errors[0].path} : #{err.errors[0].message}"
     res.redirect EDIT_PAGE
   .catch (err) ->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -102,7 +102,7 @@ exports.getUpdatePW = (req, res) ->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err) ->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -141,6 +141,6 @@ exports.postUpdatePW = (req, res)->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err) ->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err

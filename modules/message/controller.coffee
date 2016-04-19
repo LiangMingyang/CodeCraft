@@ -30,6 +30,6 @@ exports.getIndex = (req, res) ->
     req.flash 'info', err.messages
     res.redirect LOGIN_PAGE
   .catch (err)->
-    console.log err.message
+    console.error err.message
     err.message = "未知错误"
     res.render 'error', error: err

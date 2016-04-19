@@ -30,7 +30,7 @@ exports.getIndex = (req, res) ->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -64,7 +64,7 @@ exports.postIndex = (req, res) ->
     req.flash 'info', err.message
     res.redirect LOGIN_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -88,11 +88,11 @@ exports.getSubmission = (req, res)->
     req.flash 'info', err.message
     res.redirect INDEX_PAGE
   .catch global.myErrors.UnknownUser, (err)->
-    console.log err
+    console.error err
     req.flash 'info', "Please Login First!"
     res.redirect LOGIN_PAGE
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
 
@@ -112,6 +112,6 @@ exports.postSubmissionApi = (req, res) ->
   .then (submissions)->
     res.json(submissions)
   .catch (err)->
-    console.log err
+    console.error err
     err.message = "未知错误"
     res.render 'error', error: err
