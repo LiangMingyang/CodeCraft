@@ -74,8 +74,8 @@ exports.getIndex = (req, res) ->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown error!'
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postSubmission = (req, res) ->
 
@@ -132,8 +132,8 @@ exports.postSubmission = (req, res) ->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown error!'
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getSubmissions = (req, res) ->
   User = global.db.models.user
@@ -207,8 +207,8 @@ exports.getSubmissions = (req, res) ->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown error!'
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postSubmissions = (req, res)->
   User = global.db.models.user
@@ -291,6 +291,6 @@ exports.postSubmissions = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown error!'
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 

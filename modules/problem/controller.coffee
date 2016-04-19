@@ -45,8 +45,8 @@ exports.getIndex = (req, res) ->
 
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown error!'
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postIndex = (req, res) ->
   Group = global.db.models.group
@@ -95,5 +95,5 @@ exports.postIndex = (req, res) ->
 
   .catch (err)->
     console.log err
-    req.flash 'info', 'Unknown error!'
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE

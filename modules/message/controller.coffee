@@ -31,5 +31,5 @@ exports.getIndex = (req, res) ->
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err.message
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE

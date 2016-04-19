@@ -89,8 +89,10 @@
       return res.redirect(PROBLEM_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', 'Unknown error!');
-      return res.redirect(HOME_PAGE);
+      err.message = "未知错误";
+      return res.render('error', {
+        error: err_PAGE
+      });
     });
   };
 
@@ -134,8 +136,10 @@
       return res.redirect(PROBLEM_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', 'Unknown Error!');
-      return res.redirect(HOME_PAGE);
+      err.message = "未知错误";
+      return res.render('error', {
+        error: err_PAGE
+      });
     });
   };
 
@@ -188,8 +192,10 @@
       return res.redirect(PROBLEM_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', 'Unknown error!');
-      return res.redirect(HOME_PAGE);
+      err.message = "未知错误";
+      return res.render('error', {
+        error: err_PAGE
+      });
     });
   };
 
@@ -253,8 +259,10 @@
       return res.redirect(PROBLEM_PAGE);
     })["catch"](function(err) {
       console.log(err);
-      req.flash('info', 'Unknown error!');
-      return res.redirect(HOME_PAGE);
+      err.message = "未知错误";
+      return res.render('error', {
+        error: err_PAGE
+      });
     });
   };
 

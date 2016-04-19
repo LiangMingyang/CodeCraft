@@ -31,8 +31,8 @@ exports.getIndex = (req, res) ->
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postIndex = (req, res) ->
   User = global.db.models.user
@@ -65,8 +65,8 @@ exports.postIndex = (req, res) ->
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getSubmission = (req, res)->
   User = global.db.models.user
@@ -93,8 +93,8 @@ exports.getSubmission = (req, res)->
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postSubmissionApi = (req, res) ->
   User = global.db.models.user
@@ -113,5 +113,5 @@ exports.postSubmissionApi = (req, res) ->
     res.json(submissions)
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE

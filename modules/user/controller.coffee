@@ -26,7 +26,7 @@ exports.getIndex = (req, res) ->
 ###
 exports.getLogin = (req, res) ->
   if req.session.user
-    res.redirect HOME_PAGE
+    res.render 'error', error: err_PAGE
     return
   res.render 'user/login', {
     title: 'login'
@@ -75,8 +75,8 @@ exports.postLogin = (req, res) ->
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 #register
 
@@ -116,7 +116,7 @@ exports.postRegister = (req, res) ->
   .then (user)->
     global.myUtils.login(req, res, user)
     req.flash 'info', 'You have registered.'
-    res.redirect HOME_PAGE
+    res.render 'error', error: err_PAGE
 
 
   .catch global.db.ValidationError, (err)->
@@ -127,8 +127,8 @@ exports.postRegister = (req, res) ->
     res.redirect REGISTER_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 #logout
 
@@ -165,8 +165,8 @@ exports.getLogout = (req, res) ->
 #    res.redirect LOGIN_PAGE
 #  .catch global.myErrors.InvalidAccess, (err)->
 #    req.flash('info', err.message)
-#    res.redirect HOME_PAGE
+#    res.render 'error', error: err_PAGE
 #  .catch (err)->
 #    console.log err
 #    req.flash('info', "Unknown Error.")
-#    res.redirect HOME_PAGE
+#    res.render 'error', error: err_PAGE

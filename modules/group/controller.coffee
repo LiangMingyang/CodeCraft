@@ -42,8 +42,8 @@ exports.getIndex = (req, res) ->
     res.redirect LOGIN_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 #create
 
@@ -88,5 +88,5 @@ exports.postCreate = (req, res) ->
     res.redirect CREATE_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE

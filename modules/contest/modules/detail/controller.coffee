@@ -37,8 +37,8 @@ exports.getIndex = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getProblem = (req, res)->
   currentContest = undefined
@@ -84,8 +84,9 @@ exports.getProblem = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
+      
 
 exports.getSubmission = (req, res)->
   currentContest = undefined
@@ -142,8 +143,8 @@ exports.getSubmission = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postSubmissions = (req, res)->
   currentContest = undefined
@@ -252,8 +253,8 @@ exports.getQuestion = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postQuestion = (req, res)->
   currentContest = undefined
@@ -309,8 +310,8 @@ exports.postQuestion = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getRank = (req, res)->
   Problem = global.db.models.problem
@@ -352,5 +353,5 @@ exports.getRank = (req, res)->
     res.redirect CONTEST_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE

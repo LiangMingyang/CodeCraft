@@ -44,8 +44,8 @@ exports.getIndex = (req, res) ->
     res.redirect GROUP_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getMember = (req, res) ->
   User  = global.db.models.user
@@ -74,8 +74,8 @@ exports.getMember = (req, res) ->
     res.redirect GROUP_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getJoin = (req, res) ->
   User  = global.db.models.user
@@ -111,8 +111,8 @@ exports.getJoin = (req, res) ->
     res.redirect INDEX_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getProblem = (req, res) ->
   User = global.db.models.user
@@ -159,8 +159,8 @@ exports.getProblem = (req, res) ->
     res.redirect GROUP_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getContest = (req, res) ->
   User = global.db.models.user
@@ -201,5 +201,5 @@ exports.getContest = (req, res) ->
     res.redirect GROUP_PAGE
   .catch (err)->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE

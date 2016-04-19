@@ -28,8 +28,8 @@ exports.getIndex = (req, res) ->
     res.redirect USER_PAGE
   .catch (err) ->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 
 exports.getEdit = (req, res)->
@@ -52,8 +52,8 @@ exports.getEdit = (req, res)->
     res.redirect LOGIN_PAGE
   .catch (err) ->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.postEdit = (req, res)->
   User = global.db.models.user
@@ -86,8 +86,8 @@ exports.postEdit = (req, res)->
     res.redirect EDIT_PAGE
   .catch (err) ->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 exports.getUpdatePW = (req, res) ->
   global.db.Promise.resolve()
@@ -103,8 +103,8 @@ exports.getUpdatePW = (req, res) ->
     res.redirect LOGIN_PAGE
   .catch (err) ->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
 
 
 
@@ -142,5 +142,5 @@ exports.postUpdatePW = (req, res)->
     res.redirect LOGIN_PAGE
   .catch (err) ->
     console.log err
-    req.flash 'info', "Unknown Error!"
-    res.redirect HOME_PAGE
+    err.message = "未知错误"
+    res.render 'error', error: err_PAGE
