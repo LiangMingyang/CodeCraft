@@ -193,11 +193,14 @@ exports.findProblem = (user, problemID,include)->
     return true if not problem
     return true if problem.access_level is 'public'
     return false if not user
+    privilege = ['admin', 'owner']
+    if problem.access_level is 'protect'
+      privilege.push 'member'
     Membership.find(
       where:
         group_id: currentProblem.group_id
         user_id: user.id
-        access_level : ['member', 'admin', 'owner']
+        access_level : privilege
     )
   .then (flag)->
     return currentProblem if flag

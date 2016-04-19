@@ -287,6 +287,7 @@
         include: include
       });
     }).then(function(problem) {
+      var privilege;
       currentProblem = problem;
       if (!problem) {
         return true;
@@ -297,11 +298,15 @@
       if (!user) {
         return false;
       }
+      privilege = ['admin', 'owner'];
+      if (problem.access_level === 'protect') {
+        privilege.push('member');
+      }
       return Membership.find({
         where: {
           group_id: currentProblem.group_id,
           user_id: user.id,
-          access_level: ['member', 'admin', 'owner']
+          access_level: privilege
         }
       });
     }).then(function(flag) {
