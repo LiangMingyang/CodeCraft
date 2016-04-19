@@ -45,7 +45,7 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getMember = (req, res) ->
   User  = global.db.models.user
@@ -75,7 +75,7 @@ exports.getMember = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getJoin = (req, res) ->
   User  = global.db.models.user
@@ -112,7 +112,7 @@ exports.getJoin = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getProblem = (req, res) ->
   User = global.db.models.user
@@ -160,7 +160,7 @@ exports.getProblem = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getContest = (req, res) ->
   User = global.db.models.user
@@ -202,4 +202,4 @@ exports.getContest = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err

@@ -34,7 +34,7 @@
   exports.getLogin = function(req, res) {
     if (req.session.user) {
       res.render('error', {
-        error: err_PAGE
+        error: err
       });
       return;
     }
@@ -90,7 +90,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -135,7 +135,7 @@
       global.myUtils.login(req, res, user);
       req.flash('info', 'You have registered.');
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     })["catch"](global.db.ValidationError, function(err) {
       req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
@@ -147,7 +147,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };

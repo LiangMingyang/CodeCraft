@@ -62,7 +62,7 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.postSubmission = (req, res) ->
   User = global.db.models.user
@@ -100,7 +100,7 @@ exports.postSubmission = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getSubmissions = (req, res) ->
   User = global.db.models.user
@@ -146,7 +146,7 @@ exports.getSubmissions = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 
 exports.postSubmissions = (req, res) ->
@@ -197,4 +197,4 @@ exports.postSubmissions = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err

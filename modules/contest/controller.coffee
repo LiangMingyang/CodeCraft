@@ -38,5 +38,5 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 

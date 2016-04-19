@@ -38,7 +38,7 @@ exports.getIndex = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getProblem = (req, res)->
   currentContest = undefined
@@ -85,7 +85,7 @@ exports.getProblem = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
       
 
 exports.getSubmission = (req, res)->
@@ -144,7 +144,7 @@ exports.getSubmission = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.postSubmissions = (req, res)->
   currentContest = undefined
@@ -254,7 +254,7 @@ exports.getQuestion = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.postQuestion = (req, res)->
   currentContest = undefined
@@ -311,7 +311,7 @@ exports.postQuestion = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.getRank = (req, res)->
   Problem = global.db.models.problem
@@ -354,4 +354,4 @@ exports.getRank = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err

@@ -39,7 +39,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -91,7 +91,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -160,7 +160,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -311,7 +311,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -383,7 +383,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -434,7 +434,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };

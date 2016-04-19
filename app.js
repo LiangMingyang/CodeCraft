@@ -13,7 +13,7 @@ var routes = require('./routes');
 
 var app = express();
 
-app.set('env', 'release');
+app.set('env', 'development');
 // session
 
 app.use(session({

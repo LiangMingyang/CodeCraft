@@ -29,7 +29,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };
@@ -59,7 +59,7 @@
     }).then(function() {
       req.flash('info', 'Received.');
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);
@@ -68,7 +68,7 @@
       console.log(err);
       err.message = "未知错误";
       return res.render('error', {
-        error: err_PAGE
+        error: err
       });
     });
   };

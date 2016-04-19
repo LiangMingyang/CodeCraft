@@ -21,7 +21,7 @@ exports.getIndex = (req, res) ->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 exports.postIndex = (req, res)->
   User = global.db.models.user
@@ -42,7 +42,7 @@ exports.postIndex = (req, res)->
     fb.setCreator(currentUser)
   .then ->
     req.flash 'info' , 'Received.'
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
   .catch global.myErrors.UnknownUser, (err)->
     req.flash 'info', err.message
@@ -50,6 +50,6 @@ exports.postIndex = (req, res)->
   .catch (err)->
     console.log err
     err.message = "未知错误"
-    res.render 'error', error: err_PAGE
+    res.render 'error', error: err
 
 
