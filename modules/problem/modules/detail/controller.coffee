@@ -19,6 +19,7 @@ LOGIN_PAGE = '/user/login'
 exports.getIndex = (req, res) ->
   User = global.db.models.user
   Group = global.db.models.group
+  Contest = global.db.models.contest
   currentProblem = undefined
   currentUser = undefined
   recommendation = undefined
@@ -31,7 +32,13 @@ exports.getIndex = (req, res) ->
       model : User
       as : 'creator'
     ,
-      model : Group
+      model : Contest
+      attributes: [
+        'id'
+      ,
+        'title'
+      ]
+      limit : 1
     ])
   .then (problem) ->
     throw new global.myErrors.UnknownProblem() if not problem

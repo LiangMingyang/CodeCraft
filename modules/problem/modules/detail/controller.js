@@ -25,9 +25,10 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getIndex = function(req, res) {
-    var Group, User, currentProblem, currentUser, recommendation;
+    var Contest, Group, User, currentProblem, currentUser, recommendation;
     User = global.db.models.user;
     Group = global.db.models.group;
+    Contest = global.db.models.contest;
     currentProblem = void 0;
     currentUser = void 0;
     recommendation = void 0;
@@ -42,7 +43,9 @@
           model: User,
           as: 'creator'
         }, {
-          model: Group
+          model: Contest,
+          attributes: ['id', 'title'],
+          limit: 1
         }
       ]);
     }).then(function(problem) {
