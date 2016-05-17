@@ -64,7 +64,7 @@ block content
                             - if(problem.creator)
                                 a(href = "/user/" + problem.creator.id + "/index") #{problem.creator.nickname}
                         td
-                            - if(problem.contests[0])
+                            - if(problem.contests && problem.contests[0])
                                 a(href = "../contest/" + problem.contests[0].id + "/index") #{problem.contests[0].title}
                             a(href= "../group/" + problem.group.id + "/index") （#{problem.group.name}）
                         //-td.progress
