@@ -668,7 +668,7 @@
           }
           detail[problemOrderLetter].accepted_time = sub.created_at - contest.start_time;
         }
-        if (detail[problemOrderLetter].result !== 'AC') {
+        if (detail[problemOrderLetter].result !== 'AC' && detail[problemOrderLetter].result !== 'CE') {
           ++detail[problemOrderLetter].wrong_count;
         }
       }
