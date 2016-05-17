@@ -454,7 +454,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
         detail[problemOrderLetter].score = sub.score
         detail[problemOrderLetter].result = sub.result if detail[problemOrderLetter].result isnt 'AC'
         detail[problemOrderLetter].accepted_time = sub.created_at-contest.start_time
-      if detail[problemOrderLetter].result isnt 'AC' and detail[problemOrderLetter].result isnt 'CE' #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
+      if detail[problemOrderLetter].result isnt 'AC' and sub.result isnt 'CE' #因为保证created_at是正序的，所以这是在按照时间顺序检索，当已经AC过后就不再增加wrong_count
         ++detail[problemOrderLetter].wrong_count
 
     for user of tmp
