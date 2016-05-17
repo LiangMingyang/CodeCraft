@@ -58,9 +58,10 @@
   };
 
   exports.postIndex = function(req, res) {
-    var Group, User, currentProblems, problemCount;
+    var Contest, Group, User, currentProblems, problemCount;
     Group = global.db.models.group;
     User = global.db.models.user;
+    Contest = global.db.models.contest;
     currentProblems = void 0;
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
@@ -84,6 +85,9 @@
           model: User,
           attributes: ['id', 'nickname'],
           as: 'creator'
+        }, {
+          model: Contest,
+          attributes: ['id', 'title']
         }
       ]);
     }).then(function(result) {
