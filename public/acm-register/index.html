@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="acm-register"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="BUAA,icpc">
+    <meta name="author" content="Thor">
+
+    <title>2016ACM暑期集训选拔报名</title>
+    <!--Angular-->
+    <script src="https://acm.buaa.edu.cn:12306/angular/angular.min.js"></script>
+    <script src="./app.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="https://acm.buaa.edu.cn:12306/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Animation CSS -->
+    <link href="https://acm.buaa.edu.cn:12306/animate.css/animate.min.css" rel="stylesheet">
+    <link href="https://acm.buaa.edu.cn:12306/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://acm.buaa.edu.cn:12306/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="./style.css" rel="stylesheet">
+    <link href="./font.css?family=Open+Sans:300,400,600,700&lang=en" rel="stylesheet">
+    <style type="text/css">
+        body{
+            font-family: arial,  'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', \5b8b\4f53, Tahoma, Arial, Helvetica, '宋体', STHeiti !important;
+        }
+        p{
+            font-size: 16px !important;
+        }
+        @media(max-width:800px){
+            .hide-mob{
+                display:none;
+            }
+        }
+        .landing-page .navbar-default .nav li a{
+            color:#000;
+        }
+
+        .landing-page .navbar-default .navbar-nav > .active > a:focus{
+            color:#1ab394;
+        }
+
+        .carousel-inner h1{
+            color:#555;
+        }
+
+
+        .carousel-inner h2{
+            color:#777;
+        }
+
+
+        .carousel-inner p{
+            color:#AAA;
+        }
+        .carousel-inner a{
+            color: #1ab394;
+        }
+
+        .main-head h2{
+            margin: 0;
+            font-size:22px;
+            letter-spacing: 1.7px;
+        }
+        .main-head h1{
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .main-head p{
+            margin-top: 70px;
+        }
+
+        .main-head small{
+            color: #ddd;
+        }
+
+        tr:hover{
+            background-color: rgba(167, 232, 222, 0.09);
+        }
+
+        .modalbtn{
+            margin-right:10px
+        }
+
+        .day{
+            padding-left: 80px;
+            padding-right: 80px;
+            margin-bottom: 20px;
+        }
+
+        .day>h1{
+            text-align:center;
+        }
+
+        .detail {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail>p {
+            text-align: left;
+        }
+
+        .sponser div {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .sponser{
+            margin-bottom: 20px;
+        }
+        .bg{
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .invert{
+            filter: invert(1);
+            -webkit-filter: invert(1);
+            -moz-filter: invert(1);
+            -o-filter: invert(1);
+            -ms-filter: invert(1);
+        }
+    </style>
+    <style type="text/css"></style></head>
+<body id="page-top" class="landing-page  pace-done" ng-controller="acm-register.ctrl"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+    <div class="pace-progress-inner"></div>
+</div>
+    <div class="pace-activity"></div></div>
+<!--<div class="navbar-wrapper">-->
+    <!--<nav class="navbar navbar-default navbar-fixed-top navbar-scroll" role="navigation">-->
+        <!--<div class="container">-->
+            <!--<div id="navbar" class="navbar-collapse collapse">-->
+                <!--<ul class="nav navbar-nav navbar-right">-->
+                    <!--<li class=""><a class="page-scroll" href="#page-top">主页</a></li>-->
+                    <!--<li class="active"><a class="page-scroll" href="#about">竞赛简介</a></li>-->
+                    <!--<li class="active"><a class="page-scroll" href="#service">日程安排</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</nav>-->
+<!--</div>-->
+
+<div id="inSlider">
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption main-head col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row text-center">
+                                <img src="./logo.png" style="width:100%">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+
+                            <h1>2016ACM暑期集训选拔报名&nbsp;&nbsp;&nbsp;<br></h1>
+                            <h2 class="hide-mob">2016 Beihang University ACM-ICPC Team Selection
+                                <br></h2>
+
+                            <p class="hide-mob">为了取得好的成绩，集训队有暑期集训的传统。只有通过了集训的队伍才有参加区域赛的资格。</p>
+
+                            <p class="hide-mob">
+                                <x>
+                                    <a ng-if="!user" style="color: #AB3C03" href="/user/login">点我登录 </a>
+                                    <div ng-if="user && confirmed == false">
+                                        <p style="color: #AB3C03">少年，加油啊！</p>
+                                        <label for="nickname" style="color:#000000;">真实姓名</label>
+                                        <input id="nickname" ng-model="form.nickname" style="color:#000000;">
+                                        <label for="student_id" style="color:#000000;">学号</label>
+                                        <input id="student_id" ng-model="form.student_id" style="color:#000000;">
+                                        <label for="phone" style="color:#000000;">手机</label>
+                                        <input id="phone" ng-model="form.phone" style="color:#000000;">
+                                        <p></p>
+                                        <button class="btn btn-success" ng-click="confirm()">我确定参加2016ACM暑期集训选拔</button>
+                                    </div>
+                                    <div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">
+                                        <div ng-if="user && confirmed == false" class="modal-dialog">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">x</span>
+                                                    </button>
+                                                    <h4 id="double_check_label" class="modal-title">确认报名参加？</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        <ol>
+                                                            <li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>
+                                                            <li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>
+                                                            <li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>
+                                                            <li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>
+                                                            <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
+                                                            <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。</li>
+                                                            <li><strong>注册要求真实姓名，学号，手机号码。</strong></li>
+                                                            <li><strong>将在6月5日下午1点-5点在北航沙河校区实验楼7号楼4层5层进行</strong></li>
+                                                            <li><strong>当天请提前20分钟携带有效证件入场</strong></li>
+                                                        </ol>
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-warning" type="button" data-dismiss="modal">
+                                                        取消
+                                                    </button>
+                                                    <button class="btn btn-success" ng-click="double_confirm()">确认</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p ng-if="confirmed == true" style="color: #AB3C03">您已确认参加选拔</p>
+                                    <p ng-if="confirmed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
+                                </x>
+                                <br>
+                                <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
+                                <a href="https://www.buaa.edu.cn">北航官网</a>&nbsp;&nbsp;
+                                <a href="https://par.buaa.edu.cn/acm-icpc/p/trace/">北航ACM集训队</a>&nbsp;&nbsp;
+                                <a href="/index">比赛平台</a>&nbsp;&nbsp;
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="bg header-back"><div class="ibg-bg" style="width: 1840px; height: 949px; transform: matrix(1, 0, 0, 1, 0, 0); transition: transform 100ms linear; background: #ffffff 50% 50% / cover no-repeat;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="service" class="gray-section team">
+    <div class=" container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>日程表</h1>
+            </div>
+        </div>
+        <div class="day">
+            <!--<h1>参赛报名</h1>-->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>活动</th>
+                    <th>地点</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2015年12月2日0点--11日12点</td>
+                    <td>参赛报名</td>
+                    <td>本页</td>
+                    <td>无</td>
+                </tr>
+                <tr>
+                    <td>2015年12月12日0点--14日24点</td>
+                    <td>网络预赛</td>
+                    <td>比赛平台</td>
+                    <td>参赛队员</td>
+                </tr>
+                <tr>
+                    <td>2015年12月17日</td>
+                    <td>公布比赛晋级名单</td>
+                    <td>本页</td>
+                    <td>无</td>
+                </tr>
+                <tr>
+                    <td>2015年12月18日--19日</td>
+                    <td>向现场赛选手通知比赛具体事宜</td>
+                    <td>无</td>
+                    <td>无</td>
+                </tr>
+                <tr>
+                    <td>2015年12月20日13点--17点</td>
+                    <td>现场决赛</td>
+                    <td>沙河现场</td>
+                    <td>决赛队员</td>
+                </tr>
+                <tr>
+                    <td>2015年12月20日17点--18点</td>
+                    <td>颁奖典礼</td>
+                    <td>沙河现场</td>
+                    <td>决赛队员</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="detail">
+            <p>本次比赛的地点是地点位于北航沙河校区实验7号楼4、5层。北航沙河校区在北京昌平沙河，可乘坐地铁昌平线到达沙河地铁站，转乘公交昌66到达沙河校区东门，我们将安排工作人员在东门等待大家光临。
+                祥见下面的参赛地图。
+            </p>
+            <img src="./map.png" alt="">
+        </div>
+    </div>
+
+</section>
+
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                <p><strong>© 2016&nbsp;北航ACM集训队</strong></p>
+                <p><small>powered by Liang Mingyang, hire and contact please mail <a href="mailto:lmysoar@hotmail">lmysoar@hotmail.com</a></small></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mainly scripts -->
+
+
+<script src="https://acm.buaa.edu.cn:12306/jquery/dist/jquery.min.js"></script>
+<script src="https://acm.buaa.edu.cn:12306/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://acm.buaa.edu.cn:12306/metisMenu/dist/metisMenu.min.js"></script>
+<script src="https://acm.buaa.edu.cn:12306/inspinia/assets/js/inspinia.js"></script>
+<script src="https://acm.buaa.edu.cn:12306/wow/dist/wow.min.js"></script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+        });
+
+//        $(".bg").interactive_bg({
+//            strength: 20,
+//            scale: 1,
+//            animationSpeed: "100ms",
+//            contain: false,
+//            wrapContent: false
+//        });
+
+        $(window).resize(function() {
+            $(".bg > .ibg-bg").css({
+                width: $(window).outerWidth(),
+                height: $(window).outerHeight()
+            })
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    new WOW().init();
+
+
+</script>
+</body>
+</html>

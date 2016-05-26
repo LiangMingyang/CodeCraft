@@ -10,4 +10,6 @@ router
 
 .use '/bcpc', modules.bcpc.router
 
+.use '/acm-register', modules.acm_register.router
+
 module.exports = router
