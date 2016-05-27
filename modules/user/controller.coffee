@@ -30,7 +30,7 @@ exports.getLogin = (req, res) ->
     return
   res.render 'user/login', {
     title: 'login'
-    returnUrl: req.get('Referer')
+    returnUrl: req?.headers?.referer
   }
 
 ###
