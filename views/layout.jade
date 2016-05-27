@@ -69,7 +69,7 @@ html(lang="zh-CN")
                                                     a(href="/user/" + user.id + "/index") 欢迎，#{user.nickname}
                                                 li.normalli
                                                     a(href="/user/logout", id="logoutpage", class="nav-before") 登出
-                                            - else
+                                            - else if(whichPage !== "登录")
                                                 li.normalli
                                                     a(href="/user/login", id="loginpage", class="nav-before") 登录
                                                 li.normalli

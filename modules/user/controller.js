@@ -32,10 +32,9 @@
    */
 
   exports.getLogin = function(req, res) {
-    var ref;
     return res.render('user/login', {
       title: 'login',
-      returnUrl: req != null ? (ref = req.headers) != null ? ref.referer : void 0 : void 0
+      returnUrl: req.get('referer')
     });
   };
 
