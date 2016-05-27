@@ -26,7 +26,7 @@ exports.getIndex = (req, res) ->
 ###
 exports.getLogin = (req, res) ->
   if req.session.user
-    res.render 'error', error: err
+    res.render 'error', error: new Error("=.=")
     return
   res.render 'user/login', {
     title: 'login'
