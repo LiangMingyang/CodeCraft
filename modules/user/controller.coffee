@@ -25,9 +25,9 @@ exports.getIndex = (req, res) ->
   @getLogin {Function} 显示login页面
 ###
 exports.getLogin = (req, res) ->
-  if req.session.user
-    res.render 'error', error: new Error("=.=")
-    return
+#  if req.session.user
+#    res.render 'error', error: new Error("=.=")
+#    return
   res.render 'user/login', {
     title: 'login'
     returnUrl: req?.headers?.referer
