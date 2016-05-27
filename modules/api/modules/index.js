@@ -6,6 +6,8 @@
 
   exports.bcpc = require('./bcpc');
 
+  exports.acm_register = require('./acm-register');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

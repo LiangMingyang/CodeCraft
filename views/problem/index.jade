@@ -36,7 +36,7 @@ block content
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", value=query.problem_creator, name="problem_creator")
                     - else
                         input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", name="problem_creator")
-                td(style="vertical-align: middle;") 所属课程
+                td(style="vertical-align: middle;") 来源（小组）
                 td(style="vertical-align: middle;") 通过人数 / 提交人数
                 td(style="vertical-align: middle;") 通过人数 / 提交总次数
             if(problems)
@@ -64,7 +64,9 @@ block content
                             - if(problem.creator)
                                 a(href = "/user/" + problem.creator.id + "/index") #{problem.creator.nickname}
                         td
-                            a(href= "../group/" + problem.group.id + "/index") #{problem.group.name}
+                            - if(problem.contests && problem.contests[0])
+                                a(href = "../contest/" + problem.contests[0].id + "/index") #{problem.contests[0].title}
+                            a(href= "../group/" + problem.group.id + "/index") （#{problem.group.name}）
                         //-td.progress
                         //-    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
                         //-    - if (level < 10) level = 10;

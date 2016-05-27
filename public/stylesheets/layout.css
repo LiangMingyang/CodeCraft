@@ -28,14 +28,14 @@ a.navbar-brand{
 
 /*大部分页面右边内容的上间距*/
 .containing{
-    margin-top: 50px;
-    margin-left: 15%;
+    margin-top: 2.5em;
+    margin-left: 18%;
     color: white;
     /*font-family: 'Microsoft YaHei' !important;*/
 }
 
 .containing-x{
-    margin-top: 50px;
+    margin-top: 2.5em;
     color: white;
     /*font-family: 'Microsoft YaHei' !important;*/
 }
@@ -114,6 +114,25 @@ td.yellow-td{
     text-shadow: none;
     font-size: 1em;
     padding: 1em 0.5em;
+    letter-spacing: 0.05em;
+    border: 0;
+    text-transform: none;
+    background: #d96354 !important;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btnstyle-in {
+    display: inline-block;
+    color: #fff;
+    text-shadow: none;
+    font-size: 1em;
+    padding: 1em 0.5em;
+    margin-bottom: 0;
     letter-spacing: 0.05em;
     border: 0;
     text-transform: none;
