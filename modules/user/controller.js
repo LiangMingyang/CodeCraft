@@ -80,7 +80,10 @@
       return res.redirect(NEXT_PAGE);
     })["catch"](global.myErrors.LoginError, function(err) {
       req.flash('info', err.message);
-      return res.redirect(LOGIN_PAGE);
+      return res.render('user/login', {
+        title: 'login',
+        returnUrl: req.body.returnUrl
+      });
     })["catch"](function(err) {
       console.error(err);
       err.message = "未知错误";

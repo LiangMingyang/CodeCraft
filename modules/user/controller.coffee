@@ -73,7 +73,10 @@ exports.postLogin = (req, res) ->
 
   .catch global.myErrors.LoginError, (err)->
     req.flash 'info', err.message
-    res.redirect LOGIN_PAGE
+    res.render 'user/login', {
+      title: 'login'
+      returnUrl: req.body.returnUrl
+    }
   .catch (err)->
     console.error err
     err.message = "未知错误"
