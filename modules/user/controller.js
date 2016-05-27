@@ -35,7 +35,7 @@
     var ref;
     if (req.session.user) {
       res.render('error', {
-        error: err
+        error: new Error("=.=")
       });
       return;
     }
