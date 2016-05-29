@@ -132,9 +132,7 @@
     }).then(function(user) {
       global.myUtils.login(req, res, user);
       req.flash('info', 'You have registered.');
-      return res.render('error', {
-        error: err
-      });
+      return res.redirect(INDEX_PAGE);
     })["catch"](global.db.ValidationError, function(err) {
       req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
       return res.redirect(REGISTER_PAGE);

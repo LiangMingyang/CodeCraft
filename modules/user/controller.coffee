@@ -120,7 +120,7 @@ exports.postRegister = (req, res) ->
   .then (user)->
     global.myUtils.login(req, res, user)
     req.flash 'info', 'You have registered.'
-    res.render 'error', error: err
+    res.redirect INDEX_PAGE
 
 
   .catch global.db.ValidationError, (err)->
