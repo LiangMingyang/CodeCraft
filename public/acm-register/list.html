@@ -31,6 +31,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <td>#</td>
                             <td>ID</td>
                             <td>姓名</td>
                             <td>邮箱</td>
@@ -40,6 +41,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="user in list">
+                            <td>{{$index+1}}</td>
                             <td>{{user.id}}</td>
                             <td>{{user.nickname}}</td>
                             <td>{{user.username}}</td>
