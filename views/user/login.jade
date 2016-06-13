@@ -17,7 +17,7 @@ block content
             .form-group
                 label.sr-only(for='password') 密码
                 input#password.form-control(type='password', name='password', placeholder='输入密码')
-            input(type='hidden', name='returnUrl', value='/index')
+            input(type='hidden', name='returnUrl', value="#{returnUrl}")
             //- value为网站主页
             button.btn.btn-default.loginbtn.btnstyle(type='submit') 登录
             a.button.btn.btn-default.loginbtn.btnstyle(href='./register') 注册

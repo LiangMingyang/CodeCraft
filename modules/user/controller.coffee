@@ -25,12 +25,12 @@ exports.getIndex = (req, res) ->
   @getLogin {Function} 显示login页面
 ###
 exports.getLogin = (req, res) ->
-  if req.session.user
-    res.render 'error', error: err
-    return
+#  if req.session.user
+#    res.render 'error', error: new Error("=.=")
+#    return
   res.render 'user/login', {
     title: 'login'
-    returnUrl: req.get('Referer')
+    returnUrl: req.get('referer')
   }
 
 ###
@@ -63,6 +63,7 @@ exports.postLogin = (req, res) ->
   .then ->
     req.flash 'info', 'login successfully'
     NEXT_PAGE = undefined
+    console.log req.body.returnUrl
     if req.body.returnUrl is 'undefined'
       NEXT_PAGE = HOME_PAGE
     else
@@ -72,7 +73,10 @@ exports.postLogin = (req, res) ->
 
   .catch global.myErrors.LoginError, (err)->
     req.flash 'info', err.message
-    res.redirect LOGIN_PAGE
+    res.render 'user/login', {
+      title: 'login'
+      returnUrl: req.body.returnUrl
+    }
   .catch (err)->
     console.error err
     err.message = "未知错误"
@@ -116,7 +120,7 @@ exports.postRegister = (req, res) ->
   .then (user)->
     global.myUtils.login(req, res, user)
     req.flash 'info', 'You have registered.'
-    res.render 'error', error: err
+    res.redirect HOME_PAGE
 
 
   .catch global.db.ValidationError, (err)->

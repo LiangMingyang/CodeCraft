@@ -32,15 +32,9 @@
    */
 
   exports.getLogin = function(req, res) {
-    if (req.session.user) {
-      res.render('error', {
-        error: err
-      });
-      return;
-    }
     return res.render('user/login', {
       title: 'login',
-      returnUrl: req.get('Referer')
+      returnUrl: req.get('referer')
     });
   };
 
@@ -77,6 +71,7 @@
       var NEXT_PAGE;
       req.flash('info', 'login successfully');
       NEXT_PAGE = void 0;
+      console.log(req.body.returnUrl);
       if (req.body.returnUrl === 'undefined') {
         NEXT_PAGE = HOME_PAGE;
       } else {
@@ -85,7 +80,10 @@
       return res.redirect(NEXT_PAGE);
     })["catch"](global.myErrors.LoginError, function(err) {
       req.flash('info', err.message);
-      return res.redirect(LOGIN_PAGE);
+      return res.render('user/login', {
+        title: 'login',
+        returnUrl: req.body.returnUrl
+      });
     })["catch"](function(err) {
       console.error(err);
       err.message = "未知错误";
@@ -134,9 +132,7 @@
     }).then(function(user) {
       global.myUtils.login(req, res, user);
       req.flash('info', 'You have registered.');
-      return res.render('error', {
-        error: err
-      });
+      return res.redirect(HOME_PAGE);
     })["catch"](global.db.ValidationError, function(err) {
       req.flash('info', err.errors[0].path + " : " + err.errors[0].message);
       return res.redirect(REGISTER_PAGE);

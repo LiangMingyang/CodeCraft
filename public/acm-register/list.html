@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="acm-register">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="BUAA,icpc">
+    <meta name="author" content="Thor">
+
+    <title>2016ACM暑期集训选拔报名</title>
+    <!--Angular-->
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="./app.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="./app.js"></script>
+</head>
+<body ng-controller="acm-register.list">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-10">
+                <h2>报名列表</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>ID</td>
+                            <td>姓名</td>
+                            <td>邮箱</td>
+                            <td>学号</td>
+                            <td>手机</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in list">
+                            <td>{{$index+1}}</td>
+                            <td>{{user.id}}</td>
+                            <td>{{user.nickname}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.student_id}}</td>
+                            <td>{{user.phone}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>

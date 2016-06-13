@@ -59,6 +59,7 @@ exports.getIndex = (req, res) ->
 exports.postIndex = (req, res) ->
   Group = global.db.models.group
   User = global.db.models.user
+  Contest = global.db.models.contest
   currentProblems = undefined
   problemCount = undefined
   global.db.Promise.resolve()
@@ -86,6 +87,13 @@ exports.postIndex = (req, res) ->
         'nickname'
       ]
       as : 'creator'
+    ,
+      model : Contest
+      attributes: [
+        'id'
+      ,
+        'title'
+      ]
     ])
   .then (result)->
     problemCount = result.count
