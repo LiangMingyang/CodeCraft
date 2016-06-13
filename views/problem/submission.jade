@@ -320,7 +320,7 @@ block content
             for (var i = 0; i < submission_length; i++){
                 standard_format = $("#standard-format-" + i);
                 time_difference = $("#time-difference-" + i);
-                time_of = new Date(standard_format.text());
+                time_of = new Date(Date.parse(standard_format.text().replace(/-/g, "/")));
                 time_of_difference = now_of_time.getTime() - time_of;
                 //standard_format.text(change_time_into_date_time(time_of_now));
                 time_difference.text(change_time_into_chinese_string_time(time_of_difference));

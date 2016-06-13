@@ -67,25 +67,6 @@ block content
                             - if(problem.contests && problem.contests[0])
                                 a(href = "../contest/" + problem.contests[0].id + "/index") #{problem.contests[0].title}
                             a(href= "../group/" + problem.group.id + "/index") （#{problem.group.name}）
-                        //-td.progress
-                        //-    - level = i*(i*(i*(i+1)+1)+problem.id)%101;
-                        //-    - if (level < 10) level = 10;
-                        //-    - if (level < 50)
-                        //-        .progress-bar.progress-bar-success.active.progress-bar-striped(style="width: " + level + "%")
-                        //-            span.sr-only #{level}% Complete (success)
-                        //-    - else if (level < 80)
-                        //-        .progress-bar.progress-bar-warning.active.progress-bar-striped(style="width: " + level + "%")
-                        //-            span.sr-only #{level}% Complete (warning)
-                        //-    - else
-                        //-        .progress-bar.progress-bar-danger.active.progress-bar-striped(style="width: " + level + "%")
-                        //-            span.sr-only #{level}% Complete (danger)
-                        //-    //-script.
-                        //-        .progress-bar.progress-bar-success.active.progress-bar-striped(style='width: 50%')
-                        //-            span.sr-only 50% Complete (success)
-                        //-        .progress-bar.progress-bar-warning.active.progress-bar-striped(style='width: 30%')
-                        //-            span.sr-only 30% Complete (warning)
-                        //-        .progress-bar.progress-bar-danger.active.progress-bar-striped(style='width: 20%')
-                        //-            span.sr-only 20% Complete (danger)
                         td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
                         td #{problem.acceptedPeopleCount} / #{problem.submissionCount}
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
@@ -99,17 +80,24 @@ block content
         - var nextPage = page - 0 + 1;
         - var prevPage = page - 1;
         - if(page > 1)
-            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + prevPage) 上一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + prevPage + '")') 上一页
         - else
-            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + prevPage, disabled="disabled") 上一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + prevPage + '")', disabled="disabled") 上一页
         - for(var i = 1 ; i <= numberOfPage ; ++i)
-            a.button.btn.btn-default(href="./index?page=" + i, id="button" + i) #{i}
+            .buttion.btn.btn-default(onclick='change_page("./index?page=' + i + '")', id="button" + i) #{i}
         - if(page < numberOfPage)
-            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + nextPage) 下一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + nextPage + '")') 下一页
         - else
-            a.button.btn.btn-default.loginbtn.btnstyle(href="./index?page=" + nextPage, disabled="disabled") 下一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + nextPage + '")', disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
         script.
             function request_ajax_searching(){
-                $("#form").submit();
+                var __form = $("#form");
+                __form.attr("action", "./index");
+                __form.submit();
+            }
+            function change_page(url) {
+                var __form = $("#form");
+                __form.attr("action", url);
+                __form.submit();
             }
