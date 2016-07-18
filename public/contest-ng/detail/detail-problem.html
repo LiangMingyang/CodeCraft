@@ -32,9 +32,16 @@
                     {{Rank.statistics.myRank}}
                 </code>
             </h5>
-            <button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
+
+            <button ng-if="Contest.data.end_time >= ServerTime.data" class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
                 提交
             </button>
+
+            <a ng-if="Contest.data.end_time < ServerTime.data" href="/problem/{{Contest.data.problems[order].id}}/index">
+                <button  class = "btn btn-primary btn-lg">
+                    去做题
+                </button>
+            </a>
         </div>
     </div>
     <div>
