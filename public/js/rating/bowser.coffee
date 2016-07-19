@@ -11,7 +11,7 @@
 , "GG"
 , "threeheroes"
 , "firebug"
-, "The South China Sea belongs to China!"
+, "The South China Sea"
 ]
 @solve = ()->
   dic = {}
