@@ -34,19 +34,19 @@ router.get '/index', (req, res) ->
 
 router.get '/bcpc-rating', (req, res) ->
   teamName = [
-    "TheWaySoFar"
-  , "Damocles"
-  , "undetermined"
-  , "TDL"
+    "TDL"
   , "LovelyDonuts"
-  , "NewBeer"
-  , "TheThreeMusketeers"
-  , "I-PPPei+"
-  , "Prometheus"
-  , "Nostalgia"
-  , "Time After Time"
-  , "TriMusketeers"
+  , "ACMakeMeHappier"
   , "null"
+  , "long live buaa oo"
+  , "QAQ"
+  , "ResuscitatedHope"
+  , "Veleno"
+  , "deticxe"
+  , "GG"
+  , "threeheroes"
+  , "firebug"
+  , "The South China Sea belongs to China!"
   ];
   res.render 'acm-rating/rating', { title: '北航ACM集训队Rating计算', teamName: teamName, user: req.session.user }
 module.exports = router
