@@ -68,3 +68,15 @@
     res_rating[i].innerHTML = parseInt(res[i].rating)
   $('#contest')[0].innerHTML = "Contest ##{@contest_num}"
   $('#rating')[0].innerHTML = "Rating ##{@contest_num-1}"
+
+fileExport = (data, fileName, extension)->
+  aLink = document.createElement("a")
+  blob = new Blob([data])
+  evt = document.createEvent("MouseEvents")
+  evt.initEvent("click", false, false)
+  aLink.download = fileName + "." + extension
+  aLink.href = URL.createObjectURL(blob)
+  aLink.dispatchEvent(evt)
+
+@downloadRank = ()->
+  fileExport(JSON.stringify(@table), "rank_#{(new Date())}", "txt")

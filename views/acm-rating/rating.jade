@@ -47,7 +47,7 @@ block content
                     - for(var i = 0 ; i < teamName.length ; ++i)
                         li #{1000}
                 button.btn.btn-default(onclick="showNow();") 重置为当前积分
-                a.btn(href="/excel/Rating.xlsx" download="Rating.xlsx") 当前rating.xlsx
+                a.btn(onclick="downloadRank();") 下载当前排名
         .row
             .col-md-12
                 #panel
