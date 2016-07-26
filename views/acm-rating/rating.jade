@@ -29,7 +29,13 @@ block content
             .col-md-2
             .col-md-1
                 ul.rank
-                    - for(var i = 1 ; i <= teamName.length ; ++i)
+                    - for(var i = 1 ; i <= 2 && i <= teamName.length; ++i)
+                        li(style="background:gold;") #{i}
+                    - for(var i = 3 ; i <= 5 && i <= teamName.length; ++i)
+                        li(style="background:silver;") #{i}
+                    - for(var i = 6 ; i <= 8 && i <= teamName.length; ++i)
+                        li(style="background:brown;") #{i}
+                    - for(var i = 9 ; i <= teamName.length ; ++i)
                         li #{i}
             .col-md-2
                 ul.list
