@@ -43,7 +43,7 @@
 
   router.get('/bcpc-rating', function(req, res) {
     var teamName;
-    teamName = ["TDL", "LovelyDonuts", "ACMakeMeHappier", "null", "long live buaa oo", "QAQ", "ResuscitatedHope", "Veleno", "deticxe", "GG", "threeheroes", "firebug", "The South China Sea"];
+    teamName = ["TDL", "LovelyDonuts", "ACMakeMeHappier", "null", "sto orz", "QAQ", "ResuscitatedHope", "Veleno", "deticxe", "GG", "firebug", "The South China Sea"];
     return res.render('acm-rating/rating', {
       title: '北航ACM集训队Rating计算',
       teamName: teamName,
