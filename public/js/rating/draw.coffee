@@ -24,6 +24,14 @@
 
     tooltip:
       valueSuffix: ""
+      pointFormatter: ()->
+        if @x == 0
+          return "<span style='color:#{@color}'>\u25CF</span> #{@series.name}: <b>#{@y}</b><br/>"
+        else
+          delta = @y-@series.data[@x-1].y
+          sign = '+'
+          sign = '-' if delta < 0
+          return "<span style='color:#{@color}'>\u25CF</span> #{@series.name}: <b>#{@y}</b><br/><b>#{sign}#{delta}</b>"
 
     legend:
       layout: "vertical"

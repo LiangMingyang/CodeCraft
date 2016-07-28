@@ -34,7 +34,20 @@
         ]
       },
       tooltip: {
-        valueSuffix: ""
+        valueSuffix: "",
+        pointFormatter: function() {
+          var delta, sign;
+          if (this.x === 0) {
+            return "<span style='color:" + this.color + "'>\u25CF</span> " + this.series.name + ": <b>" + this.y + "</b><br/>";
+          } else {
+            delta = this.y - this.series.data[this.x - 1].y;
+            sign = '+';
+            if (delta < 0) {
+              sign = '-';
+            }
+            return "<span style='color:" + this.color + "'>\u25CF</span> " + this.series.name + ": <b>" + this.y + "</b><br/><b>" + sign + delta + "</b>";
+          }
+        }
       },
       legend: {
         layout: "vertical",
