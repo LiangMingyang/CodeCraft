@@ -32,4 +32,20 @@ router.get '/index', (req, res) ->
     user: req.session.user
   }
 
+router.get '/bcpc-rating', (req, res) ->
+  teamName = [
+    "TDL"
+  , "LovelyDonuts"
+  , "ACMakeMeHappier"
+  , "null"
+  , "sto orz"
+  , "QAQ"
+  , "ResuscitatedHope"
+  , "Veleno"
+  , "deticxe"
+  , "GG"
+  , "firebug"
+  , "The South China Sea"
+  ];
+  res.render 'acm-rating/rating', { title: '北航ACM集训队Rating计算', teamName: teamName, user: req.session.user }
 module.exports = router

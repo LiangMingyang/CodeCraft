@@ -1,0 +1,61 @@
+//
+   Created by lmy on 7/18/16.
+
+extends ../layout
+
+block title
+    - var whichPage = "Rating"
+    title #{whichPage}
+block script
+    link(rel='stylesheet', href="/stylesheets/rating/style.css")
+    script(src='/js/rating/bowser.js')
+    script(src='/js/rating/draw.js')
+    script(src='/js/jquery.sortable.js')
+    script(src='/js/rating/main.js')
+    script(src='/js/highcharts/highcharts.js')
+    script(src='/js/highcharts/modules/exporting.js')
+block content
+
+    .container
+        .row
+            .col-md-2
+            .col-md-1
+            .col-md-2
+                p#contest Contest #1
+            .col-md-1
+            .col-md-2
+                p#rating Rating #0
+        .row
+            .col-md-2
+            .col-md-1
+                ul.rank
+                    - for(var i = 1 ; i <= 2 && i <= teamName.length; ++i)
+                        li(style="background:gold;") #{i}
+                    - for(var i = 3 ; i <= 5 && i <= teamName.length; ++i)
+                        li(style="background:silver;") #{i}
+                    - for(var i = 6 ; i <= 8 && i <= teamName.length; ++i)
+                        li(style="background:brown;") #{i}
+                    - for(var i = 9 ; i <= teamName.length ; ++i)
+                        li #{i}
+            .col-md-2
+                ul.list
+                    - for(var i = 0 ; i < teamName.length ; ++i)
+                        li #{teamName[i]}
+                button.btn.btn-default(onclick="solve();") 根据排名计算积分
+            .col-md-1
+            .col-md-2
+                ul.team
+                    - for(var i = 0 ; i < teamName.length ; ++i)
+                        li #{teamName[i]}
+                button.btn.btn-default(onclick="drawRating();") 画出统计图表
+            .col-md-2
+                ul.rating
+                    - for(var i = 0 ; i < teamName.length ; ++i)
+                        li #{1000}
+                button.btn.btn-default(onclick="showNow();") 重置为当前积分
+                a.btn(onclick="downloadRank();") 下载当前排名
+        .row
+            .col-md-12
+                #panel
+    script.
+        $('.list').sortable()
