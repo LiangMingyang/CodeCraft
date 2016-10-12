@@ -440,6 +440,7 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
       tmp[sub.creator.id].user ?= sub.creator
       tmp[sub.creator.id].detail ?= {}
       problemOrderLetter = dicProblemIDToOrder[sub.problem_id]
+      continue if problemOrderLetter is undefined
       detail = tmp[sub.creator.id].detail
       detail[problemOrderLetter] ?= {}
       detail[problemOrderLetter].score ?= 0

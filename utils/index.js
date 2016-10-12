@@ -643,6 +643,9 @@
           base1.detail = {};
         }
         problemOrderLetter = dicProblemIDToOrder[sub.problem_id];
+        if (problemOrderLetter === void 0) {
+          continue;
+        }
         detail = tmp[sub.creator.id].detail;
         if (detail[problemOrderLetter] == null) {
           detail[problemOrderLetter] = {};
