@@ -3,6 +3,7 @@
 @angular.module('bcpc',[])
 
 .controller('bcpc.ctrl',($scope,$http,$timeout)->
+  $scope.registered = "waiting"
   $scope.passed = "waiting"
   $scope.confirmed = "waiting"
   $scope.list = []
@@ -12,6 +13,7 @@
       $scope.passed = res.data.passed || false
       $scope.confirmed = res.data.confirmed || false
       $scope.user = res.data.user || false
+      $scope.registered = res.data.registered || false
   ,
     (res)->
       console.log res.data.error
@@ -40,6 +42,19 @@
         alert(res.data.error)
     )
     $('#double_check').modal('hide')
+  $scope.register = ()->
+    $scope.registered = 'waiting'
+    $http.get('/api/bcpc/register')
+    .then(
+      (res)->
+        $scope.registered = res.data.registered
+    ,
+      (res)->
+        if res.status is 401
+          window.location = "/user/login"
+          return
+        alert(res.data.error)
+    )
 )
 .controller('bcpc.list',($scope,$http)->
   $scope.list = []

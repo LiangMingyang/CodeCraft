@@ -89,34 +89,52 @@ check = (userId)->
   }
   return !!up[userId]
 
+#exports.getStatus = (req, res)->
+#  BCPC_Final = 7
+#  global.db.Promise.resolve()
+#  .then ->
+#    global.myUtils.findGroupsID(req.session.user)
+#  .then (groupIDs)->
+#    for id in groupIDs
+#      if id is BCPC_Final
+#        return true
+#    return false
+#  .then (confirmed)->
+#    passed = req.session.user && check(req.session.user.id)
+#    res.json(
+#      user : req.session.user
+#      passed    : passed
+#      confirmed : confirmed
+#    )
+#  .catch (err)->
+#    res.status(err.status || 400)
+#    res.json(error:err.message)
+
 exports.getStatus = (req, res)->
-  BCPC_Final = 7
+  BCPC_2016 = 14
   global.db.Promise.resolve()
   .then ->
     global.myUtils.findGroupsID(req.session.user)
   .then (groupIDs)->
     for id in groupIDs
-      if id is BCPC_Final
+      if id is BCPC_2016
         return true
     return false
-  .then (confirmed)->
-    passed = req.session.user && check(req.session.user.id)
+  .then (registered)->
     res.json(
       user : req.session.user
-      passed    : passed
-      confirmed : confirmed
+      registered    : registered
     )
   .catch (err)->
     res.status(err.status || 400)
     res.json(error:err.message)
-
 
 exports.getRegister = (req, res)->
   User  = global.db.models.user
   Group = global.db.models.group
   joiner = undefined
   currentGroup = undefined
-  BCPC_GROUP = 6
+  BCPC_GROUP = 14
   global.db.Promise.resolve()
   .then ->
     throw new global.myErrors.UnknownUser() if not req.session.user
@@ -133,7 +151,7 @@ exports.getRegister = (req, res)->
     throw new global.myErrors.UnknownGroup("你已经注册过了") if res
     currentGroup.addUser(joiner, {access_level : 'member'})
   .then ->
-    res.json(registed:true)
+    res.json(registered:true)
   .catch (err)->
     res.status(err.status || 400)
     res.json(error:err.message)
