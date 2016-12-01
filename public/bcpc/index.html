@@ -387,11 +387,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="detail">
+        <div class="detail text-center">
             <p>本次比赛的地点是地点位于北航沙河校区实验7号楼4、5层。北航沙河校区在北京昌平沙河，可乘坐地铁昌平线到达沙河地铁站，转乘公交昌66到达沙河校区东门，我们将安排工作人员在东门等待大家光临。
                 祥见下面的参赛地图。
             </p>
-            <img src="./map.png" alt="">
+            <div id="map" style="width:500px; height:300px; margin:0 auto;"></div>
         </div>
     </div>
 
@@ -504,6 +504,21 @@
     new WOW().init();
 
 
+</script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=da72d96af813df0152801146d36d1786"></script>
+<script>
+    var map = new AMap.Map("map", {
+        resizeEnable: true,
+        center: [116.2696010126, 40.1523057734],
+        zoom:18
+    });
+    var marker = new AMap.Marker({
+        position: map.getCenter(),
+        draggable: true,
+        cursor: 'move',
+        raiseOnDrag: true
+    });
+    marker.setMap(map);
 </script>
 </body>
 </html>
