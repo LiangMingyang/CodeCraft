@@ -7,17 +7,18 @@
     <meta name="description" content="BUAA,icpc">
     <meta name="author" content="Thor">
 
-    <title>第十一届北航程序设计竞赛</title>
+    <title>第十二届北航程序设计竞赛</title>
     <!--Angular-->
-    <script src="https://acm.buaa.edu.cn:12306/angular/angular.min.js"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
     <script src="./app.js"></script>
     <!-- Bootstrap core CSS -->
-    <link href="https://acm.buaa.edu.cn:12306/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">-->
 
     <!-- Animation CSS -->
-    <link href="https://acm.buaa.edu.cn:12306/animate.css/animate.min.css" rel="stylesheet">
-    <link href="https://acm.buaa.edu.cn:12306/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://acm.buaa.edu.cn:12306/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../bower_components/animate.css/animate.min.css">
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
 
     <!-- Custom styles for this template -->
@@ -155,68 +156,73 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="row text-center">
-                                <img src="./logo2.png" style="width:100%">
+                                <img src="./BCPC2016_logo.png" style="width:100%">
                             </div>
                         </div>
                         <div class="col-md-8">
 
-                            <h1>第十一届北航程序设计竞赛&nbsp;&nbsp;&nbsp;<br></h1>
-                            <h2 class="hide-mob">The 11th Beihang University Collegiate Programing Contest
+                            <h1>第十二届北航程序设计竞赛&nbsp;&nbsp;&nbsp;<br></h1>
+                            <h2 class="hide-mob">The 12th Beihang University Collegiate Programming Contest
                                 <br></h2>
 
-                            <p class="hide-mob">依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十一届。</p>
+                            <p class="hide-mob">依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十二届。</p>
 
                             <p class="hide-mob">
                                 <x>
-                                    <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
-                                    <p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>
-                                    <div ng-if="passed == true && confirmed == false">
-                                        <p>恭喜您成功晋级决赛</p>
-                                        <label for="nickname" style="color:#000000;">真实姓名</label>
-                                        <input id="nickname" ng-model="form.nickname" style="color:#000000;">
-                                        <label for="student_id" style="color:#000000;">学号</label>
-                                        <input id="student_id" ng-model="form.student_id" style="color:#000000;">
-                                        <label for="phone" style="color:#000000;">手机</label>
-                                        <input id="phone" ng-model="form.phone" style="color:#000000;">
-                                        <button class="btn btn-success" ng-click="confirm()">我确定参加决赛</button>
-                                    </div>
-                                    <div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">
-                                        <div ng-if="passed == true && confirmed == false" class="modal-dialog">
-
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">x</span>
-                                                    </button>
-                                                    <h4 id="double_check_label" class="modal-title">确认报名参加？</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>
-                                                        <ol>
-                                                            <li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>
-                                                            <li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>
-                                                            <li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>
-                                                            <li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>
-                                                            <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
-                                                            <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。</li>
-                                                            <li><strong>注册要求真实姓名，学号，手机号码。</strong></li>
-                                                            <li><strong>决赛将在12月20日下午1点-5点在北航沙河校区实验楼7号楼4层5层进行</strong></li>
-                                                            <li><strong>决赛当天请提前20分钟携带有效证件入场</strong></li>
-                                                        </ol>
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-warning" type="button" data-dismiss="modal">
-                                                        取消
-                                                    </button>
-                                                    <button class="btn btn-success" ng-click="double_confirm()">确认</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>
-                                    <p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
+                                    <a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
+                                    <a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/29">你已经注册过了，去练习一下吧 </a>
+                                    <p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
                                 </x>
+                                <!--<x>-->
+                                    <!--<a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>-->
+                                    <!--<p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>-->
+                                    <!--<div ng-if="passed == true && confirmed == false">-->
+                                        <!--<p>恭喜您成功晋级决赛</p>-->
+                                        <!--<label for="nickname" style="color:#000000;">真实姓名</label>-->
+                                        <!--<input id="nickname" ng-model="form.nickname" style="color:#000000;">-->
+                                        <!--<label for="student_id" style="color:#000000;">学号</label>-->
+                                        <!--<input id="student_id" ng-model="form.student_id" style="color:#000000;">-->
+                                        <!--<label for="phone" style="color:#000000;">手机</label>-->
+                                        <!--<input id="phone" ng-model="form.phone" style="color:#000000;">-->
+                                        <!--<button class="btn btn-success" ng-click="confirm()">我确定参加决赛</button>-->
+                                    <!--</div>-->
+                                    <!--<div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">-->
+                                        <!--<div ng-if="passed == true && confirmed == false" class="modal-dialog">-->
+
+                                            <!--<div class="modal-content">-->
+                                                <!--<div class="modal-header">-->
+                                                    <!--<button class="close" type="button" data-dismiss="modal" aria-label="Close">-->
+                                                        <!--<span aria-hidden="true">x</span>-->
+                                                    <!--</button>-->
+                                                    <!--<h4 id="double_check_label" class="modal-title">确认报名参加？</h4>-->
+                                                <!--</div>-->
+                                                <!--<div class="modal-body">-->
+                                                    <!--<p>-->
+                                                        <!--<ol>-->
+                                                            <!--<li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>-->
+                                                            <!--<li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>-->
+                                                            <!--<li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>-->
+                                                            <!--<li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>-->
+                                                            <!--<li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>-->
+                                                            <!--<li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。</li>-->
+                                                            <!--<li><strong>注册要求真实姓名，学号，手机号码。</strong></li>-->
+                                                            <!--<li><strong>决赛将在12月18日下午1点-5点在北航沙河校区实验楼7号楼4层5层进行</strong></li>-->
+                                                            <!--<li><strong>决赛当天请提前20分钟携带有效证件入场</strong></li>-->
+                                                        <!--</ol>-->
+                                                    <!--</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="modal-footer">-->
+                                                    <!--<button class="btn btn-warning" type="button" data-dismiss="modal">-->
+                                                        <!--取消-->
+                                                    <!--</button>-->
+                                                    <!--<button class="btn btn-success" ng-click="double_confirm()">确认</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>-->
+                                    <!--<p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>-->
+                                <!--</x>-->
                                 <br>
                                 <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
                                 <a href="https://www.buaa.edu.cn">北航官网</a>&nbsp;&nbsp;
@@ -245,7 +251,7 @@
             <!--<p>依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十一届。<br>-->
                 <!--比赛每年吸引全校数百名程序爱好者参加，为广大程序设计爱好者搭建了一个学习、交流、竞技的平台。<br>-->
                 <!--为激发我校大学生程序设计学习的兴趣，加强学风建设，增进我校学生在计算机程序设计、数据结构、算法设计等学科的学习，同时选拔出一批优秀的选手参加学校ACM集训队，我校今年将在12月份如期举办第十一届北航程序设计竞赛。</p>-->
-            <p>本次比赛由所有获得过亚洲区域赛金、银牌的北航2015ACM集训队队员作为命题组，将不参与比赛。非北航ACM集训队的北航在校本科生研究生均可报名参赛，并且届时会邀请北航周边兄弟院校的同学同场竞技。</p>
+            <p>本次比赛由所有获得过亚洲区域赛金、银牌的北航2016ACM集训队队员作为命题组，将不参与比赛。非北航ACM集训队的北航在校本科生研究生均可报名参赛，并且届时会邀请北航周边兄弟院校的同学同场竞技。</p>
         </div>
     </div>
 
@@ -295,11 +301,11 @@
                         <div class="panel-body">
                             <p>　　
                                 大赛设冠、亚、季军各1名，并设一等奖5名（包含冠亚季军），二等奖7名，三等奖9名。所有获奖选手将颁发北航教务处的证书及相应奖品。获得冠亚季军的选手可申请相应的校级奖学金。<br>
-                                <ol>
-                                    <li>一等奖为<strong>cherry机械键盘 价值500</strong></li>
-                                    <li>二等奖为<strong>AKG 耳机 价值300</strong></li>
-                                    <li>三等奖为<strong>小米充电宝16000mAh 价值150</strong></li>
-                                </ol>
+                                <!--<ol>-->
+                                    <!--<li>一等奖为<strong>cherry机械键盘 价值500</strong></li>-->
+                                    <!--<li>二等奖为<strong>AKG 耳机 价值300</strong></li>-->
+                                    <!--<li>三等奖为<strong>小米充电宝16000mAh 价值150</strong></li>-->
+                                <!--</ol>-->
                             </p>
                         </div>
                     </div>
@@ -343,37 +349,37 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>2015年12月2日0点--11日12点</td>
+                    <td>2016年11月20日0点--12月11日12点</td>
                     <td>参赛报名</td>
                     <td>本页</td>
                     <td>无</td>
                 </tr>
                 <tr>
-                    <td>2015年12月12日0点--14日24点</td>
+                    <td>2016年12月10日12点--12日12点</td>
                     <td>网络预赛</td>
                     <td>比赛平台</td>
                     <td>参赛队员</td>
                 </tr>
                 <tr>
-                    <td>2015年12月17日</td>
-                    <td>公布比赛晋级名单</td>
+                    <td>2016年12月14日</td>
+                    <td>公布比赛晋级名单及比赛具体事宜</td>
                     <td>本页</td>
                     <td>无</td>
                 </tr>
+                <!--<tr>-->
+                    <!--<td>2016年12月18日&#45;&#45;19日</td>-->
+                    <!--<td>向现场赛选手通知比赛具体事宜</td>-->
+                    <!--<td>无</td>-->
+                    <!--<td>无</td>-->
+                <!--</tr>-->
                 <tr>
-                    <td>2015年12月18日--19日</td>
-                    <td>向现场赛选手通知比赛具体事宜</td>
-                    <td>无</td>
-                    <td>无</td>
-                </tr>
-                <tr>
-                    <td>2015年12月20日13点--17点</td>
+                    <td>2016年12月18日13点--17点</td>
                     <td>现场决赛</td>
                     <td>沙河现场</td>
                     <td>决赛队员</td>
                 </tr>
                 <tr>
-                    <td>2015年12月20日17点--18点</td>
+                    <td>2016年12月18日17点--18点</td>
                     <td>颁奖典礼</td>
                     <td>沙河现场</td>
                     <td>决赛队员</td>
@@ -381,11 +387,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="detail">
+        <div class="detail text-center">
             <p>本次比赛的地点是地点位于北航沙河校区实验7号楼4、5层。北航沙河校区在北京昌平沙河，可乘坐地铁昌平线到达沙河地铁站，转乘公交昌66到达沙河校区东门，我们将安排工作人员在东门等待大家光临。
                 祥见下面的参赛地图。
             </p>
-            <img src="./map.png" alt="">
+            <div id="map" style="width:500px; height:300px; margin:0 auto;"></div>
         </div>
     </div>
 
@@ -398,18 +404,21 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>
-                    <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
-                    <a ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </a>
-                    <a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>
-                    <a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>
-                    <a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
+                    <!--<a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>-->
+                    <!--<a ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </a>-->
+                    <!--<a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>-->
+                    <!--<a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>-->
+                    <!--<a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>-->
+                    <a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">点击注册 </a>
+                    <a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/29">去练习一下吧 </a>
+                    <p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
                 </h1>
 
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                <p><strong>© 2015&nbsp;北航ACM集训队</strong></p>
+                <p><strong>© 2016&nbsp;北航ACM集训队</strong></p>
                 <p><small>powered by Liang Mingyang, hire and contact please mail <a href="mailto:lmysoar@hotmail">lmysoar@hotmail.com</a></small></p>
             </div>
         </div>
@@ -419,11 +428,11 @@
 <!-- Mainly scripts -->
 
 
-<script src="https://acm.buaa.edu.cn:12306/jquery/dist/jquery.min.js"></script>
-<script src="https://acm.buaa.edu.cn:12306/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="https://acm.buaa.edu.cn:12306/metisMenu/dist/metisMenu.min.js"></script>
-<script src="https://acm.buaa.edu.cn:12306/inspinia/assets/js/inspinia.js"></script>
-<script src="https://acm.buaa.edu.cn:12306/wow/dist/wow.min.js"></script>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<!--<script src="../bower_components/inspinia/assets/js/inspinia.js"></script>-->
+<script src="../bower_components/wow/dist/wow.min.js"></script>
 
 
 
@@ -495,6 +504,21 @@
     new WOW().init();
 
 
+</script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=da72d96af813df0152801146d36d1786"></script>
+<script>
+    var map = new AMap.Map("map", {
+        resizeEnable: true,
+        center: [116.2696010126, 40.1523057734],
+        zoom:18
+    });
+    var marker = new AMap.Marker({
+        position: map.getCenter(),
+        draggable: true,
+        cursor: 'move',
+        raiseOnDrag: true
+    });
+    marker.setMap(map);
 </script>
 </body>
 </html>
