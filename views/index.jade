@@ -95,21 +95,28 @@ html(lang='zh-CN')
                         #page.row.page-control
                             img(style='position:absolute; left: 0px; top: 0px; width: 100%;z-index:-1;min-width: 886px;margin-top:165px;', src='/img/bg008.png')
                             img(style='position:fixed; left: 0px; top: 0px; width: 100%;z-index:-3;min-width: 886px;', src='/img/bg005.png')
-                            .containing(style='width:300px;margin-top:2.8%;')
-                                h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑") 北航在线编程
-                                h3(style="font-size:1.5em;margin-top:0.5em; font-family:'Microsoft YaHei', 微软雅黑") BUAA ONLINE JUDGE
-                                p(style="font-size:20px; margin-top:1.8em;font-family:'Microsoft YaHei', 微软雅黑")
-                                    span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;color: #fff;')
-                                    | 在线课程
-                                    span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;margin-left: 6px;color: #fff;')
-                                    | 海量题库
-                                    br
-                                    span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;color: #fff;')
-                                    | 新鲜赛事
-                                    span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;margin-left: 6px;color: #fff;')
-                                    | 及时评测
-                                p(style="font-size:16px; margin-bottom:0px; font-family:'Microsoft YaHei', 微软雅黑") Write The Code, Change The World.
-
+                            .containing(style='margin-top:2.8%;')
+                                //-.col-lg-4.col-nm-4.col-sm-4.col-xs-4
+                                    h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑") 北航在线编程
+                                    h3(style="font-size:1.5em;margin-top:0.5em; font-family:'Microsoft YaHei', 微软雅黑") BUAA ONLINE JUDGE
+                                    p(style="font-size:20px; margin-top:1.8em;font-family:'Microsoft YaHei', 微软雅黑")
+                                        span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;color: #fff;')
+                                        | 在线课程
+                                        span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;margin-left: 6px;color: #fff;')
+                                        | 海量题库
+                                        br
+                                        span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;color: #fff;')
+                                        | 新鲜赛事
+                                        span.glyphicon.glyphicon.glyphicon-ok-circle(aria-hidden='true', style='margin-right: 10px;margin-left: 6px;color: #fff;')
+                                        | 及时评测
+                                    p(style="font-size:16px; margin-bottom:0px; font-family:'Microsoft YaHei', 微软雅黑") Write The Code, Change The World.
+                                .col-lg-6.col-nm-6.col-sm-6.col-xs-6
+                                    h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑") 第十二届北航程序设计竞赛报名
+                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 开始啦!
+                                    h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
+                                        |详情请戳上方
+                                        a(href="/bcpc/index.html" style="color:#88FF45") BCPC链接
+                                        |查看相关内容哦～
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");
