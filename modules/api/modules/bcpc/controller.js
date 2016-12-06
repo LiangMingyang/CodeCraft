@@ -171,7 +171,7 @@
     Group = global.db.models.group;
     joiner = void 0;
     currentGroup = void 0;
-    BCPC_GROUP = 7;
+    BCPC_GROUP = 14;
     return global.db.Promise.resolve().then(function() {
       return Group.find({
         where: {
@@ -179,7 +179,12 @@
         },
         include: [
           {
-            model: User
+            model: User,
+            through: {
+              where: {
+                access_level: ['member']
+              }
+            }
           }
         ]
       });
