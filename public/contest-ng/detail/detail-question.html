@@ -5,7 +5,7 @@
 </label>
 
 <div ng-repeat="data in Issue.data">
-    <div ng-show="Contest.idToOrder[data.problem_id] === order && data.access_level === 'public'">
+    <div ng-show="(Contest.idToOrder[data.problem_id] === order ||  data.problem_id == null) && data.access_level === 'public'">
         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-class="{'label-info':data.issue_replies.length>0}" style="cursor:pointer;border:1px solid #DDDDDD;" ng-click="change_question_list($index)">{{data.title}}</label>
         <div ng-show="query_question_list($index)">
             <label>公告内容：<textarea class="form-control" disabled>{{data.content}}</textarea></label>
