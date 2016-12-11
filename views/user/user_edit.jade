@@ -46,8 +46,11 @@ block content
                         label.form-control-static(for='student_id', style='color: #333;')  学    校: 
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
                         select.form-control(type="input", name='school', id="school", value=target.school)
-                            option(value="北京航空航天大学") 北京航空航天大学
-                            option(value="北京邮电大学") 北京邮电大学
+                            option(value='-----') 请选择
+                            option(value='北京航空航天大学') 北京航空航天大学
+                            option(value='北京邮电大学') 北京邮电大学
+                            option(value='北京大学') 北京大学
+                            option(value='清华大学') 清华大学
                         script.
                             var sjl=document.getElementById("school");
                             for(var i=0;i<2;i++)
@@ -60,9 +63,33 @@ block content
                         label.form-control-static(for='student_id', style='color: #333;')  专    业: 
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
                         select.form-control(type="input", name='college', id="college", value=target.college)
-                            option(value="软件学院") 软件学院
-                            option(value="计算机学院") 计算机学院
-                            option(value="北京学院") 北京学院
+                            option(value='-----') 请选择
+                            option(value='材料科学与工程学院') 材料科学与工程学院
+                            option(value='电子信息工程学院') 电子信息工程学院
+                            option(value='自动化科学与电气工程学院') 自动化科学与电气工程学院
+                            option(value='能源与动力工程学院') 能源与动力工程学院
+                            option(value='航空科学与工程学院') 航空科学与工程学院
+                            option(value='计算机学院') 计算机学院
+                            option(value='机械工程及自动化学院') 机械工程及自动化学院
+                            option(value='经济管理学院') 经济管理学院
+                            option(value='数学与系统科学学院') 数学与系统科学学院
+                            option(value='生物与医学工程学院') 生物与医学工程学院
+                            option(value='人文社会科学学院（公共管理学院）') 人文社会科学学院（公共管理学院）
+                            option(value='外国语学院') 外国语学院
+                            option(value='交通科学与工程学院') 交通科学与工程学院
+                            option(value='可靠性与系统工程学院') 可靠性与系统工程学院
+                            option(value='宇航学院') 宇航学院
+                            option(value='飞行学院') 飞行学院
+                            option(value='仪器科学与光电工程学院') 仪器科学与光电工程学院
+                            option(value='物理科学与核能工程学院') 物理科学与核能工程学院
+                            option(value='法学院') 法学院
+                            option(value='软件学院') 软件学院
+                            option(value='高等工程学院') 高等工程学院
+                            option(value='中法工程师学院') 中法工程师学院
+                            option(value='国际学院') 国际学院
+                            option(value='新媒体艺术与设计学院') 新媒体艺术与设计学院
+                            option(value='化学与环境学院') 化学与环境学院
+                            option(value='人文与社会科学高等研究院') 人文与社会科学高等研究院
                         script.
                             var sjl2=document.getElementById("college");
                             for(var i=0;i<3;i++)
