@@ -168,61 +168,61 @@
                             <p class="hide-mob">依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十二届。</p>
 
                             <p class="hide-mob">
-                                <x>
-                                    <a ng-if="registered == false" style="color: #AB3C03" >您没有注册该赛事 </a>
-                                    <a ng-if="registered == true" style="color: #AB3C03" href="http://blog.csdn.net/skywalkert/article/details/53531215#reply">正在查重中，可以去看看题解</a>
-                                    <p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
-                                </x>
                                 <!--<x>-->
-                                    <!--<a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>-->
-                                    <!--<p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>-->
-                                    <!--<div ng-if="passed == true && confirmed == false">-->
-                                        <!--<p>恭喜您成功晋级决赛</p>-->
-                                        <!--<label for="nickname" style="color:#000000;">真实姓名</label>-->
-                                        <!--<input id="nickname" ng-model="form.nickname" style="color:#000000;">-->
-                                        <!--<label for="student_id" style="color:#000000;">学号</label>-->
-                                        <!--<input id="student_id" ng-model="form.student_id" style="color:#000000;">-->
-                                        <!--<label for="phone" style="color:#000000;">手机</label>-->
-                                        <!--<input id="phone" ng-model="form.phone" style="color:#000000;">-->
-                                        <!--<button class="btn btn-success" ng-click="confirm()">我确定参加决赛</button>-->
-                                    <!--</div>-->
-                                    <!--<div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">-->
-                                        <!--<div ng-if="passed == true && confirmed == false" class="modal-dialog">-->
-
-                                            <!--<div class="modal-content">-->
-                                                <!--<div class="modal-header">-->
-                                                    <!--<button class="close" type="button" data-dismiss="modal" aria-label="Close">-->
-                                                        <!--<span aria-hidden="true">x</span>-->
-                                                    <!--</button>-->
-                                                    <!--<h4 id="double_check_label" class="modal-title">确认报名参加？</h4>-->
-                                                <!--</div>-->
-                                                <!--<div class="modal-body">-->
-                                                    <!--<p>-->
-                                                        <!--<ol>-->
-                                                            <!--<li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>-->
-                                                            <!--<li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>-->
-                                                            <!--<li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>-->
-                                                            <!--<li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>-->
-                                                            <!--<li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>-->
-                                                            <!--<li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。</li>-->
-                                                            <!--<li><strong>注册要求真实姓名，学号，手机号码。</strong></li>-->
-                                                            <!--<li><strong>决赛将在12月18日下午1点-5点在北航沙河校区实验楼7号楼4层5层进行</strong></li>-->
-                                                            <!--<li><strong>决赛当天请提前20分钟携带有效证件入场</strong></li>-->
-                                                        <!--</ol>-->
-                                                    <!--</p>-->
-                                                <!--</div>-->
-                                                <!--<div class="modal-footer">-->
-                                                    <!--<button class="btn btn-warning" type="button" data-dismiss="modal">-->
-                                                        <!--取消-->
-                                                    <!--</button>-->
-                                                    <!--<button class="btn btn-success" ng-click="double_confirm()">确认</button>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>-->
-                                    <!--<p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>-->
+                                    <!--<a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>-->
+                                    <!--<a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/123">你已经注册过了，去参赛吧 </a>-->
+                                    <!--<p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>-->
                                 <!--</x>-->
+                                <x>
+                                    <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
+                                    <p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>
+                                    <div ng-if="passed == true && confirmed == false">
+                                        <p>恭喜您成功晋级决赛</p>
+                                        <label for="nickname" style="color:#000000;">真实姓名</label>
+                                        <input id="nickname" ng-model="form.nickname" style="color:#000000;">
+                                        <label for="student_id" style="color:#000000;">学号</label>
+                                        <input id="student_id" ng-model="form.student_id" style="color:#000000;">
+                                        <label for="phone" style="color:#000000;">手机</label>
+                                        <input id="phone" ng-model="form.phone" style="color:#000000;">
+                                        <button class="btn btn-success" ng-click="confirm()">我确定参加决赛</button>
+                                    </div>
+                                    <div id="double_check" class="modal fade" style="top:50px;" tabindex="-1" role="dialog" aria-labelledby="double_check_label" aria-hidden="true">
+                                        <div ng-if="passed == true && confirmed == false" class="modal-dialog">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">x</span>
+                                                    </button>
+                                                    <h4 id="double_check_label" class="modal-title">确认报名参加？</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        <ol>
+                                                            <li>比赛时间共 4 小时。试题以中文表述，约 8~14 道题。选手可使用的编程语言包括C\C++和Java。考察内容以程序设计、数据结构、算法分析为主，为 ACM 竞赛的命题形式。</li>
+                                                            <li>参赛学生可以携带诸如书、手册、 程序清单等纸质参考资料和少量食品。</li>
+                                                            <li>参赛学生不能携带任何可用计算机处理的软件或数据（如存储设备、计算器或电子辞典等）。</li>
+                                                            <li>参赛学生不能携带任何类型的通讯工具，包括无线电接收器、移动电话。</li>
+                                                            <li>在竞赛中，参赛选手之间不能交谈。系统支持人员可以回答和系统相关的问题，例如解释系统错误信息。</li>
+                                                            <li>竞赛时，参赛选手和场外人员均可在计分板上看到即时成绩和排名。</li>
+                                                            <li><strong>注册要求真实姓名，学号，手机号码。</strong></li>
+                                                            <li><strong>决赛将在12月18日下午1点-5点在北航沙河校区实验楼7号楼进行</strong></li>
+                                                            <li><strong>决赛当天请提前20分钟携带有效证件入场</strong></li>
+                                                        </ol>
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-warning" type="button" data-dismiss="modal">
+                                                        取消
+                                                    </button>
+                                                    <button class="btn btn-success" ng-click="double_confirm()">确认</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>
+                                    <p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
+                                </x>
                                 <br>
                                 <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
                                 <a href="https://www.buaa.edu.cn">北航官网</a>&nbsp;&nbsp;
@@ -301,11 +301,11 @@
                         <div class="panel-body">
                             <p>　　
                                 大赛设冠、亚、季军各1名，并设一等奖5名（包含冠亚季军），二等奖7名，三等奖9名。所有获奖选手将颁发北航教务处的证书及相应奖品。获得冠亚季军的选手可申请相应的校级奖学金。<br>
-                                <!--<ol>-->
-                                    <!--<li>一等奖为<strong>cherry机械键盘 价值500</strong></li>-->
-                                    <!--<li>二等奖为<strong>AKG 耳机 价值300</strong></li>-->
-                                    <!--<li>三等奖为<strong>小米充电宝16000mAh 价值150</strong></li>-->
-                                <!--</ol>-->
+                                <ol>
+                                    <li>一等奖为<strong>cherry机械键盘 价值500</strong></li>
+                                    <li>二等奖为<strong>罗技鼠标 价值300</strong></li>
+                                    <li>三等奖为<strong>小米充电宝2 价值100</strong></li>
+                                </ol>
                             </p>
                         </div>
                     </div>
@@ -404,14 +404,14 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>
-                    <!--<a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>-->
-                    <!--<a ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </a>-->
-                    <!--<a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>-->
-                    <!--<a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>-->
-                    <!--<a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>-->
-                    <a ng-if="registered == false" style="color: #AB3C03">无法注册了 </a>
-                    <a ng-if="registered == true" style="color: #AB3C03" href="http://blog.csdn.net/skywalkert/article/details/53531215#reply">去看看题解吧 </a>
-                    <p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
+                    <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
+                    <a ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </a>
+                    <a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>
+                    <a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>
+                    <a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
+                    <!--<a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">点击注册 </a>-->
+                    <!--<a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/123">去参赛吧 </a>-->
+                    <!--<p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>-->
                 </h1>
 
             </div>
