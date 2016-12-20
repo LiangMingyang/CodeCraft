@@ -115,3 +115,21 @@ exports.postSubmissionApi = (req, res) ->
     console.error err
     err.message = "未知错误"
     res.render 'error', error: err
+
+exports.getSolutionEditor = (req, res) ->
+  console.log "ytou get soloution"
+  User = global.db.models.user
+  SubmissionCode = global.db.models.submission_code
+  global.db.Promise.resolve()
+    .then ->
+      User.find req.session.user.id if req.session.user
+    .then (user)->
+      global.myUtils.findSubmission(user, req.params.submissionID, [
+        model : SubmissionCode
+      ])
+    .then (submissions)->
+      res.render('submission/solution-editor')
+    .catch (err)->
+      console.error err
+      err.message = "未知错误"
+      res.render 'error', error: err

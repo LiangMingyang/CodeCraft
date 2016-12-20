@@ -155,6 +155,32 @@
     });
   };
 
+  exports.getSolutionEditor = function(req, res) {
+    var SubmissionCode, User;
+    console.log("ytou get soloution");
+    User = global.db.models.user;
+    SubmissionCode = global.db.models.submission_code;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      return global.myUtils.findSubmission(user, req.params.submissionID, [
+        {
+          model: SubmissionCode
+        }
+      ]);
+    }).then(function(submissions) {
+      return res.render('submission/solution-editor');
+    })["catch"](function(err) {
+      console.error(err);
+      err.message = "未知错误";
+      return res.render('error', {
+        error: err
+      });
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=controller.js.map

@@ -1,0 +1,21 @@
+extend ../layout
+
+block content
+    script(src="/bower_components/editor.md/editormd.min.js")
+    link(rel='stylesheet', href="/bower_components/editor.md/css/editormd.css")
+    div#editor
+        textarea(style="display: none;").
+            #Solution
+    script.
+        var testEditor;
+
+        $(function () {
+            testEditor = editormd("test-editormd", {
+                width: "90%",
+                height: 640,
+                syncScrolling: "single",
+                path: "/bower_components/editor.md/lib"
+            });
+
+        });
+
