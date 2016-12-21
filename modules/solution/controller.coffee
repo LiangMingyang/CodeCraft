@@ -7,13 +7,14 @@ HOME_PAGE = '/'
 DB = global.db
 Utils = global.myUtils
 
-exports.getSolutionEditor = (req, res) ->
+exports.getSolution = (req, res)->
   DB = global.db
   Utils = global.myUtils
   User = DB.models.user
-  Problem = DB.models.problem
-  Contest = DB.models.contest
+  Solution = DB.models.solution
   SubmissionCode = DB.models.submission_code
+  Problem = DB.models.problem
+  Contest = DB.models.Contest
   currentUser = undefined
   global.db.Promise.resolve()
     .then ->
@@ -28,19 +29,25 @@ exports.getSolutionEditor = (req, res) ->
       ,
         model : Problem
       ,
-        model : Contest
+        model : Solution
       ])
     .then (submission)->
       throw new global.myErrors.UnknownSubmission() if not submission
-      res.render('solution/solution-editor-md', {
+      res.render('solution/solution', {
         submission: submission
         user : currentUser
+        editable : submission.creator.id is currentUser.id
       })
+    .catch global.myErrors.UnknownSubmission,(err)->
+#      req.flash 'info', err.message
+#      res.redirect LOGIN_PAGE
+      res.render 'error', error: err
     .catch (err)->
       console.error err
       err.message = "未知错误"
       res.render 'error', error: err
-exports.postSolutionEditor = (req, res) ->
+
+exports.postSolution = (req, res) ->
   DB = global.db
   Utils = global.myUtils
   User = DB.models.user
@@ -64,20 +71,20 @@ exports.postSolutionEditor = (req, res) ->
       throw new global.myErrors.UnknownSubmission() if not submission
       currentSubmission = submission
       if submission.solution
+        console.log "solution_1"
         submission.solution.source = form.source
         submission.solution.content = form.content
         submission.solution.title = form.title
         submission.solution.save()
       else
+        console.log "solution_2"
         Solution.create form
-    .then (solution)->
-      currentSubmission.setSolution(solution)
+          .then (solution)->
+            console.log solution
+            currentSubmission.setSolution(solution)
       #solution.setSubmission(currentSubmission)
-    .then (submission)->
-      res.render('solution/solution', {
-        submission: submission
-        user : currentUser
-      })
+    .then (solution)->
+      res.redirect("#{currentSubmission.id}")
     .catch (err)->
       console.error err
       err.message = "未知错误"

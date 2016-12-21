@@ -13,10 +13,10 @@ router
 #.get '/index', controller.getIndex
 #.post '/index', controller.postIndex
 
-#.get '/:solutionID([0-9]+)', controller.getSolution
+.get '/:submissionID([0-9]+)', controller.getSolution
 
-.post '/editor/:submissionID([0-9]+)', controller.postSolutionEditor
+.post '/:submissionID([0-9]+)', controller.postSolution
 
-.get '/editor/:submissionID([0-9]+)', controller.getSolutionEditor
+#.get '/create/:submissionID([0-9]+)', controller.getCreateSolution
 
 module.exports = router

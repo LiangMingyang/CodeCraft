@@ -14,7 +14,7 @@
 
   router.use(middlewares);
 
-  router.post('/editor/:submissionID([0-9]+)', controller.postSolutionEditor).get('/editor/:submissionID([0-9]+)', controller.getSolutionEditor);
+  router.get('/:submissionID([0-9]+)', controller.getSolution).post('/:submissionID([0-9]+)', controller.postSolution);
 
   module.exports = router;
 

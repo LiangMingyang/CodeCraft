@@ -12,14 +12,15 @@
 
   Utils = global.myUtils;
 
-  exports.getSolutionEditor = function(req, res) {
-    var Contest, Problem, SubmissionCode, User, currentUser;
+  exports.getSolution = function(req, res) {
+    var Contest, Problem, Solution, SubmissionCode, User, currentUser;
     DB = global.db;
     Utils = global.myUtils;
     User = DB.models.user;
-    Problem = DB.models.problem;
-    Contest = DB.models.contest;
+    Solution = DB.models.solution;
     SubmissionCode = DB.models.submission_code;
+    Problem = DB.models.problem;
+    Contest = DB.models.Contest;
     currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -36,16 +37,21 @@
         }, {
           model: Problem
         }, {
-          model: Contest
+          model: Solution
         }
       ]);
     }).then(function(submission) {
       if (!submission) {
         throw new global.myErrors.UnknownSubmission();
       }
-      return res.render('solution/solution-editor-md', {
+      return res.render('solution/solution', {
         submission: submission,
-        user: currentUser
+        user: currentUser,
+        editable: submission.creator.id === currentUser.id
+      });
+    })["catch"](global.myErrors.UnknownSubmission, function(err) {
+      return res.render('error', {
+        error: err
       });
     })["catch"](function(err) {
       console.error(err);
@@ -56,7 +62,7 @@
     });
   };
 
-  exports.postSolutionEditor = function(req, res) {
+  exports.postSolution = function(req, res) {
     var Solution, User, currentSubmission, currentUser, form;
     DB = global.db;
     Utils = global.myUtils;
@@ -86,20 +92,20 @@
       }
       currentSubmission = submission;
       if (submission.solution) {
+        console.log("solution_1");
         submission.solution.source = form.source;
         submission.solution.content = form.content;
         submission.solution.title = form.title;
         return submission.solution.save();
       } else {
-        return Solution.create(form);
+        console.log("solution_2");
+        return Solution.create(form).then(function(solution) {
+          console.log(solution);
+          return currentSubmission.setSolution(solution);
+        });
       }
     }).then(function(solution) {
-      return currentSubmission.setSolution(solution);
-    }).then(function(submission) {
-      return res.render('solution/solution', {
-        submission: submission,
-        user: currentUser
-      });
+      return res.redirect("" + currentSubmission.id);
     })["catch"](function(err) {
       console.error(err);
       err.message = "未知错误";
