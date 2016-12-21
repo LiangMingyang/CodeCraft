@@ -16,6 +16,12 @@ block content
         | 对于
         a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
         | 的题解
+    - if(submission.solution)
+        h5.text-center.
+            最后更新于：#{submission.solution.updated_at}
+    - else
+        h5.text-center.
+            你正在书写一份题解
 
     form(method="post")
         div#editor
