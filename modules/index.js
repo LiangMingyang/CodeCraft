@@ -14,8 +14,6 @@
 
   exports.feedback = require('./feedback');
 
-  exports.solution = require("./solution");
-
   exports.api = require('./api');
 
 }).call(this);

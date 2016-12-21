@@ -28,8 +28,6 @@
 
   router.use('/feedback', modules.feedback.router);
 
-  router.use('/solution', modules.solution.router);
-
   router.use('/api', modules.api.router);
 
   router.get('/', function(req, res) {
