@@ -8,9 +8,9 @@
     database: {
       name: 'oj4th',
       username: 'root',
-      password: 'alimengmengda',
+      password: 'soar159357',
       config: {
-        host: 'biancheng.love',
+        host: 'localhost',
         dialect: 'mysql',
         port: 3306,
         timezone: '+08:00',

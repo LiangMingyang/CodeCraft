@@ -6,6 +6,6 @@ db = require('./database')(
   config.database.password,
   config.database.config
 )
-
-require('./init')(db)
+db.sync(force:false);
+#require('./init')(db)
 

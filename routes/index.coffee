@@ -20,6 +20,8 @@ router.use '/submission', modules.submission.router
 
 router.use '/feedback', modules.feedback.router
 
+router.use '/solution', modules.solution.router
+
 router.use '/api', modules.api.router
 
 # Get home page

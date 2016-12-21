@@ -12,4 +12,6 @@ exports.submission = require('./submission')
 
 exports.feedback = require('./feedback')
 
+exports.solution = require("./solution")
+
 exports.api = require('./api')

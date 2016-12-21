@@ -14,9 +14,7 @@
 
   router.use(middlewares);
 
-  router.get('/', function(req, res) {
-    return res.redirect('submission/index');
-  }).get('/index', controller.getIndex).post('/index', controller.postIndex).get('/:submissionID([0-9]+)', controller.getSubmission).post('/getSubmissionApi', controller.postSubmissionApi);
+  router.post('/editor/:submissionID([0-9]+)', controller.postSolutionEditor).get('/editor/:submissionID([0-9]+)', controller.getSolutionEditor);
 
   module.exports = router;
 
