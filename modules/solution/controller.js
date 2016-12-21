@@ -92,15 +92,12 @@
       }
       currentSubmission = submission;
       if (submission.solution) {
-        console.log("solution_1");
         submission.solution.source = form.source;
         submission.solution.content = form.content;
         submission.solution.title = form.title;
         return submission.solution.save();
       } else {
-        console.log("solution_2");
         return Solution.create(form).then(function(solution) {
-          console.log(solution);
           return currentSubmission.setSolution(solution);
         });
       }

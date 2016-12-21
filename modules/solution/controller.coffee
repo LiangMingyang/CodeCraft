@@ -71,16 +71,13 @@ exports.postSolution = (req, res) ->
       throw new global.myErrors.UnknownSubmission() if not submission
       currentSubmission = submission
       if submission.solution
-        console.log "solution_1"
         submission.solution.source = form.source
         submission.solution.content = form.content
         submission.solution.title = form.title
         submission.solution.save()
       else
-        console.log "solution_2"
         Solution.create form
           .then (solution)->
-            console.log solution
             currentSubmission.setSolution(solution)
       #solution.setSubmission(currentSubmission)
     .then (solution)->
