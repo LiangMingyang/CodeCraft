@@ -20,6 +20,9 @@
       source: {
         type: DataTypes.TEXT('long'),
         allowNull: false
+      },
+      secret_limit: {
+        type: DataTypes.DATE
       }
     }, {
       underscored: true

@@ -63,7 +63,6 @@ exports.postLogin = (req, res) ->
   .then ->
     req.flash 'info', 'login successfully'
     NEXT_PAGE = undefined
-    console.log req.body.returnUrl
     if req.body.returnUrl is 'undefined'
       NEXT_PAGE = HOME_PAGE
     else

@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) ->
     source:
       type: DataTypes.TEXT('long')
       allowNull: false
+    secret_limit:
+      type: DataTypes.DATE
 #creator foreign key
 #group   foreign key
   }, {

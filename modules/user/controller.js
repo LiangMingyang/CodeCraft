@@ -71,7 +71,6 @@
       var NEXT_PAGE;
       req.flash('info', 'login successfully');
       NEXT_PAGE = void 0;
-      console.log(req.body.returnUrl);
       if (req.body.returnUrl === 'undefined') {
         NEXT_PAGE = HOME_PAGE;
       } else {

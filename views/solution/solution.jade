@@ -11,7 +11,8 @@ extend ../layout
 block content
     script(src="/bower_components/editor.md/editormd.min.js")
     link(rel='stylesheet', href="/bower_components/editor.md/css/editormd.css")
-    h1.text-center #{user.nickname}
+    h1.text-center
+        a(href="/user/#{submission.creator.id}") #{submission.creator.nickname}
         | 对于
         a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
         | 的题解
