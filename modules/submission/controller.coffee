@@ -192,7 +192,7 @@ exports.postSolution = (req, res) ->
         content : req.body["editor-html-code"]
         title : req.body["title"] || "Solution-#{currentUser.nickname}-#{currentUser.student_id}-#{currentSubmission.id}"
         access_level : req.body["access_level"] ||"protect"
-        secret_limit : req.body["secret_limit"] || new Date()+24*60*601000
+        secret_limit : req.body["secret_limit"] || new Date((new Date().getTime()+7*24*60*60*1000))
       }
       currentSubmission = submission
       if submission.solution
@@ -206,7 +206,8 @@ exports.postSolution = (req, res) ->
             currentSubmission.setSolution(solution)
         #solution.setSubmission(currentSubmission)
     .then (solution)->
-      res.redirect("#{currentSubmission.id}")
+      req.flash 'info', "保存成功"
+      res.redirect("../#{currentSubmission.id}/solution")
     .catch (err)->
       console.error err
       err.message = "未知错误"
