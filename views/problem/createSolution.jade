@@ -7,9 +7,7 @@
 
 extends ../layout
 block title
-    - var whichPage = "评测记录"
-    if(contest)
-        - var whichPage = "比赛题目评测记录"
+    - var whichPage = problem.title+"的可用题解评测记录";
     title #{whichPage}
 
 block script
@@ -28,7 +26,7 @@ block content
     form.col-lg-8.col-md-8.col-sm-8.col-xs-12(style="padding-top:15px", method='post', id="form_of_submission")
         include problem-list
         if(problem)
-            h3 #{problem.title} 的评测记录
+            h3 #{problem.title} 的可用题解评测记录
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
             tr.submission-title-tr
                 td(style="vertical-align: middle;") 序号
