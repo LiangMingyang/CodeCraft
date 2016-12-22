@@ -225,9 +225,11 @@
             creator_id: (ref = req.session) != null ? (ref1 = ref.user) != null ? ref1.id : void 0 : void 0,
             result: 'AC'
           },
-          limit: 1
-        }, {
-          model: Solution
+          include: [
+            {
+              model: Solution
+            }
+          ]
         }
       ]);
     }).then(function(result) {

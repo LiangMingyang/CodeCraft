@@ -226,9 +226,10 @@ exports.postAccepted = (req, res) ->
         where :
           creator_id : req.session?.user?.id
           result : 'AC'
-        limit : 1
-      ,
-        model : Solution
+          #limit : 1
+        include: [
+          model : Solution
+        ]
       ])
     .then (result)->
       problemCount = result.count
