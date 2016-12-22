@@ -78,20 +78,20 @@ block content
         - var nextPage = page - 0 + 1;
         - var prevPage = page - 1;
         if(page > 1)
-            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + prevPage + '")') 上一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./accepted?page=' + prevPage + '")') 上一页
         else
-            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + prevPage + '")', disabled="disabled") 上一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./accepted?page=' + prevPage + '")', disabled="disabled") 上一页
         - for(var i = 1 ; i <= numberOfPage ; ++i)
-            .buttion.btn.btn-default(onclick='change_page("./index?page=' + i + '")', id="button" + i) #{i}
+            .buttion.btn.btn-default(onclick='change_page("./accepted?page=' + i + '")', id="button" + i) #{i}
         if(page < numberOfPage)
-            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + nextPage + '")') 下一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./accepted?page=' + nextPage + '")') 下一页
         else
-            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + nextPage + '")', disabled="disabled") 下一页
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./accepted?page=' + nextPage + '")', disabled="disabled") 下一页
         script $("#button#{page}").attr("class", "button btn btn-success");
         script.
             function request_ajax_searching(){
                 var __form = $("#form");
-                __form.attr("action", "./index");
+                __form.attr("action", "./accepted");
                 __form.submit();
             }
             function change_page(url) {
