@@ -1,9 +1,5 @@
 //-
-   Created by heavenduke on 15-5-23.
-   title -- 网页标题
-   submissions --提交记录的数组
-   submissions.each:
-    TODO: 提交代码是有问题的，翻页是有问题的
+   Created by LMY on 2016-12-22
 
 extends ../layout
 block title
@@ -56,9 +52,9 @@ block content
                         td(id="submission_id"+i)
                             if(submission.result == 'AC' && user && submission.creator_id == user.id)
                                 a(href="/submission/"+submission.id+"/solution" target="_blank")
-                                    -if(submission.solution)
+                                    if(submission.solution)
                                         input(type="button" value="编辑题解")
-                                    -else
+                                    else
                                         input(type="button" value="创建题解")
                             else
                                 //- console.log(submission.creator_id)
