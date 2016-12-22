@@ -15,7 +15,9 @@ script.
         $("#problem-problemindexpage").attr("class","list-group-item change-color");
 
 if(problem.test_setting && user)
-    .button(type="button", class="btn btnstyle btn-primary btn-lg", data-toggle="modal", data-target="#myModal", style="margin-bottom: 2em;") 提交代码
+    .button(type="button", class="btn btnstyle btn-danger btn-lg", data-toggle="modal", data-target="#myModal", style="margin-bottom: 2em;") 提交代码
+    if(problem.accepted)
+        .button.btn.btnstyle.btn-lg.btn-primary(type="button" onclick="window.location.href='./createSolution'"  style="margin-bottom: 2em;") 写题解
 
     #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
