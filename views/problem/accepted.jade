@@ -1,0 +1,101 @@
+//-
+   Created by LMY on 16-12-22
+
+extends ../layout
+block title
+    - var whichPage = "通过题目列表"
+    title #{whichPage}
+block content
+    - var oddEvenTable = "odd"
+    - var level = 0
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+        h3 所有通过题目
+    form.col-lg-12.col-md-12.col-sm-12.col-xs-12(method='post', id="form")
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
+            tr.problem-title-tr.text-center
+                if(user)
+                    td(style="vertical-align: middle;") 状态
+                td(style="vertical-align: middle;")
+                    |题目ID
+                    br
+                    if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_id", value=query.problem_id, name="problem_id")
+                    else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_id", name="problem_id")
+                td(style="vertical-align: middle;")
+                    |题目标题
+                    br
+                    if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_title", value=query.problem_title, name="problem_title")
+                    else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_title", name="problem_title")
+                td(style="vertical-align: middle;")
+                    |作者
+                    br
+                    if(query)
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", value=query.problem_creator, name="problem_creator")
+                    else
+                        input.form-control.text-center(onchange="request_ajax_searching()", id="problem_creator", name="problem_creator")
+                td(style="vertical-align: middle;") 来源（小组）
+                td(style="vertical-align: middle;") 通过人数 / 提交人数
+                td(style="vertical-align: middle;") 通过人数 / 提交总次数
+            if(problems)
+                - each problem,i in problems
+                    if(i % 2 == 1)
+                        - oddEvenTable = "odd"
+                    else
+                        - oddEvenTable = "even"
+                    - var problem = problems[i];
+                    tr.text-center(id = "tr" + i)
+                        td
+                            a(href="/problem/"+problem.id+"/createSolution")
+                                if(user)
+                                    if(problem.solution)
+                                        input(type="button" value="编辑题解")
+                                    else
+                                        input(type="button" value="创建题解")
+                        td
+                            a(href= problem.id + "/index") #{problem.id}
+                        td
+                            a(href= problem.id + "/index") #{problem.title}
+                        td
+                            if(problem.creator)
+                                a(href = "/user/" + problem.creator.id + "/index") #{problem.creator.nickname}
+                        td
+                            if(problem.contests && problem.contests[0])
+                                a(href = "../contest/" + problem.contests[0].id + "/index") #{problem.contests[0].title}
+                            a(href= "../group/" + problem.group.id + "/index") （#{problem.group.name}）
+                        td #{problem.acceptedPeopleCount} / #{problem.triedPeopleCount}
+                        td #{problem.acceptedPeopleCount} / #{problem.submissionCount}
+                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+    //-.col-lg-2
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+        if(!pageLimit)
+            - pageLimit = 15;
+        if(!page)
+            - page = 0;
+        - var numberOfPage = (problemCount - problemCount % pageLimit) / pageLimit + 1;
+        - var nextPage = page - 0 + 1;
+        - var prevPage = page - 1;
+        if(page > 1)
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + prevPage + '")') 上一页
+        else
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + prevPage + '")', disabled="disabled") 上一页
+        - for(var i = 1 ; i <= numberOfPage ; ++i)
+            .buttion.btn.btn-default(onclick='change_page("./index?page=' + i + '")', id="button" + i) #{i}
+        if(page < numberOfPage)
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + nextPage + '")') 下一页
+        else
+            .buttion.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./index?page=' + nextPage + '")', disabled="disabled") 下一页
+        script $("#button#{page}").attr("class", "button btn btn-success");
+        script.
+            function request_ajax_searching(){
+                var __form = $("#form");
+                __form.attr("action", "./index");
+                __form.submit();
+            }
+            function change_page(url) {
+                var __form = $("#form");
+                __form.attr("action", url);
+                __form.submit();
+            }
