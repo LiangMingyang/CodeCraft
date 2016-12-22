@@ -269,7 +269,8 @@
         where: where,
         include: include,
         offset: opt.offset,
-        limit: global.config.pageLimit.problem
+        limit: global.config.pageLimit.problem,
+        distinct: true
       });
     });
   };
