@@ -23,6 +23,7 @@ module.exports = (database, username, password, config)->
   Tag = sequelize.import path.join(__dirname, 'models/tag')
   ProblemTag = sequelize.import path.join(__dirname, 'models/problem-tag')
   Recommendation = sequelize.import path.join(__dirname, 'models/recommendation')
+  Solution = sequelize.import path.join(__dirname, 'models/solution')
 
   #associations
 
@@ -122,7 +123,7 @@ module.exports = (database, username, password, config)->
   # 1:1
 
   Submission.hasOne(SubmissionCode)
-
+  Submission.hasOne(Solution)
   # user and recommendation and problem
   Problem.belongsToMany(User, {
     through:

@@ -543,6 +543,8 @@ exports.findSubmissions = (user, opt, include)->
       where.$and.push lang:opt.language
     if opt.result isnt undefined
       where.$and.push result:opt.result
+    if opt.creator_id isnt undefined
+      where.$and.push creator_id: opt.creator_id
 
     if opt.nickname isnt undefined
       ((include)->

@@ -82,7 +82,9 @@ angular.module('contest', [
   Issue.setContestId($routeParams.contestId)
   $scope.Issue = Issue
 
-
+  $timeout(->
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub])
+  ,100)
   #Function
 
   $scope.setProblem = (order)->

@@ -810,6 +810,11 @@
           result: opt.result
         });
       }
+      if (opt.creator_id !== void 0) {
+        where.$and.push({
+          creator_id: opt.creator_id
+        });
+      }
       if (opt.nickname !== void 0) {
         (function(include) {
           var j, len, model;

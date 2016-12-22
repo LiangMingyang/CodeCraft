@@ -1,0 +1,67 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.list li {
+  text-align: center;
+  border: 1px solid #CCC;
+  margin: 5px;
+  font-family: arial;
+  height: 40px;
+  width: 150px;
+  line-height: 40px;
+  background: #481cb3;
+  color: #FFF;
+  box-shadow: 0px 0px 10px #0F0A0A;
+  border-radius: 5px;
+  padding: 0px;
+}
+
+.rank li {
+  text-align: center;
+  border: 1px solid #CCC;
+  margin: 5px;
+  font-family: arial;
+  height: 40px;
+  width: 20px;
+  line-height: 40px;
+  /*background: #481cb3;*/
+  /*color: #FFF;*/
+  /*box-shadow: 0px 0px 10px #0F0A0A;*/
+  /*border-radius: 5px;*/
+  padding: 0px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.team li {
+  text-align: center;
+  border: 1px solid #CCC;
+  margin: 5px;
+  font-family: arial;
+  height: 40px;
+  width: 150px;
+  line-height: 40px;
+  /*background: #481cb3;*/
+  /*color: #FFF;*/
+  /*box-shadow: 0px 0px 10px #0F0A0A;*/
+  /*border-radius: 5px;*/
+  padding: 0px;
+}
+
+.rating li {
+  text-align: center;
+  border: 1px solid #CCC;
+  margin: 5px;
+  font-family: arial;
+  height: 40px;
+  width: 80px;
+  line-height: 40px;
+  padding: 0px;
+}

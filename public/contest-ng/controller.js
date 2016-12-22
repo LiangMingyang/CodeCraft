@@ -88,6 +88,9 @@
     $scope.Rank = Rank;
     Issue.setContestId($routeParams.contestId);
     $scope.Issue = Issue;
+    $timeout(function() {
+      return MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }, 100);
     $scope.setProblem = function(order) {
       Contest.order = order;
       $scope.order = order;

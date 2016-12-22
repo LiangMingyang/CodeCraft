@@ -298,7 +298,6 @@ exports.postQuestion = (req, res)->
       issue.setCreator(currentUser)
     ]
   .then ->
-    console.log "what"
     req.flash 'info', 'Questioned'
     res.redirect QUESTION_PAGE
 

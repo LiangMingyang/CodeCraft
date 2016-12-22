@@ -6,7 +6,9 @@
 
   db = require('./database')(config.database.name, config.database.username, config.database.password, config.database.config);
 
-  require('./init')(db);
+  db.sync({
+    force: false
+  });
 
 }).call(this);
 
