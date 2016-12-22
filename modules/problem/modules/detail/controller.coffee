@@ -16,6 +16,59 @@ INDEX_PAGE = 'index'
 #Foreign url
 LOGIN_PAGE = '/user/login'
 
+exports.getCreateSolution = (req, res)->
+  User = global.db.models.user
+  Solution = global.db.models.solution
+  currentProblem = undefined
+  currentUser = undefined
+  currentProblems = undefined
+  opt = {}
+  global.db.Promise.resolve()
+  .then ->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    global.myUtils.findProblem(user, req.params.problemID)
+  .then (problem)->
+    throw new global.myErrors.UnknownProblem() if not problem
+    currentProblem = problem
+    currentProblems = [problem]
+    global.myUtils.getProblemsStatus(currentProblems,currentUser)
+  .then ->
+    opt.offset = req.query.offset
+    opt.creator_id = currentUser?.id
+    opt.problem_id = currentProblem.id
+    opt.contest_id = req.body.contest_id if req.body.contest_id isnt ''
+    opt.language = req.body.language if req.body.language isnt ''
+    opt.result = 'AC'
+    global.myUtils.findSubmissions(currentUser, opt, [
+      model : User
+      as : 'creator'
+    ,
+      model : Solution
+    ])
+  .then (submissions) ->
+    currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
+    res.render('problem/createSolution', {
+      submissions: submissions
+      problem : currentProblem
+      user: req.session.user
+      offset : req.query.offset
+      pageLimit : global.config.pageLimit.submission
+      query : req.body
+    })
+
+  .catch global.myErrors.UnknownUser, (err)->
+    req.flash 'info', err.message
+    res.redirect LOGIN_PAGE
+  .catch global.myErrors.UnknownProblem, (err)->
+    req.flash 'info', err.message
+    res.redirect PROBLEM_PAGE
+  .catch (err)->
+    console.error err
+    err.message = "未知错误"
+    res.render 'error', error: err
+
 exports.getIndex = (req, res) ->
   User = global.db.models.user
   Group = global.db.models.group
@@ -156,7 +209,7 @@ exports.getSubmissions = (req, res) ->
     res.render 'error', error: err
 
 
-exports.postSubmissions = (req, res) ->
+exports.postSubmissions = postSubmissions = (req, res) ->
   User = global.db.models.user
   currentProblem = undefined
   currentUser = undefined

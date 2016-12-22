@@ -20,5 +20,7 @@ router
 router
  .post '/submit', controller.postSubmission
 
+router
+  .get '/createSolution', controller.getCreateSolution
 
 module.exports = router

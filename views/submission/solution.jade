@@ -7,7 +7,9 @@
             submission_code.content : the code of this submission
             ...
 extend ../layout
-
+block title
+    - var whichPage = "题解"
+    title #{whichPage}
 block content
     script(src="/bower_components/editor.md/editormd.min.js")
     link(rel='stylesheet', href="/bower_components/editor.md/css/editormd.css")
@@ -21,7 +23,7 @@ block content
             最后更新于：#{submission.solution.updated_at}
     - else
         h5.text-center.
-            你正在书写一份题解
+            你正在创造一份题解
 
     form(method="post")
         div#editor
