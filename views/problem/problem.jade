@@ -5,7 +5,7 @@
 //-        label.control-label #{user.nickname}
 .list-group
     a(class="list-group-item normal-color", id="problem-problemindexpage", href="./index") 题目信息
-    //- if(!contest)
+    //if(!contest)
         a(class="list-group-item normal-color", id="problem-problemeditpage", href="./edit") 编辑题目
     a(class="list-group-item normal-color", id="problem-submissionpage", href="./submission") 评测记录
 script.
@@ -43,18 +43,18 @@ if(problem.test_setting && user)
                     .modal-footer
                         //-button.btn.btn-default(type='button', data-dismiss='modal') 取消
                         button.btn.btn-primary(type='button', id="button", onclick="check()", style="margin-bottom: 0;") 确认提交
-- if(user && recommendation && recommendation.length != 0)
+if(user && recommendation && recommendation.length != 0)
     h4(style='color: #0274af; font-weight: bold; margin-bottom:1em;') 推荐您做：
     - for(var i = 0; i < recommendation.length; i++)
         p
             - var recommendation_problem_id = recommendation[i].id;
-            - if(recommendation_problem_id < 10)
+            if(recommendation_problem_id < 10)
                 - recommendation_problem_id = "00" + recommendation_problem_id;
-            - else if(recommendation_problem_id < 100)
+            else if(recommendation_problem_id < 100)
                 - recommendation_problem_id = "0" + recommendation_problem_id;
-            - if(recommendation[i].accepted + recommendation[i].tried == 1)
+            if(recommendation[i].accepted + recommendation[i].tried == 1)
                 a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-            - else if (recommendation[i].accepted + recommendation[i].tried != 2)
+            else if (recommendation[i].accepted + recommendation[i].tried != 2)
                 a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
 
             //-#{recommendation[i].acceptedPeopleCount}/#{recommendation[i].submissionCount}
