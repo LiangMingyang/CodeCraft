@@ -13,6 +13,10 @@ router
   .get '/index', controller.getIndex
 
   .post '/index', controller.postIndex
+
+  .get '/accepted', controller.getAccepted
+
+  .post '/accepted', controller.postAccepted
 #router.param 'problemID', (req, res, next, id) ->
 #  req.param.problemID = id;
 #  next()

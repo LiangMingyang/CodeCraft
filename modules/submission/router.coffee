@@ -17,4 +17,8 @@ router
 
 .post '/getSubmissionApi', controller.postSubmissionApi
 
+.get '/:submissionID([0-9]+)/solution', controller.getSolution
+
+.post '/:submissionID([0-9]+)/solution', controller.postSolution
+
 module.exports = router

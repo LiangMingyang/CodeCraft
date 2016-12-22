@@ -370,7 +370,6 @@
     }).then(function(issue) {
       return global.db.Promise.all([issue.setProblem(currentProblem), issue.setContest(currentContest), issue.setCreator(currentUser)]);
     }).then(function() {
-      console.log("what");
       req.flash('info', 'Questioned');
       return res.redirect(QUESTION_PAGE);
     })["catch"](global.myErrors.UnknownUser, function(err) {

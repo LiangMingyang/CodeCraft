@@ -1,0 +1,150 @@
+//-
+   Created by LMY on 2016-12-22
+
+extends ../layout
+block title
+    - var whichPage = problem.title+"的可用题解评测记录";
+    title #{whichPage}
+
+block script
+    script(src="/js/request.js")
+    script(src="/js/time.js")
+
+block content
+    - var oddeventable = "odd"
+    - var coloroftable = "red"
+    - var windowOpen = 'window.location.href="./createSolution?offset='
+    - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
+    include ../contest/contest-title.jade
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        include contest.jade
+        include ../contest/time.jade
+    form.col-lg-8.col-md-8.col-sm-8.col-xs-12(style="padding-top:15px", method='post', id="form_of_submission")
+        include problem-list
+        if(problem)
+            h3 #{problem.title} 的可用题解评测记录
+        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
+            tr.submission-title-tr
+                td(style="vertical-align: middle;") 序号
+                //-- if(!contest)
+                td(style="vertical-align: middle;") 用户
+                td(style="vertical-align: middle;") 结果
+                td(style="vertical-align: middle;") 得分
+                td(style="vertical-align: middle;") 语言
+                td(style="vertical-align: middle;")
+                    |代码长度
+                    br
+                    label.form-control-static (Bytes)
+                td(style="vertical-align: middle;")
+                    |运行时间
+                    br
+                    label.form-control-static (ms)
+                td(style="vertical-align: middle;")
+                    |运行内存
+                    br
+                    label.form-control-static (KB)
+                td(style="vertical-align: middle;") 提交时间
+            if(submissions)
+                each submission,i in submissions
+                    tr(id = "tr" + i)
+                        //-计算完成时间差变量
+                        //-生成表格
+                        td(id="submission_id"+i)
+                            if(submission.result == 'AC' && user && submission.creator_id == user.id)
+                                a(href="/submission/"+submission.id+"/solution" target="_blank")
+                                    if(submission.solution)
+                                        input(type="button" value="编辑题解")
+                                    else
+                                        input(type="button" value="创建题解")
+                            else
+                                //- console.log(submission.creator_id)
+                                p #{submission.id}
+                        //-if(!contest)
+                        td
+                            if(submission.creator)
+                                a(href='/user/' + submission.creator_id + '/index') #{submission.creator.nickname}
+                        td(id="submission_result"+i)
+                            label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submission.detail) #{changeSubmissionResult[submission.result]}
+                            img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
+                        td(id="submission_score"+i) #{submission.score}
+                        td
+                            if(user && submission.creator && user.id==submission.creator_id)
+                                a(href='/submission/' + submission.id, target="_blank") #{submission.lang}
+                            else
+                                label #{submission.lang}
+                        td
+                            if(user && submissions[i].creator && user.id==submissions[i].creator_id)
+                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
+                            else
+                                label #{submissions[i].code_length}
+                        td(id="submission_time"+i) #{submissions[i].time_cost}
+                        td(id="submission_memory"+i) #{submissions[i].memory_cost}
+                        td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
+                            label(id="standard-format-"+i, class="standard-format", style="display: none;") #{moment(submission.created_at).format('YYYY-MM-DD HH:mm:ss')}
+                            label(id="time-difference-"+i, class="time-difference") #{moment(submission.created_at).fromNow()}
+                        if(i % 2 == 1)
+                            - oddeventable = "odd"
+                        else
+                            - oddeventable = "even"
+                        if(submissions[i].result == "AC")
+                            - coloroftable = "blue"
+                        else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                            - coloroftable = "green"
+                            script $("#img#{i}").css("display", "inline-block");
+                        else
+                            - coloroftable = "red"
+                        script.
+                            $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
+                            $("#td#{i}").attr("class","#{coloroftable}td");
+                            function showDetail(numi){
+                                $("#td"+numi).popover('show');
+                            }
+                            function hideDetail(numi){
+                                $("#td"+numi).popover('hide');
+                            }
+
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
+            //-分页
+            //-a.button.btn.btn-default(href="./submission") 首页
+            a.button.btn.btn-default.loginbtn.btnstyle(onclick=windowOpen + 0 + '";') 首页
+            if(!pageLimit)
+                - pageLimit = 15;
+            if(!offset)
+                - offset = 0;
+            - var prevOffset = offset - pageLimit;
+            if(prevOffset < 0)
+                - prevOffset = 0;
+            - var nextOffset = offset - 0 + pageLimit;
+            - var page_of_this_page = (offset-0+15-offset%15)/15;
+            if(offset%15!=0)
+                - page_of_this_page++;
+            if(offset>0)
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick=windowOpen + prevOffset + '";') 上一页
+            else
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick=windowOpen + prevOffset + '";', disabled="disabled") 上一页
+
+            .buttion.btn.btn-success(onclick='window.location.href("./createSolution?offset=' + offset + '";') #{page_of_this_page}
+
+            if(submissions.length == pageLimit)
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.href("./createSolution?offset=' + nextOffset + '";') 下一页
+            else
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.hrefe("./createSolution?offset=' + nextOffset + '";', disabled="disabled") 下一页
+    .col-lg-2.col-md-2.col-sm-2.col-xs-12
+        include problem.jade
+    script.
+        function change_time_into_standard_format(){
+            $(".standard-format").css("display", "block");
+            $(".time-difference").css("display", "none");
+        }
+        function change_time_into_time_difference(){
+            $(".standard-format").css("display", "none");
+            $(".time-difference").css("display", "block");
+        }
+        function request_ajax_searching(){
+            $("#form_of_submission").submit();
+        }
+        function change_page(url){
+            var __form = $("#form_of_submission");
+            __form.attr("action", url);
+            __form.submit();
+        }

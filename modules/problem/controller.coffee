@@ -113,3 +113,143 @@ exports.postIndex = (req, res) ->
     console.error err
     err.message = "未知错误"
     res.render 'error', error: err
+
+exports.getAccepted = (req, res)->
+  Group = global.db.models.group
+  User = global.db.models.user
+  Contest = global.db.models.contest
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+  currentProblems = undefined
+  problemCount = undefined
+  global.db.Promise.resolve()
+    .then ->
+      req.query.page ?= 1
+      offset = (req.query.page-1) * global.config.pageLimit.problem
+      global.myUtils.findAndCountProblems(req.session.user, offset:offset, [
+        model : Group
+        attributes: [
+          'id'
+        ,
+          'name'
+        ]
+      ,
+        model : User
+        attributes: [
+          'id'
+        ,
+          'nickname'
+        ]
+        as : 'creator'
+      ,
+        model : Contest
+        attributes: [
+          'id'
+        ,
+          'title'
+        ]
+      ,
+        model : Submission
+        where :
+          creator_id : req.session?.user?.id
+          result : 'AC'
+        #limit : 1
+        include: [
+          model : Solution
+        ]
+      ])
+    .then (result)->
+      problemCount = result.count
+      currentProblems = result.rows
+      global.myUtils.getProblemsStatus(currentProblems, req.session.user)
+    .then ->
+      for problem,i in currentProblems
+        for submission,j in problem.submissions
+          if submission.solution
+            problem.solution = submission.solution
+            break
+      res.render('problem/accepted', {
+        user: req.session.user
+        problems : currentProblems
+        problemCount : problemCount
+        page : req.query.page
+        pageLimit : global.config.pageLimit.problem
+      })
+
+    .catch (err)->
+      console.error err
+      err.message = "未知错误"
+      res.render 'error', error: err
+
+exports.postAccepted = (req, res) ->
+  Group = global.db.models.group
+  User = global.db.models.user
+  Contest = global.db.models.contest
+  Solution = global.db.models.solution
+  currentProblems = undefined
+  problemCount = undefined
+  Submission = global.db.models.submission
+  global.db.Promise.resolve()
+    .then ->
+      req.query.page ?= 1
+      offset = (req.query.page-1) * global.config.pageLimit.problem
+      opt = req.body
+      opt.offset = offset
+      for key of opt
+        if opt[key] is ''
+          delete opt[key]
+
+      global.myUtils.findAndCountProblems(req.session.user, opt, [
+        model : Group
+        attributes: [
+          'id'
+        ,
+          'name'
+        ]
+      ,
+        model : User
+        attributes: [
+          'id'
+        ,
+          'nickname'
+        ]
+        as : 'creator'
+      ,
+        model : Contest
+        attributes: [
+          'id'
+        ,
+          'title'
+        ]
+      ,
+        model : Submission
+        where :
+          creator_id : req.session?.user?.id
+          result : 'AC'
+        limit : 1
+      ,
+        model : Solution
+      ])
+    .then (result)->
+      problemCount = result.count
+      currentProblems = result.rows
+      global.myUtils.getProblemsStatus(currentProblems, req.session.user)
+    .then ->
+      for problem,i in currentProblems
+        for submission,j in problem.submissions
+          if submission.solution
+            problem.solution = submission.solution
+            break
+      res.render('problem/accepted', {
+        user: req.session.user
+        problems : currentProblems
+        problemCount : problemCount
+        page : req.query.page
+        pageLimit : global.config.pageLimit.problem
+        query: req.body
+      })
+
+    .catch (err)->
+      console.error err
+      err.message = "未知错误"
+      res.render 'error', error: err
