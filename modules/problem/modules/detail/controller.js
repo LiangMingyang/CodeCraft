@@ -73,7 +73,8 @@
         user: req.session.user,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.submission,
-        query: req.body
+        query: req.body,
+        moment: require("moment")
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);

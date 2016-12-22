@@ -3,6 +3,7 @@
    title -- 网页标题
    submissions --提交记录的数组
    submissions.each:
+    TODO: 提交代码是有问题的，翻页是有问题的
 
 extends ../layout
 block title
@@ -18,21 +19,7 @@ block script
 block content
     - var oddeventable = "odd"
     - var coloroftable = "red"
-    - var yy;
-    - var mm;
-    - var dd;
-    - var hh;
-    - var mi;
-    - var ss;
-    //-以上为标准时间的格式计算变量
-    - var tc;
-    - var nt;
-    - nt = new Date();
-    - var sss;
-    - var mmm;
-    - var hhh;
-    - var ddd;
-    //-以上为时间差计算变量
+    - var windowOpen = 'window.location.href="./createSolution?offset='
     - var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"}
     include ../contest/contest-title.jade
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
@@ -44,67 +31,12 @@ block content
             h3 #{problem.title} 的评测记录
         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;")
             tr.submission-title-tr
-                //-td 序号
-                //-- if(!contest)
-                //-    td 用户
-                //-td 结果
-                //-td 得分
-                //-td 语言
-                //-td 代码长度
-                //-td 运行时间
-                //-td 运行内存
-                //-td 提交时间
                 td(style="vertical-align: middle;") 序号
                 //-- if(!contest)
-                td(style="vertical-align: middle;")
-                    |用户
-                    br
-                    - if(query)
-                        input.form-control.text-center(onchange="request_ajax_searching()", id="nickname", value=query.nickname, name="nickname")
-                    - else
-                        input.form-control.text-center(onchange="request_ajax_searching()", id="nickname", name="nickname")
-                td(style="vertical-align: middle;")
-                    |结果
-                    br
-                    select.form-control(onchange="request_ajax_searching()", id="result", name="result")
-                        option(value = "") all
-                        option(value = "AC") Accepted
-                        option(value = "WA") Wrong Answer
-                        option(value = "CE") Compile Error
-                        option(value = "TLE") Time Limit Exceed
-                        option(value = "PE") Presentation Error
-                        option(value = "MLE") Memory Limit Exceed
-                        option(value = "REP") Runtime Error (SIGFPE)
-                        option(value = "REG") Runtime Error (SIGSEGV)
-                        option(value = "WT") Waiting
-                        option(value = "JG") Running
-                        option(value = "IFNR") Input File Not Ready
-                        option(value = "OFNR") Output File Not Ready
-                        option(value = "OE") Other Error
-                    - if(query && query.result!="")
-                        script.
-                            var sjl=document.getElementById("result");
-                            sjl.options[0].selected = true;
-                            for(var i=1;i<14;i++)
-                                if(sjl.options[i].value == "#{query.result}")
-                                    sjl.options[i].selected = true;
+                td(style="vertical-align: middle;") 用户
+                td(style="vertical-align: middle;") 结果
                 td(style="vertical-align: middle;") 得分
-                td(style="vertical-align: middle;")
-                    |语言
-                    br
-                    select.form-control(onchange="request_ajax_searching()", id="language", name="language")
-                        option(value="") all
-                        option(value="c++") c++
-                        option(value="c") c
-                        option(value="java") java
-                        option(value="python") python
-                    - if(query && query.language!="")
-                        script.
-                            var sjl2=document.getElementById("language");
-                            sjl2.options[0].selected = true;
-                            for(var i=1;i<5;i++)
-                                if(sjl2.options[i].value == "#{query.language}")
-                                        sjl2.options[i].selected = true;
+                td(style="vertical-align: middle;") 语言
                 td(style="vertical-align: middle;")
                     |代码长度
                     br
@@ -118,96 +50,54 @@ block content
                     br
                     label.form-control-static (KB)
                 td(style="vertical-align: middle;") 提交时间
-            - if(submissions)
-                script var submission_length = "#{submissions.length}";
-                - for (var i = 0 ;i < submissions.length ; i++)
+            if(submissions)
+                each submission,i in submissions
                     tr(id = "tr" + i)
-                        //-在渲染前处理时间
-                        - yy = submissions[i].created_at.getFullYear();
-                        - mm = submissions[i].created_at.getMonth() - 0 + 1;
-                        - if(mm<10)
-                            - mm="0"+mm;
-                        - dd = submissions[i].created_at.getDate();
-                        - if(dd<10)
-                            - dd="0"+dd;
-                        - hh = submissions[i].created_at.getHours();
-                        - if(hh<10)
-                            - hh="0"+hh;
-                        - mi = submissions[i].created_at.getMinutes();
-                        - if(mi<10)
-                            - mi="0"+mi;
-                        - ss = submissions[i].created_at.getSeconds();
-                        - if(ss<10)
-                            - ss="0"+ss;
-                        //-计算完成标准时间变量
-                        - tc = nt - submissions[i].created_at;
-                        - sss = (tc - tc % 1000) / 1000;
-                        - mmm = (sss - sss % 60) / 60;
-                        - hhh = (mmm - mmm % 60) / 60;
-                        - ddd = (hhh - hhh % 24) / 24;
-                        - sss = sss % 60;
-                        - mmm = mmm % 60;
-                        - hhh = hhh % 24;
-                        - tc = "";
-                        - if(ddd!=0)
-                            - tc += ddd + " 天 ";
-                            - tc += hhh + " 小时";
-                        - else if(hhh!=0)
-                            - tc += hhh + " 小时 ";
-                            - tc += mmm + " 分钟";
-                        - else if(mmm!=0)
-                            - tc += mmm + " 分钟 ";
-                            - tc += sss + " 秒";
-                        - else
-                            - tc += sss + " 秒";
-                        - tc += "前";
                         //-计算完成时间差变量
                         //-生成表格
                         td(id="submission_id"+i)
-
-                            - if(submissions[i].result == 'AC' && user && submissions[i].creator_id == user.id)
-                                //- console.log(submissions[i].creator_id)
-                                button
-                                    -if(submissions[i].solution)
-                                        a(href="/submission/#{submissions[i].id}/solution") 编辑题解
+                            if(submission.result == 'AC' && user && submission.creator_id == user.id)
+                                a(href="/submission/"+submission.id+"/solution" target="_blank")
+                                    -if(submission.solution)
+                                        input(type="button" value="编辑题解")
                                     -else
-                                        a(href="/submission/#{submissions[i].id}/solution") 创建题解
-                            - else
-                                //- console.log(submissions[i].creator_id)
-                                #{submissions[i].id}
-                        //-- if(!contest)
+                                        input(type="button" value="创建题解")
+                            else
+                                //- console.log(submission.creator_id)
+                                p #{submission.id}
+                        //-if(!contest)
                         td
-                            - if(submissions[i].creator)
-                                a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
+                            if(submission.creator)
+                                a(href='/user/' + submission.creator_id + '/index') #{submission.creator.nickname}
                         td(id="submission_result"+i)
-                            label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submissions[i].detail) #{changeSubmissionResult[submissions[i].result]}
+                            label(id = "td" + i, onmouseover="showDetail(" + i + ")", onmouseout="hideDetail(" + i + ")", data-toggle="popover", data-trigger="focus", data-placement="bottom", data-content=submission.detail) #{changeSubmissionResult[submission.result]}
                             img(src="/images/waiting.gif", width="20px", height="20px", style="display:none;", id="img"+i)
-                        td(id="submission_score"+i) #{submissions[i].score}
+                        td(id="submission_score"+i) #{submission.score}
                         td
-                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
-                                a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].lang}
-                            - else
-                                label #{submissions[i].lang}
+                            if(user && submission.creator && user.id==submission.creator_id)
+                                a(href='/submission/' + submission.id, target="_blank") #{submission.lang}
+                            else
+                                label #{submission.lang}
                         td
-                            - if(user && submissions[i].creator && user.id==submissions[i].creator.id)
+                            if(user && submissions[i].creator && user.id==submissions[i].creator_id)
                                 a(href='/submission/' + submissions[i].id, target="_blank") #{submissions[i].code_length}
-                            - else
+                            else
                                 label #{submissions[i].code_length}
                         td(id="submission_time"+i) #{submissions[i].time_cost}
                         td(id="submission_memory"+i) #{submissions[i].memory_cost}
                         td(onmouseover="change_time_into_standard_format()", onmouseout="change_time_into_time_difference()")
-                            label(id="standard-format-"+i, class="standard-format", style="display: none;") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
-                            label(id="time-difference-"+i, class="time-difference") #{tc}
-                        - if(i % 2 == 1)
+                            label(id="standard-format-"+i, class="standard-format", style="display: none;") #{moment(submission.created_at).format('YYYY-MM-DD HH:mm:ss')}
+                            label(id="time-difference-"+i, class="time-difference") #{moment(submission.created_at).fromNow()}
+                        if(i % 2 == 1)
                             - oddeventable = "odd"
-                        - else
+                        else
                             - oddeventable = "even"
-                        - if(submissions[i].result == "AC")
+                        if(submissions[i].result == "AC")
                             - coloroftable = "blue"
-                        - else if(submissions[i].result == "WT" || submissions[i].result == "JG")
+                        else if(submissions[i].result == "WT" || submissions[i].result == "JG")
                             - coloroftable = "green"
                             script $("#img#{i}").css("display", "inline-block");
-                        - else
+                        else
                             - coloroftable = "red"
                         script.
                             $("#tr#{i}").attr("class","#{oddeventable}#{coloroftable}tr");
@@ -218,88 +108,33 @@ block content
                             function hideDetail(numi){
                                 $("#td"+numi).popover('hide');
                             }
-        //-.col-lg-12.col-md-12.col-sm-12
-        //-    - if(!pageLimit)
-        //-        - pageLimit = 15;
-        //-    - if(!offset)
-        //-        - offset = 0;
-        //-    - var prevOffset = offset - pageLimit;
-        //-    - if(prevOffset < 0)
-        //-        - prevOffset = 0;
-        //-    - var nextOffset = offset - 0 + pageLimit;
-        //-    - if(offset>0)
-        //-        a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-        //-    a.button.btn.btn-default(href="./submission") 首页
-        //-    - if(submissions.length == pageLimit)
-        //-        a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
+
         .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-left.row
             //-分页
             //-a.button.btn.btn-default(href="./submission") 首页
-            a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission")') 首页
-            - if(!pageLimit)
+            a.button.btn.btn-default.loginbtn.btnstyle(onclick=windowOpen + 0 + '";') 首页
+            if(!pageLimit)
                 - pageLimit = 15;
-            - if(!offset)
+            if(!offset)
                 - offset = 0;
             - var prevOffset = offset - pageLimit;
-            - if(prevOffset < 0)
+            if(prevOffset < 0)
                 - prevOffset = 0;
             - var nextOffset = offset - 0 + pageLimit;
             - var page_of_this_page = (offset-0+15-offset%15)/15;
-            - if(offset%15!=0)
+            if(offset%15!=0)
                 - page_of_this_page++;
-            - if(offset>0)
-                //-a.button.btn.btn-default(href="./submission?offset=" + prevOffset) 上一页
-                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + prevOffset + '")') 上一页
-            -else
-                //-a.button.btn.btn-default(href="./submission?offset=" + prevOffset, disabled="disabled") 上一页
-                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + prevOffset + '")', disabled="disabled") 上一页
-            //-- if(page_of_this_page>4)
-                |......
-            //-- if(page_of_this_page>5)
-            //-    - var prevOffset5 = offset - pageLimit * 5;
-            //-    - if(prevOffset5 < 0)
-            //-        - prevOffset5 = 0;
-            //-    a.button.btn.btn-default(href="./submission?offset=" + prevOffset5) #{page_of_this_page-5}
-            //-- if(page_of_this_page>4)
-            //-    - var prevOffset4 = offset - pageLimit * 4;
-            //-    - if(prevOffset4 < 0)
-            //-        - prevOffset4 = 0;
-            //-    a.button.btn.btn-default(href="./submission?offset=" + prevOffset4) #{page_of_this_page-4}
-            //-- if(page_of_this_page>3)
-                - var prevOffset3 = offset - pageLimit * 3;
-                - if(prevOffset3 < 0)
-                    - prevOffset3 = 0;
-                a.button.btn.btn-default(href="./submission?offset=" + prevOffset3) #{page_of_this_page-3}
-            //-- if(page_of_this_page>2)
-                - var prevOffset2 = offset - pageLimit * 2;
-                - if(prevOffset2 < 0)
-                    - prevOffset2 = 0;
-                a.button.btn.btn-default(href="./submission?offset=" + prevOffset2) #{page_of_this_page-2}
-            //-- if(page_of_this_page>1)
-                - var prevOffset1 = offset - pageLimit * 1;
-                - if(prevOffset1 < 0)
-                    - prevOffset1 = 0;
-                a.button.btn.btn-default(href="./submission?offset=" + prevOffset1) #{page_of_this_page-1}
-            //-a.button.btn.btn-success(href="./submission?offset=" + offset) #{page_of_this_page}
-            .buttion.btn.btn-success(onclick='change_page("./submission?offset=' + offset + '")') #{page_of_this_page}
-            //-- if(submissions.length == pageLimit)
-                - var nextOffset1 = offset - 0 + pageLimit * 1;
-                a.button.btn.btn-default(href="./submission?offset=" + nextOffset1) #{page_of_this_page+1}
-                - var nextOffset2 = offset - 0 + pageLimit * 2;
-                a.button.btn.btn-default(href="./submission?offset=" + nextOffset2) #{page_of_this_page+2}
-                - var nextOffset3 = offset - 0 + pageLimit * 3;
-                a.button.btn.btn-default(href="./submission?offset=" + nextOffset3) #{page_of_this_page+3}
-                //-- var nextOffset4 = offset - 0 + pageLimit * 4;
-                //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset4) #{page_of_this_page+4}
-                //-- var nextOffset5 = offset - 0 + pageLimit * 5;
-                //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset5) #{page_of_this_page+5}
-                |......
-            - if(submissions.length == pageLimit)
-                //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset) 下一页
-                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + nextOffset + '")') 下一页
-            -else
-                //-a.button.btn.btn-default(href="./submission?offset=" + nextOffset, disabled="disabled") 下一页
-                a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
+            if(offset>0)
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick=windowOpen + prevOffset + '";') 上一页
+            else
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick=windowOpen + prevOffset + '";', disabled="disabled") 上一页
+
+            .buttion.btn.btn-success(onclick='window.location.href("./createSolution?offset=' + offset + '";') #{page_of_this_page}
+
+            if(submissions.length == pageLimit)
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.href("./createSolution?offset=' + nextOffset + '";') 下一页
+            else
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.hrefe("./createSolution?offset=' + nextOffset + '";', disabled="disabled") 下一页
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include problem.jade
     script.
@@ -318,83 +153,4 @@ block content
             var __form = $("#form_of_submission");
             __form.attr("action", url);
             __form.submit();
-        }
-        var is_need_request = 1;
-        var length_of_submission = "#{submissions.length}";
-        $(document).ready(function (){
-            setInterval ("loop_request()", request_time);
-            setInterval("change_submission_time_every_second()", 1000);
-        });
-        function change_submission_time_every_second(){
-            var standard_format, time_difference, time_of, time_of_now, time_of_difference, now_of_time;
-            now_of_time = new Date();
-            for (var i = 0; i < submission_length; i++){
-                standard_format = $("#standard-format-" + i);
-                time_difference = $("#time-difference-" + i);
-                time_of = new Date(Date.parse(standard_format.text().replace(/-/g, "/")));
-                time_of_difference = now_of_time.getTime() - time_of;
-                //standard_format.text(change_time_into_date_time(time_of_now));
-                time_difference.text(change_time_into_chinese_string_time(time_of_difference));
-            }
-        }
-        function loop_request(){
-            var post_data = {};
-            var my_submission_id,my_submission_result;
-            post_data.submission_id = [];
-            for(var i = 0;i < length_of_submission;i++){
-                my_submission_id = $("#submission_id" + i);
-                my_submission_result = $("#submission_result" + i);
-                if(my_submission_result.text() == "Running" || my_submission_result.text() == "Waiting"){
-                    post_data.submission_id.push(my_submission_id.text());
-                }
-            }
-            if(post_data.submission_id.length == 0){
-                is_need_request = 0;
-            }
-            post_data.submission_id = JSON.stringify(post_data.submission_id);
-            if(is_need_request == 1){
-                request.exec_request({
-                    data: post_data,
-                    url: "/submission/getSubmissionApi",
-                    method: "POST",
-                    callback: fill_submission
-                });
-            }
-        }
-        function fill_submission(data){
-            var changeSubmissionResult = {AC : "Accepted", WA : "Wrong Answer", CE : "Compile Error", RE : "Runtime Error", "REG" : "Runtime Error (SIGSEGV)", "REP" : "Runtime Error (SIGFPE)", WT : "Waiting", JG : "Running", TLE : "Time Limit Exceed", MLE : "Memory Limit Exceed", PE : "Presentation Error", ERR : "Judge Error", "IFNR" : "Input File Not Ready", "OFNR" : "Output File Not Ready", "EFNR" : "Error File Not Ready", "OE" : "Other Error"};
-            var my_submission_id,my_submission_result,my_submission_time,my_submission_memory,my_submission_score,result,oddeventable,coloroftable,my_img;
-            for(var i = 0;i < data.length;i++){
-                for(var j = 0;j < length_of_submission;j++){
-                    my_submission_id = $("#submission_id" + j);
-                    if (data[i].id == my_submission_id.text()){
-                        my_submission_result = $("#td" + j);
-                        my_submission_result.attr("data-content", data[i].detail);
-                        result = changeSubmissionResult[data[i].result];
-                        my_submission_result.text(result);
-                        my_submission_time = $("#submission_time" + j);
-                        my_submission_time.text(data[i].time_cost);
-                        my_submission_memory = $("#submission_memory" + j);
-                        my_submission_memory.text(data[i].memory_cost);
-                        my_submission_score = $("#submission_score" + j);
-                        my_submission_score.text(data[i].score);
-                        my_img = $("#img" + j);
-                        my_img.css("display", "none");
-                        if(j % 2 == 1)
-                            oddeventable = "odd";
-                        else
-                            oddeventable = "even";
-                        if(data[i].result == "AC")
-                            coloroftable = "blue";
-                        else if(data[i].result == "WT" || data[i].result == "JG"){
-                            coloroftable = "green";
-                            my_img.css("display", "inline-block");
-                        }
-                        else
-                            coloroftable = "red";
-                        $("#tr" + j).attr("class",oddeventable + coloroftable + "tr");
-                        my_submission_result.attr("class",coloroftable + "td");
-                    }
-                }
-            }
         }

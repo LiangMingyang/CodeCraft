@@ -56,6 +56,7 @@ exports.getCreateSolution = (req, res)->
       offset : req.query.offset
       pageLimit : global.config.pageLimit.submission
       query : req.body
+      moment : require("moment")
     })
 
   .catch global.myErrors.UnknownUser, (err)->
