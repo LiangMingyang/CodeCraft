@@ -73,7 +73,7 @@ block content
                 .row
                     .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                         if(submission.solution)
-                            select#access_level_div.form-control(type="input", name='access_level' value=submission.solution.access_level)
+                            select#access_level_div.form-control(type="input", name='access_level' value=submission.solution.access_level, onchange="change_display()")
                                 option(value="protect") 一段时间后公开
                                 option(value="public") 立刻公开
                                 option(value="private") 不想公开
@@ -89,7 +89,7 @@ block content
                                     if (sjl.options[i].value == "#{submission.solution.access_level}")
                                 sjl.options[i].selected = true;
                         else
-                            select#access_level_div.form-control.text-center(type="input", name='access_level' style="width:200px;" )
+                            select#access_level_div.form-control.text-center(type="input", name='access_level', onchange="change_display()")
                                 option(value="protect") 一段时间后公开
                                 option(value="public") 立刻公开
                                 option(value="private") 不想公开
@@ -189,3 +189,13 @@ block content
             }
         }
 
+        function change_display() {
+            var __access_level = $("#access_level_div");
+            var __protect_time = $('#protect_time');
+            if(__access_level.val() == "protect"){
+                __protect_time.css("display","block");
+            }
+            else{
+                __protect_time.css("display", "none");
+            }
+        }
