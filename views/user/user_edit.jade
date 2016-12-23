@@ -32,20 +32,14 @@ block content
                         span.glyphicon.glyphicon-credit-card(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                         label.form-control-static(for='nickname', style='color: #333;')  昵    称: 
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
-                        - if(lock)
-                            input.form-control(type="input", name='nickname', id="nickname", value=target.nickname disabled="true")
-                        - else
-                            input.form-control(type="input", name='nickname', id="nickname", value=target.nickname)
+                        input.form-control(type="input", name='nickname', id="nickname", value=target.nickname disabled=lock)
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12
                         span.glyphicon.glyphicon-user(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                         label.form-control-static(for='student_id', style='color: #333;')  学    号: 
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
-                        - if(lock)
-                            input.form-control(type="input", name='student_id', id="student_id", value=target.student_id, disabled="true")
-                        - else
-                            input.form-control(type="input", name='student_id', id="student_id", value=target.student_id)
+                        input.form-control(type="input", name='student_id', id="student_id", value=target.student_id, disabled=lock)
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12
@@ -69,7 +63,7 @@ block content
                             option(value='中国地质大学') 中国地质大学
                         script.
                             var sjl=document.getElementById("school");
-                            for(var i=0;i<2;i++)
+                            for(var i=0;i<sjl.options.length;i++)
                                 if(sjl.options[i].value == "#{target.school}")
                                     sjl.options[i].selected = true;
             .form-horizontal
@@ -108,7 +102,7 @@ block content
                             option(value='人文与社会科学高等研究院') 人文与社会科学高等研究院
                         script.
                             var sjl2=document.getElementById("college");
-                            for(var i=0;i<3;i++)
+                            for(var i=0;i<sjl2.options.length;i++)
                                 if(sjl2.options[i].value == "#{target.college}")
                                     sjl2.options[i].selected = true;
             .form-horizontal
