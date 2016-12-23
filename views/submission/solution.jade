@@ -18,14 +18,18 @@ block content
         | 对于
         a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
         | 的题解
-    - if(submission.solution)
-        h5.text-center.
-            最后更新于：#{submission.solution.updated_at}
-    - else
-        h5.text-center.
-            你正在创造一份题解
-
     form(method="post")
+        - if(submission.solution)
+            h5.text-center.
+                最后更新于：#{submission.solution.updated_at}
+        - else
+            h5.text-center 你正在创造一份题解，选择公开方式
+                select.form-control.text-center(type="input", name='access_level' style="width:200px;")
+                    option(value="public") 立刻公开
+                    option(value="protect") 保密7天
+                    option(value="private") 不想公开
+
+        input(name="title" type="text")
         div#editor
             - if(submission.solution)
                 textarea(style="display: none;")=submission.solution.source
