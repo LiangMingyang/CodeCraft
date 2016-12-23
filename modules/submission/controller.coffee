@@ -192,8 +192,13 @@ exports.postSolution = (req, res) ->
         content : req.body["editor-html-code"]
         title : req.body["title"] || "Solution-#{currentUser.nickname}-#{currentUser.student_id}-#{currentSubmission.id}"
         access_level : req.body["access_level"] ||"protect"
-        secret_limit : req.body["secret_limit"] || new Date((new Date().getTime()+7*24*60*60*1000))
+        secret_limit :
+                        if req.body["secret_limit"] is ''
+                          new Date((new Date().getTime()+7*24*60*60*1000))
+                        else
+                          new Date(req.body["secret_limit"])
       }
+      console.log form.secret_limit
       currentSubmission = submission
       if submission.solution
         submission.solution.source = form.source
