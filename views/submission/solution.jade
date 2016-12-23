@@ -74,10 +74,10 @@ block content
                     .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                         if(submission.solution)
                             select#access_level_div.form-control(type="input", name='access_level' value=submission.solution.access_level, onchange="change_display()")
-                                option(value="protect") 一段时间后公开
+                                option(value="protect") 保密截止日期
                                 option(value="public") 立刻公开
                                 option(value="private") 不想公开
-                                -console.log(submission.solution.access_level);
+
                                 if(submission.solution.secret_limit)
                                     script var protect_time = new Date("#{submission.solution.secret_limit}");
                                 else
@@ -90,7 +90,7 @@ block content
                                 sjl.options[i].selected = true;
                         else
                             select#access_level_div.form-control.text-center(type="input", name='access_level', onchange="change_display()")
-                                option(value="protect") 一段时间后公开
+                                option(value="protect") 保密截止日期
                                 option(value="public") 立刻公开
                                 option(value="private") 不想公开
                                 - var now_time = new Date();

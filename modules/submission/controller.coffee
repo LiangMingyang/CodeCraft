@@ -198,7 +198,7 @@ exports.postSolution = (req, res) ->
                         else
                           new Date(req.body["secret_limit"])
       }
-      console.log form.secret_limit
+
       currentSubmission = submission
       if submission.solution
         submission.solution.source = form.source

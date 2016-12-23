@@ -259,7 +259,6 @@
         access_level: req.body["access_level"] || "protect",
         secret_limit: req.body["secret_limit"] === '' ? new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000) : new Date(req.body["secret_limit"])
       };
-      console.log(form.secret_limit);
       currentSubmission = submission;
       if (submission.solution) {
         submission.solution.source = form.source;
