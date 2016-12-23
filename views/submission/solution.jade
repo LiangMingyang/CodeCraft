@@ -14,15 +14,15 @@ block content
     script(src="/bower_components/editor.md/editormd.min.js")
     link(rel='stylesheet', href="/bower_components/editor.md/css/editormd.css")
     h1.text-center
-        a(href="/user/#{submission.creator.id}") #{submission.creator.nickname}
+        a(href="/user/#{submission.creator_id}") #{submission.creator.nickname}
         | 对于
         a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
         | 的题解
     form(method="post")
-        - if(submission.solution)
+        if(submission.solution)
             h5.text-center.
                 最后更新于：#{submission.solution.updated_at}
-        - else
+        else
             h5.text-center 你正在创造一份题解，选择公开方式
                 select.form-control.text-center(type="input", name='access_level' style="width:200px;")
                     option(value="public") 立刻公开
@@ -31,14 +31,14 @@ block content
 
         input(name="title" type="text")
         div#editor
-            - if(submission.solution)
+            if(submission.solution)
                 textarea(style="display: none;")=submission.solution.source
-            - else
+            else
                 - var intro = "##解题思路\n\n**请在这里简单写一下解题思路**\n\n##AC代码\n"
                 - var head = "/* \n Author: "+ user.nickname + "\n"+" Result: "+submission.result+"\t"+"Submission_id: "+submission.id+"\n"+" Created at: "+submission.created_at+"\n"+" Problem_id: "+submission.problem_id+"\t"+"Time: "+submission.time_cost+"\t"+"Memory: "+submission.memory_cost+"\n"+"*/\n\n";
                 - var code = "```"+submission.lang+"\n"+head+submission.submission_code.content+"\n```"
                 textarea(style="display: none;")=intro + code
-        - if(editable)
+        if(editable)
             button.btn.btn-default(type="submit" style="margin-left:5%;") 保存
 
     script.

@@ -109,6 +109,7 @@
     });
     Submission.hasOne(SubmissionCode);
     Submission.hasOne(Solution);
+    Solution.belongsTo(Submission);
     Problem.belongsToMany(User, {
       through: {
         model: Recommendation
