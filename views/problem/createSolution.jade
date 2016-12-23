@@ -129,41 +129,42 @@ block content
                 a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.href("./createSolution?offset=' + nextOffset + '";') 下一页
             else
                 a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.hrefe("./createSolution?offset=' + nextOffset + '";', disabled="disabled") 下一页
-            h3 参考题解
-            table.table.table-condensed.table-center.table-bordered
-                thead
-                    tr.submission-title-tr
-                        td(style="vertical-align: middle;") 标题
-                        //-- if(!contest)
-                        td(style="vertical-align: middle;") 提交人
-                        td(style="vertical-align: middle;") 语言
-                        td(style="vertical-align: middle;")
-                            | 代码长度
-                            br
-                            label.form-control-static (Bytes)
-                        td(style="vertical-align: middle;")
-                            | 运行时间
-                            br
-                            label.form-control-static (ms)
-                        td(style="vertical-align: middle;")
-                            | 运行内存
-                            br
-                            label.form-control-static (KB)
-                        td(style="vertical-align: middle;") 题解提交时间
-                        td(style="vertical-align: middle;") 评分
-                tbody
-                    for reference,i in references
-                        tr
-                            td
-                                a(href="/submission/"+reference.submission.id+"/solution" target = "_blank")=reference.title
-                            td
-                                a(href="/user/"+reference.submission.creator.id target = "_blank")=reference.submission.creator.nickname
-                            td=reference.submission.lang
-                            td=reference.submission.code_length
-                            td=reference.submission.time_cost
-                            td=reference.submission.memory_cost
-                            td=moment(reference.created_at).format('YYYY-MM-DD HH:mm:ss')
-                            td="暂无"
+            if(references && references.length > 0)
+                h3 参考题解
+                table.table.table-condensed.table-center.table-bordered
+                    thead
+                        tr.submission-title-tr
+                            td(style="vertical-align: middle;") 标题
+                            //-- if(!contest)
+                            td(style="vertical-align: middle;") 提交人
+                            td(style="vertical-align: middle;") 语言
+                            td(style="vertical-align: middle;")
+                                | 代码长度
+                                br
+                                label.form-control-static (Bytes)
+                            td(style="vertical-align: middle;")
+                                | 运行时间
+                                br
+                                label.form-control-static (ms)
+                            td(style="vertical-align: middle;")
+                                | 运行内存
+                                br
+                                label.form-control-static (KB)
+                            td(style="vertical-align: middle;") 题解提交时间
+                            td(style="vertical-align: middle;") 评分
+                    tbody
+                        for reference,i in references
+                            tr
+                                td
+                                    a(href="/submission/"+reference.submission.id+"/solution" target = "_blank")=reference.title
+                                td
+                                    a(href="/user/"+reference.submission.creator.id target = "_blank")=reference.submission.creator.nickname
+                                td=reference.submission.lang
+                                td=reference.submission.code_length
+                                td=reference.submission.time_cost
+                                td=reference.submission.memory_cost
+                                td=moment(reference.created_at).format('YYYY-MM-DD HH:mm:ss')
+                                td="暂无"
 
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include problem.jade
