@@ -124,6 +124,7 @@ module.exports = (database, username, password, config)->
 
   Submission.hasOne(SubmissionCode)
   Submission.hasOne(Solution)
+  Solution.belongsTo(Submission)
   # user and recommendation and problem
   Problem.belongsToMany(User, {
     through:

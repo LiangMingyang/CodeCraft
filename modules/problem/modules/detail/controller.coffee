@@ -19,9 +19,11 @@ LOGIN_PAGE = '/user/login'
 exports.getCreateSolution = (req, res)->
   User = global.db.models.user
   Solution = global.db.models.solution
+  Submission = global.db.models.submission
   currentProblem = undefined
   currentUser = undefined
   currentProblems = undefined
+  currentSubmission = undefined
   opt = {}
   global.db.Promise.resolve()
   .then ->
@@ -48,15 +50,39 @@ exports.getCreateSolution = (req, res)->
       model : Solution
     ])
   .then (submissions) ->
+    currentSubmission = submissions
+    Solution.findAll(
+      where:
+        $or:[
+          access_level : 'public'    #public的赛事谁都可以看到
+        ,
+          access_level : 'protect'   #如果这个权限是protect，那么如果该用户是小组成员就可以看到
+          secret_limit :
+            $lt: new Date()
+        ]
+      include: [
+        model : Submission
+        where :
+          problem_id : currentProblem.id
+          creator_id :
+            $not: currentUser.id
+        include: [
+          model : User
+          as : 'creator'
+        ]
+      ]
+    )
+  .then (references)->
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
     res.render('problem/createSolution', {
-      submissions: submissions
+      submissions: currentSubmission
       problem : currentProblem
       user: req.session.user
       offset : req.query.offset
       pageLimit : global.config.pageLimit.submission
       query : req.body
       moment : require("moment")
+      references : references
     })
 
   .catch global.myErrors.UnknownUser, (err)->

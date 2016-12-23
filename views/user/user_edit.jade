@@ -32,14 +32,14 @@ block content
                         span.glyphicon.glyphicon-credit-card(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                         label.form-control-static(for='nickname', style='color: #333;')  昵    称: 
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
-                        input.form-control(type="input", name='nickname', id="nickname", value=target.nickname disabled=lock)
+                        input.form-control(type="input", name='nickname', id="nickname", value=target.nickname readonly=lock)
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12
                         span.glyphicon.glyphicon-user(aria-hidden='true', style='margin-right: 10px;color: #0274af;')
                         label.form-control-static(for='student_id', style='color: #333;')  学    号: 
                     .col-lg-10.col-md-10.col-sm-10.col-xs-12
-                        input.form-control(type="input", name='student_id', id="student_id", value=target.student_id, disabled=lock)
+                        input.form-control(type="input", name='student_id', id="student_id", value=target.student_id, readonly=lock)
             .form-horizontal
                 .form-group
                     .col-lg-2.col-md-2.col-sm-2.col-xs-12

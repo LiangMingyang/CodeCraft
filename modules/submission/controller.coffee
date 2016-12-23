@@ -199,6 +199,8 @@ exports.postSolution = (req, res) ->
         submission.solution.source = form.source
         submission.solution.content = form.content
         submission.solution.title = form.title
+        submission.solution.access_level = form.access_level
+        submission.solution.secret_limit = form.secret_limit
         submission.solution.save()
       else
         Solution.create form

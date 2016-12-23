@@ -25,12 +25,14 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getCreateSolution = function(req, res) {
-    var Solution, User, currentProblem, currentProblems, currentUser, opt;
+    var Solution, Submission, User, currentProblem, currentProblems, currentSubmission, currentUser, opt;
     User = global.db.models.user;
     Solution = global.db.models.solution;
+    Submission = global.db.models.submission;
     currentProblem = void 0;
     currentUser = void 0;
     currentProblems = void 0;
+    currentSubmission = void 0;
     opt = {};
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -66,15 +68,49 @@
         }
       ]);
     }).then(function(submissions) {
+      currentSubmission = submissions;
+      return Solution.findAll({
+        where: {
+          $or: [
+            {
+              access_level: 'public'
+            }, {
+              access_level: 'protect',
+              secret_limit: {
+                $lt: new Date()
+              }
+            }
+          ]
+        },
+        include: [
+          {
+            model: Submission,
+            where: {
+              problem_id: currentProblem.id,
+              creator_id: {
+                $not: currentUser.id
+              }
+            },
+            include: [
+              {
+                model: User,
+                as: 'creator'
+              }
+            ]
+          }
+        ]
+      });
+    }).then(function(references) {
       currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
       return res.render('problem/createSolution', {
-        submissions: submissions,
+        submissions: currentSubmission,
         problem: currentProblem,
         user: req.session.user,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.submission,
         query: req.body,
-        moment: require("moment")
+        moment: require("moment"),
+        references: references
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);
