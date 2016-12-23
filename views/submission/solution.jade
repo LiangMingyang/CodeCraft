@@ -40,6 +40,10 @@ block content
     script.
         var testEditor;
         $(function () {
+            editormd.katexURL = {
+                css: "/katex/katex.min",
+                js: "/katex/katex.min"
+            };
             testEditor = editormd("editor", {
                 readOnly: #{!editable},
                 width: "90%",
