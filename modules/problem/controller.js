@@ -122,14 +122,14 @@
     currentProblems = void 0;
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
-      var base, offset, ref, ref1;
+      var base, opt, ref, ref1;
       if ((base = req.query).page == null) {
         base.page = 1;
       }
-      offset = (req.query.page - 1) * global.config.pageLimit.problem;
-      return global.myUtils.findAndCountProblems(req.session.user, {
-        offset: offset
-      }, [
+      opt = {};
+      opt.offset = (req.query.page - 1) * global.config.pageLimit.problem;
+      opt.distinct = true;
+      return global.myUtils.findAndCountProblems(req.session.user, opt, [
         {
           model: Group,
           attributes: ['id', 'name']
@@ -208,6 +208,7 @@
           delete opt[key];
         }
       }
+      opt.distinct = true;
       return global.myUtils.findAndCountProblems(req.session.user, opt, [
         {
           model: Group,

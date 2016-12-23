@@ -173,7 +173,7 @@ exports.findAndCountProblems = (user, opt, include) ->
       include : include
       offset : opt.offset
       limit : global.config.pageLimit.problem
-      distinct : true
+      distinct : opt.distinct
     })
 
 

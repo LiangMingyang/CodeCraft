@@ -125,8 +125,10 @@ exports.getAccepted = (req, res)->
   global.db.Promise.resolve()
     .then ->
       req.query.page ?= 1
-      offset = (req.query.page-1) * global.config.pageLimit.problem
-      global.myUtils.findAndCountProblems(req.session.user, offset:offset, [
+      opt = {}
+      opt.offset = (req.query.page-1) * global.config.pageLimit.problem
+      opt.distinct = true
+      global.myUtils.findAndCountProblems(req.session.user, opt, [
         model : Group
         attributes: [
           'id'
@@ -198,7 +200,7 @@ exports.postAccepted = (req, res) ->
       for key of opt
         if opt[key] is ''
           delete opt[key]
-
+      opt.distinct = true
       global.myUtils.findAndCountProblems(req.session.user, opt, [
         model : Group
         attributes: [
