@@ -132,7 +132,7 @@ block content
             h3 参考题解
             table.table.table-condensed.table-center.table-bordered
                 thead
-                    tr
+                    tr.submission-title-tr
                         td(style="vertical-align: middle;") 标题
                         //-- if(!contest)
                         td(style="vertical-align: middle;") 提交人
@@ -156,7 +156,8 @@ block content
                         tr
                             td
                                 a(href="/submission/"+reference.submission.id+"/solution" target = "_blank")=reference.title
-                            td=reference.submission.creator.nickname
+                            td
+                                a(href="/user/"+reference.submission.creator.id target = "_blank")=reference.submission.creator.nickname
                             td=reference.submission.lang
                             td=reference.submission.code_length
                             td=reference.submission.time_cost
