@@ -23,7 +23,7 @@ exports.getCreateSolution = (req, res)->
   currentProblem = undefined
   currentUser = undefined
   currentProblems = undefined
-  currentSubmission = undefined
+  currentSubmissions = undefined
   opt = {}
   global.db.Promise.resolve()
   .then ->
@@ -75,7 +75,7 @@ exports.getCreateSolution = (req, res)->
   .then (references)->
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
     res.render('problem/createSolution', {
-      submissions: currentSubmission
+      submissions: currentSubmissions
       problem : currentProblem
       user: req.session.user
       offset : req.query.offset

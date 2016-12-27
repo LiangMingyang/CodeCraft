@@ -25,14 +25,14 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getCreateSolution = function(req, res) {
-    var Solution, Submission, User, currentProblem, currentProblems, currentSubmission, currentUser, opt;
+    var Solution, Submission, User, currentProblem, currentProblems, currentSubmissions, currentUser, opt;
     User = global.db.models.user;
     Solution = global.db.models.solution;
     Submission = global.db.models.submission;
     currentProblem = void 0;
     currentUser = void 0;
     currentProblems = void 0;
-    currentSubmission = void 0;
+    currentSubmissions = void 0;
     opt = {};
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -68,6 +68,7 @@
         }
       ]);
     }).then(function(submissions) {
+      var currentSubmission;
       currentSubmission = submissions;
       return Solution.findAll({
         where: {
@@ -103,7 +104,7 @@
     }).then(function(references) {
       currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
       return res.render('problem/createSolution', {
-        submissions: currentSubmission,
+        submissions: currentSubmissions,
         problem: currentProblem,
         user: req.session.user,
         offset: req.query.offset,
