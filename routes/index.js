@@ -41,6 +41,13 @@
     });
   });
 
+  router.get('/notice', function(req, res) {
+    return res.render('notice', {
+      title: '招聘启事',
+      user: req.session.user
+    });
+  });
+
   router.get('/bcpc-rating', function(req, res) {
     var teamName;
     teamName = ["TDL", "LovelyDonuts", "ACMakeMeHappier", "null", "sto orz", "QAQ", "ResuscitatedHope", "Veleno", "deticxe", "GG", "firebug", "The South China Sea"];
