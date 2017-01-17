@@ -65,7 +65,7 @@ block content
                         - if(submission.solution)
                             textarea(style="display: none;")=submission.solution.source
                         - else
-                            - var intro = "##解题思路\n\n**请在这里简单写一下解题思路**\n\n##AC代码\n"
+                            - var intro = "##解题思路\n\n语法和格式请参考[题解](/submission/122872/solution)\n\n##AC代码\n"
                             - var head = "/* \n Author: "+ user.nickname + "\n"+" Result: "+submission.result+"\t"+"Submission_id: "+submission.id+"\n"+" Created at: "+submission.created_at+"\n"+" Problem_id: "+submission.problem_id+"\t"+"Time: "+submission.time_cost+"\t"+"Memory: "+submission.memory_cost+"\n"+"*/\n\n";
                             - var code = "```"+submission.lang+"\n"+head+submission.submission_code.content+"\n```"
                             textarea(style="display: none;")=intro + code
@@ -118,7 +118,7 @@ block content
                 saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
                 searchReplace: true,
                 //watch : false,                // 关闭实时预览
-                htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                //htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
                 //toolbar  : false,             //关闭工具栏
                 //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
                 emoji: true,
