@@ -269,7 +269,8 @@
         where: where,
         include: include,
         offset: opt.offset,
-        limit: global.config.pageLimit.problem
+        limit: global.config.pageLimit.problem,
+        distinct: opt.distinct
       });
     });
   };
@@ -808,6 +809,11 @@
       if (opt.result !== void 0) {
         where.$and.push({
           result: opt.result
+        });
+      }
+      if (opt.creator_id !== void 0) {
+        where.$and.push({
+          creator_id: opt.creator_id
         });
       }
       if (opt.nickname !== void 0) {

@@ -31,7 +31,8 @@
     "angular-route": "^1.5.2",
     "html5-boilerplate": "^5.3.0",
     "wow": "^1.1.2",
-    "metisMenu": "^2.5.2"
+    "metisMenu": "^2.5.2",
+    "editor.md": "^1.5.0"
   },
   "resolutions": {
     "angular": "~1.4.8",

@@ -1,0 +1,203 @@
+//
+    switch:
+        user : current user
+        enable : decide if user can edit this solution
+        submission : the submission user submitted
+            problem : the problem of submission
+            submission_code.content : the code of this submission
+            ...
+extend ../layout
+block title
+    - var whichPage = "题解"
+    title #{whichPage}
+
+block script
+    link(rel='stylesheet', href="/stylesheets/jquery.datetimepicker.css")
+    script(src="/js/jquery.datetimepicker.js")
+
+block content
+    script(src="/bower_components/editor.md/editormd.min.js")
+    link(rel='stylesheet', href="/bower_components/editor.md/css/editormd.css")
+    .container-fluid
+        h1.text-center
+            a(href="/user/#{submission.creator.id}") #{submission.creator.nickname}
+            | 对于
+            a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
+            | 的题解
+    form(method="post" onsubmit="return confirm('确认提交该题解？你的题解将会被出题人看到并评分。');")
+            .row
+                .col-xs-3.col-sm-3.col-nm-3.col-lg-3
+                    - if(editable)
+                        if(submission.solution)
+                            input.form-control(name="title" type="text" placeholder="在这里输入标题", value=submission.solution.title, oninput="change_problem_title(this)", onblur="change_problem_title(this)")
+                        else
+                            input.form-control(name="title" type="text" placeholder="在这里输入标题", oninput="change_problem_title(this)", onblur="change_problem_title(this)")
+                .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-center
+                    label.text-center
+                        if(submission.solution)
+                            h3#problem_really_title(style="color: #000000;font-weight:bold;") #{submission.solution.title}
+                        else
+                            h3#problem_really_title(style="color: #000000;font-weight:bold;") 请输入标题！
+                .col-xs-3.col-sm-3.col-nm-3.col-lg-3.text-right
+                    if(submission.solution)
+                        label.form-control-static
+                            h5
+                                - yy = submission.solution.updated_at.getFullYear();
+                                - mm = submission.solution.updated_at.getMonth() - 0 + 1;
+                                - if(mm<10)
+                                    - mm="0"+mm;
+                                - dd = submission.solution.updated_at.getDate();
+                                - if(dd<10)
+                                    - dd="0"+dd;
+                                - hh = submission.solution.updated_at.getHours();
+                                - if(hh<10)
+                                    - hh="0"+hh;
+                                - mi = submission.solution.updated_at.getMinutes();
+                                - if(mi<10)
+                                    - mi="0"+mi;
+                                - ss = submission.solution.updated_at.getSeconds();
+                                - if(ss<10)
+                                    - ss="0"+ss;
+                                |最后更新于：#{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+            .row
+                .col-xs-12.col-sm-12.col-nm-12.col-lg-12
+                    div#editor
+                        - if(submission.solution)
+                            textarea(style="display: none;")=submission.solution.source
+                        - else
+                            - var intro = "##解题思路\n\n**请在这里简单写一下解题思路**\n\n##AC代码\n"
+                            - var head = "/* \n Author: "+ user.nickname + "\n"+" Result: "+submission.result+"\t"+"Submission_id: "+submission.id+"\n"+" Created at: "+submission.created_at+"\n"+" Problem_id: "+submission.problem_id+"\t"+"Time: "+submission.time_cost+"\t"+"Memory: "+submission.memory_cost+"\n"+"*/\n\n";
+                            - var code = "```"+submission.lang+"\n"+head+submission.submission_code.content+"\n```"
+                            textarea(style="display: none;")=intro + code
+            - if(editable)
+                .row
+                    .col-xs-3.col-sm-3.col-nm-3.col-lg-3
+                        if(submission.solution)
+                            select#access_level_div.form-control(type="input", name='access_level' value=submission.solution.access_level, onchange="change_display()")
+                                option(value="protect") 保密截止日期
+                                option(value="public") 立刻公开
+                                option(value="private") 不想公开
+
+                                if(submission.solution.secret_limit)
+                                    script var protect_time = new Date("#{submission.solution.secret_limit}");
+                                else
+                                    - var now_time = new Date();
+                                    script var protect_time = new Date("#{now_time.getTime()}"-0+7*24*60*60*1000);
+                            script.
+                                var sjl = document.getElementById("access_level_div");
+                                for (var i = 0; i < sjl.options.length; i++)
+                                    if (sjl.options[i].value == "#{submission.solution.access_level}")
+                                sjl.options[i].selected = true;
+                        else
+                            select#access_level_div.form-control.text-center(type="input", name='access_level', onchange="change_display()")
+                                option(value="protect") 保密截止日期
+                                option(value="public") 立刻公开
+                                option(value="private") 不想公开
+                                - var now_time = new Date();
+                                script var protect_time = new Date("#{now_time.getTime()}"-0+7*24*60*60*1000);
+                    .col-xs-3.col-sm-3.col-nm-3.col-lg-3
+                        input.form-control(type="text", id="protect_time", name="secret_limit", placeholder="", readonly="true")
+                    .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
+                        button.btn.btn-primary.form-control-static(type="submit" style="margin-top:0px;margin-right:0px;") 保存
+    script.
+        var testEditor;
+        $(function () {
+            editormd.katexURL = {
+                css: "/katex/katex.min",
+                js: "/katex/katex.min"
+            };
+            testEditor = editormd("editor", {
+                readOnly: #{!editable},
+                height: 720,
+                path: '/bower_components/editor.md/lib/',
+                theme: "dark",
+                previewTheme: "dark",
+                editorTheme: "pastel-on-dark",
+                codeFold: true,
+                //syncScrolling : false,
+                saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+                searchReplace: true,
+                //watch : false,                // 关闭实时预览
+                htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                //toolbar  : false,             //关闭工具栏
+                //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                emoji: true,
+                taskList: true,
+                tocm: true,         // Using [TOCM]
+                tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+                flowChart: true,             // 开启流程图支持，默认关闭
+                sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+                //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+                //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+                //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                //imageUpload: true,
+                //imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                //imageUploadURL: "./php/upload.php",
+                //onload: function () {
+                    //console.log('onload', this);
+                    //this.fullscreen();
+                    //this.unwatch();
+                    //this.watch().fullscreen();
+
+                    //this.setMarkdown("#PHP");
+                    //this.width("100%");
+                    //this.height(480);
+                    //this.resize("100%", 640);
+                //}
+            });
+
+
+            var __protect_time = $('#protect_time');
+            protect_time = new Date(protect_time);
+            var time_string = protect_time.getFullYear() + '/';
+            var protect_time_month = protect_time.getMonth() + 1;
+            if (protect_time_month < 10) {
+                protect_time_month = '0' + protect_time_month;
+            }
+            time_string += protect_time_month + '/';
+            var protect_time_day = protect_time.getDate();
+            if (protect_time_day < 10) {
+                protect_time_day = '0' + protect_time_day;
+            }
+            time_string += protect_time_day + ' ';
+            var protect_time_hour = protect_time.getHours();
+            if (protect_time_hour < 10) {
+                protect_time_hour = '0' + protect_time_hour;
+            }
+            time_string += protect_time_hour + ':';
+            var protect_time_minute = protect_time.getMinutes();
+            protect_time_minute = protect_time_minute - protect_time_minute % 10;
+            if (protect_time_minute < 10) {
+                protect_time_minute = '0' + protect_time_minute;
+            }
+            time_string += protect_time_minute;
+            __protect_time.val(time_string);
+            __protect_time.datetimepicker({value: 0, step: 10});
+            if (document.getElementById("access_level_div").value == "protect")
+                __protect_time.css("display","block");
+            else
+                __protect_time.css("display","none");
+
+
+        });
+
+        function change_problem_title(data) {
+            var __problem_really_title = $("#problem_really_title");
+            __problem_really_title.html(data.value);
+            if (data.value == "") {
+                __problem_really_title.html("请输入题目标题！");
+            }
+        }
+
+        function change_display() {
+            var __access_level = $("#access_level_div");
+            var __protect_time = $('#protect_time');
+            if(__access_level.val() == "protect"){
+                __protect_time.css("display","block");
+            }
+            else{
+                __protect_time.css("display", "none");
+            }
+        }
