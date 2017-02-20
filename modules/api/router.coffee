@@ -12,4 +12,6 @@ router
 
 .use '/acm-register', modules.acm_register.router
 
+.use '/utils', modules.utils.router
+
 module.exports = router

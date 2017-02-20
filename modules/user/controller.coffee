@@ -108,11 +108,13 @@ exports.postRegister = (req, res) ->
     nickname: req.body.nickname
     school  : req.body.school
     college : req.body.college
+    captcha : req.body.captcha
   }
   #precheckForRegister(form)
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
+    throw new global.myErrors.RegisterError("Wrong CAPTCHA.") if form.captcha.toLowerCase() isnt req.session.captcha.toLowerCase()
     throw new global.myErrors.RegisterError("Please confirm your password.") if form.password isnt req.body.password2
     form.password = passwordHash.generate(form.password) #对密码进行加密
     User.create form #存入数据库
