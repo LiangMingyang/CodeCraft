@@ -35,9 +35,42 @@
   });
 
   router.get('/index', function(req, res) {
-    return res.render('index', {
-      title: 'OJ4TH',
-      user: req.session.user
+    var User, currentUser, recommendation;
+    User = global.db.models.user;
+    recommendation = void 0;
+    currentUser = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      if (!currentUser) {
+        return [];
+      }
+      return currentUser.getRecommendation();
+    }).then(function(recommendation_problems) {
+      var problem;
+      recommendation = (function() {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = recommendation_problems.length; i < len; i++) {
+          problem = recommendation_problems[i];
+          results.push(problem.get({
+            plain: true
+          }));
+        }
+        return results;
+      })();
+      return recommendation.sort(function(a, b) {
+        return b.recommendation.score - a.recommendation.score;
+      });
+    }).then(function() {
+      return res.render('index', {
+        title: 'OJ4TH',
+        user: req.session.user,
+        recommendation: recommendation
+      });
     });
   });
 
