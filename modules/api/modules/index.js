@@ -8,6 +8,8 @@
 
   exports.acm_register = require('./acm-register');
 
+  exports.utils = require('./utils');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

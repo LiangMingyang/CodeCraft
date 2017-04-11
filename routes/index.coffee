@@ -52,6 +52,11 @@ router.get '/notice', (req, res) ->
     title: '招聘启事'
     user: req.session.user
   }
+router.get '/notice', (req, res)->
+  res.render 'notice', {
+    title: '招聘启事'
+    user: req.session.user
+  }
 
 router.get '/bcpc-rating', (req, res) ->
   teamName = [

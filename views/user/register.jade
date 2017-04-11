@@ -60,6 +60,11 @@ block content
                     option(value='新媒体艺术与设计学院') 新媒体艺术与设计学院
                     option(value='化学与环境学院') 化学与环境学院
                     option(value='人文与社会科学高等研究院') 人文与社会科学高等研究院
+            .form-group
+                img(src = "/api/utils/ccap" onclick="this.src='/api/utils/ccap?code='+Math.random();" )
+                label.sr-only(for='captcha') CCPA
+                input#captcha.form-control(type='input', name='captcha', placeholder='输入上方验证码')
+
             button.btn.btn-default.btnstyle(type='button', onclick='checkInformation()') 注册
             script.
                 function checkInformation(){
