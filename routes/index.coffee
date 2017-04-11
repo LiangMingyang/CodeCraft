@@ -27,8 +27,29 @@ router.get '/', (req, res)->
   res.redirect '/index'
 
 router.get '/index', (req, res) ->
-  res.render 'index', {
-    title: 'OJ4TH',
+  User = global.db.models.user
+  recommendation = undefined
+  currentUser = undefined
+  global.db.Promise.resolve()
+  .then ()->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    return [] if not currentUser
+    currentUser.getRecommendation()
+  .then (recommendation_problems)->
+    recommendation = (problem.get(plain: true) for problem in recommendation_problems)
+    recommendation.sort (a,b)->
+      b.recommendation.score - a.recommendation.score
+  .then ()->
+    res.render 'index', {
+      title: 'OJ4TH',
+      user: req.session.user
+      recommendation: recommendation
+    }
+router.get '/notice', (req, res) ->
+  res.render 'notice', {
+    title: '招聘启事'
     user: req.session.user
   }
 router.get '/notice', (req, res)->
