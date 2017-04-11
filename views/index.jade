@@ -113,14 +113,38 @@ html(lang='zh-CN')
                                         | 及时评测
                                     p(style="font-size:16px; margin-bottom:0px; font-family:'Microsoft YaHei', 微软雅黑") Write The Code, Change The World.
                                 .col-lg-6.col-nm-6.col-sm-6.col-xs-6
-                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 上机复习
+                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 上机学习
                                     h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
-                                        | 从
+                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp————从
                                         a(href="/problem/accepted" style="color:#88FF45") 题解
                                         | 开始
                                     //h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         |详情请戳上方
                                         a(href="/problem/accepted" style="color:#88FF45") 题解链接
+                                    br
+                                    if(user && recommendation && recommendation.length != 0)
+                                        if(recommendation.length == 0)
+                                            |您已经完成今日的所有推荐题目，太强了！！！
+                                            br
+                                            |是时候干点别的了~~~
+                                        else
+                                            h4(style='color: #88FF45; font-weight: bold; margin-bottom:1em;') 今日小OJ推荐您做：
+                                            - for(var i = 0; i < recommendation.length; i++)
+                                                p
+                                                    - var recommendation_problem_id = recommendation[i].id;
+                                                    if(recommendation_problem_id < 10)
+                                                        - recommendation_problem_id = "00" + recommendation_problem_id;
+                                                    else if(recommendation_problem_id < 100)
+                                                        - recommendation_problem_id = "0" + recommendation_problem_id;
+                                                    if(recommendation[i].accepted + recommendation[i].tried == 1)
+                                                        a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                    else if (recommendation[i].accepted + recommendation[i].tried != 2)
+                                                        a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    br
+                                    br
+                                    h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
+                                        a(href="/notice" style="color:#FFB90F")
+                                            |北航ACM程序设计实验室研究助理招聘信息
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");
