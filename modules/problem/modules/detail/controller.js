@@ -68,8 +68,7 @@
         }
       ]);
     }).then(function(submissions) {
-      var currentSubmission;
-      currentSubmission = submissions;
+      currentSubmissions = submissions;
       return Solution.findAll({
         where: {
           $or: [
