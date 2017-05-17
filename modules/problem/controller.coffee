@@ -256,3 +256,15 @@ exports.postAccepted = (req, res) ->
       console.error err
       err.message = "未知错误"
       res.render 'error', error: err
+
+exports.getStatistics = (req, res) ->
+  global.redis.set("common_recommendation_count", 0, "NX")
+  global.redis.set("graph_recommendation_count", 0, "NX")
+  if req.session.user.id % 2 is 0
+    global.redis.incr("common_recommendation_count")
+  else
+    global.redis.incr("graph_recommendation_count")
+  #global.redis.get("common_recommendation_count")
+    #.then (result)->
+      #console.log result
+  res.redirect(req.query.problem_id + '/index')
