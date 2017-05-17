@@ -50,7 +50,7 @@ exports.getCreateSolution = (req, res)->
       model : Solution
     ])
   .then (submissions) ->
-    currentSubmission = submissions
+    currentSubmissions = submissions
     Solution.findAll(
       where:
         $or:[
