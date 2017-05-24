@@ -5,7 +5,7 @@ module.exports = {
     username: 'root'
     password: 'alimengmengda'
     config:
-      host: 'biancheng.love'
+      host: 'localhost'
       dialect: 'mysql'
       port: 3306
       timezone: '+08:00'

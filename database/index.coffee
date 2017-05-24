@@ -24,6 +24,7 @@ module.exports = (database, username, password, config)->
   ProblemTag = sequelize.import path.join(__dirname, 'models/problem-tag')
   Recommendation = sequelize.import path.join(__dirname, 'models/recommendation')
   Solution = sequelize.import path.join(__dirname, 'models/solution')
+  Evaluation = sequelize.import path.join(__dirname, 'models/evaluation-solution')
 
   #associations
 
@@ -44,6 +45,7 @@ module.exports = (database, username, password, config)->
   User.hasMany(Problem, {
     foreignKey: 'creator_id'
   })
+  User.hasMany(Evaluation)
 
   Group.hasMany(Contest)
   Group.hasMany(Problem)
@@ -125,7 +127,13 @@ module.exports = (database, username, password, config)->
   Submission.hasOne(SubmissionCode)
   Submission.hasOne(Solution)
   Solution.belongsTo(Submission)
+  Solution.hasMany(Evaluation)
   # user and recommendation and problem
+  Evaluation.belongsTo(User,
+    as: 'creator'
+  )
+  Evaluation.belongsTo(Solution)
+
   Problem.belongsToMany(User, {
     through:
       model: Recommendation
