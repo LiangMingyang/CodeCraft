@@ -42,7 +42,9 @@
     User.hasMany(Problem, {
       foreignKey: 'creator_id'
     });
-    User.hasMany(Evaluation);
+    User.hasMany(Evaluation, {
+      foreignKey: 'creator_id'
+    });
     Group.hasMany(Contest);
     Group.hasMany(Problem);
     Group.belongsTo(User, {

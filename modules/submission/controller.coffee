@@ -197,6 +197,11 @@ exports.postSolution = (req, res) ->
                           new Date((new Date().getTime()+7*24*60*60*1000))
                         else
                           new Date(req.body["secret_limit"])
+        category: req.body["category"]
+        user_tag: req.body["user_tag"]
+        practice_time: req.body["practice_time"]
+        score: req.body["score"]
+        influence: req.body["influence"]
       }
 
       currentSubmission = submission
