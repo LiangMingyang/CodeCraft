@@ -97,8 +97,36 @@ block content
                                 script var protect_time = new Date("#{now_time.getTime()}"-0+7*24*60*60*1000);
                     .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                         input.form-control(type="text", id="protect_time", name="secret_limit", placeholder="", readonly="true")
+                        // Button trigger modal
+                        //button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal')
+                        //    | Launch demo modal
+                        // Modal
+                    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') &times;
+                                    h4#myModalLabel.modal-title Modal title
+                                .modal-body
+                                    //here is the body
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                                                label.control-label 题目质量
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                                                select#score.form-control.text-center(type="input", name='score')
+                                                    option(value="?") 请选择
+                                                    option(value="-1") 寄刀片
+                                                    option(value="0") 一般般
+                                                    option(value="1") 很用心
+
+
+                                .modal-footer
+                                    button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                                    button.btn.btn-primary(type='button') 保存
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
-                        button.btn.btn-primary.form-control-static(type="submit" style="margin-top:0px;margin-right:0px;") 保存
+                        button.btn.btn-primary.form-control-static(type="button" style="margin-top:0px;margin-right:0px;" data-target='#myModal' data-toggle="modal") 下一步
     script.
         var testEditor;
         $(function () {
