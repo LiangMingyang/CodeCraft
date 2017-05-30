@@ -24,12 +24,12 @@ exports.getList = (req, res)->
   Group = global.db.models.group
   joiner = undefined
   currentGroup = undefined
-  BCPC_GROUP = 9
+  ACM_GROUP = 9
   global.db.Promise.resolve()
   .then ->
     Group.find
       where :
-        id : BCPC_GROUP
+        id : ACM_GROUP
       include : [
         model: User
         #where:
