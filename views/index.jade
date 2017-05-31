@@ -45,13 +45,15 @@ html(lang='zh-CN')
                                             a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
                                         - if(user)
                                             li.normalli
+                                                a(href="/problem/accepted", id="solution", class="nav-before") 写题解
+                                            li.normalli
                                                 a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
                                             li.normalli
                                                 a(href="/feedback/index", id="feedbackpage", class="nav-before") 反馈
+                                        //li.normalli
+                                        //    a(href="http://biancheng.love:800", id="bcpc-rating", class="nav-before") 2016集训排名
                                         li.normalli
-                                            a(href="http://biancheng.love:800", id="bcpc-rating", class="nav-before") 集训排名
-                                        li.normalli
-                                            a(href="/bcpc/index.html", id="bcpc", class="nav-before") BCPC
+                                            a(href="/acm-register/", id="bcpc", class="nav-before") 2017集训选拔
                                     ul.nav.navbar-nav.navbar-right
                                         - if(user)
                                             li.normalli
