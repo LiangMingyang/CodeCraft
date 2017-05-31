@@ -107,20 +107,54 @@ block content
                                 .modal-header
                                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                                         span(aria-hidden='true') &times;
-                                    h4#myModalLabel.modal-title Modal title
+                                    h4#myModalLabel.modal-title 评价（匿名）
                                 .modal-body
                                     //here is the body
                                     .form-horizontal
                                         .form-group
-                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 label.control-label 题目质量
-                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-right
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 select#score.form-control.text-center(type="input", name='score')
-                                                    option(value="?") 请选择
-                                                    option(value="-1") 寄刀片
-                                                    option(value="0") 一般般
-                                                    option(value="1") 很用心
-
+                                                    option(value="1") 好
+                                                    option(value="0") 一般
+                                                    option(value="-1") 不好
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 做题所用时间
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                select#cost.form-control.text-center(type="input", name='practice_time')
+                                                    option(value="-1") 请选择
+                                                    option(value="30") 约半小时
+                                                    option(value="60") 约一小时
+                                                    option(value="120") 两小时及以上
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 对你的影响
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                select#influence.form-control.text-center(type="input", name='influence')
+                                                    option(value="-1") 请选择
+                                                    option(value="2") 学到了新知识
+                                                    option(value="1") 巩固了以前的知识
+                                                    option(value="0") 没有任何提升
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 最贴近的分类
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                select#category.form-control.text-center(type="input", name='category')
+                                                    option(value="请选择") 请选择
+                                                    option(value="分治") 分治
+                                                    option(value="贪心") 贪心
+                                                    option(value="模拟") 模拟
+                                                    option(value="图论") 图论
+                                                    option(value="数学") 数学
+                                                    option(value="搜索") 搜索
+                                                    option(value="几何") 几何
+                                                    option(value="字符串") 字符串
+                                                    option(value="动态规划") 动态规划
 
                                 .modal-footer
                                     button.btn.btn-default(type='button', data-dismiss='modal') 取消
