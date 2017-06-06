@@ -271,6 +271,10 @@
         submission.solution.title = form.title;
         submission.solution.access_level = form.access_level;
         submission.solution.secret_limit = form.secret_limit;
+        submission.solution.user_tag = form.user_tag;
+        submission.solution.practice_time = form.practice_time;
+        submission.solution.score = form.score;
+        submission.solution.category = form.category;
         return submission.solution.save();
       } else {
         return Solution.create(form).then(function(solution) {
