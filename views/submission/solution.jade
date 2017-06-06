@@ -24,7 +24,7 @@ block content
             | 对于
             a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
             | 的题解
-    form(method="post" onsubmit="return confirm('确认提交该题解？你的题解将会被出题人看到并评分。');")
+    form(method="post" onsubmit="return confirm('这是一份认真的不会误人子弟的题解?');")
             .row
                 .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                     - if(editable)
@@ -194,6 +194,15 @@ block content
                                                     option(value="几何") 几何
                                                     option(value="字符串") 字符串
                                                     option(value="动态规划") 动态规划
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 自定义标签(多个标签请用;分隔)
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                - var user_tag_value = ""
+                                                if(submission.solution && submission.solution.user_tag)
+                                                    - user_tag_value = submission.solution.user_tag
+                                                input.form-control#user_tag(type="input", name="user_tag", value=user_tag_value)
 
                                 .modal-footer
                                     button.btn.btn-default(type='button', data-dismiss='modal') 取消

@@ -275,6 +275,7 @@
         submission.solution.practice_time = form.practice_time;
         submission.solution.score = form.score;
         submission.solution.category = form.category;
+        submission.solution.influence = form.influence;
         return submission.solution.save();
       } else {
         return Solution.create(form).then(function(solution) {

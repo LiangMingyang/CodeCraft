@@ -215,6 +215,7 @@ exports.postSolution = (req, res) ->
         submission.solution.practice_time = form.practice_time
         submission.solution.score = form.score
         submission.solution.category = form.category
+        submission.solution.influence = form.influence
         submission.solution.save()
       else
         Solution.create form
