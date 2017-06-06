@@ -209,6 +209,11 @@ block content
                                     button.btn.btn-primary(type='submit') 保存
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
                         button.btn.btn-primary.form-control-static(type="button" style="margin-top:0px;margin-right:0px;" data-target='#myModal' data-toggle="modal") 下一步
+            - else
+                .row
+                    .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
+                        button#praise.btn(type="button" onclick="praise();") 赞
+                        button#blame.btn(type="button" onclick="blame();") 踩
     script.
         var testEditor;
         $(function () {
@@ -260,7 +265,7 @@ block content
 
 
             var __protect_time = $('#protect_time');
-            protect_time = new Date(protect_time);
+            protect_time = new Date(__protect_time);
             var time_string = protect_time.getFullYear() + '/';
             var protect_time_month = protect_time.getMonth() + 1;
             if (protect_time_month < 10) {
@@ -310,4 +315,16 @@ block content
             else{
                 __protect_time.css("display", "none");
             }
+        }
+        function praise() {
+            $.get("praise", function(res, status){
+                $("#praise").addClass('btn-primary');
+                $("#blame").removeClass('btn-primary');
+            })
+        }
+        function blame() {
+            $.get("blame", function (res, status) {
+                $("#blame").addClass('btn-primary');
+                $("#praise").removeClass('btn-primary');
+            })
         }
