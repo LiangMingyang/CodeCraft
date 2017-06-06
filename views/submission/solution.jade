@@ -115,7 +115,19 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 label.control-label 题目质量
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
-                                                select#score.form-control.text-center(type="input", name='score')
+                                                - var score_text = "请选择"
+                                                - var score_value = ""
+                                                if(submission.solution && submission.solution.score)
+                                                    - score_value = submission.solution.score
+                                                    case submission.solution.score
+                                                        when 1
+                                                            - score_text = "好"
+                                                        when 0
+                                                            - score_text = "一般"
+                                                        when -1
+                                                            - score_text = "不好"
+                                                select#score.form-control.text-center(type="input", name='score', required)
+                                                    option(value=score_value)=score_text
                                                     option(value="1") 好
                                                     option(value="0") 一般
                                                     option(value="-1") 不好
@@ -124,8 +136,19 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 label.control-label 做题所用时间
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
-                                                select#cost.form-control.text-center(type="input", name='practice_time')
-                                                    option(value="-1") 请选择
+                                                - practice_time_text = "请选择"
+                                                - pracetice_time_value = ""
+                                                if(submission.solution && submission.solution.practice_time)
+                                                    - pracetice_time_value = submission.solution.practice_time
+                                                    case submission.solution.practice_time
+                                                        when 30
+                                                            - practice_time_text = "约半小时"
+                                                        when 60
+                                                            - practice_time_text = "约一小时"
+                                                        when 120
+                                                            - practice_time_text = "两小时及以上"
+                                                select#cost.form-control.text-center(type="input", name='practice_time' required)
+                                                    option(value=pracetice_time_value)=practice_time_text
                                                     option(value="30") 约半小时
                                                     option(value="60") 约一小时
                                                     option(value="120") 两小时及以上
@@ -134,8 +157,19 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 label.control-label 对你的影响
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
-                                                select#influence.form-control.text-center(type="input", name='influence')
-                                                    option(value="-1") 请选择
+                                                - influence_text = "请选择"
+                                                - influence_value = ""
+                                                if(submission.solution && submission.solution.practice_time)
+                                                    case submission.solution.influence
+                                                        when 2
+                                                            - influence_text = "学到了新知识"
+                                                        when 1
+                                                            - influence_text = "巩固了以前的知识"
+                                                        when 0
+                                                            - influence_text = "没有任何提升"
+                                                    - influence_value = submission.solution.practice_time
+                                                select#influence.form-control.text-center(type="input", name='influence' required)
+                                                    option(value=influence_value)=influence_text
                                                     option(value="2") 学到了新知识
                                                     option(value="1") 巩固了以前的知识
                                                     option(value="0") 没有任何提升
@@ -144,8 +178,13 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 label.control-label 最贴近的分类
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
-                                                select#category.form-control.text-center(type="input", name='category')
-                                                    option(value="请选择") 请选择
+                                                - category_value = ""
+                                                - category_text = "请选择"
+                                                if(submission.solution && submission.solution.category)
+                                                    - category_value = submission.solution.category
+                                                    - category_text = submission.solution.category
+                                                select#category.form-control.text-center(type="input", name='category' required)
+                                                    option(value=category_value)=category_text
                                                     option(value="分治") 分治
                                                     option(value="贪心") 贪心
                                                     option(value="模拟") 模拟
@@ -158,7 +197,7 @@ block content
 
                                 .modal-footer
                                     button.btn.btn-default(type='button', data-dismiss='modal') 取消
-                                    button.btn.btn-primary(type='button') 保存
+                                    button.btn.btn-primary(type='submit') 保存
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
                         button.btn.btn-primary.form-control-static(type="button" style="margin-top:0px;margin-right:0px;" data-target='#myModal' data-toggle="modal") 下一步
     script.
