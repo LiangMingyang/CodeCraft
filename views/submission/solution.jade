@@ -209,11 +209,42 @@ block content
                                     button.btn.btn-primary(type='submit') 保存
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
                         button.btn.btn-primary.form-control-static(type="button" style="margin-top:0px;margin-right:0px;" data-target='#myModal' data-toggle="modal") 下一步
+                script.
+                    var __protect_time = $('#protect_time');
+                    protect_time = new Date(protect_time);
+                    var time_string = protect_time.getFullYear() + '/';
+                    var protect_time_month = protect_time.getMonth() + 1;
+                    if (protect_time_month < 10) {
+                        protect_time_month = '0' + protect_time_month;
+                    }
+                    time_string += protect_time_month + '/';
+                    var protect_time_day = protect_time.getDate();
+                    if (protect_time_day < 10) {
+                        protect_time_day = '0' + protect_time_day;
+                    }
+                    time_string += protect_time_day + ' ';
+                    var protect_time_hour = protect_time.getHours();
+                    if (protect_time_hour < 10) {
+                        protect_time_hour = '0' + protect_time_hour;
+                    }
+                    time_string += protect_time_hour + ':';
+                    var protect_time_minute = protect_time.getMinutes();
+                    protect_time_minute = protect_time_minute - protect_time_minute % 10;
+                    if (protect_time_minute < 10) {
+                        protect_time_minute = '0' + protect_time_minute;
+                    }
+                    time_string += protect_time_minute;
+                    __protect_time.val(time_string);
+                    __protect_time.datetimepicker({value: 0, step: 10});
+                    if (document.getElementById("access_level_div").value == "protect")
+                        __protect_time.css("display", "block");
+                    else
+                        __protect_time.css("display", "none");
             - else
                 .row
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
-                        button#praise.btn(type="button" onclick="praise();") 赞
-                        button#blame.btn(type="button" onclick="blame();") 踩
+                        button#praise.btn(type="button" onclick="_praise();") 赞
+                        button#blame.btn(type="button" onclick="_blame();") 踩
     script.
         var testEditor;
         $(function () {
@@ -263,39 +294,6 @@ block content
                 //}
             });
 
-
-            var __protect_time = $('#protect_time');
-            protect_time = new Date(__protect_time);
-            var time_string = protect_time.getFullYear() + '/';
-            var protect_time_month = protect_time.getMonth() + 1;
-            if (protect_time_month < 10) {
-                protect_time_month = '0' + protect_time_month;
-            }
-            time_string += protect_time_month + '/';
-            var protect_time_day = protect_time.getDate();
-            if (protect_time_day < 10) {
-                protect_time_day = '0' + protect_time_day;
-            }
-            time_string += protect_time_day + ' ';
-            var protect_time_hour = protect_time.getHours();
-            if (protect_time_hour < 10) {
-                protect_time_hour = '0' + protect_time_hour;
-            }
-            time_string += protect_time_hour + ':';
-            var protect_time_minute = protect_time.getMinutes();
-            protect_time_minute = protect_time_minute - protect_time_minute % 10;
-            if (protect_time_minute < 10) {
-                protect_time_minute = '0' + protect_time_minute;
-            }
-            time_string += protect_time_minute;
-            __protect_time.val(time_string);
-            __protect_time.datetimepicker({value: 0, step: 10});
-            if (document.getElementById("access_level_div").value == "protect")
-                __protect_time.css("display","block");
-            else
-                __protect_time.css("display","none");
-
-
         });
 
         function change_problem_title(data) {
@@ -316,13 +314,13 @@ block content
                 __protect_time.css("display", "none");
             }
         }
-        function praise() {
+        function _praise() {
             $.get("praise", function(res, status){
                 $("#praise").addClass('btn-primary');
                 $("#blame").removeClass('btn-primary');
             })
         }
-        function blame() {
+        function _blame() {
             $.get("blame", function (res, status) {
                 $("#blame").addClass('btn-primary');
                 $("#praise").removeClass('btn-primary');
