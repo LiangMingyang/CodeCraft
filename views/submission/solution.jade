@@ -117,7 +117,8 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - var score_text = "请选择"
                                                 - var score_value = ""
-                                                if(submission.solution && submission.solution.score)
+
+                                                if(submission.solution && submission.solution.score !== undefined)
                                                     - score_value = submission.solution.score
                                                     case submission.solution.score
                                                         when 1
@@ -138,7 +139,7 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - practice_time_text = "请选择"
                                                 - pracetice_time_value = ""
-                                                if(submission.solution && submission.solution.practice_time)
+                                                if(submission.solution && submission.solution.practice_time !== undefined)
                                                     - pracetice_time_value = submission.solution.practice_time
                                                     case submission.solution.practice_time
                                                         when 30
@@ -159,7 +160,7 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - influence_text = "请选择"
                                                 - influence_value = ""
-                                                if(submission.solution && submission.solution.practice_time)
+                                                if(submission.solution && submission.solution.practice_time !== undefined)
                                                     case submission.solution.influence
                                                         when 2
                                                             - influence_text = "学到了新知识"
@@ -180,7 +181,7 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - category_value = ""
                                                 - category_text = "请选择"
-                                                if(submission.solution && submission.solution.category)
+                                                if(submission.solution && submission.solution.category !== undefined)
                                                     - category_value = submission.solution.category
                                                     - category_text = submission.solution.category
                                                 select#category.form-control.text-center(type="input", name='category' required)
@@ -200,7 +201,7 @@ block content
                                                 label.control-label 自定义标签(多个标签请用;分隔)
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - var user_tag_value = ""
-                                                if(submission.solution && submission.solution.user_tag)
+                                                if(submission.solution && submission.solution.user_tag !== undefined)
                                                     - user_tag_value = submission.solution.user_tag
                                                 input.form-control#user_tag(type="input", name="user_tag", value=user_tag_value)
 
