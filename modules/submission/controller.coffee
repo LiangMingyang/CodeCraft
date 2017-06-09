@@ -157,10 +157,13 @@ exports.getSolution = (req, res)->
     .then (submission)->
       checkSolutionAccess(submission, currentUser)
       currentSubmission = submission
-      currentSubmission.solution.getEvaluations(
-        where:
-          creator_id: currentUser.id
-      )
+      if currentSubmission.solution
+        currentSubmission.solution.getEvaluations(
+          where:
+            creator_id: currentUser.id
+        )
+      else
+        return []
     .then (evaluation)->
       res.render('submission/solution', {
         submission: currentSubmission

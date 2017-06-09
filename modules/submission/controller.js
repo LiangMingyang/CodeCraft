@@ -212,11 +212,15 @@
     }).then(function(submission) {
       checkSolutionAccess(submission, currentUser);
       currentSubmission = submission;
-      return currentSubmission.solution.getEvaluations({
-        where: {
-          creator_id: currentUser.id
-        }
-      });
+      if (currentSubmission.solution) {
+        return currentSubmission.solution.getEvaluations({
+          where: {
+            creator_id: currentUser.id
+          }
+        });
+      } else {
+        return [];
+      }
     }).then(function(evaluation) {
       return res.render('submission/solution', {
         submission: currentSubmission,
