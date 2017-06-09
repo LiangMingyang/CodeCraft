@@ -64,6 +64,12 @@ class UnknownContest extends Error
     @status = 403
     Error.captureStackTrace(this, UnknownContest)
 
+class UnknownSolution extends Error
+  constructor: (@message = "题解不存在，或者你没有权限") ->
+    @name = 'UnknownContest'
+    @status = 403
+    Error.captureStackTrace(this, UnknownContest)
+
 module.exports = {
   UnknownUser : UnknownUser
   UnknownGroup : UnknownGroup
@@ -76,4 +82,5 @@ module.exports = {
   InvalidAccess : InvalidAccess
   UpdateError : UpdateError
   InvalidFile : InvalidFile
+  UnknownSolution : UnknownSolution
 }

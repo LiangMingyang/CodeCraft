@@ -132,6 +132,8 @@ exports.getSolution = (req, res)->
   SubmissionCode = DB.models.submission_code
   Problem = DB.models.problem
   Contest = DB.models.Contest
+  Evaluation = DB.models.evaluation
+  currentSubmission = undefined
   currentUser = undefined
   global.db.Promise.resolve()
     .then ->
@@ -154,10 +156,17 @@ exports.getSolution = (req, res)->
       )
     .then (submission)->
       checkSolutionAccess(submission, currentUser)
+      currentSubmission = submission
+      currentSubmission.solution.getEvaluations(
+        where:
+          creator_id: currentUser.id
+      )
+    .then (evaluation)->
       res.render('submission/solution', {
-        submission: submission
+        submission: currentSubmission
         user : currentUser
-        editable : submission.creator.id is currentUser?.id
+        editable : currentSubmission.creator.id is currentUser?.id
+        evaluation : evaluation[0]
       })
     .catch global.myErrors.UnknownSubmission,(err)->
 #      req.flash 'info', err.message
@@ -229,3 +238,69 @@ exports.postSolution = (req, res) ->
       console.error err
       err.message = "未知错误"
       res.render 'error', error: err
+
+
+exports.getPraise = (req, res)->
+  DB = global.db
+  Utils = global.myUtils
+  User = DB.models.user
+  Solution = DB.models.solution
+  Submission = DB.models.submission
+  Evaluation = DB.models.evaluation
+  currentUser = undefined
+  currentSubmission  = undefined
+  currentEvaluation = undefined
+  DB.Promise.resolve()
+    .then ->
+      User.find req.session.user.id if req.session.user
+    .then (user)->
+      currentUser = user
+      Submission.find(
+        where:
+          id : req.params.submissionID
+        include: [
+          model : Solution
+        ,
+          model : User
+          as : 'creator'
+        ]
+      )
+    .then (submission)->
+      checkSolutionAccess(submission, currentUser)
+      currentSubmission = submission
+      throw new global.myErrors.UnknownSolution() if not submission.solution
+      Evaluation.find(
+        include: [
+          model: User
+          as : 'creator'
+          where:
+            id : currentUser.id
+        ,
+          model: Solution
+          where:
+            id : currentSubmission.solution.id
+        ]
+      )
+    .then (evaluation)->
+      currentEvaluation = evaluation
+      score = req.query.score
+      score = 1 if score>0
+      score = -1 if score<0
+      if evaluation
+        evaluation.score = score
+        evaluation.save()
+      else
+        Evaluation.create(
+          score: score
+          creator_id: currentUser.id
+          solution_id: currentSubmission.solution.id
+        )
+    .then (evaluation)->
+      res.json(evaluation.get(plain:true))
+    .catch global.myErrors.UnknownSubmission, global.myErrors.UnknownSolution, (err)->
+      res.render 'error', error: err
+    .catch (err)->
+      console.error err
+      err.message = "未知错误"
+      res.render 'error', error: err
+

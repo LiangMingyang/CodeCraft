@@ -244,8 +244,8 @@ block content
             - else
                 .row
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
-                        button#praise.btn(type="button" onclick="_praise();") 赞
-                        button#blame.btn(type="button" onclick="_blame();") 踩
+                        button#praise.btn(type="button" onclick="_praise();" class={'btn-primary': evaluation && evaluation.score == 1}) 赞
+                        button#blame.btn(type="button" onclick="_blame();" class={'btn-primary': evaluation && evaluation.score == -1}) 踩
     script.
         var testEditor;
         $(function () {
@@ -316,13 +316,13 @@ block content
             }
         }
         function _praise() {
-            $.get("praise", function(res, status){
+            $.get("praise", {score: 1}, function(res, status){
                 $("#praise").addClass('btn-primary');
                 $("#blame").removeClass('btn-primary');
             })
         }
         function _blame() {
-            $.get("blame", function (res, status) {
+            $.get("praise", {score: -1}, function (res, status) {
                 $("#blame").addClass('btn-primary');
                 $("#praise").removeClass('btn-primary');
             })
