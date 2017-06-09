@@ -21,4 +21,6 @@ router
 
 .post '/:submissionID([0-9]+)/solution', controller.postSolution
 
+.get '/:submissionID([0-9]+)/praise', controller.getPraise
+
 module.exports = router

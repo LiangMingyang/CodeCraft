@@ -174,7 +174,7 @@
   };
 
   exports.getSolution = function(req, res) {
-    var Contest, DB, Problem, Solution, Submission, SubmissionCode, User, Utils, currentUser;
+    var Contest, DB, Evaluation, Problem, Solution, Submission, SubmissionCode, User, Utils, currentSubmission, currentUser;
     DB = global.db;
     Utils = global.myUtils;
     User = DB.models.user;
@@ -183,6 +183,8 @@
     SubmissionCode = DB.models.submission_code;
     Problem = DB.models.problem;
     Contest = DB.models.Contest;
+    Evaluation = DB.models.evaluation;
+    currentSubmission = void 0;
     currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -209,10 +211,18 @@
       });
     }).then(function(submission) {
       checkSolutionAccess(submission, currentUser);
+      currentSubmission = submission;
+      return currentSubmission.solution.getEvaluations({
+        where: {
+          creator_id: currentUser.id
+        }
+      });
+    }).then(function(evaluation) {
       return res.render('submission/solution', {
-        submission: submission,
+        submission: currentSubmission,
         user: currentUser,
-        editable: submission.creator.id === (currentUser != null ? currentUser.id : void 0)
+        editable: currentSubmission.creator.id === (currentUser != null ? currentUser.id : void 0),
+        evaluation: evaluation[0]
       });
     })["catch"](global.myErrors.UnknownSubmission, function(err) {
       return res.render('error', {
@@ -257,7 +267,12 @@
         content: req.body["editor-html-code"],
         title: req.body["title"] || ("Solution-" + currentUser.nickname + "-" + currentUser.student_id + "-" + currentSubmission.id),
         access_level: req.body["access_level"] || "protect",
-        secret_limit: req.body["secret_limit"] === '' ? new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000) : new Date(req.body["secret_limit"])
+        secret_limit: req.body["secret_limit"] === '' ? new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000) : new Date(req.body["secret_limit"]),
+        category: req.body["category"],
+        user_tag: req.body["user_tag"],
+        practice_time: req.body["practice_time"],
+        score: req.body["score"],
+        influence: req.body["influence"]
       };
       currentSubmission = submission;
       if (submission.solution) {
@@ -266,6 +281,11 @@
         submission.solution.title = form.title;
         submission.solution.access_level = form.access_level;
         submission.solution.secret_limit = form.secret_limit;
+        submission.solution.user_tag = form.user_tag;
+        submission.solution.practice_time = form.practice_time;
+        submission.solution.score = form.score;
+        submission.solution.category = form.category;
+        submission.solution.influence = form.influence;
         return submission.solution.save();
       } else {
         return Solution.create(form).then(function(solution) {
@@ -275,6 +295,95 @@
     }).then(function(solution) {
       req.flash('info', "保存成功");
       return res.redirect("../" + currentSubmission.id + "/solution");
+    })["catch"](function(err) {
+      console.error(err);
+      err.message = "未知错误";
+      return res.render('error', {
+        error: err
+      });
+    });
+  };
+
+  exports.getPraise = function(req, res) {
+    var DB, Evaluation, Solution, Submission, User, Utils, currentEvaluation, currentSubmission, currentUser;
+    DB = global.db;
+    Utils = global.myUtils;
+    User = DB.models.user;
+    Solution = DB.models.solution;
+    Submission = DB.models.submission;
+    Evaluation = DB.models.evaluation;
+    currentUser = void 0;
+    currentSubmission = void 0;
+    currentEvaluation = void 0;
+    return DB.Promise.resolve().then(function() {
+      if (req.session.user) {
+        return User.find(req.session.user.id);
+      }
+    }).then(function(user) {
+      currentUser = user;
+      return Submission.find({
+        where: {
+          id: req.params.submissionID
+        },
+        include: [
+          {
+            model: Solution
+          }, {
+            model: User,
+            as: 'creator'
+          }
+        ]
+      });
+    }).then(function(submission) {
+      checkSolutionAccess(submission, currentUser);
+      currentSubmission = submission;
+      if (!submission.solution) {
+        throw new global.myErrors.UnknownSolution();
+      }
+      return Evaluation.find({
+        include: [
+          {
+            model: User,
+            as: 'creator',
+            where: {
+              id: currentUser.id
+            }
+          }, {
+            model: Solution,
+            where: {
+              id: currentSubmission.solution.id
+            }
+          }
+        ]
+      });
+    }).then(function(evaluation) {
+      var score;
+      currentEvaluation = evaluation;
+      score = req.query.score;
+      if (score > 0) {
+        score = 1;
+      }
+      if (score < 0) {
+        score = -1;
+      }
+      if (evaluation) {
+        evaluation.score = score;
+        return evaluation.save();
+      } else {
+        return Evaluation.create({
+          score: score,
+          creator_id: currentUser.id,
+          solution_id: currentSubmission.solution.id
+        });
+      }
+    }).then(function(evaluation) {
+      return res.json(evaluation.get({
+        plain: true
+      }));
+    })["catch"](global.myErrors.UnknownSubmission, global.myErrors.UnknownSolution, function(err) {
+      return res.render('error', {
+        error: err
+      });
     })["catch"](function(err) {
       console.error(err);
       err.message = "未知错误";

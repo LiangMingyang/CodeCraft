@@ -23,6 +23,21 @@
       },
       secret_limit: {
         type: DataTypes.DATE
+      },
+      category: {
+        type: DataTypes.STRING
+      },
+      user_tag: {
+        type: DataTypes.STRING
+      },
+      practice_time: {
+        type: DataTypes.INTEGER
+      },
+      score: {
+        type: DataTypes.INTEGER
+      },
+      influence: {
+        type: DataTypes.INTEGER
       }
     }, {
       underscored: true

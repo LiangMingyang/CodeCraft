@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "evaluation-solution.js",
+  "sourceRoot": "",
+  "sources": [
+    "evaluation-solution.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,MAAM,CAAC,OAAP,GAAiB,SAAC,SAAD,EAAY,SAAZ;WACf,SAAS,CAAC,MAAV,CAAiB,YAAjB,EAA+B;MAC7B,KAAA,EACE;QAAA,IAAA,EAAM,SAAS,CAAC,OAAhB;OAF2B;KAA/B,EAKG;MACD,WAAA,EAAa,IADZ;KALH;EADe;AAAjB"
+}
