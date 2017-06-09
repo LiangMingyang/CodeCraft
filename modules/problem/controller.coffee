@@ -258,13 +258,26 @@ exports.postAccepted = (req, res) ->
       res.render 'error', error: err
 
 exports.getStatistics = (req, res) ->
+  count_common = undefined
+  count_graph = undefined
   global.redis.set("common_recommendation_count", 0, "NX")
   global.redis.set("graph_recommendation_count", 0, "NX")
   if req.session.user.id % 2 is 0
     global.redis.incr("common_recommendation_count")
   else
     global.redis.incr("graph_recommendation_count")
-  #global.redis.get("common_recommendation_count")
-    #.then (result)->
+  global.redis.get("common_recommendation_count")
+    .then (result)->
+      #console.log "普通协同过滤推荐点击次数："
       #console.log result
-  res.redirect(req.query.problem_id + '/index')
+      count_common = result
+  global.redis.get("graph_recommendation_count")
+    .then (result)->
+      #console.log "改进的图推荐算法点击次数："
+      #console.log result
+      count_graph = result
+    .then ()->
+      if req.session.user.id is 1
+        res.redirect(req.query.problem_id + '/index?' + 'count_common=' + count_common + '&count_graph=' + count_graph)
+      else
+        res.redirect(req.query.problem_id + '/index')
