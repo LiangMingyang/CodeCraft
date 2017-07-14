@@ -19,7 +19,7 @@
           min: 0,
           idle: 10000
         },
-        logging: null
+        //logging: null
       }
     },
     pageLimit: {
