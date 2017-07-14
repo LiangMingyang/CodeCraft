@@ -2,6 +2,9 @@ express = require('express')
 router = express.Router(mergeParams: true);
 middlewares = require('../middlewares')
 
+
+
+
 modules = require('../modules')
 
 router.use middlewares
@@ -20,6 +23,8 @@ router.use '/submission', modules.submission.router
 
 router.use '/feedback', modules.feedback.router
 
+router.use '/rank', modules.rank.router
+
 router.use '/api', modules.api.router
 
 # Get home page
@@ -27,13 +32,22 @@ router.get '/', (req, res)->
   res.redirect '/index'
 
 router.get '/index', (req, res) ->
+
+
   User = global.db.models.user
+  Submission = global.db.models.submission
   recommendation = undefined
   currentUser = undefined
+
+
+
+
+
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
   .then (user)->
+
     currentUser = user
     return [] if not currentUser
     currentUser.getRecommendation()
@@ -42,11 +56,14 @@ router.get '/index', (req, res) ->
     recommendation.sort (a,b)->
       b.recommendation.score - a.recommendation.score
   .then ()->
-    res.render 'index', {
-      title: 'OJ4TH',
-      user: req.session.user
-      recommendation: recommendation
-    }
+
+
+        res.render 'index', {
+            title: 'OJ4TH',
+            user: req.session.user
+            recommendation: recommendation
+            }
+
 router.get '/notice', (req, res) ->
   res.render 'notice', {
     title: '招聘启事'

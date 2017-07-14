@@ -1,6 +1,10 @@
 #user
 path = require('path')
 crypto = require('crypto')
+
+Sequelize=require('sequelize')
+sequelize = new Sequelize('ojtest','root','09220922',{host:'127.0.0.1',port:'3306',dialect:'mysql'})
+
 exports.login = (req, res, user) ->
   req.session.user = {
     id: user.id
@@ -233,6 +237,166 @@ exports.getResultCount = (problems_id, results, contest)->
   options.where.result = results if results
   options.where.contest_id = contest.id if contest
   Submission.aggregate('id', 'count', options)
+
+
+#得到每个人的过题数并取前十
+exports.getRankCount = (creators_id, contest)->
+  Submission = global.db.models.submission
+  User=global.db.models.user
+  options = {
+    where:
+      result:'AC'
+    group : 'creator_id'
+    attributes : ['creator_id',['count( distinct problem_id)','COUNT']]
+    order:sequelize.literal('count(distinct problem_id) DESC')
+    limit:10
+    plain:false
+  }
+  options.where.contest_id = contest.id if contest
+  Submission.aggregate('problem_id','count', options)
+
+#得到每个人的答题数并取前十
+exports.getDoRankCount = (creators_id, contest)->
+  Submission = global.db.models.submission
+  User=global.db.models.user
+  options = {
+    group : 'creator_id'
+    attributes : ['creator_id',['count( distinct problem_id)','COUNT']]
+    order:sequelize.literal('count(distinct problem_id) DESC')
+    limit:10
+    plain:false
+  }
+  options.where.contest_id = contest.id if contest
+  Submission.aggregate('problem_id','count', options)
+
+
+#得到每个人的交题解数并取前十
+exports.getSolutionCount=()->
+  User = global.db.models.user
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+
+  Solution.findAll({
+    include:[{
+      model:Submission
+      where:
+        id:Sequelize.col('submission_id')
+      group:'creator_id'
+      order:sequelize.literal('count(distinct submission_id) DESC')
+      limit:10
+      #through:{
+       # attributes:['creator_id','count(distinct id) DESC']
+      #}
+    }]
+    attributes:['id','submission_id']
+  })
+
+
+
+
+#共10个函数 根据得到的过题数排名前十的id->得到他们的姓名
+exports.getRankName0=(counts)->
+  User = global.db.models.user
+  creators_id=counts[0].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName1=(counts)->
+  User = global.db.models.user
+  creators_id=counts[1].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName2=(counts)->
+  User = global.db.models.user
+  creators_id=counts[2].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName3=(counts)->
+  User = global.db.models.user
+  creators_id=counts[3].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName4=(counts)->
+  User = global.db.models.user
+  creators_id=counts[4].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName5=(counts)->
+  User = global.db.models.user
+  creators_id=counts[5].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName6=(counts)->
+  User = global.db.models.user
+  creators_id=counts[6].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName7=(counts)->
+  User = global.db.models.user
+  creators_id=counts[7].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName8=(counts)->
+  User = global.db.models.user
+  creators_id=counts[8].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName9=(counts)->
+  User = global.db.models.user
+  creators_id=counts[9].creator_id
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+exports.getRankName=(counts) ->
+  User = global.db.models.user
+  creators_id=
+  [counts[0].creator_id,counts[1].creator_id,counts[2].creator_id,counts[3].creator_id,counts[4].creator_id,counts[5].creator_id,counts[6].creator_id,counts[7].creator_id,
+    counts[8].creator_id,counts[9].creator_id]
+  User.findAll({
+    where:
+      id:creators_id
+    attributes:['nickname','student_id']
+  })
+
+
 
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->

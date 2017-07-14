@@ -13,3 +13,5 @@ exports.submission = require('./submission')
 exports.feedback = require('./feedback')
 
 exports.api = require('./api')
+
+exports.rank = require('./rank')

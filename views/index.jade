@@ -17,6 +17,7 @@ html(lang='zh-CN')
         script(src='/js/bootstrap.min.js')
         script(src='/js/autosize.min.js')
         script(src="/js/ga.js")
+
     body(style='background-image: url(/img/top-bg.png);')
         #container.container-fluid
             .row
@@ -52,6 +53,8 @@ html(lang='zh-CN')
                                             a(href="http://biancheng.love:800", id="bcpc-rating", class="nav-before") 集训排名
                                         li.normalli
                                             a(href="/bcpc/index.html", id="bcpc", class="nav-before") BCPC
+                                        li.normalli
+                                            a(href="/rank/index", id="rankpage", class="nav-before") 排行榜
                                     ul.nav.navbar-nav.navbar-right
                                         - if(user)
                                             li.normalli
@@ -145,6 +148,8 @@ html(lang='zh-CN')
                                     h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         a(href="/notice" style="color:#FFB90F")
                                             |北航ACM程序设计实验室研究助理招聘信息
+
+
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 135) + "px");
@@ -159,6 +164,11 @@ html(lang='zh-CN')
                             setTimeout(function () {$("#logo").popover('hide');}, 3000);
                         }
                         autosize(document.querySelectorAll('textarea'));
+
+
+
+
+
                     #footer.row
                         footer.footer
                             br

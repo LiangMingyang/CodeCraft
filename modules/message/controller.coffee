@@ -1,8 +1,8 @@
 #global.myUtils = require('./utils')
 Promise = require('sequelize').Promise
-
 LOGIN_PAGE = 'user/login'
 HOME_PAGE = '/'
+
 
 
 
