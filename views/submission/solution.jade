@@ -168,7 +168,7 @@ block content
                                                             - influence_text = "巩固了以前的知识"
                                                         when 0
                                                             - influence_text = "没有任何提升"
-                                                    - influence_value = submission.solution.practice_time
+                                                    - influence_value = submission.solution.influence
                                                 select#influence.form-control.text-center(type="input", name='influence' required)
                                                     option(value=influence_value)=influence_text
                                                     option(value="2") 学到了新知识
