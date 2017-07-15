@@ -138,9 +138,9 @@ block content
                                                 label.control-label 做题所用时间
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - practice_time_text = "请选择"
-                                                - pracetice_time_value = ""
+                                                - practice_time_value = ""
                                                 if(submission.solution && submission.solution.practice_time !== undefined)
-                                                    - pracetice_time_value = submission.solution.practice_time
+                                                    - practice_time_value = submission.solution.practice_time
                                                     case submission.solution.practice_time
                                                         when 30
                                                             - practice_time_text = "约半小时"
@@ -149,7 +149,7 @@ block content
                                                         when 120
                                                             - practice_time_text = "两小时及以上"
                                                 select#cost.form-control.text-center(type="input", name='practice_time' required)
-                                                    option(value=pracetice_time_value)=practice_time_text
+                                                    option(value=practice_time_value)=practice_time_text
                                                     option(value="30") 约半小时
                                                     option(value="60") 约一小时
                                                     option(value="120") 两小时及以上
@@ -160,7 +160,7 @@ block content
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
                                                 - influence_text = "请选择"
                                                 - influence_value = ""
-                                                if(submission.solution && submission.solution.practice_time !== undefined)
+                                                if(submission.solution && submission.solution.influence !== undefined)
                                                     case submission.solution.influence
                                                         when 2
                                                             - influence_text = "学到了新知识"
