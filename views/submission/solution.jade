@@ -24,7 +24,7 @@ block content
             | 对于
             a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
             | 的题解
-    form(method="post" onsubmit="return confirm('确认提交该题解？你的题解将会被出题人看到并评分。');")
+    form(method="post" onsubmit="return confirm('这是一份认真的不会误人子弟的题解?');")
             .row
                 .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                     - if(editable)
@@ -97,8 +97,155 @@ block content
                                 script var protect_time = new Date("#{now_time.getTime()}"-0+7*24*60*60*1000);
                     .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                         input.form-control(type="text", id="protect_time", name="secret_limit", placeholder="", readonly="true")
+                        // Button trigger modal
+                        //button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal')
+                        //    | Launch demo modal
+                        // Modal
+                    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') &times;
+                                    h4#myModalLabel.modal-title 评价（匿名）
+                                .modal-body
+                                    //here is the body
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 题目质量
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                - var score_text = "请选择"
+                                                - var score_value = ""
+
+                                                if(submission.solution && submission.solution.score !== undefined)
+                                                    - score_value = submission.solution.score
+                                                    case submission.solution.score
+                                                        when 1
+                                                            - score_text = "好"
+                                                        when 0
+                                                            - score_text = "一般"
+                                                        when -1
+                                                            - score_text = "不好"
+                                                select#score.form-control.text-center(type="input", name='score', required)
+                                                    option(value=score_value)=score_text
+                                                    option(value="1") 好
+                                                    option(value="0") 一般
+                                                    option(value="-1") 不好
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 做题所用时间
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                - practice_time_text = "请选择"
+                                                - pracetice_time_value = ""
+                                                if(submission.solution && submission.solution.practice_time !== undefined)
+                                                    - pracetice_time_value = submission.solution.practice_time
+                                                    case submission.solution.practice_time
+                                                        when 30
+                                                            - practice_time_text = "约半小时"
+                                                        when 60
+                                                            - practice_time_text = "约一小时"
+                                                        when 120
+                                                            - practice_time_text = "两小时及以上"
+                                                select#cost.form-control.text-center(type="input", name='practice_time' required)
+                                                    option(value=pracetice_time_value)=practice_time_text
+                                                    option(value="30") 约半小时
+                                                    option(value="60") 约一小时
+                                                    option(value="120") 两小时及以上
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 对你的影响
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                - influence_text = "请选择"
+                                                - influence_value = ""
+                                                if(submission.solution && submission.solution.practice_time !== undefined)
+                                                    case submission.solution.influence
+                                                        when 2
+                                                            - influence_text = "学到了新知识"
+                                                        when 1
+                                                            - influence_text = "巩固了以前的知识"
+                                                        when 0
+                                                            - influence_text = "没有任何提升"
+                                                    - influence_value = submission.solution.practice_time
+                                                select#influence.form-control.text-center(type="input", name='influence' required)
+                                                    option(value=influence_value)=influence_text
+                                                    option(value="2") 学到了新知识
+                                                    option(value="1") 巩固了以前的知识
+                                                    option(value="0") 没有任何提升
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 最贴近的分类
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                - category_value = ""
+                                                - category_text = "请选择"
+                                                if(submission.solution && submission.solution.category !== undefined)
+                                                    - category_value = submission.solution.category
+                                                    - category_text = submission.solution.category
+                                                select#category.form-control.text-center(type="input", name='category' required)
+                                                    option(value=category_value)=category_text
+                                                    option(value="分治") 分治
+                                                    option(value="贪心") 贪心
+                                                    option(value="模拟") 模拟
+                                                    option(value="图论") 图论
+                                                    option(value="数学") 数学
+                                                    option(value="搜索") 搜索
+                                                    option(value="几何") 几何
+                                                    option(value="字符串") 字符串
+                                                    option(value="动态规划") 动态规划
+                                    .form-horizontal
+                                        .form-group
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                label.control-label 自定义标签(多个标签请用;分隔)
+                                            .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+                                                - var user_tag_value = ""
+                                                if(submission.solution && submission.solution.user_tag !== undefined)
+                                                    - user_tag_value = submission.solution.user_tag
+                                                input.form-control#user_tag(type="input", name="user_tag", value=user_tag_value)
+
+                                .modal-footer
+                                    button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                                    button.btn.btn-primary(type='submit') 保存
                     .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
-                        button.btn.btn-primary.form-control-static(type="submit" style="margin-top:0px;margin-right:0px;") 保存
+                        button.btn.btn-primary.form-control-static(type="button" style="margin-top:0px;margin-right:0px;" data-target='#myModal' data-toggle="modal") 下一步
+                script.
+                    var __protect_time = $('#protect_time');
+                    protect_time = new Date(protect_time);
+                    var time_string = protect_time.getFullYear() + '/';
+                    var protect_time_month = protect_time.getMonth() + 1;
+                    if (protect_time_month < 10) {
+                        protect_time_month = '0' + protect_time_month;
+                    }
+                    time_string += protect_time_month + '/';
+                    var protect_time_day = protect_time.getDate();
+                    if (protect_time_day < 10) {
+                        protect_time_day = '0' + protect_time_day;
+                    }
+                    time_string += protect_time_day + ' ';
+                    var protect_time_hour = protect_time.getHours();
+                    if (protect_time_hour < 10) {
+                        protect_time_hour = '0' + protect_time_hour;
+                    }
+                    time_string += protect_time_hour + ':';
+                    var protect_time_minute = protect_time.getMinutes();
+                    protect_time_minute = protect_time_minute - protect_time_minute % 10;
+                    if (protect_time_minute < 10) {
+                        protect_time_minute = '0' + protect_time_minute;
+                    }
+                    time_string += protect_time_minute;
+                    __protect_time.val(time_string);
+                    __protect_time.datetimepicker({value: 0, step: 10});
+                    if (document.getElementById("access_level_div").value == "protect")
+                        __protect_time.css("display", "block");
+                    else
+                        __protect_time.css("display", "none");
+            - else
+                .row
+                    .col-xs-6.col-sm-6.col-nm-6.col-lg-6.text-right
+                        button#praise.btn(type="button" onclick="_praise();" class={'btn-primary': evaluation && evaluation.score == 1}) 赞
+                        button#blame.btn(type="button" onclick="_blame();" class={'btn-primary': evaluation && evaluation.score == -1}) 踩
     script.
         var testEditor;
         $(function () {
@@ -148,39 +295,6 @@ block content
                 //}
             });
 
-
-            var __protect_time = $('#protect_time');
-            protect_time = new Date(protect_time);
-            var time_string = protect_time.getFullYear() + '/';
-            var protect_time_month = protect_time.getMonth() + 1;
-            if (protect_time_month < 10) {
-                protect_time_month = '0' + protect_time_month;
-            }
-            time_string += protect_time_month + '/';
-            var protect_time_day = protect_time.getDate();
-            if (protect_time_day < 10) {
-                protect_time_day = '0' + protect_time_day;
-            }
-            time_string += protect_time_day + ' ';
-            var protect_time_hour = protect_time.getHours();
-            if (protect_time_hour < 10) {
-                protect_time_hour = '0' + protect_time_hour;
-            }
-            time_string += protect_time_hour + ':';
-            var protect_time_minute = protect_time.getMinutes();
-            protect_time_minute = protect_time_minute - protect_time_minute % 10;
-            if (protect_time_minute < 10) {
-                protect_time_minute = '0' + protect_time_minute;
-            }
-            time_string += protect_time_minute;
-            __protect_time.val(time_string);
-            __protect_time.datetimepicker({value: 0, step: 10});
-            if (document.getElementById("access_level_div").value == "protect")
-                __protect_time.css("display","block");
-            else
-                __protect_time.css("display","none");
-
-
         });
 
         function change_problem_title(data) {
@@ -200,4 +314,16 @@ block content
             else{
                 __protect_time.css("display", "none");
             }
+        }
+        function _praise() {
+            $.get("praise", {score: 1}, function(res, status){
+                $("#praise").addClass('btn-primary');
+                $("#blame").removeClass('btn-primary');
+            })
+        }
+        function _blame() {
+            $.get("praise", {score: -1}, function (res, status) {
+                $("#blame").addClass('btn-primary');
+                $("#praise").removeClass('btn-primary');
+            })
         }

@@ -16,6 +16,8 @@ router
 
   .get '/accepted', controller.getAccepted
 
+  .get '/statistics', controller.getStatistics
+
   .post '/accepted', controller.postAccepted
 #router.param 'problemID', (req, res, next, id) ->
 #  req.param.problemID = id;

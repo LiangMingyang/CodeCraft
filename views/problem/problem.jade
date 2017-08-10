@@ -53,9 +53,11 @@ if(user && recommendation && recommendation.length != 0)
             else if(recommendation_problem_id < 100)
                 - recommendation_problem_id = "0" + recommendation_problem_id;
             if(recommendation[i].accepted + recommendation[i].tried == 1)
-                a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
             else if (recommendation[i].accepted + recommendation[i].tried != 2)
-                a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
 
             //-#{recommendation[i].acceptedPeopleCount}/#{recommendation[i].submissionCount}
 script.

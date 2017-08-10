@@ -18,7 +18,7 @@
 
   router.get('/', function(req, res) {
     return res.redirect('problem/index');
-  }).get('/index', controller.getIndex).post('/index', controller.postIndex).get('/accepted', controller.getAccepted).post('/accepted', controller.postAccepted);
+  }).get('/index', controller.getIndex).post('/index', controller.postIndex).get('/accepted', controller.getAccepted).get('/statistics', controller.getStatistics).post('/accepted', controller.postAccepted);
 
   router.use('/:problemID([0-9]+)', modules.detail.router);
 

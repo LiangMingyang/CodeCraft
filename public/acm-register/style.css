@@ -3871,9 +3871,12 @@ a.close-canvas-menu:hover {
 }
 .modal-backdrop {
   z-index: 2040 !important;
+  display: none;
 }
 .modal {
   z-index: 2050 !important;
+  font-family: '微软雅黑';
+  color: black;
 }
 .spiner-example {
   height: 200px;

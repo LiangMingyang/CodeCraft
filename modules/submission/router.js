@@ -16,7 +16,7 @@
 
   router.get('/', function(req, res) {
     return res.redirect('submission/index');
-  }).get('/index', controller.getIndex).post('/index', controller.postIndex).get('/:submissionID([0-9]+)', controller.getSubmission).post('/getSubmissionApi', controller.postSubmissionApi).get('/:submissionID([0-9]+)/solution', controller.getSolution).post('/:submissionID([0-9]+)/solution', controller.postSolution);
+  }).get('/index', controller.getIndex).post('/index', controller.postIndex).get('/:submissionID([0-9]+)', controller.getSubmission).post('/getSubmissionApi', controller.postSubmissionApi).get('/:submissionID([0-9]+)/solution', controller.getSolution).post('/:submissionID([0-9]+)/solution', controller.postSolution).get('/:submissionID([0-9]+)/praise', controller.getPraise);
 
   module.exports = router;
 
