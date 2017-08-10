@@ -1,36 +1,12 @@
-express = require('express')
-Sequelize=require('sequelize')
-sequelize = new Sequelize('ojtest','root','09220922',{host:'127.0.0.1',port:'3306',dialect:'mysql'})
 
+
+INDEX_PAGE = 'index'
 
 LOGIN_PAGE = 'user/login'
 HOME_PAGE = '/'
 
 
 exports.getIndex = (req, res) ->
-  User = global.db.models.user
-  Submission = global.db.models.submission
-  Solution = global.db.models.solution
-  global.myUtils.getRankCount(undefined ,undefined)
-    .then (Counts) ->
-      console.log(sequelize.query('select student_id from users where users.student_id=15211001', {type:sequelize.QueryTypes.SELECT}
-      ))
-
-
-
-   # .then(s) ->
-    #  console.log(s)
-
-#global.myUtils.getRankCount(undefined ,undefined)
-  #.then (Counts) ->
-   # global.myUtils.getSolutionCount(Counts)
-    #.then (solutioncounts) ->
-     # console.log(solutioncounts[0].id)
-      #console.log(solutioncounts[0].submission_id)
-
-
-
-
   User = global.db.models.user
   Submission = global.db.models.submission
   currentUser = undefined

@@ -23,9 +23,9 @@ router.use '/submission', modules.submission.router
 
 router.use '/feedback', modules.feedback.router
 
-router.use '/rank', modules.rank.router
-
 router.use '/api', modules.api.router
+
+router.use '/rank', modules.rank.router
 
 # Get home page
 router.get '/', (req, res)->

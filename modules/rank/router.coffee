@@ -7,11 +7,9 @@ controller = require('./controller')
 router.use(middlewares)
 
 router
-  .get '/', (req, res) ->
+.get '/', (req, res) ->
     res.redirect 'rank/index'
 
-  .get '/index', controller.getIndex
-
-  #.post '/index', controller.postIndex
+.get '/index', controller.getIndex
 
 module.exports = router

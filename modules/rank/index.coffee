@@ -1,3 +1,4 @@
+
 exports.controller = require('./controller')
 
 exports.middlewares = require('./middlewares')
