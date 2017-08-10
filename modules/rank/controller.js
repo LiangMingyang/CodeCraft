@@ -22,10 +22,9 @@
     Submission = global.db.models.submission;
     Solution = global.db.models.solution;
     global.myUtils.getRankCount(void 0, void 0).then(function(Counts) {
-      console.log(sequelize.query('select student_id from users where users.student_id=15211001', {
+      return console.log(sequelize.query('select student_id from users where users.student_id=15211001', {
         type: sequelize.QueryTypes.SELECT
       }));
-      return console.log(Counts);
     });
     User = global.db.models.user;
     Submission = global.db.models.submission;

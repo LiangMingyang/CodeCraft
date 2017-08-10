@@ -15,7 +15,6 @@ exports.getIndex = (req, res) ->
     .then (Counts) ->
       console.log(sequelize.query('select student_id from users where users.student_id=15211001', {type:sequelize.QueryTypes.SELECT}
       ))
-      console.log(Counts)
 
 
 
