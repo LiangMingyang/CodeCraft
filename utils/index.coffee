@@ -1,10 +1,6 @@
 #user
 path = require('path')
 crypto = require('crypto')
-
-Sequelize=require('sequelize')
-sequelize = new Sequelize('ojtest','root','09220922',{host:'127.0.0.1',port:'3306',dialect:'mysql'})
-
 exports.login = (req, res, user) ->
   req.session.user = {
     id: user.id
@@ -248,7 +244,7 @@ exports.getRankCount = (creators_id, contest)->
       result:'AC'
     group : 'creator_id'
     attributes : ['creator_id',['count( distinct problem_id)','COUNT']]
-    order:sequelize.literal('count(distinct problem_id) DESC')
+    order:global.db.literal('count(distinct problem_id) DESC')
     limit:10
     plain:false
   }
@@ -262,7 +258,7 @@ exports.getDoRankCount = (creators_id, contest)->
   options = {
     group : 'creator_id'
     attributes : ['creator_id',['count( distinct problem_id)','COUNT']]
-    order:sequelize.literal('count(distinct problem_id) DESC')
+    order:global.db.literal('count(distinct problem_id) DESC')
     limit:10
     plain:false
   }
@@ -280,9 +276,9 @@ exports.getSolutionCount=()->
     include:[{
       model:Submission
       where:
-        id:Sequelize.col('submission_id')
+        id:global.db.col('submission_id')
       group:'creator_id'
-      order:sequelize.literal('count(distinct submission_id) DESC')
+      order:global.db.literal('count(distinct submission_id) DESC')
       limit:10
       #through:{
        # attributes:['creator_id','count(distinct id) DESC']

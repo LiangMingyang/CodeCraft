@@ -32,22 +32,13 @@ router.get '/', (req, res)->
   res.redirect '/index'
 
 router.get '/index', (req, res) ->
-
-
   User = global.db.models.user
-  Submission = global.db.models.submission
   recommendation = undefined
   currentUser = undefined
-
-
-
-
-
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
   .then (user)->
-
     currentUser = user
     return [] if not currentUser
     currentUser.getRecommendation()
@@ -56,14 +47,27 @@ router.get '/index', (req, res) ->
     recommendation.sort (a,b)->
       b.recommendation.score - a.recommendation.score
   .then ()->
-
-
-        res.render 'index', {
-            title: 'OJ4TH',
-            user: req.session.user
-            recommendation: recommendation
-            }
-
+    res.render 'index', {
+      title: 'OJ4TH',
+      user: req.session.user
+      recommendation: recommendation
+    }
+    Solution = global.db.models.solution
+    Submission = global.db.models.submission
+    Submission.findAll(
+      attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'total']]
+      include: [
+        model: Solution
+        attributes: []
+      ]
+      group: ['creator_id']
+      limit: 30
+      order: [
+        [global.db.fn('count', global.db.col('solution.id')), 'DESC']
+      ]
+    )
+    .then (res)->
+      console.log res[0].get(plain: true)
 router.get '/notice', (req, res) ->
   res.render 'notice', {
     title: '招聘启事'

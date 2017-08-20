@@ -37,9 +37,8 @@
   });
 
   router.get('/index', function(req, res) {
-    var Submission, User, currentUser, recommendation;
+    var User, currentUser, recommendation;
     User = global.db.models.user;
-    Submission = global.db.models.submission;
     recommendation = void 0;
     currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
@@ -69,10 +68,29 @@
         return b.recommendation.score - a.recommendation.score;
       });
     }).then(function() {
-      return res.render('index', {
+      var Solution, Submission;
+      res.render('index', {
         title: 'OJ4TH',
         user: req.session.user,
         recommendation: recommendation
+      });
+      Solution = global.db.models.solution;
+      Submission = global.db.models.submission;
+      return Submission.findAll({
+        attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'total']],
+        include: [
+          {
+            model: Solution,
+            attributes: []
+          }
+        ],
+        group: ['creator_id'],
+        limit: 30,
+        order: [[global.db.fn('count', global.db.col('solution.id')), 'DESC']]
+      }).then(function(res) {
+        return console.log(res[0].get({
+          plain: true
+        }));
       });
     });
   });
