@@ -43,17 +43,18 @@ html(lang='zh-CN')
                                             a(href="/contest/index", id="contestpage", class="nav-before") 比赛
                                         li.normalli
                                             a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
+                                        li.normalli
+                                            a(href="/rank/index", id="rankpage", class="nav-before") 排行榜
                                         - if(user)
-                                            li.normalli
-                                                a(href="/problem/accepted", id="solution", class="nav-before") 写题解
                                             li.normalli
                                                 a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
                                             li.normalli
                                                 a(href="/feedback/index", id="feedbackpage", class="nav-before") 反馈
-                                        //li.normalli
-                                        //    a(href="http://biancheng.love:800", id="bcpc-rating", class="nav-before") 2016集训排名
                                         li.normalli
-                                            a(href="/acm-register/", id="bcpc", class="nav-before") 2017集训选拔
+                                            a(href="http://biancheng.love:800", id="bcpc-rating", class="nav-before") 集训排名
+                                        li.normalli
+                                            a(href="/bcpc/index.html", id="bcpc", class="nav-before") BCPC
+
                                     ul.nav.navbar-nav.navbar-right
                                         - if(user)
                                             li.normalli
@@ -115,11 +116,11 @@ html(lang='zh-CN')
                                         | 及时评测
                                     p(style="font-size:16px; margin-bottom:0px; font-family:'Microsoft YaHei', 微软雅黑") Write The Code, Change The World.
                                 .col-lg-6.col-nm-6.col-sm-6.col-xs-6
-                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 2017集训选拔开始了！
+                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 上机学习
                                     h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
-                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp————点
-                                        a(href="/acm-register/" style="color:#88FF45") 我
-                                        | 报名
+                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp————从
+                                        a(href="/problem/accepted" style="color:#88FF45") 题解
+                                        | 开始
                                     //h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         |详情请戳上方
                                         a(href="/problem/accepted" style="color:#88FF45") 题解链接
@@ -139,9 +140,9 @@ html(lang='zh-CN')
                                                     else if(recommendation_problem_id < 100)
                                                         - recommendation_problem_id = "0" + recommendation_problem_id;
                                                     if(recommendation[i].accepted + recommendation[i].tried == 1)
-                                                        a(href="/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                        a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
                                                     else if (recommendation[i].accepted + recommendation[i].tried != 2)
-                                                        a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                        a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
                                     br
                                     br
                                     h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")

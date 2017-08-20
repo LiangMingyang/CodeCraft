@@ -16,6 +16,8 @@
 
   exports.api = require('./api');
 
+  exports.rank = require('./rank');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map
