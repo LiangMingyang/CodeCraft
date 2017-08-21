@@ -268,27 +268,20 @@ exports.getDoRankCount = (creators_id, contest)->
 
 #得到每个人的交题解数并取前十
 exports.getSolutionCount=()->
-  User = global.db.models.user
-  Submission = global.db.models.submission
   Solution = global.db.models.solution
-
-  Solution.findAll({
-    include:[{
-      model:Submission
-      where:
-        id:global.db.col('submission_id')
-      group:'creator_id'
-      order:global.db.literal('count(distinct submission_id) DESC')
-      limit:10
-      #through:{
-       # attributes:['creator_id','count(distinct id) DESC']
-      #}
-    }]
-    attributes:['id','submission_id']
-  })
-
-
-
+  Submission = global.db.models.submission
+  Submission.findAll(
+    attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
+    include: [
+      model: Solution
+      attributes: []
+    ]
+    group: ['creator_id']
+    limit: 10
+    order: [
+      [global.db.fn('count', global.db.col('solution.id')), 'DESC']
+    ]
+  )
 
 #共10个函数 根据得到的过题数排名前十的id->得到他们的姓名
 exports.getRankName0=(counts)->

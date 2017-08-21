@@ -20,21 +20,23 @@ html(lang='zh-CN')
         style.
             h1{
                 font-size:4em;
-                margin-left:45%;
-                margin-bottom: 5%;
+                margin-left:600px;
+                margin-bottom: 40px;
+                margin-top: 40px;
                 font-family:'Microsoft YaHei', 微软雅黑;
             }
             .l1{
                 font-size: 2em;
-                margin-left: 35%;
+                margin-left: 150px;
                 font-family: 'Microsoft YaHei', 微软雅黑;
             }
 
-            .l2 {
+            .l2{
                 font-size: 2em;
-                margin-left: 80%;
+                margin-left: 350px;
                 font-family: 'Microsoft YaHei', 微软雅黑;
             }
+
             .rank1{
                 position:absolute;
                 left: 0px; top: 0px;
@@ -42,9 +44,10 @@ html(lang='zh-CN')
                 z-index:-1;
                 min-width: 886px;
                 margin-top:15%;
-                margin-left:20%;
+                margin-left:80px;
                 font-size:1.5em;
                 color:#ffffff;
+                font-family: 'Microsoft YaHei', 微软雅黑;
             }
 
             .rank2 {
@@ -55,9 +58,10 @@ html(lang='zh-CN')
                 z-index: -1;
                 min-width: 886px;
                 margin-top: 15%;
-                margin-left: 40%;
+                margin-left: 200px;
                 font-size: 1.5em;
                 color: #ffffff;
+                font-family: 'Microsoft YaHei', 微软雅黑;
             }
 
             .rank3 {
@@ -68,9 +72,10 @@ html(lang='zh-CN')
                 z-index: -1;
                 min-width: 886px;
                 margin-top: 15%;
-                margin-left: 60%;
+                margin-left: 300px;
                 font-size: 1.5em;
                 color: #ffffff;
+                font-family: 'Microsoft YaHei', 微软雅黑;
             }
             .do1 {
                 position: absolute;
@@ -80,7 +85,7 @@ html(lang='zh-CN')
                 z-index: -1;
                 min-width: 886px;
                 margin-top: 15%;
-                margin-left: 115%;
+                margin-left: 550px;
                 font-size: 1.5em;
                 color: #ffffff;
             }
@@ -93,7 +98,7 @@ html(lang='zh-CN')
                 z-index: -1;
                 min-width: 886px;
                 margin-top: 15%;
-                margin-left: 135%;
+                margin-left: 670px;
                 font-size: 1.5em;
                 color: #ffffff;
             }
@@ -106,90 +111,167 @@ html(lang='zh-CN')
                 z-index: -1;
                 min-width: 886px;
                 margin-top: 15%;
-                margin-left: 155%;
+                margin-left: 770px;
+                font-size: 1.5em;
+                color: #ffffff;
+            }
+
+            .sol1 {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                z-index: -1;
+                min-width: 886px;
+                margin-top: 15%;
+                margin-left: 1020px;
+                font-size: 1.5em;
+                color: #ffffff;
+            }
+
+            .sol2 {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                z-index: -1;
+                min-width: 886px;
+                margin-top: 15%;
+                margin-left: 1140px;
+                font-size: 1.5em;
+                color: #ffffff;
+            }
+
+            .sol3 {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                z-index: -1;
+                min-width: 886px;
+                margin-top: 15%;
+                margin-left: 1240px;
                 font-size: 1.5em;
                 color: #ffffff;
             }
 
 
+
 body(style='background-image: url(/img/top-bg.png);')
         h1 排行榜
-        .col-lg-6.col-nm-6.col-sm-6.col-xs-6
-            .label(class="l1") 琅琊榜
-            .table(class="rank1")
-                .tr 学号
-                    .td #{Usercounts0[0].student_id}
-                    .td #{Usercounts1[0].student_id}
-                    .td #{Usercounts2[0].student_id}
-                    .td #{Usercounts3[0].student_id}
-                    .td #{Usercounts4[0].student_id}
-                    .td #{Usercounts5[0].student_id}
-                    .td #{Usercounts6[0].student_id}
-                    .td #{Usercounts7[0].student_id}
-                    .td #{Usercounts8[0].student_id}
-                    .td #{Usercounts9[0].student_id}
+        .col-lg-4.col-nm-4.col-sm-4.col-xs-4
+                .label(class="l1") 琅琊榜
+                .label(class="l2") 勤奋榜
+                .label(class="l2") 题解达人
+                .table(class="rank1")
+                    .tr 学号
+                        .td #{Usercounts0[0].student_id}
+                        .td #{Usercounts1[0].student_id}
+                        .td #{Usercounts2[0].student_id}
+                        .td #{Usercounts3[0].student_id}
+                        .td #{Usercounts4[0].student_id}
+                        .td #{Usercounts5[0].student_id}
+                        .td #{Usercounts6[0].student_id}
+                        .td #{Usercounts7[0].student_id}
+                        .td #{Usercounts8[0].student_id}
+                        .td #{Usercounts9[0].student_id}
 
-            .table(class="rank2")
-                .tr 姓名
-                    .td #{Usercounts0[0].nickname}
-                    .td #{Usercounts1[0].nickname}
-                    .td #{Usercounts2[0].nickname}
-                    .td #{Usercounts3[0].nickname}
-                    .td #{Usercounts4[0].nickname}
-                    .td #{Usercounts5[0].nickname}
-                    .td #{Usercounts6[0].nickname}
-                    .td #{Usercounts7[0].nickname}
-                    .td #{Usercounts8[0].nickname}
-                    .td #{Usercounts9[0].nickname}
+                .table(class="rank2")
+                    .tr 姓名
+                        .td #{Usercounts0[0].nickname}
+                        .td #{Usercounts1[0].nickname}
+                        .td #{Usercounts2[0].nickname}
+                        .td #{Usercounts3[0].nickname}
+                        .td #{Usercounts4[0].nickname}
+                        .td #{Usercounts5[0].nickname}
+                        .td #{Usercounts6[0].nickname}
+                        .td #{Usercounts7[0].nickname}
+                        .td #{Usercounts8[0].nickname}
+                        .td #{Usercounts9[0].nickname}
 
-            .table(class="rank3")
-                .tr 过题数
-                    .td #{Counts[0].COUNT}
-                    .td #{Counts[1].COUNT}
-                    .td #{Counts[2].COUNT}
-                    .td #{Counts[3].COUNT}
-                    .td #{Counts[4].COUNT}
-                    .td #{Counts[5].COUNT}
-                    .td #{Counts[6].COUNT}
-                    .td #{Counts[7].COUNT}
-                    .td #{Counts[8].COUNT}
-                    .td #{Counts[9].COUNT}
+                .table(class="rank3")
+                    .tr 过题数
+                        .td #{Counts[0].COUNT}
+                        .td #{Counts[1].COUNT}
+                        .td #{Counts[2].COUNT}
+                        .td #{Counts[3].COUNT}
+                        .td #{Counts[4].COUNT}
+                        .td #{Counts[5].COUNT}
+                        .td #{Counts[6].COUNT}
+                        .td #{Counts[7].COUNT}
+                        .td #{Counts[8].COUNT}
+                        .td #{Counts[9].COUNT}
 
+                .table(class="do1")
+                        .tr 学号
+                            .td #{Userdocounts0[0].student_id}
+                            .td #{Userdocounts1[0].student_id}
+                            .td #{Userdocounts2[0].student_id}
+                            .td #{Userdocounts3[0].student_id}
+                            .td #{Userdocounts4[0].student_id}
+                            .td #{Userdocounts5[0].student_id}
+                            .td #{Userdocounts6[0].student_id}
+                            .td #{Userdocounts7[0].student_id}
+                            .td #{Userdocounts8[0].student_id}
+                            .td #{Userdocounts9[0].student_id}
+                .table(class="do2")
+                        .tr 姓名
+                            .td #{Userdocounts0[0].nickname}
+                            .td #{Userdocounts1[0].nickname}
+                            .td #{Userdocounts2[0].nickname}
+                            .td #{Userdocounts3[0].nickname}
+                            .td #{Userdocounts4[0].nickname}
+                            .td #{Userdocounts5[0].nickname}
+                            .td #{Userdocounts6[0].nickname}
+                            .td #{Userdocounts7[0].nickname}
+                            .td #{Userdocounts8[0].nickname}
+                            .td #{Userdocounts9[0].nickname}
+                .table(class="do3")
+                        .tr 做题数
+                            .td #{DoCounts[0].COUNT}
+                            .td #{DoCounts[1].COUNT}
+                            .td #{DoCounts[2].COUNT}
+                            .td #{DoCounts[3].COUNT}
+                            .td #{DoCounts[4].COUNT}
+                            .td #{DoCounts[5].COUNT}
+                            .td #{DoCounts[6].COUNT}
+                            .td #{DoCounts[7].COUNT}
+                            .td #{DoCounts[8].COUNT}
+                            .td #{DoCounts[9].COUNT}
 
-            .label(class="l2") 勤奋榜
-            .table(class="do1")
-                .tr 学号
-                    .td #{Userdocounts0[0].student_id}
-                    .td #{Userdocounts1[0].student_id}
-                    .td #{Userdocounts2[0].student_id}
-                    .td #{Userdocounts3[0].student_id}
-                    .td #{Userdocounts4[0].student_id}
-                    .td #{Userdocounts5[0].student_id}
-                    .td #{Userdocounts6[0].student_id}
-                    .td #{Userdocounts7[0].student_id}
-                    .td #{Userdocounts8[0].student_id}
-                    .td #{Userdocounts9[0].student_id}
-            .table(class="do2")
-                .tr 姓名
-                    .td #{Userdocounts0[0].nickname}
-                    .td #{Userdocounts1[0].nickname}
-                    .td #{Userdocounts2[0].nickname}
-                    .td #{Userdocounts3[0].nickname}
-                    .td #{Userdocounts4[0].nickname}
-                    .td #{Userdocounts5[0].nickname}
-                    .td #{Userdocounts6[0].nickname}
-                    .td #{Userdocounts7[0].nickname}
-                    .td #{Userdocounts8[0].nickname}
-                    .td #{Userdocounts9[0].nickname}
-            .table(class="do3")
-                .tr 做题数
-                    .td #{DoCounts[0].COUNT}
-                    .td #{DoCounts[1].COUNT}
-                    .td #{DoCounts[2].COUNT}
-                    .td #{DoCounts[3].COUNT}
-                    .td #{DoCounts[4].COUNT}
-                    .td #{DoCounts[5].COUNT}
-                    .td #{DoCounts[6].COUNT}
-                    .td #{DoCounts[7].COUNT}
-                    .td #{DoCounts[8].COUNT}
-                    .td #{DoCounts[9].COUNT}
+                .table(class="sol1")
+                        .tr 学号
+                            .td #{Solcounts0[0].student_id}
+                            .td #{Solcounts1[0].student_id}
+                            .td #{Solcounts2[0].student_id}
+                            .td #{Solcounts3[0].student_id}
+                            .td #{Solcounts4[0].student_id}
+                            .td #{Solcounts5[0].student_id}
+                            .td #{Solcounts6[0].student_id}
+                            .td #{Solcounts7[0].student_id}
+                            .td #{Solcounts8[0].student_id}
+                            .td #{Solcounts9[0].student_id}
+                .table(class="sol2")
+                        .tr 姓名
+                            .td #{Solcounts0[0].nickname}
+                            .td #{Solcounts1[0].nickname}
+                            .td #{Solcounts2[0].nickname}
+                            .td #{Solcounts3[0].nickname}
+                            .td #{Solcounts4[0].nickname}
+                            .td #{Solcounts5[0].nickname}
+                            .td #{Solcounts6[0].nickname}
+                            .td #{Solcounts7[0].nickname}
+                            .td #{Solcounts8[0].nickname}
+                            .td #{Solcounts9[0].nickname}
+                .table(class="sol3")
+                        .tr 题解数
+                            .td #{Results[0].dataValues.COUNT}
+                            .td #{Results[1].dataValues.COUNT}
+                            .td #{Results[2].dataValues.COUNT}
+                            .td #{Results[3].dataValues.COUNT}
+                            .td #{Results[4].dataValues.COUNT}
+                            .td #{Results[5].dataValues.COUNT}
+                            .td #{Results[6].dataValues.COUNT}
+                            .td #{Results[7].dataValues.COUNT}
+                            .td #{Results[8].dataValues.COUNT}
+                            .td #{Results[9].dataValues.COUNT}
