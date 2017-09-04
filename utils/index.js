@@ -359,53 +359,77 @@
     return Submission.aggregate('id', 'count', options);
   };
 
-  exports.getRankCount = function(creators_id, contest) {
-    var Submission, User, options;
+  exports.getRankCount = function() {
+    var Submission, User;
     Submission = global.db.models.submission;
     User = global.db.models.user;
-    options = {
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
+      include: [
+        {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
+        }
+      ],
       where: {
         result: 'AC'
       },
-      group: 'creator_id',
-      attributes: ['creator_id', ['count( distinct problem_id)', 'COUNT']],
-      order: global.db.literal('count(distinct problem_id) DESC'),
-      limit: 10,
-      plain: false
-    };
-    if (contest) {
-      options.where.contest_id = contest.id;
-    }
-    return Submission.aggregate('problem_id', 'count', options);
+      group: ['creator_id'],
+      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
+      limit: 10
+    });
   };
 
-  exports.getDoRankCount = function(creators_id, contest) {
-    var Submission, User, options;
+  exports.getDoRankCount = function() {
+    var Submission, User;
     Submission = global.db.models.submission;
     User = global.db.models.user;
-    options = {
-      group: 'creator_id',
-      attributes: ['creator_id', ['count( distinct problem_id)', 'COUNT']],
-      order: global.db.literal('count(distinct problem_id) DESC'),
-      limit: 10,
-      plain: false
-    };
-    if (contest) {
-      options.where.contest_id = contest.id;
-    }
-    return Submission.aggregate('problem_id', 'count', options);
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
+      include: [
+        {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
+        }
+      ],
+      group: ['creator_id'],
+      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
+      limit: 10
+    });
   };
 
   exports.getSolutionCount = function() {
-    var Solution, Submission;
+    var Solution, Submission, User;
     Solution = global.db.models.solution;
     Submission = global.db.models.submission;
+    User = global.db.models.user;
     return Submission.findAll({
       attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
       include: [
         {
           model: Solution,
           attributes: []
+        }, {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
         }
       ],
       group: ['creator_id'],
@@ -414,135 +438,95 @@
     });
   };
 
-  exports.getRankName0 = function(counts) {
-    var User, creators_id;
+  exports.getRankCountR = function() {
+    var Submission, User;
+    Submission = global.db.models.submission;
     User = global.db.models.user;
-    creators_id = counts[0].creator_id;
-    return User.findAll({
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
+      include: [
+        {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
+        }
+      ],
       where: {
-        id: creators_id
+        result: 'AC',
+        updated_at: {
+          $gte: global.db.fn('DATE_SUB', global.db.literal('NOW()'), global.db.literal('INTERVAL 1 MONTH'))
+        }
       },
-      attributes: ['nickname', 'student_id']
+      group: ['creator_id'],
+      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
+      limit: 10
     });
   };
 
-  exports.getRankName1 = function(counts) {
-    var User, creators_id;
+  exports.getDoRankCountR = function() {
+    var Submission, User;
+    Submission = global.db.models.submission;
     User = global.db.models.user;
-    creators_id = counts[1].creator_id;
-    return User.findAll({
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
+      include: [
+        {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
+        }
+      ],
       where: {
-        id: creators_id
+        created_at: {
+          $gte: global.db.fn('DATE_SUB', global.db.literal('NOW()'), global.db.literal('INTERVAL 1 MONTH'))
+        }
       },
-      attributes: ['nickname', 'student_id']
+      group: ['creator_id'],
+      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
+      limit: 10
     });
   };
 
-  exports.getRankName2 = function(counts) {
-    var User, creators_id;
+  exports.getSolutionCountR = function() {
+    var Solution, Submission, User;
+    Solution = global.db.models.solution;
+    Submission = global.db.models.submission;
     User = global.db.models.user;
-    creators_id = counts[2].creator_id;
-    return User.findAll({
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
+      include: [
+        {
+          model: Solution,
+          attributes: []
+        }, {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
+        }
+      ],
       where: {
-        id: creators_id
+        created_at: {
+          $gte: global.db.fn('DATE_SUB', global.db.literal('NOW()'), global.db.literal('INTERVAL 1 MONTH'))
+        }
       },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName3 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[3].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName4 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[4].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName5 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[5].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName6 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[6].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName7 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[7].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName8 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[8].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName9 = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = counts[9].creator_id;
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
-    });
-  };
-
-  exports.getRankName = function(counts) {
-    var User, creators_id;
-    User = global.db.models.user;
-    creators_id = [counts[0].creator_id, counts[1].creator_id, counts[2].creator_id, counts[3].creator_id, counts[4].creator_id, counts[5].creator_id, counts[6].creator_id, counts[7].creator_id, counts[8].creator_id, counts[9].creator_id];
-    return User.findAll({
-      where: {
-        id: creators_id
-      },
-      attributes: ['nickname', 'student_id']
+      group: ['creator_id'],
+      limit: 10,
+      order: [[global.db.fn('count', global.db.col('solution.id')), 'DESC']]
     });
   };
 

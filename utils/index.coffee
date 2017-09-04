@@ -236,45 +236,75 @@ exports.getResultCount = (problems_id, results, contest)->
 
 
 #得到每个人的过题数并取前十
-exports.getRankCount = (creators_id, contest)->
+exports.getRankCount = ()->
   Submission = global.db.models.submission
   User=global.db.models.user
-  options = {
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
     where:
       result:'AC'
-    group : 'creator_id'
-    attributes : ['creator_id',['count( distinct problem_id)','COUNT']]
-    order:global.db.literal('count(distinct problem_id) DESC')
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
     limit:10
-    plain:false
-  }
-  options.where.contest_id = contest.id if contest
-  Submission.aggregate('problem_id','count', options)
+  )
 
-#得到每个人的答题数并取前十
-exports.getDoRankCount = (creators_id, contest)->
+#得到每个人的做题数并取前十
+exports.getDoRankCount = ()->
   Submission = global.db.models.submission
   User=global.db.models.user
-  options = {
-    group : 'creator_id'
-    attributes : ['creator_id',['count( distinct problem_id)','COUNT']]
-    order:global.db.literal('count(distinct problem_id) DESC')
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
     limit:10
-    plain:false
-  }
-  options.where.contest_id = contest.id if contest
-  Submission.aggregate('problem_id','count', options)
+  )
 
 
 #得到每个人的交题解数并取前十
 exports.getSolutionCount=()->
   Solution = global.db.models.solution
   Submission = global.db.models.submission
+  User = global.db.models.user
   Submission.findAll(
     attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
-    include: [
+    include: [{
       model: Solution
       attributes: []
+    },
+      {
+        model: User
+        attributes:['student_id','nickname']
+        as:'creator'
+        where: {
+          student_id: {
+            $ne: ''
+          }
+        }
+      }
     ]
     group: ['creator_id']
     limit: 10
@@ -283,108 +313,92 @@ exports.getSolutionCount=()->
     ]
   )
 
-#共10个函数 根据得到的过题数排名前十的id->得到他们的姓名
-exports.getRankName0=(counts)->
-  User = global.db.models.user
-  creators_id=counts[0].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
 
-exports.getRankName1=(counts)->
-  User = global.db.models.user
-  creators_id=counts[1].creator_id
-  User.findAll({
+#得到每个人最近一个月的过题数并取前十
+exports.getRankCountR = ()->
+  Submission = global.db.models.submission
+  User=global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
     where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName2=(counts)->
-  User = global.db.models.user
-  creators_id=counts[2].creator_id
-  User.findAll({
+      result:'AC',
+      updated_at:{
+        $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+      }
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:10
+  )
+#得到每个人最近一个月的做题数并取前十
+exports.getDoRankCountR = ()->
+  Submission = global.db.models.submission
+  User=global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
     where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName3=(counts)->
+      created_at:{
+        $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+      }
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:10
+  )
+#得到每个人最近一个月的题解数并取前十
+exports.getSolutionCountR = ()->
+  Solution = global.db.models.solution
+  Submission = global.db.models.submission
   User = global.db.models.user
-  creators_id=counts[3].creator_id
-  User.findAll({
+  Submission.findAll(
+    attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
+    include: [{
+      model: Solution
+      attributes: []
+    },
+      {
+        model: User
+        attributes:['student_id','nickname']
+        as:'creator'
+        where: {
+          student_id: {
+            $ne: ''
+          }
+        }
+      }
+    ]
     where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName4=(counts)->
-  User = global.db.models.user
-  creators_id=counts[4].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName5=(counts)->
-  User = global.db.models.user
-  creators_id=counts[5].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName6=(counts)->
-  User = global.db.models.user
-  creators_id=counts[6].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName7=(counts)->
-  User = global.db.models.user
-  creators_id=counts[7].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName8=(counts)->
-  User = global.db.models.user
-  creators_id=counts[8].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName9=(counts)->
-  User = global.db.models.user
-  creators_id=counts[9].creator_id
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
-exports.getRankName=(counts) ->
-  User = global.db.models.user
-  creators_id=
-  [counts[0].creator_id,counts[1].creator_id,counts[2].creator_id,counts[3].creator_id,counts[4].creator_id,counts[5].creator_id,counts[6].creator_id,counts[7].creator_id,
-    counts[8].creator_id,counts[9].creator_id]
-  User.findAll({
-    where:
-      id:creators_id
-    attributes:['nickname','student_id']
-  })
-
+      created_at:{
+        $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+      }
+    group: ['creator_id']
+    limit: 10
+    order: [
+      [global.db.fn('count', global.db.col('solution.id')), 'DESC']
+    ]
+  )
 
 
 #得到对于一个题来说这个人过没过

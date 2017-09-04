@@ -74,21 +74,57 @@
         user: req.session.user,
         recommendation: recommendation
       });
-      Solution = global.db.models.solution;
       Submission = global.db.models.submission;
+      Solution = global.db.models.solution;
+      Submission.findAll({
+        attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
+        include: [
+          {
+            model: User,
+            attributes: ['student_id'],
+            as: 'creator',
+            where: {
+              student_id: {
+                $ne: ''
+              }
+            }
+          }
+        ],
+        where: {
+          created_at: {
+            $gte: global.db.fn('DATE_SUB', global.db.literal('NOW()'), global.db.literal('INTERVAL 1 MONTH'))
+          }
+        },
+        group: ['creator_id'],
+        order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
+        limit: 10
+      }).then(function(res) {
+        return console.log(res[2].get({
+          plain: true
+        }));
+      });
       return Submission.findAll({
-        attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'total']],
+        attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
         include: [
           {
             model: Solution,
             attributes: []
+          }, {
+            model: User,
+            attributes: ['student_id', 'nickname'],
+            as: 'creator',
+            where: {
+              student_id: {
+                $ne: ''
+              }
+            }
           }
         ],
         group: ['creator_id'],
-        limit: 30,
+        limit: 10,
         order: [[global.db.fn('count', global.db.col('solution.id')), 'DESC']]
       }).then(function(res) {
-        return console.log(res[0].get({
+        return console.log(res[2].get({
           plain: true
         }));
       });
