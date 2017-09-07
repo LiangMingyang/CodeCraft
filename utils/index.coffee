@@ -260,30 +260,6 @@ exports.getRankCount = ()->
     limit:10
   )
 
-#得到每个人的做题数并取前十
-exports.getDoRankCount = ()->
-  Submission = global.db.models.submission
-  User=global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:10
-  )
-
-
 #得到每个人的交题解数并取前十
 exports.getSolutionCount=()->
   Solution = global.db.models.solution
@@ -341,32 +317,7 @@ exports.getRankCountR = ()->
     ]
     limit:10
   )
-#得到每个人最近一个月的做题数并取前十
-exports.getDoRankCountR = ()->
-  Submission = global.db.models.submission
-  User=global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      created_at:{
-        $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
-      }
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:10
-  )
+
 #得到每个人最近一个月的题解数并取前十
 exports.getSolutionCountR = ()->
   Solution = global.db.models.solution
@@ -400,6 +351,330 @@ exports.getSolutionCountR = ()->
     ]
   )
 
+#去年9月开始
+exports.ChampionRank1 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2016-09-01 00:00:00', '2016-10-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank2 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2016-10-01 00:00:01', '2016-11-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank3 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2016-11-01 00:00:01', '2016-12-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank4 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2016-12-01 00:00:01', '2017-01-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank5 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-01-01 00:00:01', '2017-02-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank6 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-02-01 00:00:01', '2017-03-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank7 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-03-01 00:00:01', '2017-04-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank8 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-04-01 00:00:01', '2017-05-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank9 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-05-01 00:00:01', '2017-06-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank10 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-06-01 00:00:01', '2017-07-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank11 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-07-01 00:00:01', '2017-08-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+
+exports.ChampionRank12 =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2017-08-01 00:00:01', '2017-09-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
 
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->

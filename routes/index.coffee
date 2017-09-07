@@ -59,7 +59,7 @@ router.get '/index', (req, res) ->
       attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
       include: [
         model: User
-        attributes:['student_id']
+        attributes:['student_id','nickname']
         as:'creator'
         where: {
           student_id: {
@@ -68,44 +68,18 @@ router.get '/index', (req, res) ->
         }
       ]
       where:
-        created_at:{
-          $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+        updated_at: {
+          $between: ['2016-09-01 00:00:00', '2016-10-01 00:00:00']
         }
+
       group: ['creator_id']
       order: [
         [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
       ]
-      limit:10
+      limit:1
     )
     .then (res)->
-      console.log res[2].get(plain: true)
-
-    Submission.findAll(
-      attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
-      include: [{
-        model: Solution
-        attributes: []
-      },
-      {
-        model: User
-        attributes:['student_id','nickname']
-        as:'creator'
-        where: {
-          student_id: {
-            $ne: ''
-          }
-        }
-      }
-      ]
-      group: ['creator_id']
-      limit: 10
-      order: [
-        [global.db.fn('count', global.db.col('solution.id')), 'DESC']
-      ]
-    )
-    .then (res)->
-      console.log res[2].get(plain: true)
-
+      console.log (res[0].creator.dataValues.nickname)
 
 router.get '/notice', (req, res) ->
   res.render 'notice', {

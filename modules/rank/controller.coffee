@@ -10,18 +10,6 @@ exports.getIndex = (req, res) ->
   User = global.db.models.user
   Submission = global.db.models.submission
   currentUser = undefined
-  global.myUtils.getDoRankCountR()
-    .then (results)->
-      console.log(results[0].creator.dataValues.nickname)
-      console.log(results[1].creator.dataValues.nickname)
-      console.log(results[2].creator.dataValues.nickname)
-      console.log(results[3].creator.dataValues.nickname)
-      console.log(results[4].creator.dataValues.nickname)
-      console.log(results[5].creator.dataValues.nickname)
-      console.log(results[6].creator.dataValues.nickname)
-      console.log(results[7].creator.dataValues.nickname)
-      console.log(results[8].creator.dataValues.nickname)
-      console.log(results[9].creator.dataValues.nickname)
 
   global.db.Promise.resolve()
   .then ()->
@@ -34,22 +22,52 @@ exports.getIndex = (req, res) ->
     .then (Results)->
       global.myUtils.getRankCount()
         .then (Counts) ->
-          global.myUtils.getDoRankCount()
-            .then (DoCounts) ->
-              global.myUtils.getRankCountR()
-                .then (CountsR) ->
-                  global.myUtils.getDoRankCountR()
-                    .then (DoCountsR) ->
-                      global.myUtils.getSolutionCountR()
-                      .then (ResultsR) ->
-                        res.render 'rank/index', {
-                            title: 'rank',
-                            user: req.session.user
-                            Counts:Counts
-                            CountsR:CountsR
-                            DoCounts:DoCounts
-                            DoCountsR:DoCountsR
-                            Results:Results
-                            ResultsR:ResultsR
-                        }
+          global.myUtils.getRankCountR()
+            .then (CountsR) ->
+              global.myUtils.getSolutionCountR()
+                .then (ResultsR) ->
+                  global.myUtils.ChampionRank1()
+                  .then (Champion1) ->
+                    global.myUtils.ChampionRank2()
+                    .then (Champion2) ->
+                      global.myUtils.ChampionRank3()
+                      .then (Champion3) ->
+                        global.myUtils.ChampionRank4()
+                        .then (Champion4) ->
+                          global.myUtils.ChampionRank5()
+                          .then (Champion5) ->
+                            global.myUtils.ChampionRank6()
+                            .then (Champion6) ->
+                              global.myUtils.ChampionRank7()
+                              .then (Champion7) ->
+                                global.myUtils.ChampionRank8()
+                                .then (Champion8) ->
+                                  global.myUtils.ChampionRank9()
+                                  .then (Champion9) ->
+                                    global.myUtils.ChampionRank10()
+                                    .then (Champion10) ->
+                                      global.myUtils.ChampionRank11()
+                                      .then (Champion11) ->
+                                        global.myUtils.ChampionRank12()
+                                        .then (Champion12) ->
+                                          res.render 'rank/index', {
+                                              title: 'rank',
+                                              user: req.session.user
+                                              Counts:Counts
+                                              CountsR:CountsR
+                                              Results:Results
+                                              ResultsR:ResultsR
+                                              Champion1:Champion1
+                                              Champion2:Champion2
+                                              Champion3:Champion3
+                                              Champion4:Champion4
+                                              Champion5:Champion5
+                                              Champion6:Champion6
+                                              Champion7:Champion7
+                                              Champion8:Champion8
+                                              Champion9:Champion9
+                                              Champion10:Champion10
+                                              Champion11:Champion11
+                                              Champion12:Champion12
+                                          }
 
