@@ -1,14 +1,15 @@
 extends ../layout
 
 block title
-    - var whichPage = "Rank"
+    - var whichPage = "排行榜"
     title #{whichPage}
 block content
     - var oddEvenTable = "odd"
     - var level = 0
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
-            //琅琊榜
+
             .col-md-3
+                h3.text-center 琅琊榜
                 select.form-control
                     option(value = "ALL") 总过题数
                 table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
@@ -40,9 +41,25 @@ block content
                         td(style="vertical-align: middle;") #{Counts[5].creator.dataValues.student_id}
                         td(style="vertical-align: middle;") #{Counts[5].creator.dataValues.nickname}
                         td(style="vertical-align: middle;") #{Counts[5].dataValues.COUNT}
+                    tr.text-center
+                        td(style="vertical-align: middle;") #{Counts[6].creator.dataValues.student_id}
+                        td(style="vertical-align: middle;") #{Counts[6].creator.dataValues.nickname}
+                        td(style="vertical-align: middle;") #{Counts[6].dataValues.COUNT}
+                    tr.text-center
+                        td(style="vertical-align: middle;") #{Counts[7].creator.dataValues.student_id}
+                        td(style="vertical-align: middle;") #{Counts[7].creator.dataValues.nickname}
+                        td(style="vertical-align: middle;") #{Counts[7].dataValues.COUNT}
+                    tr.text-center
+                        td(style="vertical-align: middle;") #{Counts[8].creator.dataValues.student_id}
+                        td(style="vertical-align: middle;") #{Counts[8].creator.dataValues.nickname}
+                        td(style="vertical-align: middle;") #{Counts[8].dataValues.COUNT}
+                    tr.text-center
+                        td(style="vertical-align: middle;") #{Counts[9].creator.dataValues.student_id}
+                        td(style="vertical-align: middle;") #{Counts[9].creator.dataValues.nickname}
+                        td(style="vertical-align: middle;") #{Counts[9].dataValues.COUNT}
 
-                //勤奋榜
                .col-md-3
+                    h3.text-center 勤奋榜
                     select.form-control
                        option(value = "R1M") 最近30天过题数
                     table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
@@ -74,9 +91,25 @@ block content
                             td(style="vertical-align: middle;") #{CountsR[5].creator.dataValues.student_id}
                             td(style="vertical-align: middle;") #{CountsR[5].creator.dataValues.nickname}
                             td(style="vertical-align: middle;") #{CountsR[5].dataValues.COUNT}
+                        tr.text-center
+                            td(style="vertical-align: middle;") #{CountsR[6].creator.dataValues.student_id}
+                            td(style="vertical-align: middle;") #{CountsR[6].creator.dataValues.nickname}
+                            td(style="vertical-align: middle;") #{CountsR[6].dataValues.COUNT}
+                        tr.text-center
+                            td(style="vertical-align: middle;") #{CountsR[7].creator.dataValues.student_id}
+                            td(style="vertical-align: middle;") #{CountsR[7].creator.dataValues.nickname}
+                            td(style="vertical-align: middle;") #{CountsR[7].dataValues.COUNT}
+                        tr.text-center
+                            td(style="vertical-align: middle;") #{CountsR[8].creator.dataValues.student_id}
+                            td(style="vertical-align: middle;") #{CountsR[8].creator.dataValues.nickname}
+                            td(style="vertical-align: middle;") #{CountsR[8].dataValues.COUNT}
+                        tr.text-center
+                            td(style="vertical-align: middle;") #{CountsR[9].creator.dataValues.student_id}
+                            td(style="vertical-align: middle;") #{CountsR[9].creator.dataValues.nickname}
+                            td(style="vertical-align: middle;") #{CountsR[9].dataValues.COUNT}
 
-                    //题解达人
                    .col-md-3
+                       h3.text-center 题解达人
                        select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
                            option(value = "ALL2") 总提交题解数
                            option(value = "R1M2") 最近30天提交题解数
@@ -202,6 +235,7 @@ block content
 
 
                    .col-md-3
+                            h3.text-center 冠军榜
                             table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                                 tr.problem-title-tr.text-center
                                     td(style="vertical-align: middle;") 月份
