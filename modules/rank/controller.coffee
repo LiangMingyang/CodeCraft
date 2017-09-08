@@ -10,7 +10,9 @@ exports.getIndex = (req, res) ->
   User = global.db.models.user
   Submission = global.db.models.submission
   currentUser = undefined
-
+  global.myUtils.AllPeople()
+  .then (Presults)->
+    console.log(Presults[0])
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
@@ -50,24 +52,27 @@ exports.getIndex = (req, res) ->
                                       .then (Champion11) ->
                                         global.myUtils.ChampionRank12()
                                         .then (Champion12) ->
-                                          res.render 'rank/index', {
-                                              title: 'rank',
-                                              user: req.session.user
-                                              Counts:Counts
-                                              CountsR:CountsR
-                                              Results:Results
-                                              ResultsR:ResultsR
-                                              Champion1:Champion1
-                                              Champion2:Champion2
-                                              Champion3:Champion3
-                                              Champion4:Champion4
-                                              Champion5:Champion5
-                                              Champion6:Champion6
-                                              Champion7:Champion7
-                                              Champion8:Champion8
-                                              Champion9:Champion9
-                                              Champion10:Champion10
-                                              Champion11:Champion11
-                                              Champion12:Champion12
-                                          }
+                                          global.myUtils.AllPeople()
+                                            .then (Presults)->
+                                              res.render 'rank/index', {
+                                                  title: 'rank',
+                                                  user: req.session.user
+                                                  Counts:Counts
+                                                  CountsR:CountsR
+                                                  Results:Results
+                                                  ResultsR:ResultsR
+                                                  Champion1:Champion1
+                                                  Champion2:Champion2
+                                                  Champion3:Champion3
+                                                  Champion4:Champion4
+                                                  Champion5:Champion5
+                                                  Champion6:Champion6
+                                                  Champion7:Champion7
+                                                  Champion8:Champion8
+                                                  Champion9:Champion9
+                                                  Champion10:Champion10
+                                                  Champion11:Champion11
+                                                  Champion12:Champion12
+                                                  Presults:Presults
+                                              }
 

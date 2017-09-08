@@ -676,6 +676,31 @@ exports.ChampionRank12 =()->
     limit:1
   )
 
+#查询系统中共多少有student_id的用户
+exports.AllPeople =()->
+  User = global.db.models.user
+  User.findAll(
+    attributes : [[global.db.fn('count', global.db.literal('distinct user.id')),'PCOUNT']]
+    where:{
+      student_id:{
+        $ne: ''
+      }
+    }
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->
   global.db.Promise.resolve()

@@ -825,6 +825,19 @@
     });
   };
 
+  exports.AllPeople = function() {
+    var User;
+    User = global.db.models.user;
+    return User.findAll({
+      attributes: [[global.db.fn('count', global.db.literal('distinct user.id')), 'PCOUNT']],
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    });
+  };
+
   exports.hasResult = function(user, problems_id, results, contest) {
     return global.db.Promise.resolve().then(function() {
       var Submission, options;
