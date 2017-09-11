@@ -48,39 +48,47 @@ router.get '/index', (req, res) ->
     recommendation.sort (a,b)->
       b.recommendation.score - a.recommendation.score
   .then ()->
-    res.render 'index', {
-      title: 'OJ4TH',
-      user: req.session.user
-      recommendation: recommendation
-    }
-    Submission = global.db.models.submission
-    Solution = global.db.models.solution
-    Submission.findAll(
-      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-      include: [
-        model: User
-        attributes:['student_id','nickname']
-        as:'creator'
-        where: {
-          student_id: {
-            $ne: ''
-          }
-        }
-      ]
-      where:
-        updated_at: {
-          $between: ['2016-09-01 00:00:00', '2016-10-01 00:00:00']
-        }
-
-      group: ['creator_id']
-      order: [
-        [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-      ]
-      limit:1
-    )
-    .then (res)->
-      console.log (res[0].creator.dataValues.nickname)
-
+    global.myUtils.ChampionRank1()
+    .then (Champion1) ->
+      global.myUtils.ChampionRank2()
+      .then (Champion2) ->
+        global.myUtils.ChampionRank3()
+        .then (Champion3) ->
+          global.myUtils.ChampionRank4()
+          .then (Champion4) ->
+            global.myUtils.ChampionRank5()
+            .then (Champion5) ->
+              global.myUtils.ChampionRank6()
+              .then (Champion6) ->
+                global.myUtils.ChampionRank7()
+                .then (Champion7) ->
+                  global.myUtils.ChampionRank8()
+                  .then (Champion8) ->
+                    global.myUtils.ChampionRank9()
+                    .then (Champion9) ->
+                      global.myUtils.ChampionRank10()
+                      .then (Champion10) ->
+                        global.myUtils.ChampionRank11()
+                        .then (Champion11) ->
+                          global.myUtils.ChampionRank12()
+                          .then (Champion12) ->
+                            res.render 'index', {
+                              title: 'OJ4TH',
+                              user: req.session.user
+                              recommendation: recommendation
+                              Champion1:Champion1
+                              Champion2:Champion2
+                              Champion3:Champion3
+                              Champion4:Champion4
+                              Champion5:Champion5
+                              Champion6:Champion6
+                              Champion7:Champion7
+                              Champion8:Champion8
+                              Champion9:Champion9
+                              Champion10:Champion10
+                              Champion11:Champion11
+                              Champion12:Champion12
+                            }
 router.get '/notice', (req, res) ->
   res.render 'notice', {
     title: '招聘启事'

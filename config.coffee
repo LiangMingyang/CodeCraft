@@ -13,7 +13,7 @@ module.exports = {
         max: 500
         min: 0
         idle: 10000
-      #logging: null
+      logging: null
   pageLimit :
     submission : 15
     contest : 15

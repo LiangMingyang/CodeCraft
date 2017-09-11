@@ -68,38 +68,46 @@
         return b.recommendation.score - a.recommendation.score;
       });
     }).then(function() {
-      var Solution, Submission;
-      res.render('index', {
-        title: 'OJ4TH',
-        user: req.session.user,
-        recommendation: recommendation
-      });
-      Submission = global.db.models.submission;
-      Solution = global.db.models.solution;
-      return Submission.findAll({
-        attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-        include: [
-          {
-            model: User,
-            attributes: ['student_id', 'nickname'],
-            as: 'creator',
-            where: {
-              student_id: {
-                $ne: ''
-              }
-            }
-          }
-        ],
-        where: {
-          updated_at: {
-            $between: ['2016-09-01 00:00:00', '2016-10-01 00:00:00']
-          }
-        },
-        group: ['creator_id'],
-        order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-        limit: 1
-      }).then(function(res) {
-        return console.log(res[0].creator.dataValues.nickname);
+      return global.myUtils.ChampionRank1().then(function(Champion1) {
+        return global.myUtils.ChampionRank2().then(function(Champion2) {
+          return global.myUtils.ChampionRank3().then(function(Champion3) {
+            return global.myUtils.ChampionRank4().then(function(Champion4) {
+              return global.myUtils.ChampionRank5().then(function(Champion5) {
+                return global.myUtils.ChampionRank6().then(function(Champion6) {
+                  return global.myUtils.ChampionRank7().then(function(Champion7) {
+                    return global.myUtils.ChampionRank8().then(function(Champion8) {
+                      return global.myUtils.ChampionRank9().then(function(Champion9) {
+                        return global.myUtils.ChampionRank10().then(function(Champion10) {
+                          return global.myUtils.ChampionRank11().then(function(Champion11) {
+                            return global.myUtils.ChampionRank12().then(function(Champion12) {
+                              return res.render('index', {
+                                title: 'OJ4TH',
+                                user: req.session.user,
+                                recommendation: recommendation,
+                                Champion1: Champion1,
+                                Champion2: Champion2,
+                                Champion3: Champion3,
+                                Champion4: Champion4,
+                                Champion5: Champion5,
+                                Champion6: Champion6,
+                                Champion7: Champion7,
+                                Champion8: Champion8,
+                                Champion9: Champion9,
+                                Champion10: Champion10,
+                                Champion11: Champion11,
+                                Champion12: Champion12
+                              });
+                            });
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
