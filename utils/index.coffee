@@ -675,6 +675,39 @@ exports.ChampionRank12 =()->
     ]
     limit:1
   )
+exports.ChampionRank =()->
+  Submission = global.db.models.submission
+  User = global.db.models.user
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:
+      updated_at: {
+        $between: ['2016-09-01 00:00:00', '2017-09-01 00:00:00']
+      }
+
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:1
+  )
+  
+
+
+
+
+
+
 
 #查询系统中共多少有student_id的用户
 exports.AllPeople =()->

@@ -152,13 +152,13 @@ html(lang='zh-CN')
                                     h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         a(href="/notice" style="color:#FFB90F")
                                             |北航ACM程序设计实验室研究助理招聘信息
-                                .col-lg-3.col-nm-3.col-sm-3.col-xs-3(style="margin-left:180px;margin-top:-30px;")
+                                .col-lg-3.col-nm-3.col-sm-3.col-xs-3(style="margin-left:180px;margin-top:-45px;")
                                     h2.text-center(style="color:#FFB90F") 冠军榜
-                                        table.table.table-condensed.table-center(style="font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;margin-top:20px;")
+                                        table.table.table-condensed.table-center(style="font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;margin-top:20px;margin-left:20px; border-radius: 20px; background-color:rgba(52, 52, 52, 0.5);")
                                             tr(style="border:0px;").text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:22px") 月份
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:22px") 学号
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:22px") 姓名
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:20px") 月份
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:20px") 学号
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:20px") 姓名
                                             tr.text-center
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年9月
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") #{Champion1[0].creator.dataValues.student_id}
@@ -207,6 +207,10 @@ html(lang='zh-CN')
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年8月
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") #{Champion12[0].creator.dataValues.student_id}
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") #{Champion12[0].creator.dataValues.nickname}
+                                            tr.text-center
+                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 年度总冠军
+                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") #{Champion[0].creator.dataValues.student_id}
+                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") #{Champion[0].creator.dataValues.nickname}
 
 
                     script.

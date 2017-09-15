@@ -72,23 +72,26 @@ router.get '/index', (req, res) ->
                         .then (Champion11) ->
                           global.myUtils.ChampionRank12()
                           .then (Champion12) ->
-                            res.render 'index', {
-                              title: 'OJ4TH',
-                              user: req.session.user
-                              recommendation: recommendation
-                              Champion1:Champion1
-                              Champion2:Champion2
-                              Champion3:Champion3
-                              Champion4:Champion4
-                              Champion5:Champion5
-                              Champion6:Champion6
-                              Champion7:Champion7
-                              Champion8:Champion8
-                              Champion9:Champion9
-                              Champion10:Champion10
-                              Champion11:Champion11
-                              Champion12:Champion12
-                            }
+                            global.myUtils.ChampionRank()
+                            .then (Champion) ->
+                              res.render 'index', {
+                                title: 'OJ4TH',
+                                user: req.session.user
+                                recommendation: recommendation
+                                Champion1:Champion1
+                                Champion2:Champion2
+                                Champion3:Champion3
+                                Champion4:Champion4
+                                Champion5:Champion5
+                                Champion6:Champion6
+                                Champion7:Champion7
+                                Champion8:Champion8
+                                Champion9:Champion9
+                                Champion10:Champion10
+                                Champion11:Champion11
+                                Champion12:Champion12
+                                Champion:Champion
+                              }
 router.get '/notice', (req, res) ->
   res.render 'notice', {
     title: '招聘启事'

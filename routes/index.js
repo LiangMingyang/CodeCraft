@@ -80,22 +80,25 @@
                         return global.myUtils.ChampionRank10().then(function(Champion10) {
                           return global.myUtils.ChampionRank11().then(function(Champion11) {
                             return global.myUtils.ChampionRank12().then(function(Champion12) {
-                              return res.render('index', {
-                                title: 'OJ4TH',
-                                user: req.session.user,
-                                recommendation: recommendation,
-                                Champion1: Champion1,
-                                Champion2: Champion2,
-                                Champion3: Champion3,
-                                Champion4: Champion4,
-                                Champion5: Champion5,
-                                Champion6: Champion6,
-                                Champion7: Champion7,
-                                Champion8: Champion8,
-                                Champion9: Champion9,
-                                Champion10: Champion10,
-                                Champion11: Champion11,
-                                Champion12: Champion12
+                              return global.myUtils.ChampionRank().then(function(Champion) {
+                                return res.render('index', {
+                                  title: 'OJ4TH',
+                                  user: req.session.user,
+                                  recommendation: recommendation,
+                                  Champion1: Champion1,
+                                  Champion2: Champion2,
+                                  Champion3: Champion3,
+                                  Champion4: Champion4,
+                                  Champion5: Champion5,
+                                  Champion6: Champion6,
+                                  Champion7: Champion7,
+                                  Champion8: Champion8,
+                                  Champion9: Champion9,
+                                  Champion10: Champion10,
+                                  Champion11: Champion11,
+                                  Champion12: Champion12,
+                                  Champion: Champion
+                                });
                               });
                             });
                           });
