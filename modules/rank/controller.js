@@ -42,27 +42,30 @@
                                 return global.myUtils.ChampionRank10().then(function(Champion10) {
                                   return global.myUtils.ChampionRank11().then(function(Champion11) {
                                     return global.myUtils.ChampionRank12().then(function(Champion12) {
-                                      return global.myUtils.AllPeople().then(function(Presults) {
-                                        return res.render('rank/index', {
-                                          title: 'rank',
-                                          user: req.session.user,
-                                          Counts: Counts,
-                                          CountsR: CountsR,
-                                          Results: Results,
-                                          ResultsR: ResultsR,
-                                          Champion1: Champion1,
-                                          Champion2: Champion2,
-                                          Champion3: Champion3,
-                                          Champion4: Champion4,
-                                          Champion5: Champion5,
-                                          Champion6: Champion6,
-                                          Champion7: Champion7,
-                                          Champion8: Champion8,
-                                          Champion9: Champion9,
-                                          Champion10: Champion10,
-                                          Champion11: Champion11,
-                                          Champion12: Champion12,
-                                          Presults: Presults
+                                      return global.myUtils.ChampionRank().then(function(Champion) {
+                                        return global.myUtils.AllPeople().then(function(Presults) {
+                                          return res.render('rank/index', {
+                                            title: 'rank',
+                                            user: req.session.user,
+                                            Counts: Counts,
+                                            CountsR: CountsR,
+                                            Results: Results,
+                                            ResultsR: ResultsR,
+                                            Champion1: Champion1,
+                                            Champion2: Champion2,
+                                            Champion3: Champion3,
+                                            Champion4: Champion4,
+                                            Champion5: Champion5,
+                                            Champion6: Champion6,
+                                            Champion7: Champion7,
+                                            Champion8: Champion8,
+                                            Champion9: Champion9,
+                                            Champion10: Champion10,
+                                            Champion11: Champion11,
+                                            Champion12: Champion12,
+                                            Champion: Champion,
+                                            Presults: Presults
+                                          });
                                         });
                                       });
                                     });

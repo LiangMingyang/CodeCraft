@@ -59,7 +59,7 @@ block content
                         td(style="vertical-align: middle;") #{Counts[9].dataValues.COUNT}
 
                .col-md-3
-                    h3.text-center 勤奋榜
+                    h3.text-center 未来之星榜
                     select.form-control
                        option(value = "R1M") 最近30天过题数
                     table.table.table-condensed.table-center(style="table-layout:fixed;border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
@@ -235,7 +235,7 @@ block content
 
 
                    .col-md-3
-                            h3.text-center 冠军榜
+                            h3.text-center 风云榜（赛季冠军）
                             table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                                 tr.problem-title-tr.text-center
                                     td(style="vertical-align: middle;") 月份
@@ -289,6 +289,10 @@ block content
                                     td(style="vertical-align: middle;") 2017年8月
                                     td(style="vertical-align: middle;") #{Champion12[0].creator.dataValues.student_id}
                                     td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion12[0].creator.dataValues.nickname}
+                                tr.text-center
+                                    td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 年度总冠军
+                                    td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") #{Champion[0].creator.dataValues.student_id}
+                                    td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") #{Champion[0].creator.dataValues.nickname}
 
                             p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
 
