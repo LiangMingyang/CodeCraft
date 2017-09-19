@@ -127,6 +127,7 @@ exports.getIssues = (req, res)->
     ,
       model : User
       as : 'creator'
+      attributes:['nickname', 'username', 'id', 'description', 'school', 'college', 'student_id']
     ])
   .then (issues)->
     issues = (issue.get(plain: true) for issue in issues)
