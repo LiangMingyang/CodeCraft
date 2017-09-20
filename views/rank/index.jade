@@ -128,6 +128,7 @@ block content
                            function request_so_searching() {
                                var soselected_val = document.getElementById("soresult");
                                if (soselected_val.value == "R1M2") {
+                                   
                                    document.getElementById("s1td0").innerHTML = "<td>#{ResultsR[0].creator.dataValues.student_id}</td>"+"<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
                                    document.getElementById("s1td1").innerHTML = "<td>#{ResultsR[1].creator.dataValues.student_id}</td>";
                                    document.getElementById("s1td2").innerHTML = "<td>#{ResultsR[2].creator.dataValues.student_id}</td>";
