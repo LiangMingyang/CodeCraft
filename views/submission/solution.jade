@@ -299,7 +299,10 @@ block content
 
         function change_problem_title(data) {
             var __problem_really_title = $("#problem_really_title");
-            __problem_really_title.html(data.value);
+            var temp = document.createElement("_____div");
+            (temp.textContent != null) ? (temp.textContent = data.value) : (temp.innerText = data.value);
+            __problem_really_title.html(temp.innerHTML);
+            temp=null;
             if (data.value == "") {
                 __problem_really_title.html("请输入题目标题！");
             }
