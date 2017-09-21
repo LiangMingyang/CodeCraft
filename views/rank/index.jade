@@ -114,19 +114,31 @@ block content
                            option(value = "ALL2") 总提交题解数
                            option(value = "R1M2") 最近30天提交题解数
                        script.
+                           function htmlEncode(str) {
+                               var ele = document.createElement('span');
+                               ele.appendChild(document.createTextNode(str));
+                               return ele.innerHTML;
+                           }
+                           //解析
+                           function htmlDecode(str) {
+                               var ele = document.createElement('span');
+                               ele.innerHTML = str;
+                               return ele.textContent;
+                           }
                            function request_so_searching() {
                                var soselected_val = document.getElementById("soresult");
                                if (soselected_val.value == "R1M2") {
-                                   document.getElementById("s1td0").innerText = #{ResultsR[0].creator.dataValues.student_id};
-                                   document.getElementById("s1td1").innerText = #{ResultsR[1].creator.dataValues.student_id};
-                                   document.getElementById("s1td2").innerText = #{ResultsR[2].creator.dataValues.student_id};
-                                   document.getElementById("s1td3").innerText = #{ResultsR[3].creator.dataValues.student_id};
-                                   document.getElementById("s1td4").innerText = #{ResultsR[4].creator.dataValues.student_id};
-                                   document.getElementById("s1td5").innerText = #{ResultsR[5].creator.dataValues.student_id};
-                                   document.getElementById("s1td6").innerText = #{ResultsR[6].creator.dataValues.student_id};
-                                   document.getElementById("s1td7").innerText = #{ResultsR[7].creator.dataValues.student_id};
-                                   document.getElementById("s1td8").innerText = #{ResultsR[8].creator.dataValues.student_id};
-                                   document.getElementById("s1td9").innerText = #{ResultsR[9].creator.dataValues.student_id};
+                                   
+                                   document.getElementById("s1td0").innerHTML = "<td>#{ResultsR[0].creator.dataValues.student_id}</td>"+"<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
+                                   document.getElementById("s1td1").innerHTML = "<td>#{ResultsR[1].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td2").innerHTML = "<td>#{ResultsR[2].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td3").innerHTML = "<td>#{ResultsR[3].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td4").innerHTML = "<td>#{ResultsR[4].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td5").innerHTML = "<td>#{ResultsR[5].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td6").innerHTML = "<td>#{ResultsR[6].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td7").innerHTML = "<td>#{ResultsR[7].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td8").innerHTML = "<td>#{ResultsR[8].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td9").innerHTML = "<td>#{ResultsR[9].creator.dataValues.student_id}</td>";
 
                                    document.getElementById("s2td0").innerHTML = "<td>#{ResultsR[0].creator.dataValues.nickname}</td>";
                                    document.getElementById("s2td1").innerHTML = "<td>#{ResultsR[1].creator.dataValues.nickname}</td>";
@@ -139,28 +151,28 @@ block content
                                    document.getElementById("s2td8").innerHTML = "<td>#{ResultsR[8].creator.dataValues.nickname}</td>";
                                    document.getElementById("s2td9").innerHTML = "<td>#{ResultsR[9].creator.dataValues.nickname}</td>";
 
-                                   document.getElementById("s3td0").innerText = #{ResultsR[0].dataValues.COUNT};
-                                   document.getElementById("s3td1").innerText = #{ResultsR[1].dataValues.COUNT};
-                                   document.getElementById("s3td2").innerText = #{ResultsR[2].dataValues.COUNT};
-                                   document.getElementById("s3td3").innerText = #{ResultsR[3].dataValues.COUNT};
-                                   document.getElementById("s3td4").innerText = #{ResultsR[4].dataValues.COUNT};
-                                   document.getElementById("s3td5").innerText = #{ResultsR[5].dataValues.COUNT};
-                                   document.getElementById("s3td6").innerText = #{ResultsR[6].dataValues.COUNT};
-                                   document.getElementById("s3td7").innerText = #{ResultsR[7].dataValues.COUNT};
-                                   document.getElementById("s3td8").innerText = #{ResultsR[8].dataValues.COUNT};
-                                   document.getElementById("s3td9").innerText = #{ResultsR[9].dataValues.COUNT};
+                                   document.getElementById("s3td0").innerHTML = "<td>#{ResultsR[0].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td1").innerHTML = "<td>#{ResultsR[1].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td2").innerHTML = "<td>#{ResultsR[2].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td3").innerHTML = "<td>#{ResultsR[3].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td4").innerHTML = "<td>#{ResultsR[4].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td5").innerHTML = "<td>#{ResultsR[5].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td6").innerHTML = "<td>#{ResultsR[6].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td7").innerHTML = "<td>#{ResultsR[7].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td8").innerHTML = "<td>#{ResultsR[8].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td9").innerHTML = "<td>#{ResultsR[9].dataValues.COUNT}</td>";
                                }
                                else if (soselected_val.value == "ALL2") {
-                                   document.getElementById("s1td0").innerText = #{Results[0].creator.dataValues.student_id};
-                                   document.getElementById("s1td1").innerText = #{Results[1].creator.dataValues.student_id};
-                                   document.getElementById("s1td2").innerText = #{Results[2].creator.dataValues.student_id};
-                                   document.getElementById("s1td3").innerText = #{Results[3].creator.dataValues.student_id};
-                                   document.getElementById("s1td4").innerText = #{Results[4].creator.dataValues.student_id};
-                                   document.getElementById("s1td5").innerText = #{Results[5].creator.dataValues.student_id};
-                                   document.getElementById("s1td6").innerText = #{Results[6].creator.dataValues.student_id};
-                                   document.getElementById("s1td7").innerText = #{Results[7].creator.dataValues.student_id};
-                                   document.getElementById("s1td8").innerText = #{Results[8].creator.dataValues.student_id};
-                                   document.getElementById("s1td9").innerText = #{Results[9].creator.dataValues.student_id};
+                                   document.getElementById("s1td0").innerHTML = "<td>#{Results[0].creator.dataValues.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
+                                   document.getElementById("s1td1").innerHTML = "<td>#{Results[1].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td2").innerHTML = "<td>#{Results[2].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td3").innerHTML = "<td>#{Results[3].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td4").innerHTML = "<td>#{Results[4].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td5").innerHTML = "<td>#{Results[5].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td6").innerHTML = "<td>#{Results[6].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td7").innerHTML = "<td>#{Results[7].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td8").innerHTML = "<td>#{Results[8].creator.dataValues.student_id}</td>";
+                                   document.getElementById("s1td9").innerHTML = "<td>#{Results[9].creator.dataValues.student_id}</td>";
 
                                    document.getElementById("s2td0").innerHTML = "<td>#{Results[0].creator.dataValues.nickname}</td>";
                                    document.getElementById("s2td1").innerHTML = "<td>#{Results[1].creator.dataValues.nickname}</td>";
@@ -173,26 +185,26 @@ block content
                                    document.getElementById("s2td8").innerHTML = "<td>#{Results[8].creator.dataValues.nickname}</td>";
                                    document.getElementById("s2td9").innerHTML = "<td>#{Results[9].creator.dataValues.nickname}</td>";
 
-                                   document.getElementById("s3td0").innerText = #{Results[0].dataValues.COUNT};
-                                   document.getElementById("s3td1").innerText = #{Results[1].dataValues.COUNT};
-                                   document.getElementById("s3td2").innerText = #{Results[2].dataValues.COUNT};
-                                   document.getElementById("s3td3").innerText = #{Results[3].dataValues.COUNT};
-                                   document.getElementById("s3td4").innerText = #{Results[4].dataValues.COUNT};
-                                   document.getElementById("s3td5").innerText = #{Results[5].dataValues.COUNT};
-                                   document.getElementById("s3td6").innerText = #{Results[6].dataValues.COUNT};
-                                   document.getElementById("s3td7").innerText = #{Results[7].dataValues.COUNT};
-                                   document.getElementById("s3td8").innerText = #{Results[8].dataValues.COUNT};
-                                   document.getElementById("s3td9").innerText = #{Results[9].dataValues.COUNT};
+                                   document.getElementById("s3td0").innerHTML = "<td>#{Results[0].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td1").innerHTML = "<td>#{Results[1].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td2").innerHTML = "<td>#{Results[2].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td3").innerHTML = "<td>#{Results[3].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td4").innerHTML = "<td>#{Results[4].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td5").innerHTML = "<td>#{Results[5].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td6").innerHTML = "<td>#{Results[6].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td7").innerHTML = "<td>#{Results[7].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td8").innerHTML = "<td>#{Results[8].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td9").innerHTML = "<td>#{Results[9].dataValues.COUNT}</td>";
                                }
 
                            }
-                       table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
+                       table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;",id="test")
                            tr.problem-title-tr.text-center
                                td(style="vertical-align: middle;") 学号
                                td(style="vertical-align: middle;") 姓名
                                td(style="vertical-align: middle;") 交题解数
                            tr.text-center
-                               td(id="s1td0",style="vertical-align: middle;") #{Results[0].creator.dataValues.student_id}
+                               td(id="s1td0",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[0].creator.dataValues.student_id}
                                td(id="s2td0",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[0].creator.dataValues.nickname}
                                td(id="s3td0",style="vertical-align: middle;") #{Results[0].dataValues.COUNT}
                            tr.text-center
@@ -213,7 +225,7 @@ block content
                                td(id="s3td4",style="vertical-align: middle;") #{Results[4].dataValues.COUNT}
 
                            tr.text-center
-                               td(id="s1td5",style="vertical-align: middle;") #{Results[5].creator.dataValues.student_id}
+                               td(id="s1td5",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[5].creator.dataValues.student_id}
                                td(id="s2td5",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[5].creator.dataValues.nickname}
                                td(id="s3td5",style="vertical-align: middle;") #{Results[5].dataValues.COUNT}
                            tr.text-center
@@ -294,7 +306,6 @@ block content
                                     td(style="vertical-align: middle;color:#FF0000; font-size:20px;") #{Champion[0].creator.dataValues.student_id}
                                     td(style="vertical-align: middle;color:#FF0000; font-size:20px;") #{Champion[0].creator.dataValues.nickname}
 
-                                    
                             p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
 
 
