@@ -388,6 +388,10 @@ td {
     height: 100%;
 }
 
+.btn-primary {
+    margin-right: 5px;
+}
+
 /*
 .img-page {
     background-image: url(img/over-bg3.png) no-repeat 0 0;
