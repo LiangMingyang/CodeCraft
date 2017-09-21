@@ -47,6 +47,8 @@ html(lang='zh-CN')
                                             a(href="/rank/index", id="rankpage", class="nav-before") 排行榜
                                         - if(user)
                                             li.normalli
+                                                a(href="/problem/accepted", id="solution", class="nav-before") 写题解
+                                            li.normalli
                                                 a(href="/user/" + user.id + "/index", id="informationpage", class="nav-before") 个人信息
                                             li.normalli
                                                 a(href="/feedback/index", id="feedbackpage", class="nav-before") 反馈
@@ -120,8 +122,8 @@ html(lang='zh-CN')
 
 
                                 .col-lg-6.col-nm-6.col-sm-6.col-xs-6
-                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 上机学习
-                                    h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
+                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 欢迎来到OJ4TH
+                                    //-h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp————从
                                         a(href="/problem/accepted" style="color:#88FF45") 题解
                                         | 开始
