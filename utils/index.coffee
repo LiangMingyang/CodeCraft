@@ -237,41 +237,27 @@ exports.getResultCount = (problems_id, results, contest)->
 
 #得到每个人的过题数并取前十
 exports.getRankCount = ()->
-  Submission = global.db.models.submission
-  User=global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      result:'AC'
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:10
-  )
+  myUtils = this
+  myUtils.buildRankCount()
+  global.redis.get "rank_G"
+  .then (cache) ->
+    rank = "[]"
+    rank = cache if cache isnt null
+    return rank
 
-#得到每个人的交题解数并取前十
-exports.getSolutionCount=()->
-  Solution = global.db.models.solution
-  Submission = global.db.models.submission
+CACHE_TIMEG = global.config.judge.cache
+exports.buildRankCount = ()->
   User = global.db.models.user
-  Submission.findAll(
-    attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
-    include: [{
-      model: Solution
-      attributes: []
-    },
-      {
+  Submission = global.db.models.submission
+  getLock = undefined
+
+  global.redis.set("rank_lock_G", new Date(), "NX", "PX", CACHE_TIMEG)
+  .then (lock)->
+    getLock = lock isnt null
+    return if not getLock
+    Submission.findAll(
+      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+      include: [
         model: User
         attributes:['student_id','nickname']
         as:'creator'
@@ -280,56 +266,95 @@ exports.getSolutionCount=()->
             $ne: ''
           }
         }
-      }
-    ]
-    group: ['creator_id']
-    limit: 10
-    order: [
-      [global.db.fn('count', global.db.col('solution.id')), 'DESC']
-    ]
-  )
+      ]
+      where:
+        result:'AC'
+      group: ['creator_id']
+      order: [
+        [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+      ]
+      limit:10
+    )
+  .then (results)->
+    return if not getLock
+    global.redis.set("rank_G", JSON.stringify(results))
+
+
+#得到每个人的交题解数并取前十
+exports.getSolutionCount = ()->
+  myUtils = this
+  myUtils.buildSolutionCount()
+  global.redis.get "rank_S"
+  .then (cache) ->
+    rank = "[]"
+    rank = cache if cache isnt null
+    return rank
+
+
+CACHE_TIMES = global.config.judge.cache
+exports.buildSolutionCount = ()->
+  User = global.db.models.user
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+  getLock = undefined
+
+  global.redis.set("rank_lock_S", new Date(), "NX", "PX", CACHE_TIMES)
+  .then (lock)->
+    getLock = lock isnt null
+    return if not getLock
+    Submission.findAll(
+      attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
+      include: [{
+        model: Solution
+        attributes: []
+      },
+        {
+          model: User
+          attributes:['student_id','nickname']
+          as:'creator'
+          where: {
+            student_id:
+              global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"')
+
+            $and:
+              global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
+          }
+        }
+      ]
+      group: ['creator_id']
+      limit: 10
+      order: [
+        [global.db.fn('count', global.db.col('solution.id')), 'DESC']
+      ]
+    )
+  .then (resultsS)->
+    return if not getLock
+    global.redis.set("rank_S", JSON.stringify(resultsS))
 
 
 #得到每个人最近一个月的过题数并取前十
 exports.getRankCountR = ()->
-  Submission = global.db.models.submission
-  User=global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      result:'AC',
-      updated_at:{
-        $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
-      }
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:10
-  )
+  myUtils = this
+  myUtils.buildRankCountR()
+  global.redis.get "rank_R"
+  .then (cache) ->
+    rank = "[]"
+    rank = cache if cache isnt null
+    return rank
 
-#得到每个人最近一个月的题解数并取前十
-exports.getSolutionCountR = ()->
-  Solution = global.db.models.solution
-  Submission = global.db.models.submission
+CACHE_TIMER = global.config.judge.cache
+exports.buildRankCountR = ()->
   User = global.db.models.user
-  Submission.findAll(
-    attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
-    include: [{
-      model: Solution
-      attributes: []
-    },
-      {
+  Submission = global.db.models.submission
+  getLock = undefined
+
+  global.redis.set("rank_lock_R", new Date(), "NX", "PX", CACHE_TIMER)
+  .then (lock)->
+    getLock = lock isnt null
+    return if not getLock
+    Submission.findAll(
+      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+      include: [
         model: User
         attributes:['student_id','nickname']
         as:'creator'
@@ -338,18 +363,77 @@ exports.getSolutionCountR = ()->
             $ne: ''
           }
         }
-      }
-    ]
-    where:
-      created_at:{
-        $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
-      }
-    group: ['creator_id']
-    limit: 10
-    order: [
-      [global.db.fn('count', global.db.col('solution.id')), 'DESC']
-    ]
-  )
+      ]
+      where:
+        result:'AC',
+        updated_at:{
+          $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+        }
+      group: ['creator_id']
+      order: [
+        [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+      ]
+      limit:10
+    )
+  .then (resultsR)->
+    return if not getLock
+    global.redis.set("rank_R", JSON.stringify(resultsR))
+
+
+#得到每个人最近一个月的题解数并取前十
+exports.getSolutionCountR = ()->
+  myUtils = this
+  myUtils.buildSolutionCountR()
+  global.redis.get "rank_SR"
+  .then (cache) ->
+    rank = "[]"
+    rank = cache if cache isnt null
+    return rank
+
+CACHE_TIMESR = global.config.judge.cache
+exports.buildSolutionCountR = ()->
+  User = global.db.models.user
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+  getLock = undefined
+
+  global.redis.set("rank_lock_SR", new Date(), "NX", "PX", CACHE_TIMESR)
+  .then (lock)->
+    getLock = lock isnt null
+    return if not getLock
+    Submission.findAll(
+      attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
+      include: [{
+        model: Solution
+        attributes: []
+      },
+        {
+          model: User
+          attributes:['student_id','nickname']
+          as:'creator'
+          where: {
+            student_id:
+              global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"')
+
+            $and:
+              global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
+
+          }
+        }
+      ]
+      where:
+        created_at:{
+          $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+        }
+      group: ['creator_id']
+      limit: 10
+      order: [
+        [global.db.fn('count', global.db.col('solution.id')), 'DESC']
+      ]
+    )
+  .then (resultsSR)->
+    return if not getLock
+    global.redis.set("rank_SR", JSON.stringify(resultsSR))
 
 #去年9月开始
 exports.ChampionRank1 =()->
@@ -701,12 +785,6 @@ exports.ChampionRank =()->
     ]
     limit:1
   )
-  
-
-
-
-
-
 
 
 #查询系统中共多少有student_id的用户
@@ -720,19 +798,6 @@ exports.AllPeople =()->
       }
     }
   )
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->
@@ -1159,4 +1224,3 @@ exports.findRecommendations = (user)->
   .then (user)->
     user.getProblems()
   .then (problems)->
-

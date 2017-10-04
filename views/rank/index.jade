@@ -17,298 +17,180 @@ block content
                         td(style="vertical-align: middle;") 学号
                         td(style="vertical-align: middle;") 姓名
                         td(style="vertical-align: middle;") 过题数
-                    tr.text-center
-                        td #{Counts[0].creator.dataValues.student_id}
-                        td #{Counts[0].creator.dataValues.nickname}
-                        td #{Counts[0].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[1].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[1].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[1].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[2].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[2].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[2].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[3].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[3].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[3].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[4].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[4].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[4].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[5].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[5].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[5].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[6].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[6].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[6].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[7].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[7].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[7].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[8].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[8].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[8].dataValues.COUNT}
-                    tr.text-center
-                        td(style="vertical-align: middle;") #{Counts[9].creator.dataValues.student_id}
-                        td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Counts[9].creator.dataValues.nickname}
-                        td(style="vertical-align: middle;") #{Counts[9].dataValues.COUNT}
+
+                    each counts in JSON.parse(Counts)
+                        tr.text-center
+                            td #{counts.creator.student_id}
+                            td #{counts.creator.nickname}
+                            td #{counts.COUNT}
 
                .col-md-3
                     h3.text-center 未来之星榜
                     select.form-control
                        option(value = "R1M") 最近30天过题数
-                    table.table.table-condensed.table-center(style="table-layout:fixed;border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
+                    table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                         tr.problem-title-tr.text-center
                             td(style="vertical-align: middle;") 学号
                             td(style="vertical-align: middle;") 姓名
                             td(style="vertical-align: middle;") 过题数
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[0].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[0].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[0].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[1].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[1].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[1].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[2].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[2].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[2].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[3].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[3].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[3].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[4].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[4].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[4].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[5].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[5].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[5].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[6].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[6].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[6].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[7].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[7].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[7].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[8].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[8].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[8].dataValues.COUNT}
-                        tr.text-center
-                            td(style="vertical-align: middle;") #{CountsR[9].creator.dataValues.student_id}
-                            td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{CountsR[9].creator.dataValues.nickname}
-                            td(style="vertical-align: middle;") #{CountsR[9].dataValues.COUNT}
+
+                        each countsR in JSON.parse(CountsR)
+                            tr.text-center
+                                td #{countsR.creator.student_id}
+                                td #{countsR.creator.nickname}
+                                td #{countsR.COUNT}
 
                    .col-md-3
                        h3.text-center 题解达人
                        select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
-                           option(value = "ALL2") 总提交题解数
-                           option(value = "R1M2") 最近30天提交题解数
+                           option(value = "all") 总提交题解数
+                           option(value = "recent") 最近30天提交题解数
                        script.
-                           function htmlEncode(str) {
-                               var ele = document.createElement('span');
-                               ele.appendChild(document.createTextNode(str));
-                               return ele.innerHTML;
-                           }
-                           //解析
-                           function htmlDecode(str) {
-                               var ele = document.createElement('span');
-                               ele.innerHTML = str;
-                               return ele.textContent;
-                           }
                            function request_so_searching() {
                                var soselected_val = document.getElementById("soresult");
-                               if (soselected_val.value == "R1M2") {
-                                   
-                                   document.getElementById("s1td0").innerHTML = "<td>#{ResultsR[0].creator.dataValues.student_id}</td>"+"<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
-                                   document.getElementById("s1td1").innerHTML = "<td>#{ResultsR[1].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td2").innerHTML = "<td>#{ResultsR[2].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td3").innerHTML = "<td>#{ResultsR[3].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td4").innerHTML = "<td>#{ResultsR[4].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td5").innerHTML = "<td>#{ResultsR[5].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td6").innerHTML = "<td>#{ResultsR[6].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td7").innerHTML = "<td>#{ResultsR[7].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td8").innerHTML = "<td>#{ResultsR[8].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td9").innerHTML = "<td>#{ResultsR[9].creator.dataValues.student_id}</td>";
+                               if (soselected_val.value == "recent") {
 
-                                   document.getElementById("s2td0").innerHTML = "<td>#{ResultsR[0].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td1").innerHTML = "<td>#{ResultsR[1].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td2").innerHTML = "<td>#{ResultsR[2].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td3").innerHTML = "<td>#{ResultsR[3].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td4").innerHTML = "<td>#{ResultsR[4].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td5").innerHTML = "<td>#{ResultsR[5].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td6").innerHTML = "<td>#{ResultsR[6].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td7").innerHTML = "<td>#{ResultsR[7].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td8").innerHTML = "<td>#{ResultsR[8].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td9").innerHTML = "<td>#{ResultsR[9].creator.dataValues.nickname}</td>";
+                                   document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
+                                   document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.student_id}</td>";
+                                   document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.student_id}</td>";
+                                   document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.student_id}</td>";
+                                   document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.student_id}</td>";
+                                   document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.student_id}</td>";
+                                   document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.student_id}</td>";
+                                   document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.student_id}</td>";
+                                   document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.student_id}</td>";
+                                   document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.student_id}</td>";
 
-                                   document.getElementById("s3td0").innerHTML = "<td>#{ResultsR[0].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td1").innerHTML = "<td>#{ResultsR[1].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td2").innerHTML = "<td>#{ResultsR[2].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td3").innerHTML = "<td>#{ResultsR[3].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td4").innerHTML = "<td>#{ResultsR[4].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td5").innerHTML = "<td>#{ResultsR[5].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td6").innerHTML = "<td>#{ResultsR[6].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td7").innerHTML = "<td>#{ResultsR[7].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td8").innerHTML = "<td>#{ResultsR[8].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td9").innerHTML = "<td>#{ResultsR[9].dataValues.COUNT}</td>";
+                                   document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.nickname}</td>";
+                                   document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.nickname}</td>";
+                                   document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.nickname}</td>";
+                                   document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.nickname}</td>";
+                                   document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.nickname}</td>";
+                                   document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.nickname}</td>";
+                                   document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.nickname}</td>";
+                                   document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.nickname}</td>";
+                                   document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.nickname}</td>";
+                                   document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.nickname}</td>";
+
+                                   document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].COUNT}</td>";
+                                   document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].COUNT}</td>";
+                                   document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].COUNT}</td>";
+                                   document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].COUNT}</td>";
+                                   document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].COUNT}</td>";
+                                   document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].COUNT}</td>";
+                                   document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].COUNT}</td>";
+                                   document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].COUNT}</td>";
+                                   document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].COUNT}</td>";
+                                   document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].COUNT}</td>";
                                }
-                               else if (soselected_val.value == "ALL2") {
-                                   document.getElementById("s1td0").innerHTML = "<td>#{Results[0].creator.dataValues.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
-                                   document.getElementById("s1td1").innerHTML = "<td>#{Results[1].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td2").innerHTML = "<td>#{Results[2].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td3").innerHTML = "<td>#{Results[3].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td4").innerHTML = "<td>#{Results[4].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td5").innerHTML = "<td>#{Results[5].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td6").innerHTML = "<td>#{Results[6].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td7").innerHTML = "<td>#{Results[7].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td8").innerHTML = "<td>#{Results[8].creator.dataValues.student_id}</td>";
-                                   document.getElementById("s1td9").innerHTML = "<td>#{Results[9].creator.dataValues.student_id}</td>";
+                               else if (soselected_val.value == "all") {
+                                   document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
+                                   document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.student_id}</td>";
+                                   document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.student_id}</td>";
+                                   document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.student_id}</td>";
+                                   document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.student_id}</td>";
+                                   document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.student_id}</td>";
+                                   document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.student_id}</td>";
+                                   document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.student_id}</td>";
+                                   document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.student_id}</td>";
+                                   document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.student_id}</td>";
 
-                                   document.getElementById("s2td0").innerHTML = "<td>#{Results[0].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td1").innerHTML = "<td>#{Results[1].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td2").innerHTML = "<td>#{Results[2].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td3").innerHTML = "<td>#{Results[3].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td4").innerHTML = "<td>#{Results[4].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td5").innerHTML = "<td>#{Results[5].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td6").innerHTML = "<td>#{Results[6].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td7").innerHTML = "<td>#{Results[7].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td8").innerHTML = "<td>#{Results[8].creator.dataValues.nickname}</td>";
-                                   document.getElementById("s2td9").innerHTML = "<td>#{Results[9].creator.dataValues.nickname}</td>";
+                                   document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.nickname}</td>";
+                                   document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.nickname}</td>";
+                                   document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.nickname}</td>";
+                                   document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.nickname}</td>";
+                                   document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.nickname}</td>";
+                                   document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.nickname}</td>";
+                                   document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.nickname}</td>";
+                                   document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.nickname}</td>";
+                                   document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.nickname}</td>";
+                                   document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.nickname}</td>";
 
-                                   document.getElementById("s3td0").innerHTML = "<td>#{Results[0].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td1").innerHTML = "<td>#{Results[1].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td2").innerHTML = "<td>#{Results[2].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td3").innerHTML = "<td>#{Results[3].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td4").innerHTML = "<td>#{Results[4].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td5").innerHTML = "<td>#{Results[5].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td6").innerHTML = "<td>#{Results[6].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td7").innerHTML = "<td>#{Results[7].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td8").innerHTML = "<td>#{Results[8].dataValues.COUNT}</td>";
-                                   document.getElementById("s3td9").innerHTML = "<td>#{Results[9].dataValues.COUNT}</td>";
+                                   document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(Results)[0].COUNT}</td>";
+                                   document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(Results)[1].COUNT}</td>";
+                                   document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(Results)[2].COUNT}</td>";
+                                   document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(Results)[3].COUNT}</td>";
+                                   document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(Results)[4].COUNT}</td>";
+                                   document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(Results)[5].COUNT}</td>";
+                                   document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(Results)[6].COUNT}</td>";
+                                   document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(Results)[7].COUNT}</td>";
+                                   document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(Results)[8].COUNT}</td>";
+                                   document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(Results)[9].COUNT}</td>";
                                }
 
                            }
-                       table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;",id="test")
+
+                       table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                            tr.problem-title-tr.text-center
                                td(style="vertical-align: middle;") 学号
                                td(style="vertical-align: middle;") 姓名
-                               td(style="vertical-align: middle;") 交题解数
-                           tr.text-center
-                               td(id="s1td0",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[0].creator.dataValues.student_id}
-                               td(id="s2td0",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[0].creator.dataValues.nickname}
-                               td(id="s3td0",style="vertical-align: middle;") #{Results[0].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td1",style="vertical-align: middle;") #{Results[1].creator.dataValues.student_id}
-                               td(id="s2td1",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[1].creator.dataValues.nickname}
-                               td(id="s3td1",style="vertical-align: middle;") #{Results[1].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td2",style="vertical-align: middle;") #{Results[2].creator.dataValues.student_id}
-                               td(id="s2td2",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[2].creator.dataValues.nickname}
-                               td(id="s3td2",style="vertical-align: middle;") #{Results[2].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td3",style="vertical-align: middle;") #{Results[3].creator.dataValues.student_id}
-                               td(id="s2td3",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[3].creator.dataValues.nickname}
-                               td(id="s3td3",style="vertical-align: middle;") #{Results[3].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td4",style="vertical-align: middle;") #{Results[4].creator.dataValues.student_id}
-                               td(id="s2td4",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[4].creator.dataValues.nickname}
-                               td(id="s3td4",style="vertical-align: middle;") #{Results[4].dataValues.COUNT}
+                               td(style="vertical-align: middle;") 过题数
 
-                           tr.text-center
-                               td(id="s1td5",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[5].creator.dataValues.student_id}
-                               td(id="s2td5",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[5].creator.dataValues.nickname}
-                               td(id="s3td5",style="vertical-align: middle;") #{Results[5].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td6",style="vertical-align: middle;") #{Results[6].creator.dataValues.student_id}
-                               td(id="s2td6",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[6].creator.dataValues.nickname}
-                               td(id="s3td6",style="vertical-align: middle;") #{Results[6].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td7",style="vertical-align: middle;") #{Results[7].creator.dataValues.student_id}
-                               td(id="s2td7",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[7].creator.dataValues.nickname}
-                               td(id="s3td7",style="vertical-align: middle;") #{Results[7].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td8",style="vertical-align: middle;") #{Results[8].creator.dataValues.student_id}
-                               td(id="s2td8",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[8].creator.dataValues.nickname}
-                               td(id="s3td8",style="vertical-align: middle;") #{Results[8].dataValues.COUNT}
-                           tr.text-center
-                               td(id="s1td9",style="vertical-align: middle;") #{Results[9].creator.dataValues.student_id}
-                               td(id="s2td9",style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Results[9].creator.dataValues.nickname}
-                               td(id="s3td9",style="vertical-align: middle;") #{Results[9].dataValues.COUNT}
-
+                           each results,i in JSON.parse(Results)
+                               tr.text-center
+                                   td(id="s1td"+i) #{results.creator.student_id}
+                                   td(id="s2td"+i) #{results.creator.nickname}
+                                   td(id="s3td"+i) #{results.COUNT}
 
                    .col-md-3
-                            h3.text-center 风云榜（赛季冠军）
-                            table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
-                                tr.problem-title-tr.text-center
-                                    td(style="vertical-align: middle;") 月份
-                                    td(style="vertical-align: middle;") 学号
-                                    td(style="vertical-align: middle;") 姓名
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2016年9月
-                                    td(style="vertical-align: middle;") #{Champion1[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion1[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2016年10月
-                                    td(style="vertical-align: middle;") #{Champion2[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion2[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2016年11月
-                                    td(style="vertical-align: middle;") #{Champion3[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion3[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2016年12月
-                                    td(style="vertical-align: middle;") #{Champion4[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion4[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年1月
-                                    td(style="vertical-align: middle;") #{Champion5[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion5[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年2月
-                                    td(style="vertical-align: middle;") #{Champion6[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion6[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年3月
-                                    td(style="vertical-align: middle;") #{Champion7[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion7[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年4月
-                                    td(style="vertical-align: middle;") #{Champion8[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion8[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年5月
-                                    td(style="vertical-align: middle;") #{Champion9[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion9[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年6月
-                                    td(style="vertical-align: middle;") #{Champion10[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion10[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年7月
-                                    td(style="vertical-align: middle;") #{Champion11[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion11[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;") 2017年8月
-                                    td(style="vertical-align: middle;") #{Champion12[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;") #{Champion12[0].creator.dataValues.nickname}
-                                tr.text-center
-                                    td(style="vertical-align: middle;color:#FF0000; font-size:20px;") 年度总冠军
-                                    td(style="vertical-align: middle;color:#FF0000; font-size:20px;") #{Champion[0].creator.dataValues.student_id}
-                                    td(style="vertical-align: middle;color:#FF0000; font-size:20px;") #{Champion[0].creator.dataValues.nickname}
-
-                            p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
-
-
-
+                        h3.text-center 风云榜（赛季冠军）
+                        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
+                            tr.problem-title-tr.text-center
+                                td(style="vertical-align: middle;") 月份
+                                td(style="vertical-align: middle;") 学号
+                                td(style="vertical-align: middle;") 姓名
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2016年9月
+                                td(style="vertical-align: middle;") 16211037
+                                td(style="vertical-align: middle;") 王嘉翼
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2016年10月
+                                td(style="vertical-align: middle;") 16211037
+                                td(style="vertical-align: middle;") 王嘉翼
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2016年11月
+                                td(style="vertical-align: middle;") 16211075
+                                td(style="vertical-align: middle;") 余双宏
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2016年12月
+                                td(style="vertical-align: middle;") 16211109
+                                td(style="vertical-align: middle;") 周宏建
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年1月
+                                td(style="vertical-align: middle;") 16211109
+                                td(style="vertical-align: middle;") 周宏建
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年2月
+                                td(style="vertical-align: middle;") 16061130
+                                td(style="vertical-align: middle;") 谭圣禹
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年3月
+                                td(style="vertical-align: middle;") 16211109
+                                td(style="vertical-align: middle;") 周宏建
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年4月
+                                td(style="vertical-align: middle;") 16211022
+                                td(style="vertical-align: middle;") 黎昆昌
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年5月
+                                td(style="vertical-align: middle;") 16211109
+                                td(style="vertical-align: middle;") 周宏建
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年6月
+                                td(style="vertical-align: middle;") 75211104
+                                td(style="vertical-align: middle;") 金亨辰
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年7月
+                                td(style="vertical-align: middle;") 15241055
+                                td(style="vertical-align: middle;") 王怀忠
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年8月
+                                td(style="vertical-align: middle;") 16211004
+                                td(style="vertical-align: middle;") 杜予同
+                            tr.text-center
+                                td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 年度总冠军
+                                td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 16211109
+                                td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 周宏建
+                        p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
 
 
