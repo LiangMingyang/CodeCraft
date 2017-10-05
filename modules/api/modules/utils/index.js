@@ -7,10 +7,10 @@ router = express.Router({
 });
 
 
-//var captcha = require('ccap')();
-// router.get('/ccap', function(req, res) {
-//     var ary = captcha.get();
-//     req.session.captcha = ary[0];
-//     res.end(ary[1]);
-// });
+var captcha = require('ccap')();
+router.get('/ccap', function(req, res) {
+    var ary = captcha.get();
+    req.session.captcha = ary[0];
+    res.end(ary[1]);
+});
 exports.router = router;
