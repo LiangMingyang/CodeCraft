@@ -27,9 +27,18 @@ block content
                 select.form-control(type='input', name='school')
                     option(value='-----') 请选择
                     option(value='北京航空航天大学') 北京航空航天大学
-                    option(value='北京邮电大学') 北京邮电大学
                     option(value='北京大学') 北京大学
                     option(value='清华大学') 清华大学
+                    option(value='北京化工大学') 北京化工大学
+                    option(value='北京交通大学') 北京交通大学
+                    option(value='北京科技大学') 北京科技大学
+                    option(value='北京理工大学') 北京理工大学
+                    option(value='北京师范大学') 北京师范大学
+                    option(value='北京邮电大学') 北京邮电大学
+                    option(value='集训队') 集训队
+                    option(value='其他邀请') 其他邀请
+                    option(value='中国传媒大学') 中国传媒大学
+                    option(value='中国地质大学') 中国地质大学
             .form-group
                 label.sr-only 专业
                 select.form-control(type='input', name='college')
@@ -41,6 +50,7 @@ block content
                     option(value='汇融书院') 汇融书院
                     option(value='士嘉书院') 士嘉书院
                     option(value='冯如书院') 冯如书院
+                    option(value='北京学院') 北京学院
                     option(value='材料科学与工程学院') 材料科学与工程学院
                     option(value='电子信息工程学院') 电子信息工程学院
                     option(value='自动化科学与电气工程学院') 自动化科学与电气工程学院
@@ -67,10 +77,10 @@ block content
                     option(value='新媒体艺术与设计学院') 新媒体艺术与设计学院
                     option(value='化学与环境学院') 化学与环境学院
                     option(value='人文与社会科学高等研究院') 人文与社会科学高等研究院
-            .form-group
-                img(src = "/api/utils/ccap" onclick="this.src='/api/utils/ccap?code='+Math.random();" )
-                label.sr-only(for='captcha') CCPA
-                input#captcha.form-control(type='input', name='captcha', placeholder='输入上方验证码')
+            //.form-group
+            //    img(src = "/api/utils/ccap" onclick="this.src='/api/utils/ccap?code='+Math.random();" )
+            //    label.sr-only(for='captcha') CCPA
+            //    input#captcha.form-control(type='input', name='captcha', placeholder='输入上方验证码')
 
             button.btn.btn-default.btnstyle(type='button', onclick='checkInformation()') 注册
             script.
