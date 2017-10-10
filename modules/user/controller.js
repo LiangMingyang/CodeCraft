@@ -124,6 +124,9 @@
     };
     User = global.db.models.user;
     return global.db.Promise.resolve().then(function() {
+      if (form.captcha.toLowerCase() !== req.session.captcha.toLowerCase()) {
+        throw new global.myErrors.RegisterError("Wrong CAPTCHA.");
+      }
       if (form.password !== req.body.password2) {
         throw new global.myErrors.RegisterError("Please confirm your password.");
       }
