@@ -126,9 +126,9 @@ block content
             .buttion.btn.btn-success(onclick='window.location.href("./createSolution?offset=' + offset + '";') #{page_of_this_page}
 
             if(submissions && submissions.length == pageLimit)
-                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.href("./createSolution?offset=' + nextOffset + '";') 下一页
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.href="./createSolution?offset=' + nextOffset + '";') 下一页
             else
-                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.hrefe("./createSolution?offset=' + nextOffset + '";', disabled="disabled") 下一页
+                a.button.btn.btn-default.loginbtn.btnstyle(onclick='window.location.href="./createSolution?offset=' + nextOffset + '";', disabled="disabled") 下一页
             if(references && references.length > 0)
                 h3 参考题解
                 table.table.table-condensed.table-center.table-bordered
