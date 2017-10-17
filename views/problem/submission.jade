@@ -163,8 +163,16 @@ block content
                         - tc += "前";
                         //-计算完成时间差变量
                         //-生成表格
-                        td(id="submission_id"+i) #{submissions[i].id}
-                        //-- if(!contest)
+                        td(id="submission_id"+i)
+                            if(submissions[i].result == 'AC' && user && submissions[i].creator_id == user.id)
+                                a(href="/submission/" + submissions[i].id + "/solution" target="_blank")
+                                    if(submissions[i].solution)
+                                        input(type="button" value="编辑题解")
+                                    else
+                                        input(type="button" value="创建题解")
+                            else
+                                //- console.log(submission.creator_id)
+                                p #{submissions[i].id}
                         td
                             - if(submissions[i].creator)
                                 a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
@@ -291,6 +299,10 @@ block content
                 a.button.btn.btn-default.loginbtn.btnstyle(onclick='change_page("./submission?offset=' + nextOffset + '")', disabled="disabled") 下一页
     .col-lg-2.col-md-2.col-sm-2.col-xs-12
         include problem.jade
+    - if (user)
+        - userID = user.id
+    - else
+        - userID = 0
     script.
         function change_time_into_standard_format(){
             $(".standard-format").css("display", "block");
@@ -367,6 +379,8 @@ block content
                         my_submission_memory.text(data[i].memory_cost);
                         my_submission_score = $("#submission_score" + j);
                         my_submission_score.text(data[i].score);
+                        if(data[i].result=="AC" && data[i].creator_id=="#{userID}") //TODO: 当没有登录的时候会出错
+                            my_submission_id.html('<a href="/submission/'+ data[i].id +'/solution" target="_blank"><input type="button" value="创建题解"></a>')
                         my_img = $("#img" + j);
                         my_img.css("display", "none");
                         if(j % 2 == 1)

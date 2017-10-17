@@ -194,6 +194,7 @@ exports.getSubmissions = (req, res) ->
   currentProblem = undefined
   currentUser = undefined
   currentProblems = undefined
+  Solution = global.db.models.solution
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -213,6 +214,8 @@ exports.getSubmissions = (req, res) ->
     global.myUtils.findSubmissions(currentUser, opt, [
       model : User
       as : 'creator'
+    ,
+      model : Solution
     ])
   .then (submissions) ->
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
@@ -241,6 +244,7 @@ exports.postSubmissions = postSubmissions = (req, res) ->
   currentProblem = undefined
   currentUser = undefined
   currentProblems = undefined
+  Solution = global.db.models.solution
   opt = {}
   global.db.Promise.resolve()
   .then ->
@@ -263,6 +267,8 @@ exports.postSubmissions = postSubmissions = (req, res) ->
     global.myUtils.findSubmissions(currentUser, opt, [
       model : User
       as : 'creator'
+    ,
+      model : Solution
     ])
   .then (submissions) ->
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
