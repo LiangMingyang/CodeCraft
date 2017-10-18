@@ -402,3 +402,42 @@ td {
     height: 100%; 
 }
 */
+
+.rotate-id-div {
+    transform:rotate(7deg);
+    -ms-transform:rotate(7deg); 	/* IE 9 */
+    -moz-transform:rotate(7deg); 	/* Firefox */
+    -webkit-transform:rotate(7deg); /* Safari 和 Chrome */
+    -o-transform:rotate(7deg); 	/* Opera */
+    background-color: black;
+}
+
+.rotate-id-div2 {
+    transform:rotate(-7deg);
+    -ms-transform:rotate(-7deg); 	/* IE 9 */
+    -moz-transform:rotate(-7deg); 	/* Firefox */
+    -webkit-transform:rotate(-7deg); /* Safari 和 Chrome */
+    -o-transform:rotate(-7deg); 	/* Opera */
+    background-color: deepskyblue;
+}
+
+.rotate-id-div {
+    transform:rotate(7deg);
+    -ms-transform:rotate(7deg); 	/* IE 9 */
+    -moz-transform:rotate(7deg); 	/* Firefox */
+    -webkit-transform:rotate(7deg); /* Safari 和 Chrome */
+    -o-transform:rotate(7deg); 	/* Opera */
+    background-color: black;
+}
+
+.result-transition-after {
+    transition: width 2s, height 2s, transform 2s;
+    -moz-transition: width 2s, height 2s, -moz-transform 2s;
+    -webkit-transition: width 2s, height 2s, -webkit-transform 2s;
+    -o-transition: width 2s, height 2s,-o-transform 2s;
+    transform:rotate(1080deg);
+    -ms-transform:rotate(1080deg); 	/* IE 9 */
+    -moz-transform:rotate(1080deg); 	/* Firefox */
+    -webkit-transform:rotate(1080deg); /* Safari 和 Chrome */
+    -o-transform:rotate(1080deg); 	/* Opera */
+}
