@@ -404,30 +404,46 @@ td {
 */
 
 .rotate-id-div {
-    transform:rotate(7deg);
-    -ms-transform:rotate(7deg); 	/* IE 9 */
-    -moz-transform:rotate(7deg); 	/* Firefox */
-    -webkit-transform:rotate(7deg); /* Safari 和 Chrome */
-    -o-transform:rotate(7deg); 	/* Opera */
-    background-color: black;
-}
-
-.rotate-id-div2 {
     transform:rotate(-7deg);
     -ms-transform:rotate(-7deg); 	/* IE 9 */
     -moz-transform:rotate(-7deg); 	/* Firefox */
     -webkit-transform:rotate(-7deg); /* Safari 和 Chrome */
     -o-transform:rotate(-7deg); 	/* Opera */
-    background-color: deepskyblue;
+    background-color: #77ffff;
+    transition: width 1s, height 1s, transform 1s;
+    -moz-transition: width 1s, height 1s, -moz-transform 1s;
+    -webkit-transition: width 1s, height 1s, -webkit-transform 1s;
+    -o-transition: width 1s, height 1s, -o-transform 1s;
+    /*transition: width 0.5s, height 0.5s, transform 0.5s;
+    -moz-transition: width 0.5s, height 0.5s, -moz-transform 0.5s;
+    -webkit-transition: width 0.5s, height 0.5s, -webkit-transform 0.5s;
+    -o-transition: width 0.5s, height 0.5s,-o-transform 0.5s;*/
 }
 
-.rotate-id-div {
+.rotate-id-div2 {
     transform:rotate(7deg);
     -ms-transform:rotate(7deg); 	/* IE 9 */
     -moz-transform:rotate(7deg); 	/* Firefox */
     -webkit-transform:rotate(7deg); /* Safari 和 Chrome */
     -o-transform:rotate(7deg); 	/* Opera */
-    background-color: black;
+    background-color: #ff7777;
+    transition: width 1s, height 1s, transform 1s;
+    -moz-transition: width 1s, height 1s, -moz-transform 1s;
+    -webkit-transition: width 1s, height 1s, -webkit-transform 1s;
+    -o-transition: width 1s, height 1s, -o-transform 1s;
+}
+
+.rotate-id-div3 {
+    transform:rotate(7deg);
+    -ms-transform:rotate(7deg); 	/* IE 9 */
+    -moz-transform:rotate(7deg); 	/* Firefox */
+    -webkit-transform:rotate(7deg); /* Safari 和 Chrome */
+    -o-transform:rotate(7deg); 	/* Opera */
+    background-color: #77ff77;
+    transition: width 1s, height 1s, transform 1s;
+    -moz-transition: width 1s, height 1s, -moz-transform 1s;
+    -webkit-transition: width 1s, height 1s, -webkit-transform 1s;
+    -o-transition: width 1s, height 1s, -o-transform 1s;
 }
 
 .result-transition-after {

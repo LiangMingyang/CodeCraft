@@ -163,16 +163,15 @@ block content
                         - tc += "前";
                         //-计算完成时间差变量
                         //-生成表格
-                        td(id="submission_id"+i)
-                            if(submissions[i].result == 'AC' && user && submissions[i].creator_id == user.id)
+                        - if(submissions[i].result == 'AC' && user && submissions[i].creator_id == user.id)
+                            td(id="submission_id"+i)
                                 a(href="/submission/" + submissions[i].id + "/solution" target="_blank")
                                     if(submissions[i].solution)
                                         input(type="button" value="编辑题解")
                                     else
                                         input(type="button" value="创建题解")
-                            else
-                                //- console.log(submission.creator_id)
-                                p #{submissions[i].id}
+                        - else
+                            td(id="submission_id"+i) #{submissions[i].id}
                         td
                             - if(submissions[i].creator)
                                 a(href='/user/' + submissions[i].creator.id + '/index') #{submissions[i].creator.nickname}
@@ -303,6 +302,10 @@ block content
         - userID = user.id
     - else
         - userID = 0
+    - if (solution)
+        - __solution = solution
+    - else
+        - __solution = 0
     script.
         function change_time_into_standard_format(){
             $(".standard-format").css("display", "block");
@@ -368,6 +371,7 @@ block content
             for(var i = 0;i < data.length;i++){
                 for(var j = 0;j < length_of_submission;j++){
                     my_submission_id = $("#submission_id" + j);
+                    console.log (my_submission_id.text())
                     if (data[i].id == my_submission_id.text()){
                         my_submission_result = $("#td" + j);
                         my_submission_result.attr("data-content", data[i].detail);
@@ -392,18 +396,32 @@ block content
                         else
                             coloroftable = "red";
                         my_submission_result.attr("class", coloroftable + "td");
-                        if(data[i].result=="AC" && data[i].creator_id=="#{userID}") //TODO: 当没有登录的时候会出错
+                        if("#{__solution}" != 0 && data[i].result == "WA" && "#{userID}" != 0 && data[i].creator_id == "#{userID}" && solution)
                         {
-                            my_submission_id.html('<a href="/submission/'+ data[i].id +'/solution" target="_blank" style="color:white;">创建题解</a>');
+                            my_submission_id.html('<a href="/submission/#{__solution}/solution" target="_blank" style="color:black;">偷看题解</a>');
+                            var x = function (a, __timer_i) {
+                                setInterval(function () {
+                                    if (__timer_i++ % 2 == 0) {
+                                        a.attr("class", "rotate-id-div");
+                                    }
+                                    else {
+                                        a.attr("class", "rotate-id-div2");
+                                    }
+                                }, 1000);
+                            }(my_submission_id, 0);
+                        }
+                        if(data[i].result=="AC" && "#{userID}" != 0 && data[i].creator_id=="#{userID}")
+                        {
+                            my_submission_id.html('<a href="/submission/'+ data[i].id +'/solution" target="_blank" style="color:black;">创建题解</a>');
                             var x = function(a,__timer_i) {
                                 setInterval(function () {
                                     if(__timer_i++%2==0){
                                         a.attr("class", "rotate-id-div");
                                     }
                                     else{
-                                        a.attr("class", "rotate-id-div2");
+                                        a.attr("class", "rotate-id-div3");
                                     }
-                                }, 500);
+                                }, 1000);
                             }(my_submission_id,0);
                             my_submission_result.attr("class", coloroftable + "td" + " result-transition-after");
                         }
