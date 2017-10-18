@@ -193,8 +193,11 @@ exports.getSubmissions = (req, res) ->
   User = global.db.models.user
   currentProblem = undefined
   currentUser = undefined
-  currentProblems = undefined
+  Submission = global.db.models.submission
   Solution = global.db.models.solution
+  currentUserWC = 0
+  currentUserAC = 0
+  currentSolutionID = undefined
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -204,9 +207,61 @@ exports.getSubmissions = (req, res) ->
   .then (problem)->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
-    currentProblems = [problem]
-    global.myUtils.getProblemsStatus(currentProblems,currentUser)
-  .then ->
+
+#    currentProblems = [problem]
+#    global.myUtils.getProblemsStatus(currentProblems,currentUser)
+#  .then ->
+    return if not currentUser
+    Submission.findAll(
+      attributes : [[global.db.fn('count', global.db.literal('distinct id')),'WCOUNT']]
+      where:{
+        creator_id : currentUser.id
+        problem_id : currentProblem.id
+        result: {
+          $notIn: ['CE', 'WT', 'JG']
+        }
+      }
+    )
+    .then (res)->
+      currentUserWC = res[0].get(plain: true).WCOUNT
+      Submission.findAll(
+        attributes : [[global.db.fn('count', global.db.literal('distinct id')),'ACOUNT']]
+        where:{
+          creator_id : currentUser.id
+          problem_id : currentProblem.id
+          result: 'AC'
+        }
+      )
+    .then (res)->
+      currentUserAC = res[0].get(plain: true).ACOUNT
+      return if currentUserWC+currentUserAC is 0
+      Submission.find(
+        attributes : ['created_at']
+        where:{
+          creator_id : currentUser.id
+          problem_id : currentProblem.id
+          result: {
+            $notIn: ['CE', 'WT', 'JG']
+          }
+        }
+      )
+    .then (first_sub)->
+      NOW = new Date()
+      if not first_sub or currentUserAC isnt 0 or currentUserWC < 5 or (NOW - first_sub.created_at)/1000/60 < 20
+        return
+      Solution.find(
+        attributes:['submission_id']
+        include: [
+          model: Submission
+          where:
+            problem_id : currentProblem.id
+        ]
+        order: [
+          global.db.fn('RAND')
+        ]
+      )
+  .then (solution)->
+    currentSolutionID = solution.submission_id if solution
     opt = {
       offset: req.query.offset
       problem_id: currentProblem.id
@@ -225,6 +280,7 @@ exports.getSubmissions = (req, res) ->
       user: req.session.user
       offset : req.query.offset
       pageLimit : global.config.pageLimit.submission
+      solution : currentSolutionID
     })
 
   .catch global.myErrors.UnknownUser, (err)->

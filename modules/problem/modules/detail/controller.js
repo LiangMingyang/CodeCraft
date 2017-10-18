@@ -250,12 +250,15 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Solution, User, currentProblem, currentProblems, currentUser;
+    var Solution, Submission, User, currentProblem, currentSolutionID, currentUser, currentUserAC, currentUserWC;
     User = global.db.models.user;
     currentProblem = void 0;
     currentUser = void 0;
-    currentProblems = void 0;
+    Submission = global.db.models.submission;
     Solution = global.db.models.solution;
+    currentUserWC = 0;
+    currentUserAC = 0;
+    currentSolutionID = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -268,10 +271,71 @@
         throw new global.myErrors.UnknownProblem();
       }
       currentProblem = problem;
-      currentProblems = [problem];
-      return global.myUtils.getProblemsStatus(currentProblems, currentUser);
-    }).then(function() {
+      if (!currentUser) {
+        return;
+      }
+      return Submission.findAll({
+        attributes: [[global.db.fn('count', global.db.literal('distinct id')), 'WCOUNT']],
+        where: {
+          creator_id: currentUser.id,
+          problem_id: currentProblem.id,
+          result: {
+            $notIn: ['CE', 'WT', 'JG']
+          }
+        }
+      }).then(function(res) {
+        currentUserWC = res[0].get({
+          plain: true
+        }).WCOUNT;
+        return Submission.findAll({
+          attributes: [[global.db.fn('count', global.db.literal('distinct id')), 'ACOUNT']],
+          where: {
+            creator_id: currentUser.id,
+            problem_id: currentProblem.id,
+            result: 'AC'
+          }
+        });
+      }).then(function(res) {
+        currentUserAC = res[0].get({
+          plain: true
+        }).ACOUNT;
+        if (currentUserWC + currentUserAC === 0) {
+          return;
+        }
+        return Submission.find({
+          attributes: ['created_at'],
+          where: {
+            creator_id: currentUser.id,
+            problem_id: currentProblem.id,
+            result: {
+              $notIn: ['CE', 'WT', 'JG']
+            }
+          }
+        });
+      }).then(function(first_sub) {
+        var NOW;
+        NOW = new Date();
+        if (!first_sub || currentUserAC !== 0 || currentUserWC < 5 || (NOW - first_sub.created_at) / 1000 / 60 < 20) {
+          return;
+        }
+        return Solution.find({
+          attributes: ['submission_id'],
+          include: [
+            {
+              model: Submission,
+              where: {
+                problem_id: currentProblem.id
+              }
+            }
+          ],
+          order: [global.db.fn('RAND')]
+        });
+      });
+    }).then(function(solution) {
       var opt;
+      if (solution) {
+        currentSolutionID = solution.submission_id;
+      }
       opt = {
         offset: req.query.offset,
         problem_id: currentProblem.id
@@ -291,7 +355,8 @@
         problem: currentProblem,
         user: req.session.user,
         offset: req.query.offset,
-        pageLimit: global.config.pageLimit.submission
+        pageLimit: global.config.pageLimit.submission,
+        solution: currentSolutionID
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);
