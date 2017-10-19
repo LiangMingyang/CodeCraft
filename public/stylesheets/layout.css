@@ -347,7 +347,6 @@ label.whitetd{
     color: white;
 }
 
-
 body {
     background-attachment:fixed;
     background-repeat:no-repeat;
@@ -393,11 +392,39 @@ td {
     height: 100%;
 }
 
-.btn-primary {
-    margin-right: 5px;
-    margin-top: 15px;
+.btn {
+    margin-top: 0;
 }
 
+.btn-primary {
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.btn.btn-default {
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.btn.btn-success {
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.btn.btn-danger {
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.btn.btn-warning {
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.btn.btn-info {
+    margin-right: 5px;
+    margin-top: 0;
+}
 /*
 .img-page {
     background-image: url(img/over-bg3.png) no-repeat 0 0;
