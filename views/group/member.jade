@@ -15,21 +15,15 @@ block content
             h3 #{group.name}的课程成员
             - var oddEvenTable = "odd"
             - var access_level_array = {owner: '课程所属者', admin: '管理员', member: '课程成员'}
-            table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
-                tr.group-title-tr
+            table.table.table-striped.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;")
+                tr#group-title-tr-member
                     td 昵称
                     td 身份
                 - for (var i = 0 ; i < group.users.length ; ++i)
-                    - if(i % 2 == 1)
-                        - oddEvenTable = "odd"
-                    - else
-                        - oddEvenTable = "even"
-                    - var member = group.users[i]
                     tr(id="tr" + i)
                         td
-                            a(href= "/user/" + member.id + "/index") #{member.nickname}
-                        td #{access_level_array[member.membership.access_level]}
-                        script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
+                            a(href= "/user/" + group.users[i].id + "/index") #{group.users[i].nickname}
+                        td #{access_level_array[group.users[i].membership.access_level]}
             //-.row
                 .col-lg-12.col-md-12.col-sm-12.col-xs-12
                     - if(!pageLimit)
