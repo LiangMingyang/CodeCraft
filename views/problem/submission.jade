@@ -371,7 +371,6 @@ block content
             for(var i = 0;i < data.length;i++){
                 for(var j = 0;j < length_of_submission;j++){
                     my_submission_id = $("#submission_id" + j);
-                    console.log (my_submission_id.text())
                     if (data[i].id == my_submission_id.text()){
                         my_submission_result = $("#td" + j);
                         my_submission_result.attr("data-content", data[i].detail);
