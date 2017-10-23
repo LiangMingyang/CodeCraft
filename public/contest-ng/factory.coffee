@@ -1,11 +1,11 @@
-notify = (message, type)->
+notify = (message, type, delay=-1)->
   $.notify(message,
     animate: {
       enter: 'animated fadeInRight',
       exit: 'animated fadeOutRight'
     }
     type: type
-    delay : -1
+    delay : delay
   )
 
 angular.module('contest-factory', [
@@ -47,7 +47,7 @@ angular.module('contest-factory', [
     .then(
       (res)->
         form.code = "" #clear
-        notify("提交成功", 'success')
+        notify("提交成功", 'success', 3)
         Sub.data.unshift(res.data)
     ,
       (res)->
@@ -70,10 +70,10 @@ angular.module('contest-factory', [
       }
       Contest.order = 0
       Contest.idToOrder = {}
-      Contest.active()
+      Contest.pollLife = 1 #让Contest不进行更新，但至少1次
 
   Contest.active = ()->
-    Contest.pollLife = POLL_LIFE
+    #Contest.pollLife = POLL_LIFE
 
   numberToLetters = (num)->
     return 'A' if num is 0
@@ -130,7 +130,7 @@ angular.module('contest-factory', [
 .factory('Issue', ($http, $timeout, Contest)->
   Issue = {}
   POLL_LIFE = 20
-  SLEEP_TIME = 10000
+  SLEEP_TIME = 50000
   UP_TIME = 500
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
@@ -195,25 +195,19 @@ angular.module('contest-factory', [
       (res)->
         form.title = "" # clear
         form.content = "" #clear
-        notify("提问成功", 'success')
+        notify("提问成功", 'success', 3)
         Issue.data.unshift(res.data)
     ,
       (res)->
-        $.notify(res.data.error,
-          animate: {
-            enter: 'animated fadeInRight',
-            exit: 'animated fadeOutRight'
-          }
-          type: 'danger'
-        )
+        $.notify(res.data.error, 'danger')
     )
 
   return Issue
 )
 .factory('Rank', ($http, $timeout, Me)->
   Rank = {}
-  POLL_LIFE = 5
-  SLEEP_TIME = 10000
+  POLL_LIFE = 1
+  SLEEP_TIME = 50000
   UP_TIME = 500
 
   Rank.setContestId = (newContestId)->
