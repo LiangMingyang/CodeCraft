@@ -197,7 +197,6 @@
     };
     $scope.active = function() {
       Rank.active();
-      Contest.active();
       return Issue.active();
     };
     $scope.question_form = {};

@@ -70,7 +70,7 @@
   }).factory('Contest', function($http, $timeout) {
     var Contest, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, numberToLetters;
     Contest = {};
-    POLL_LIFE = 5;
+    POLL_LIFE = 1;
     SLEEP_TIME = 100000;
     UP_TIME = 500;
     Contest.setContestId = function(newContestId) {
@@ -82,10 +82,12 @@
         };
         Contest.order = 0;
         Contest.idToOrder = {};
-        return Contest.pollLife = 1;
+        return Contest.active();
       }
     };
-    Contest.active = function() {};
+    Contest.active = function() {
+      return Contest.pollLife = POLL_LIFE;
+    };
     numberToLetters = function(num) {
       var res;
       if (num === 0) {
@@ -145,7 +147,7 @@
     var Issue, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, checkUpdate, numberToLetters;
     Issue = {};
     POLL_LIFE = 20;
-    SLEEP_TIME = 50000;
+    SLEEP_TIME = 2000;
     UP_TIME = 500;
     Issue.setContestId = function(newContestId) {
       if (newContestId !== Issue.contestId) {
@@ -210,7 +212,7 @@
           if (checkUpdate(res.data)) {
             Issue.data = res.data;
           }
-          return $timeout(Poller, Math.random() * SLEEP_TIME);
+          return $timeout(Poller, SLEEP_TIME + Math.random() * SLEEP_TIME);
         }, function() {
           return $timeout(Poller, Math.random() * SLEEP_TIME);
         });
@@ -234,7 +236,7 @@
     var POLL_LIFE, Poller, Rank, SLEEP_TIME, UP_TIME, doRankStatistics;
     Rank = {};
     POLL_LIFE = 1;
-    SLEEP_TIME = 50000;
+    SLEEP_TIME = 5000;
     UP_TIME = 500;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
@@ -295,7 +297,7 @@
             Rank.ori = res.data;
           }
           Rank.version = new Date();
-          return $timeout(Poller, Math.random() * SLEEP_TIME);
+          return $timeout(Poller, Math.random() * SLEEP_TIME + SLEEP_TIME);
         }, function(res) {
           notify(res.data.error, 'danger');
           return $timeout(Poller, Math.random() * SLEEP_TIME);

@@ -44,7 +44,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="row" ng-view ng-click="active()"></div>
+            <div class="row" ng-view ng-mouseover="active()"></div>
         </div>
     </div>
 </div>
@@ -69,6 +69,8 @@
 <script src="factory.js"></script>
 <script src="controller.js"></script>
 <script src="index.js"></script>
-
+<script>
+    window.onbeforeunload = function() { return confirm("确定要关闭页面吗，本页面榜单是实时刷新的"); }
+</script>
 </body>
 </html>
