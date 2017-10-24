@@ -9,22 +9,27 @@
     <title>比赛页面</title>
     <meta name="description" content="It is a page for contests">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../bower_components/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="../bower_components/html5-boilerplate/dist/css/main.css">
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="../bower_components/animate.css/animate.min.css">
-    <!--<link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css">-->
-    <!--<link rel="stylesheet" href="../bower_components/angular-ui/build/angular-ui.css">-->
+    <!--<link rel="stylesheet" href="../bower_components/html5-boilerplate/dist/css/normalize.css">-->
+    <!--<link rel="stylesheet" href="../bower_components/html5-boilerplate/dist/css/main.css">-->
+    <!--<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">-->
+    <!--<link rel="stylesheet" href="../bower_components/animate.css/animate.min.css">-->
+    <link href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="detail/markdown.css">
     <link rel="stylesheet" href="contest.css">
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <!--<script src="../bower_components/jquery/dist/jquery.min.js"></script>-->
+    <!--<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+    <!--<script src="../bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
-    <!--<script src="../bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>-->
-    <!--<script src="../js/ga.js"></script>-->
+
     <style type="text/css">
         body {
             overflow:scroll;
@@ -39,7 +44,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="row" ng-view ng-click="active()"></div>
+            <div class="row" ng-view ng-mouseover="active()"></div>
         </div>
     </div>
 </div>
@@ -50,20 +55,22 @@
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
-<script src="../bower_components/angular/angular.min.js"></script>
-<script src="../bower_components/angular-route/angular-route.min.js"></script>
-<!--<script src="../bower_components/angular-ui/build/angular-ui.js"></script>-->
-<!--<script src="/bower_components/marked/marked.min.js"></script>-->
-<!--<script src="../bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>-->
-<script src="../bower_components/markdown/lib/markdown.js"></script>
+<!--<script src="../bower_components/angular/angular.min.js"></script>-->
+<!--<script src="../bower_components/angular-route/angular-route.min.js"></script>-->
+<!--<script src="../bower_components/markdown/lib/markdown.js"></script>-->
 <script src="../bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
-<!--<script src="../bower_components/codemirror/lib/codemirror.js"></script>-->
-<!--<script src="../bower_components/codemirror/addon/edit/matchbrackets.js"></script>-->
-<!--<script src="contest.js"></script>-->
+
+<script src="//cdn.bootcss.com/angular.js/1.4.14/angular.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.14/angular-route.min.js"></script>
+<script src="//cdn.bootcss.com/markdown.js/0.5.0/markdown.min.js"></script>
+
+
 <script src="router.js"></script>
 <script src="factory.js"></script>
 <script src="controller.js"></script>
 <script src="index.js"></script>
-
+<script>
+    window.onbeforeunload = function() { return confirm("确定要关闭页面吗，本页面榜单是实时刷新的"); }
+</script>
 </body>
 </html>

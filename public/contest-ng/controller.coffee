@@ -155,7 +155,7 @@ angular.module('contest', [
 
   $scope.active = ()->
     Rank.active()
-    Contest.active()
+#    Contest.active()
     Issue.active()
 
   #private functions

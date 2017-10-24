@@ -58,7 +58,7 @@ angular.module('contest-factory', [
 )
 .factory('Contest', ($http, $timeout)->
   Contest = {}
-  POLL_LIFE = 5
+  POLL_LIFE = 1
   SLEEP_TIME = 100000
   UP_TIME = 500
   Contest.setContestId = (newContestId)->
@@ -70,10 +70,10 @@ angular.module('contest-factory', [
       }
       Contest.order = 0
       Contest.idToOrder = {}
-      Contest.pollLife = 1 #让Contest不进行更新，但至少1次
+      Contest.active()
 
   Contest.active = ()->
-    #Contest.pollLife = POLL_LIFE
+    Contest.pollLife = POLL_LIFE
 
   numberToLetters = (num)->
     return 'A' if num is 0
@@ -130,7 +130,7 @@ angular.module('contest-factory', [
 .factory('Issue', ($http, $timeout, Contest)->
   Issue = {}
   POLL_LIFE = 20
-  SLEEP_TIME = 50000
+  SLEEP_TIME = 2000
   UP_TIME = 500
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
@@ -180,7 +180,7 @@ angular.module('contest-factory', [
       .then(
         (res)->
           Issue.data = res.data if checkUpdate(res.data) #轮询
-          $timeout(Poller, Math.random()*SLEEP_TIME)
+          $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       ,
         ()->
           $timeout(Poller, Math.random()*SLEEP_TIME)
@@ -207,7 +207,7 @@ angular.module('contest-factory', [
 .factory('Rank', ($http, $timeout, Me)->
   Rank = {}
   POLL_LIFE = 1
-  SLEEP_TIME = 50000
+  SLEEP_TIME = 5000
   UP_TIME = 500
 
   Rank.setContestId = (newContestId)->
@@ -255,7 +255,7 @@ angular.module('contest-factory', [
             Rank.statistics = doRankStatistics(Rank.data)
             Rank.ori = res.data
           Rank.version = new Date()
-          $timeout(Poller,Math.random()*SLEEP_TIME)
+          $timeout(Poller,Math.random()*SLEEP_TIME+SLEEP_TIME)
       ,
         (res)->
           notify(res.data.error, 'danger')
