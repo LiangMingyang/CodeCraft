@@ -8,7 +8,7 @@
   "dependencies": {
     "body-parser": "~1.12.0",
     "bower": "^1.6.8",
-    "coffee-script": "~1.6.3",
+    "ccap": "^0.6.10",
     "connect-redis": "^2.5.1",
     "cookie-parser": "~1.3.4",
     "debug": "~2.1.1",
@@ -24,6 +24,7 @@
     "password-hash": "^1.2.2",
     "request-promise": "^0.4.3",
     "sequelize": "^2.1.3",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "coffee-script": "~1.6.3"
   }
 }
