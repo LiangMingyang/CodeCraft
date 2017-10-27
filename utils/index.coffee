@@ -799,6 +799,48 @@ exports.AllPeople =()->
     }
   )
 
+#查询一个已经user.id的用户所有过题数
+exports.UserAccpectedProblem = (userid)->
+  myUtils = this
+  myUtils.buildUserAccpectedProblem(userid)
+  global.redis.get "rank_T"
+  .then (cache) ->
+    rank = "[]"
+    rank = cache if cache isnt null
+    return rank
+
+CACHE_TIMET = global.config.judge.cache
+exports.buildUserAccpectedProblem = (userid)->
+  Problem = global.db.models.problem
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+  getLock = undefined
+
+  global.redis.set("rank_lock_T", new Date(), "NX", "PX", CACHE_TIMET)
+  .then (lock)->
+    getLock = lock isnt null
+    return [] if not getLock
+    Problem.findAll(
+      attributes :['id','title']
+      include: [{
+        model: Submission
+        attributes:['id']
+        where: {
+          result: 'AC',
+          creator_id: userid,
+        }
+        include:[{
+          model: Solution
+        }]
+      }]
+      order:[['id','DESC']]
+      limit:7
+
+    )
+  .then (results)->
+    return if not getLock
+    global.redis.set("rank_T", JSON.stringify(results))
+
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->
   global.db.Promise.resolve()
