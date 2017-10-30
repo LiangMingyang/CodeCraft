@@ -155,18 +155,25 @@ html(lang='zh-CN')
                                         //br
                                         //br
                                     .col-lg-4.col-md-4.col-sm-4.col-xs-4
-                                        if(user && problems)
-                                            h4(style='color: #88FF45; font-weight: bold; margin-bottom:1em;') 小OJ提醒您写题解啦~
+                                        if(user && problems!="[]")
+                                            if(problems == "[]")
+                                                |您已经完成所有题解，太棒了！！！
                                                 br
-                                                br
-                                                each problem in JSON.parse(problems)
-                                                    each submission in problem
-                                                        if(submission.solution)
-                                                            -var flag = true;
-                                                            break
-                                                    if(!flag)
-                                                        p
-                                                            a(href="/problem/" + problem.id + "/createSolution", style='color:black;font-size:14px;') #{problem.id}--#{problem.title}
+                                                |坚持写题解~小OJ为您打call~~~
+                                            else
+                                                h4(style='color: #88FF45; font-weight: bold; margin-bottom:1em;') 小OJ提醒您写题解啦~
+                                                    br
+                                                    br
+                                                    each problem in JSON.parse(problems)
+                                                        each submission in problem
+                                                            if(submission.solution)
+                                                                -var flag = true;
+                                                                break
+                                                        if(!flag)
+                                                            p
+                                                                a(href="/problem/" + problem.id + "/createSolution", style='color:black;font-size:14px;') #{problem.id}--#{problem.title}
+
+
                                     //-h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         a(href="/notice" style="color:#FFB90F")
                                             |北航ACM程序设计实验室研究助理招聘信息
