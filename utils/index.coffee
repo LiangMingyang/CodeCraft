@@ -254,7 +254,7 @@ exports.buildRankCount = ()->
   global.redis.set("rank_lock_G", new Date(), "NX", "PX", CACHE_TIMEG)
   .then (lock)->
     getLock = lock isnt null
-    return if not getLock
+    return [] if not getLock
     Submission.findAll(
       attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
       include: [
@@ -301,7 +301,7 @@ exports.buildSolutionCount = ()->
   global.redis.set("rank_lock_S", new Date(), "NX", "PX", CACHE_TIMES)
   .then (lock)->
     getLock = lock isnt null
-    return if not getLock
+    return [] if not getLock
     Submission.findAll(
       attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
       include: [{
@@ -351,7 +351,7 @@ exports.buildRankCountR = ()->
   global.redis.set("rank_lock_R", new Date(), "NX", "PX", CACHE_TIMER)
   .then (lock)->
     getLock = lock isnt null
-    return if not getLock
+    return [] if not getLock
     Submission.findAll(
       attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
       include: [
@@ -400,7 +400,7 @@ exports.buildSolutionCountR = ()->
   global.redis.set("rank_lock_SR", new Date(), "NX", "PX", CACHE_TIMESR)
   .then (lock)->
     getLock = lock isnt null
-    return if not getLock
+    return [] if not getLock
     Submission.findAll(
       attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
       include: [{

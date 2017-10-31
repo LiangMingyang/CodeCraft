@@ -31,7 +31,7 @@ angular.module('contest-factory', [
       .then(
         (res)->
           Sub.data = res.data #轮询
-          $timeout(Poller, Math.random()*SLEEP_TIME)
+          $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       ,
         (res)->
           notify(res.data.error, 'danger')
@@ -84,7 +84,7 @@ angular.module('contest-factory', [
     return res
 
   Poller = ()->
-    if Contest.pollLife > 0 and Contest.id
+    if Contest.pollLife > 0 and Contest.id and not Contest.data.problems
       --Contest.pollLife
       $http.get("/api/contests/#{Contest.id}")
       .then(

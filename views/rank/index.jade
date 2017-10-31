@@ -17,12 +17,14 @@ block content
                         td(style="vertical-align: middle;") 学号
                         td(style="vertical-align: middle;") 姓名
                         td(style="vertical-align: middle;") 过题数
-
-                    each counts in JSON.parse(Counts)
-                        tr.text-center
-                            td #{counts.creator.student_id}
-                            td #{counts.creator.nickname}
-                            td #{counts.COUNT}
+                    if (Counts != "[]")
+                        each counts in JSON.parse(Counts)
+                            tr.text-center
+                                td #{counts.creator.student_id}
+                                td #{counts.creator.nickname}
+                                td #{counts.COUNT}
+                    else
+                        p 未找到榜单信息！
 
                .col-md-3
                     h3.text-center 未来之星榜
@@ -33,18 +35,21 @@ block content
                             td(style="vertical-align: middle;") 学号
                             td(style="vertical-align: middle;") 姓名
                             td(style="vertical-align: middle;") 过题数
-
-                        each countsR in JSON.parse(CountsR)
-                            tr.text-center
-                                td #{countsR.creator.student_id}
-                                td #{countsR.creator.nickname}
-                                td #{countsR.COUNT}
+                        if (CountsR!="[]")
+                            each countsR in JSON.parse(CountsR)
+                                tr.text-center
+                                    td #{countsR.creator.student_id}
+                                    td #{countsR.creator.nickname}
+                                    td #{countsR.COUNT}
+                        else
+                            p 未找到榜单信息！
 
                    .col-md-3
                        h3.text-center 题解达人
                        select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
                            option(value = "all") 总提交题解数
-                           option(value = "recent") 最近30天提交题解数
+                           if (ResultsR !="[]")
+                            option(value = "recent") 最近30天提交题解数
                        script.
                            function request_so_searching() {
                                var soselected_val = document.getElementById("soresult");
@@ -124,13 +129,15 @@ block content
                            tr.problem-title-tr.text-center
                                td(style="vertical-align: middle;") 学号
                                td(style="vertical-align: middle;") 姓名
-                               td(style="vertical-align: middle;") 过题数
-
-                           each results,i in JSON.parse(Results)
-                               tr.text-center
-                                   td(id="s1td"+i) #{results.creator.student_id}
-                                   td(id="s2td"+i) #{results.creator.nickname}
-                                   td(id="s3td"+i) #{results.COUNT}
+                               td(style="vertical-align: middle;") 交题解数
+                           if (Results !="[]")
+                               each results,i in JSON.parse(Results)
+                                   tr.text-center
+                                       td(id="s1td"+i) #{results.creator.student_id}
+                                       td(id="s2td"+i) #{results.creator.nickname}
+                                       td(id="s3td"+i) #{results.COUNT}
+                           else
+                               p 未找到该榜单信息！
 
                    .col-md-3
                         h3.text-center 风云榜（赛季冠军）
