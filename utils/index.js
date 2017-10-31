@@ -981,7 +981,7 @@
     var myUtils;
     myUtils = this;
     myUtils.buildUserAccpectedProblem(userid);
-    return global.redis.get("rank_T").then(function(cache) {
+    return global.redis.get("rank_T" + userid).then(function(cache) {
       var rank;
       rank = "[]";
       if (cache !== null) {
@@ -999,7 +999,7 @@
     Submission = global.db.models.submission;
     Solution = global.db.models.solution;
     getLock = void 0;
-    return global.redis.set("rank_lock_T", new Date(), "NX", "PX", CACHE_TIMET).then(function(lock) {
+    return global.redis.set("rank_lock_T" + userid, new Date(), "NX", "PX", CACHE_TIMET).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
         return [];
@@ -1028,7 +1028,7 @@
       if (!getLock) {
         return;
       }
-      return global.redis.set("rank_T", JSON.stringify(results));
+      return global.redis.set("rank_T" + userid, JSON.stringify(results));
     });
   };
 

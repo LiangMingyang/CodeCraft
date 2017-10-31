@@ -803,7 +803,7 @@ exports.AllPeople =()->
 exports.UserAccpectedProblem = (userid)->
   myUtils = this
   myUtils.buildUserAccpectedProblem(userid)
-  global.redis.get "rank_T"
+  global.redis.get "rank_T#{userid}"
   .then (cache) ->
     rank = "[]"
     rank = cache if cache isnt null
@@ -816,7 +816,7 @@ exports.buildUserAccpectedProblem = (userid)->
   Solution = global.db.models.solution
   getLock = undefined
 
-  global.redis.set("rank_lock_T", new Date(), "NX", "PX", CACHE_TIMET)
+  global.redis.set("rank_lock_T#{userid}", new Date(), "NX", "PX", CACHE_TIMET)
   .then (lock)->
     getLock = lock isnt null
     return [] if not getLock
@@ -839,7 +839,7 @@ exports.buildUserAccpectedProblem = (userid)->
     )
   .then (results)->
     return if not getLock
-    global.redis.set("rank_T", JSON.stringify(results))
+    global.redis.set("rank_T#{userid}", JSON.stringify(results))
 
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->
