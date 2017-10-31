@@ -84,7 +84,7 @@ angular.module('contest-factory', [
     return res
 
   Poller = ()->
-    if Contest.pollLife > 0 and Contest.id
+    if Contest.pollLife > 0 and Contest.id and not Contest.data.problems
       --Contest.pollLife
       $http.get("/api/contests/#{Contest.id}")
       .then(
