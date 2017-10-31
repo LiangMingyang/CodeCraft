@@ -10,7 +10,9 @@ exports.getIndex = (req, res) ->
   User = global.db.models.user
   Submission = global.db.models.submission
   currentUser = undefined
-  
+  global.myUtils.ChampionRank12()
+  .then (re) ->
+    console.log(re[0].dataValues)
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
