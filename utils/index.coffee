@@ -723,7 +723,7 @@ exports.ChampionRank11 =()->
     ]
     where:
       updated_at: {
-        $between: ['2017-07-01 00:00:01', '2017-08-01 00:00:00']
+        $between: ['2017-09-01 00:00:01', '2017-10-01 00:00:00']
       }
 
     group: ['creator_id']
@@ -750,7 +750,7 @@ exports.ChampionRank12 =()->
     ]
     where:
       updated_at: {
-        $between: ['2017-08-01 00:00:01', '2017-09-01 00:00:00']
+        $between: ['2017-10-01 00:00:01', '2017-11-01 00:00:00']
       }
 
     group: ['creator_id']

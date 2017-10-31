@@ -139,18 +139,18 @@ block content
                            else
                                p 未找到该榜单信息！
 
-                   .col-md-3
+                  .col-md-3(method="post",id="gj_2016-2017")
                         h3.text-center 风云榜（赛季冠军）
                         table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                             tr.problem-title-tr.text-center
-                                td(style="vertical-align: middle;") 月份
+                                td(style="vertcal-align: middle;") 月份
                                 td(style="vertical-align: middle;") 学号
                                 td(style="vertical-align: middle;") 姓名
-                            tr.text-center
+                            //tr.text-center
                                 td(style="vertical-align: middle;") 2016年9月
                                 td(style="vertical-align: middle;") 16211037
                                 td(style="vertical-align: middle;") 王嘉翼
-                            tr.text-center
+                            //tr.text-center
                                 td(style="vertical-align: middle;") 2016年10月
                                 td(style="vertical-align: middle;") 16211037
                                 td(style="vertical-align: middle;") 王嘉翼
@@ -195,9 +195,16 @@ block content
                                 td(style="vertical-align: middle;") 16211004
                                 td(style="vertical-align: middle;") 杜予同
                             tr.text-center
-                                td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 年度总冠军
-                                td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 16211109
-                                td(style="vertical-align: middle;color:#FFB90F; font-size:20px;") 周宏建
+                                td(style="vertical-align: middle;color:#FF0000; font-size:14px;") 2016-2017年度冠军
+                                td(style="vertical-align: middle;color:#FF0000; font-size:20px;") 16211109
+                                td(style="vertical-align: middle;color:#FF0000; font-size:20px;") 周宏建
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年9月
+                                td(style="vertical-align: middle;") 16211064
+                                td(style="vertical-align: middle;") 李想
+                            tr.text-center
+                                td(style="vertical-align: middle;") 2017年10月
+                                td(style="vertical-align: middle;") 15041061
+                                td(style="vertical-align: middle;") 廖晓宇
                         p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
-
 
