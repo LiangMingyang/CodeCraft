@@ -383,7 +383,7 @@
     return global.redis.set("rank_lock_G", new Date(), "NX", "PX", CACHE_TIMEG).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
@@ -439,7 +439,7 @@
     return global.redis.set("rank_lock_S", new Date(), "NX", "PX", CACHE_TIMES).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
@@ -493,7 +493,7 @@
     return global.redis.set("rank_lock_R", new Date(), "NX", "PX", CACHE_TIMER).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
@@ -552,7 +552,7 @@
     return global.redis.set("rank_lock_SR", new Date(), "NX", "PX", CACHE_TIMESR).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
