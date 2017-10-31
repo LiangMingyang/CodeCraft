@@ -47,11 +47,22 @@ router.get '/index', (req, res) ->
     recommendation = (problem.get(plain: true) for problem in recommendation_problems)
     recommendation.sort (a,b)->
       b.recommendation.score - a.recommendation.score
+  .then ()->
+    User.find req.session.user.id if req.session.user
+  .then (user)->
+    currentUser = user
+    return [] if not currentUser
+    global.myUtils.UserAccpectedProblem(currentUser.id)
+  .then (results)->
+    problem = results
+
     res.render 'index', {
       title: 'OJ4TH',
       user: req.session.user
       recommendation: recommendation
+      problems: problem
     }
+
 router.get '/notice', (req, res) ->
   res.render 'notice', {
     title: '招聘启事'
