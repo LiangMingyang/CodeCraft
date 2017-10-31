@@ -103,6 +103,9 @@ exports.getIndex = (req, res) ->
   currentProblem = undefined
   currentUser = undefined
   recommendation = undefined
+  ulang = undefined
+  if(req.session.sublang)
+    ulang = req.session.sublang.lang
   global.db.Promise.resolve()
   .then ->
     User.find req.session.user.id if req.session.user
@@ -138,6 +141,7 @@ exports.getIndex = (req, res) ->
       user: req.session.user
       problem: currentProblem
       recommendation: recommendation
+      Ulang: ulang
     }
 
   .catch global.myErrors.UnknownUser, (err)->
@@ -173,6 +177,7 @@ exports.postSubmission = (req, res) ->
     form_code = {
       content: req.body.code
     }
+    req.session.sublang = form
     global.myUtils.createSubmissionTransaction(form, form_code, current_problem, current_user)
   .then ->
     req.flash 'info', 'submit code successfully'

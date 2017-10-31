@@ -47,7 +47,7 @@
         Sub.first_time = false;
         return $http.get("/api/contests/" + Sub.contestId + "/submissions").then(function(res) {
           Sub.data = res.data;
-          return $timeout(Poller, Math.random() * SLEEP_TIME);
+          return $timeout(Poller, SLEEP_TIME + Math.random() * SLEEP_TIME);
         }, function(res) {
           notify(res.data.error, 'danger');
           return $timeout(Poller, Math.random() * SLEEP_TIME);
