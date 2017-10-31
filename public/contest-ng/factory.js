@@ -101,7 +101,7 @@
       return res;
     };
     Poller = function() {
-      if (Contest.pollLife > 0 && Contest.id) {
+      if (Contest.pollLife > 0 && Contest.id && !Contest.data.problems) {
         --Contest.pollLife;
         return $http.get("/api/contests/" + Contest.id).then(function(res) {
           var contest, i, j, len, p, ref;
