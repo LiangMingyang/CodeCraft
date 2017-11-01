@@ -723,7 +723,7 @@ exports.ChampionRank11 =()->
     ]
     where:
       updated_at: {
-        $between: ['2017-07-01 00:00:01', '2017-08-01 00:00:00']
+        $between: ['2017-09-01 00:00:01', '2017-10-01 00:00:00']
       }
 
     group: ['creator_id']
@@ -750,7 +750,7 @@ exports.ChampionRank12 =()->
     ]
     where:
       updated_at: {
-        $between: ['2017-08-01 00:00:01', '2017-09-01 00:00:00']
+        $between: ['2017-10-01 00:00:01', '2017-11-01 00:00:00']
       }
 
     group: ['creator_id']
@@ -803,7 +803,7 @@ exports.AllPeople =()->
 exports.UserAccpectedProblem = (userid)->
   myUtils = this
   myUtils.buildUserAccpectedProblem(userid)
-  global.redis.get "rank_T"
+  global.redis.get "rank_T#{userid}"
   .then (cache) ->
     rank = "[]"
     rank = cache if cache isnt null
@@ -816,7 +816,7 @@ exports.buildUserAccpectedProblem = (userid)->
   Solution = global.db.models.solution
   getLock = undefined
 
-  global.redis.set("rank_lock_T", new Date(), "NX", "PX", CACHE_TIMET)
+  global.redis.set("rank_lock_T#{userid}", new Date(), "NX", "PX", CACHE_TIMET)
   .then (lock)->
     getLock = lock isnt null
     return [] if not getLock
@@ -839,7 +839,7 @@ exports.buildUserAccpectedProblem = (userid)->
     )
   .then (results)->
     return if not getLock
-    global.redis.set("rank_T", JSON.stringify(results))
+    global.redis.set("rank_T#{userid}", JSON.stringify(results))
 
 #得到对于一个题来说这个人过没过
 exports.hasResult = (user, problems_id, results, contest)->

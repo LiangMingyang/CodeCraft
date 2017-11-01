@@ -383,7 +383,7 @@
     return global.redis.set("rank_lock_G", new Date(), "NX", "PX", CACHE_TIMEG).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
@@ -439,7 +439,7 @@
     return global.redis.set("rank_lock_S", new Date(), "NX", "PX", CACHE_TIMES).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
@@ -493,7 +493,7 @@
     return global.redis.set("rank_lock_R", new Date(), "NX", "PX", CACHE_TIMER).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
@@ -552,7 +552,7 @@
     return global.redis.set("rank_lock_SR", new Date(), "NX", "PX", CACHE_TIMESR).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
-        return;
+        return [];
       }
       return Submission.findAll({
         attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
@@ -897,7 +897,7 @@
       ],
       where: {
         updated_at: {
-          $between: ['2017-07-01 00:00:01', '2017-08-01 00:00:00']
+          $between: ['2017-09-01 00:00:01', '2017-10-01 00:00:00']
         }
       },
       group: ['creator_id'],
@@ -926,7 +926,7 @@
       ],
       where: {
         updated_at: {
-          $between: ['2017-08-01 00:00:01', '2017-09-01 00:00:00']
+          $between: ['2017-10-01 00:00:01', '2017-11-01 00:00:00']
         }
       },
       group: ['creator_id'],
@@ -981,7 +981,7 @@
     var myUtils;
     myUtils = this;
     myUtils.buildUserAccpectedProblem(userid);
-    return global.redis.get("rank_T").then(function(cache) {
+    return global.redis.get("rank_T" + userid).then(function(cache) {
       var rank;
       rank = "[]";
       if (cache !== null) {
@@ -999,7 +999,7 @@
     Submission = global.db.models.submission;
     Solution = global.db.models.solution;
     getLock = void 0;
-    return global.redis.set("rank_lock_T", new Date(), "NX", "PX", CACHE_TIMET).then(function(lock) {
+    return global.redis.set("rank_lock_T" + userid, new Date(), "NX", "PX", CACHE_TIMET).then(function(lock) {
       getLock = lock !== null;
       if (!getLock) {
         return [];
@@ -1028,7 +1028,7 @@
       if (!getLock) {
         return;
       }
-      return global.redis.set("rank_T", JSON.stringify(results));
+      return global.redis.set("rank_T" + userid, JSON.stringify(results));
     });
   };
 
