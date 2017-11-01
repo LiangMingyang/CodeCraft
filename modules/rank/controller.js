@@ -13,9 +13,6 @@
     User = global.db.models.user;
     Submission = global.db.models.submission;
     currentUser = void 0;
-    global.myUtils.ChampionRank12().then(function(re) {
-      return console.log(re[0].dataValues);
-    });
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
