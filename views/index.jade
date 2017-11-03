@@ -17,7 +17,7 @@ html(lang='zh-CN')
         script(src='/js/bootstrap.min.js')
         script(src='/js/autosize.min.js')
         script(src="/js/ga.js")
-    body(style='background-image: url(/img/top-bg.png);')
+    body
         #container.container-fluid
             .row
                 .col-lg-12.col-md-12.col-sm-12.col-xs-12
@@ -101,7 +101,7 @@ html(lang='zh-CN')
                     .row
                         #page.row.page-control
                             img(style='position:absolute; left: 0px; top: 0px; width: 100%;z-index:-1;min-width: 886px;margin-top:165px;', src='/img/bg008.png')
-                            img(style='position:fixed; left: 0px; top: 0px; width: 100%;z-index:-3;min-width: 886px;', src='/img/bg005.png')
+                            //img(style='position:fixed; left: 0px; top: 0px; width: 100%;z-index:-3;min-width: 886px;', src='/img/bg005.png')
                             .containing(style='margin-top:2.8%;')
                                 //-.col-lg-4.col-nm-4.col-sm-4.col-xs-4
                                     h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑") 北航在线编程
@@ -122,7 +122,7 @@ html(lang='zh-CN')
 
 
                                 .col-lg-8.col-md-8.col-sm-8.col-xs-8
-                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑") 欢迎来到OJ4TH
+                                    h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑;color:#FFB90F;") 欢迎来到OJ4TH
                                     //-h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp————从
                                         a(href="/problem/accepted" style="color:#88FF45") 题解
@@ -248,11 +248,11 @@ html(lang='zh-CN')
 
                     script.
                         $(document).ready(function () {
-                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            $(".minheight").css("min-height", ($(window).height() - 140) + "px");
                             $("body").css({"background-image": "url(img/bg004.png)"});
                         });
                         $(window).resize(function () {
-                            $(".minheight").css("min-height", ($(window).height() - 135) + "px");
+                            $(".minheight").css("min-height", ($(window).height() - 140) + "px");
                         });
                         function logoAlert(information) {
                             $("#logo").attr("data-content",information);
@@ -260,8 +260,8 @@ html(lang='zh-CN')
                             setTimeout(function () {$("#logo").popover('hide');}, 3000);
                         }
                         autosize(document.querySelectorAll('textarea'));
-                    #footer.row
+                    .row(id="footer")
                         footer.footer
                             br
-                            p.text-center College of Software, Beihang University
-                .col-lg-1.col-md-12.col-sm-12.col-xs-12
+                            p.text-center
+                                | College of Software, Beihang University
