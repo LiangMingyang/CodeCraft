@@ -78,7 +78,8 @@
         Contest.id = newContestId;
         Contest.data = {
           title: "Waiting for data...",
-          description: "Waiting for data..."
+          description: "Waiting for data...",
+          problems: []
         };
         Contest.order = 0;
         Contest.idToOrder = {};
