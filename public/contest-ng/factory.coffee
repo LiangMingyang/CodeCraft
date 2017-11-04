@@ -59,7 +59,7 @@ angular.module('contest-factory', [
 .factory('Contest', ($http, $timeout)->
   Contest = {}
   POLL_LIFE = 1
-  SLEEP_TIME = 100000
+  SLEEP_TIME = 10000
   UP_TIME = 500
   Contest.setContestId = (newContestId)->
     if newContestId isnt Contest.id

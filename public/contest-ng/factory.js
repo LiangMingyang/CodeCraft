@@ -71,7 +71,7 @@
     var Contest, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, numberToLetters;
     Contest = {};
     POLL_LIFE = 1;
-    SLEEP_TIME = 100000;
+    SLEEP_TIME = 10000;
     UP_TIME = 500;
     Contest.setContestId = function(newContestId) {
       if (newContestId !== Contest.id) {
