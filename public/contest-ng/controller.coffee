@@ -63,7 +63,7 @@ angular.module('contest', [
 
   $scope.order = Contest.order
   $scope.order ?= 0
-  $scope.form ?= {lang:'c++'}
+  $scope.form ?= {lang:'c'}
 
   $scope.Me = Me
 

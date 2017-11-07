@@ -59,7 +59,7 @@ angular.module('contest-factory', [
 .factory('Contest', ($http, $timeout)->
   Contest = {}
   POLL_LIFE = 1
-  SLEEP_TIME = 100000
+  SLEEP_TIME = 10000
   UP_TIME = 500
   Contest.setContestId = (newContestId)->
     if newContestId isnt Contest.id
@@ -67,6 +67,7 @@ angular.module('contest-factory', [
       Contest.data = {
         title: "Waiting for data..."
         description: "Waiting for data..."
+        problems: []
       }
       Contest.order = 0
       Contest.idToOrder = {}
@@ -84,7 +85,7 @@ angular.module('contest-factory', [
     return res
 
   Poller = ()->
-    if Contest.pollLife > 0 and Contest.id and not Contest.data.problems
+    if Contest.pollLife > 0 and Contest.id and Contest.data.problems?.length == 0
       --Contest.pollLife
       $http.get("/api/contests/#{Contest.id}")
       .then(
