@@ -9,42 +9,42 @@ block content
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
 
             .col-md-3
-                h3.text-center 琅琊榜
-                select.form-control
-                    option(value = "ALL") 总过题数
-                table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
-                    tr.problem-title-tr.text-center
-                        td(style="vertical-align: middle;") 学号
-                        td(style="vertical-align: middle;") 姓名
-                        td(style="vertical-align: middle;") 过题数
-                    if (Counts != "[]")
-                        each counts in JSON.parse(Counts)
-                            tr.text-center
-                                td #{counts.creator.student_id}
-                                td #{counts.creator.nickname}
-                                td #{counts.COUNT}
-                    else
-                        p 未找到榜单信息！
-
-               .col-md-3
-                    h3.text-center 未来之星榜
+                    h3.text-center 琅琊榜
                     select.form-control
-                       option(value = "R1M") 最近30天过题数
+                        option(value = "ALL") 总过题数
                     table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                         tr.problem-title-tr.text-center
                             td(style="vertical-align: middle;") 学号
                             td(style="vertical-align: middle;") 姓名
                             td(style="vertical-align: middle;") 过题数
-                        if (CountsR!="[]")
-                            each countsR in JSON.parse(CountsR)
+                        if (Counts != "[]")
+                            each counts in JSON.parse(Counts)
                                 tr.text-center
-                                    td #{countsR.creator.student_id}
-                                    td #{countsR.creator.nickname}
-                                    td #{countsR.COUNT}
+                                    td #{counts.creator.student_id}
+                                    td #{counts.creator.nickname}
+                                    td #{counts.COUNT}
                         else
-                            p 未找到榜单信息！
+                            p 未找到榜单信息!
 
-                   .col-md-3
+
+            .col-md-3
+                        h3.text-center 未来之星榜
+                        select.form-control
+                           option(value = "R1M") 最近30天过题数
+                        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
+                            tr.problem-title-tr.text-center
+                                td(style="vertical-align: middle;") 学号
+                                td(style="vertical-align: middle;") 姓名
+                                td(style="vertical-align: middle;") 过题数
+                            if (CountsR!="[]")
+                                each countsR in JSON.parse(CountsR)
+                                    tr.text-center
+                                        td #{countsR.creator.student_id}
+                                        td #{countsR.creator.nickname}
+                                        td #{countsR.COUNT}
+                            else
+                                p 未找到榜单信息！
+            .col-md-3
                        h3.text-center 题解达人
                        select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
                            option(value = "all") 总提交题解数
@@ -139,9 +139,9 @@ block content
                            else
                                p 未找到该榜单信息！
 
-                  .col-md-3
+            .col-md-3
                         h3.text-center 风云榜（赛季冠军）
-                        div(style="max-height:500px;overflow:auto;border:1px solid #DDDDDD")
+                        div(style="max-height:400px;overflow:auto;border:1px solid #DDDDDD")
                             table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                                 tr.problem-title-tr.text-center
                                     td(style="vertcal-align: middle;") 月份
@@ -208,4 +208,15 @@ block content
                                     td(style="vertical-align: middle;") 15041061
                                     td(style="vertical-align: middle;") 廖晓宇
                         p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
-
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12(style="margin-left:13px;")
+                p(style="font-weight:bold;") 小O喊你来领奖啦~~~
+                p ※ 琅琊榜前三名奖金（人民币,元）：冠军 ￥300，亚军 ￥200，季军 ￥100
+                p ※ 题解达人前三名奖金（人民币,元）：冠军 ￥300，亚军 ￥200，季军 ￥100
+                p ※ 风云榜（赛季冠军）奖金（人民币,元）：年度冠军 ￥300，月冠军 ￥100
+                p ※ 榜单上的所有人都有获奖证书！
+                br
+                p 说明：
+                p 1. 颁奖会将于2017年年底举行，12月将会再刷新榜单，获奖名单将根据下次刷新的榜单为准。（目前的榜单不作为评奖依据）
+                p 2. 一个人如果获得多个奖项，则按奖金额最高那项颁发。（但仍然颁发多个证书）
+                p 3. 本次奖金由*****提供，奖品由*****提供，证书由*****提供。
+                br

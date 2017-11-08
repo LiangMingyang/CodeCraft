@@ -215,7 +215,6 @@ exports.postSolution = (req, res) ->
         score: req.body["score"]
         influence: req.body["influence"]
       }
-
       currentSubmission = submission
       if submission.solution
         submission.solution.source = form.source
