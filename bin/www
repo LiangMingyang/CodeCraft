@@ -87,7 +87,7 @@ if(cluster.isMaster) {
     }
 
     cluster.on('exit', function (worker, code, signal) {
-        console.log('worker [%d] died %s, forking a new one.',
+        console.log('worker [%d] died %s.',
             worker.process.pid, code || signal);
         //var new_worker = cluster.fork();
         //console.log('new worker [%d] has been created',
