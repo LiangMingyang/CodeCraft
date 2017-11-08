@@ -20,7 +20,7 @@ module.exports = {
     member : 100
     problem : 20
   problem_resource_path : path.resolve(__dirname,'modules/problem/resource')
-  cluster: 2
+  cluster: 8
   judge :
     penalty : 20 * 60 * 1000 #ÿ�εķ�ʱʱ��
     cache : 1000 #��Ъ�Է��ʱ��?
