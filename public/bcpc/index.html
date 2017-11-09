@@ -168,12 +168,12 @@
                             <p class="hide-mob">依托于ACM国际大学生程序设计竞赛，北京航空航天大学于2005年开始举办校内程序设计竞赛（简称BCPC），每年举办一次，今年为第十三届。</p>
 
                             <p class="hide-mob">
-                                <!--<x>-->
-                                    <!--<a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>-->
-                                    <!--<a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/123">你已经注册过了，去参赛吧 </a>-->
-                                    <!--<p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>-->
-                                <!--</x>-->
                                 <x>
+                                    <a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">您尚未注册该项赛事(点击注册) </a>
+                                    <a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/123">你已经注册过了，去参赛吧 </a>
+                                    <p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
+                                </x>
+                                <!--<x>
                                     <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
                                     <p ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </p>
                                     <div ng-if="passed == true && confirmed == false">
@@ -222,7 +222,7 @@
                                     </div>
                                     <p ng-if="passed == true && confirmed == true" style="color: #AB3C03">您已确认参加决赛</p>
                                     <p ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
-                                </x>
+                                </x>-->
                                 <br>
                                 <x style="color: #aeaeae">相关链接：</x>&nbsp;&nbsp;
                                 <a href="https://www.buaa.edu.cn">北航官网</a>&nbsp;&nbsp;
@@ -355,7 +355,7 @@
                     <td>无</td>
                 </tr>
                 <tr>
-                    <td>2017年12月10日12点--12日12点</td>
+                    <td>2017年12月9日12点--11日12点</td>
                     <td>网络预赛</td>
                     <td>比赛平台</td>
                     <td>参赛队员</td>
@@ -373,13 +373,13 @@
                     <!--<td>无</td>-->
                 <!--</tr>-->
                 <tr>
-                    <td>2017年12月18日13点--17点</td>
+                    <td>2017年12月17日13点--17点</td>
                     <td>现场决赛</td>
                     <td>沙河现场</td>
                     <td>决赛队员</td>
                 </tr>
                 <tr>
-                    <td>2017年12月18日17点--18点</td>
+                    <td>2017年12月17日17点--18点</td>
                     <td>颁奖典礼</td>
                     <td>沙河现场</td>
                     <td>决赛队员</td>
@@ -404,14 +404,14 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>
-                    <a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
+                    <!--<a ng-if="passed == false && !user" style="color: #AB3C03" href="/user/login">点我登录 </a>
                     <a ng-if="passed == false && user" style="color: #AB3C03" >您未晋级决赛 </a>
                     <a ng-if="passed == true && confirmed == false"> 请在上方确认参加决赛</a>
                     <a ng-if="passed == true && confirmed == true"> 您已确定参加决赛</a>
-                    <a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>
-                    <!--<a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">点击注册 </a>-->
-                    <!--<a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/123">去参赛吧 </a>-->
-                    <!--<p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>-->
+                    <a ng-if="passed == 'waiting'" style="color: #AB3C03">等待服务器响应</a>-->
+                    <a ng-if="registered == false" style="color: #AB3C03" ng-click="register()">点击注册 </a>
+                    <a ng-if="registered == true" style="color: #AB3C03" href="/contest-ng/index.html#/123">去参赛吧 </a>
+                    <p ng-if="registered == 'waiting'" style="color: #AB3C03">等待服务器响应</p>
                 </h1>
 
             </div>
