@@ -1,3 +1,4 @@
+var compression = require('compression')
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -12,7 +13,7 @@ var redis = require('ioredis');
 var routes = require('./routes');
 
 var app = express();
-
+app.use(compression());
 app.set('env', 'release');
 // session
 

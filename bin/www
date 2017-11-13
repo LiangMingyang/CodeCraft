@@ -87,11 +87,11 @@ if(cluster.isMaster) {
     }
 
     cluster.on('exit', function (worker, code, signal) {
-        console.log('worker [%d] died %s, forking a new one.',
-            worker.process.pid, code || signal);
-        //var new_worker = cluster.fork();
-        //console.log('new worker [%d] has been created',
-        //    new_worker.process.pid);
+        console.log('worker [%d] died with code %s and signal %s.',
+            worker.process.pid, code , signal);
+        var new_worker = cluster.fork();
+        console.log('new worker [%d] has been created',
+           new_worker.process.pid);
     });
 
     cluster.on('online', function(worker){
