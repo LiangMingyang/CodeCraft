@@ -171,7 +171,7 @@
     Group = global.db.models.group;
     joiner = void 0;
     currentGroup = void 0;
-    BCPC_GROUP = 7;
+    BCPC_GROUP = 23;
     return global.db.Promise.resolve().then(function() {
       return Group.find({
         where: {

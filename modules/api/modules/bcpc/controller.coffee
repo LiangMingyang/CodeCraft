@@ -162,7 +162,7 @@ exports.getList = (req, res)->
   Group = global.db.models.group
   joiner = undefined
   currentGroup = undefined
-  BCPC_GROUP = 7
+  BCPC_GROUP = 23
   global.db.Promise.resolve()
   .then ->
     Group.find
