@@ -20,6 +20,7 @@ exports.getCreateSolution = (req, res)->
   User = global.db.models.user
   Solution = global.db.models.solution
   Submission = global.db.models.submission
+  Problem = global.db.models.problem
   currentProblem = undefined
   currentUser = undefined
   currentProblems = undefined
@@ -30,25 +31,28 @@ exports.getCreateSolution = (req, res)->
     User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
-    global.myUtils.findProblem(user, req.params.problemID)
+    Problem.find(
+      where:
+        id:req.params.problemID
+    )
   .then (problem)->
     throw new global.myErrors.UnknownProblem() if not problem
     currentProblem = problem
     currentProblems = [problem]
     global.myUtils.getProblemsStatus(currentProblems,currentUser)
   .then ->
-    opt.offset = req.query.offset
     opt.creator_id = currentUser?.id
     opt.problem_id = currentProblem.id
-    opt.contest_id = req.body.contest_id if req.body.contest_id isnt ''
-    opt.language = req.body.language if req.body.language isnt ''
     opt.result = 'AC'
-    global.myUtils.findSubmissions(currentUser, opt, [
-      model : User
-      as : 'creator'
-    ,
-      model : Solution
-    ])
+    Submission.findAll(
+      where:opt
+      include :[
+        model : User
+        as : 'creator'
+      ,
+        model : Solution
+      ]
+    )
   .then (submissions) ->
     currentSubmissions = submissions
     Solution.findAll(

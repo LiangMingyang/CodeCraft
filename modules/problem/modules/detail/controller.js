@@ -25,10 +25,11 @@
   LOGIN_PAGE = '/user/login';
 
   exports.getCreateSolution = function(req, res) {
-    var Solution, Submission, User, currentProblem, currentProblems, currentSubmissions, currentUser, opt;
+    var Problem, Solution, Submission, User, currentProblem, currentProblems, currentSubmissions, currentUser, opt;
     User = global.db.models.user;
     Solution = global.db.models.solution;
     Submission = global.db.models.submission;
+    Problem = global.db.models.problem;
     currentProblem = void 0;
     currentUser = void 0;
     currentProblems = void 0;
@@ -40,7 +41,11 @@
       }
     }).then(function(user) {
       currentUser = user;
-      return global.myUtils.findProblem(user, req.params.problemID);
+      return Problem.find({
+        where: {
+          id: req.params.problemID
+        }
+      });
     }).then(function(problem) {
       if (!problem) {
         throw new global.myErrors.UnknownProblem();
@@ -49,24 +54,20 @@
       currentProblems = [problem];
       return global.myUtils.getProblemsStatus(currentProblems, currentUser);
     }).then(function() {
-      opt.offset = req.query.offset;
       opt.creator_id = currentUser != null ? currentUser.id : void 0;
       opt.problem_id = currentProblem.id;
-      if (req.body.contest_id !== '') {
-        opt.contest_id = req.body.contest_id;
-      }
-      if (req.body.language !== '') {
-        opt.language = req.body.language;
-      }
       opt.result = 'AC';
-      return global.myUtils.findSubmissions(currentUser, opt, [
-        {
-          model: User,
-          as: 'creator'
-        }, {
-          model: Solution
-        }
-      ]);
+      return Submission.findAll({
+        where: opt,
+        include: [
+          {
+            model: User,
+            as: 'creator'
+          }, {
+            model: Solution
+          }
+        ]
+      });
     }).then(function(submissions) {
       currentSubmissions = submissions;
       return Solution.findAll({

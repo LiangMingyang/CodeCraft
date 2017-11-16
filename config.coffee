@@ -3,9 +3,9 @@ module.exports = {
   database:
     name: 'oj4th'
     username: 'root'
-    password: 'WQNMLGB'
+    password: 'alimengmengda'
     config:
-      host: 'localhost'
+      host: 'biancheng.love'
       dialect: 'mysql'
       port: 3306
       timezone: '+08:00'
