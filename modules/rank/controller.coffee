@@ -26,17 +26,15 @@ exports.getIndex = (req, res) ->
             .then (CountsR) ->
               global.myUtils.getSolutionCountR()
                 .then (ResultsR) ->
-
-                                            global.myUtils.AllPeople()
-                                              .then (Presults)->
-                                                res.render 'rank/index', {
-                                                    title: 'rank',
-                                                    user: req.session.user
-                                                    Counts:Counts
-                                                    CountsR:CountsR
-                                                    Results:Results
-                                                    ResultsR:ResultsR
-
-                                                    Presults:Presults
-                                                }
+                  global.myUtils.AllPeople()
+                    .then (Presults)->
+                      res.render 'rank/index', {
+                          title: 'rank',
+                          user: req.session.user
+                          Counts:Counts
+                          CountsR:CountsR
+                          Results:Results
+                          ResultsR:ResultsR
+                          Presults:Presults
+                      }
 
