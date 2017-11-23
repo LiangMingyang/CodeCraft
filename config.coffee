@@ -1,9 +1,9 @@
 path = require('path')
 module.exports = {
   database:
-    name: 'oj4th'
+    name: 'OJ4TH'
     username: 'root'
-    password: 'WQNMLGB'
+    password: 'alimengmengda'
     config:
       host: 'localhost'
       dialect: 'mysql'
