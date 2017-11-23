@@ -122,7 +122,6 @@ html(lang='zh-CN')
 
 
                                 .col-lg-8.col-md-8.col-sm-8.col-xs-8
-                                    p(style="color:#FFB90F; font-size:20px;") 【重要通知】本平台将于11月19日00:00开始进行维护，维护时间大约1天，这段时间系统将会关闭~给大家带来不便请谅解  ⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄
                                     h1(style="font-size:4em; font-family:'Microsoft YaHei', 微软雅黑;color:#ffffff;") 欢迎来到OJ4TH
                                     //-h1(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp————从
@@ -134,6 +133,7 @@ html(lang='zh-CN')
                                     //br
                                     h4
                                         a(href="/rank/index",style="color:#FFB90F") 小O喊你去领奖啦~~~详情请戳>>>排行榜
+
                                     .col-lg-4.col-md-4.col-sm-4.col-xs-4
                                         if(user && recommendation && recommendation.length != 0)
                                             if(recommendation.length == 0)
@@ -155,6 +155,7 @@ html(lang='zh-CN')
                                                         else if (recommendation[i].accepted + recommendation[i].tried != 2)
                                                             //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
                                                             a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+
                                         //br
                                         //br
                                     .col-lg-4.col-md-4.col-sm-4.col-xs-4
@@ -176,6 +177,8 @@ html(lang='zh-CN')
                                                             p
                                                                 a(href="/problem/" + problem.id + "/createSolution", style='color:black;font-size:14px;') #{problem.id}--#{problem.title}
 
+                                    p(style="font-size:16px;color:#FFB90F;font-weight: bold;margin-top:500px;") 听说有福利~~
+                                        a(href="https://cloud.tencent.com/act/campus?utm_source=beihang&utm_medium=txt&utm_campaign=campus" target="_blank") 小OJ提醒您戳戳戳 《腾讯云大学生扶持计划》
 
                                     //-h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         a(href="/notice" style="color:#FFB90F")
@@ -248,7 +251,6 @@ html(lang='zh-CN')
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年10月
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 15041061
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 廖晓宇
-
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 140) + "px");

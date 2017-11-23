@@ -48,82 +48,82 @@ block content
                        h3.text-center 题解达人
                        select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
                            option(value = "all") 总提交题解数
-                           if (ResultsR !="[]")
+                           if (Results !="[]" && ResultsR !="[]" )
                             option(value = "recent") 最近30天提交题解数
-                       script.
-                           function request_so_searching() {
-                               var soselected_val = document.getElementById("soresult");
-                               if (soselected_val.value == "recent") {
+                               script.
+                                   function request_so_searching() {
+                                       var soselected_val = document.getElementById("soresult");
+                                       if (soselected_val.value == "recent") {
 
-                                   document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
-                                   document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.student_id}</td>";
-                                   document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.student_id}</td>";
-                                   document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.student_id}</td>";
-                                   document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.student_id}</td>";
-                                   document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.student_id}</td>";
-                                   document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.student_id}</td>";
-                                   document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.student_id}</td>";
-                                   document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.student_id}</td>";
-                                   document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.student_id}</td>";
+                                           document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
+                                           document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.student_id}</td>";
+                                           document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.student_id}</td>";
+                                           document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.student_id}</td>";
+                                           document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.student_id}</td>";
+                                           document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.student_id}</td>";
+                                           document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.student_id}</td>";
+                                           document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.student_id}</td>";
+                                           document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.student_id}</td>";
+                                           document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.student_id}</td>";
 
-                                   document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.nickname}</td>";
-                                   document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.nickname}</td>";
-                                   document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.nickname}</td>";
-                                   document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.nickname}</td>";
-                                   document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.nickname}</td>";
-                                   document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.nickname}</td>";
-                                   document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.nickname}</td>";
-                                   document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.nickname}</td>";
-                                   document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.nickname}</td>";
-                                   document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.nickname}</td>";
+                                           document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.nickname}</td>";
+                                           document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.nickname}</td>";
+                                           document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.nickname}</td>";
+                                           document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.nickname}</td>";
+                                           document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.nickname}</td>";
+                                           document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.nickname}</td>";
+                                           document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.nickname}</td>";
+                                           document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.nickname}</td>";
+                                           document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.nickname}</td>";
+                                           document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.nickname}</td>";
 
-                                   document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].COUNT}</td>";
-                                   document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].COUNT}</td>";
-                                   document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].COUNT}</td>";
-                                   document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].COUNT}</td>";
-                                   document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].COUNT}</td>";
-                                   document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].COUNT}</td>";
-                                   document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].COUNT}</td>";
-                                   document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].COUNT}</td>";
-                                   document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].COUNT}</td>";
-                                   document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].COUNT}</td>";
-                               }
-                               else if (soselected_val.value == "all") {
-                                   document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
-                                   document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.student_id}</td>";
-                                   document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.student_id}</td>";
-                                   document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.student_id}</td>";
-                                   document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.student_id}</td>";
-                                   document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.student_id}</td>";
-                                   document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.student_id}</td>";
-                                   document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.student_id}</td>";
-                                   document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.student_id}</td>";
-                                   document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.student_id}</td>";
+                                           document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].COUNT}</td>";
+                                           document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].COUNT}</td>";
+                                           document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].COUNT}</td>";
+                                           document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].COUNT}</td>";
+                                           document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].COUNT}</td>";
+                                           document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].COUNT}</td>";
+                                           document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].COUNT}</td>";
+                                           document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].COUNT}</td>";
+                                           document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].COUNT}</td>";
+                                           document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].COUNT}</td>";
+                                       }
+                                       else if (soselected_val.value == "all") {
+                                           document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
+                                           document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.student_id}</td>";
+                                           document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.student_id}</td>";
+                                           document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.student_id}</td>";
+                                           document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.student_id}</td>";
+                                           document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.student_id}</td>";
+                                           document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.student_id}</td>";
+                                           document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.student_id}</td>";
+                                           document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.student_id}</td>";
+                                           document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.student_id}</td>";
 
-                                   document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.nickname}</td>";
-                                   document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.nickname}</td>";
-                                   document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.nickname}</td>";
-                                   document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.nickname}</td>";
-                                   document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.nickname}</td>";
-                                   document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.nickname}</td>";
-                                   document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.nickname}</td>";
-                                   document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.nickname}</td>";
-                                   document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.nickname}</td>";
-                                   document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.nickname}</td>";
+                                           document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.nickname}</td>";
+                                           document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.nickname}</td>";
+                                           document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.nickname}</td>";
+                                           document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.nickname}</td>";
+                                           document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.nickname}</td>";
+                                           document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.nickname}</td>";
+                                           document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.nickname}</td>";
+                                           document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.nickname}</td>";
+                                           document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.nickname}</td>";
+                                           document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.nickname}</td>";
 
-                                   document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(Results)[0].COUNT}</td>";
-                                   document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(Results)[1].COUNT}</td>";
-                                   document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(Results)[2].COUNT}</td>";
-                                   document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(Results)[3].COUNT}</td>";
-                                   document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(Results)[4].COUNT}</td>";
-                                   document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(Results)[5].COUNT}</td>";
-                                   document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(Results)[6].COUNT}</td>";
-                                   document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(Results)[7].COUNT}</td>";
-                                   document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(Results)[8].COUNT}</td>";
-                                   document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(Results)[9].COUNT}</td>";
-                               }
+                                           document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(Results)[0].COUNT}</td>";
+                                           document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(Results)[1].COUNT}</td>";
+                                           document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(Results)[2].COUNT}</td>";
+                                           document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(Results)[3].COUNT}</td>";
+                                           document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(Results)[4].COUNT}</td>";
+                                           document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(Results)[5].COUNT}</td>";
+                                           document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(Results)[6].COUNT}</td>";
+                                           document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(Results)[7].COUNT}</td>";
+                                           document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(Results)[8].COUNT}</td>";
+                                           document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(Results)[9].COUNT}</td>";
+                                       }
 
-                           }
+                                   }
 
                        table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
                            tr.problem-title-tr.text-center

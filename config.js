@@ -6,9 +6,9 @@
 
   module.exports = {
     database: {
-      name: 'oj4th',
+      name: 'OJ4TH',
       username: 'root',
-      password: 'WQNMLGB',
+      password: 'alimengmengda',
       config: {
         host: 'localhost',
         dialect: 'mysql',
@@ -29,7 +29,7 @@
       problem: 20
     },
     problem_resource_path: path.resolve(__dirname, 'modules/problem/resource'),
-    cluster: 8,
+    cluster: 12,
     judge: {
       penalty: 20 * 60 * 1000,
       cache: 1000,
