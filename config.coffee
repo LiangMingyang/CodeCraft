@@ -3,7 +3,7 @@ module.exports = {
   database:
     name: 'OJ4TH'
     username: 'root'
-    password: 'alimengmengda'
+    password: 'WQNMLGB'
     config:
       host: 'localhost'
       dialect: 'mysql'

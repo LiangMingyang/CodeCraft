@@ -8,7 +8,7 @@
     database: {
       name: 'OJ4TH',
       username: 'root',
-      password: 'alimengmengda',
+      password: 'WQNMLGB',
       config: {
         host: 'localhost',
         dialect: 'mysql',
@@ -29,7 +29,7 @@
       problem: 20
     },
     problem_resource_path: path.resolve(__dirname, 'modules/problem/resource'),
-    cluster: 12,
+    cluster: 8,
     judge: {
       penalty: 20 * 60 * 1000,
       cache: 1000,
