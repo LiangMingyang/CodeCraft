@@ -118,10 +118,12 @@ module.exports = (database, username, password, config)->
   Problem.belongsToMany(Tag,
     through:
       model: ProblemTag
+    foreignKey: 'problem_id'
   )
   Tag.belongsToMany(Problem,
     through:
       model: ProblemTag
+    foreignKey: 'tag_id'
   )
 
   # 1:1

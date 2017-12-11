@@ -14,4 +14,6 @@ router
 
 .use '/utils', modules.utils.router
 
+.use '/tags', modules.tag.router
+
 module.exports = router

@@ -435,330 +435,7 @@ exports.buildSolutionCountR = ()->
     return if not getLock
     global.redis.set("rank_SR", JSON.stringify(resultsSR))
 
-#去年9月开始
-exports.ChampionRank1 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2016-09-01 00:00:00', '2016-10-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank2 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2016-10-01 00:00:01', '2016-11-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank3 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2016-11-01 00:00:01', '2016-12-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank4 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2016-12-01 00:00:01', '2017-01-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank5 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-01-01 00:00:01', '2017-02-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank6 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-02-01 00:00:01', '2017-03-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank7 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-03-01 00:00:01', '2017-04-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank8 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-04-01 00:00:01', '2017-05-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank9 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-05-01 00:00:01', '2017-06-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank10 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-06-01 00:00:01', '2017-07-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank11 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-09-01 00:00:01', '2017-10-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
-
-exports.ChampionRank12 =()->
-  Submission = global.db.models.submission
-  User = global.db.models.user
-  Submission.findAll(
-    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-    include: [
-      model: User
-      attributes:['student_id','nickname']
-      as:'creator'
-      where: {
-        student_id: {
-          $ne: ''
-        }
-      }
-    ]
-    where:
-      updated_at: {
-        $between: ['2017-10-01 00:00:01', '2017-11-01 00:00:00']
-      }
-
-    group: ['creator_id']
-    order: [
-      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-    ]
-    limit:1
-  )
+#更新排行榜榜單
 exports.ChampionRank =()->
   Submission = global.db.models.submission
   User = global.db.models.user
@@ -776,14 +453,14 @@ exports.ChampionRank =()->
     ]
     where:
       updated_at: {
-        $between: ['2016-09-01 00:00:00', '2017-09-01 00:00:00']
+        $between: ['2017-10-01 00:00:00', '2017-11-01 00:00:00']
       }
 
-    group: ['creator_id']
+    group: [global.db.literal('creator_id')],
     order: [
       [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
     ]
-    limit:1
+    limit:3
   )
 
 
@@ -1266,3 +943,81 @@ exports.findRecommendations = (user)->
   .then (user)->
     user.getProblems()
   .then (problems)->
+
+
+#get
+#获得某一题目下所有的标签及其权重
+exports.findAllProblem_tag = (problems_id)->
+  Problem_tag = global.db.models.problem_tag
+  Tag = global.db.models.tag
+  #console.log problems_id
+  Problem = global.db.models.problem
+  Problem.find(
+    where :
+      id : problems_id
+    include:[
+      model:Tag
+    ]
+  )
+  .then (problem)->
+    return problem.tags
+
+#post
+#查找tag中是否存在某一标签
+exports.findTag = (contents)->
+  Tag = global.db.models.tag
+  #console.log contents
+  Tag.find(
+    where:{
+      content : contents
+    }
+  )
+
+#查找problem_tag中是否某一题目已经含有已知标签
+exports.findProblem_tag = (problems_id, contents)->
+  Problem_tag = global.db.models.problem_tag
+  Tag = global.db.models.tag
+  Problem = global.db.models.problem
+  #console.log contents
+  Problem.find(
+    where:
+      id : problems_id
+    include:[
+      model:Tag,
+      where:
+        content : contents
+    ]
+  )
+
+#在tag中创建新的标签
+exports.createTag = (contents) ->
+  Tag = global.db.models.tag
+  current_tags = undefined
+  global.db.transaction (t) ->
+    Tag.create(
+        content : contents, transaction: t
+    )
+    .then (tags) ->
+      current_tags = tags
+  .then ->
+    return current_tags
+
+#在problem_tag中添加给某一题目添加某标签及权重
+exports.createProblem_tag = (contents,problems_id,weights) ->
+  Problem_tag = global.db.models.problem_tag
+  current_problems_tag = undefined
+  global.db.transaction (t)->
+    global.myUtils.findTag(contents)
+    .then (tags) ->
+      Problem_tag.create(
+        tag_id : tags.id
+        problem_id : problems_id
+        weight : weights, transaction: t
+      )
+      .then (problems_tag) ->
+        current_problems_tag = problems_tag
+  .then ->
+    return current_problems_tag
+
+
+  

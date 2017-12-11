@@ -9,6 +9,7 @@ var config = require('./config');
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
 var redis = require('ioredis');
+var multer = require('multer');
 
 var routes = require('./routes');
 
@@ -37,6 +38,9 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 //app.use(logger('dev'));
 app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({extended: false,limit: '20mb'}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(multer());
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: 1000*60*60*24}));
 app.use('/', routes);
@@ -90,3 +94,4 @@ global.redis = new redis();
 global.myUtils = require('./utils');
 global.myErrors = require('./errors');
 module.exports = app;
+

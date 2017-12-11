@@ -104,12 +104,14 @@
     Problem.belongsToMany(Tag, {
       through: {
         model: ProblemTag
-      }
+      },
+      foreignKey: 'problem_id'
     });
     Tag.belongsToMany(Problem, {
       through: {
         model: ProblemTag
-      }
+      },
+      foreignKey: 'tag_id'
     });
     Submission.hasOne(SubmissionCode);
     Submission.hasOne(Solution);

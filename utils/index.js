@@ -587,354 +587,6 @@
     });
   };
 
-  exports.ChampionRank1 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2016-09-01 00:00:00', '2016-10-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank2 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2016-10-01 00:00:01', '2016-11-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank3 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2016-11-01 00:00:01', '2016-12-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank4 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2016-12-01 00:00:01', '2017-01-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank5 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-01-01 00:00:01', '2017-02-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank6 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-02-01 00:00:01', '2017-03-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank7 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-03-01 00:00:01', '2017-04-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank8 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-04-01 00:00:01', '2017-05-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank9 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-05-01 00:00:01', '2017-06-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank10 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-06-01 00:00:01', '2017-07-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank11 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-09-01 00:00:01', '2017-10-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
-  exports.ChampionRank12 = function() {
-    var Submission, User;
-    Submission = global.db.models.submission;
-    User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: {
-              $ne: ''
-            }
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2017-10-01 00:00:01', '2017-11-01 00:00:00']
-        }
-      },
-      group: ['creator_id'],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
-    });
-  };
-
   exports.ChampionRank = function() {
     var Submission, User;
     Submission = global.db.models.submission;
@@ -955,12 +607,12 @@
       ],
       where: {
         updated_at: {
-          $between: ['2016-09-01 00:00:00', '2017-09-01 00:00:00']
+          $between: ['2017-10-01 00:00:00', '2017-11-01 00:00:00']
         }
       },
-      group: ['creator_id'],
+      group: [global.db.literal('creator_id')],
       order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 1
+      limit: 3
     });
   };
 
@@ -1619,6 +1271,91 @@
     }).then(function(user) {
       return user.getProblems();
     }).then(function(problems) {});
+  };
+
+  exports.findAllProblem_tag = function(problems_id) {
+    var Problem, Problem_tag, Tag;
+    Problem_tag = global.db.models.problem_tag;
+    Tag = global.db.models.tag;
+    Problem = global.db.models.problem;
+    return Problem.find({
+      where: {
+        id: problems_id
+      },
+      include: [
+        {
+          model: Tag
+        }
+      ]
+    }).then(function(problem) {
+      return problem.tags;
+    });
+  };
+
+  exports.findTag = function(contents) {
+    var Tag;
+    Tag = global.db.models.tag;
+    return Tag.find({
+      where: {
+        content: contents
+      }
+    });
+  };
+
+  exports.findProblem_tag = function(problems_id, contents) {
+    var Problem, Problem_tag, Tag;
+    Problem_tag = global.db.models.problem_tag;
+    Tag = global.db.models.tag;
+    Problem = global.db.models.problem;
+    return Problem.find({
+      where: {
+        id: problems_id
+      },
+      include: [
+        {
+          model: Tag,
+          where: {
+            content: contents
+          }
+        }
+      ]
+    });
+  };
+
+  exports.createTag = function(contents) {
+    var Tag, current_tags;
+    Tag = global.db.models.tag;
+    current_tags = void 0;
+    return global.db.transaction(function(t) {
+      return Tag.create({
+        content: contents,
+        transaction: t
+      }).then(function(tags) {
+        return current_tags = tags;
+      });
+    }).then(function() {
+      return current_tags;
+    });
+  };
+
+  exports.createProblem_tag = function(contents, problems_id, weights) {
+    var Problem_tag, current_problems_tag;
+    Problem_tag = global.db.models.problem_tag;
+    current_problems_tag = void 0;
+    return global.db.transaction(function(t) {
+      return global.myUtils.findTag(contents).then(function(tags) {
+        return Problem_tag.create({
+          tag_id: tags.id,
+          problem_id: problems_id,
+          weight: weights,
+          transaction: t
+        }).then(function(problems_tag) {
+          return current_problems_tag = problems_tag;
+        });
+      });
+    }).then(function() {
+      return current_problems_tag;
+    });
   };
 
 }).call(this);
