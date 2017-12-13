@@ -135,7 +135,7 @@ exports.getProblem = (req, res) ->
     currentGroup = group
     req.query.page ?= 1
     offset = (req.query.page-1)*global.config.pageLimit.problem
-    global.myUtils.findAndCountProblems(currentUser, offset, [
+    global.myUtils.findAndCountProblems(currentUser, offset:offset, [
       model : Group
       where :
         id : group.id
