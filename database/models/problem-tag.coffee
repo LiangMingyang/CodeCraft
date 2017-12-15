@@ -10,7 +10,7 @@ module.exports = (sequelize,DataTypes) ->
       allowNull: false
     weight:
       type: DataTypes.INTEGER
-      allowNull: false
+      allowNull: true
   }, {
     underscored: true
   }
