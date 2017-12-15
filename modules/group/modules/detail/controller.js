@@ -181,7 +181,9 @@
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.problem;
-      return global.myUtils.findAndCountProblems(currentUser, offset, [
+      return global.myUtils.findAndCountProblems(currentUser, {
+        offset: offset
+      }, [
         {
           model: Group,
           where: {
