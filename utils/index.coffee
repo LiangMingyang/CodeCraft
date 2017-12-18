@@ -436,7 +436,7 @@ exports.buildSolutionCountR = ()->
     global.redis.set("rank_SR", JSON.stringify(resultsSR))
 
 #更新排行榜榜單
-exports.ChampionRank =()->
+exports.ChampionRank =() ->
   Submission = global.db.models.submission
   User = global.db.models.user
   Submission.findAll(
@@ -453,7 +453,7 @@ exports.ChampionRank =()->
     ]
     where:
       updated_at: {
-        $between: ['2017-10-01 00:00:00', '2017-11-01 00:00:00']
+        $between: ['2017-12-01 00:00:00', '2017-12-18 00:00:00']
       }
 
     group: [global.db.literal('creator_id')],
@@ -462,6 +462,76 @@ exports.ChampionRank =()->
     ]
     limit:3
   )
+#得到每个人的过题数并取前十
+
+exports.ShishiRankCount = ()->
+  User = global.db.models.user
+  Submission = global.db.models.submission
+  Submission.findAll(
+    attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+    include: [
+      model: User
+      attributes:['student_id','nickname']
+      as:'creator'
+      where: {
+        student_id: {
+          $ne: ''
+        }
+      }
+    ]
+    where:{
+      result:'AC',
+      #$and:
+       # created_at:{
+        #  $lte: '2017-12-18 00:00:00'
+        #}
+    }
+    group: ['creator_id']
+    order: [
+      [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+    ]
+    limit:10
+  )
+
+
+exports.ShishiSolutionCount = ()->
+  User = global.db.models.user
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+
+  Submission.findAll(
+    attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')),'COUNT']]
+    include: [{
+      model: Solution
+      attributes: []
+    },
+      {
+        model: User
+        attributes:['student_id','nickname']
+        as:'creator'
+        where: {
+          student_id:
+            global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"')
+
+          $and:
+            global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
+        }
+      }
+    ]
+
+    where:
+      created_at:{
+        $lte: '2017-12-18 00:00:00'
+      }
+    group: ['creator_id']
+    limit: 10
+    order: [
+      [global.db.fn('count', global.db.col('solution.id')), 'DESC']
+    ]
+  )
+
+
+
 
 
 #查询系统中共多少有student_id的用户

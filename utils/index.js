@@ -607,12 +607,71 @@
       ],
       where: {
         updated_at: {
-          $between: ['2017-10-01 00:00:00', '2017-11-01 00:00:00']
+          $between: ['2017-12-01 00:00:00', '2017-12-18 00:00:00']
         }
       },
       group: [global.db.literal('creator_id')],
       order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
       limit: 3
+    });
+  };
+
+  exports.ShishiRankCount = function() {
+    var Submission, User;
+    User = global.db.models.user;
+    Submission = global.db.models.submission;
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
+      include: [
+        {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: {
+              $ne: ''
+            }
+          }
+        }
+      ],
+      where: {
+        result: 'AC'
+      },
+      group: ['creator_id'],
+      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
+      limit: 10
+    });
+  };
+
+  exports.ShishiSolutionCount = function() {
+    var Solution, Submission, User;
+    User = global.db.models.user;
+    Submission = global.db.models.submission;
+    Solution = global.db.models.solution;
+    return Submission.findAll({
+      attributes: ['creator_id', [global.db.fn('count', global.db.col('solution.id')), 'COUNT']],
+      include: [
+        {
+          model: Solution,
+          attributes: []
+        }, {
+          model: User,
+          attributes: ['student_id', 'nickname'],
+          as: 'creator',
+          where: {
+            student_id: global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"'),
+            $and: global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
+          }
+        }
+      ],
+      where: {
+        created_at: {
+          $lte: '2017-12-18 00:00:00'
+        }
+      },
+      group: ['creator_id'],
+      limit: 10,
+      order: [[global.db.fn('count', global.db.col('solution.id')), 'DESC']]
     });
   };
 

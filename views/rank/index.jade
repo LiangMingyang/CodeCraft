@@ -17,14 +17,47 @@ block content
                             td(style="vertical-align: middle;") 学号
                             td(style="vertical-align: middle;") 姓名
                             td(style="vertical-align: middle;") 过题数
-                        if (Counts != "[]")
-                            each counts in JSON.parse(Counts)
-                                tr.text-center
-                                    td #{counts.creator.student_id}
-                                    td #{counts.creator.nickname}
-                                    td #{counts.COUNT}
-                        else
-                            p 未找到榜单信息!
+
+                        tr.text-center
+                            td(style="color:#FF0000;") 16211037
+                            td(style="color:#FF0000;") 王嘉翼
+                            td(style="color:#FF0000;") 563
+                        tr.text-center
+                            td(style="color:#FF0000;") 16211109
+                            td(style="color:#FF0000;") 周宏建
+                            td(style="color:#FF0000;") 546
+                        tr.text-center
+                            td(style="color:#FF0000;") 16211007
+                            td(style="color:#FF0000;") 阙子烝
+                            td(style="color:#FF0000;") 496
+                        tr.text-center
+                            td 16211114
+                            td 赵立晨
+                            td 490
+                        tr.text-center
+                            td 16211063
+                            td 李昕航
+                            td 449
+                        tr.text-center
+                            td 16211022
+                            td 黎昆昌
+                            td 426
+                        tr.text-center
+                            td 16211006
+                            td 徐家兴
+                            td 422
+                        tr.text-center
+                            td 16211023
+                            td 李威
+                            td 419
+                        tr.text-center
+                            td 16211044
+                            td 李明
+                            td 414
+                        tr.text-center
+                            td 15211088
+                            td 王意如
+                            td 408
 
 
             .col-md-3
@@ -44,6 +77,7 @@ block content
                                         td #{countsR.COUNT}
                             else
                                 p 未找到榜单信息！
+
             .col-md-3
                        h3.text-center 题解达人
                        select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
@@ -130,14 +164,47 @@ block content
                                td(style="vertical-align: middle;") 学号
                                td(style="vertical-align: middle;") 姓名
                                td(style="vertical-align: middle;") 交题解数
-                           if (Results !="[]")
-                               each results,i in JSON.parse(Results)
-                                   tr.text-center
-                                       td(id="s1td"+i) #{results.creator.student_id}
-                                       td(id="s2td"+i) #{results.creator.nickname}
-                                       td(id="s3td"+i) #{results.COUNT}
-                           else
-                               p 未找到该榜单信息！
+
+                           tr.text-center
+                               td(style="color:#FF0000;") 17373217
+                               td(style="color:#FF0000;") 段牧知
+                               td(style="color:#FF0000;") 207
+                           tr.text-center
+                               td(style="color:#FF0000;") 14271113
+                               td(style="color:#FF0000;") 刘宇翔
+                               td(style="color:#FF0000;") 185
+                           tr.text-center
+                               td(style="color:#FF0000;") 16211022
+                               td(style="color:#FF0000;") 黎昆昌
+                               td(style="color:#FF0000;") 167
+                           tr.text-center
+                               td 16211016
+                               td 蔡代钢
+                               td 160
+                           tr.text-center
+                               td 16211063
+                               td 李昕航
+                               td 158
+                           tr.text-center
+                               td 16211042
+                               td 郭镕昊
+                               td 155
+                           tr.text-center
+                               td 16211114
+                               td 赵立晨
+                               td 153
+                           tr.text-center
+                               td 16211116
+                               td 杨东
+                               td 153
+                           tr.text-center
+                               td 16211109
+                               td 周宏建
+                               td 149
+                           tr.text-center
+                               td 16211011
+                               td 孟爻
+                               td 147
 
             .col-md-3
                         h3.text-center 风云榜（赛季冠军）
@@ -211,16 +278,22 @@ block content
                                     td(style="vertical-align: middle;") 2017年11月
                                     td(style="vertical-align: middle;") 16721074
                                     td(style="vertical-align: middle;") 刘炜
+                                tr.text-center
+                                    td(style="vertical-align: middle;") 2017年12月
+                                    td(style="vertical-align: middle;") 16011133
+                                    td(style="vertical-align: middle;") 余天予
                         p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
         .col-lg-12.col-md-12.col-sm-12.col-xs-12(style="margin-left:13px;")
-                p(style="font-weight:bold;") 小O喊你来领奖啦~~~（如下金额数仅供参考，最终实际金额以12月公布的数额为准，可能出入很大喔）
-                p ※ 琅琊榜前三名奖金（人民币,元）：冠军 ￥300，亚军 ￥200，季军 ￥100
-                p ※ 题解达人前三名奖金（人民币,元）：冠军 ￥300，亚军 ￥200，季军 ￥100
-                p ※ 风云榜（赛季冠军）奖金（人民币,元）：年度冠军 ￥300，月冠军 ￥100
-                p ※ 榜单上的所有人都有获奖证书！
+                p(style="font-weight:bold;") 小O喊你来领奖啦~~~
+                p ※ 琅琊榜 奖金（人民币,元）：冠军 ￥300，亚军 ￥200，季军 ￥100
+                p ※ 题解达人(总题解数) 奖金（人民币,元）：冠军 ￥500，亚军 ￥300，季军 ￥200
+                p ※ 风云榜 奖金（人民币,元）：年度冠军 ￥300，月冠军 ￥100
+                p ※ 琅琊榜、题解达人(总题解数)、风云榜 上的所有同学均有获奖证书！
                 br
                 p 说明：
-                p 1. 颁奖会将于2017年年底举行，12月将会再刷新榜单，获奖名单将根据下次刷新的榜单为准。（目前的榜单不作为评奖依据）
-                p 2. 一个人如果获得多个奖项，则按奖金额最高那项颁发。（但仍然颁发多个证书）
-                p 3. 本次奖金由*****提供，奖品由*****提供，证书由*****提供。
+                p 1. 目前榜单的数据统计时间截止至2017年12月18日0点。
+                p 2. 一个人如果获得多个奖项，则按奖金额最高项颁发，但仍然颁发多个证书。
+                p 3. 本次琅琊榜、风云榜奖金由北航ACM训练队前队员、软件学院2007级校友赖景愚先生捐赠，题解达人奖金由北航ACM实验室提供。
+                p 4. 颁奖典礼将于2017年12月24日17:00-18:00举行，地点：沙河校区实7-6层。请所有获得获奖证书的同学于12月22日中午12:00前发送以下信息至1120695539@qq.com
+                p 邮件主题：姓名+OJ颁奖 邮件内容：学号、姓名、所获奖项、颁奖典礼能否到场（不能到场原因）
                 br
