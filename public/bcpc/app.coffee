@@ -61,7 +61,7 @@
   $http.get('/api/bcpc/list')
   .then(
     (res)->
-      $scope.list = res.data
+      $scope.list = res.data.users
   ,
     (res)->
       alert(res.data.error)

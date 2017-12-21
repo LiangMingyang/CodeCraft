@@ -54,7 +54,7 @@
   }).controller('bcpc.list', function($scope, $http) {
     $scope.list = [];
     return $http.get('/api/bcpc/list').then(function(res) {
-      return $scope.list = res.data;
+      return $scope.list = res.data.users;
     }, function(res) {
       return alert(res.data.error);
     });
