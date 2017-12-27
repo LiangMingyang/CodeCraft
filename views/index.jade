@@ -43,7 +43,7 @@ html(lang='zh-CN')
                                             a(href="/contest/index", id="contestpage", class="nav-before") 比赛
                                         li.normalli
                                             a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
-                                        li.normalli
+                                        //li.normalli
                                             a(href="/rank/index", id="rankpage", class="nav-before") 排行榜
                                         - if(user)
                                             li.normalli
@@ -66,7 +66,7 @@ html(lang='zh-CN')
                                         - else
                                             li.normalli
                                                 a(href="/user/login", id="loginpage", class="nav-before") 登录
-                                            li.normalli
+                                            //li.normalli
                                                 a(href="/user/register", id="registerpage", class="nav-before") 注册
                                     - if(whichPage == "注册")
                                         script $("#registerpage").attr("class", "nav-change");
