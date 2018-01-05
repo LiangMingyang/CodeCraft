@@ -24,7 +24,7 @@ block content
             | 对于
             a(href="/problem/#{submission.problem.id}" target="_blank") #{submission.problem.title}
             | 的题解
-    form(method="post" onsubmit="return confirm('这是一份认真的不会误人子弟的题解?');")
+    form(method="post", id="form", onsubmit="return confirm('这是一份认真的不会误人子弟的题解?');")
             .row
                 .col-xs-3.col-sm-3.col-nm-3.col-lg-3
                     - if(editable)
@@ -198,12 +198,54 @@ block content
                                     .form-horizontal
                                         .form-group
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
-                                                label.control-label 自定义标签(多个标签请用;分隔)
+                                                label.control-label 标签
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
+
+                                                //标签1
+                                                - tag_1_value = ""
+                                                - tag_1_text = "请选择"
+                                                if(submission.solution && submission.solution.tag_1 !== undefined)
+                                                    - tag_1_value = submission.solution.tag_1
+                                                    - tag_1_text = submission.solution.tag_1
+                                                |标签1
+                                                select.form-control(type="input", name='user_tag_1', id='tag_1' required)
+                                                    option(value=tag_1_value)=tag_1_text
+                                                    if tags
+                                                        for Tag in tags
+                                                            option(value=Tag.content) #{Tag.content}
+
+                                                //标签2
+                                                - tag_2_value = ""
+                                                - tag_2_text = "请选择"
+                                                if(submission.solution && submission.solution.tag_2 !== undefined)
+                                                    - tag_2_value = submission.solution.tag_2
+                                                    - tag_2_text = submission.solution.tag_2
+                                                |标签2
+                                                select.form-control(type="input", name='user_tag_2', id='tag_2')
+                                                    option(value=tag_2_value)=tag_2_text
+                                                    if tags
+                                                        for Tag in tags
+                                                            option(value=Tag.content) #{Tag.content}
+
+                                                //标签3
+                                                - tag_3_value = ""
+                                                - tag_3_text = "请选择"
+                                                if(submission.solution && submission.solution.tag_3 !== undefined)
+                                                    - tag_3_value = submission.solution.tag_3
+                                                    - tag_3_text = submission.solution.tag_3
+                                                |标签3
+                                                select.form-control(type="input", name='user_tag_3', id='tag_3')
+                                                    option(value=tag_3_value)=tag_3_text
+                                                    if tags
+                                                        for Tag in tags
+                                                            option(value=Tag.content) #{Tag.content}
+
+                                                //自定义标签
                                                 - var user_tag_value = ""
                                                 if(submission.solution && submission.solution.user_tag !== undefined)
                                                     - user_tag_value = submission.solution.user_tag
-                                                input.form-control#user_tag(type="input", name="user_tag", value=user_tag_value)
+                                                |自定义标签 *请认真填写,若多个标签请用;分开
+                                                input.form-control(type="input", name="user_tag", id="tag_4", value=user_tag_value)
 
                                 .modal-footer
                                     button.btn.btn-default(type='button', data-dismiss='modal') 取消
@@ -247,6 +289,7 @@ block content
                         button#praise.btn(type="button" onclick="_praise();" class={'btn-primary': evaluation && evaluation.score == 1}) 赞
                         button#blame.btn(type="button" onclick="_blame();" class={'btn-primary': evaluation && evaluation.score == -1}) 踩
     script.
+        //fill_all_tags();
         var testEditor;
         $(function () {
             editormd.katexURL = {
@@ -318,6 +361,7 @@ block content
                 __protect_time.css("display", "none");
             }
         }
+        fill_all_tags();
         function _praise() {
             $.get("praise", {score: 1}, function(res, status){
                 $("#praise").addClass('btn-primary');
@@ -329,4 +373,16 @@ block content
                 $("#blame").addClass('btn-primary');
                 $("#praise").removeClass('btn-primary');
             })
+        }
+        //
+        function submit_usertag() {
+            var tag1 = $("#tag_1").val();
+            var tag2 = $("#tag_2").val();
+            var tag3 = $("#tag_3").val();
+            var tag4 = $("#tag_4").val();
+            if (!tag1 && !tag2 && !tag3 && !tag4) {
+                alert("请至少选择一个标签！");
+                return false;
+            }
+            $("#form").submit();
         }

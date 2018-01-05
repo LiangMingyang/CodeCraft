@@ -174,7 +174,7 @@
   };
 
   exports.getSolution = function(req, res) {
-    var Contest, DB, Evaluation, Problem, Solution, Submission, SubmissionCode, User, Utils, currentSubmission, currentUser;
+    var Contest, DB, Evaluation, Problem, Solution, Submission, SubmissionCode, Tag, User, Utils, currentEvaluation, currentSubmission, currentUser;
     DB = global.db;
     Utils = global.myUtils;
     User = DB.models.user;
@@ -182,8 +182,10 @@
     Solution = DB.models.solution;
     SubmissionCode = DB.models.submission_code;
     Problem = DB.models.problem;
+    Tag = DB.models.tag;
     Contest = DB.models.Contest;
     Evaluation = DB.models.evaluation;
+    currentEvaluation = void 0;
     currentSubmission = void 0;
     currentUser = void 0;
     return global.db.Promise.resolve().then(function() {
@@ -222,11 +224,15 @@
         return [];
       }
     }).then(function(evaluation) {
+      currentEvaluation = evaluation;
+      return Tag.findAll();
+    }).then(function(tags) {
       return res.render('submission/solution', {
         submission: currentSubmission,
         user: currentUser,
         editable: currentSubmission.creator.id === (currentUser != null ? currentUser.id : void 0),
-        evaluation: evaluation[0]
+        evaluation: currentEvaluation[0],
+        tags: tags
       });
     })["catch"](global.myErrors.UnknownSubmission, function(err) {
       return res.render('error', {
@@ -242,13 +248,16 @@
   };
 
   exports.postSolution = function(req, res) {
-    var DB, Solution, User, Utils, currentSubmission, currentUser, form;
+    var DB, Solution, Tag, User, Utils, currentFlag, currentSubmission, currentTag, currentUser, form;
     DB = global.db;
     Utils = global.myUtils;
     User = DB.models.user;
     Solution = DB.models.solution;
+    Tag = DB.models.tag;
+    currentTag = void 0;
     currentUser = void 0;
     currentSubmission = void 0;
+    currentFlag = true;
     form = {};
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
@@ -276,7 +285,10 @@
         user_tag: req.body["user_tag"],
         practice_time: req.body["practice_time"],
         score: req.body["score"],
-        influence: req.body["influence"]
+        influence: req.body["influence"],
+        tag_1: req.body["user_tag_1"],
+        tag_2: req.body["user_tag_2"],
+        tag_3: req.body["user_tag_3"]
       };
       currentSubmission = submission;
       if (submission.solution) {
@@ -290,11 +302,17 @@
         submission.solution.score = form.score;
         submission.solution.category = form.category;
         submission.solution.influence = form.influence;
-        return submission.solution.save();
+        submission.solution.tag_1 = form.tag_1;
+        submission.solution.tag_2 = form.tag_2;
+        submission.solution.tag_3 = form.tag_3;
+        submission.solution.save();
       } else {
-        return Solution.create(form).then(function(solution) {
+        Solution.create(form).then(function(solution) {
           return currentSubmission.setSolution(solution);
         });
+      }
+      if (req.body.user_tag && currentFlag) {
+        return global.myUtils.createTag(req.body.user_tag);
       }
     }).then(function(solution) {
       req.flash('info', "保存成功");

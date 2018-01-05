@@ -131,8 +131,10 @@ exports.getSolution = (req, res)->
   Solution = DB.models.solution
   SubmissionCode = DB.models.submission_code
   Problem = DB.models.problem
+  Tag = DB.models.tag
   Contest = DB.models.Contest
   Evaluation = DB.models.evaluation
+  currentEvaluation = undefined
   currentSubmission = undefined
   currentUser = undefined
   global.db.Promise.resolve()
@@ -165,11 +167,16 @@ exports.getSolution = (req, res)->
       else
         return []
     .then (evaluation)->
+      currentEvaluation = evaluation
+      Tag.findAll()
+    .then (tags) ->
+      #console.log(JSON.stringify(tags))
       res.render('submission/solution', {
         submission: currentSubmission
         user : currentUser
         editable : currentSubmission.creator.id is currentUser?.id
-        evaluation : evaluation[0]
+        evaluation : currentEvaluation[0]
+        tags : tags
       })
     .catch global.myErrors.UnknownSubmission,(err)->
 #      req.flash 'info', err.message
@@ -185,8 +192,11 @@ exports.postSolution = (req, res) ->
   Utils = global.myUtils
   User = DB.models.user
   Solution = DB.models.solution
+  Tag = DB.models.tag
+  currentTag = undefined
   currentUser = undefined
   currentSubmission  = undefined
+  currentFlag = true
   form = {}
   global.db.Promise.resolve()
     .then ->
@@ -214,6 +224,10 @@ exports.postSolution = (req, res) ->
         practice_time: req.body["practice_time"]
         score: req.body["score"]
         influence: req.body["influence"]
+        tag_1: req.body["user_tag_1"]
+        tag_2: req.body["user_tag_2"]
+        tag_3: req.body["user_tag_3"]
+
       }
       currentSubmission = submission
       if submission.solution
@@ -227,12 +241,24 @@ exports.postSolution = (req, res) ->
         submission.solution.score = form.score
         submission.solution.category = form.category
         submission.solution.influence = form.influence
+        submission.solution.tag_1 = form.tag_1
+        submission.solution.tag_2 = form.tag_2
+        submission.solution.tag_3 = form.tag_3
         submission.solution.save()
       else
         Solution.create form
           .then (solution)->
             currentSubmission.setSolution(solution)
         #solution.setSubmission(currentSubmission)
+      #其实需要判断是否已存在该自定义标签
+#      Tag.findAll()
+#    .then (tags) ->
+#      currentTag = tags
+#      for Tag in tags
+#        if req.body.user_tag && Tag.content ==req.body.user_tag
+#          currentFlag = false
+      if req.body.user_tag && currentFlag
+        global.myUtils.createTag(req.body.user_tag)
     .then (solution)->
       req.flash 'info', "保存成功"
       res.redirect("../#{currentSubmission.id}/solution")

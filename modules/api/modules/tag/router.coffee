@@ -8,7 +8,7 @@ router
 
 .post '/:problemID/tag', controller.postTags
 
-.post '/creatTags', controller.postcreateTags
+.post '/createTags', controller.postcreateTags
 
 
 module.exports = router

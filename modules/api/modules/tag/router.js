@@ -10,7 +10,7 @@
 
   controller = require('./controller');
 
-  router.get('/:problemID/tag', controller.getTags).post('/:problemID/tag', controller.postTags).post('/creatTags', controller.postcreateTags);
+  router.get('/:problemID/tag', controller.getTags).post('/:problemID/tag', controller.postTags).post('/createTags', controller.postcreateTags);
 
   module.exports = router;
 
