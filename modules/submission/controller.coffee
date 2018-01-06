@@ -251,12 +251,12 @@ exports.postSolution = (req, res) ->
             currentSubmission.setSolution(solution)
         #solution.setSubmission(currentSubmission)
       #其实需要判断是否已存在该自定义标签
-#      Tag.findAll()
-#    .then (tags) ->
-#      currentTag = tags
-#      for Tag in tags
-#        if req.body.user_tag && Tag.content ==req.body.user_tag
-#          currentFlag = false
+      Tag.findAll()
+    .then (tags) ->
+      currentTag = tags
+      for Tag in tags
+        if req.body.user_tag && Tag.content ==req.body.user_tag
+          currentFlag = false
       if req.body.user_tag && currentFlag
         global.myUtils.createTag(req.body.user_tag)
     .then (solution)->

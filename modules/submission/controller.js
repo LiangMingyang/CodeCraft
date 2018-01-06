@@ -311,6 +311,16 @@
           return currentSubmission.setSolution(solution);
         });
       }
+      return Tag.findAll();
+    }).then(function(tags) {
+      var i, len;
+      currentTag = tags;
+      for (i = 0, len = tags.length; i < len; i++) {
+        Tag = tags[i];
+        if (req.body.user_tag && Tag.content === req.body.user_tag) {
+          currentFlag = false;
+        }
+      }
       if (req.body.user_tag && currentFlag) {
         return global.myUtils.createTag(req.body.user_tag);
       }
