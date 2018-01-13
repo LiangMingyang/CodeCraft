@@ -1417,6 +1417,83 @@
     });
   };
 
+  exports.createSolution_tag = function(content, solution_id, weight) {
+    var Solution_tag, current_solutions_tag;
+    Solution_tag = global.db.models.solution_tag;
+    current_solutions_tag = void 0;
+    return global.db.transaction(function(t) {
+      return global.myUtils.findSolution_tag(solution_id, content).then(function(ifExit) {
+        if (!ifExit) {
+          return global.myUtils.findTag(content).then(function(tags) {
+            return Solution_tag.create({
+              tag_id: tags.id,
+              solution_id: solution_id,
+              weight: weight,
+              transaction: t
+            }).then(function(solutions_tag) {
+              return current_solutions_tag = solutions_tag;
+            });
+          });
+        } else {
+          return global.myUtils.findTag(content).then(function(tags) {
+            return Solution_tag.find({
+              where: {
+                tag_id: tags.id,
+                solution_id: solution_id
+              }
+            }).then(function(solutions_tag) {
+              solutions_tag.weight = weight;
+              return solutions_tag.save();
+            }).then(function(solutions_tag) {
+              return current_solutions_tag = solutions_tag;
+            });
+          });
+        }
+      });
+    }).then(function() {
+      return current_solutions_tag;
+    });
+  };
+
+  exports.findSolution_tag = function(solution_id, content) {
+    var Solution, Solution_tag, Tag;
+    Solution_tag = global.db.models.solution_tag;
+    Tag = global.db.models.tag;
+    Solution = global.db.models.solution;
+    return Solution.find({
+      where: {
+        id: solution_id
+      },
+      include: [
+        {
+          model: Tag,
+          where: {
+            content: content
+          }
+        }
+      ]
+    });
+  };
+
+  exports.findAllSolution_tag = function(solution_id) {
+    var Solution, Solution_tag, Tag;
+    Solution_tag = global.db.models.solution_tag;
+    Tag = global.db.models.tag;
+    Solution = global.db.models.solution;
+    return Solution.find({
+      where: {
+        id: solution_id
+      },
+      include: [
+        {
+          model: Tag
+        }
+      ]
+    }).then(function(solution) {
+      return solution.tags;
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

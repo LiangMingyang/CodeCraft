@@ -22,9 +22,11 @@ module.exports = (database, username, password, config)->
   Feedback = sequelize.import path.join(__dirname, 'models/feedback')
   Tag = sequelize.import path.join(__dirname, 'models/tag')
   ProblemTag = sequelize.import path.join(__dirname, 'models/problem-tag')
+  SolutionTag = sequelize.import path.join(__dirname, 'models/solution-tag')
   Recommendation = sequelize.import path.join(__dirname, 'models/recommendation')
   Solution = sequelize.import path.join(__dirname, 'models/solution')
   Evaluation = sequelize.import path.join(__dirname, 'models/evaluation-solution')
+
 
   #associations
 
@@ -123,6 +125,18 @@ module.exports = (database, username, password, config)->
   Tag.belongsToMany(Problem,
     through:
       model: ProblemTag
+    foreignKey: 'tag_id'
+  )
+
+  #tag and solution
+  Solution.belongsToMany(Tag,
+    through:
+      model: SolutionTag
+    foreignKey: 'solution_id'
+  )
+  Tag.belongsToMany(Solution,
+    through:
+      model: SolutionTag
     foreignKey: 'tag_id'
   )
 

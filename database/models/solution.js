@@ -38,15 +38,6 @@
       },
       influence: {
         type: DataTypes.INTEGER
-      },
-      tag_1: {
-        type: DataTypes.STRING
-      },
-      tag_2: {
-        type: DataTypes.STRING
-      },
-      tag_3: {
-        type: DataTypes.STRING
       }
     }, {
       underscored: true

@@ -26,12 +26,12 @@ module.exports = (sequelize, DataTypes) ->
       type: DataTypes.INTEGER
     influence:            #用户自我评价题目对自己的影响
       type: DataTypes.INTEGER
-    tag_1:                   #用户打的标签1
-      type: DataTypes.STRING
-    tag_2:                   #用户打的标签2
-      type: DataTypes.STRING
-    tag_3:                   #用户打的标签3
-      type: DataTypes.STRING
+#    tag_1:                   #用户打的标签1
+#      type: DataTypes.STRING
+#    tag_2:                   #用户打的标签2
+#      type: DataTypes.STRING
+#    tag_3:                   #用户打的标签3
+#      type: DataTypes.STRING
     #creator foreign key
     #group   foreign key
   }, {

@@ -198,47 +198,99 @@ block content
                                     .form-horizontal
                                         .form-group
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
-                                                label.control-label 标签
+                                                label.control-label 标签 *请至少填写一个标签
                                             .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-left
 
                                                 //标签1
                                                 - tag_1_value = ""
                                                 - tag_1_text = "请选择"
-                                                if(submission.solution && submission.solution.tag_1 !== undefined)
-                                                    - tag_1_value = submission.solution.tag_1
-                                                    - tag_1_text = submission.solution.tag_1
-                                                |标签1
-                                                select.form-control(type="input", name='user_tag_1', id='tag_1' required)
+                                                if(submission.solution && solution_tags[0])
+                                                    if(submission.solution.user_tag && solution_tags[0].dataValues.content != submission.solution.user_tag)
+                                                        - tag_1_value = solution_tags[0].dataValues.content
+                                                        - tag_1_text = solution_tags[0].dataValues.content
+                                                    else if(!submission.solution.user_tag)
+                                                        - tag_1_value = solution_tags[0].dataValues.content
+                                                        - tag_1_text = solution_tags[0].dataValues.content
+                                                |第一标签
+                                                select.form-control(type="input", name='solution_tags', id='tag_1' required)
                                                     option(value=tag_1_value)=tag_1_text
                                                     if tags
                                                         for Tag in tags
                                                             option(value=Tag.content) #{Tag.content}
+                                                //|第一标签权重
+                                                //- tag1_weight_value = ""
+                                                //- tag1_weight_text = "请选择"
+                                                //if(submission.solution && solution_tags[0])
+                                                //    if(submission.solution.user_tag && solution_tags[0].dataValues.content != submission.solution.user_tag)
+                                                //        - tag1_weight_value = solution_tags[0].dataValues.solution_tag.dataValues.weight
+                                                //        - tag1_weight_text = solution_tags[0].dataValues.solution_tag.dataValues.weight
+                                                //    else if(!submission.solution.user_tag)
+                                                //        - tag1_weight_value = solution_tags[0].dataValues.solution_tag.dataValues.weight
+                                                //        - tag1_weight_text = solution_tags[0].dataValues.solution_tag.dataValues.weight
+                                                //select.form-control(type="input", name='solutionTagweights',id='tag1_weight' required)
+                                                    //option(value=tag1_weight_value)=tag1_weight_text
+                                                    //option(value="4") 4
 
                                                 //标签2
                                                 - tag_2_value = ""
                                                 - tag_2_text = "请选择"
-                                                if(submission.solution && submission.solution.tag_2 !== undefined)
-                                                    - tag_2_value = submission.solution.tag_2
-                                                    - tag_2_text = submission.solution.tag_2
-                                                |标签2
-                                                select.form-control(type="input", name='user_tag_2', id='tag_2')
+                                                if(submission.solution && solution_tags[1])
+                                                    if(submission.solution.user_tag && solution_tags[1].dataValues.content !=submission.solution.user_tag)
+                                                        - tag_2_value = solution_tags[1].dataValues.content
+                                                        - tag_2_text = solution_tags[1].dataValues.content
+                                                    else if(!submission.solution.user_tag)
+                                                        - tag_2_value = solution_tags[1].dataValues.content
+                                                        - tag_2_text = solution_tags[1].dataValues.content
+                                                |第二标签
+                                                select.form-control(type="input", name='solution_tags', id='tag_2')
                                                     option(value=tag_2_value)=tag_2_text
                                                     if tags
                                                         for Tag in tags
                                                             option(value=Tag.content) #{Tag.content}
+                                                //|第二标签权重
+                                                //- tag2_weight_value = ""
+                                                //- tag2_weight_text = "请选择"
+                                                //if(submission.solution && solution_tags[1])
+                                                //    if(submission.solution.user_tag && solution_tags[1].dataValues.content != submission.solution.user_tag)
+                                                //        - tag2_weight_value = solution_tags[1].dataValues.solution_tag.dataValues.weight
+                                                //        - tag2_weight_text = solution_tags[1].dataValues.solution_tag.dataValues.weight
+                                                //    else if(!submission.solution.user_tag)
+                                                //        - tag2_weight_value = solution_tags[1].dataValues.solution_tag.dataValues.weight
+                                                //        - tag2_weight_text = solution_tags[1].dataValues.solution_tag.dataValues.weight
+                                                //select.form-control(type="input", name='solutionTagweights',id='tag2_weight')
+                                                    //option(value=tag2_weight_value)=tag2_weight_text
+                                                    //option(value="2") 2
+
 
                                                 //标签3
                                                 - tag_3_value = ""
                                                 - tag_3_text = "请选择"
-                                                if(submission.solution && submission.solution.tag_3 !== undefined)
-                                                    - tag_3_value = submission.solution.tag_3
-                                                    - tag_3_text = submission.solution.tag_3
-                                                |标签3
-                                                select.form-control(type="input", name='user_tag_3', id='tag_3')
+                                                if(submission.solution && solution_tags[2])
+                                                    if(submission.solution.user_tag && solution_tags[2].dataValues.content != submission.solution.user_tag)
+                                                        - tag_3_value = solution_tags[2].dataValues.content
+                                                        - tag_3_text = solution_tags[2].dataValues.content
+                                                    else if(!submission.solution.user_tag)
+                                                        - tag_3_value = solution_tags[2].dataValues.content
+                                                        - tag_3_text = solution_tags[2].dataValues.content
+                                                |第三标签
+                                                select.form-control(type="input", name='solution_tags', id='tag_3')
                                                     option(value=tag_3_value)=tag_3_text
                                                     if tags
                                                         for Tag in tags
                                                             option(value=Tag.content) #{Tag.content}
+                                                //|第三标签权重
+                                                //- tag3_weight_value = ""
+                                                //- tag3_weight_text = "请选择"
+                                                //if(submission.solution && solution_tags[2])
+                                                //    if(submission.solution.user_tag && solution_tags[2].dataValues.content != submission.solution.user_tag)
+                                                //        - tag3_weight_value = solution_tags[2].dataValues.solution_tag.dataValues.weight
+                                                //        - tag3_weight_text = solution_tags[2].dataValues.solution_tag.dataValues.weight
+                                                //    else if(!submission.solution.user_tag)
+                                                //        - tag3_weight_value = solution_tags[2].dataValues.solution_tag.dataValues.weight
+                                                //        - tag3_weight_text = solution_tags[2].dataValues.solution_tag.dataValues.weight
+                                                //select.form-control(type="input", name='solutionTagweights',id='tag3_weight')
+                                                    //option(value=tag3_weight_value)=tag3_weight_text
+                                                    //option(value="1") 1
 
                                                 //自定义标签
                                                 - var user_tag_value = ""
@@ -246,7 +298,27 @@ block content
                                                     - user_tag_value = submission.solution.user_tag
                                                 |自定义标签 *请认真填写
                                                 input.form-control(type="input", name="user_tag", id="tag_4", value=user_tag_value)
-
+                                                //|自定义权重
+                                                //- usertag_weight_value = ""
+                                                //- usertag_weight_text = "请选择"
+                                                //if(submission.solution && submission.solution.user_tag)
+                                                //    if(solution_tags[3] && solution_tags[3].dataValues.solution_tag.dataValues.weight)
+                                                //        - usertag_weight_value = solution_tags[3].dataValues.solution_tag.dataValues.weight
+                                                //        - usertag_weight_text = solution_tags[3].dataValues.solution_tag.dataValues.weight
+                                                //    else if(solution_tags[2] && solution_tags[2].dataValues.solution_tag.dataValues.weight)
+                                                //        - usertag_weight_value = solution_tags[2].dataValues.solution_tag.dataValues.weight
+                                                //        - usertag_weight_text = solution_tags[2].dataValues.solution_tag.dataValues.weight
+                                                //    else if(solution_tags[1] && solution_tags[1].dataValues.solution_tag.dataValues.weight)
+                                                //        - usertag_weight_value = solution_tags[1].dataValues.solution_tag.dataValues.weight
+                                                //        - usertag_weight_text = solution_tags[1].dataValues.solution_tag.dataValues.weight
+                                                //    else if(solution_tags[0] && solution_tags[0].dataValues.solution_tag.dataValues.weight)
+                                                //        - usertag_weight_value = solution_tags[0].dataValues.solution_tag.dataValues.weight
+                                                //        - usertag_weight_text = solution_tags[0].dataValues.solution_tag.dataValues.weight
+                                                //select.form-control(type="input", name='usertag_weight',id='usertag_weight')
+                                                //    option(value=usertag_weight_value)=usertag_weight_text
+                                                //    option(value="4") 4
+                                                //    option(value="2") 2
+                                                //    option(value="1") 1
                                 .modal-footer
                                     button.btn.btn-default(type='button', data-dismiss='modal') 取消
                                     button.btn.btn-primary(type='submit') 保存
@@ -361,7 +433,6 @@ block content
                 __protect_time.css("display", "none");
             }
         }
-        fill_all_tags();
         function _praise() {
             $.get("praise", {score: 1}, function(res, status){
                 $("#praise").addClass('btn-primary');
@@ -375,14 +446,38 @@ block content
             })
         }
         //
-        function submit_usertag() {
-            var tag1 = $("#tag_1").val();
-            var tag2 = $("#tag_2").val();
-            var tag3 = $("#tag_3").val();
-            var tag4 = $("#tag_4").val();
-            if (!tag1 && !tag2 && !tag3 && !tag4) {
-                alert("请至少选择一个标签！");
-                return false;
-            }
-            $("#form").submit();
-        }
+//        function submit_usertag() {
+//            var tag2 = $("#tag_2").val();
+//            var tag3 = $("#tag_3").val();
+//            var tag4 = $("#tag_4").val();
+//            var tag2_weight = $("#tag2_weight").val();
+//            var tag3_weight = $("#tag3_weight").val();
+//            var usertag_weight = $("#usertag_weight").val();
+//            if (tag2 && !tag2_weight) {
+//                alert("一定要选择对应的权重哦！");
+//                return false;
+//            }
+//            if (tag3 && !tag3_weight) {
+//                alert("一定要选择对应的权重哦！");
+//                return false;
+//            }
+//            if (tag4 && !usertag_weight) {
+//                alert("一定要选择对应的权重哦！");
+//                return false;
+//            }
+//
+//            if (!tag2 && tag2_weight) {
+//                alert("小O做不到啊！");
+//                return false;
+//            }
+//            if (!tag3 && tag3_weight) {
+//                alert("小O做不到啊！");
+//                return false;
+//            }
+//            if (!tag4 && usertag_weight) {
+//                alert("小O做不到啊！");
+//                return false;
+//            }
+//
+//            $("#form").submit();
+//        }

@@ -174,7 +174,7 @@
   };
 
   exports.getSolution = function(req, res) {
-    var Contest, DB, Evaluation, Problem, Solution, Submission, SubmissionCode, Tag, User, Utils, currentEvaluation, currentSubmission, currentUser;
+    var Contest, DB, Evaluation, Problem, Solution, Submission, SubmissionCode, Tag, User, Utils, currentEvaluation, currentSubmission, currentTags, currentUser;
     DB = global.db;
     Utils = global.myUtils;
     User = DB.models.user;
@@ -188,6 +188,7 @@
     currentEvaluation = void 0;
     currentSubmission = void 0;
     currentUser = void 0;
+    currentTags = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -227,12 +228,18 @@
       currentEvaluation = evaluation;
       return Tag.findAll();
     }).then(function(tags) {
+      currentTags = tags;
+      if (currentSubmission.solution) {
+        return global.myUtils.findAllSolution_tag(currentSubmission.solution.id);
+      }
+    }).then(function(solution_tags) {
       return res.render('submission/solution', {
         submission: currentSubmission,
         user: currentUser,
         editable: currentSubmission.creator.id === (currentUser != null ? currentUser.id : void 0),
         evaluation: currentEvaluation[0],
-        tags: tags
+        tags: currentTags,
+        solution_tags: solution_tags
       });
     })["catch"](global.myErrors.UnknownSubmission, function(err) {
       return res.render('error', {
@@ -248,7 +255,7 @@
   };
 
   exports.postSolution = function(req, res) {
-    var DB, Solution, Tag, User, Utils, currentFlag, currentSubmission, currentTag, currentUser, form;
+    var DB, Solution, Solutiontags, Solutionweights, Tag, User, Utils, currentFlag, currentSolution, currentSubmission, currentTag, currentUser, form;
     DB = global.db;
     Utils = global.myUtils;
     User = DB.models.user;
@@ -257,6 +264,9 @@
     currentTag = void 0;
     currentUser = void 0;
     currentSubmission = void 0;
+    currentSolution = void 0;
+    Solutiontags = void 0;
+    Solutionweights = void 0;
     currentFlag = true;
     form = {};
     return global.db.Promise.resolve().then(function() {
@@ -285,10 +295,7 @@
         user_tag: req.body["user_tag"],
         practice_time: req.body["practice_time"],
         score: req.body["score"],
-        influence: req.body["influence"],
-        tag_1: req.body["user_tag_1"],
-        tag_2: req.body["user_tag_2"],
-        tag_3: req.body["user_tag_3"]
+        influence: req.body["influence"]
       };
       currentSubmission = submission;
       if (submission.solution) {
@@ -302,29 +309,34 @@
         submission.solution.score = form.score;
         submission.solution.category = form.category;
         submission.solution.influence = form.influence;
-        submission.solution.tag_1 = form.tag_1;
-        submission.solution.tag_2 = form.tag_2;
-        submission.solution.tag_3 = form.tag_3;
-        submission.solution.save();
+        return submission.solution.save();
       } else {
-        Solution.create(form).then(function(solution) {
+        return Solution.create(form).then(function(solution) {
           return currentSubmission.setSolution(solution);
         });
       }
-      return Tag.findAll();
-    }).then(function(tags) {
-      var i, len;
-      currentTag = tags;
-      for (i = 0, len = tags.length; i < len; i++) {
-        Tag = tags[i];
-        if (req.body.user_tag && Tag.content === req.body.user_tag) {
-          currentFlag = false;
-        }
-      }
-      if (req.body.user_tag && currentFlag) {
-        return global.myUtils.createTag(req.body.user_tag);
-      }
     }).then(function(solution) {
+      var i, j, len, tag;
+      currentSolution = solution;
+      i = 0;
+      Solutiontags = (function() {
+        var j, len, ref, results;
+        ref = req.body["solution_tags"];
+        results = [];
+        for (j = 0, len = ref.length; j < len; j++) {
+          tag = ref[j];
+          if (tag !== '') {
+            results.push(tag);
+          }
+        }
+        return results;
+      })();
+      Solutionweights = ['4', '2', '1'];
+      for (j = 0, len = Solutiontags.length; j < len; j++) {
+        Tag = Solutiontags[j];
+        Utils.createSolution_tag(Tag, currentSolution.id, Solutionweights[i]);
+        i = i + 1;
+      }
       req.flash('info', "保存成功");
       return res.redirect("../" + currentSubmission.id + "/solution");
     })["catch"](function(err) {

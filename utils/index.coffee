@@ -1089,5 +1089,72 @@ exports.createProblem_tag = (contents,problems_id,weights) ->
   .then ->
     return current_problems_tag
 
+#题解Solution
+#在solution_tag中添加给某一题解添加某标签及权重
+exports.createSolution_tag =(content,solution_id,weight) ->
+  Solution_tag = global.db.models.solution_tag
+  current_solutions_tag = undefined
+  global.db.transaction (t)->
+    global.myUtils.findSolution_tag(solution_id,content)
+    .then (ifExit) ->
+      if !ifExit
+        global.myUtils.findTag(content)
+        .then (tags) ->
+          Solution_tag.create(
+            tag_id : tags.id
+            solution_id : solution_id
+            weight : weight, transaction: t
+          )
+          .then (solutions_tag) ->
+            current_solutions_tag = solutions_tag
+      else
+        global.myUtils.findTag(content)
+        .then (tags) ->
+          Solution_tag.find(
+            where:
+              tag_id : tags.id
+              solution_id : solution_id
+          )
+          .then (solutions_tag) ->
+            solutions_tag.weight = weight
+            solutions_tag.save()
+          .then (solutions_tag) ->
+            current_solutions_tag = solutions_tag
+  .then ->
+    return current_solutions_tag
+
+#查找solution_tag中某一题解是否已经含有已知标签
+exports.findSolution_tag = (solution_id, content)->
+  Solution_tag = global.db.models.solution_tag
+  Tag = global.db.models.tag
+  Solution = global.db.models.solution
+  #console.log contents
+  Solution.find(
+    where:
+      id : solution_id
+    include:[
+      model:Tag,
+      where:
+        content : content
+    ]
+  )
+
+#获得某一题解下所有的标签及其权重
+exports.findAllSolution_tag = (solution_id)->
+  Solution_tag = global.db.models.solution_tag
+  Tag = global.db.models.tag
+  #console.log problems_id
+  Solution = global.db.models.solution
+  Solution.find(
+    where :
+      id : solution_id
+    include:[
+      model:Tag
+    ]
+  )
+  .then (solution)->
+    return solution.tags
+
+
 
   

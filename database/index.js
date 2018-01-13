@@ -9,7 +9,7 @@
   models = require('./models');
 
   module.exports = function(database, username, password, config) {
-    var Contest, ContestProblemList, Evaluation, Feedback, Group, Issue, IssueReply, Judge, Membership, Message, Problem, ProblemTag, Recommendation, Solution, Submission, SubmissionCode, Tag, User, sequelize;
+    var Contest, ContestProblemList, Evaluation, Feedback, Group, Issue, IssueReply, Judge, Membership, Message, Problem, ProblemTag, Recommendation, Solution, SolutionTag, Submission, SubmissionCode, Tag, User, sequelize;
     sequelize = new Sequelize(database, username, password, config);
     Contest = sequelize["import"](path.join(__dirname, 'models/contest'));
     ContestProblemList = sequelize["import"](path.join(__dirname, 'models/contest-problem-list'));
@@ -26,6 +26,7 @@
     Feedback = sequelize["import"](path.join(__dirname, 'models/feedback'));
     Tag = sequelize["import"](path.join(__dirname, 'models/tag'));
     ProblemTag = sequelize["import"](path.join(__dirname, 'models/problem-tag'));
+    SolutionTag = sequelize["import"](path.join(__dirname, 'models/solution-tag'));
     Recommendation = sequelize["import"](path.join(__dirname, 'models/recommendation'));
     Solution = sequelize["import"](path.join(__dirname, 'models/solution'));
     Evaluation = sequelize["import"](path.join(__dirname, 'models/evaluation-solution'));
@@ -110,6 +111,18 @@
     Tag.belongsToMany(Problem, {
       through: {
         model: ProblemTag
+      },
+      foreignKey: 'tag_id'
+    });
+    Solution.belongsToMany(Tag, {
+      through: {
+        model: SolutionTag
+      },
+      foreignKey: 'solution_id'
+    });
+    Tag.belongsToMany(Solution, {
+      through: {
+        model: SolutionTag
       },
       foreignKey: 'tag_id'
     });
