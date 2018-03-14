@@ -446,14 +446,16 @@ exports.ChampionRank =() ->
       attributes:['student_id','nickname']
       as:'creator'
       where: {
-        student_id: {
-          $ne: ''
-        }
+        student_id:
+          global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"')
+
+        $and:
+          global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
       }
     ]
     where:
       updated_at: {
-        $between: ['2017-12-01 00:00:00', '2017-12-18 00:00:00']
+        $between: ['2018-01-01 00:00:00', '2018-02-01 00:00:00']
       }
 
     group: [global.db.literal('creator_id')],
@@ -1089,6 +1091,61 @@ exports.createProblem_tag = (contents,problems_id,weights) ->
   .then ->
     return current_problems_tag
 
+
+exports.createProblem_tagS =(content,problem_id,weight) ->
+  Problem_tag = global.db.models.problem_tag
+  current_problems_tag = undefined
+  global.db.transaction (t)->
+    global.myUtils.findProblem_tag(problem_id,content)
+    .then (ifExit) ->
+      if !ifExit
+        global.myUtils.findTag(content)
+        .then (iftags) ->
+          if !iftags
+            global.myUtils.createTag(content)
+            global.myUtils.findTag(content)
+            .then (tags) ->
+              Problem_tag.create(
+                tag_id : tags.id
+                problem_id : problem_id
+                weight : weight, transaction: t
+              )
+              .then (problems_tag) ->
+                current_problems_tag = problems_tag
+
+          else
+            global.myUtils.findTag(content)
+            .then (tags) ->
+              Problem_tag.create(
+                tag_id : tags.id
+                problem_id : problem_id
+                weight : weight, transaction: t
+              )
+              .then (problems_tag) ->
+                current_problems_tag = problems_tag
+      else
+        global.myUtils.findTag(content)
+        .then (tags) ->
+          Problem_tag.find(
+            where:
+              tag_id : tags.id
+              problem_id : problem_id
+          )
+          .then (problems_tag) ->
+            problems_tag.weight = weight
+            problems_tag.save()
+          .then (problems_tag) ->
+            current_problems_tag = problems_tag
+  .then ->
+    return current_problems_tag
+
+
+
+
+
+
+
+
 #题解Solution
 #在solution_tag中添加给某一题解添加某标签及权重
 exports.createSolution_tag =(content,solution_id,weight) ->
@@ -1155,6 +1212,76 @@ exports.findAllSolution_tag = (solution_id)->
   .then (solution)->
     return solution.tags
 
+#获得某题的所有题解打的tag
+exports.findProblem_SolutionTags = (problem_id)->
+  Problem = global.db.models.problem
+  Submission = global.db.models.submission
+  Solution = global.db.models.solution
+  SolutionTag = global.db.models.solution_tag
+  Tag = global.db.models.tag
 
+  Tag.find(
+    attributes: ['id'],
+    include:[{
+      model: Solution
+      include:[{
+        model: Submission
+        where:
+          id: global.db.literal('Solution.submission_id')
+          problem_id: problem_id
+      }]
+    }]
+    group: ['id']
+  )
+  .then (tag)->
+    return tag
+
+
+exports.createSolution_tagS =(content,solution_id,weight) ->
+  Solution_tag = global.db.models.solution_tag
+  current_solutions_tag = undefined
+  global.db.transaction (t)->
+    global.myUtils.findSolution_tag(solution_id,content)
+    .then (ifExit) ->
+      if !ifExit
+        global.myUtils.findTag(content)
+        .then (iftags) ->
+          if !iftags
+            global.myUtils.createTag(content)
+            global.myUtils.findTag(content)
+            .then (tags) ->
+              Solution_tag.create(
+                tag_id : tags.id
+                solution_id : solution_id
+                weight : weight, transaction: t
+              )
+              .then (solutions_tag) ->
+                current_solutions_tag = solutions_tag
+
+          else
+            global.myUtils.findTag(content)
+            .then (tags) ->
+              Solution_tag.create(
+                tag_id : tags.id
+                solution_id : solution_id
+                weight : weight, transaction: t
+              )
+              .then (solutions_tag) ->
+                current_solutions_tag = solutions_tag
+      else
+        global.myUtils.findTag(content)
+        .then (tags) ->
+          Solution_tag.find(
+            where:
+              tag_id : tags.id
+              solution_id : solution_id
+          )
+          .then (solutions_tag) ->
+            solutions_tag.weight = weight
+            solutions_tag.save()
+          .then (solutions_tag) ->
+            current_solutions_tag = solutions_tag
+  .then ->
+    return current_solutions_tag
 
   

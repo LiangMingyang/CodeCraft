@@ -14,25 +14,22 @@
   };
 
   exports.postTags = function(req, res) {
-    var currentTag;
+    var currentTag, i;
     currentTag = void 0;
+    i = void 0;
     return global.db.Promise.resolve().then(function() {
-      return global.myUtils.findProblem_tag(req.params.problemID, req.body.content);
-    }).then(function(ifRelationExit) {
-      if (ifRelationExit) {
-        return res.json("关系已存在！");
-      } else {
-        return global.myUtils.findTag(req.body.content).then(function(ifTagExit) {
-          if (!ifTagExit) {
-            global.myUtils.createTag(req.body.content);
-          }
-          return global.myUtils.createProblem_tag(req.body.content, req.params.problemID, req.body.weight).then(function(problem_tag) {
-            return res.json(problem_tag.get({
-              plasin: true
-            }));
-          });
-        });
+      var results;
+      i = req.body.content.length;
+      results = [];
+      while (true) {
+        if (i) {
+          global.myUtils.createProblem_tagS(req.body.content[i - 1], req.body.problemID[i - 1], req.body.weight[i - 1]);
+          results.push(i--);
+        } else {
+          break;
+        }
       }
+      return results;
     })["catch"](function(err) {
       res.status(err.status || 400);
       return res.json({

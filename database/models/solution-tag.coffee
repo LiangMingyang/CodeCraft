@@ -9,7 +9,7 @@ module.exports = (sequelize,DataTypes) ->
       unique:'tag_solution'
       allowNull: false
     weight:
-      type: DataTypes.INTEGER
+      type: DataTypes.FLOAT
       allowNull: true
   }, {
     underscored: true

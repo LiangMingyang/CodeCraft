@@ -13,24 +13,54 @@ block title
     title #{whichPage}
 
 block content
+    - var yy;
+    - var mm;
+    - var dd;
+    - var hh;
+    - var mi;
+    - var ss;
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
         h3 所有课程
         if(groups)
             table.table.table-condensed.containing-x.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;margin-top:0;background:#")
                 tr.group-title-tr
                     td
+                        label 课程编号
+                    td(style="text-align:left")
                         label 课程名称
                     td
                         label 创建者昵称
                     td
                         label 课程人数
                 - for(var i = 0 ; i < groups.length ; ++i)
+                    - var group = groups[i]
+                    - var j = i+1
                     - if(i % 2 == 1)
                         - oddEvenTable = "odd"
                     - else
                         - oddEvenTable = "even"
+
                     tr(id = "tr" + i)
-                        td
+                        //- yy = groups[i].created_at.getFullYear();
+                        //- mm = groups[i].created_at.getMonth() - 0 + 1;
+                        //- if(mm<10)
+                        //    - mm="0"+mm;
+                        //- dd = groups[i].created_at.getDate();
+                        //- if(dd<10)
+                        //    - dd="0"+dd;
+                        //- hh = groups[i].created_at.getHours();
+                        //- if(hh<10)
+                        //    - hh="0"+hh;
+                        //- mi = groups[i].created_at.getMinutes();
+                        //- if(mi<10)
+                        //    - mi="0"+mi;
+                        //- ss = groups[i].created_at.getSeconds();
+                        //- if(ss<10)
+                        //    - ss="0"+ss;
+                        //td(style="color:#000000") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
+                        td(style="color:#000000") #{j}
+
+                        td(style="text-align:left")
                             a(href="/group/" + groups[i].id + "/index")= groups[i].name
                         td
                             - if(groups[i].creator)

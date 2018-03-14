@@ -12,6 +12,8 @@
 
   exports.tag = require('./tag');
 
+  exports.solution_tag = require('./solution_tag');
+
 }).call(this);
 
 //# sourceMappingURL=index.js.map

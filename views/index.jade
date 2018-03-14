@@ -17,6 +17,7 @@ html(lang='zh-CN')
         script(src='/js/bootstrap.min.js')
         script(src='/js/autosize.min.js')
         script(src="/js/ga.js")
+        //-script(type="text/javascript",src="/js/SJQuery.js")
     body
         #container.container-fluid
             .row
@@ -132,11 +133,11 @@ html(lang='zh-CN')
                                         a(href="/problem/accepted" style="color:#88FF45") 题解链接
                                     //br
                                     h4
-                                        label(style="color:#EE4000; font-weight:bold; font-size:20px;") 【重要通知】
-                                        a(href="/rank/index",style="color:#FFB90F") 题解检查结果声明>>>详情请戳>>>排行榜
-                                        p
-                                        label(style="color:#EE4000; font-weight:bold; font-size:20px;") 【通知】
-                                        a(href="/bcpc/advertisement.html",style="color:#FFB90F",target="_blank") 关于北航学院2017级（航空航天类）《C语言程序设计》课程助教招募>>>感兴趣请戳>>>详情
+                                        //label(style="color:#FFB90F; font-weight:bold; font-size:18px;") 请注意，提交相同AC代码(包括自己的)的行为将被判定为抄袭，情节严重者将被系统永久封号。
+                                        //a(href="/rank/index",style="color:#FFB90F") 题解检查结果声明>>>详情请戳>>>排行榜
+                                        //p
+                                        //label(style="color:#EE4000; font-weight:bold; font-size:20px;") 【通知】
+                                        //a(href="/bcpc/advertisement.html",style="color:#FFB90F",target="_blank") 关于北航学院2017级（航空航天类）《C语言程序设计》课程助教招募>>>感兴趣请戳>>>详情
 
                                     .col-lg-4.col-md-4.col-sm-4.col-xs-4
                                         if(user && recommendation && recommendation.length != 0)
@@ -153,12 +154,17 @@ html(lang='zh-CN')
                                                             - recommendation_problem_id = "00" + recommendation_problem_id;
                                                         else if(recommendation_problem_id < 100)
                                                             - recommendation_problem_id = "0" + recommendation_problem_id;
-                                                        if(recommendation[i].accepted + recommendation[i].tried == 1)
+                                                        if(recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] == "[]"
                                                             //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
                                                             a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                        else if (recommendation[i].accepted + recommendation[i].tried != 2)
+                                                        else if (recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] != "[]"
+                                                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
+                                                        else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] == "[]"
                                                             //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
                                                             a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                        else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] != "[]"
+                                                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:#FFB90F; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
+
 
                                         //br
                                         //br
@@ -181,7 +187,9 @@ html(lang='zh-CN')
                                                             p
                                                                 a(href="/problem/" + problem.id + "/createSolution", style='color:black;font-size:14px;') #{problem.id}--#{problem.title}
 
-                                    p(style="font-size:16px;color:#FFB90F;font-weight: bold;margin-top:500px;") 听说有福利~~
+                                    label(style="color:black; font-weight:bold; font-size:16px;margin-top:200px;") 请注意，提交相同AC代码(包括自己的)的行为将被判定为抄袭，情节严重者将被系统永久封号。
+
+                                    p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 听说有福利~~
                                         a(href="https://cloud.tencent.com/act/campus?utm_source=beihang&utm_medium=txt&utm_campaign=campus" target="_blank") 小OJ提醒您戳戳戳 《腾讯云大学生扶持计划》
 
                                     //-h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
@@ -196,73 +204,73 @@ html(lang='zh-CN')
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:20px") 学号
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff;font-size:20px") 姓名
                                             tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年9月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211037
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 王嘉翼
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2018年1月
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 17373202
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 余帅
                                             tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年10月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211037
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 王嘉翼
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年11月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211075
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 余双宏
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年12月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年1月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年2月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16061130
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 谭圣禹
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年3月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年4月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211022
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 黎昆昌
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年5月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年6月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 75211104
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 金亨辰
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年7月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 15241055
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 王怀忠
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年8月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211004
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 杜予同
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 年度总冠军
-                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 16211109
-                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 周宏建
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年9月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16211064
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 李想
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年10月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 15041061
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 廖晓宇
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年11月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16721074
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 刘炜
-                                            tr.text-center
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年12月
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 16011133
-                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 余天予
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2018年2月
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 17373522
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 王子牧
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年11月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211075
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 余双宏
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2016年12月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年1月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年2月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16061130
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 谭圣禹
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年3月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年4月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211022
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 黎昆昌
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年5月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 周宏建
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年6月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 75211104
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 金亨辰
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年7月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 15241055
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 王怀忠
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年8月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211004
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 杜予同
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 年度总冠军
+                                            //    td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 16211109
+                                            //    td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 周宏建
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年9月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211064
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 李想
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年10月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 15041061
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 廖晓宇
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年11月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16721074
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 刘炜
+                                            //tr.text-center
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年12月
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16011133
+                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 余天予
 
                     script.
                         $(document).ready(function () {
@@ -283,3 +291,18 @@ html(lang='zh-CN')
                             br
                             p.text-center
                                 | College of Software, Beihang University
+
+                    //script.
+                    //    $.ajax({
+                    //        url: "http://localhost:3000/api/solution_tags/15783/tag",
+                    //        data: JSON.stringify({
+                    //            content: "数学运算", solutionID: 15783, weight: 2
+                    //        })
+                    //        ,
+                    //        type: "POST"
+                    //    });
+
+
+
+
+

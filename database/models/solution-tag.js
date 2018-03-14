@@ -13,7 +13,7 @@
         allowNull: false
       },
       weight: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: true
       }
     }, {

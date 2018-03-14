@@ -10,3 +10,5 @@ exports.utils = require('./utils')
 
 exports.tag = require('./tag')
 
+exports.solution_tag = require('./solution_tag')
+

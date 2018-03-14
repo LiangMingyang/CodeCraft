@@ -37,10 +37,25 @@
   });
 
   router.get('/index', function(req, res) {
-    var User, currentUser, recommendation;
+    var J, PI, ProblemTag, SI, SP, SolutionTag, Tags, User, currentUser, i1, i2, j, problemTags, recommendation, sequelize, solutionTags, sp, tmp;
     User = global.db.models.user;
     recommendation = void 0;
     currentUser = void 0;
+    ProblemTag = void 0;
+    SolutionTag = void 0;
+    solutionTags = [];
+    Tags = [];
+    problemTags = [];
+    i1 = void 0;
+    i2 = void 0;
+    j = void 0;
+    J = void 0;
+    tmp = void 0;
+    SI = void 0;
+    PI = void 0;
+    sp = void 0;
+    SP = void 0;
+    sequelize = global.db;
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -64,9 +79,172 @@
         }
         return results1;
       })();
-      return recommendation.sort(function(a, b) {
+      recommendation.sort(function(a, b) {
         return b.recommendation.score - a.recommendation.score;
       });
+      return sequelize.query('select problems.id,solution_tags.tag_id,sum(weight) as weight, tags.content from  problems, submissions, solutions, solution_tags, tags where problems.id = submissions.problem_id = "1" and submissions.id =  solutions.submission_id and  solutions.id =  solution_tags.solution_id and  solution_tags.tag_id =  tags.id group by  problems.id, solution_tags.tag_id order by  problems.id,sum(weight) DESC, solution_tags.tag_id');
+    }).spread(function(results, metadata) {
+      SolutionTag = results;
+      return sequelize.query('select  problems.id,problem_tags.tag_id,sum(weight) as weight, tags.content from  problems, problem_tags, tags where  problems.id =  problem_tags.problem_id and  problem_tags.tag_id =  tags.id group by  problems.id , problem_tags.tag_id order by  problems.id , problem_tags.tag_id');
+    }).spread(function(results, metadata) {
+      return ProblemTag = results;
+    }).then(function() {
+      var Recommendation, i, k, l, len, len1, len2, problemTag, ptmp, results1, solutionTag, stmp;
+      if (recommendation) {
+        j = 0;
+        results1 = [];
+        for (i = 0, len = recommendation.length; i < len; i++) {
+          Recommendation = recommendation[i];
+          i1 = 0;
+          i2 = 0;
+          SI = 3;
+          PI = 3;
+          solutionTags = [];
+          problemTags = [];
+          if (SolutionTag) {
+            for (k = 0, len1 = SolutionTag.length; k < len1; k++) {
+              solutionTag = SolutionTag[k];
+              if (solutionTag.id === Recommendation.id && SI) {
+                solutionTags[i1] = solutionTag;
+                i1++;
+                SI--;
+              }
+            }
+          }
+          if (ProblemTag) {
+            for (l = 0, len2 = ProblemTag.length; l < len2; l++) {
+              problemTag = ProblemTag[l];
+              if (problemTag.id === Recommendation.id && PI) {
+                problemTags[i2] = problemTag;
+                i2++;
+                PI--;
+              }
+            }
+          }
+          if (JSON.stringify(solutionTags) !== "[]" && JSON.stringify(problemTags) !== "[]") {
+            stmp = solutionTags.length;
+            ptmp = problemTags.length;
+            if (!stmp) {
+              sp = "[" + JSON.stringify(solutionTags);
+            } else {
+              sp = "[" + JSON.stringify(solutionTags[stmp - 1]);
+              stmp = stmp - 1;
+              while (true) {
+                if (stmp) {
+                  sp = sp + "," + JSON.stringify(solutionTags[stmp - 1]);
+                  stmp = stmp - 1;
+                } else {
+                  break;
+                }
+              }
+            }
+            if (!ptmp) {
+              sp = sp + "," + JSON.stringify(problemTags);
+            } else {
+              while (true) {
+                if (ptmp) {
+                  sp = sp + "," + JSON.stringify(problemTags[ptmp - 1]);
+                  ptmp = ptmp - 1;
+                } else {
+                  break;
+                }
+              }
+            }
+            sp = sp + "]";
+            SP = JSON.parse(sp);
+            SP.sort(function(a, b) {
+              return b.weight - a.weight;
+            });
+            tmp = SP.length;
+            J = 0;
+            results1.push((function() {
+              var results2;
+              results2 = [];
+              while (true) {
+                if (tmp >= 3) {
+                  Tags[j] = SP[J].content + "-" + SP[J + 1].content + "-" + SP[J + 2].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else if ((2 <= tmp && tmp < 3)) {
+                  Tags[j] = SP[J].content + "-" + SP[J + 1].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else if (tmp === 1) {
+                  Tags[j] = SP[J].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else {
+                  break;
+                }
+              }
+              return results2;
+            })());
+          } else if (JSON.stringify(solutionTags) !== "[]") {
+            tmp = solutionTags.length;
+            J = 0;
+            results1.push((function() {
+              var results2;
+              results2 = [];
+              while (true) {
+                if (tmp >= 3) {
+                  Tags[j] = solutionTags[J].content + "-" + solutionTags[J + 1].content + "-" + solutionTags[J + 2].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else if ((2 <= tmp && tmp < 3)) {
+                  Tags[j] = solutionTags[J].content + "-" + solutionTags[J + 1].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else if (tmp === 1) {
+                  Tags[j] = solutionTags[J].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else {
+                  break;
+                }
+              }
+              return results2;
+            })());
+          } else if (JSON.stringify(problemTags) !== "[]") {
+            tmp = problemTags.length;
+            J = 0;
+            results1.push((function() {
+              var results2;
+              results2 = [];
+              while (true) {
+                if (tmp >= 3) {
+                  Tags[j] = problemTags[J].content + "-" + problemTags[J + 1].content + "-" + problemTags[J + 2].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else if ((2 <= tmp && tmp < 3)) {
+                  Tags[j] = problemTags[J].content + "-" + problemTags[J + 1].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else if (tmp === 1) {
+                  Tags[j] = problemTags[J].content;
+                  j++;
+                  J = J + 3;
+                  results2.push(tmp = tmp - 3);
+                } else {
+                  break;
+                }
+              }
+              return results2;
+            })());
+          } else {
+            Tags[j] = "[]";
+            results1.push(j++);
+          }
+        }
+        return results1;
+      }
     }).then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
@@ -84,7 +262,8 @@
         title: 'OJ4TH',
         user: req.session.user,
         recommendation: recommendation,
-        problems: problem
+        problems: problem,
+        tags: Tags
       });
     });
   });

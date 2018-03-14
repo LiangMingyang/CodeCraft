@@ -16,4 +16,6 @@ router
 
 .use '/tags', modules.tag.router
 
+.use '/solution_tags', modules.solution_tag.router
+
 module.exports = router

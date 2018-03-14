@@ -599,15 +599,14 @@
           attributes: ['student_id', 'nickname'],
           as: 'creator',
           where: {
-            student_id: {
-              $ne: ''
-            }
+            student_id: global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"'),
+            $and: global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
           }
         }
       ],
       where: {
         updated_at: {
-          $between: ['2017-12-01 00:00:00', '2017-12-18 00:00:00']
+          $between: ['2018-01-01 00:00:00', '2018-02-01 00:00:00']
         }
       },
       group: [global.db.literal('creator_id')],
@@ -1417,6 +1416,60 @@
     });
   };
 
+  exports.createProblem_tagS = function(content, problem_id, weight) {
+    var Problem_tag, current_problems_tag;
+    Problem_tag = global.db.models.problem_tag;
+    current_problems_tag = void 0;
+    return global.db.transaction(function(t) {
+      return global.myUtils.findProblem_tag(problem_id, content).then(function(ifExit) {
+        if (!ifExit) {
+          return global.myUtils.findTag(content).then(function(iftags) {
+            if (!iftags) {
+              global.myUtils.createTag(content);
+              return global.myUtils.findTag(content).then(function(tags) {
+                return Problem_tag.create({
+                  tag_id: tags.id,
+                  problem_id: problem_id,
+                  weight: weight,
+                  transaction: t
+                }).then(function(problems_tag) {
+                  return current_problems_tag = problems_tag;
+                });
+              });
+            } else {
+              return global.myUtils.findTag(content).then(function(tags) {
+                return Problem_tag.create({
+                  tag_id: tags.id,
+                  problem_id: problem_id,
+                  weight: weight,
+                  transaction: t
+                }).then(function(problems_tag) {
+                  return current_problems_tag = problems_tag;
+                });
+              });
+            }
+          });
+        } else {
+          return global.myUtils.findTag(content).then(function(tags) {
+            return Problem_tag.find({
+              where: {
+                tag_id: tags.id,
+                problem_id: problem_id
+              }
+            }).then(function(problems_tag) {
+              problems_tag.weight = weight;
+              return problems_tag.save();
+            }).then(function(problems_tag) {
+              return current_problems_tag = problems_tag;
+            });
+          });
+        }
+      });
+    }).then(function() {
+      return current_problems_tag;
+    });
+  };
+
   exports.createSolution_tag = function(content, solution_id, weight) {
     var Solution_tag, current_solutions_tag;
     Solution_tag = global.db.models.solution_tag;
@@ -1491,6 +1544,89 @@
       ]
     }).then(function(solution) {
       return solution.tags;
+    });
+  };
+
+  exports.findProblem_SolutionTags = function(problem_id) {
+    var Problem, Solution, SolutionTag, Submission, Tag;
+    Problem = global.db.models.problem;
+    Submission = global.db.models.submission;
+    Solution = global.db.models.solution;
+    SolutionTag = global.db.models.solution_tag;
+    Tag = global.db.models.tag;
+    return Tag.find({
+      attributes: ['id'],
+      include: [
+        {
+          model: Solution,
+          include: [
+            {
+              model: Submission,
+              where: {
+                id: global.db.literal('Solution.submission_id'),
+                problem_id: problem_id
+              }
+            }
+          ]
+        }
+      ],
+      group: ['id']
+    }).then(function(tag) {
+      return tag;
+    });
+  };
+
+  exports.createSolution_tagS = function(content, solution_id, weight) {
+    var Solution_tag, current_solutions_tag;
+    Solution_tag = global.db.models.solution_tag;
+    current_solutions_tag = void 0;
+    return global.db.transaction(function(t) {
+      return global.myUtils.findSolution_tag(solution_id, content).then(function(ifExit) {
+        if (!ifExit) {
+          return global.myUtils.findTag(content).then(function(iftags) {
+            if (!iftags) {
+              global.myUtils.createTag(content);
+              return global.myUtils.findTag(content).then(function(tags) {
+                return Solution_tag.create({
+                  tag_id: tags.id,
+                  solution_id: solution_id,
+                  weight: weight,
+                  transaction: t
+                }).then(function(solutions_tag) {
+                  return current_solutions_tag = solutions_tag;
+                });
+              });
+            } else {
+              return global.myUtils.findTag(content).then(function(tags) {
+                return Solution_tag.create({
+                  tag_id: tags.id,
+                  solution_id: solution_id,
+                  weight: weight,
+                  transaction: t
+                }).then(function(solutions_tag) {
+                  return current_solutions_tag = solutions_tag;
+                });
+              });
+            }
+          });
+        } else {
+          return global.myUtils.findTag(content).then(function(tags) {
+            return Solution_tag.find({
+              where: {
+                tag_id: tags.id,
+                solution_id: solution_id
+              }
+            }).then(function(solutions_tag) {
+              solutions_tag.weight = weight;
+              return solutions_tag.save();
+            }).then(function(solutions_tag) {
+              return current_solutions_tag = solutions_tag;
+            });
+          });
+        }
+      });
+    }).then(function() {
+      return current_solutions_tag;
     });
   };
 

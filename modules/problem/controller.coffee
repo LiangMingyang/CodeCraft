@@ -257,6 +257,7 @@ exports.postAccepted = (req, res) ->
       err.message = "未知错误"
       res.render 'error', error: err
 
+#点击统计
 exports.getStatistics = (req, res) ->
   count_common = undefined
   count_graph = undefined
