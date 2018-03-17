@@ -29,7 +29,7 @@
       problem: 20
     },
     problem_resource_path: path.resolve(__dirname, 'modules/problem/resource'),
-    cluster: 8,
+    cluster: 10,
     judge: {
       penalty: 20 * 60 * 1000,
       cache: 1000,
