@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) ->
   sequelize.define 'submission', {
   #submit_code
     lang:
-      type: DataTypes.ENUM('c++', 'c', 'python', 'java')
+      type: DataTypes.ENUM('c++', 'c', 'python', 'java','python2','python3')
       allowNull: false
       defaultValue: 'c++'
     result:
