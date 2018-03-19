@@ -27,11 +27,18 @@
         </small>
     </h3>
     <div>
+        <div>
+            <dir-pagination-controls boundary-links="true" template-url="detail/pagination/dirPagination.tpl.html" pagination-id="rank"
+                auto-hide="false"></dir-pagination-controls>
+        </div>
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                 <tr class="text-center">
                     <td>排名</td>
-                    <td>用户</td>
+                    <td>
+                        <label for="rank_user">用户</label>
+                        <input id="rank_user" ng-model="Rank.query.user.nickname" class="form-control">
+                    </td>
                     <td>得分</td>
                     <td>罚时</td>
                     <td ng-repeat="problem in Contest.data.problems">
@@ -44,8 +51,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="r in Rank.data"  class="text-center">
-                    <td>{{$index+1}}</td>
+                <tr dir-paginate="r in Rank.data | filter: Rank.query | itemsPerPage: 100" current-page="Rank.currentRankPage" pagination-id="rank" class="text-center">
+                    <td>{{r.rank}}</td>
                     <td><a href="/user/{{r.user.id}}">{{r.user.nickname | limitTo:5}}</a></td>
                     <td>{{r.score}}</td>
                     <td>{{r.penalty | penalty}}</td>
@@ -53,13 +60,15 @@
                     <td ng-repeat="problem in Contest.data.problems"
                         ng-class = "{ 'danger': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score === 0, 'success': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result == 'AC', 'info': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].first_blood, 'warning': r.detail[numberToLetters($index)] && r.detail[numberToLetters($index)].result != 'AC' && r.detail[numberToLetters($index)].score > 0} "
                     >
-                        <!--<p ng-show="r.detail[numberToLetters($index)].accepted_time">-->
-                            {{r.detail[numberToLetters($index)].accepted_time | penalty}}{{r.detail[numberToLetters($index)].wrong_count | wrongCount}}
-                        <!--</p>-->
+                    {{r.detail[numberToLetters($index)].accepted_time | penalty}}{{r.detail[numberToLetters($index)].wrong_count | wrongCount}}
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div>
+            <dir-pagination-controls boundary-links="true" template-url="detail/pagination/dirPagination.tpl.html" pagination-id="rank"
+                auto-hide="false"></dir-pagination-controls>
+        </div>
         <!--{{rank}}-->
     </div>
 </div>

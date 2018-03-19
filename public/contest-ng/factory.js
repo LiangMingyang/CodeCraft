@@ -245,6 +245,8 @@
         Rank.contestId = newContestId;
         Rank.data = [];
         Rank.statistics = {};
+        Rank.query = {user:{}};
+        Rank.currentRankPage = 1;
         Rank.version = "Waiting...";
         Rank.pollLife = POLL_LIFE;
         Rank.ori = "";
@@ -262,6 +264,7 @@
       myRank = void 0;
       for (i = j = 0, len = rank.length; j < len; i = ++j) {
         r = rank[i];
+        r.rank = i + 1;
         if (r.user.id === Me.data.id) {
           myRank = i + 1;
         }
