@@ -1,8 +1,8 @@
 
 
 angular.module('contest', [
-  #'angularUtils.directives.dirPagination'
-#,
+  'angularUtils.directives.dirPagination'
+,
   'contest-factory'
 ,
   'contest-router'

@@ -216,6 +216,8 @@ angular.module('contest-factory', [
       Rank.contestId = newContestId
       Rank.data = []
       Rank.statistics = {}
+      Rank.query = {user:{}}
+      Rank.currentRankPage = 1
       Rank.version = "Waiting..."
       Rank.pollLife = POLL_LIFE
       Rank.ori = ""
@@ -230,6 +232,7 @@ angular.module('contest-factory', [
     triedSubCount = {}
     myRank = undefined
     for r,i in rank
+      r.rank = i+1
       myRank = i+1 if r.user.id is Me.data.id
       for p of r.detail
         acceptedPeopleCount[p] ?= 0
