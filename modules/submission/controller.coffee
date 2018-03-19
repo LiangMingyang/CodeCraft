@@ -40,6 +40,7 @@ exports.postIndex = (req, res) ->
   opt = {}
   global.db.Promise.resolve()
   .then ->
+    throw new global.myErrors.UnknownSubmission() if req.query.offset > 1000
     User.find req.session.user.id if req.session.user
   .then (user)->
     opt.offset = req.query.offset
