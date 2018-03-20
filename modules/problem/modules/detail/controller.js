@@ -267,6 +267,9 @@
     currentUserAC = 0;
     currentSolutionID = void 0;
     return global.db.Promise.resolve().then(function() {
+      if (req.query.offset > 1000) {
+        throw new global.myErrors.UnknownSubmission();
+      }
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
@@ -389,6 +392,9 @@
     Solution = global.db.models.solution;
     opt = {};
     return global.db.Promise.resolve().then(function() {
+      if (req.query.offset > 1000) {
+        throw new global.myErrors.UnknownSubmission();
+      }
       if (req.session.user) {
         return User.find(req.session.user.id);
       }
