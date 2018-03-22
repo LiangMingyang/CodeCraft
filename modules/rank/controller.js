@@ -23,20 +23,17 @@
         return [];
       }
     }).then(function() {
-      return global.myUtils.getSolutionCount().then(function(Results) {
-        return global.myUtils.getRankCount().then(function(Counts) {
-          return global.myUtils.getRankCountR().then(function(CountsR) {
-            return global.myUtils.getSolutionCountR().then(function(ResultsR) {
-              return global.myUtils.AllPeople().then(function(Presults) {
-                return res.render('rank/index', {
-                  title: 'rank',
-                  user: req.session.user,
-                  Counts: Counts,
-                  CountsR: CountsR,
-                  Results: Results,
-                  ResultsR: ResultsR,
-                  Presults: Presults
-                });
+      return global.myUtils.getRankCount().then(function(Counts) {
+        return global.myUtils.getRankCountR().then(function(CountsR) {
+          return global.myUtils.getSolutionCountR().then(function(ResultsR) {
+            return global.myUtils.AllPeople().then(function(Presults) {
+              return res.render('rank/index', {
+                title: 'rank',
+                user: req.session.user,
+                Counts: Counts,
+                CountsR: CountsR,
+                ResultsR: ResultsR,
+                Presults: Presults
               });
             });
           });

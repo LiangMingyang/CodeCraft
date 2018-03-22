@@ -259,7 +259,7 @@ exports.buildRankCount = ()->
       attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
       include: [
         model: User
-        attributes:['student_id','nickname']
+        attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
         as:'creator'
         where: {
           student_id: {
@@ -310,7 +310,7 @@ exports.buildSolutionCount = ()->
       },
         {
           model: User
-          attributes:['student_id','nickname']
+          attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
           as:'creator'
           where: {
             student_id:
@@ -356,7 +356,7 @@ exports.buildRankCountR = ()->
       attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
       include: [
         model: User
-        attributes:['student_id','nickname']
+        attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
         as:'creator'
         where: {
           student_id: {
@@ -409,7 +409,7 @@ exports.buildSolutionCountR = ()->
       },
         {
           model: User
-          attributes:['student_id','nickname']
+          attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
           as:'creator'
           where: {
             student_id:

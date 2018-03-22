@@ -390,7 +390,7 @@
         include: [
           {
             model: User,
-            attributes: ['student_id', 'nickname'],
+            attributes: [[global.db.fn('substring', global.db.literal('student_id'), global.db.literal('1'), global.db.literal('4')), 'student_id'], 'nickname'],
             as: 'creator',
             where: {
               student_id: {
@@ -449,7 +449,7 @@
             attributes: []
           }, {
             model: User,
-            attributes: ['student_id', 'nickname'],
+            attributes: [[global.db.fn('substring', global.db.literal('student_id'), global.db.literal('1'), global.db.literal('4')), 'student_id'], 'nickname'],
             as: 'creator',
             where: {
               student_id: global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"'),
@@ -500,7 +500,7 @@
         include: [
           {
             model: User,
-            attributes: ['student_id', 'nickname'],
+            attributes: [[global.db.fn('substring', global.db.literal('student_id'), global.db.literal('1'), global.db.literal('4')), 'student_id'], 'nickname'],
             as: 'creator',
             where: {
               student_id: {
@@ -562,7 +562,7 @@
             attributes: []
           }, {
             model: User,
-            attributes: ['student_id', 'nickname'],
+            attributes: [[global.db.fn('substring', global.db.literal('student_id'), global.db.literal('1'), global.db.literal('4')), 'student_id'], 'nickname'],
             as: 'creator',
             where: {
               student_id: global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"'),

@@ -259,26 +259,26 @@ exports.postAccepted = (req, res) ->
 
 #点击统计
 exports.getStatistics = (req, res) ->
-  count_common = undefined
-  count_graph = undefined
-  global.redis.set("common_recommendation_count", 0, "NX")
-  global.redis.set("graph_recommendation_count", 0, "NX")
+  count_title = undefined
+  count_tag = undefined
+  global.redis.set("title_recommendation_count", 0, "NX")
+  global.redis.set("tag_recommendation_count", 0, "NX")
   if req.session.user.id % 2 is 0
-    global.redis.incr("common_recommendation_count")
+    global.redis.incr("title_recommendation_count")
   else
-    global.redis.incr("graph_recommendation_count")
-  global.redis.get("common_recommendation_count")
+    global.redis.incr("tag_recommendation_count")
+  global.redis.get("title_recommendation_count")
     .then (result)->
       #console.log "普通协同过滤推荐点击次数："
       #console.log result
-      count_common = result
-  global.redis.get("graph_recommendation_count")
+      count_title = result
+  global.redis.get("tag_recommendation_count")
     .then (result)->
       #console.log "改进的图推荐算法点击次数："
       #console.log result
-      count_graph = result
+      count_tag = result
     .then ()->
       if req.session.user.id is 1
-        res.redirect(req.query.problem_id + '/index?' + 'count_common=' + count_common + '&count_graph=' + count_graph)
+        res.redirect(req.query.problem_id + '/index?' + 'count_title=' + count_title + '&count_tag=' + count_tag)
       else
         res.redirect(req.query.problem_id + '/index')

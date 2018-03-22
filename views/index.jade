@@ -42,7 +42,7 @@ html(lang='zh-CN')
                                             a(href="/problem/index", id="problempage", class="nav-before") 题库
                                         li.normalli
                                             a(href="/contest/index", id="contestpage", class="nav-before") 比赛
-                                        li.normalli
+                                        //-li.normalli
                                             a(href="/submission/index", id="submissionpage", class="nav-before") 评测记录
                                         li.normalli
                                             a(href="/rank/index", id="rankpage", class="nav-before") 排行榜
@@ -154,16 +154,25 @@ html(lang='zh-CN')
                                                             - recommendation_problem_id = "00" + recommendation_problem_id;
                                                         else if(recommendation_problem_id < 100)
                                                             - recommendation_problem_id = "0" + recommendation_problem_id;
-                                                        if(recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] == "[]"
-                                                            //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                        else if (recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] != "[]"
-                                                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
-                                                        else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] == "[]"
-                                                            //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                        else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] != "[]"
-                                                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:#FFB90F; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
+                                                        if user.id % 2 == 0
+                                                            if(recommendation[i].accepted + recommendation[i].tried == 1)
+                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                            else if (recommendation[i].accepted + recommendation[i].tried != 2)
+                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+
+                                                        else
+                                                            if(recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] == "[]"
+                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                            else if (recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] != "[]"
+                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
+                                                            else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] == "[]"
+                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                                            else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] != "[]"
+                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:#FFB90F; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
 
 
                                         //br

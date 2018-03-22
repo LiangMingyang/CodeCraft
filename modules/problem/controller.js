@@ -268,24 +268,24 @@
   };
 
   exports.getStatistics = function(req, res) {
-    var count_common, count_graph;
-    count_common = void 0;
-    count_graph = void 0;
-    global.redis.set("common_recommendation_count", 0, "NX");
-    global.redis.set("graph_recommendation_count", 0, "NX");
+    var count_tag, count_title;
+    count_title = void 0;
+    count_tag = void 0;
+    global.redis.set("title_recommendation_count", 0, "NX");
+    global.redis.set("tag_recommendation_count", 0, "NX");
     if (req.session.user.id % 2 === 0) {
-      global.redis.incr("common_recommendation_count");
+      global.redis.incr("title_recommendation_count");
     } else {
-      global.redis.incr("graph_recommendation_count");
+      global.redis.incr("tag_recommendation_count");
     }
-    global.redis.get("common_recommendation_count").then(function(result) {
-      return count_common = result;
+    global.redis.get("title_recommendation_count").then(function(result) {
+      return count_title = result;
     });
-    return global.redis.get("graph_recommendation_count").then(function(result) {
-      return count_graph = result;
+    return global.redis.get("tag_recommendation_count").then(function(result) {
+      return count_tag = result;
     }).then(function() {
       if (req.session.user.id === 1) {
-        return res.redirect(req.query.problem_id + '/index?' + 'count_common=' + count_common + '&count_graph=' + count_graph);
+        return res.redirect(req.query.problem_id + '/index?' + 'count_title=' + count_title + '&count_tag=' + count_tag);
       } else {
         return res.redirect(req.query.problem_id + '/index');
       }

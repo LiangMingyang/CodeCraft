@@ -18,8 +18,8 @@ exports.getIndex = (req, res) ->
     currentUser = user
     return [] if not currentUser
   .then ()->
-    global.myUtils.getSolutionCount()
-    .then (Results)->
+#    global.myUtils.getSolutionCount()
+#    .then (Results)->
       global.myUtils.getRankCount()
         .then (Counts) ->
           global.myUtils.getRankCountR()
@@ -33,7 +33,7 @@ exports.getIndex = (req, res) ->
                           user: req.session.user
                           Counts:Counts
                           CountsR:CountsR
-                          Results:Results
+#                          Results:Results
                           ResultsR:ResultsR
                           Presults:Presults
                       }
