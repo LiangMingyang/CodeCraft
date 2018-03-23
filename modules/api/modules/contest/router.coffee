@@ -12,6 +12,8 @@ router
 
 .get '/:contestId/submissions', controller.getSubmissions
 
+.get '/:contestId/submission/:submissionId', controller.getSubmission
+
 .post '/:contestId/submissions', controller.postSubmissions
 
 .get '/:contestId/issues', controller.getIssues

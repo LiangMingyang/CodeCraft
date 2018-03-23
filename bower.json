@@ -33,5 +33,8 @@
     "metisMenu": "^2.5.2",
     "editor.md": "^1.5.0",
     "MathJax": "^2.7.2"
+  },
+  "resolutions": {
+    "jquery": "~2.1.4"
   }
 }
