@@ -65,6 +65,30 @@ exports.getSubmissions = (req, res)->
     res.status(err.status || 400)
     res.json(error:err.message)
 
+exports.getSubmission = (req, res)->
+  Submission = global.db.models.submission
+  global.db.Promise.resolve()
+  .then ->
+    global.redis.lindex('_judge_queue', 0)
+  .then (submission_id)->
+    if not submission_id or parseInt(req.params.submissionId) < parseInt(submission_id)
+      global.myUtils.findContest(req.session.user, req.params.contestId)
+      .then (contest)->
+        throw new global.myErrors.UnknownUser() if not contest and not req.session.user
+        throw new global.myErrors.UnknownContest() if not contest
+        Submission.find(
+          where:
+            contest_id : req.params.contestId
+            id : req.params.submissionId
+        )
+      .then (submission)->
+        res.json(submission.get(plain:true))
+    else
+      res.end()
+  .catch (err)->
+    res.status(err.status || 400)
+    res.json(error:err.message)
+
 exports.postSubmissions = (req, res) ->
   User = global.db.models.user
   Problem = global.db.models.problem

@@ -24,21 +24,41 @@ angular.module('contest-factory', [
       Sub.data = []
 
   Poller = ()->
-    queue = (sub for sub in Sub.data when sub.result is "WT" or sub.result is "JG")
-    if Sub.contestId and (queue.length > 0 or Sub.first_time)
-      Sub.first_time = false
+    
+    if Sub.first_time
       $http.get("/api/contests/#{Sub.contestId}/submissions")
       .then(
         (res)->
           Sub.data = res.data #轮询
+          Sub.first_time = false
           $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       ,
         (res)->
-          notify(res.data.error, 'danger')
-          $timeout(Poller,Math.random()*SLEEP_TIME)
+          notify('Unable to get status of submissions', 'danger')
+          $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       )
     else
-      $timeout(Poller, UP_TIME)
+      id_list = (sub.id for sub in Sub.data when sub.result is "WT" or sub.result is "JG")
+      Sub._submission_id = -1
+      for submission_id in id_list
+        Sub._submission_id = Math.max(submission_id, Sub._submission_id)
+      if Sub._submission_id > 0
+        $http.get("/api/contests/#{Sub.contestId}/submission/#{Sub._submission_id}")
+        .then(
+          (res)->
+            if res.data != ''
+              for sub,i in Sub.data
+                if sub.id == res.data.id
+                  Sub.data[i] = res.data
+                  break
+            $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
+        ,
+          (res)->
+            notify('Unable to get status of submission', 'danger')
+            $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
+        )
+      else
+        $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
 
   $timeout(Poller, Math.random()*UP_TIME)
 
