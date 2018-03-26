@@ -30,8 +30,8 @@ block content
                         label 课程名称
                     td
                         label 创建者昵称
-                    td
-                        label 课程人数
+                    //td
+                    //    label 课程人数
                 - for(var i = 0 ; i < groups.length ; ++i)
                     - var group = groups[i]
                     - var j = i+1
@@ -65,9 +65,9 @@ block content
                         td
                             - if(groups[i].creator)
                                 a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
-                        td
-                            - if(groups[i].member_count)
-                                a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
+                        //td
+                        //    - if(groups[i].member_count)
+                        //        a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
                         script $("#tr#{i}").attr("class", "#{oddEvenTable}whitetr");
         //-p.text-right
             |如果您希望创建属于自己的课程请阅读
