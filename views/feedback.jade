@@ -10,19 +10,13 @@ block content
       //-.list-group
           a.list-group-item(href="/group/index") 返回课程列表
    .col-lg-8.col-md-8.col-sm-8.col-xs-12
-      h3 反馈
-      form(method='post')
-         .form-group
-            label.sr-only(for="name") 主题
-            input.form-control(type="input", id="name", name='title', placeholder="主要问题")
-         .form-group
-            label.sr-only(for="description") 详细内容
-            textarea.form-control(type="input", style="resize: none;max-height: 300px;width: 100%;min-height: 100px;", id="description", name='content', placeholder="详细内容")
-         .form-group
-            textarea#fuck_br.form-control(readonly='true', rows='10', style='resize: none; max-height: 300px; width: 100%; overflow: hidden; word-wrap: break-word; height: 130px;', data-autosize-on='true')
-                |如果您对在线编程平台有更好的意见或者有重要的信息，请联系我们&#13;&#10;
-                |开发者团队：
-                |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lmysoar@hotmail.com
-                |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;842675357@qq.com
-         a.button.btn.btn-default.loginbtn.btnstyle(type="submit") 提交
+        h3
+            | 欢迎您在
+            a(href='https://github.com/LiangMingyang/OJ4TH_FEEDBACK/issues') 我们的反馈主页
+            | 提issue
+        textarea#fuck_br.form-control(readonly='true', rows='10', style='resize: none; max-height: 300px; width: 100%; overflow: hidden; word-wrap: break-word; height: 130px;', data-autosize-on='true')
+            |如果您对在线编程平台有更好的意见或者有重要的信息，请联系我们&#13;&#10;
+            |开发者团队：
+            |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lmysoar@hotmail.com
+            |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;842675357@qq.com
    .col-lg-2.col-md-2.col-sm-2.col-xs-12

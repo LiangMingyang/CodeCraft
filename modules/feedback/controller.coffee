@@ -9,15 +9,9 @@ exports.getIndex = (req, res) ->
   User = global.db.models.user
   global.db.Promise.resolve()
   .then ->
-    User.find req.session.user.id if req.session.user
-  .then (user)->
-    throw new global.myErrors.UnknownUser() if not user
     res.render('feedback', {
-      user: user
+      user: req.session.user
     })
-  .catch global.myErrors.UnknownUser, (err)->
-    req.flash 'info', err.message
-    res.redirect LOGIN_PAGE
   .catch (err)->
     console.error err
     err.message = "未知错误"
