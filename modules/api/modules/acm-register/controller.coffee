@@ -1,6 +1,6 @@
 
 exports.getStatus = (req, res)->
-  ACM_GROUP = 9
+  ACM_GROUP = 30
   global.db.Promise.resolve()
   .then ->
     global.myUtils.findGroupsID(req.session.user)
@@ -24,7 +24,7 @@ exports.getList = (req, res)->
   Group = global.db.models.group
   joiner = undefined
   currentGroup = undefined
-  ACM_GROUP = 9
+  ACM_GROUP = 30
   global.db.Promise.resolve()
   .then ->
     Group.find
@@ -46,7 +46,7 @@ exports.getList = (req, res)->
     res.json(error:err.message)
 
 exports.postConfirm = (req, res)->
-  ACM_GROUP = 9
+  ACM_GROUP = 30
   Group = global.db.models.group
   User = global.db.models.user
   joiner = undefined

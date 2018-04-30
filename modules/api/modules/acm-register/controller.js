@@ -2,7 +2,7 @@
 (function() {
   exports.getStatus = function(req, res) {
     var ACM_GROUP;
-    ACM_GROUP = 9;
+    ACM_GROUP = 30;
     return global.db.Promise.resolve().then(function() {
       return global.myUtils.findGroupsID(req.session.user);
     }).then(function(groupIDs) {
@@ -33,7 +33,7 @@
     Group = global.db.models.group;
     joiner = void 0;
     currentGroup = void 0;
-    ACM_GROUP = 9;
+    ACM_GROUP = 30;
     return global.db.Promise.resolve().then(function() {
       return Group.find({
         where: {
@@ -62,7 +62,7 @@
 
   exports.postConfirm = function(req, res) {
     var ACM_GROUP, Group, User, joiner;
-    ACM_GROUP = 9;
+    ACM_GROUP = 30;
     Group = global.db.models.group;
     User = global.db.models.user;
     joiner = void 0;
