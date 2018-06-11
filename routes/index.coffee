@@ -48,6 +48,10 @@ router.get '/index', (req, res) ->
   SP = undefined
   sequelize = global.db
 
+#  global.myUtils.ChampionRank()
+#  .then (r)->
+#    console.log r[2]
+
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
