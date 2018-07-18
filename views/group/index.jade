@@ -33,8 +33,9 @@ block content
                     //td
                     //    label 课程人数
                 - for(var i = 0 ; i < groups.length ; ++i)
-                    - var group = groups[i]
-                    - var j = i+1
+
+                    - var j = i + 1
+                    - var tmp = groups.length - i - 1
                     - if(i % 2 == 1)
                         - oddEvenTable = "odd"
                     - else
@@ -58,13 +59,13 @@ block content
                         //- if(ss<10)
                         //    - ss="0"+ss;
                         //td(style="color:#000000") #{yy}-#{mm}-#{dd} #{hh}:#{mi}:#{ss}
-                        td(style="color:#000000") #{j}
+                        td(style="color:#000000") #{groups.length - j + 1 }
 
                         td(style="text-align:left")
-                            a(href="/group/" + groups[i].id + "/index")= groups[i].name
+                            a(href="/group/" + groups[tmp].id + "/index")= groups[tmp].name
                         td
-                            - if(groups[i].creator)
-                                a(href="/user/" + groups[i].creator.id + "/index")= groups[i].creator.nickname
+                            - if(groups[tmp].creator)
+                                a(href="/user/" + groups[tmp].creator.id + "/index")= groups[tmp].creator.nickname
                         //td
                         //    - if(groups[i].member_count)
                         //        a(href="/group/" + groups[i].id + "/member")= groups[i].member_count
