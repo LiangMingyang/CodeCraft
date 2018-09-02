@@ -48,6 +48,7 @@ exports.postLogin = (req, res) ->
 
   #precheckForLogin(form)
   User = global.db.models.user
+  Login_note = global.db.models.login_note
 
   User.find {
     where:
@@ -60,6 +61,19 @@ exports.postLogin = (req, res) ->
     global.myUtils.login(req, res, user)
     user.last_login = new Date()
     user.save()
+    Login_note.find(
+      where:
+          user_id : req.session.user.id
+          ip_id : req.connection.remoteAddress
+    )
+  .then (Login_notes) ->
+    if Login_notes
+      Login_notes.save()
+    else
+      Login_note.create(
+        user_id: req.session.user.id
+        ip_id: req.connection.remoteAddress
+      )
   .then ->
     req.flash 'info', 'login successfully'
     NEXT_PAGE = undefined

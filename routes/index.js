@@ -37,8 +37,9 @@
   });
 
   router.get('/index', function(req, res) {
-    var J, PI, ProblemTag, SI, SP, SolutionTag, Tags, User, currentUser, i1, i2, j, problemTags, recommendation, sequelize, solutionTags, sp, tmp;
+    var Github, J, PI, ProblemTag, SI, SP, SolutionTag, Tags, User, currentUser, i1, i2, j, problemTags, recommendation, sequelize, solutionTags, sp, tmp;
     User = global.db.models.user;
+    Github = [];
     recommendation = void 0;
     currentUser = void 0;
     ProblemTag = void 0;
@@ -263,7 +264,8 @@
         user: req.session.user,
         recommendation: recommendation,
         problems: problem,
-        tags: Tags
+        tags: Tags,
+        Github: Github
       });
     });
   });

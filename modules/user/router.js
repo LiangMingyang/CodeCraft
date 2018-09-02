@@ -16,6 +16,8 @@
 
   path = require('path');
 
+  // const fetch = require('node-fetch');
+
   router.use(middlewares);
 
   router.get('/', function(req, res) {
@@ -29,6 +31,53 @@
   router.get('/register', controller.getRegister).post('/register', controller.postRegister);
 
   router.get('/logout', controller.getLogout);
+
+  // router.get('/oauthlogin', controller.getOauthlogin);
+  //
+  // router.get('/third', controller.getGithub);
+
+  // router.get("/oauthlogin", function (req, resp) {
+  //   var path = "https://github.com/login/oauth/authorize";
+  //   path += '?client_id=a76d82c133c729523f49';
+  //   path += '&state=state';
+  //   path += '&scope=user:email';
+  //   resp.redirect(path);
+  // });
+
+  // router.get("/github", function (req, resp) {
+  //   var path = 'https://github.com/login/oauth/access_token';
+  //   const params = {
+  //     client_id: 'a76d82c133c729523f49',
+  //     client_secret: '53cbf935248501b93bd20e06eba8d7a10b0d5855',
+  //     code: req.query.code
+  //   }
+  //   fetch(path, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(params)
+  //   }).then(function (res) {
+  //     return res.text();
+  //   }).then(function (body) {
+  //     const args = body.split('&');
+  //     var arg = args[0].split('=');
+  //     const access_token = arg[1];
+  //     console.log(body);
+  //     console.log(access_token);
+  //     return access_token;
+  //   }).then(async(token) => {
+  //       const url = "https://api.github.com/user?access_token=" + token;
+  //       await fetch(url)
+  //         .then(res => {
+  //           return res.json();
+  //         })
+  //         .then(res => {
+  //           console.log(res.login);
+  //           resp.send(res);
+  //         })
+  //   })
+  // })
 
   router.use('/:userID([0-9]+)', modules.detail.router);
 

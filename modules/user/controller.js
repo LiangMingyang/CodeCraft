@@ -47,12 +47,13 @@
    */
 
   exports.postLogin = function(req, res) {
-    var User, form;
+    var Login_note, User, form;
     form = {
       username: req.body.username,
       password: req.body.password
     };
     User = global.db.models.user;
+    Login_note = global.db.models.login_note;
     return User.find({
       where: {
         username: form.username
@@ -66,7 +67,22 @@
       }
       global.myUtils.login(req, res, user);
       user.last_login = new Date();
-      return user.save();
+      user.save();
+      return Login_note.find({
+        where: {
+          user_id: req.session.user.id,
+          ip_id: req.connection.remoteAddress
+        }
+      });
+    }).then(function(Login_notes) {
+      if (Login_notes) {
+        return Login_notes.save();
+      } else {
+        return Login_note.create({
+          user_id: req.session.user.id,
+          ip_id: req.connection.remoteAddress
+        });
+      }
     }).then(function() {
       var NEXT_PAGE;
       req.flash('info', 'login successfully');

@@ -26,6 +26,8 @@ module.exports = (database, username, password, config)->
   Recommendation = sequelize.import path.join(__dirname, 'models/recommendation')
   Solution = sequelize.import path.join(__dirname, 'models/solution')
   Evaluation = sequelize.import path.join(__dirname, 'models/evaluation-solution')
+#  Login_api = sequelize.import path.join(__dirname,'models/login_api')
+  Login_note = sequelize.import path.join(__dirname,'models/login_note')
 
 
   #associations

@@ -64,6 +64,11 @@ html(lang='zh-CN')
                                                 a(href="/user/" + user.id + "/index") 欢迎，#{user.nickname}
                                             li.normalli
                                                 a(href="/user/logout", id="logoutpage", class="nav-before") 登出
+                                        - else if(Github && Github!='')
+                                            li.normalli
+                                                a(href="/user/" + Github + "/index") 欢迎，#{Github}
+                                            li.normalli
+                                                a(href="/user/logout", id="third_logoutpage", class="nav-before") 登出
                                         - else
                                             li.normalli
                                                 a(href="/user/login", id="loginpage", class="nav-before") 登录
@@ -247,10 +252,10 @@ html(lang='zh-CN')
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 2018年7月
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 1604××××
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 陈泽人
-                                            //tr.text-center
-                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年4月
-                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211022
-                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 黎昆昌
+                                            tr.text-center
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2018年8月
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 1737××××
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 莫策
                                             //tr.text-center
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年5月
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211109
