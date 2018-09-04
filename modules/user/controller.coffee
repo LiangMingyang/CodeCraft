@@ -49,6 +49,7 @@ exports.postLogin = (req, res) ->
   #precheckForLogin(form)
   User = global.db.models.user
   Login_note = global.db.models.login_note
+  realIP = undefined
 
   User.find {
     where:
@@ -61,10 +62,13 @@ exports.postLogin = (req, res) ->
     global.myUtils.login(req, res, user)
     user.last_login = new Date()
     user.save()
+    global.myUtils.getIP(req)
+  .then (resultIP) ->
+    realIP = resultIP
     Login_note.find(
       where:
           user_id : req.session.user.id
-          ip_id : req.connection.remoteAddress
+          ip_id : realIP
     )
   .then (Login_notes) ->
     if Login_notes
@@ -72,7 +76,7 @@ exports.postLogin = (req, res) ->
     else
       Login_note.create(
         user_id: req.session.user.id
-        ip_id: req.connection.remoteAddress
+        ip_id: realIP
       )
   .then ->
     req.flash 'info', 'login successfully'

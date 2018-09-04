@@ -47,13 +47,14 @@
    */
 
   exports.postLogin = function(req, res) {
-    var Login_note, User, form;
+    var Login_note, User, form, realIP;
     form = {
       username: req.body.username,
       password: req.body.password
     };
     User = global.db.models.user;
     Login_note = global.db.models.login_note;
+    realIP = void 0;
     return User.find({
       where: {
         username: form.username
@@ -68,10 +69,13 @@
       global.myUtils.login(req, res, user);
       user.last_login = new Date();
       user.save();
+      return global.myUtils.getIP(req);
+    }).then(function(resultIP) {
+      realIP = resultIP;
       return Login_note.find({
         where: {
           user_id: req.session.user.id,
-          ip_id: req.connection.remoteAddress
+          ip_id: realIP
         }
       });
     }).then(function(Login_notes) {
@@ -80,7 +84,7 @@
       } else {
         return Login_note.create({
           user_id: req.session.user.id,
-          ip_id: req.connection.remoteAddress
+          ip_id: realIP
         });
       }
     }).then(function() {

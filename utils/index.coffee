@@ -35,6 +35,13 @@ exports.github = (req,res,apiId) ->
         }
 
 
+#findIP
+exports.getIP = (req)->
+  ip = req.headers['x-real-ip'] or req.headers['x-forwarded-for'] or req.socket.remoteAddress or ''
+  if ip.split(',').length > 0
+    ip = ip.split(',')[0]
+  return ip
+
 #group
 #找到该用户对应的所有的组ID
 exports.findGroupsID = (user)->
