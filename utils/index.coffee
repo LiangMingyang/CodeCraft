@@ -38,12 +38,9 @@ exports.github = (req,res,apiId) ->
 #findIP
 
 exports.getIP = (req) ->
-  ip = req.connection.remoteAddress or req.socket.remoteAddress or (if req.connection.socket then req.connection.socket.remoteAddress else null)
-  ip = req.headers['x-real-ip'] or req.headers['x-forwarded-for'] or ip
-  ipArr = ip.split(',')
-  ip = ipArr[ipArr.length - 1]
-  if ip.indexOf('::ffff:') != -1
-    ip = ip.substring(7)
+  ip = req.headers['x-real-ip'] or req.headers['x-forwarded-for'] or req.socket.remoteAddress or ''
+  if ip.split(',').length > 0
+    ip = ip.split(',')[0]
   return ip
 
 #group

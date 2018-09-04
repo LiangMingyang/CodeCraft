@@ -45,13 +45,10 @@
   };
 
   exports.getIP = function(req) {
-    var ip, ipArr;
-    ip = req.connection.remoteAddress || req.socket.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null);
-    ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || ip;
-    ipArr = ip.split(',');
-    ip = ipArr[ipArr.length - 1];
-    if (ip.indexOf('::ffff:') !== -1) {
-      ip = ip.substring(7);
+    var ip;
+    ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
+    if (ip.split(',').length > 0) {
+      ip = ip.split(',')[0];
     }
     return ip;
   };
