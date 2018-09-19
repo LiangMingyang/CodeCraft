@@ -125,7 +125,11 @@ block content
                 function checkInformation(){
                     if($("#nickname").val().length >= 30){
                         logoAlert("用户昵称过长！");
-                    }else{
+                    }
+                    if($("#description").val().length >= 150){
+                        logoAlert("用户简介过长！");
+                    }
+                    else{
                         $("#form").submit();
                     }
                 }
