@@ -18,6 +18,17 @@ router
 
 .get '/statistics', controller.getStatistics
 
+.get '/tencentStatistics', controller.getTencentStatistics
+
+#.get '/solutionStatistics', controller.getSolutionStatistics
+
+.get '/xiniuStatistics', controller.getXiniuStatistics
+
+.get '/DEVStatistics', controller.getDEVStatistics
+
+.get '/CBStatistics', controller.getCBStatistics
+
+
 .post '/accepted', controller.postAccepted
 #router.param 'problemID', (req, res, next, id) ->
 #  req.param.problemID = id;
