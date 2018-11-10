@@ -333,6 +333,9 @@
         }
         return Solution.find({
           attributes: ['submission_id', 'access_level'],
+          where: {
+            access_level: "public"
+          },
           include: [
             {
               model: Submission,
