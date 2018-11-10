@@ -405,7 +405,7 @@ block content
                             var clickSolution = new Number;
                             clickSolution = #{exit_clickSolution};
                             clickSolution = clickSolution + 1;
-                            var url = "http://localhost:3000/problem/solutionStatistics?problem_id=1"
+                            var url = "https://buaacoding.cn/problem/solutionStatistics?problem_id=1"
                             $.ajax({
                                 url: url,
                                 type: "POST",
@@ -425,7 +425,7 @@ block content
                             //alert(url);
                             //alert(#{exit_clickSolution});
                             //alert(clickSolution);
-                            my_submission_id.html('<a href="http://localhost:3000/problem/solutionStatistics?problem_id=1" target="_blank" style="color:black;">偷看题解</a>');
+                            my_submission_id.html('<a href="/problem/solutionStatistics?problem_id=1" target="_blank" style="color:black;">偷看题解</a>');
                             var x = function (a, __timer_i) {
                                 setInterval(function () {
                                     if (__timer_i++ % 2 == 0) {

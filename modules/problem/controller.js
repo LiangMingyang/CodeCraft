@@ -485,9 +485,9 @@
     count_solution = void 0;
     url = void 0;
     if (req.session.tmpid) {
-      url = "http://localhost:3000/submission/" + req.session.tmpid + "/solution";
+      url = "https://buaacoding.cn/submission/" + req.session.tmpid + "/solution";
     } else {
-      url = "http://localhost:3000/index";
+      url = "https://buaacoding.cn/index";
     }
     return solutionStatistics.find({
       where: {
