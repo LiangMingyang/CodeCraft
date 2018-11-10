@@ -263,7 +263,7 @@ exports.getSubmissions = (req, res) ->
       if not first_sub or currentUserAC isnt 0 or currentUserWC < 5 or (NOW - first_sub.created_at)/1000/60 < 20
         return
       Solution.find(
-        attributes:['submission_id']
+        attributes:['submission_id','access_level']
         include: [
           model: Submission
           where:

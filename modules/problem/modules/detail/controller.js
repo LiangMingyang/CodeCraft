@@ -332,7 +332,7 @@
           return;
         }
         return Solution.find({
-          attributes: ['submission_id'],
+          attributes: ['submission_id', 'access_level'],
           include: [
             {
               model: Submission,
