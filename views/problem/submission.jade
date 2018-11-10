@@ -306,9 +306,10 @@ block content
         - userID = 0
     - if (solution)
         - __solution = solution.submission_id
-        - __accese = solution.access_level
+        - __access = solution.access_level
     - else
-        - __solution = undefined
+        - __solution = 0
+        - __access = "private"
     script.
 
         function change_time_into_standard_format(){
@@ -399,7 +400,7 @@ block content
                         else
                             coloroftable = "red";
                         my_submission_result.attr("class", coloroftable + "td");
-                        if("#{__solution}" != 0 && "#{__accese}" == "public" && data[i].result == "WA" && "#{userID}" != 0 && data[i].creator_id == "#{userID}" && solution)
+                        if("#{__solution}" != 0 && "#{__access}" == "public" && data[i].result == "WA" && "#{userID}" != 0 && data[i].creator_id == "#{userID}" && solution)
                         {
                             var clickSolution = new Number;
                             clickSolution = #{exit_clickSolution};
