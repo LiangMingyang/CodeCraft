@@ -206,7 +206,10 @@ exports.getSubmissions = (req, res) ->
   Solution = global.db.models.solution
   currentUserWC = 0
   currentUserAC = 0
-  currentSolutionID = undefined
+  currentSolution = undefined
+  click_count = undefined
+  solutionclick_statistics = global.db.models.click_statistics
+  submissionsCP = undefined
   global.db.Promise.resolve()
   .then ->
     throw new global.myErrors.UnknownSubmission() if req.query.offset > 1000
@@ -271,7 +274,7 @@ exports.getSubmissions = (req, res) ->
         ]
       )
   .then (solution)->
-    currentSolutionID = solution.submission_id if solution
+    currentSolution = solution if solution
     opt = {
       offset: req.query.offset
       problem_id: currentProblem.id
@@ -284,13 +287,25 @@ exports.getSubmissions = (req, res) ->
     ])
   .then (submissions) ->
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
+    submissionsCP = submissions
+    solutionclick_statistics.find(
+      where:
+        clickType: "solution"
+    )
+    .then (clicks)->
+      if clicks
+        click_count = clicks.appearCount
+      else
+        click_count = 0
+  .then () ->
     res.render('problem/submission', {
-      submissions: submissions
+      submissions: submissionsCP
       problem : currentProblem
       user: req.session.user
       offset : req.query.offset
       pageLimit : global.config.pageLimit.submission
-      solution : currentSolutionID
+      solution : currentSolution
+      exit_clickSolution: click_count
     })
 
   .catch global.myErrors.UnknownUser, (err)->
@@ -311,6 +326,8 @@ exports.postSubmissions = postSubmissions = (req, res) ->
   currentUser = undefined
   currentProblems = undefined
   Solution = global.db.models.solution
+  click_count = undefined
+  solutionclick_statistics = global.db.click_statistics
   opt = {}
   global.db.Promise.resolve()
   .then ->
@@ -339,6 +356,7 @@ exports.postSubmissions = postSubmissions = (req, res) ->
     ])
   .then (submissions) ->
     currentProblem.test_setting = JSON.parse(currentProblem.test_setting)
+  .then () ->
     res.render('problem/submission', {
       submissions: submissions
       problem : currentProblem

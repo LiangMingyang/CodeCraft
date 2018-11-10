@@ -14,33 +14,24 @@
     };
   };
 
+  exports.tmp = function(req, id) {
+    req.session.tmpid = id;
+    return req.session.save();
+  };
+
   exports.logout = function(req) {
     return delete req.session.user;
   };
 
-  exports.github = function(req, res, apiId) {
-    var User, login_API;
-    login_API = global.db.models.login_api;
+  exports.thirdLogin = function(thirdUsername) {
+    var User;
     User = global.db.models.user;
-    return login_API.find({
+    return User.find({
       where: {
-        api_id: apiId
-      },
-      attributes: ['user_id']
-    }).then(function(results) {
-      return User.find({
-        where: {
-          id: results.user_id
-        }
-      }).then(function(users) {
-        if (users) {
-          return req.session.user = {
-            id: users.id,
-            nickname: users.nickname,
-            username: users.username
-          };
-        }
-      });
+        username: thirdUsername
+      }
+    }).then(function(users) {
+      return users;
     });
   };
 
@@ -641,7 +632,7 @@
       ],
       where: {
         updated_at: {
-          $between: ['2018-08-01 00:00:00', '2018-09-01 00:00:00']
+          $between: ['2018-10-01 00:00:00', '2018-11-01 00:00:00']
         }
       },
       group: [global.db.literal('creator_id')],

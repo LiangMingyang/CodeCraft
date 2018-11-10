@@ -18,6 +18,10 @@
       clickCount: {
         type: DataTypes.INTEGER,
         allowNull: true
+      },
+      appearCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
     }, {
       underscored: true

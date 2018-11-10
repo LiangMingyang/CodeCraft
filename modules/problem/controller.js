@@ -324,7 +324,8 @@
           clickType: "Guanggao",
           clickContent: "tengxun",
           clickUrl: "https://cloud.tencent.com/act/campus?utm_source=beihang&utm_medium=txt&utm_campaign=campus",
-          clickCount: count_advertise
+          clickCount: count_advertise,
+          appearCount: 0
         });
       }
     }).then(function() {
@@ -362,7 +363,8 @@
           clickType: "Guanggao",
           clickContent: "xiniuniao",
           clickUrl: url,
-          clickCount: count_advertise
+          clickCount: count_advertise,
+          appearCount: 0
         });
       }
     }).then(function() {
@@ -400,7 +402,8 @@
           clickType: "material",
           clickContent: "DEV",
           clickUrl: url,
-          clickCount: count_material
+          clickCount: count_material,
+          appearCount: 0
         });
       }
     }).then(function() {
@@ -438,7 +441,70 @@
           clickType: "material",
           clickContent: "CB",
           clickUrl: url,
-          clickCount: count_material
+          clickCount: count_material,
+          appearCount: 0
+        });
+      }
+    }).then(function() {
+      return res.redirect(url);
+    });
+  };
+
+  exports.postSolutionStatistics = function(req, res) {
+    var addappearSolution, count_solution, id, solutionStatistics;
+    solutionStatistics = global.db.models.click_statistics;
+    count_solution = void 0;
+    addappearSolution = void 0;
+    id = void 0;
+    id = req.body.id;
+    global.myUtils.tmp(req, id);
+    addappearSolution = req.body.content;
+    return solutionStatistics.find({
+      where: {
+        clickType: "solution"
+      }
+    }).then(function(clicks) {
+      if (clicks) {
+        clicks.appearCount = addappearSolution;
+        return clicks.save();
+      } else {
+        return solutionStatistics.create({
+          clickType: "solution",
+          clickContent: "experiment",
+          clickUrl: "submission/id/solution",
+          clickCount: 0,
+          appearCount: 0
+        });
+      }
+    }).then(function() {});
+  };
+
+  exports.getSolutionStatistics = function(req, res) {
+    var count_solution, solutionStatistics, url;
+    solutionStatistics = global.db.models.click_statistics;
+    count_solution = void 0;
+    url = void 0;
+    if (req.session.tmpid) {
+      url = "http://localhost:3000/submission/" + req.session.tmpid + "/solution";
+    } else {
+      url = "http://localhost:3000/index";
+    }
+    return solutionStatistics.find({
+      where: {
+        clickType: "solution"
+      }
+    }).then(function(clicks) {
+      if (clicks) {
+        count_solution = clicks.clickCount;
+        clicks.clickCount = count_solution + 1;
+        return clicks.save();
+      } else {
+        return solutionStatistics.create({
+          clickType: "solution",
+          clickContent: "experiment",
+          clickUrl: "submission/id/solution",
+          clickCount: 0,
+          appearCount: 0
         });
       }
     }).then(function() {

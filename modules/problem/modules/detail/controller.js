@@ -257,7 +257,7 @@
   };
 
   exports.getSubmissions = function(req, res) {
-    var Solution, Submission, User, currentProblem, currentSolutionID, currentUser, currentUserAC, currentUserWC;
+    var Solution, Submission, User, click_count, currentProblem, currentSolution, currentUser, currentUserAC, currentUserWC, solutionclick_statistics, submissionsCP;
     User = global.db.models.user;
     currentProblem = void 0;
     currentUser = void 0;
@@ -265,7 +265,10 @@
     Solution = global.db.models.solution;
     currentUserWC = 0;
     currentUserAC = 0;
-    currentSolutionID = void 0;
+    currentSolution = void 0;
+    click_count = void 0;
+    solutionclick_statistics = global.db.models.click_statistics;
+    submissionsCP = void 0;
     return global.db.Promise.resolve().then(function() {
       if (req.query.offset > 1000) {
         throw new global.myErrors.UnknownSubmission();
@@ -344,7 +347,7 @@
     }).then(function(solution) {
       var opt;
       if (solution) {
-        currentSolutionID = solution.submission_id;
+        currentSolution = solution;
       }
       opt = {
         offset: req.query.offset,
@@ -360,13 +363,27 @@
       ]);
     }).then(function(submissions) {
       currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
+      submissionsCP = submissions;
+      return solutionclick_statistics.find({
+        where: {
+          clickType: "solution"
+        }
+      }).then(function(clicks) {
+        if (clicks) {
+          return click_count = clicks.appearCount;
+        } else {
+          return click_count = 0;
+        }
+      });
+    }).then(function() {
       return res.render('problem/submission', {
-        submissions: submissions,
+        submissions: submissionsCP,
         problem: currentProblem,
         user: req.session.user,
         offset: req.query.offset,
         pageLimit: global.config.pageLimit.submission,
-        solution: currentSolutionID
+        solution: currentSolution,
+        exit_clickSolution: click_count
       });
     })["catch"](global.myErrors.UnknownUser, function(err) {
       req.flash('info', err.message);
@@ -384,12 +401,14 @@
   };
 
   exports.postSubmissions = postSubmissions = function(req, res) {
-    var Solution, User, currentProblem, currentProblems, currentUser, opt;
+    var Solution, User, click_count, currentProblem, currentProblems, currentUser, opt, solutionclick_statistics;
     User = global.db.models.user;
     currentProblem = void 0;
     currentUser = void 0;
     currentProblems = void 0;
     Solution = global.db.models.solution;
+    click_count = void 0;
+    solutionclick_statistics = global.db.click_statistics;
     opt = {};
     return global.db.Promise.resolve().then(function() {
       if (req.query.offset > 1000) {
@@ -432,7 +451,8 @@
         }
       ]);
     }).then(function(submissions) {
-      currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
+      return currentProblem.test_setting = JSON.parse(currentProblem.test_setting);
+    }).then(function() {
       return res.render('problem/submission', {
         submissions: submissions,
         problem: currentProblem,

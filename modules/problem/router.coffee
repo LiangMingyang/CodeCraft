@@ -20,7 +20,9 @@ router
 
 .get '/tencentStatistics', controller.getTencentStatistics
 
-#.get '/solutionStatistics', controller.getSolutionStatistics
+.get '/solutionStatistics', controller.getSolutionStatistics
+
+.post '/solutionStatistics', controller.postSolutionStatistics
 
 .get '/xiniuStatistics', controller.getXiniuStatistics
 

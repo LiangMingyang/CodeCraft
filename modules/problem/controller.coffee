@@ -5,6 +5,8 @@ HOME_PAGE = '/'
 #CURRENT_PAGE = "./#{ req.url }"
 INDEX_PAGE = '.'
 
+
+
 exports.getIndex = (req, res) ->
   Group = global.db.models.group
   User = global.db.models.user
@@ -311,6 +313,7 @@ exports.getTencentStatistics = (req, res) ->
           clickContent: "tengxun"
           clickUrl: "https://cloud.tencent.com/act/campus?utm_source=beihang&utm_medium=txt&utm_campaign=campus"
           clickCount: count_advertise
+          appearCount: 0
         )
   .then ()->
       res.redirect("https://cloud.tencent.com/act/campus?utm_source=beihang&utm_medium=txt&utm_campaign=campus")
@@ -343,6 +346,7 @@ exports.getXiniuStatistics = (req, res) ->
         clickContent: "xiniuniao"
         clickUrl: url
         clickCount: count_advertise
+        appearCount: 0
       )
   .then ()->
     res.redirect(url)
@@ -375,6 +379,7 @@ exports.getDEVStatistics = (req, res) ->
         clickContent: "DEV"
         clickUrl: url
         clickCount: count_material
+        appearCount: 0
       )
   .then ()->
     res.redirect(url)
@@ -407,40 +412,70 @@ exports.getCBStatistics = (req, res) ->
         clickContent: "CB"
         clickUrl: url
         clickCount: count_material
+        appearCount: 0
       )
   .then ()->
     res.redirect(url)
 
 #题解点击统计
-#exports.getSolutionStatistics = (req, res) ->
-#  count_solution = undefined
-#  solutionStatistics = global.db.models.click_statistics
-#  console.log("1111111")
-#  console.log(addclickSolution)
-#  url = "/submission/#{__solution}/solution"
-#  global.redis.set("solution_count", 0, "NX")
-#  global.redis.incr("solution_count")
-#  global.redis.get("solution_count")
-#  .then (result)->
-#    count_solution = result
-#    solutionStatistics.find(
-#      where:
-#        clickUrl: url
-#    )
-#  .then (clicks) ->
-#    if clicks
-#      clicks.clickCount = count_solution
-#      clicks.clickContent = "appear" + addclickSolution
-#      clicks.save()
-#    else
-#      solutionStatistics.create(
-#        clickType: "solution"
-#        clickContent: "appear"
-#        clickUrl: "/submission/#{__solution}/solution"
-#        clickCount: 0
-#      )
-#  .then ()->
-#    console.log("2222222")
-#    res.redirect("/submission/#{__solution}/solution")
+exports.postSolutionStatistics = (req, res) ->
+  solutionStatistics = global.db.models.click_statistics
+  count_solution = undefined
+  addappearSolution = undefined
+  id = undefined
+#  console.log("----------------------------")
+  id = req.body.id
+#  console.log(id)
+  global.myUtils.tmp(req, id)
+  addappearSolution = req.body.content
+#  console.log(req.session)
+  solutionStatistics.find(
+    where:
+      clickType: "solution"
+  )
+  .then (clicks) ->
+    if clicks
+      clicks.appearCount = addappearSolution
+      clicks.save()
+    else
+      solutionStatistics.create(
+        clickType: "solution"
+        clickContent: "experiment"
+        clickUrl: "submission/id/solution"
+        clickCount: 0
+        appearCount : 0
+      )
+  .then ()->
+#  console.log("*****************************")
 
+exports.getSolutionStatistics = (req, res) ->
+  solutionStatistics = global.db.models.click_statistics
+  count_solution = undefined
+  url = undefined
+#  console.log("----------------------------")
+#  console.log(req.session)
+  if req.session.tmpid
+    url = "http://localhost:3000/submission/" + req.session.tmpid + "/solution"
+  else
+    url = "http://localhost:3000/index"
+  solutionStatistics.find(
+    where:
+      clickType: "solution"
+  )
+  .then (clicks) ->
+    if clicks
+      count_solution = clicks.clickCount
+      clicks.clickCount = count_solution + 1
+      clicks.save()
+    else
+      solutionStatistics.create(
+        clickType: "solution"
+        clickContent: "experiment"
+        clickUrl: "submission/id/solution"
+        clickCount: 0
+        appearCount: 0
+      )
+  .then ()->
+    res.redirect(url)
+#    console.log("*****************************")
 

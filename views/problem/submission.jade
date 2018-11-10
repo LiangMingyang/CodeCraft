@@ -305,10 +305,12 @@ block content
     - else
         - userID = 0
     - if (solution)
-        - __solution = solution
+        - __solution = solution.submission_id
+        - __accese = solution.access_level
     - else
-        - __solution = 0
+        - __solution = undefined
     script.
+
         function change_time_into_standard_format(){
             $(".standard-format").css("display", "block");
             $(".time-difference").css("display", "none");
@@ -397,9 +399,32 @@ block content
                         else
                             coloroftable = "red";
                         my_submission_result.attr("class", coloroftable + "td");
-                        if("#{__solution}" != 0 && data[i].result == "WA" && "#{userID}" != 0 && data[i].creator_id == "#{userID}" && solution)
+                        if("#{__solution}" != 0 && "#{__accese}" == "public" && data[i].result == "WA" && "#{userID}" != 0 && data[i].creator_id == "#{userID}" && solution)
                         {
-                            my_submission_id.html('<a href="/submission/#{__solution}/solution" target="_blank" style="color:black;">偷看题解</a>');
+                            var clickSolution = new Number;
+                            clickSolution = #{exit_clickSolution};
+                            clickSolution = clickSolution + 1;
+                            var url = "http://localhost:3000/problem/solutionStatistics?problem_id=1"
+                            $.ajax({
+                                url: url,
+                                type: "POST",
+                                data: JSON.stringify({
+                                    "content": clickSolution,
+                                    "id": #{__solution}
+                                }),
+                                dataType: "JSON",
+                                contentType: "application/json"
+                                //success: function (result) {
+                                    //alert(result);
+                                //}
+                                //error:function (e) {
+                                //    console.log(e);
+                                //}
+                            });
+                            //alert(url);
+                            //alert(#{exit_clickSolution});
+                            //alert(clickSolution);
+                            my_submission_id.html('<a href="http://localhost:3000/problem/solutionStatistics?problem_id=1" target="_blank" style="color:black;">偷看题解</a>');
                             var x = function (a, __timer_i) {
                                 setInterval(function () {
                                     if (__timer_i++ % 2 == 0) {
@@ -433,3 +458,5 @@ block content
                 }
             }
         }
+
+
