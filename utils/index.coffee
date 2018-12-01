@@ -476,7 +476,7 @@ exports.ChampionRank =() ->
     ]
     where:
       updated_at: {
-        $between: ['2018-10-01 00:00:00', '2018-11-01 00:00:00']
+        $between: ['2018-11-01 00:00:00', '2018-12-01 00:00:00']
       }
 
     group: [global.db.literal('creator_id')],

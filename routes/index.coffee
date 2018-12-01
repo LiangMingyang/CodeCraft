@@ -52,17 +52,13 @@ router.get '/index', (req, res) ->
 #  global.myUtils.ChampionRank()
 #  .then (r)->
 #    console.log r[0]
+#  global.myUtils.getBrowserInfo(req)
+#  .then (r) ->
+#    console.log (r)
+#  s = global.db.models.login_note
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
-#    if req.session.github
-#      Github = req.session.github
-#      global.myUtils.github(req,res,Github)
-#  .then (r) ->
-#    if r
-#      global.myUtils.login(req,res,r)
-#      console.log(r)
-#    User.find req.session.user.id if req.session.user
   .then (user)->
     currentUser = user
     return [] if not currentUser
