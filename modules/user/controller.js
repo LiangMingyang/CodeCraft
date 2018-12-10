@@ -112,7 +112,7 @@
       usualUser = result;
       //console.log("usualUser:");
       //console.log(usualUser);
-      if (req.headers.host === "localhost:3001") {
+      if (req.headers.host === "exam.buaacoding.cn") {
         return global.myUtils.getExamUser(form.username);
       }
     }).then(function(result) {
