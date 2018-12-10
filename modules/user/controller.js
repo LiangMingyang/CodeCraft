@@ -112,7 +112,7 @@
       usualUser = result;
       //console.log("usualUser:");
       //console.log(usualUser);
-      if (req.headers.host === "exam.buaacoding.cn") {
+      if(!req.headers.host.includes('buaacoding.cn')) {
         return global.myUtils.getExamUser(form.username);
       }
     }).then(function(result) {
