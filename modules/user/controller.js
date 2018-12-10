@@ -103,7 +103,7 @@
     usualUser = void 0;
     user_id = void 0;
     return global.db.Promise.resolve().then(function() {
-      if (req.headers.host === "localhost:3000") {
+      if (req.headers.host === "buaacoding.cn") {
         //console.log("form.name:");
         //console.log(form.username);
         return global.myUtils.getUser(form.username);
