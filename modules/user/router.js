@@ -32,9 +32,9 @@
 
   router.get('/logout', controller.getLogout);
 
-  // router.get('/oauthlogin', controller.getOauthlogin);
-  //
-  // router.get('/third', controller.getGithub);
+  router.get('/oauthlogin', controller.getOauthlogin);
+
+  router.get('/third', controller.getGithub);
 
   // router.get("/oauthlogin", function (req, resp) {
   //   var path = "https://github.com/login/oauth/authorize";

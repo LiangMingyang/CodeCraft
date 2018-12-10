@@ -12,6 +12,8 @@
 
   PREVIOUS_PAGE = 'back';
 
+  const fetch = require('node-fetch');
+
   LOGIN_PAGE = 'login';
 
   REGISTER_PAGE = 'register';
@@ -24,6 +26,47 @@
     return res.render('index', {
       title: 'You have got user index here'
     });
+  };
+
+  exports.getOauthlogin = function (req, res) {
+    var path = "http://140.143.192.232:8080/oauth/authorize";
+    path += '?client_id=testId';
+    path += '&state=state';
+    path += '&scope=read';
+    path += '&response_type=code';
+    path += '&redirect_uri=http://localhost:3000/user/third';
+    res.redirect(path);
+  };
+
+  exports.getGithub = function (req, res) {
+    var path = 'http://140.143.192.232:8080/oauth/token';
+    var params = "grant_type=authorization_code&code=" + req.query.code + "&redirect_uri=http://localhost:3000/user/third";
+    fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization':'Basic dGVzdElkOnRlc3RTZWNyZXQ=' 
+      },
+      body: params
+    }).then(function (res) {
+      return res.text();
+    }).then(function (body) {
+      return JSON.parse(body).access_token;
+    }).then(token => {
+        const url = "http://140.143.192.232:8080/oauth/me?access_token=" + token;
+        fetch(url)
+          .then(res => {
+            return res.json();
+          })
+          .then(res => {
+            var thirdUsername = res.name;
+            return global.myUtils.thirdLogin(thirdUsername);
+          }).then(function(users){
+          	global.myUtils.login(req, res, users);
+          }).then(function() {
+            return res.redirect(HOME_PAGE);
+          })
+    })
   };
 
 
@@ -47,7 +90,7 @@
    */
 
   exports.postLogin = function(req, res) {
-    var Login_note, User, form, realIP;
+    var Login_note, User, form, realIP, realUser, examUser, usualUser, user_id;
     form = {
       username: req.body.username,
       password: req.body.password
@@ -55,17 +98,49 @@
     User = global.db.models.user;
     Login_note = global.db.models.login_note;
     realIP = void 0;
-    return User.find({
-      where: {
-        username: form.username
+    realUser = void 0;
+    examUser = void 0;
+    usualUser = void 0;
+    user_id = void 0;
+    return global.db.Promise.resolve().then(function() {
+      if (req.headers.host === "localhost:3000") {
+        //console.log("form.name:");
+        //console.log(form.username);
+        return global.myUtils.getUser(form.username);
       }
+    }).then(function(result) {
+      usualUser = result;
+      //console.log("usualUser:");
+      //console.log(usualUser);
+      if (req.headers.host === "localhost:3001") {
+        return global.myUtils.getExamUser(form.username);
+      }
+    }).then(function(result) {
+      examUser = result;
+      //console.log("examUser:");
+      //console.log(examUser);
+      if (examUser){
+        realUser = examUser
+        user_id = examUser.user_id
+      }
+      else if(usualUser){
+        realUser = usualUser
+        user_id = usualUser.id
+      }
+      //console.log("realUser:");
+      //console.log(realUser);
+      if (!realUser) {
+        throw new global.myErrors.LoginError();
+      }
+      if (!passwordHash.verify(form.password, realUser.password)) {
+        throw new global.myErrors.LoginError();
+      }
+      return User.find({
+        where: {
+          id: user_id 
+        }
+      });
     }).then(function(user) {
-      if (!user) {
-        throw new global.myErrors.LoginError();
-      }
-      if (!passwordHash.verify(form.password, user.password)) {
-        throw new global.myErrors.LoginError();
-      }
       global.myUtils.login(req, res, user);
       user.last_login = new Date();
       user.save();

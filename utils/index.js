@@ -14,6 +14,30 @@
     };
   };
 
+  exports.getUser = function(name) {
+    var User;
+    User = global.db.models.user;
+    return User.find({
+      where: {
+        username: name
+      }
+    }).then(function(r) {
+      return r;
+    });
+  };
+
+  exports.getExamUser = function(name) {
+    var ExamUser;
+    ExamUser = global.db.models.exam_user;
+    return ExamUser.find({
+      where: {
+        username: name
+      }
+    }).then(function(r) {
+      return r;
+    });
+  };
+
   exports.tmp = function(req, id) {
     req.session.tmpid = id;
     return req.session.save();
@@ -1035,7 +1059,7 @@
         order: [['created_at', 'ASC'], ['id', 'DESC']]
       });
     }).then(function(submissions) {
-      var base, base1, base2, base3, base4, base5, detail, firstB, j, len, name, p, problem, problemOrderLetter, res, sub, tmp, user;
+      var base, base1, base2, base3, base4, base5, detail, firstB, j, len, name1, p, problem, problemOrderLetter, res, sub, tmp, user;
       if (!getLock) {
         return;
       }
@@ -1043,8 +1067,8 @@
       firstB = {};
       for (j = 0, len = submissions.length; j < len; j++) {
         sub = submissions[j];
-        if (tmp[name = sub.creator.id] == null) {
-          tmp[name] = {};
+        if (tmp[name1 = sub.creator.id] == null) {
+          tmp[name1] = {};
         }
         if ((base = tmp[sub.creator.id]).user == null) {
           base.user = sub.creator;

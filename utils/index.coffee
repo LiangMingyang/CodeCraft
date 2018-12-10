@@ -8,6 +8,24 @@ exports.login = (req, res, user) ->
     username: user.username
   }
 
+exports.getUser = (name) ->
+  User = global.db.models.user
+  User.find {
+    where:
+      username: name
+  }
+  .then (r) ->
+    return r
+
+exports.getExamUser = (name) ->
+  ExamUser = global.db.models.exam_user
+  ExamUser.find {
+    where:
+      username: name
+  }
+  .then (r) ->
+    return r
+
 exports.tmp = (req, id) ->
   req.session.tmpid = id
   req.session.save()
