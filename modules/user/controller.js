@@ -12,7 +12,7 @@
 
   PREVIOUS_PAGE = 'back';
 
-  const fetch = require('node-fetch');
+  // const fetch = require('node-fetch');
 
   LOGIN_PAGE = 'login';
 
@@ -28,46 +28,46 @@
     });
   };
 
-  exports.getOauthlogin = function (req, res) {
-    var path = "http://140.143.192.232:8080/oauth/authorize";
-    path += '?client_id=testId';
-    path += '&state=state';
-    path += '&scope=read';
-    path += '&response_type=code';
-    path += '&redirect_uri=http://localhost:3000/user/third';
-    res.redirect(path);
-  };
+  // exports.getOauthlogin = function (req, res) {
+  //   var path = "http://140.143.192.232:8080/oauth/authorize";
+  //   path += '?client_id=testId';
+  //   path += '&state=state';
+  //   path += '&scope=read';
+  //   path += '&response_type=code';
+  //   path += '&redirect_uri=http://localhost:3000/user/third';
+  //   res.redirect(path);
+  // };
 
-  exports.getGithub = function (req, res) {
-    var path = 'http://140.143.192.232:8080/oauth/token';
-    var params = "grant_type=authorization_code&code=" + req.query.code + "&redirect_uri=http://localhost:3000/user/third";
-    fetch(path, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization':'Basic dGVzdElkOnRlc3RTZWNyZXQ=' 
-      },
-      body: params
-    }).then(function (res) {
-      return res.text();
-    }).then(function (body) {
-      return JSON.parse(body).access_token;
-    }).then(token => {
-        const url = "http://140.143.192.232:8080/oauth/me?access_token=" + token;
-        fetch(url)
-          .then(res => {
-            return res.json();
-          })
-          .then(res => {
-            var thirdUsername = res.name;
-            return global.myUtils.thirdLogin(thirdUsername);
-          }).then(function(users){
-          	global.myUtils.login(req, res, users);
-          }).then(function() {
-            return res.redirect(HOME_PAGE);
-          })
-    })
-  };
+  // exports.getGithub = function (req, res) {
+  //   var path = 'http://140.143.192.232:8080/oauth/token';
+  //   var params = "grant_type=authorization_code&code=" + req.query.code + "&redirect_uri=http://localhost:3000/user/third";
+  //   fetch(path, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       'Authorization':'Basic dGVzdElkOnRlc3RTZWNyZXQ=' 
+  //     },
+  //     body: params
+  //   }).then(function (res) {
+  //     return res.text();
+  //   }).then(function (body) {
+  //     return JSON.parse(body).access_token;
+  //   }).then(token => {
+  //       const url = "http://140.143.192.232:8080/oauth/me?access_token=" + token;
+  //       fetch(url)
+  //         .then(res => {
+  //           return res.json();
+  //         })
+  //         .then(res => {
+  //           var thirdUsername = res.name;
+  //           return global.myUtils.thirdLogin(thirdUsername);
+  //         }).then(function(users){
+  //         	global.myUtils.login(req, res, users);
+  //         }).then(function() {
+  //           return res.redirect(HOME_PAGE);
+  //         })
+  //   })
+  // };
 
 
   /*
@@ -137,7 +137,7 @@
       }
       return User.find({
         where: {
-          id: user_id 
+          id: user_id
         }
       });
     }).then(function(user) {
