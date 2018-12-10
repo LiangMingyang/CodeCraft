@@ -54,6 +54,7 @@ exports.getCreateSolution = (req, res)->
       ]
     )
   .then (submissions) ->
+    throw new global.myErrors.InvalidAccess() if  submissions.length == 0
     currentSubmissions = submissions
     Solution.findAll(
       where:

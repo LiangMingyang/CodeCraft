@@ -69,6 +69,9 @@
         ]
       });
     }).then(function(submissions) {
+      if (submissions.length === 0) {
+        throw new global.myErrors.InvalidAccess();
+      }
       currentSubmissions = submissions;
       return Solution.findAll({
         where: {
