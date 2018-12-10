@@ -57,6 +57,8 @@
     sp = void 0;
     SP = void 0;
     sequelize = global.db;
+    console.log(req.headers);
+    console.log(req.headers.host);
     return global.db.Promise.resolve().then(function() {
       if (req.session.user) {
         return User.find(req.session.user.id);
