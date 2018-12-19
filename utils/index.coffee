@@ -46,8 +46,8 @@ exports.thirdLogin = (thirdUsername) ->
 
 exports.getIP = (req) ->
   ip = req.headers['x-real-ip'] or req.headers['x-forwarded-for'] or req.socket.remoteAddress or ''
-  if ip.split(',').length > 0
-    ip = ip.split(',')[0]
+#  if ip.split(',').length > 0
+#    ip = ip.split(',')[0]
   return ip
 
 #group
