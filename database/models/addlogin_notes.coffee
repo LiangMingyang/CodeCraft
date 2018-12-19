@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) ->
     user_id:
       type: DataTypes.INTEGER
       unique: 'user_note'
-      allowNull: true
+      allowNull: false
     ip_id:
       type: DataTypes.STRING
       unique: 'user_note'
