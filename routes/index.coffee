@@ -49,15 +49,7 @@ router.get '/index', (req, res) ->
   SP = undefined
   sequelize = global.db
 
-#  global.myUtils.ChampionRank()
-#  .then (r)->
-#    console.log r[0]
-#  global.myUtils.getBrowserInfo(req)
-#  .then (r) ->
-#    console.log (r)
 #  s = global.db.models.login_note
-  console.log(req.headers)
-  console.log(req.headers.host)
   global.db.Promise.resolve()
   .then ()->
     User.find req.session.user.id if req.session.user
