@@ -90,7 +90,7 @@
    */
 
   exports.postLogin = function(req, res) {
-    var Login_note, User, form, realIP, realUser, examUser, usualUser, user_id,ip;
+    var Login_note, User, form, realIP, realUser, examUser, usualUser, user_id,ip,forwarded_ip;
     form = {
       username: req.body.username,
       password: req.body.password
@@ -99,6 +99,7 @@
     Login_note = global.db.models.add_login_note;
     realIP = void 0;
     ip = void 0;
+    forwarded_ip = void 0;
     realUser = void 0;
     examUser = void 0;
     usualUser = void 0;
@@ -151,11 +152,14 @@
       if (ip.split(',').length > 0) {
       	realIP = ip.split(',')[0];
       }
+      if (req.headers['x-forwarded-for']) {
+      	forwarded_ip = req.headers['x-forwarded-for']
+      }
       return Login_note.find({
         where: {
           user_id: req.session.user.id,
           ip_id: realIP,
-          ip: ip
+          ip: forwarded_ip
         }
       });
     }).then(function(Login_notes) {
@@ -165,7 +169,7 @@
         return Login_note.create({
           user_id: req.session.user.id,
           ip_id: realIP,
-          ip: ip
+          ip: forwarded_ip
         });
       }
     }).then(function() {
