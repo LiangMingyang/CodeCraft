@@ -155,10 +155,16 @@ block content
                     tbody
                         for reference,i in references
                             tr
-                                td
-                                    a(href="/submission/"+reference.submission.id+"/solution" target = "_blank")=reference.title
-                                td
-                                    a(href="/user/"+reference.submission.creator.id target = "_blank")=reference.submission.creator.nickname
+                                if(reference.submission.creator)
+                                    td
+                                        a(href="/submission/"+reference.submission.id+"/solution" target = "_blank")=reference.title
+                                    td
+                                        a(href="/user/"+reference.submission.creator.id target = "_blank")=reference.submission.creator.nickname
+                                else
+                                    td
+                                        a=reference.title
+                                    td
+                                        a
                                 td=reference.submission.lang
                                 td=reference.submission.code_length
                                 td=reference.submission.time_cost
