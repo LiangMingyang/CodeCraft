@@ -832,6 +832,8 @@ exports.buildRank = (contest,dicProblemIDToOrder,dicProblemOrderToScore)->
     tmp = {}
     firstB = {}
     for sub in submissions
+      if (!sub.creator)
+        continue
       tmp[sub.creator.id] ?= {}
       tmp[sub.creator.id].user ?= sub.creator
       tmp[sub.creator.id].detail ?= {}

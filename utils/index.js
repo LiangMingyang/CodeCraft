@@ -1064,6 +1064,9 @@
       firstB = {};
       for (j = 0, len = submissions.length; j < len; j++) {
         sub = submissions[j];
+        if (!sub.creator) {
+          continue;
+        }
         if (tmp[name1 = sub.creator.id] == null) {
           tmp[name1] = {};
         }
