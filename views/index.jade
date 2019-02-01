@@ -106,7 +106,7 @@ html(lang='zh-CN')
                                     script setTimeout(function () {$("#logo").popover('hide');}, 3000);
                     .row
                         #page.row.page-control
-                            img(style='position:absolute; left: 0px; top: 0px; width: 100%;z-index:-1;min-width: 886px;margin-top:165px;', src='/img/back3.png')
+                            //-img(style='position:absolute; left: 0px; top: 0px; width: 100%;z-index:-1;min-width: 886px;margin-top:165px;', src='/img/back3.png')
                             img(style='position:fixed; left: 0px; top: 0px; width: 100%;z-index:-3;min-width: 886px;', src='/img/bg005.png')
                             .containing(style='margin-top:2.8%;')
                                 //-.col-lg-4.col-nm-4.col-sm-4.col-xs-4
@@ -221,9 +221,6 @@ html(lang='zh-CN')
                                         a(href="/problem/DEVStatistics?problem_id=1" target="_blank" style="color:black") DEV-C++使用指南
                                         br
                                         a(href="/problem/CBStatistics?problem_id=1" target="_blank" style="color:black") CodeBlocks使用指南
-
-
-
                                     p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 听说有福利~~
                                         br
                                         a(href="/problem/tencentStatistics?problem_id=1" target="_blank" style="color:black") 小OJ提醒您戳戳戳 《腾讯云大学生扶持计划》
@@ -288,14 +285,14 @@ html(lang='zh-CN')
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 2018年12月
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 1601××××
                                                 td(style="vertical-align: middle;border:0px;color:#ffffff") 余天予
-                                            //tr.text-center
-                                            //    td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 年度总冠军
-                                            //    td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 16211109
-                                            //    td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 周宏建
-                                            //tr.text-center
-                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年9月
-                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16211064
-                                            //    td(style="vertical-align: middle;border:0px;color:#ffffff") 李想
+                                            tr.text-center
+                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 2018年度冠军
+                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 1737××××
+                                                td(style="vertical-align: middle;border:0px;color:#FFB90F; font-size:20px;") 田柯宇
+                                            tr.text-center
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 2019年1月
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 1737××××
+                                                td(style="vertical-align: middle;border:0px;color:#ffffff") 万亮
                                             //tr.text-center
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年10月
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 15041061
@@ -308,7 +305,10 @@ html(lang='zh-CN')
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 2017年12月
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 16011133
                                             //    td(style="vertical-align: middle;border:0px;color:#ffffff") 余天予
-
+                                    br
+                                    p(style="float:right;font-size:16px;color:black;font-weight: bold;") 扫一扫看年度做题报告~
+                                        br
+                                        img(style='float:right;width:130px;height:160px;margin-top:10px;',src='/img/xiaochengxu.png')
                     script.
                         $(document).ready(function () {
                             $(".minheight").css("min-height", ($(window).height() - 140) + "px");
