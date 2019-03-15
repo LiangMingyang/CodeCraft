@@ -6,9 +6,9 @@
 
   module.exports = {
     database: {
-      name: 'OJ4TH',
+      name: 'oj4th',
       username: 'root',
-      password: 'WQNMLGB',
+      password: 'ma1996',
       config: {
         host: 'localhost',
         dialect: 'mysql',

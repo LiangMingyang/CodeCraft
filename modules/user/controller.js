@@ -22,7 +22,7 @@
 
   exports.getIndex = function(req, res) {
     return res.render('index', {
-      title: 'You have got user index here'
+      title: 'You have got user i0ndex here'
     });
   };
 
