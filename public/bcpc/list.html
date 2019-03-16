@@ -9,7 +9,7 @@
     <meta name="description" content="BUAA,icpc">
     <meta name="author" content="Thor">
 
-    <title>第十三届北航程序设计竞赛</title>
+    <title>第十四届北航程序设计竞赛</title>
     <!--Angular-->
     <script src="/bower_components/angular/angular.js"></script>
     <script src="./app.js"></script>
@@ -21,34 +21,32 @@
     <script src="./app.js"></script>
 </head>
 <body ng-controller="bcpc.list">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-10">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <td>ID</td>
-                            <td>姓名</td>
-                            <td>邮箱</td>
-                            <td>手机</td>
-                            <td>学号</td>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="user in list">
-                            <td>{{user.id}}</td>
-                            <td>{{user.nickname}}</td>
-                            <td>{{user.username}}</td>
-                            <td>{{user.phone}}</td>
-                            <td>{{user.student_id}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>姓名</td>
+                    <td>邮箱</td>
+                    <td>手机</td>
+                    <td>学号</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in list">
+                    <td>{{user.id}}</td>
+                    <td>{{user.nickname}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.student_id}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 </body>
