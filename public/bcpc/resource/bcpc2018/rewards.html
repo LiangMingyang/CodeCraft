@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="bcpc">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="BUAA,icpc">
+    <meta name="author" content="Thor">
+
+    <title>第十四届北航程序设计竞赛</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link href="../../../stylesheets/layout.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../style.css" rel="stylesheet">
+    <link href="../../font.css?family=Open+Sans:300,400,600,700&lang=en" rel="stylesheet">
+    <style type="text/css">
+        body {
+            font-family: arial, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', \5b8b\4f53, Tahoma, Arial, Helvetica, '宋体', STHeiti !important;
+        }
+        p {
+            font-size: 16px;
+        }
+        @media(max-width:800px) {
+            .hide-mob {
+                display: none;
+            }
+        }
+        .landing-page .navbar-default .nav li a {
+            color: #000;
+        }
+
+        .landing-page .navbar-default .navbar-nav > .active > a:focus {
+            color: #1ab394;
+        }
+
+        .carousel-inner h1 {
+            color: #222;
+        }
+        .carousel-inner h2 {
+            color: #555;
+        }
+        .carousel-inner p {
+            color: #564b4b;
+        }
+        .carousel-inner a {
+            color: #1ab394;
+        }
+
+        .main-head h2 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 1.7px;
+        }
+        .main-head h1 {
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .main-head p {
+            margin-top: 1em;
+        }
+
+        .main-head small {
+            color: #ddd;
+        }
+
+        tr:hover {
+            background-color: rgba(167, 232, 222, 0.09);
+        }
+
+        .modalbtn {
+            margin-right: 10px
+        }
+
+        .day {
+            padding-left: 80px;
+            padding-right: 80px;
+            margin-bottom: 20px;
+        }
+
+        .day>h1 {
+            text-align: center;
+        }
+
+        .detail {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail>p {
+            text-align: left;
+        }
+
+        .sponser div {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .sponser {
+            margin-bottom: 20px;
+        }
+        .bg {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .invert {
+            filter: invert(1);
+            -webkit-filter: invert(1);
+            -moz-filter: invert(1);
+            -o-filter: invert(1);
+            -ms-filter: invert(1);
+        }
+
+        .anchor-listing > a {
+            margin-left: 6px;
+        }
+    </style>
+
+    <link href="table.css" rel="stylesheet">
+</head>
+
+<body id="page-top" class="landing-page pace-done" ng-controller="bcpc.ctrl">
+
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/index">BUAA ONLINE JUDGE</a></li>
+                    <li><a href="original.html">原始榜单</a></li>
+                    <li><a href="scoreboard.html">修订榜单</a></li>
+                    <li class="active"><a href="rewards.html">获奖名单</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../../index.html">BCPC 2018</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<table id="board" style="margin-top: 8em; margin-bottom: 4em;">
+<caption>校内</caption>
+<tbody>
+
+<tr>
+    <th>#</th>
+    <th>奖项</th>
+    <th>Who</th>
+    <th>=</th>
+    <th>Penalty</th>
+    <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
+</tr>
+
+    <tr>
+        <td>1</td>
+        <td style="background: #f7f97d">冠军</td>
+        <td>team008<br />北京航空航天大学<br />丁元杰</td>
+        <td>4</td>
+        <td>25068</td>
+        <td><span class="accepted">+</span><br />00:08:27</td><td></td><td><span class="accepted">+3</span><br />01:21:32</td><td></td><td><span class="accepted">+1</span><br />03:07:24</td><td><span class="failed">-2<br />(03:59:22)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:00:22</td>
+    </tr>
+
+    <tr>
+        <td>2</td>
+        <td style="background: #d8e2e6">亚军</td>
+        <td>team016<br />北京航空航天大学<br />阙子烝</td>
+        <td>4</td>
+        <td>26386</td>
+        <td><span class="accepted">+1</span><br />00:12:54</td><td></td><td><span class="accepted">+</span><br />01:01:13</td><td></td><td><span class="failed">-1<br />(03:37:44)</span></td><td><span class="accepted">+5</span><br />03:04:52</td><td></td><td></td><td><span class="accepted">+</span><br />01:00:45</td>
+    </tr>
+
+    <tr>
+        <td>3</td>
+        <td style="background: #dc9d81">季军</td>
+        <td>team028<br />北京航空航天大学<br />孙保成</td>
+        <td>4</td>
+        <td>27678</td>
+        <td><span class="accepted">+1</span><br />01:00:37</td><td></td><td><span class="accepted">+</span><br />01:37:00</td><td></td><td></td><td><span class="accepted">+3</span><br />02:42:38</td><td></td><td></td><td><span class="accepted">+</span><br />01:01:01</td>
+    </tr>
+
+    <tr>
+        <td>4</td>
+        <td style="background: #ebd8a5">一等奖</td>
+        <td>team001<br />北京航空航天大学<br />陈铭煊</td>
+        <td>3</td>
+        <td>5147</td>
+        <td><span class="accepted">+</span><br />00:07:48</td><td></td><td><span class="accepted">+</span><br />01:02:20</td><td></td><td></td><td><span class="failed">-4<br />(03:58:33)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:15:37</td>
+    </tr>
+
+    <tr>
+        <td>5</td>
+        <td style="background: #ebd8a5">一等奖</td>
+        <td>team005<br />北京航空航天大学<br />肖思炀</td>
+        <td>3</td>
+        <td>5287</td>
+        <td><span class="accepted">+</span><br />00:05:06</td><td><span class="failed">-2<br />(01:50:23)</span></td><td><span class="accepted">+</span><br />01:02:25</td><td></td><td></td><td><span class="failed">-4<br />(03:13:36)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:20:35</td>
+    </tr>
+
+    <tr>
+        <td>6</td>
+        <td style="background: #ebd8a5">一等奖</td>
+        <td>team006<br />北京航空航天大学<br />李元恺</td>
+        <td>3</td>
+        <td>5316</td>
+        <td><span class="accepted">+</span><br />00:07:00</td><td></td><td><span class="accepted">+</span><br />01:02:34</td><td></td><td><span class="failed">-1<br />(03:52:11)</span></td><td><span class="failed">-1<br />(01:28:13)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:19:01</td>
+    </tr>
+
+    <tr>
+        <td>7</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team035<br />北京航空航天大学<br />康时嘉</td>
+        <td>3</td>
+        <td>5970</td>
+        <td><span class="accepted">+</span><br />00:05:06</td><td><span class="failed">-1<br />(00:12:46)</span></td><td><span class="accepted">+1</span><br />01:01:22</td><td><span class="failed">-1<br />(01:09:56)</span></td><td><span class="failed">-11<br />(03:45:33)</span></td><td><span class="failed">-12<br />(03:51:15)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:13:01</td>
+    </tr>
+
+    <tr>
+        <td>8</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team017<br />北京航空航天大学<br />周海涛</td>
+        <td>3</td>
+        <td>7862</td>
+        <td><span class="accepted">+</span><br />00:05:17</td><td></td><td><span class="accepted">+</span><br />01:03:21</td><td></td><td></td><td><span class="failed">-1<br />(03:10:57)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:02:23</td>
+    </tr>
+
+    <tr>
+        <td>9</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team031<br />北京航空航天大学<br />陈源</td>
+        <td>3</td>
+        <td>8170</td>
+        <td><span class="accepted">+</span><br />00:10:21</td><td></td><td><span class="accepted">+</span><br />01:03:18</td><td></td><td></td><td></td><td><span class="failed">-2<br />(03:38:24)</span></td><td></td><td><span class="accepted">+</span><br />01:02:31</td>
+    </tr>
+
+    <tr>
+        <td>10</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team050<br />北京航空航天大学<br />何泽欣</td>
+        <td>3</td>
+        <td>8461</td>
+        <td><span class="accepted">+</span><br />00:12:32</td><td></td><td><span class="accepted">+</span><br />01:06:10</td><td></td><td></td><td><span class="failed">-13<br />(03:57:38)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:02:18</td>
+    </tr>
+
+    <tr>
+        <td>11</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team020<br />北京航空航天大学<br />冯玮琪</td>
+        <td>3</td>
+        <td>9182</td>
+        <td><span class="accepted">+</span><br />00:20:16</td><td></td><td><span class="accepted">+</span><br />01:12:46</td><td></td><td><span class="failed">-2<br />(03:59:40)</span></td><td><span class="failed">-2<br />(01:58:04)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:59:59</td>
+    </tr>
+
+    <tr>
+        <td>12</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team040<br />北京航空航天大学<br />兰慧心</td>
+        <td>3</td>
+        <td>9207</td>
+        <td><span class="accepted">+</span><br />00:06:09</td><td></td><td><span class="accepted">+</span><br />01:02:28</td><td></td><td><span class="failed">-3<br />(03:59:39)</span></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />01:24:49</td>
+    </tr>
+
+    <tr>
+        <td>13</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team015<br />北京航空航天大学<br />龙鹏宇</td>
+        <td>3</td>
+        <td>9461</td>
+        <td><span class="accepted">+</span><br />00:10:51</td><td></td><td><span class="accepted">+</span><br />01:02:18</td><td></td><td><span class="failed">-4<br />(03:47:12)</span></td><td><span class="failed">-11<br />(03:32:52)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:24:31</td>
+    </tr>
+
+    <tr>
+        <td>14</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team010<br />北京航空航天大学<br />林昱同</td>
+        <td>3</td>
+        <td>9525</td>
+        <td><span class="accepted">+</span><br />00:04:22</td><td></td><td><span class="accepted">+1</span><br />01:13:58</td><td></td><td></td><td><span class="failed">-6<br />(03:30:25)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:00:24</td>
+    </tr>
+
+    <tr>
+        <td>15</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team059<br />北京航空航天大学<br />余志浩</td>
+        <td>3</td>
+        <td>9717</td>
+        <td><span class="accepted">+</span><br />00:07:02</td><td></td><td><span class="accepted">+1</span><br />01:14:50</td><td></td><td></td><td><span class="failed">-2<br />(01:40:09)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:00:04</td>
+    </tr>
+
+    <tr>
+        <td>16</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team038<br />北京航空航天大学<br />陈宇轩</td>
+        <td>3</td>
+        <td>9966</td>
+        <td><span class="accepted">+</span><br />00:08:36</td><td></td><td><span class="accepted">+</span><br />01:02:17</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+1</span><br />01:15:12</td>
+    </tr>
+
+    <tr>
+        <td>17</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team045<br />北京航空航天大学<br />倪衔军</td>
+        <td>3</td>
+        <td>11503</td>
+        <td><span class="accepted">+</span><br />00:11:08</td><td></td><td><span class="accepted">+2</span><br />01:19:51</td><td></td><td></td><td><span class="failed">-3<br />(03:36:59)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:00:43</td>
+    </tr>
+
+    <tr>
+        <td>18</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team034<br />北京航空航天大学<br />董翰元</td>
+        <td>3</td>
+        <td>11642</td>
+        <td><span class="accepted">+</span><br />00:17:31</td><td></td><td><span class="accepted">+</span><br />01:27:24</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+1</span><br />01:09:06</td>
+    </tr>
+
+    <tr>
+        <td>19</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team023<br />北京航空航天大学<br />赵婉如</td>
+        <td>3</td>
+        <td>11978</td>
+        <td><span class="accepted">+</span><br />00:17:14</td><td></td><td><span class="accepted">+</span><br />02:00:02</td><td></td><td></td><td><span class="failed">-2<br />(03:54:43)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:02:20</td>
+    </tr>
+
+    <tr>
+        <td>20</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team014<br />北京航空航天大学<br />朱晨宇</td>
+        <td>3</td>
+        <td>12172</td>
+        <td><span class="accepted">+</span><br />00:11:00</td><td></td><td><span class="accepted">+</span><br />01:02:17</td><td></td><td><span class="failed">-2<br />(03:57:04)</span></td><td></td><td></td><td></td><td><span class="accepted">+1</span><br />01:49:35</td>
+    </tr>
+
+    <tr>
+        <td>21</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team048<br />北京航空航天大学<br />马广林</td>
+        <td>3</td>
+        <td>12430</td>
+        <td><span class="accepted">+2</span><br />00:19:42</td><td></td><td><span class="accepted">+</span><br />01:25:05</td><td></td><td><span class="failed">-8<br />(03:49:58)</span></td><td><span class="failed">-1<br />(02:00:46)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:02:22</td>
+    </tr>
+
+    <tr>
+        <td>22</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team071<br />北京航空航天大学<br />刘培</td>
+        <td>3</td>
+        <td>12550</td>
+        <td><span class="accepted">+</span><br />00:15:23</td><td></td><td><span class="accepted">+</span><br />01:42:51</td><td></td><td></td><td><span class="failed">-7<br />(03:58:28)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:10:54</td>
+    </tr>
+
+    <tr>
+        <td>23</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team027<br />北京航空航天大学<br />常容熇</td>
+        <td>3</td>
+        <td>12629</td>
+        <td><span class="accepted">+</span><br />00:18:53</td><td></td><td><span class="accepted">+1</span><br />01:49:13</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />01:02:22</td>
+    </tr>
+
+    <tr>
+        <td>24</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team009<br />北京航空航天大学<br />田柯宇</td>
+        <td>3</td>
+        <td>13102</td>
+        <td><span class="accepted">+</span><br />00:14:53</td><td></td><td><span class="accepted">+3</span><br />01:23:55</td><td></td><td><span class="failed">-1<br />(03:27:26)</span></td><td><span class="failed">-7<br />(03:52:07)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:59:34</td>
+    </tr>
+
+    <tr>
+        <td>25</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team026<br />北京航空航天大学<br />姜维翰</td>
+        <td>3</td>
+        <td>13874</td>
+        <td><span class="accepted">+</span><br />00:17:32</td><td></td><td><span class="accepted">+1</span><br />01:45:07</td><td></td><td><span class="failed">-6<br />(03:57:59)</span></td><td><span class="failed">-4<br />(03:25:49)</span></td><td><span class="failed">-7<br />(03:25:06)</span></td><td></td><td><span class="accepted">+1</span><br />01:08:34</td>
+    </tr>
+
+    <tr>
+        <td>26</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team069<br />北京航空航天大学<br />王宇辰</td>
+        <td>3</td>
+        <td>14808</td>
+        <td><span class="accepted">+</span><br />01:02:21</td><td></td><td><span class="accepted">+</span><br />01:13:49</td><td></td><td></td><td><span class="failed">-1<br />(02:18:27)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:30:36</td>
+    </tr>
+
+    <tr>
+        <td>27</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team036<br />北京航空航天大学<br />李英龙</td>
+        <td>3</td>
+        <td>14938</td>
+        <td><span class="accepted">+</span><br />00:13:46</td><td></td><td><span class="accepted">+4</span><br />01:30:13</td><td></td><td></td><td><span class="failed">-7<br />(03:43:51)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:04:58</td>
+    </tr>
+
+    <tr>
+        <td>28</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team057<br />北京航空航天大学<br />吴洁松</td>
+        <td>3</td>
+        <td>15510</td>
+        <td><span class="accepted">+</span><br />01:03:06</td><td></td><td><span class="accepted">+</span><br />02:03:02</td><td></td><td></td><td><span class="accepted">+</span><br />01:12:20</td><td></td><td></td><td><span class="failed">-6<br />(03:48:16)</span></td>
+    </tr>
+
+    <tr>
+        <td>29</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team019<br />北京航空航天大学<br />陆晓东</td>
+        <td>3</td>
+        <td>15780</td>
+        <td><span class="accepted">+</span><br />00:11:37</td><td></td><td><span class="accepted">+1</span><br />01:21:29</td><td></td><td><span class="failed">-6<br />(03:59:45)</span></td><td></td><td></td><td></td><td><span class="accepted">+2</span><br />01:49:52</td>
+    </tr>
+
+    <tr>
+        <td>30</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team018<br />北京航空航天大学<br />张海渝</td>
+        <td>3</td>
+        <td>16151</td>
+        <td><span class="accepted">+</span><br />00:12:11</td><td></td><td><span class="accepted">+</span><br />02:00:22</td><td></td><td><span class="failed">-1<br />(03:59:58)</span></td><td></td><td></td><td></td><td><span class="accepted">+2</span><br />01:36:37</td>
+    </tr>
+
+    <tr>
+        <td>31</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team012<br />北京航空航天大学<br />杨泽群</td>
+        <td>3</td>
+        <td>16192</td>
+        <td><span class="accepted">+1</span><br />01:23:13</td><td></td><td><span class="accepted">+</span><br />01:02:38</td><td></td><td></td><td><span class="failed">-14<br />(03:34:28)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:44:00</td>
+    </tr>
+
+    <tr>
+        <td>32</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team025<br />北京航空航天大学<br />赵瑞琦</td>
+        <td>3</td>
+        <td>16398</td>
+        <td><span class="accepted">+</span><br />00:16:29</td><td></td><td><span class="accepted">+2</span><br />02:37:53</td><td></td><td><span class="failed">-1<br />(01:19:23)</span></td><td><span class="failed">-2<br />(03:59:34)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:58:55</td>
+    </tr>
+
+    <tr>
+        <td>33</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team055<br />北京航空航天大学<br />梁伟聪</td>
+        <td>3</td>
+        <td>16562</td>
+        <td><span class="accepted">+</span><br />00:17:35</td><td></td><td><span class="accepted">+</span><br />01:25:07</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+3</span><br />01:53:18</td>
+    </tr>
+
+    <tr>
+        <td>34</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team002<br />北京航空航天大学<br />郑耀彦</td>
+        <td>3</td>
+        <td>17101</td>
+        <td><span class="accepted">+</span><br />00:04:53</td><td></td><td><span class="accepted">+3</span><br />02:01:07</td><td></td><td></td><td><span class="failed">-7<br />(03:59:19)</span></td><td></td><td></td><td><span class="accepted">+2</span><br />00:59:01</td>
+    </tr>
+
+    <tr>
+        <td>35</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team003<br />北京航空航天大学<br />廖纪童</td>
+        <td>3</td>
+        <td>17900</td>
+        <td><span class="accepted">+4</span><br />01:32:27</td><td></td><td><span class="accepted">+</span><br />01:02:50</td><td></td><td></td><td><span class="failed">-1<br />(03:11:07)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:03:01</td>
+    </tr>
+
+    <tr>
+        <td>36</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team041<br />北京航空航天大学<br />李淳一</td>
+        <td>3</td>
+        <td>17949</td>
+        <td><span class="accepted">+1</span><br />01:01:57</td><td></td><td><span class="failed">-2<br />(03:58:28)</span></td><td></td><td></td><td><span class="accepted">+2</span><br />01:54:44</td><td></td><td></td><td><span class="accepted">+</span><br />01:02:27</td>
+    </tr>
+
+    <tr>
+        <td>37</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team052<br />北京航空航天大学<br />包珺茹</td>
+        <td>3</td>
+        <td>18257</td>
+        <td><span class="accepted">+</span><br />00:11:35</td><td></td><td></td><td><span class="failed">-3<br />(03:25:47)</span></td><td></td><td><span class="accepted">+</span><br />03:52:15</td><td></td><td></td><td><span class="accepted">+</span><br />01:00:26</td>
+    </tr>
+
+    <tr>
+        <td>38</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team032<br />北京航空航天大学<br />游盈萱</td>
+        <td>3</td>
+        <td>18313</td>
+        <td><span class="accepted">+</span><br />00:15:31</td><td></td><td><span class="accepted">+</span><br />01:01:52</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />03:47:48</td>
+    </tr>
+
+    <tr>
+        <td>39</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team024<br />北京航空航天大学<br />童尚</td>
+        <td>3</td>
+        <td>19022</td>
+        <td><span class="accepted">+1</span><br />00:15:51</td><td></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />01:12:30</td><td></td><td><span class="failed">-9<br />(03:10:02)</span></td><td><span class="accepted">+5</span><br />01:48:40</td>
+    </tr>
+
+    <tr>
+        <td>40</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team022<br />北京航空航天大学<br />文皓</td>
+        <td>3</td>
+        <td>19150</td>
+        <td><span class="accepted">+</span><br />00:18:02</td><td></td><td><span class="accepted">+1</span><br />02:28:35</td><td></td><td></td><td><span class="failed">-3<br />(03:36:08)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:52:32</td>
+    </tr>
+
+    <tr>
+        <td>41</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team007<br />北京航空航天大学<br />黄云依</td>
+        <td>3</td>
+        <td>19553</td>
+        <td><span class="accepted">+</span><br />00:08:55</td><td></td><td><span class="accepted">+</span><br />01:02:24</td><td></td><td></td><td><span class="failed">-18<br />(03:58:57)</span></td><td></td><td></td><td><span class="accepted">+3</span><br />03:14:33</td>
+    </tr>
+
+    <tr>
+        <td>42</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team029<br />北京航空航天大学<br />孔祥浩</td>
+        <td>3</td>
+        <td>22630</td>
+        <td><span class="accepted">+1</span><br />00:18:37</td><td></td><td><span class="accepted">+</span><br />03:24:37</td><td></td><td><span class="failed">-1<br />(02:46:58)</span></td><td></td><td></td><td></td><td><span class="accepted">+2</span><br />01:33:55</td>
+    </tr>
+
+    <tr>
+        <td>43</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team004<br />北京航空航天大学<br />牟钰</td>
+        <td>3</td>
+        <td>22776</td>
+        <td><span class="accepted">+</span><br />00:11:00</td><td></td><td><span class="accepted">+</span><br />03:27:55</td><td></td><td><span class="failed">-5<br />(03:59:58)</span></td><td><span class="failed">-3<br />(02:17:13)</span></td><td></td><td></td><td><span class="accepted">+4</span><br />01:20:39</td>
+    </tr>
+
+    <tr>
+        <td>44</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team064<br />北京航空航天大学<br />杜嘉禾</td>
+        <td>3</td>
+        <td>24525</td>
+        <td><span class="accepted">+</span><br />01:14:39</td><td></td><td><span class="accepted">+3</span><br />03:34:58</td><td></td><td></td><td><span class="failed">-1<br />(03:24:50)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:59:07</td>
+    </tr>
+
+    <tr>
+        <td>45</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team068<br />北京航空航天大学<br />肖泽宇</td>
+        <td>3</td>
+        <td>25171</td>
+        <td><span class="accepted">+1</span><br />03:23:32</td><td></td><td><span class="accepted">+</span><br />01:52:17</td><td></td><td></td><td><span class="failed">-1<br />(02:27:12)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:23:41</td>
+    </tr>
+
+    <tr>
+        <td>46</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team039<br />北京航空航天大学<br />陈致远</td>
+        <td>3</td>
+        <td>25338</td>
+        <td><span class="accepted">+</span><br />01:02:11</td><td></td><td><span class="accepted">+2</span><br />03:35:51</td><td></td><td><span class="failed">-4<br />(03:29:47)</span></td><td><span class="failed">-3<br />(03:45:51)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:24:15</td>
+    </tr>
+
+    <tr>
+        <td>47</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team033<br />北京航空航天大学<br />施哲纶</td>
+        <td>3</td>
+        <td>28789</td>
+        <td><span class="accepted">+</span><br />00:11:30</td><td></td><td><span class="accepted">+1</span><br />02:17:24</td><td></td><td><span class="failed">-1<br />(03:02:24)</span></td><td></td><td></td><td></td><td><span class="accepted">+5</span><br />03:30:54</td>
+    </tr>
+
+    <tr>
+        <td>48</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team053<br />北京航空航天大学<br />章智炜</td>
+        <td>3</td>
+        <td>32379</td>
+        <td><span class="accepted">+</span><br />00:09:33</td><td></td><td><span class="accepted">+1</span><br />02:47:14</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+6</span><br />03:42:51</td>
+    </tr>
+
+    <tr>
+        <td>49</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team070<br />北京航空航天大学<br />袁熙</td>
+        <td>3</td>
+        <td>33053</td>
+        <td><span class="accepted">+2</span><br />01:26:13</td><td></td><td><span class="accepted">+4</span><br />03:34:18</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+1</span><br />01:50:21</td>
+    </tr>
+
+    <tr>
+        <td>50</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team037<br />北京航空航天大学<br />姜涵书</td>
+        <td>2</td>
+        <td>4199</td>
+        <td><span class="accepted">+</span><br />00:11:07</td><td></td><td><span class="failed">-9<br />(03:53:26)</span></td><td></td><td></td><td><span class="failed">-8<br />(03:59:39)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:58:52</td>
+    </tr>
+
+    <tr>
+        <td>51</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team042<br />北京航空航天大学<br />胡琎</td>
+        <td>2</td>
+        <td>4536</td>
+        <td><span class="accepted">+</span><br />00:13:10</td><td></td><td><span class="failed">-3<br />(03:23:08)</span></td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />01:02:26</td>
+    </tr>
+
+    <tr>
+        <td>52</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team021<br />北京航空航天大学<br />杜宸洋</td>
+        <td>2</td>
+        <td>7959</td>
+        <td><span class="accepted">+1</span><br />00:13:53</td><td></td><td><span class="failed">-4<br />(03:56:54)</span></td><td></td><td></td><td><span class="failed">-2<br />(03:48:17)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:18:45</td>
+    </tr>
+
+    <tr>
+        <td>53</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team060<br />北京航空航天大学<br />狄思含</td>
+        <td>2</td>
+        <td>15301</td>
+        <td><span class="accepted">+2</span><br />01:02:29</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+2</span><br />01:52:31</td>
+    </tr>
+
+    <tr>
+        <td>54</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team065<br />北京航空航天大学<br />杨哲宇</td>
+        <td>2</td>
+        <td>16619</td>
+        <td><span class="accepted">+</span><br />01:04:56</td><td></td><td><span class="failed">-2<br />(03:58:10)</span></td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+2</span><br />02:52:03</td>
+    </tr>
+
+    <tr>
+        <td>55</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team049<br />北京航空航天大学<br />秦傲洋</td>
+        <td>1</td>
+        <td>845</td>
+        <td><span class="accepted">+</span><br />00:14:05</td><td></td><td><span class="failed">-2<br />(03:59:59)</span></td><td></td><td></td><td><span class="failed">-1<br />(03:16:52)</span></td><td></td><td></td><td><span class="failed">-2<br />(01:46:03)</span></td>
+    </tr>
+
+    <tr>
+        <td>56</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team066<br />北京航空航天大学<br />姜文康</td>
+        <td>1</td>
+        <td>941</td>
+        <td><span class="accepted">+</span><br />00:15:41</td><td></td><td><span class="failed">-2<br />(01:04:13)</span></td><td></td><td></td><td></td><td></td><td></td><td><span class="failed">-4<br />(03:11:14)</span></td>
+    </tr>
+
+    <tr>
+        <td>57</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team063<br />北京航空航天大学<br />宋语</td>
+        <td>1</td>
+        <td>2599</td>
+        <td><span class="accepted">+</span><br />00:43:19</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="failed">-9<br />(03:23:10)</span></td>
+    </tr>
+
+    <tr>
+        <td>58</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team044<br />北京航空航天大学<br />麦天承</td>
+        <td>1</td>
+        <td>8956</td>
+        <td><span class="accepted">+3</span><br />01:29:16</td><td></td><td></td><td><span class="failed">-2<br />(02:05:09)</span></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>59</td>
+        <td></td>
+        <td>team011<br />北京航空航天大学<br />wxc</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>60</td>
+        <td></td>
+        <td>team013<br />北京航空航天大学<br />李严博文</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>61</td>
+        <td></td>
+        <td>team030<br />北京航空航天大学<br />王程远</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>62</td>
+        <td></td>
+        <td>team043<br />北京航空航天大学<br />戴俊威</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>63</td>
+        <td></td>
+        <td>team046<br />北京航空航天大学<br />杨开元</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>64</td>
+        <td></td>
+        <td>team047<br />北京航空航天大学<br />姜鸿翔</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>65</td>
+        <td></td>
+        <td>team051<br />北京航空航天大学<br />田周瑾</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>66</td>
+        <td></td>
+        <td>team054<br />北京航空航天大学<br />张洪康</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>67</td>
+        <td></td>
+        <td>team056<br />北京航空航天大学<br />肖希源</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>68</td>
+        <td></td>
+        <td>team058<br />北京航空航天大学<br />武勇臻</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>69</td>
+        <td></td>
+        <td>team061<br />北京航空航天大学<br />李日乾</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>70</td>
+        <td></td>
+        <td>team062<br />北京航空航天大学<br />王一鸥</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>71</td>
+        <td></td>
+        <td>team067<br />北京航空航天大学<br />张文煊</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>72</td>
+        <td></td>
+        <td>team072<br />北京航空航天大学<br />朱洪东</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>73</td>
+        <td></td>
+        <td>team073<br />北京航空航天大学<br />于嘉骐</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+</tbody>
+</table>
+
+<table id="board-other" style="margin-top: 4em; margin-bottom: 4em;">
+<caption>校外</caption>
+<tbody>
+
+<tr>
+    <th>#</th>
+    <th>奖项</th>
+    <th>Who</th>
+    <th>=</th>
+    <th>Penalty</th>
+    <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
+</tr>
+
+    <tr>
+        <td>1</td>
+        <td style="background: #ebd8a5">一等奖</td>
+        <td>team114<br />北京大学<br />侯锐泽</td>
+        <td>5</td>
+        <td>30353</td>
+        <td><span class="accepted">+</span><br />00:19:52</td><td><span class="failed">-1<br />(03:30:27)</span></td><td><span class="accepted">+</span><br />01:01:57</td><td><span class="failed">-5<br />(03:29:57)</span></td><td><span class="accepted">+5</span><br />02:17:35</td><td><span class="accepted">+2</span><br />01:24:46</td><td><span class="failed">-22<br />(03:59:46)</span></td><td></td><td><span class="accepted">+</span><br />01:01:41</td>
+    </tr>
+
+    <tr>
+        <td>2</td>
+        <td style="background: #ebd8a5">一等奖</td>
+        <td>team087<br />北京市十一学校<br />董建威</td>
+        <td>5</td>
+        <td>38504</td>
+        <td style="background:lightgreen"><span class="accepted">+</span><br />00:03:32</td><td style="background:lightgreen"><span class="accepted">+2</span><br />01:27:22</td><td><span class="accepted">+2</span><br />02:07:05</td><td></td><td><span class="failed">-2<br />(03:54:22)</span></td><td><span class="accepted">+2</span><br />02:47:37</td><td></td><td></td><td><span class="accepted">+</span><br />02:16:06</td>
+    </tr>
+
+    <tr>
+        <td>3</td>
+        <td style="background: #ebd8a5">一等奖</td>
+        <td>team091<br />北京市十一学校<br />石尚锋</td>
+        <td>5</td>
+        <td>38754</td>
+        <td><span class="accepted">+</span><br />00:12:09</td><td></td><td style="background:lightgreen"><span class="accepted">+</span><br />00:08:59</td><td></td><td></td><td><span class="accepted">+3</span><br />03:36:52</td><td style="background:lightgreen"><span class="accepted">+8</span><br />02:05:05</td><td></td><td><span class="accepted">+</span><br />01:02:46</td>
+    </tr>
+
+    <tr>
+        <td>4</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team109<br />中国矿业大学（北京）<br />樊汶林</td>
+        <td>4</td>
+        <td>8390</td>
+        <td><span class="accepted">+</span><br />00:03:41</td><td></td><td><span class="accepted">+</span><br />01:00:32</td><td></td><td></td><td><span class="accepted">+</span><br />00:59:38</td><td></td><td></td><td><span class="accepted">+</span><br />00:15:58</td>
+    </tr>
+
+    <tr>
+        <td>5</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team086<br />北京交通大学<br />胡雨轩</td>
+        <td>4</td>
+        <td>11306</td>
+        <td><span class="accepted">+</span><br />00:09:14</td><td></td><td><span class="accepted">+</span><br />01:02:01</td><td></td><td style="background:lightgreen"><span class="accepted">+</span><br />01:38:07</td><td><span class="failed">-6<br />(03:56:02)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:19:03</td>
+    </tr>
+
+    <tr>
+        <td>6</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team084<br />北京交通大学<br />骆艺元</td>
+        <td>4</td>
+        <td>12992</td>
+        <td><span class="accepted">+</span><br />00:10:35</td><td></td><td><span class="accepted">+</span><br />00:59:16</td><td></td><td><span class="failed">-2<br />(03:42:23)</span></td><td><span class="accepted">+1</span><br />01:46:50</td><td></td><td></td><td><span class="accepted">+</span><br />00:19:50</td>
+    </tr>
+
+    <tr>
+        <td>7</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team099<br />北京邮电大学<br />路已人</td>
+        <td>4</td>
+        <td>14878</td>
+        <td><span class="accepted">+</span><br />00:04:28</td><td><span class="accepted">+</span><br />02:37:25</td><td><span class="accepted">+</span><br />01:11:45</td><td></td><td></td><td><span class="failed">-4<br />(01:57:47)</span></td><td><span class="failed">-7<br />(03:59:55)</span></td><td></td><td><span class="accepted">+</span><br />00:14:18</td>
+    </tr>
+
+    <tr>
+        <td>8</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team107<br />中国地质大学（北京）<br />脱耕晨</td>
+        <td>4</td>
+        <td>15045</td>
+        <td><span class="accepted">+</span><br />00:12:39</td><td></td><td><span class="accepted">+</span><br />01:19:34</td><td></td><td><span class="failed">-1<br />(01:52:58)</span></td><td><span class="accepted">+</span><br />01:36:36</td><td></td><td></td><td><span class="accepted">+</span><br />01:01:55</td>
+    </tr>
+
+    <tr>
+        <td>9</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team117<br />中国科学院大学<br />姚宇浩</td>
+        <td>4</td>
+        <td>19258</td>
+        <td><span class="accepted">+</span><br />00:04:05</td><td><span class="failed">-1<br />(03:59:57)</span></td><td><span class="accepted">+</span><br />00:16:27</td><td></td><td><span class="failed">-3<br />(02:36:25)</span></td><td><span class="accepted">+2</span><br />03:18:08</td><td></td><td></td><td><span class="accepted">+</span><br />01:02:17</td>
+    </tr>
+
+    <tr>
+        <td>10</td>
+        <td style="background: #c1ced9">二等奖</td>
+        <td>team096<br />北京邮电大学<br />金浩男</td>
+        <td>4</td>
+        <td>19953</td>
+        <td><span class="accepted">+</span><br />01:01:16</td><td></td><td><span class="accepted">+1</span><br />01:28:46</td><td></td><td><span class="failed">-2<br />(03:48:57)</span></td><td><span class="accepted">+</span><br />01:01:27</td><td></td><td><span class="failed">-1<br />(02:46:03)</span></td><td><span class="accepted">+2</span><br />01:01:02</td>
+    </tr>
+
+    <tr>
+        <td>11</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team089<br />北京市十一学校<br />郭心源</td>
+        <td>4</td>
+        <td>21363</td>
+        <td><span class="accepted">+</span><br />00:03:36</td><td><span class="failed">-1<br />(03:39:54)</span></td><td><span class="accepted">+</span><br />01:01:33</td><td></td><td></td><td><span class="accepted">+1</span><br />03:28:22</td><td></td><td></td><td><span class="accepted">+</span><br />01:02:31</td>
+    </tr>
+
+    <tr>
+        <td>12</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team076<br />北京信息科技大学<br />司马晨</td>
+        <td>4</td>
+        <td>22594</td>
+        <td><span class="accepted">+1</span><br />01:07:28</td><td></td><td><span class="accepted">+4</span><br />01:36:16</td><td></td><td><span class="failed">-5<br />(02:08:01)</span></td><td style="background:lightgreen"><span class="accepted">+</span><br />00:18:03</td><td></td><td></td><td><span class="accepted">+1</span><br />01:14:46</td>
+    </tr>
+
+    <tr>
+        <td>13</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team092<br />北京市十一学校<br />时中</td>
+        <td>4</td>
+        <td>23224</td>
+        <td><span class="accepted">+1</span><br />00:09:55</td><td><span class="accepted">+2</span><br />02:05:24</td><td><span class="accepted">+</span><br />01:14:46</td><td></td><td></td><td><span class="failed">-3<br />(03:56:11)</span></td><td><span class="failed">-4<br />(03:46:21)</span></td><td></td><td><span class="accepted">+2</span><br />01:16:58</td>
+    </tr>
+
+    <tr>
+        <td>14</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team103<br />中国地质大学（北京）<br />李宗儒</td>
+        <td>4</td>
+        <td>24570</td>
+        <td><span class="accepted">+</span><br />00:14:57</td><td></td><td><span class="accepted">+</span><br />02:28:22</td><td></td><td><span class="failed">-1<br />(03:23:48)</span></td><td><span class="accepted">+</span><br />01:54:21</td><td></td><td></td><td><span class="accepted">+2</span><br />01:31:48</td>
+    </tr>
+
+    <tr>
+        <td>15</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team097<br />北京邮电大学<br />梁昊骞</td>
+        <td>4</td>
+        <td>27373</td>
+        <td><span class="accepted">+1</span><br />00:12:16</td><td></td><td><span class="accepted">+</span><br />00:59:05</td><td></td><td></td><td><span class="accepted">+6</span><br />03:58:37</td><td></td><td><span class="failed">-5<br />(03:57:18)</span></td><td style="background:lightgreen"><span class="accepted">+</span><br />00:06:14</td>
+    </tr>
+
+    <tr>
+        <td>16</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team118<br />中国科学院大学<br />刘阳</td>
+        <td>4</td>
+        <td>28991</td>
+        <td><span class="accepted">+</span><br />00:06:56</td><td></td><td><span class="accepted">+</span><br />01:02:17</td><td></td><td><span class="failed">-3<br />(03:55:44)</span></td><td><span class="accepted">+6</span><br />02:29:46</td><td></td><td></td><td><span class="accepted">+3</span><br />01:24:11</td>
+    </tr>
+
+    <tr>
+        <td>17</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team085<br />北京交通大学<br />蔡伟斌</td>
+        <td>4</td>
+        <td>31087</td>
+        <td><span class="accepted">+</span><br />00:05:11</td><td></td><td><span class="accepted">+2</span><br />01:46:06</td><td></td><td><span class="accepted">+1</span><br />03:54:30</td><td><span class="failed">-3<br />(02:34:50)</span></td><td></td><td></td><td><span class="accepted">+2</span><br />01:12:18</td>
+    </tr>
+
+    <tr>
+        <td>18</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team098<br />北京邮电大学<br />林麒</td>
+        <td>4</td>
+        <td>35213</td>
+        <td><span class="accepted">+</span><br />00:05:36</td><td></td><td><span class="accepted">+</span><br />02:27:37</td><td></td><td></td><td><span class="accepted">+3</span><br />03:07:09</td><td></td><td><span class="failed">-2<br />(03:58:46)</span></td><td><span class="accepted">+4</span><br />01:46:29</td>
+    </tr>
+
+    <tr>
+        <td>19</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team108<br />中国矿业大学（北京）<br />欧阳俊一</td>
+        <td>4</td>
+        <td>38628</td>
+        <td><span class="accepted">+</span><br />00:09:10</td><td></td><td><span class="accepted">+1</span><br />02:16:32</td><td></td><td></td><td><span class="accepted">+8</span><br />03:46:57</td><td></td><td></td><td><span class="accepted">+1</span><br />01:11:08</td>
+    </tr>
+
+    <tr>
+        <td>20</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team088<br />北京市十一学校<br />樊星宇</td>
+        <td>3</td>
+        <td>7527</td>
+        <td><span class="accepted">+</span><br />00:05:37</td><td></td><td><span class="accepted">+</span><br />01:00:35</td><td></td><td></td><td><span class="failed">-3<br />(03:47:56)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:59:14</td>
+    </tr>
+
+    <tr>
+        <td>21</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team113<br />闽南师范大学<br />罗文涛</td>
+        <td>3</td>
+        <td>7821</td>
+        <td><span class="accepted">+</span><br />00:09:45</td><td></td><td><span class="accepted">+</span><br />01:00:26</td><td></td><td></td><td><span class="failed">-1<br />(01:07:41)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:00:09</td>
+    </tr>
+
+    <tr>
+        <td>22</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team094<br />北京市十一学校<br />雍梓奇</td>
+        <td>3</td>
+        <td>8087</td>
+        <td><span class="accepted">+</span><br />00:10:31</td><td></td><td><span class="accepted">+</span><br />01:02:19</td><td></td><td><span class="failed">-7<br />(03:36:37)</span></td><td><span class="failed">-2<br />(03:55:57)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:01:55</td>
+    </tr>
+
+    <tr>
+        <td>23</td>
+        <td style="background: #bb856d">三等奖</td>
+        <td>team101<br />长沙学院<br />许斌斌 </td>
+        <td>3</td>
+        <td>8353</td>
+        <td><span class="accepted">+</span><br />00:11:53</td><td></td><td><span class="accepted">+</span><br />01:04:10</td><td></td><td></td><td><span class="failed">-5<br />(03:55:21)</span></td><td></td><td><span class="failed">-5<br />(03:03:53)</span></td><td><span class="accepted">+</span><br />01:03:09</td>
+    </tr>
+
+    <tr>
+        <td>24</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team110<br />中国矿业大学（北京）<br />计澔文</td>
+        <td>3</td>
+        <td>9549</td>
+        <td><span class="accepted">+</span><br />00:09:07</td><td></td><td><span class="accepted">+</span><br />01:28:05</td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />01:01:56</td>
+    </tr>
+
+    <tr>
+        <td>25</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team083<br />北京林业大学<br />许哲楠</td>
+        <td>3</td>
+        <td>10446</td>
+        <td><span class="accepted">+</span><br />00:08:50</td><td></td><td><span class="accepted">+1</span><br />01:26:36</td><td></td><td></td><td><span class="failed">-6<br />(03:47:17)</span></td><td></td><td></td><td><span class="accepted">+</span><br />00:58:39</td>
+    </tr>
+
+    <tr>
+        <td>26</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team100<br />北京邮电大学<br />孙明志</td>
+        <td>3</td>
+        <td>11404</td>
+        <td><span class="accepted">+</span><br />00:04:03</td><td></td><td><span class="accepted">+</span><br />00:58:40</td><td></td><td><span class="failed">-4<br />(01:22:03)</span></td><td><span class="failed">-6<br />(03:56:02)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:47:19</td>
+    </tr>
+
+    <tr>
+        <td>27</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team090<br />北京市十一学校<br />廖嘉琦</td>
+        <td>3</td>
+        <td>14807</td>
+        <td><span class="accepted">+</span><br />00:14:30</td><td></td><td><span class="accepted">+1</span><br />01:31:43</td><td></td><td></td><td><span class="failed">-4<br />(03:44:04)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:40:33</td>
+    </tr>
+
+    <tr>
+        <td>28</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team081<br />北京林业大学<br />王展雄</td>
+        <td>3</td>
+        <td>16018</td>
+        <td><span class="accepted">+</span><br />00:09:27</td><td></td><td><span class="accepted">+3</span><br />01:44:56</td><td><span class="failed">-1<br />(03:45:08)</span></td><td></td><td><span class="failed">-1<br />(01:59:10)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:12:34</td>
+    </tr>
+
+    <tr>
+        <td>29</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team112<br />中国矿业大学（北京）<br />张鑫洁</td>
+        <td>3</td>
+        <td>16200</td>
+        <td><span class="accepted">+</span><br />00:12:49</td><td></td><td><span class="accepted">+</span><br />02:26:19</td><td></td><td><span class="failed">-1<br />(03:42:43)</span></td><td><span class="failed">-3<br />(03:17:17)</span></td><td></td><td></td><td><span class="accepted">+1</span><br />01:30:51</td>
+    </tr>
+
+    <tr>
+        <td>30</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team115<br />中国科学院大学<br />胡景佩</td>
+        <td>3</td>
+        <td>16408</td>
+        <td><span class="accepted">+1</span><br />00:10:02</td><td></td><td><span class="accepted">+4</span><br />01:41:25</td><td></td><td></td><td><span class="failed">-5<br />(03:36:29)</span></td><td></td><td></td><td><span class="accepted">+</span><br />01:01:59</td>
+    </tr>
+
+    <tr>
+        <td>31</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team093<br />北京市十一学校<br />王钧石</td>
+        <td>3</td>
+        <td>19220</td>
+        <td><span class="accepted">+</span><br />00:18:32</td><td></td><td><span class="accepted">+1</span><br />01:40:28</td><td><span class="failed">-1<br />(01:26:10)</span></td><td></td><td></td><td></td><td></td><td><span class="accepted">+1</span><br />02:41:18</td>
+    </tr>
+
+    <tr>
+        <td>32</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team080<br />北京林业大学<br />万诗龙</td>
+        <td>3</td>
+        <td>20204</td>
+        <td><span class="accepted">+</span><br />00:13:02</td><td></td><td><span class="accepted">+</span><br />01:03:44</td><td></td><td></td><td><span class="failed">-2<br />(02:09:59)</span></td><td></td><td></td><td><span class="accepted">+7</span><br />01:59:58</td>
+    </tr>
+
+    <tr>
+        <td>33</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team111<br />中国矿业大学（北京）<br />孟强定</td>
+        <td>3</td>
+        <td>20651</td>
+        <td><span class="accepted">+2</span><br />01:04:20</td><td></td><td><span class="accepted">+</span><br />01:59:33</td><td></td><td><span class="failed">-10<br />(03:59:11)</span></td><td><span class="failed">-2<br />(02:21:29)</span></td><td></td><td></td><td><span class="accepted">+2</span><br />01:20:16</td>
+    </tr>
+
+    <tr>
+        <td>34</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team095<br />北京化工大学<br />罗朝旭</td>
+        <td>3</td>
+        <td>27078</td>
+        <td><span class="accepted">+1</span><br />00:07:53</td><td></td><td><span class="accepted">+</span><br />03:09:09</td><td></td><td><span class="failed">-1<br />(01:02:59)</span></td><td><span class="failed">-4<br />(03:40:44)</span></td><td></td><td></td><td><span class="accepted">+4</span><br />02:34:15</td>
+    </tr>
+
+    <tr>
+        <td>35</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team105<br />中国地质大学（北京）<br />鄢凡力</td>
+        <td>3</td>
+        <td>31043</td>
+        <td><span class="accepted">+</span><br />00:19:13</td><td></td><td><span class="accepted">+1</span><br />02:07:02</td><td></td><td></td><td><span class="failed">-7<br />(03:58:22)</span></td><td></td><td></td><td><span class="accepted">+6</span><br />03:51:07</td>
+    </tr>
+
+    <tr>
+        <td>36</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team106<br />中国地质大学（北京）<br />任星韬</td>
+        <td>3</td>
+        <td>33967</td>
+        <td><span class="accepted">+</span><br />01:08:00</td><td></td><td><span class="accepted">+</span><br />03:47:35</td><td><span class="failed">-3<br />(02:56:47)</span></td><td></td><td></td><td></td><td></td><td><span class="accepted">+5</span><br />02:50:31</td>
+    </tr>
+
+    <tr>
+        <td>37</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team079<br />北京林业大学<br />黄奕超</td>
+        <td>3</td>
+        <td>36828</td>
+        <td><span class="accepted">+1</span><br />00:19:31</td><td></td><td><span class="accepted">+6</span><br />02:41:50</td><td></td><td></td><td><span class="failed">-2<br />(03:21:30)</span></td><td></td><td></td><td><span class="accepted">+6</span><br />02:52:26</td>
+    </tr>
+
+    <tr>
+        <td>38</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team104<br />中国地质大学（北京）<br />吴成琦</td>
+        <td>2</td>
+        <td>4283</td>
+        <td><span class="accepted">+</span><br />00:12:39</td><td></td><td><span class="failed">-11<br />(03:52:43)</span></td><td></td><td></td><td></td><td></td><td></td><td><span class="accepted">+</span><br />00:58:43</td>
+    </tr>
+
+    <tr>
+        <td>39</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team116<br />中国科学院大学<br />段江飞</td>
+        <td>2</td>
+        <td>21291</td>
+        <td><span class="accepted">+</span><br />00:14:34</td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="failed">-7<br />(03:58:42)</span></td><td><span class="accepted">+7</span><br />03:20:17</td>
+    </tr>
+
+    <tr>
+        <td>40</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team075<br />北京信息科技大学<br />刘林峰</td>
+        <td>1</td>
+        <td>760</td>
+        <td><span class="accepted">+</span><br />00:12:40</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="failed">-4<br />(01:51:40)</span></td>
+    </tr>
+
+    <tr>
+        <td>41</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team077<br />北京信息科技大学<br />张丹颖</td>
+        <td>1</td>
+        <td>3575</td>
+        <td><span class="accepted">+</span><br />00:59:35</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="failed">-5<br />(02:06:57)</span></td>
+    </tr>
+
+    <tr>
+        <td>42</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team074<br />北京信息科技大学<br />陈开朗</td>
+        <td>1</td>
+        <td>13915</td>
+        <td><span class="accepted">+2</span><br />03:11:55</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="failed">-4<br />(03:51:56)</span></td>
+    </tr>
+
+    <tr>
+        <td>43</td>
+        <td></td>
+        <td>team078<br />北京信息科技大学<br />宋开元</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>44</td>
+        <td></td>
+        <td>team082<br />北京林业大学<br />周恩杰</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>45</td>
+        <td></td>
+        <td>team102<br />长安大学<br />柴天瑞</td>
+        <td>0</td>
+        <td>0</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <tr>
+        <td>46</td>
+        <td style="background: #85efd6">优胜奖</td>
+        <td>team119<br />中国科学院大学<br />秦婧玉</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span class="failed">-3<br />(02:31:24)</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+</tbody>
+</table>
+
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<!-- <script src="../bower_components/inspinia/assets/js/inspinia.js"></script> -->
+<script src="../../../bower_components/wow/dist/wow.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+        });
+
+       $(".bg").interactive_bg({
+           strength: 20,
+           scale: 1,
+           animationSpeed: "100ms",
+           contain: false,
+           wrapContent: false
+       });
+
+        $(window).resize(function() {
+            $(".bg > .ibg-bg").css({
+                width: $(window).outerWidth(),
+                height: $(window).outerHeight()
+            })
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    new WOW().init();
+
+
+</script>
+
+</body>
+</html>
