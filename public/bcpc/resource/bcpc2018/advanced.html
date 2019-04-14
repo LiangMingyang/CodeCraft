@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="bcpc">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="BUAA,icpc">
+    <meta name="author" content="Thor">
+
+    <title>第十四届北航程序设计竞赛</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link href="../../../stylesheets/layout.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../style.css" rel="stylesheet">
+    <link href="../../font.css?family=Open+Sans:300,400,600,700&lang=en" rel="stylesheet">
+    <style type="text/css">
+        body {
+            font-family: arial, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', \5b8b\4f53, Tahoma, Arial, Helvetica, '宋体', STHeiti !important;
+        }
+        p {
+            font-size: 16px;
+        }
+        @media(max-width:800px) {
+            .hide-mob {
+                display: none;
+            }
+        }
+        .landing-page .navbar-default .nav li a {
+            color: #000;
+        }
+
+        .landing-page .navbar-default .navbar-nav > .active > a:focus {
+            color: #1ab394;
+        }
+
+        .carousel-inner h1 {
+            color: #222;
+        }
+        .carousel-inner h2 {
+            color: #555;
+        }
+        .carousel-inner p {
+            color: #564b4b;
+        }
+        .carousel-inner a {
+            color: #1ab394;
+        }
+
+        .main-head h2 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 1.7px;
+        }
+        .main-head h1 {
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .main-head p {
+            margin-top: 1em;
+        }
+
+        .main-head small {
+            color: #ddd;
+        }
+
+        tr:hover {
+            background-color: rgba(167, 232, 222, 0.09);
+        }
+
+        .modalbtn {
+            margin-right: 10px
+        }
+
+        .day {
+            padding-left: 80px;
+            padding-right: 80px;
+            margin-bottom: 20px;
+        }
+
+        .day>h1 {
+            text-align: center;
+        }
+
+        .detail {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail>p {
+            text-align: left;
+        }
+
+        .sponser div {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .sponser {
+            margin-bottom: 20px;
+        }
+        .bg {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .invert {
+            filter: invert(1);
+            -webkit-filter: invert(1);
+            -moz-filter: invert(1);
+            -o-filter: invert(1);
+            -ms-filter: invert(1);
+        }
+
+        .anchor-listing > a {
+            margin-left: 6px;
+        }
+    </style>
+
+    <link href="table.css" rel="stylesheet">
+</head>
+
+<body id="page-top" class="landing-page pace-done" ng-controller="bcpc.ctrl">
+
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/index">BUAA ONLINE JUDGE</a></li>
+                    <li class="active"><a href="advanced.html">晋级名单</a></li>
+                    <li><a href="original.html">原始榜单</a></li>
+                    <li><a href="scoreboard.html">修订榜单</a></li>
+                    <li><a href="rewards.html">获奖名单</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../../index.html">BCPC 2018</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<table id="board" style="margin-top: 8em; margin-bottom: 4em;">
+<caption>校内</caption>
+<tbody>
+<tr><th>预赛排名</th><th>姓名</th><th>学号</th></tr>
+<tr><td>1</td><td>陈铭煊</td><td>17377072</td></tr>
+<tr><td>2</td><td>郑耀彦</td><td>17373175</td></tr>
+<tr><td>3</td><td>廖纪童</td><td>18374457</td></tr>
+<tr><td>4</td><td>牟钰</td><td>18373019</td></tr>
+<tr><td>5</td><td>肖思炀</td><td>17373292</td></tr>
+<tr><td>7</td><td>李元恺</td><td>18373098</td></tr>
+<tr><td>8</td><td>黄云依</td><td>18373122</td></tr>
+<tr><td>9</td><td>丁元杰</td><td>17231164</td></tr>
+<tr><td>10</td><td>田柯宇</td><td>17375491</td></tr>
+<tr><td>11</td><td>林昱同</td><td>17373436</td></tr>
+<tr><td>12</td><td>wxc</td><td>18376018</td></tr>
+<tr><td>13</td><td>杨泽群</td><td>18374192</td></tr>
+<tr><td>14</td><td>李严博文</td><td>16021077</td></tr>
+<tr><td>15</td><td>朱晨宇</td><td>18373549</td></tr>
+<tr><td>16</td><td>龙鹏宇</td><td>17377420</td></tr>
+<tr><td>17</td><td>阙子烝</td><td>16211007</td></tr>
+<tr><td>18</td><td>周海涛</td><td>18377221</td></tr>
+<tr><td>19</td><td>张海渝</td><td>18373085</td></tr>
+<tr><td>20</td><td>陆晓东</td><td>18373054</td></tr>
+<tr><td>21</td><td>冯玮琪</td><td>17374519</td></tr>
+<tr><td>22</td><td>杜宸洋</td><td>18373119</td></tr>
+<tr><td>23</td><td>文皓</td><td>18374108</td></tr>
+<tr><td>26</td><td>赵婉如</td><td>17373240</td></tr>
+<tr><td>27</td><td>童尚</td><td>18373254</td></tr>
+<tr><td>28</td><td>赵瑞琦</td><td>18373166</td></tr>
+<tr><td>29</td><td>姜维翰</td><td>18373503</td></tr>
+<tr><td>30</td><td>常容熇</td><td>18373740</td></tr>
+<tr><td>31</td><td>孙保成</td><td>18373686</td></tr>
+<tr><td>33</td><td>孔祥浩</td><td>18373109</td></tr>
+<tr><td>34</td><td>王程远</td><td>17374458</td></tr>
+<tr><td>35</td><td>陈源</td><td>18373665</td></tr>
+<tr><td>37</td><td>游盈萱</td><td>17375414</td></tr>
+<tr><td>38</td><td>施哲纶</td><td>18373044</td></tr>
+<tr><td>39</td><td>董翰元</td><td>18375354</td></tr>
+<tr><td>41</td><td>康时嘉</td><td>17377324</td></tr>
+<tr><td>42</td><td>李英龙</td><td>18373114</td></tr>
+<tr><td>43</td><td>姜涵书</td><td>18376388</td></tr>
+<tr><td>44</td><td>陈宇轩</td><td>17373261</td></tr>
+<tr><td>45</td><td>陈致远</td><td>18373558</td></tr>
+<tr><td>46</td><td>兰慧心</td><td>18373331</td></tr>
+<tr><td>47</td><td>李淳一</td><td>18373660</td></tr>
+<tr><td>48</td><td>胡琎</td><td>18182676</td></tr>
+<tr><td>49</td><td>戴俊威</td><td>17374023</td></tr>
+<tr><td>50</td><td>麦天承</td><td>18182675</td></tr>
+<tr><td>51</td><td>倪衔军</td><td>18373052</td></tr>
+<tr><td>52</td><td>杨开元</td><td>17373060</td></tr>
+<tr><td>53</td><td>姜鸿翔</td><td>16151071</td></tr>
+<tr><td>54</td><td>马广林</td><td>16151021</td></tr>
+<tr><td>55</td><td>秦傲洋</td><td>18373013</td></tr>
+<tr><td>56</td><td>何泽欣</td><td>18231070</td></tr>
+<tr><td>57</td><td>田周瑾</td><td>17373439</td></tr>
+<tr><td>58</td><td>包珺茹</td><td>18231152</td></tr>
+<tr><td>59</td><td>章智炜</td><td>18373068</td></tr>
+<tr><td>60</td><td>张洪康</td><td>18373330</td></tr>
+<tr><td>61</td><td>梁伟聪</td><td>18373442</td></tr>
+<tr><td>62</td><td>肖希源</td><td>18373317</td></tr>
+<tr><td>63</td><td>吴洁松</td><td>18373265</td></tr>
+<tr><td>64</td><td>武勇臻</td><td>17374059</td></tr>
+<tr><td>65</td><td>余志浩</td><td>17373449</td></tr>
+<tr><td>66</td><td>狄思含</td><td>18375442</td></tr>
+<tr><td>68</td><td>李日乾</td><td>17374464</td></tr>
+<tr><td>69</td><td>王一鸥</td><td>18182672</td></tr>
+<tr><td>70</td><td>宋语</td><td>18373096</td></tr>
+<tr><td>71</td><td>杜嘉禾</td><td>18373425</td></tr>
+<tr><td>72</td><td>杨哲宇</td><td>17376137</td></tr>
+<tr><td>73</td><td>姜文康</td><td>18373015</td></tr>
+<tr><td>74</td><td>张文煊</td><td>16021088</td></tr>
+<tr><td>75</td><td>肖泽宇</td><td>18373614</td></tr>
+<tr><td>76</td><td>王宇辰</td><td>18377009</td></tr>
+<tr><td>77</td><td>袁熙</td><td>18377462</td></tr>
+<tr><td>78</td><td>刘培</td><td>16191055</td></tr>
+<tr><td>79</td><td>朱洪东</td><td>16061074</td></tr>
+<tr><td>80</td><td>yjqqqq</td><td>17231098</td></tr>
+<tr><td>82</td><td>于嘉骐</td><td>--------</td></tr>
+</tbody>
+</table>
+
+<table id="board-other" style="margin-top: 4em; margin-bottom: 4em;">
+<caption>校外</caption>
+<tbody>
+<tr><th>姓名</th><th>学校</th></tr>
+<tr><td>柴天瑞</td><td>长安大学</td></tr>
+<tr><td>樊汶林</td><td>中国矿业大学（北京）</td></tr>
+<tr><td>欧阳俊一</td><td>中国矿业大学（北京）</td></tr>
+<tr><td>计澔文</td><td>中国矿业大学（北京）</td></tr>
+<tr><td>张鑫洁</td><td>中国矿业大学（北京）</td></tr>
+<tr><td>孟强定</td><td>中国矿业大学（北京）</td></tr>
+<tr><td>吴成琦</td><td>中国地质大学（北京）</td></tr>
+<tr><td>任星韬</td><td>中国地质大学（北京）</td></tr>
+<tr><td>脱耕晨</td><td>中国地质大学（北京）</td></tr>
+<tr><td>李宗儒</td><td>中国地质大学（北京）</td></tr>
+<tr><td>鄢凡力</td><td>中国地质大学（北京）</td></tr>
+<tr><td>罗朝旭</td><td>北京化工大学</td></tr>
+<tr><td>金浩男</td><td>北京邮电大学</td></tr>
+<tr><td>孙明志</td><td>北京邮电大学</td></tr>
+<tr><td>梁昊骞</td><td>北京邮电大学</td></tr>
+<tr><td>林麒</td><td>北京邮电大学</td></tr>
+<tr><td>路已人</td><td>北京邮电大学</td></tr>
+<tr><td>许斌斌 </td><td>长沙学院</td></tr>
+<tr><td>罗文涛</td><td>闽南师范大学</td></tr>
+<tr><td>段江飞</td><td>中国科学院大学</td></tr>
+<tr><td>秦婧玉</td><td>中国科学院大学</td></tr>
+<tr><td>胡景佩</td><td>中国科学院大学</td></tr>
+<tr><td>姚宇浩</td><td>中国科学院大学</td></tr>
+<tr><td>石尚锋</td><td>北京市十一学校</td></tr>
+<tr><td>董建威</td><td>北京市十一学校</td></tr>
+<tr><td>郭心源</td><td>北京市十一学校</td></tr>
+<tr><td>雍梓奇</td><td>北京市十一学校</td></tr>
+<tr><td>樊星宇</td><td>北京市十一学校</td></tr>
+<tr><td>王钧石</td><td>北京市十一学校</td></tr>
+<tr><td>廖嘉琦</td><td>北京市十一学校</td></tr>
+<tr><td>时中</td><td>北京市十一学校</td></tr>
+<tr><td>侯锐泽</td><td>北京大学</td></tr>
+<tr><td>许哲楠</td><td>北京林业大学</td></tr>
+<tr><td>王展雄</td><td>北京林业大学</td></tr>
+<tr><td>周恩杰</td><td>北京林业大学</td></tr>
+<tr><td>万诗龙</td><td>北京林业大学</td></tr>
+<tr><td>黄奕超</td><td>北京林业大学</td></tr>
+<tr><td>司马晨</td><td>北京信息科技大学</td></tr>
+<tr><td>张丹颖</td><td>北京信息科技大学</td></tr>
+<tr><td>宋开元</td><td>北京信息科技大学</td></tr>
+<tr><td>刘林峰</td><td>北京信息科技大学</td></tr>
+<tr><td>陈开朗</td><td>北京信息科技大学</td></tr>
+<tr><td>刘阳</td><td>中国科学院大学</td></tr>
+<tr><td>胡雨轩</td><td>北京交通大学</td></tr>
+<tr><td>骆艺元</td><td>北京交通大学</td></tr>
+<tr><td>蔡伟斌</td><td>北京交通大学</td></tr>
+</tbody>
+</table>
+
+
+
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<!-- <script src="../bower_components/inspinia/assets/js/inspinia.js"></script> -->
+<script src="../../../bower_components/wow/dist/wow.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+        });
+
+       $(".bg").interactive_bg({
+           strength: 20,
+           scale: 1,
+           animationSpeed: "100ms",
+           contain: false,
+           wrapContent: false
+       });
+
+        $(window).resize(function() {
+            $(".bg > .ibg-bg").css({
+                width: $(window).outerWidth(),
+                height: $(window).outerHeight()
+            })
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    new WOW().init();
+
+
+</script>
+
+</body>
+</html>

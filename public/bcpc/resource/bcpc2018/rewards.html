@@ -133,6 +133,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/index">BUAA ONLINE JUDGE</a></li>
+                    <li><a href="advanced.html">晋级名单</a></li>
                     <li><a href="original.html">原始榜单</a></li>
                     <li><a href="scoreboard.html">修订榜单</a></li>
                     <li class="active"><a href="rewards.html">获奖名单</a></li>
@@ -146,17 +147,17 @@
 </div>
 
 <table id="board" style="margin-top: 8em; margin-bottom: 4em;">
-<caption>校内</caption>
-<tbody>
+    <caption>校内</caption>
+    <tbody>
 
-<tr>
-    <th>#</th>
-    <th>奖项</th>
-    <th>Who</th>
-    <th>=</th>
-    <th>Penalty</th>
-    <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
-</tr>
+    <tr>
+        <th>#</th>
+        <th>奖项</th>
+        <th>Who</th>
+        <th>=</th>
+        <th>Penalty</th>
+        <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
+    </tr>
 
     <tr>
         <td>1</td>
@@ -814,21 +815,21 @@
         <td>0</td>
         <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-</tbody>
+    </tbody>
 </table>
 
 <table id="board-other" style="margin-top: 4em; margin-bottom: 4em;">
-<caption>校外</caption>
-<tbody>
+    <caption>校外</caption>
+    <tbody>
 
-<tr>
-    <th>#</th>
-    <th>奖项</th>
-    <th>Who</th>
-    <th>=</th>
-    <th>Penalty</th>
-    <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
-</tr>
+    <tr>
+        <th>#</th>
+        <th>奖项</th>
+        <th>Who</th>
+        <th>=</th>
+        <th>Penalty</th>
+        <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
+    </tr>
 
     <tr>
         <td>1</td>
@@ -1243,7 +1244,7 @@
         <td>0</td>
         <td><span class="failed">-3<br />(02:31:24)</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-</tbody>
+    </tbody>
 </table>
 
 <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
@@ -1271,13 +1272,13 @@
             event.preventDefault();
         });
 
-       $(".bg").interactive_bg({
-           strength: 20,
-           scale: 1,
-           animationSpeed: "100ms",
-           contain: false,
-           wrapContent: false
-       });
+        $(".bg").interactive_bg({
+            strength: 20,
+            scale: 1,
+            animationSpeed: "100ms",
+            contain: false,
+            wrapContent: false
+        });
 
         $(window).resize(function() {
             $(".bg > .ibg-bg").css({

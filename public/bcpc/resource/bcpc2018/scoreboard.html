@@ -133,6 +133,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/index">BUAA ONLINE JUDGE</a></li>
+                    <li><a href="advanced.html">晋级名单</a></li>
                     <li><a href="original.html">原始榜单</a></li>
                     <li class="active"><a href="scoreboard.html">修订榜单</a></li>
                     <li><a href="rewards.html">获奖名单</a></li>
@@ -147,27 +148,32 @@
 
 
 <div class="container" style="margin-top: 8em;">
-<h2>修订榜单规则</h2>
+    <h2>修订榜单规则</h2>
 
-<p>
-    由于比赛中途，评测机出现了问题，导致两段时间内选手无法访问 domJudge，于是特别地将在 13:58:15 之后的提交，总体减去 45 分钟，并将 14:58:39 之后的提交追加减去 45 分钟。
-</p>
-<p>
-    提交情况中，没有出现同一个代码的提交被同时认定为通过和非通过。因此将同一个题目的同一份代码的多次提交，只取第一次提交计入榜单，之后的提交不被记录。
-</p>
+    <p>
+        由于比赛中途，评测机出现了问题，导致两段时间内选手无法访问 domJudge，于是将原有的提交进行一定的修订。
+    </p>
+    <p>
+        对于原始提交中 13:58:15~14:58:39 之间的未通过提交，榜单中记录罚时（Penalty）时，会减去 45 分钟；
+        对于原始提交中 14:58:39 之后的未通过提交，榜单中记录罚时（Penalty）时，会减去 90 分钟。
+    </p>
+    <p>
+        对于同一个题目的同一代码的多次提交，计算榜单时，只记录第一次的提交。
+        （同一个题目的同一代码中，没有出现同时“通过”和“未通过”的反馈。）
+    </p>
 </div>
 
 <table id="board" style="margin-top: 4em; margin-bottom: 4em;">
-<caption>Standings</caption>
-<tbody>
+    <caption>Standings</caption>
+    <tbody>
 
-<tr>
-    <th>#</th>
-    <th>Who</th>
-    <th>=</th>
-    <th>Penalty</th>
-    <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
-</tr>
+    <tr>
+        <th>#</th>
+        <th>Who</th>
+        <th>=</th>
+        <th>Penalty</th>
+        <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th>
+    </tr>
 
     <tr>
         <td>1</td>
@@ -1120,7 +1126,7 @@
         <td>0</td>
         <td><span class="failed">-3<br />(02:31:24)</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-</tbody>
+    </tbody>
 </table>
 
 
@@ -1149,13 +1155,13 @@
             event.preventDefault();
         });
 
-       $(".bg").interactive_bg({
-           strength: 20,
-           scale: 1,
-           animationSpeed: "100ms",
-           contain: false,
-           wrapContent: false
-       });
+        $(".bg").interactive_bg({
+            strength: 20,
+            scale: 1,
+            animationSpeed: "100ms",
+            contain: false,
+            wrapContent: false
+        });
 
         $(window).resize(function() {
             $(".bg > .ibg-bg").css({
