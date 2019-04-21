@@ -34,7 +34,7 @@
     Addlogin_note = sequelize["import"](path.join(__dirname, 'models/addlogin_notes'));
     Click_statistics = sequelize["import"](path.join(__dirname, 'models/click_statistics'));
     Exam_users = sequelize["import"](path.join(__dirname, 'models/exam_users'));
-    Basic_rank = sequelize["import"](path.join(__dirname, 'models/basic_rank'));
+    Basic_rank = sequelize["import"](path.join(__dirname, 'models/exam_users'));
     Feedback.belongsTo(User, {
       as: 'creator'
     });
@@ -130,12 +130,6 @@
         model: SolutionTag
       },
       foreignKey: 'tag_id'
-    });
-    Basic_rank.hasMany(Submission, {
-      foreignKey: 'id'
-    });
-    Submission.belongsTo(Basic_rank, {
-      as: 'basicCount'
     });
     Submission.hasOne(SubmissionCode);
     Submission.hasOne(Solution);
