@@ -595,30 +595,12 @@
   };
 
   exports.ChampionRank = function() {
-    var Submission, User;
+    var Submission, User, sequelize;
     Submission = global.db.models.submission;
     User = global.db.models.user;
-    return Submission.findAll({
-      attributes: ['creator_id', [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'COUNT']],
-      include: [
-        {
-          model: User,
-          attributes: ['student_id', 'nickname'],
-          as: 'creator',
-          where: {
-            student_id: global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"'),
-            $and: global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
-          }
-        }
-      ],
-      where: {
-        updated_at: {
-          $between: ['2019-02-01 00:00:00', '2019-03-01 00:00:00']
-        }
-      },
-      group: [global.db.literal('creator_id')],
-      order: [[global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']],
-      limit: 3
+    sequelize = global.db;
+    return sequelize.query("select users.id, users.nickname, substring(users.student_id,1,5) as student_id, (count(distinct submissions_before_2019_3_12.problem_id)) as ACOUNT from users,submissions_before_2019_3_12 where users.id = submissions_before_2019_3_12.creator_id and submissions_before_2019_3_12.result ='AC' and users.student_id REGEXP '[0-9]{8}|[A-Z]{2}[0-9]{7}' and users.nickname REGEXP '[u0391-uFFE5]' is not true and date(submissions_before_2019_3_12.created_at) >= '2019-01-01' and date(submissions_before_2019_3_12.created_at) <= '2019-02-01' group by users.id order by ACOUNT desc limit 10").spread(function(results, metadata) {
+      return results;
     });
   };
 
