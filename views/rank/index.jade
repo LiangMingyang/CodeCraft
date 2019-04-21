@@ -8,7 +8,7 @@ block content
     - var level = 0
     .col-lg-12.col-md-12.col-sm-12.col-xs-12
 
-            .col-md-3
+            .col-md-4
                     h3.text-center 琅琊榜
                     select.form-control
                         option(value = "ALL") 总过题数
@@ -20,13 +20,13 @@ block content
                         if (Counts != "[]")
                             each counts in JSON.parse(Counts)
                                 tr.text-center
-                                td #{counts.creator.student_id}××××
-                                td #{counts.creator.nickname}
-                                td #{counts.COUNT}
+                                td #{counts.student_id}×××
+                                td #{counts.nickname}
+                                td #{counts.ACOUNT}
                         else
                             p 未找到榜单信息!
 
-            .col-md-3
+            .col-md-4
                         h3.text-center 未来之星榜
                         select.form-control
                            option(value = "R1M") 最近30天过题数
@@ -38,109 +38,13 @@ block content
                             if (CountsR!="[]")
                                 each countsR in JSON.parse(CountsR)
                                     tr.text-center
-                                        td #{countsR.creator.student_id}××××
-                                        td #{countsR.creator.nickname}
-                                        td #{countsR.COUNT}
+                                        td #{countsR.student_id}×××
+                                        td #{countsR.nickname}
+                                        td #{countsR.ACOUNT}
                             else
                                 p 未找到榜单信息！
 
-            .col-md-3
-                       h3.text-center 题解达人
-                       select.form-control(onchange="request_so_searching()",class="soso",id="soresult", name="soresult")
-                           option(value = "all") 最近30天提交题解数
-                           //if (Results !="[]" && ResultsR !="[]" )
-                           // option(value = "recent") 最近30天提交题解数
-                           //    script.
-                           //        function request_so_searching() {
-                           //            var soselected_val = document.getElementById("soresult");
-                           //            if (soselected_val.value == "recent") {
-                           //
-                           //                document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
-                           //                document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.student_id}</td>";
-                           //                document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.student_id}</td>";
-                           //                document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.student_id}</td>";
-                           //                document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.student_id}</td>";
-                           //                document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.student_id}</td>";
-                           //                document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.student_id}</td>";
-                           //                document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.student_id}</td>";
-                           //                document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.student_id}</td>";
-                           //                document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.student_id}</td>";
-                           //
-                           //                document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].creator.nickname}</td>";
-                           //                document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].creator.nickname}</td>";
-                           //                document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].creator.nickname}</td>";
-                           //                document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].creator.nickname}</td>";
-                           //                document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].creator.nickname}</td>";
-                           //                document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].creator.nickname}</td>";
-                           //                document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].creator.nickname}</td>";
-                           //                document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].creator.nickname}</td>";
-                           //                document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].creator.nickname}</td>";
-                           //                document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].creator.nickname}</td>";
-                           //
-                           //                document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(ResultsR)[0].COUNT}</td>";
-                           //                document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(ResultsR)[1].COUNT}</td>";
-                           //                document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(ResultsR)[2].COUNT}</td>";
-                           //                document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(ResultsR)[3].COUNT}</td>";
-                           //                document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(ResultsR)[4].COUNT}</td>";
-                           //                document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(ResultsR)[5].COUNT}</td>";
-                           //                document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(ResultsR)[6].COUNT}</td>";
-                           //                document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(ResultsR)[7].COUNT}</td>";
-                           //                document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(ResultsR)[8].COUNT}</td>";
-                           //                document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(ResultsR)[9].COUNT}</td>";
-                           //            }
-                           //            else if (soselected_val.value == "all") {
-                           //                document.getElementById("s1td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.student_id}</td>" + "<style>#test{table-layout:fixed;vertical-align: middle;}</style>";
-                           //                document.getElementById("s1td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.student_id}</td>";
-                           //                document.getElementById("s1td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.student_id}</td>";
-                           //                document.getElementById("s1td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.student_id}</td>";
-                           //                document.getElementById("s1td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.student_id}</td>";
-                           //                document.getElementById("s1td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.student_id}</td>";
-                           //                document.getElementById("s1td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.student_id}</td>";
-                           //                document.getElementById("s1td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.student_id}</td>";
-                           //                document.getElementById("s1td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.student_id}</td>";
-                           //                document.getElementById("s1td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.student_id}</td>";
-                           //
-                           //                document.getElementById("s2td0").innerHTML = "<td>#{JSON.parse(Results)[0].creator.nickname}</td>";
-                           //                document.getElementById("s2td1").innerHTML = "<td>#{JSON.parse(Results)[1].creator.nickname}</td>";
-                           //                document.getElementById("s2td2").innerHTML = "<td>#{JSON.parse(Results)[2].creator.nickname}</td>";
-                           //                document.getElementById("s2td3").innerHTML = "<td>#{JSON.parse(Results)[3].creator.nickname}</td>";
-                           //                document.getElementById("s2td4").innerHTML = "<td>#{JSON.parse(Results)[4].creator.nickname}</td>";
-                           //                document.getElementById("s2td5").innerHTML = "<td>#{JSON.parse(Results)[5].creator.nickname}</td>";
-                           //                document.getElementById("s2td6").innerHTML = "<td>#{JSON.parse(Results)[6].creator.nickname}</td>";
-                           //                document.getElementById("s2td7").innerHTML = "<td>#{JSON.parse(Results)[7].creator.nickname}</td>";
-                           //                document.getElementById("s2td8").innerHTML = "<td>#{JSON.parse(Results)[8].creator.nickname}</td>";
-                           //                document.getElementById("s2td9").innerHTML = "<td>#{JSON.parse(Results)[9].creator.nickname}</td>";
-                           //
-                           //                document.getElementById("s3td0").innerHTML = "<td>#{JSON.parse(Results)[0].COUNT}</td>";
-                           //                document.getElementById("s3td1").innerHTML = "<td>#{JSON.parse(Results)[1].COUNT}</td>";
-                           //                document.getElementById("s3td2").innerHTML = "<td>#{JSON.parse(Results)[2].COUNT}</td>";
-                           //                document.getElementById("s3td3").innerHTML = "<td>#{JSON.parse(Results)[3].COUNT}</td>";
-                           //                document.getElementById("s3td4").innerHTML = "<td>#{JSON.parse(Results)[4].COUNT}</td>";
-                           //                document.getElementById("s3td5").innerHTML = "<td>#{JSON.parse(Results)[5].COUNT}</td>";
-                           //                document.getElementById("s3td6").innerHTML = "<td>#{JSON.parse(Results)[6].COUNT}</td>";
-                           //                document.getElementById("s3td7").innerHTML = "<td>#{JSON.parse(Results)[7].COUNT}</td>";
-                           //                document.getElementById("s3td8").innerHTML = "<td>#{JSON.parse(Results)[8].COUNT}</td>";
-                           //                document.getElementById("s3td9").innerHTML = "<td>#{JSON.parse(Results)[9].COUNT}</td>";
-                           //            }
-                           //
-                           //        }
-
-                       table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
-                           tr.problem-title-tr.text-center
-                               td(style="vertical-align: middle;") 学号
-                               td(style="vertical-align: middle;") 姓名
-                               td(style="vertical-align: middle;") 交题解数
-                           if (ResultsR !="[]")
-                              each resultsR,i in JSON.parse(ResultsR)
-                                  tr.text-center
-                                      td(id="s1td"+i) #{resultsR.creator.student_id}××××
-                                      td(id="s2td"+i) #{resultsR.creator.nickname}
-                                      td(id="s3td"+i) #{resultsR.COUNT}
-                           else
-                               p 未找到该榜单信息！
-
-
-            .col-md-3
+            .col-md-4
                         h3.text-center 风云榜（赛季冠军）
                         div(style="max-height:400px;overflow:auto;border:1px solid #DDDDDD")
                             table.table.table-condensed.table-center(style="border:1px solid #DDDDDD;font-weight: normal;font-size: medium;font-variant: normal;font-style: normal;float:right;")
@@ -148,74 +52,6 @@ block content
                                     td(style="vertcal-align: middle;") 月份
                                     td(style="vertical-align: middle;") 学号
                                     td(style="vertical-align: middle;") 姓名
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年1月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 余帅
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年2月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 王子牧
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年3月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 刘炫
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年4月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 田柯宇
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年5月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 田柯宇
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年6月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 田柯宇
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年7月
-                                //    td(style="vertical-align: middle;") 1604××××
-                                //    td(style="vertical-align: middle;") 陈泽人
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年8月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 莫策
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年9月
-                                //    td(style="vertical-align: middle;") 1737××××
-                                //    td(style="vertical-align: middle;") 田柯宇
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年10月
-                                //    td(style="vertical-align: middle;") 1837××××
-                                //    td(style="vertical-align: middle;") 牟钰
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年11月
-                                //    td(style="vertical-align: middle;") 1837××××
-                                //    td(style="vertical-align: middle;") 赵子轩
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2018年12月
-                                //    td(style="vertical-align: middle;") 1601××××
-                                //    td(style="vertical-align: middle;") 余天予
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2017年4月
-                                //    td(style="vertical-align: middle;") 16211022
-                                //    td(style="vertical-align: middle;") 黎昆昌
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2017年5月
-                                //    td(style="vertical-align: middle;") 16211109
-                                //    td(style="vertical-align: middle;") 周宏建
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2017年6月
-                                //    td(style="vertical-align: middle;") 75211104
-                                //    td(style="vertical-align: middle;") 金亨辰
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2017年7月
-                                //    td(style="vertical-align: middle;") 15241055
-                                //    td(style="vertical-align: middle;") 王怀忠
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2017年8月
-                                //    td(style="vertical-align: middle;") 16211004
-                                //    td(style="vertical-align: middle;") 杜予同
                                 //tr.text-center
                                 //    td(style="vertical-align: middle;color:#FF0000; font-size:14px;") 2018年度冠军
                                 //    td(style="vertical-align: middle;color:#FF0000; font-size:20px;") 1737××××
@@ -232,10 +68,6 @@ block content
                                     td(style="vertical-align: middle;") 2019年3月
                                     td(style="vertical-align: middle;") 1837××××
                                     td(style="vertical-align: middle;") 张韫哲
-                                //tr.text-center
-                                //    td(style="vertical-align: middle;") 2017年12月
-                                //    td(style="vertical-align: middle;") 16011133
-                                //    td(style="vertical-align: middle;") 余天予
                         p(class="text-right") *系统共实名 #{Presults[0].dataValues.PCOUNT} 人*
         .col-lg-12.col-md-12.col-sm-12.col-xs-12(style="margin-left:13px;")
                 p(style="font-weight:bold;") 声明：榜单数据由系统生成，仅供个人学习参考。

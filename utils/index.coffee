@@ -288,35 +288,51 @@ CACHE_TIMEG = global.config.judge.cache
 exports.buildRankCount = ()->
   User = global.db.models.user
   Submission = global.db.models.submission
+  Basic_rank = global.db.models.basic_rank
   getLock = undefined
+  sequelize = global.db
 
   global.redis.set("rank_lock_G", new Date(), "NX", "PX", CACHE_TIMEG)
   .then (lock)->
     getLock = lock isnt null
     return [] if not getLock
-    Submission.findAll(
-      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-      include: [
-        model: User
-        attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
-        as:'creator'
-        where: {
-          student_id: {
-            $ne: ''
-          }
-        }
-      ]
-      where:
-        result:'AC'
-      group: ['creator_id']
-      order: [
-        [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-      ]
-      limit:10
-    )
-  .then (results)->
+    sequelize.query("select users.id, users.nickname, substring(users.student_id,1,5) as student_id, (count(distinct submissions.problem_id)+basic_ranks.COUNT) as ACOUNT from users,submissions,basic_ranks where users.id = submissions.creator_id and submissions.creator_id = basic_ranks.id and submissions.result ='AC' and users.student_id REGEXP '[0-9]{8}|[A-Z]{2}[0-9]{7}' and users.nickname REGEXP '[u0391-uFFE5]' is not true group by users.id order by ACOUNT desc  limit 10")
+  .spread (results, metadata) ->
+#    console.log(JSON.stringify(results))
     return if not getLock
     global.redis.set("rank_G", JSON.stringify(results))
+#    SolutionTag = results
+#    Submission.findAll(
+#      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT2']]
+#      include: [{
+#        model: User
+##        attributes: [[global.db.fn('substring', global.db.literal('student_id'), global.db.literal('1'), global.db.literal('4')),
+##          'student_id'], 'nickname']
+#        attributes: ['id','nickname']
+#        as: 'creator'
+#        where: {
+#          student_id:
+#            global.db.literal('student_id REGEXP "[0-9]{8}|[A-Z]{2}[0-9]{7}"')
+#          $and:
+#            global.db.literal('nickname REGEXP "[u0391-uFFE5]" is not true')
+#        }
+#      },
+#        {
+#          model: Basic_rank
+#          attributes: ['id','COUNT']
+#          as: 'basicCount'
+#        }
+#      ]
+#      where:
+#        result:'AC'
+#      group: ['creator_id']
+#      order: [
+#        #[global.db.fn('count', global.db.literal('distinct submission.problem_id')) + basicCount.COUNT, 'DESC']
+#        [global.db.literal('COUNT2'),'DESC']
+#      ]
+#      limit:10
+#    )
+#  .then (results)->
 
 
 #得到每个人的交题解数并取前十
@@ -386,37 +402,42 @@ exports.buildRankCountR = ()->
   User = global.db.models.user
   Submission = global.db.models.submission
   getLock = undefined
+  sequelize = global.db
 
   global.redis.set("rank_lock_R", new Date(), "NX", "PX", CACHE_TIMER)
   .then (lock)->
     getLock = lock isnt null
     return [] if not getLock
-    Submission.findAll(
-      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
-      include: [
-        model: User
-        attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
-        as:'creator'
-        where: {
-          student_id: {
-            $ne: ''
-          }
-        }
-      ]
-      where:
-        result:'AC',
-        updated_at:{
-          $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
-        }
-      group: ['creator_id']
-      order: [
-        [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
-      ]
-      limit:10
-    )
-  .then (resultsR)->
+    sequelize.query("select users.id, users.nickname, substring(users.student_id,1,5) as student_id, (count(distinct submissions.problem_id)) as ACOUNT from users,submissions,basic_ranks where users.id = submissions.creator_id and submissions.creator_id = basic_ranks.id and submissions.result = 'AC' and users.student_id REGEXP '[0-9]{8}|[A-Z]{2}[0-9]{7}' and users.nickname REGEXP '[u0391-uFFE5]' is not true and date(submissions.created_at)>=DATE_SUB(CURDATE(), INTERVAL 30 DAY) group by users.id order by ACOUNT desc  limit 10")
+  .spread (resultsR, metadata) ->
+#    console.log(JSON.stringify(resultsR))
     return if not getLock
     global.redis.set("rank_R", JSON.stringify(resultsR))
+#    Submission.findAll(
+#      attributes : ['creator_id',[global.db.fn('count', global.db.literal('distinct submission.problem_id')),'COUNT']]
+#      include: [
+#        model: User
+#        attributes:[[global.db.fn('substring', global.db.literal('student_id'),global.db.literal('1'),global.db.literal('4')),'student_id'],'nickname']
+#        as:'creator'
+#        where: {
+#          student_id: {
+#            $ne: ''
+#          }
+#        }
+#      ]
+#      where:
+#        result:'AC',
+#        updated_at:{
+#          $gte:global.db.fn('DATE_SUB',global.db.literal('NOW()'),global.db.literal('INTERVAL 1 MONTH'))
+#        }
+#      group: ['creator_id']
+#      order: [
+#        [global.db.fn('count', global.db.literal('distinct submission.problem_id')), 'DESC']
+#      ]
+#      limit:10
+#    )
+#  .then (resultsR)->
+
 
 
 #得到每个人最近一个月的题解数并取前十

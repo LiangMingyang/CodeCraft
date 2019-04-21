@@ -9,7 +9,7 @@
   models = require('./models');
 
   module.exports = function(database, username, password, config) {
-    var Addlogin_note, Click_statistics, Contest, ContestProblemList, Evaluation, Exam_users, Feedback, Group, Issue, IssueReply, Judge, Login_note, Membership, Message, Problem, ProblemTag, Recommendation, Solution, SolutionTag, Submission, SubmissionCode, Tag, User, sequelize;
+    var Addlogin_note, Basic_rank, Click_statistics, Contest, ContestProblemList, Evaluation, Exam_users, Feedback, Group, Issue, IssueReply, Judge, Login_note, Membership, Message, Problem, ProblemTag, Recommendation, Solution, SolutionTag, Submission, SubmissionCode, Tag, User, sequelize;
     sequelize = new Sequelize(database, username, password, config);
     Contest = sequelize["import"](path.join(__dirname, 'models/contest'));
     ContestProblemList = sequelize["import"](path.join(__dirname, 'models/contest-problem-list'));
@@ -34,6 +34,7 @@
     Addlogin_note = sequelize["import"](path.join(__dirname, 'models/addlogin_notes'));
     Click_statistics = sequelize["import"](path.join(__dirname, 'models/click_statistics'));
     Exam_users = sequelize["import"](path.join(__dirname, 'models/exam_users'));
+    Basic_rank = sequelize["import"](path.join(__dirname, 'models/basic_rank'));
     Feedback.belongsTo(User, {
       as: 'creator'
     });
@@ -129,6 +130,12 @@
         model: SolutionTag
       },
       foreignKey: 'tag_id'
+    });
+    Basic_rank.hasMany(Submission, {
+      foreignKey: 'id'
+    });
+    Submission.belongsTo(Basic_rank, {
+      as: 'basicCount'
     });
     Submission.hasOne(SubmissionCode);
     Submission.hasOne(Solution);
