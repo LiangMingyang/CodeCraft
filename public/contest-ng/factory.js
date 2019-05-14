@@ -171,9 +171,9 @@
   }).factory('Issue', function($http, $timeout, Contest) {
     var Issue, POLL_LIFE, Poller, SLEEP_TIME, UP_TIME, checkUpdate, numberToLetters;
     Issue = {};
-    POLL_LIFE = 20;
-    SLEEP_TIME = 2000;
-    UP_TIME = 500;
+    POLL_LIFE = 5;
+    SLEEP_TIME = 20000;
+    UP_TIME = 10000;
     Issue.setContestId = function(newContestId) {
       if (newContestId !== Issue.contestId) {
         Issue.data = [];
@@ -240,10 +240,10 @@
           }
           return $timeout(Poller, SLEEP_TIME + Math.random() * SLEEP_TIME);
         }, function() {
-          return $timeout(Poller, Math.random() * SLEEP_TIME);
+          return $timeout(Poller, SLEEP_TIME + Math.random() * SLEEP_TIME);
         });
       } else {
-        return $timeout(Poller, UP_TIME);
+        return $timeout(Poller, SLEEP_TIME + Math.random() * SLEEP_TIME);
       }
     };
     $timeout(Poller, Math.random() * UP_TIME);
@@ -262,8 +262,8 @@
     var POLL_LIFE, Poller, Rank, SLEEP_TIME, UP_TIME, doRankStatistics;
     Rank = {};
     POLL_LIFE = 1;
-    SLEEP_TIME = 5000;
-    UP_TIME = 500;
+    SLEEP_TIME = 30000;
+    UP_TIME = 5000;
     Rank.setContestId = function(newContestId) {
       if (newContestId !== Rank.contestId) {
         Rank.contestId = newContestId;
@@ -331,10 +331,10 @@
           return $timeout(Poller, Math.random() * SLEEP_TIME + SLEEP_TIME);
         }, function(res) {
           notify(res.data.error, 'danger');
-          return $timeout(Poller, Math.random() * SLEEP_TIME);
+          return $timeout(Poller, Math.random() * SLEEP_TIME + SLEEP_TIME);
         });
       } else {
-        return $timeout(Poller, UP_TIME);
+        return $timeout(Poller, Math.random() * SLEEP_TIME + SLEEP_TIME);
       }
     };
     $timeout(Poller, Math.random() * UP_TIME);

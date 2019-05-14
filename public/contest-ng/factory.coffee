@@ -150,9 +150,9 @@ angular.module('contest-factory', [
 )
 .factory('Issue', ($http, $timeout, Contest)->
   Issue = {}
-  POLL_LIFE = 20
-  SLEEP_TIME = 2000
-  UP_TIME = 500
+  POLL_LIFE = 5
+  SLEEP_TIME = 20000
+  UP_TIME = 1000
   Issue.setContestId = (newContestId)->
     if newContestId isnt Issue.contestId
       Issue.data = []
@@ -204,10 +204,10 @@ angular.module('contest-factory', [
           $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       ,
         ()->
-          $timeout(Poller, Math.random()*SLEEP_TIME)
+          $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       )
     else
-      $timeout(Poller, UP_TIME)
+      $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
   $timeout(Poller, Math.random()*UP_TIME)
 
   Issue.create = (form)->
@@ -228,8 +228,8 @@ angular.module('contest-factory', [
 .factory('Rank', ($http, $timeout, Me)->
   Rank = {}
   POLL_LIFE = 1
-  SLEEP_TIME = 5000
-  UP_TIME = 500
+  SLEEP_TIME = 30000
+  UP_TIME = 5000
 
   Rank.setContestId = (newContestId)->
     if newContestId isnt Rank.contestId
@@ -283,10 +283,10 @@ angular.module('contest-factory', [
       ,
         (res)->
           notify(res.data.error, 'danger')
-          $timeout(Poller, Math.random()*SLEEP_TIME)
+          $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
       )
     else
-      $timeout(Poller, UP_TIME)
+      $timeout(Poller, SLEEP_TIME+Math.random()*SLEEP_TIME)
 
   $timeout(Poller, Math.random()*UP_TIME)
 
