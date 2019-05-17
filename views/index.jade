@@ -145,44 +145,44 @@ html(lang='zh-CN')
                                         //a(href="/bcpc/advertisement.html",style="color:#FFB90F",target="_blank") 关于北航学院2017级（航空航天类）《C语言程序设计》课程助教招募>>>感兴趣请戳>>>详情
 
                                     //先关闭了推荐
-                                    .col-lg-4.col-md-4.col-sm-4.col-xs-4
-                                        if(user && recommendation && recommendation.length != 0)
-                                            if(recommendation.length == 0)
-                                                |您已经完成今日的所有推荐题目，太强了！！！
-                                                br
-                                                |是时候干点别的了~~~
-                                            else
-                                                h4(style='color: #88FF45; font-weight: bold; margin-bottom:1em;') 今日小OJ推荐您做：
-                                                - for(var i = 0; i < recommendation.length; i++)
-                                                    p
-                                                        - var recommendation_problem_id = recommendation[i].id;
-                                                        if(recommendation_problem_id < 10)
-                                                            - recommendation_problem_id = "00" + recommendation_problem_id;
-                                                        else if(recommendation_problem_id < 100)
-                                                            - recommendation_problem_id = "0" + recommendation_problem_id;
-                                                        if user.id % 2 == 0
-                                                            if(recommendation[i].accepted + recommendation[i].tried == 1)
-                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                            else if (recommendation[i].accepted + recommendation[i].tried != 2)
-                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-
-                                                        else
-                                                            if(recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] == "[]"
-                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                            else if (recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] != "[]"
-                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
-                                                            else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] == "[]"
-                                                                //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
-                                                            else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] != "[]"
-                                                                a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:#FFB90F; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
-
-
-                                        //br
-                                        //br
+                                    //.col-lg-4.col-md-4.col-sm-4.col-xs-4
+                                    //    if(user && recommendation && recommendation.length != 0)
+                                    //        if(recommendation.length == 0)
+                                    //            |您已经完成今日的所有推荐题目，太强了！！！
+                                    //            br
+                                    //            |是时候干点别的了~~~
+                                    //        else
+                                    //            h4(style='color: #88FF45; font-weight: bold; margin-bottom:1em;') 今日小OJ推荐您做：
+                                    //            - for(var i = 0; i < recommendation.length; i++)
+                                    //                p
+                                    //                    - var recommendation_problem_id = recommendation[i].id;
+                                    //                    if(recommendation_problem_id < 10)
+                                    //                        - recommendation_problem_id = "00" + recommendation_problem_id;
+                                    //                    else if(recommendation_problem_id < 100)
+                                    //                        - recommendation_problem_id = "0" + recommendation_problem_id;
+                                    //                    if user.id % 2 == 0
+                                    //                        if(recommendation[i].accepted + recommendation[i].tried == 1)
+                                    //                            //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                        else if (recommendation[i].accepted + recommendation[i].tried != 2)
+                                    //                            //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //
+                                    //                    else
+                                    //                        if(recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] == "[]"
+                                    //                            //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                        else if (recommendation[i].accepted + recommendation[i].tried == 1) && tags[i] != "[]"
+                                    //                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:red; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
+                                    //                        else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] == "[]"
+                                    //                            //-a(href= "/problem/" + recommendation[i].id + "/index", style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:black; font-weight: bold;') #{recommendation_problem_id}--#{recommendation[i].title}
+                                    //                        else if (recommendation[i].accepted + recommendation[i].tried != 2) && tags[i] != "[]"
+                                    //                            a(href= "/problem/statistics?problem_id=" + recommendation[i].id , style='color:#FFB90F; font-weight: bold;') #{recommendation_problem_id}--#{tags[i]}
+                                    //
+                                    //
+                                    //    //br
+                                    //    //br
                                     .col-lg-4.col-md-4.col-sm-4.col-xs-4
                                         if(user && problems!="[]")
                                             if(problems == "[]")
@@ -201,50 +201,49 @@ html(lang='zh-CN')
                                                         if(!flag)
                                                             p
                                                                 a(href="/problem/" + problem.id + "/createSolution", style='color:black;font-size:14px;') #{problem.id}--#{problem.title}
+                                            //- label(style="color:#FFB90F; font-weight:bold; font-size:16px;margin-top:65px;") 请注意，提交相同AC代码(包括自己的)的行为将被
+                                            //- br
+                                            //- label(style="color:#FFB90F; font-weight:bold; font-size:16px;") 判定为抄袭，情节严重者将被系统永久封号。
+                                            //- br
+                                            //- br
+                                            //- label(style="color:white; font-weight:bold; font-size:16px;") 本系统最近在进行整合，可能会出现短时连接不上的情况，敬请理解。
+                                            //- p
+                                            //- br
+                                            //- p(style="font-size:16px;color:red;font-weight: bold;") 第十四届北航程序设计竞赛开始啦~~
+                                            //-     br
+                                            //-     a(href="https://buaacoding.cn/bcpc/index.html" target="_blank" style="color:black") 比赛入口
 
-                                    //- label(style="color:#FFB90F; font-weight:bold; font-size:16px;margin-top:65px;") 请注意，提交相同AC代码(包括自己的)的行为将被
-                                    //- br
-                                    //- label(style="color:#FFB90F; font-weight:bold; font-size:16px;") 判定为抄袭，情节严重者将被系统永久封号。
-                                    //- br
-                                    //- br
-                                    //- label(style="color:white; font-weight:bold; font-size:16px;") 本系统最近在进行整合，可能会出现短时连接不上的情况，敬请理解。
-                                    //- p
-                                    //- br
-                                    //- p(style="font-size:16px;color:red;font-weight: bold;") 第十四届北航程序设计竞赛开始啦~~
-                                    //-     br
-                                    //-     a(href="https://buaacoding.cn/bcpc/index.html" target="_blank" style="color:black") 比赛入口
-                                    
-                                    //- p
-                                    //- br
-                                    //- p(style="font-size:16px;color:red;font-weight: bold;") 航类-期末考试座位表
-                                    //-     br
-                                    //-     a(href="http://image.buaacoding.cn/A%E5%9C%BA%E8%80%83%E8%AF%95%EF%BC%88795%E4%BA%BA%EF%BC%89.xlsx" target="_blank" style="color:black") A场考试座位表
-                                    //-     br
-                                    //-     a(href="http://image.buaacoding.cn/B%E5%9C%BA%E8%80%83%E8%AF%95%EF%BC%88810%E4%BA%BA%EF%BC%89.xlsx" target="_blank" style="color:black") B场考试座位表
-                                    p
-                                    br
+                                            //- p
+                                            //- br
+                                            //- p(style="font-size:16px;color:red;font-weight: bold;") 航类-期末考试座位表
+                                            //-     br
+                                            //-     a(href="http://image.buaacoding.cn/A%E5%9C%BA%E8%80%83%E8%AF%95%EF%BC%88795%E4%BA%BA%EF%BC%89.xlsx" target="_blank" style="color:black") A场考试座位表
+                                            //-     br
+                                            //-     a(href="http://image.buaacoding.cn/B%E5%9C%BA%E8%80%83%E8%AF%95%EF%BC%88810%E4%BA%BA%EF%BC%89.xlsx" target="_blank" style="color:black") B场考试座位表
+                                            //p
+                                            //br
 
-                                    //- a(href="http://image.buaacoding.cn/189.jpg" target="_blank" style="color:black") 一张图片
+                                            //- a(href="http://image.buaacoding.cn/189.jpg" target="_blank" style="color:black") 一张图片
 
-                                    p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 遇到困难了？来找小O吧~~
+                                        p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 遇到困难了？来找小O吧~~
+                                            br
+                                            a(href="http://authenticate.buaacoding.cn/authenticate" target="_blank" style="color:black") 邮箱绑定
+                                            br
+                                            a(href="http://authenticate.buaacoding.cn/reset" target="_blank" style="color:black") 密码重置
+                                            br
+                                            a(href="http://authenticate.buaacoding.cn/recovery" target="_blank" style="color:black") 账号找回
+                                        p
                                         br
-                                        a(href="http://authenticate.buaacoding.cn/authenticate" target="_blank" style="color:black") 邮箱绑定
-                                        br
-                                        a(href="http://authenticate.buaacoding.cn/reset" target="_blank" style="color:black") 密码重置
-                                        br
-                                        a(href="http://authenticate.buaacoding.cn/recovery" target="_blank" style="color:black") 账号找回
-                                    p
-                                    br
-                                    p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 新手必点>>>戳我下载哦~
-                                        br
-                                        a(href="/problem/DEVStatistics?problem_id=1" target="_blank" style="color:black") DEV-C++使用指南
-                                        br
-                                        a(href="/problem/CBStatistics?problem_id=1" target="_blank" style="color:black") CodeBlocks使用指南
-                                    p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 听说有福利~~
-                                        br
-                                        a(href="/problem/tencentStatistics?problem_id=1" target="_blank" style="color:black") 小OJ提醒您戳戳戳 《腾讯云大学生扶持计划》
-                                        br
-                                        a(href="/problem/xiniuStatistics?problem_id=1" target="_blank" style="color:black") 腾讯犀牛鸟精英人才培养计划，诚邀您参与
+                                        p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 新手必点>>>戳我下载哦~
+                                            br
+                                            a(href="/problem/DEVStatistics?problem_id=1" target="_blank" style="color:black") DEV-C++使用指南
+                                            br
+                                            a(href="/problem/CBStatistics?problem_id=1" target="_blank" style="color:black") CodeBlocks使用指南
+                                        p(style="font-size:16px;color:#FFB90F;font-weight: bold;") 听说有福利~~
+                                            br
+                                            a(href="/problem/tencentStatistics?problem_id=1" target="_blank" style="color:black") 小OJ提醒您戳戳戳 《腾讯云大学生扶持计划》
+                                            br
+                                            a(href="/problem/xiniuStatistics?problem_id=1" target="_blank" style="color:black") 腾讯犀牛鸟精英人才培养计划，诚邀您参与
                                     //-h2(style="font-size:2em; font-family:'Microsoft YaHei', 微软雅黑")
                                         a(href="/notice" style="color:#FFB90F")
                                             |北航ACM程序设计实验室研究助理招聘信息
