@@ -19,10 +19,11 @@
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
       var base, offset;
-      if ((base = req.query).page == null) {
+      if ((base = req.query).page == null||Math.floor(base.page) !== base.page || base.page<=1) {
         base.page = 1;
       }
-      offset = (req.query.page - 1) * global.config.pageLimit.problem;
+      
+      offset = (base.page - 1) * global.config.pageLimit.problem;
       return global.myUtils.findAndCountProblems(req.session.user, {
         offset: offset
       }, [

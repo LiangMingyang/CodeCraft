@@ -15,10 +15,10 @@
     Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       var base, offset;
-      if ((base = req.query).page == null) {
+      if ((base = req.query).page == null||Math.floor(base.page) !== base.page || base.page<=1) {
         base.page = 1;
       }
-      offset = (req.query.page - 1) * global.config.pageLimit.contest;
+      offset = (base.page - 1) * global.config.pageLimit.contest;
       return global.myUtils.findAndCountContests(req.session.user, offset, {
         model: Group,
         attributes: ['id', 'name']
