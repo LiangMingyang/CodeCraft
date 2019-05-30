@@ -1621,6 +1621,13 @@
       return current_solutions_tag;
     });
   };
+  
+  //判断一个数是不是整数，如果不是则返回0
+  exports.checkisNumber = function(num){
+    var parsed = parseInt(x);
+    if (isNaN(parsed)) { return 0 }
+    return parsed;
+  };
 
 }).call(this);
 

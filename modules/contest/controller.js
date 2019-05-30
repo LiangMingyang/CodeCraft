@@ -15,7 +15,9 @@
     Group = global.db.models.group;
     return global.db.Promise.resolve().then(function() {
       var base, offset;
-      if ((base = req.query).page == null||Math.floor(base.page) !== base.page || base.page<=1) {
+      base= req.query;
+      base.page = global.myUtils.checkisNumber(base.page);
+      if (base.page<=1) {
         base.page = 1;
       }
       offset = (base.page - 1) * global.config.pageLimit.contest;
