@@ -1624,7 +1624,7 @@
   
   //判断一个数是不是整数，如果不是则返回0
   exports.checkisNumber = function(num){
-    var parsed = parseInt(x);
+    var parsed = parseInt(num);
     if (isNaN(parsed)) { return 0 }
     return parsed;
   };
