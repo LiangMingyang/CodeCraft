@@ -74,7 +74,9 @@
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
       var base, key, offset, opt;
-      if ((base = req.query).page == null) {
+      base= req.query;
+      base.page = global.myUtils.checkisNumber(base.page);
+      if (base.page<=1) {
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.problem;
@@ -131,7 +133,9 @@
     problemCount = void 0;
     return global.db.Promise.resolve().then(function() {
       var base, opt, ref, ref1;
-      if ((base = req.query).page == null) {
+      base= req.query;
+      base.page = global.myUtils.checkisNumber(base.page);
+      if (base.page<=1) {
         base.page = 1;
       }
       opt = {};
@@ -205,7 +209,9 @@
     Submission = global.db.models.submission;
     return global.db.Promise.resolve().then(function() {
       var base, key, offset, opt, ref, ref1;
-      if ((base = req.query).page == null) {
+      base= req.query;
+      base.page = global.myUtils.checkisNumber(base.page);
+      if (base.page<=1) {
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.problem;

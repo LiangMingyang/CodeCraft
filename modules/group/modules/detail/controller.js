@@ -241,7 +241,9 @@
         throw new global.myErrors.UnknownGroup();
       }
       currentGroup = group;
-      if ((base = req.query).page == null) {
+      base= req.query;
+      base.page = global.myUtils.checkisNumber(base.page);
+      if (base.page<=1) {
         base.page = 1;
       }
       offset = (req.query.page - 1) * global.config.pageLimit.contest;
